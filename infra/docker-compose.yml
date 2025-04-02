@@ -1,7 +1,7 @@
 services:
   postgresql:
     image:
-      postgres:latest
+      postgres:16
     restart: always
     volumes:
       - ./data/threadly-db:/var/lib/postgresql/data

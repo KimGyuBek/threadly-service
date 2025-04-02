@@ -1,4 +1,7 @@
 dependencies {
+    implementation(project(":threadly-adapters:adapter-persistence"))
+
+
     implementation("org.springframework.boot:spring-boot-starter-aop")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-validation")
