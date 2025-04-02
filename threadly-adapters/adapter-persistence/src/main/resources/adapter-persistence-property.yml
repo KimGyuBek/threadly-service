@@ -3,8 +3,8 @@ spring:
     url: jdbc:postgresql://localhost:5433/postgres?profileSQL=true
     username: postgres
     password: localpwd
-    hikari:
-      maximum-pool-size: 100
+#    hikari:
+#      maximum-pool-size: 100
 
   jpa:
     properties:

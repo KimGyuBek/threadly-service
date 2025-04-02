@@ -11,5 +11,3 @@ create table users
     created_at  timestamp    not null default current_timestamp,
     modified_at timestamp    not null default current_timestamp
 );
-
-/*IDX 추가 */

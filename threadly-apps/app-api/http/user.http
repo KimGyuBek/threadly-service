@@ -1,0 +1,10 @@
+### 회원 가입
+POST http://localhost:8080/register
+Content-Type: application/json
+
+{
+  "email": "email2@email.com",
+  "userName": "user1",
+  "password": "1234",
+  "phone": "123-1234-1234"
+}

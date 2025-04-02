@@ -7,16 +7,24 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+import java.util.UUID;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "users")
 @Getter
+@NoArgsConstructor()
+@AllArgsConstructor()
 public class UserEntity {
 
   @Id
   @Column(name = "user_id")
   private String userId;
+
+  @Column(name = "user_name")
+  private String userName;
 
   @Column(name = "password")
   private String password;
@@ -41,4 +49,33 @@ public class UserEntity {
   @Column(name = "modified_at")
   private LocalDateTime modifiedAt;
 
+  public static UserEntity newUser(String userName, String password, String email, String phone,
+      UserType userType,
+      boolean isActive) {
+    return new UserEntity(
+        userName,
+        password,
+        email,
+        phone,
+        userType,
+        isActive,
+        LocalDateTime.now(),
+        LocalDateTime.now()
+    );
+  }
+
+
+  private UserEntity(String userName, String password, String email, String phone, UserType userType,
+      boolean isActive,
+      LocalDateTime createAt, LocalDateTime modifiedAt) {
+    this.userId = UUID.randomUUID().toString();
+    this.userName = userName;
+    this.password = password;
+    this.email = email;
+    this.phone = phone;
+    this.userType = userType;
+    this.isActive = isActive;
+    this.createAt = createAt;
+    this.modifiedAt = modifiedAt;
+  }
 }

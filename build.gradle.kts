@@ -101,12 +101,17 @@ configureByLabels("java") {
 
         annotationProcessor("org.mapstruct:mapstruct-processor")
 
+//        testImplementation ("org.springframework.boot:spring-boot-starter-test")
+//        testImplementation ("org.junit.jupiter:junit-jupiter-api:5.11.4")
+//        testImplementation ("org.junit.jupiter:junit-jupiter-engine:5.11.4")
+
         testImplementation("org.junit.jupiter:junit-jupiter-api")
         testImplementation("org.assertj:assertj-core")
         testImplementation("org.junit.jupiter:junit-jupiter-params")
         testImplementation("org.mockito:mockito-core")
         testImplementation("org.mockito:mockito-junit-jupiter")
         testImplementation("com.navercorp.fixturemonkey:fixture-monkey-starter")
+        testImplementation("com.h2database:h2")
         testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 
         integrationImplementation("org.junit.jupiter:junit-jupiter-api")
