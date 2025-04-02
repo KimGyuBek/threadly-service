@@ -22,8 +22,13 @@ allprojects {
     }
 }
 
+//subprojects {
+//    apply(plugin = "idea")
+//}
+
 subprojects {
-    apply(plugin = "idea")
+    apply(plugin = "io.freefair.lombok")
+
 }
 
 dependencies {
@@ -108,6 +113,9 @@ configureByLabels("java") {
         integrationImplementation("org.junit.jupiter:junit-jupiter-params")
         integrationImplementation("org.assertj:assertj-core")
         integrationRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+
+        compileOnly("org.projectlombok:lombok")
+        annotationProcessor("org.projectlombok:lombok")
     }
 }
 
