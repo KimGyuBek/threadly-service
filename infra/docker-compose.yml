@@ -1,0 +1,44 @@
+services:
+  postgresql:
+    image:
+      postgres:latest
+    restart: always
+    volumes:
+      - ./data/ecommerce-db:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_PASSWORD: localp
+
+  h2:
+    image: oscarfonts/h2
+    environment:
+      - H2_OPTIONS=-mem -tcp -tcpAllowOthers -webAllowOthers
+    ports:
+      - "9092:9092"
+      - "8082:8082"  # H2 웹 콘솔 포트
+    #    volumes:
+    #      - h2-data:/opt/h2-data  # 파일 저장소, 필요 시
+    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus:v2.29.1
+    platform: linux/arm64
+    restart: always
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - '9090:9090'
+
+  pushgateway:
+    image: prom/pushgateway:latest
+    platform: linux/arm64
+    restart: always
+    ports:
+      - '9091:9091'
+
+  grafana:
+    image: grafana/grafana:6.0.2
+    restart: always
+    ports:
+      - '3000:3000'
