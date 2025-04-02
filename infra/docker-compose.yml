@@ -4,11 +4,11 @@ services:
       postgres:latest
     restart: always
     volumes:
-      - ./data/ecommerce-db:/var/lib/postgresql/data
+      - ./data/threadly-db:/var/lib/postgresql/data
     ports:
       - "5433:5432"
     environment:
-      POSTGRES_PASSWORD: localp
+      POSTGRES_PASSWORD: localpwd
 
   h2:
     image: oscarfonts/h2
