@@ -1,5 +1,7 @@
 dependencies {
     implementation(project(":threadly-core:core-port"))
+    implementation(project(":threadly-core:core-service"))
+
 
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework:spring-tx")
