@@ -1,8 +1,10 @@
 package com.threadly.user;
 
+import java.util.Optional;
+
 public interface InsertUserPort {
 
-  UserPortResponse create(CreateUser createUser);
+  Optional<UserPortResponse> create(CreateUser createUser);
 
 
 }

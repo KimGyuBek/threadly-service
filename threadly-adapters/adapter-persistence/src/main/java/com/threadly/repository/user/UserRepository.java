@@ -3,16 +3,16 @@ package com.threadly.repository.user;
 import com.threadly.entity.user.UserEntity;
 import com.threadly.entity.user.UserType;
 import com.threadly.user.CreateUser;
+import com.threadly.user.FetchUserPort;
 import com.threadly.user.InsertUserPort;
 import com.threadly.user.UserPortResponse;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 @RequiredArgsConstructor
-public class UserRepository implements InsertUserPort {
+public class UserRepository implements InsertUserPort, FetchUserPort {
 
   private final UserJpaRepository userJpaRepository;
 
@@ -22,6 +22,7 @@ public class UserRepository implements InsertUserPort {
             .map(
                 entity -> UserPortResponse.builder()
                     .userId(entity.getUserId())
+                    .userName(entity.getUserName())
                     .password(entity.getPassword())
                     .email(entity.getEmail())
                     .phone(entity.getPhone())
@@ -38,9 +39,8 @@ public class UserRepository implements InsertUserPort {
    * @param createUser
    * @return
    */
-  @Transactional
   @Override
-  public UserPortResponse create(CreateUser createUser) {
+  public Optional<UserPortResponse> create(CreateUser createUser) {
 
     /*email 중복 조회*/
     String email = createUser.getEmail();
@@ -66,15 +66,7 @@ public class UserRepository implements InsertUserPort {
     /*저장*/
     UserEntity save = userJpaRepository.save(newUser);
 
-    return UserPortResponse.builder()
-        .userId(save.getUserId())
-        .userName(save.getUserName())
-        .password(save.getPassword())
-        .email(save.getEmail())
-        .phone(save.getPhone())
-        .userType(save.getUserType().name())
-        .isActive(save.isActive())
-        .build();
+    return Optional.ofNullable(save.toUserPortResponse());
   }
 
 }

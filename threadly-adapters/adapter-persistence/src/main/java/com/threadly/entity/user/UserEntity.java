@@ -1,5 +1,6 @@
 package com.threadly.entity.user;
 
+import com.threadly.user.UserPortResponse;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -49,6 +50,17 @@ public class UserEntity {
   @Column(name = "modified_at")
   private LocalDateTime modifiedAt;
 
+  /**
+   * 새로운 User 생성
+   *
+   * @param userName
+   * @param password
+   * @param email
+   * @param phone
+   * @param userType
+   * @param isActive
+   * @return
+   */
   public static UserEntity newUser(String userName, String password, String email, String phone,
       UserType userType,
       boolean isActive) {
@@ -64,8 +76,27 @@ public class UserEntity {
     );
   }
 
+  /**
+   * UserEntity -> UserPortResponse
+   * @return
+   */
+  public UserPortResponse toUserPortResponse() {
+    return UserPortResponse.builder()
+        .userId(this.getUserId())
+        .userName(this.getUserName())
+        .password(this.getPassword())
+        .email(this.getEmail())
+        .phone(this.getPhone())
+        .userType(this.getUserType().name())
+        .isActive(this.isActive())
+        .build();
 
-  private UserEntity(String userName, String password, String email, String phone, UserType userType,
+
+  }
+
+
+  private UserEntity(String userName, String password, String email, String phone,
+      UserType userType,
       boolean isActive,
       LocalDateTime createAt, LocalDateTime modifiedAt) {
     this.userId = UUID.randomUUID().toString();
