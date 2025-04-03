@@ -1,5 +1,6 @@
 package com.threadly.entity.user;
 
+import com.threadly.entity.BaseEntity;
 import com.threadly.user.UserPortResponse;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor()
 @AllArgsConstructor()
-public class UserEntity {
+public class UserEntity extends BaseEntity {
 
   @Id
   @Column(name = "user_id")
@@ -43,12 +44,12 @@ public class UserEntity {
   @Column(name = "is_active")
   private boolean isActive;
 
-  /*TODO BaseEntity로 이동*/
-  @Column(name = "created_at")
-  private LocalDateTime createAt;
-
-  @Column(name = "modified_at")
-  private LocalDateTime modifiedAt;
+//  /*TODO BaseEntity로 이동*/
+//  @Column(name = "created_at")
+//  private LocalDateTime createAt;
+//
+//  @Column(name = "modified_at")
+//  private LocalDateTime modifiedAt;
 
   /**
    * 새로운 User 생성
@@ -78,6 +79,7 @@ public class UserEntity {
 
   /**
    * UserEntity -> UserPortResponse
+   *
    * @return
    */
   public UserPortResponse toUserPortResponse() {
@@ -93,12 +95,12 @@ public class UserEntity {
 
 
   }
-
+  /*TODO 수정 */
 
   private UserEntity(String userName, String password, String email, String phone,
       UserType userType,
       boolean isActive,
-      LocalDateTime createAt, LocalDateTime modifiedAt) {
+      LocalDateTime createdAt, LocalDateTime modifiedAt) {
     this.userId = UUID.randomUUID().toString();
     this.userName = userName;
     this.password = password;
@@ -106,7 +108,5 @@ public class UserEntity {
     this.phone = phone;
     this.userType = userType;
     this.isActive = isActive;
-    this.createAt = createAt;
-    this.modifiedAt = modifiedAt;
   }
 }
