@@ -11,6 +11,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
   @ExceptionHandler(RuntimeException.class)
   public ErrorResponse handleRuntimeException(Exception ex, WebRequest request) {
+    System.out.println(ex.getMessage());
 
     return new ErrorResponse(ErrorCode.USER_ALREADY_EXIST);
 

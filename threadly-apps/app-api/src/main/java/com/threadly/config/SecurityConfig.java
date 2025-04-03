@@ -17,12 +17,12 @@ public class SecurityConfig {
     httpSecurity.httpBasic(AbstractHttpConfigurer::disable);
     httpSecurity.csrf(AbstractHttpConfigurer::disable);
     httpSecurity.cors(AbstractHttpConfigurer::disable);
-    httpSecurity.formLogin(Customizer.withDefaults());
+    httpSecurity.formLogin(AbstractHttpConfigurer::disable);
 
     httpSecurity.authorizeHttpRequests(
         auth -> auth.requestMatchers(
-            "/api/v1/user/register"
-        ).permitAll()
+                "/api/v1/user/**"
+            ).permitAll()
             .anyRequest().authenticated()
     );
 
