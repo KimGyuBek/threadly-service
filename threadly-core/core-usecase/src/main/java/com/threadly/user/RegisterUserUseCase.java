@@ -1,11 +1,11 @@
 package com.threadly.user;
 
 import com.threadly.user.command.UserRegisterationCommand;
-import com.threadly.user.response.UserRegisterationResponse;
+import com.threadly.user.response.UserRegistrationResponse;
 
 public interface RegisterUserUseCase {
 
-  UserRegisterationResponse register(UserRegisterationCommand request);
+  UserRegistrationResponse register(UserRegisterationCommand request);
 
 
 }

@@ -1,4 +1,4 @@
-package com.threadly.security;
+package com.threadly.auth;
 
 import com.threadly.user.FetchUserUseCase;
 import com.threadly.user.response.UserResponse;

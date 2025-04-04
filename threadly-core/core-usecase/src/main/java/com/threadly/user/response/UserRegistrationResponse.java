@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 @Builder
-public class UserRegisterationResponse {
+public class UserRegistrationResponse {
 
   private String userId;
   private String userName;

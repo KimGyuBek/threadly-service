@@ -1,4 +1,4 @@
-package com.threadly.security;
+package com.threadly.auth;
 
 import java.util.Collection;
 import lombok.Getter;

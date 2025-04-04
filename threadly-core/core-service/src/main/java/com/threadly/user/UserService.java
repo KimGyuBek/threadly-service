@@ -1,7 +1,7 @@
 package com.threadly.user;
 
 import com.threadly.user.command.UserRegisterationCommand;
-import com.threadly.user.response.UserRegisterationResponse;
+import com.threadly.user.response.UserRegistrationResponse;
 import com.threadly.user.response.UserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ public class UserService implements RegisterUserUseCase, FetchUserUseCase {
 
 
   @Override
-  public UserRegisterationResponse register(UserRegisterationCommand command) {
+  public UserRegistrationResponse register(UserRegisterationCommand command) {
     UserPortResponse userPortResponse = insertUserPort.create(
         new CreateUser(
             command.getEmail(),
@@ -25,7 +25,7 @@ public class UserService implements RegisterUserUseCase, FetchUserUseCase {
         )
     ).get();
 
-    return UserRegisterationResponse.builder()
+    return UserRegistrationResponse.builder()
         .userId(userPortResponse.getUserId())
         .userName(userPortResponse.getUserName())
         .email(userPortResponse.getEmail())

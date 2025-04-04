@@ -1,17 +1,13 @@
 package com.threadly.controller;
 
+import com.threadly.auth.AuthService;
 import com.threadly.controller.request.UserLoginRequest;
 import com.threadly.controller.request.UserRegisterRequest;
 import com.threadly.user.RegisterUserUseCase;
 import com.threadly.user.command.UserRegisterationCommand;
-import com.threadly.user.response.UserLoginResponse;
-import com.threadly.user.response.UserRegisterationResponse;
+import com.threadly.user.response.UserRegistrationResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
   private final RegisterUserUseCase registerUserUseCase;
+  private final AuthService authService;
+
+
   private final AuthenticationManagerBuilder authenticationMangerBuilder;
 
 
@@ -33,11 +32,11 @@ public class UserController {
    * @return
    */
   @PostMapping("/register")
-  public UserRegisterationResponse register(
+  public UserRegistrationResponse register(
       @RequestBody UserRegisterRequest request
   ) {
 
-    UserRegisterationResponse register = registerUserUseCase.register(
+    UserRegistrationResponse response = registerUserUseCase.register(
         UserRegisterationCommand.builder()
             .email(request.getEmail())
             .userName(request.getUserName())
@@ -46,30 +45,16 @@ public class UserController {
             .build()
     );
 
-    return register;
+    return response;
   }
 
   /**
    * 로그인
    */
   @PostMapping("/login")
-  public UserLoginResponse login(@RequestBody UserLoginRequest request) {
-    String email = request.getEmail();
-    String password = request.getPassword();
+  public boolean login(@RequestBody UserLoginRequest request) {
 
-    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-        email, password);
-
-    Authentication authenticate = authenticationMangerBuilder.getObject()
-        .authenticate(authentication);
-
-    SecurityContext context = SecurityContextHolder.getContext();
-    context.setAuthentication(authenticate);
-
-
-    return UserLoginResponse.builder()
-        .build();
-
+    return authService.login(request);
   }
 
 
