@@ -1,6 +1,8 @@
 package com.threadly.auth;
 
 import com.threadly.controller.request.UserLoginRequest;
+import com.threadly.user.FetchUserUseCase;
+import com.threadly.user.response.UserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -13,6 +15,8 @@ import org.springframework.stereotype.Service;
 public class AuthService {
 
   private final AuthenticationManagerBuilder authenticationManagerBuilder;
+
+  private final FetchUserUseCase fetchUserUseCase;
 
   /**
    * login
@@ -28,10 +32,16 @@ public class AuthService {
     String email = request.getEmail();
     String password = request.getPassword();
 
+
     try {
+      /*사용자 조회*/
+      UserResponse findUser = fetchUserUseCase.findUserByEmail(email);
+
+      String userId = findUser.getUserId();
+
       /*인증용 토큰 생성*/
       UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-          email, password);
+          userId, password);
 
       /*인증 시도*/
       Authentication authenticate = authenticationManagerBuilder.getObject()
@@ -42,6 +52,7 @@ public class AuthService {
       return true;
 
     } catch (Exception e) {
+      System.out.println(e.getMessage());
       return false;
     }
 

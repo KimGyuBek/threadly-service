@@ -32,6 +32,26 @@ public class UserRepository implements InsertUserPort, FetchUserPort {
             );
   }
 
+  @Override
+  public Optional<UserPortResponse> findByUserId(String userId) {
+
+    Optional<UserEntity> result = userJpaRepository.findByUserId(userId);
+
+    return
+        result.map(
+            entity -> UserPortResponse.builder()
+                .userId(entity.getUserId())
+                .userName(entity.getUserName())
+                .password(entity.getPassword())
+                .email(entity.getEmail())
+                .phone(entity.getPhone())
+                .userType(entity.getUserType().name())
+                .isActive(entity.isActive())
+                .build()
+        );
+
+  }
+
 
   /**
    * 회원가입

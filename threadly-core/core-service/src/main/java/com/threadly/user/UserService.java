@@ -41,6 +41,7 @@ public class UserService implements RegisterUserUseCase, FetchUserUseCase {
 
     return
         UserResponse.builder()
+            .userId(userPortResponse.getUserId())
             .userName(userPortResponse.getUserName())
             .password(userPortResponse.getPassword())
             .email(userPortResponse.getEmail())
@@ -50,4 +51,23 @@ public class UserService implements RegisterUserUseCase, FetchUserUseCase {
             .build();
 
   }
+
+  @Override
+  public UserResponse findUserByUserId(String userId) {
+    UserPortResponse response = fetchUserPort.findByUserId(userId).orElseThrow(
+        () -> new RuntimeException("userId 조회 실패 : " + userId)
+    );
+
+    return
+        UserResponse.builder()
+            .userId(response.getUserId())
+            .userName(response.getUserName())
+            .password(response.getPassword())
+            .email(response.getEmail())
+            .phone(response.getPhone())
+            .userType(response.getUserType())
+            .isActive(response.isActive())
+            .build();
+  }
+
 }

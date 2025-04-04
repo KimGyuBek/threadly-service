@@ -12,4 +12,12 @@ public interface FetchUserPort {
    */
   Optional<UserPortResponse> findByEmail(String email);
 
+  /**
+   * userId로 User 조회
+   * @param userId
+   * @return
+   */
+  Optional<UserPortResponse> findByUserId(String userId);
+
+
 }

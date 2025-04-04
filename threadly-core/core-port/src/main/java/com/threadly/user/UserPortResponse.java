@@ -21,4 +21,5 @@ public class UserPortResponse {
 
   private boolean isActive;
 
+
 }

@@ -12,4 +12,11 @@ public interface FetchUserUseCase {
    */
   UserResponse findUserByEmail(String email);
 
+  /**
+   * userId로 User 조회
+   * @param userId
+   * @return
+   */
+  UserResponse findUserByUserId(String userId);
+
 }

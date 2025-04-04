@@ -18,11 +18,11 @@ public class CustomUserDetailService implements UserDetailsService {
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    UserResponse result = fetchUserUseCase.findUserByEmail(username);
+    UserResponse result = fetchUserUseCase.findUserByUserId(username);
 
     return
         new AuthUser(
-            result.getUserName(),
+            result.getUserId(),
             result.getPassword(),
             List.of(
                 new SimpleGrantedAuthority("ROLE_USER")
