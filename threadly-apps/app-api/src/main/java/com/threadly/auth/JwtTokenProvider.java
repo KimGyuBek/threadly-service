@@ -1,0 +1,131 @@
+package com.threadly.auth;
+
+import com.threadly.token.FetchTokenUseCase;
+import com.threadly.token.response.TokenResponse;
+import com.threadly.token.response.UpdateTokenUseCase;
+import com.threadly.user.FetchUserUseCase;
+import com.threadly.user.response.UserResponse;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.Date;
+import java.util.List;
+import javax.crypto.SecretKey;
+import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
+
+@Component
+@RequiredArgsConstructor
+public class JwtTokenProvider {
+
+  private final FetchTokenUseCase fetchTokenUseCase;
+  private final UpdateTokenUseCase updateTokenUseCase;
+
+  private final FetchUserUseCase fetchUserUseCase;
+
+  @Value("${jwt.secret}")
+  private String secretKey;
+
+  public Authentication getAuthentication(String accessToken) {
+
+    /*accessToken으로 사용자 조회*/
+    String userId = fetchTokenUseCase.findUserIdByAccessToken(accessToken);
+
+    /*userId로 사용자 조회*/
+    UserResponse user = fetchUserUseCase.findUserByUserId(userId);
+
+    /*권한 설정*/
+    List<SimpleGrantedAuthority> authorities = List.of(
+        new SimpleGrantedAuthority(user.getUserType())
+    );
+
+    /*UserDetails 생성*/
+    UserDetails principal = new User(
+        user.getUserId(),
+        StringUtils.isEmpty(
+            user.getPassword()) ? "password" : user.getPassword(),
+        authorities
+    );
+
+    return new UsernamePasswordAuthenticationToken(
+        principal,
+        user.getUserId(),
+        authorities
+    );
+
+  }
+
+  /**
+   * upsert Token
+   * @param userId
+   * @return
+   */
+  public TokenResponse upsertToken(String userId) {
+    String accessToken = getToken(userId, Duration.ofHours(3));
+    String refreshToken = getToken(userId, Duration.ofHours(12));
+
+    TokenResponse tokenResponse = updateTokenUseCase.upsertToken(userId, accessToken, refreshToken);
+
+    return tokenResponse;
+  }
+
+  /**
+   * SiginingKey 생성
+   */
+  private SecretKey getSigningKey() {
+    byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+    return Keys.hmacShaKeyFor(keyBytes);
+  }
+
+  /**
+   * Token 생성
+   *
+   * @return
+   */
+  private String getToken(String userId, Duration expireAt) {
+    Date now = new Date();
+    Instant instant = now.toInstant();
+
+    return
+        Jwts.builder()
+            .claim("userId", userId)
+            .claim("userType", "USER")
+            .issuedAt(now)
+            .expiration(
+                Date.from(Instant.from(instant.plus(expireAt)))
+            )
+            .signWith(getSigningKey())
+            .compact();
+  }
+
+  /**
+   * validate Token
+   * @param accessToken
+   * @return
+   */
+  public boolean validateToken(String accessToken) {
+
+    try {
+      Jwts.parser()
+          .setSigningKey(secretKey)
+          .build()
+          .parseClaimsJws(accessToken);
+      System.out.println("검증됨");
+      return true;
+    } catch (Exception e) {
+      System.out.println("검증 안 됨");
+      return false;
+    }
+
+  }
+
+}

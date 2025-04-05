@@ -1,6 +1,5 @@
 package com.threadly.token;
 
-import com.threadly.token.response.TokenPortResponse;
 import java.util.Optional;
 
 public interface FetchTokenPort {
@@ -10,8 +9,14 @@ public interface FetchTokenPort {
    * @param userId
    * @return
    */
-  Optional<TokenPortResponse> findByUserId(String userId);
+  Optional<Token> findByUserId(String userId);
 
+  /**
+   * accessToken으로 userId 조회
+   * @param accessToken
+   * @return
+   */
+  Optional<String> findUserIdByAccessToken(String accessToken);
 
 
 }

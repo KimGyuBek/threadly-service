@@ -3,11 +3,10 @@ package com.threadly.token;
 public interface UpdateTokenPort {
 
   /**
-   * Token 업데이트
-   *
-   * @param updateToken
+   * upsert Token
+   * @param token
+   * @return
    */
-  void updateToken(UpdateToken updateToken);
-
+  Token upsertToken(Token token);
 
 }

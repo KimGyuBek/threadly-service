@@ -3,15 +3,16 @@ package com.threadly.adapter.token;
 import com.threadly.entity.token.TokenEntity;
 import com.threadly.mapper.TokenMapper;
 import com.threadly.repository.token.TokenJpaRepository;
+import com.threadly.token.FetchTokenPort;
 import com.threadly.token.Token;
-import com.threadly.token.TokenPort;
+import com.threadly.token.UpdateTokenPort;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-public class TokenPersistenceAdapter implements TokenPort {
+public class TokenPersistenceAdapter implements FetchTokenPort, UpdateTokenPort {
 
   private final TokenJpaRepository tokenJpaRepository;
 
@@ -25,6 +26,12 @@ public class TokenPersistenceAdapter implements TokenPort {
     }
 
     return Optional.empty();
+  }
+
+  @Override
+  public Optional<String> findUserIdByAccessToken(String accessToken) {
+    return
+        tokenJpaRepository.findUserIdByAccessToken(accessToken);
   }
 
   @Override
