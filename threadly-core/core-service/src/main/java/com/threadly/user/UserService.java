@@ -1,6 +1,7 @@
 package com.threadly.user;
 
 import com.threadly.user.command.UserRegisterationCommand;
+import com.threadly.user.response.UserPortResponse;
 import com.threadly.user.response.UserRegistrationResponse;
 import com.threadly.user.response.UserResponse;
 import lombok.RequiredArgsConstructor;

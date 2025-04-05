@@ -1,4 +1,4 @@
-package com.threadly.user;
+package com.threadly.user.response;
 
 import lombok.Builder;
 import lombok.Getter;

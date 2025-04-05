@@ -18,6 +18,10 @@ dependencies {
 
     implementation("org.springframework.boot:spring-boot-devtools")
 
+    implementation("io.jsonwebtoken:jjwt-api")
+    implementation("io.jsonwebtoken:jjwt-impl")
+    implementation("io.jsonwebtoken:jjwt-jackson")
+
 }
 
 val appMainClassName = "com.threadly.ThreadlyApplication"

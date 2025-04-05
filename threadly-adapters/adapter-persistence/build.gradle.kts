@@ -1,6 +1,8 @@
 dependencies {
     implementation(project(":threadly-core:core-port"))
-    implementation(project(":threadly-core:core-service"))
+    implementation(project(":threadly-commons"))
+    implementation(project(":threadly-core:core-domain"))
+
 
 
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")

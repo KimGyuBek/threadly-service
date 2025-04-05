@@ -9,6 +9,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
+  /*TODO error 세분화*/
   @ExceptionHandler(RuntimeException.class)
   public ErrorResponse handleRuntimeException(Exception ex, WebRequest request) {
     System.out.println(ex.getMessage());

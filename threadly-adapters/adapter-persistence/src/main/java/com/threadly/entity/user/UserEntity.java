@@ -1,7 +1,8 @@
 package com.threadly.entity.user;
 
 import com.threadly.entity.BaseEntity;
-import com.threadly.user.UserPortResponse;
+import com.threadly.user.UserType;
+import com.threadly.user.response.UserPortResponse;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

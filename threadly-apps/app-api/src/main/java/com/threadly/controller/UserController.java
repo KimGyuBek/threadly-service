@@ -3,11 +3,11 @@ package com.threadly.controller;
 import com.threadly.auth.AuthService;
 import com.threadly.controller.request.UserLoginRequest;
 import com.threadly.controller.request.UserRegisterRequest;
+import com.threadly.token.response.TokenResponse;
 import com.threadly.user.RegisterUserUseCase;
 import com.threadly.user.command.UserRegisterationCommand;
 import com.threadly.user.response.UserRegistrationResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,9 +20,6 @@ public class UserController {
 
   private final RegisterUserUseCase registerUserUseCase;
   private final AuthService authService;
-
-
-  private final AuthenticationManagerBuilder authenticationMangerBuilder;
 
 
   /**
@@ -52,7 +49,7 @@ public class UserController {
    * 로그인
    */
   @PostMapping("/login")
-  public boolean login(@RequestBody UserLoginRequest request) {
+  public TokenResponse login(@RequestBody UserLoginRequest request) {
 
     return authService.login(request);
   }

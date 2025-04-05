@@ -1,11 +1,11 @@
 package com.threadly.repository.user;
 
 import com.threadly.entity.user.UserEntity;
-import com.threadly.entity.user.UserType;
+import com.threadly.user.UserType;
 import com.threadly.user.CreateUser;
 import com.threadly.user.FetchUserPort;
 import com.threadly.user.InsertUserPort;
-import com.threadly.user.UserPortResponse;
+import com.threadly.user.response.UserPortResponse;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -20,15 +20,16 @@ public class UserRepository implements InsertUserPort, FetchUserPort {
     return
         userJpaRepository.findByEmail(email)
             .map(
-                entity -> UserPortResponse.builder()
-                    .userId(entity.getUserId())
-                    .userName(entity.getUserName())
-                    .password(entity.getPassword())
-                    .email(entity.getEmail())
-                    .phone(entity.getPhone())
-                    .userType(entity.getUserType().name())
-                    .isActive(entity.isActive())
-                    .build()
+                UserEntity::toUserPortResponse
+//                entity -> UserPortResponse.builder()
+//                    .userId(entity.getUserId())
+//                    .userName(entity.getUserName())
+//                    .password(entity.getPassword())
+//                    .email(entity.getEmail())
+//                    .phone(entity.getPhone())
+//                    .userType(entity.getUserType().name())
+//                    .isActive(entity.isActive())
+//                    .build()
             );
   }
 
@@ -39,15 +40,16 @@ public class UserRepository implements InsertUserPort, FetchUserPort {
 
     return
         result.map(
-            entity -> UserPortResponse.builder()
-                .userId(entity.getUserId())
-                .userName(entity.getUserName())
-                .password(entity.getPassword())
-                .email(entity.getEmail())
-                .phone(entity.getPhone())
-                .userType(entity.getUserType().name())
-                .isActive(entity.isActive())
-                .build()
+            UserEntity::toUserPortResponse
+//            entity -> UserPortResponse.builder()
+//                .userId(entity.getUserId())
+//                .userName(entity.getUserName())
+//                .password(entity.getPassword())
+//                .email(entity.getEmail())
+//                .phone(entity.getPhone())
+//                .userType(entity.getUserType().name())
+//                .isActive(entity.isActive())
+//                .build()
         );
 
   }

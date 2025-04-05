@@ -1,4 +1,4 @@
-package com.threadly.entity.user;
+package com.threadly.user;
 
 public enum UserType {
   USER("사용자"),

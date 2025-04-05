@@ -7,9 +7,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.threadly.entity.user.UserEntity;
-import com.threadly.entity.user.UserType;
+import com.threadly.user.UserType;
 import com.threadly.user.CreateUser;
-import com.threadly.user.UserPortResponse;
+import com.threadly.user.response.UserPortResponse;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
