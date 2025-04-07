@@ -1,26 +1,41 @@
 package com.threadly;
 
-import static org.springframework.http.HttpStatus.*;
-
 import lombok.Getter;
-import org.springframework.http.HttpStatus;
 
 @Getter
 public enum ErrorCode {
 
-  DEFAULT_ERROR("0000", "에러가 발생했습니다.", INTERNAL_SERVER_ERROR),
-  USER_DOES_NOT_EXIST("0001", "사용자가 존재하지 않습니다.", NOT_FOUND),
-  USER_ALREADY_EXIST("0002", "사용자가 이미 존재합니다.", CONFLICT),;
 
-  /*TODO*/
+  /*TODO Error code 세분화*/
+  DEFAULT_ERROR("0000", "에러가 발생했습니다."),
+  USER_DOES_NOT_EXIST("0001", "사용자가 존재하지 않습니다."),
+  USER_ALREADY_EXIST("0002", "사용자가 이미 존재합니다."),
+
+  /*공통*/
+  INTERNAL_SERVER_ERROR("TLY0000", "에러가 발생했습니다."),
+  INVALID_REQUEST("TLY0001", "잘못된 요청입니다."),
+  ACCESS_DENIED("TLY0002", "접근이 거부되었습니다."),
+
+  /*User*/
+  USER_NOT_FOUND("TLY2000", "사용자가 존재하지 않습니다."),
+  USER_ALREADY_EXISTS("TLY2001", "사용자가 이미 존재합니다."),
+  USER_INACTIVE("TLY2002", "비활성화된 사용자입니다."),
+
+  /*Token*/
+  TOKEN_EXPIRED("TLY3000", "토큰이 만료되었습니다."),
+  TOKEN_INVALID("TLY3001", "유효하지 않은 토큰입니다."),
+  TOKEN_MISSING("TLY3002", "토큰이 존재하지 않습니다.");
+
+  /*TODO 추가*/
+
 
   private final String code;
   private final String desc;
-  private final HttpStatus httpStatus;
+//  private final HttpStatus httpStatus;
 
-  ErrorCode(String code, String desc, HttpStatus httpStatus) {
+  ErrorCode(String code, String desc) {
     this.code = code;
     this.desc = desc;
-    this.httpStatus = httpStatus;
+//    this.httpStatus = httpStatus;
   }
 }

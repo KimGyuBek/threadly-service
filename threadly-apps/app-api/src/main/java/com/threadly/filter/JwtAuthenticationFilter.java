@@ -1,6 +1,8 @@
 package com.threadly.filter;
 
 import com.threadly.auth.JwtTokenProvider;
+import com.threadly.exception.token.TokenErrorType;
+import com.threadly.exception.token.TokenException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,14 +23,30 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
       FilterChain filterChain) throws ServletException, IOException {
+    try {
+      String token = resolveToken(request);
 
-    String token = resolveToken(request);
+      /*토큰이 존재한다면*/
+      if (token != null) {
 
-    /*토큰이 검증되면*/
-    if (token != null && jwtTokenProvider.validateToken(token)) {
-      Authentication authentication = jwtTokenProvider.getAuthentication(token);
-      SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        /*토큰이 검증되면*/
+        if (jwtTokenProvider.validateToken(token)) {
+          Authentication authentication = jwtTokenProvider.getAuthentication(token);
+
+          /*인증*/
+          SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        }
+      }
+
+    } catch (TokenException e) {
+      request.setAttribute("exception", e);
+
+    } catch (Exception e) {
+      request.setAttribute("exception", e);
     }
+
     filterChain.doFilter(request, response);
   }
 
@@ -41,6 +59,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       return bearerToken.substring(7);
     }
 
-    return null;
+    /*존재하지 않을 경우*/
+    throw new TokenException(TokenErrorType.UNSUPPORTED);
   }
 }

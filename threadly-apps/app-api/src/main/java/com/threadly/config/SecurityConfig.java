@@ -1,6 +1,8 @@
 package com.threadly.config;
 
+import com.threadly.filter.CustomAuthenticationEntryPoint;
 import com.threadly.filter.JwtAuthenticationFilter;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,15 +18,16 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
   private final JwtAuthenticationFilter jwtAuthenticationFilter;
+  private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
   @Bean
-  public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-    httpSecurity.httpBasic(AbstractHttpConfigurer::disable);
-    httpSecurity.csrf(AbstractHttpConfigurer::disable);
-    httpSecurity.cors(AbstractHttpConfigurer::disable);
-    httpSecurity.formLogin(AbstractHttpConfigurer::disable);
+  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    http.httpBasic(AbstractHttpConfigurer::disable);
+    http.csrf(AbstractHttpConfigurer::disable);
+    http.cors(AbstractHttpConfigurer::disable);
+    http.formLogin(AbstractHttpConfigurer::disable);
 
-    httpSecurity.authorizeHttpRequests(
+    http.authorizeHttpRequests(
         auth -> auth.requestMatchers(
                 "/api/v1/user/**"
             ).permitAll()
@@ -32,15 +35,25 @@ public class SecurityConfig {
     );
 
     /*모든 요청 허용*/
-//    httpSecurity.authorizeHttpRequests(
+//    http.authorizeHttpRequests(
 //        auth -> auth.anyRequest().permitAll()
 //    );
 
     /*jwt authentication filter 등록*/
-    httpSecurity.addFilterBefore(jwtAuthenticationFilter,
+    http.addFilterBefore(jwtAuthenticationFilter,
         UsernamePasswordAuthenticationFilter.class);
 
-    return httpSecurity.build();
+    /*Exception Handling*/
+    /*401*/
+    http.exceptionHandling(
+        exception -> exception.authenticationEntryPoint(
+            customAuthenticationEntryPoint
+        )
+    );
+
+    /*TODO 403*/
+
+    return http.build();
 
   }
 

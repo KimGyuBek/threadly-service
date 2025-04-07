@@ -1,10 +1,13 @@
 package com.threadly.auth;
 
+import com.threadly.exception.token.TokenErrorType;
+import com.threadly.exception.token.TokenException;
 import com.threadly.token.FetchTokenUseCase;
 import com.threadly.token.response.TokenResponse;
 import com.threadly.token.response.UpdateTokenUseCase;
 import com.threadly.user.FetchUserUseCase;
 import com.threadly.user.response.UserResponse;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -66,6 +69,7 @@ public class JwtTokenProvider {
 
   /**
    * upsert Token
+   *
    * @param userId
    * @return
    */
@@ -109,6 +113,7 @@ public class JwtTokenProvider {
 
   /**
    * validate Token
+   *
    * @param accessToken
    * @return
    */
@@ -119,11 +124,22 @@ public class JwtTokenProvider {
           .setSigningKey(secretKey)
           .build()
           .parseClaimsJws(accessToken);
+
       System.out.println("검증됨");
+
       return true;
+
+      /*토큰 만료*/
+    } catch (ExpiredJwtException e) {
+      System.out.println("토큰 만료됨");
+
+      throw new TokenException(TokenErrorType.EXPIRED);
+
+      /*기타 예외*/
     } catch (Exception e) {
       System.out.println("검증 안 됨");
-      return false;
+
+      throw new TokenException(TokenErrorType.INVALID);
     }
 
   }
