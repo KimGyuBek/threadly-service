@@ -1,14 +1,20 @@
 package com.threadly.auth;
 
 import com.threadly.controller.auth.request.UserLoginRequest;
+import com.threadly.exception.authentication.UserAuthErrorType;
+import com.threadly.exception.authentication.UserAuthenticationException;
 import com.threadly.token.response.TokenResponse;
 import com.threadly.user.FetchUserUseCase;
 import com.threadly.user.response.UserResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -54,9 +60,31 @@ public class AuthService {
 
       return tokenResponse;
 
+      /*email로 사용자를 찾을 수 없는 경우*/
+      /*TODO UserException으로 변경*/
+    } catch (UserAuthenticationException e) {
+      throw new UserAuthenticationException(UserAuthErrorType.NOT_FOUND);
+
+      /*UserNameNotFound*/
+    } catch (UsernameNotFoundException e) {
+      throw new UserAuthenticationException(UserAuthErrorType.NOT_FOUND);
+
+      /*BadCredential*/
+    } catch (BadCredentialsException e) {
+      throw new UserAuthenticationException(UserAuthErrorType.INVALID_PASSWORD);
+
+      /*Disabled*/
+    } catch (DisabledException e) {
+      throw new UserAuthenticationException(UserAuthErrorType.ACCOUNT_DISABLED);
+
+      /*Locked*/
+    } catch (LockedException e) {
+      throw new UserAuthenticationException(UserAuthErrorType.ACCOUNT_LOCKED);
+
+      /*나머지*/
     } catch (Exception e) {
       System.out.println(e.getMessage());
-      throw new RuntimeException("login error");
+      throw new UserAuthenticationException(UserAuthErrorType.AUTHENTICATION_ERROR);
     }
 
   }

@@ -1,11 +1,11 @@
 package com.threadly.exception.token;
 
 /**
- * Token 만료 예외
+ * Token 관련 예외
  */
 public class TokenException extends RuntimeException {
 
-  private final TokenErrorType errorType;
+   TokenErrorType errorType;
 
   public TokenException(TokenErrorType errorType) {
     super(errorType.toString());

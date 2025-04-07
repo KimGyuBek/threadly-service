@@ -1,11 +1,11 @@
 package com.threadly.exception;
 
-import static com.threadly.ErrorCode.*;
+import static com.threadly.ErrorCode.USER_ALREADY_EXIST;
+import static com.threadly.ErrorCode.USER_AUTHENTICATION_FAILED;
 
-import com.threadly.exception.token.TokenException;
-import org.springframework.http.HttpStatus;
+import com.threadly.ErrorCode;
+import com.threadly.exception.authentication.UserAuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -15,14 +15,19 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
   /*TODO error 세분화*/
 
-  /*Token*/
-  @ExceptionHandler(TokenException.class)
-  @ResponseStatus(HttpStatus.UNAUTHORIZED)
-  public ErrorResponse handleTokenException(Exception ex, WebRequest request) {
+  /*User Authentication*/
+  @ExceptionHandler(UserAuthenticationException.class)
+  public ErrorResponse handleUserAuthenticationException(UserAuthenticationException ex,
+      WebRequest request) {
     System.out.println(ex.getMessage());
-    System.out.println("globalExceptionHandler");
 
-    return new ErrorResponse(DEFAULT_ERROR);
+    ErrorCode errorCode = switch (ex.getUserAuthErrorType()) {
+      case NOT_FOUND, INVALID_PASSWORD -> USER_AUTHENTICATION_FAILED;
+      case ACCOUNT_DISABLED -> ErrorCode.ACCOUNT_DISABLED;
+      case ACCOUNT_LOCKED -> ErrorCode.ACCOUNT_LOCKED;
+      case AUTHENTICATION_ERROR -> ErrorCode.AUTHENTICATION_ERROR;
+    };
+    return new ErrorResponse(errorCode);
   }
 
   /*RuntimeException*/
@@ -31,8 +36,5 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     System.out.println(ex.getMessage());
 
     return new ErrorResponse(USER_ALREADY_EXIST);
-
   }
-
-
 }

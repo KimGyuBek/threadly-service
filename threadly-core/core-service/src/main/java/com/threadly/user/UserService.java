@@ -1,5 +1,7 @@
 package com.threadly.user;
 
+import com.threadly.exception.authentication.UserAuthErrorType;
+import com.threadly.exception.authentication.UserAuthenticationException;
 import com.threadly.user.command.UserRegisterationCommand;
 import com.threadly.user.response.UserPortResponse;
 import com.threadly.user.response.UserRegistrationResponse;
@@ -37,7 +39,7 @@ public class UserService implements RegisterUserUseCase, FetchUserUseCase {
   @Override
   public UserResponse findUserByEmail(String email) {
     UserPortResponse userPortResponse = fetchUserPort.findByEmail(email).orElseThrow(
-        () -> new RuntimeException("사용자를 찾을 수 없음 : " + email)
+        () -> new UserAuthenticationException(UserAuthErrorType.NOT_FOUND)
     );
 
     return

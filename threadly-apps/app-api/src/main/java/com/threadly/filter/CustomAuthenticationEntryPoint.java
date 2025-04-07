@@ -3,6 +3,8 @@ package com.threadly.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.threadly.ErrorCode;
+import com.threadly.exception.authentication.UserAuthErrorType;
+import com.threadly.exception.authentication.UserAuthenticationException;
 import com.threadly.exception.token.TokenErrorType;
 import com.threadly.exception.token.TokenException;
 import com.threadly.response.ApiResponse;
@@ -11,6 +13,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -47,6 +51,36 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
           ApiResponse.fail(errorCode));
 
       /*나머지 예외*/
+    } else if (exception instanceof UserAuthenticationException) {
+      UserAuthErrorType errorType = ((UserAuthenticationException) exception).getUserAuthErrorType();
+
+      HttpStatusCode httpStatusCode = HttpStatus.INTERNAL_SERVER_ERROR;
+
+      ErrorCode errorCode = ErrorCode.AUTHENTICATION_ERROR;
+          switch (errorType) {
+            case NOT_FOUND, INVALID_PASSWORD -> {
+              errorCode = ErrorCode.USER_AUTHENTICATION_FAILED;
+              httpStatusCode = HttpStatus.UNAUTHORIZED;
+            }
+            case ACCOUNT_DISABLED -> {
+              errorCode = ErrorCode.ACCOUNT_DISABLED;
+              httpStatusCode = HttpStatus.FORBIDDEN;
+            }
+            case ACCOUNT_LOCKED -> {
+              errorCode = ErrorCode.ACCOUNT_LOCKED;
+              httpStatusCode = HttpStatus.FORBIDDEN;
+            }
+            case AUTHENTICATION_ERROR -> {
+              errorCode = ErrorCode.AUTHENTICATION_ERROR;
+              httpStatusCode = HttpStatus.INTERNAL_SERVER_ERROR;
+            }
+          };
+
+      response.setStatus(httpStatusCode.value());
+      objectMapper.writeValue(response.getWriter(),
+          ApiResponse.fail(errorCode));
+
+
     } else {
       response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
       objectMapper.writeValue(response.getWriter(),
