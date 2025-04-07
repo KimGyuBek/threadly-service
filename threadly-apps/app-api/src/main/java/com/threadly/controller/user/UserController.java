@@ -1,9 +1,7 @@
-package com.threadly.controller;
+package com.threadly.controller.user;
 
 import com.threadly.auth.AuthService;
-import com.threadly.controller.request.UserLoginRequest;
-import com.threadly.controller.request.UserRegisterRequest;
-import com.threadly.token.response.TokenResponse;
+import com.threadly.controller.user.request.UserRegisterRequest;
 import com.threadly.user.RegisterUserUseCase;
 import com.threadly.user.command.UserRegisterationCommand;
 import com.threadly.user.response.UserRegistrationResponse;
@@ -43,15 +41,6 @@ public class UserController {
     );
 
     return response;
-  }
-
-  /**
-   * 로그인
-   */
-  @PostMapping("/login")
-  public TokenResponse login(@RequestBody UserLoginRequest request) {
-
-    return authService.login(request);
   }
 
 

@@ -1,4 +1,4 @@
-package com.threadly.controller.request;
+package com.threadly.controller.auth.request;
 
 import lombok.Getter;
 

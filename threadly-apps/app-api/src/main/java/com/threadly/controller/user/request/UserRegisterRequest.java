@@ -1,4 +1,4 @@
-package com.threadly.controller.request;
+package com.threadly.controller.user.request;
 
 import com.threadly.PasswordEncryption;
 import lombok.AllArgsConstructor;

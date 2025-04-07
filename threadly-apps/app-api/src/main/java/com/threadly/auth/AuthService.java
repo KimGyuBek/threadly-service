@@ -1,12 +1,9 @@
 package com.threadly.auth;
 
-import com.threadly.controller.request.UserLoginRequest;
-import com.threadly.token.FetchTokenUseCase;
+import com.threadly.controller.auth.request.UserLoginRequest;
 import com.threadly.token.response.TokenResponse;
-import com.threadly.token.response.UpdateTokenUseCase;
 import com.threadly.user.FetchUserUseCase;
 import com.threadly.user.response.UserResponse;
-import javax.management.RuntimeMBeanException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -22,9 +19,6 @@ public class AuthService {
 
   private final FetchUserUseCase fetchUserUseCase;
 
-  private final FetchTokenUseCase fetchTokenUseCase;
-  private final UpdateTokenUseCase updateTokenUseCase;
-
   private final JwtTokenProvider jwtTokenProvider;
 
   /**
@@ -33,14 +27,10 @@ public class AuthService {
    * @param request
    * @return
    */
-  /*TODO*/
-  /*return 정보 부족함*/
-  /*jwt 추가 */
   public TokenResponse login(UserLoginRequest request) {
 
     String email = request.getEmail();
     String password = request.getPassword();
-
 
     try {
       /*사용자 조회*/
@@ -57,13 +47,10 @@ public class AuthService {
           .authenticate(authenticationToken);
 
       /*토큰 생성*/
-//      TokenResponse tokenResponse = updateTokenUseCase.upsertToken(findUser.getUserId());
       TokenResponse tokenResponse = jwtTokenProvider.upsertToken(userId);
 
-
-      /*SecurityContext에 인증 정보 저장*/
+      /*SecurityContextHolder에 인증 정보 저장*/
       SecurityContextHolder.getContext().setAuthentication(authenticate);
-
 
       return tokenResponse;
 
