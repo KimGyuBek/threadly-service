@@ -18,9 +18,9 @@ dependencies {
 
     implementation("org.springframework.boot:spring-boot-devtools")
 
-    implementation("io.jsonwebtoken:jjwt-api")
-    implementation("io.jsonwebtoken:jjwt-impl")
-    implementation("io.jsonwebtoken:jjwt-jackson")
+    implementation("io.jsonwebtoken:jjwt-api:0.11.5")
+    implementation("io.jsonwebtoken:jjwt-impl:0.11.5")
+    implementation("io.jsonwebtoken:jjwt-jackson:0.11.5")
 
 }
 

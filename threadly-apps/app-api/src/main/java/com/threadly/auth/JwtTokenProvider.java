@@ -7,8 +7,10 @@ import com.threadly.token.response.TokenResponse;
 import com.threadly.token.response.UpdateTokenUseCase;
 import com.threadly.user.FetchUserUseCase;
 import com.threadly.user.response.UserResponse;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import java.time.Duration;
@@ -38,10 +40,27 @@ public class JwtTokenProvider {
   @Value("${jwt.secret}")
   private String secretKey;
 
+  /**
+   * accessToken에서 userId 추출
+   *
+   * @param accessToken
+   * @return
+   */
+  private String getUserId(String accessToken) {
+    Claims body = Jwts.parserBuilder()
+        .setSigningKey(getSigningKey())
+        .build()
+        .parseClaimsJws(accessToken)
+        .getBody();
+
+    return
+        body.get("userId", String.class);
+  }
+
   public Authentication getAuthentication(String accessToken) {
 
     /*accessToken으로 사용자 조회*/
-    String userId = fetchTokenUseCase.findUserIdByAccessToken(accessToken);
+    String userId = getUserId(accessToken);
 
     /*userId로 사용자 조회*/
     UserResponse user = fetchUserUseCase.findUserByUserId(userId);
@@ -103,11 +122,11 @@ public class JwtTokenProvider {
         Jwts.builder()
             .claim("userId", userId)
             .claim("userType", "USER")
-            .issuedAt(now)
-            .expiration(
+            .setIssuedAt(now)
+            .setExpiration(
                 Date.from(Instant.from(instant.plus(expireAt)))
             )
-            .signWith(getSigningKey())
+            .signWith(getSigningKey(), SignatureAlgorithm.HS256)
             .compact();
   }
 
@@ -120,8 +139,8 @@ public class JwtTokenProvider {
   public boolean validateToken(String accessToken) {
 
     try {
-      Jwts.parser()
-          .setSigningKey(secretKey)
+      Jwts.parserBuilder()
+          .setSigningKey(getSigningKey())
           .build()
           .parseClaimsJws(accessToken);
 

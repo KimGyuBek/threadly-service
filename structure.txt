@@ -1,0 +1,67 @@
+.
+├── HELP.md
+├── build.gradle.kts
+├── buildSrc
+│   ├── build.gradle.kts
+│   └── src
+│       └── main
+├── gradle
+│   └── wrapper
+│       ├── gradle-wrapper.jar
+│       └── gradle-wrapper.properties
+├── gradlew
+├── gradlew.bat
+├── infra
+│   ├── data
+│   │   └── threadly-db
+│   ├── docker-compose.yml
+│   └── prometheus.yml
+├── settings.gradle.kts
+├── structure.txt
+├── threadly-adapters
+│   ├── adapter-http
+│   │   ├── build.gradle.kts
+│   │   ├── gradle.properties
+│   │   └── src
+│   ├── adapter-persistence
+│   │   ├── build.gradle.kts
+│   │   ├── gradle.properties
+│   │   └── src
+│   └── adapter-redis
+│       ├── build.gradle.kts
+│       ├── gradle.properties
+│       └── src
+├── threadly-apps
+│   ├── app-api
+│   │   ├── build.gradle.kts
+│   │   ├── gradle.properties
+│   │   ├── http
+│   │   └── src
+│   └── app-batch
+│       ├── build.gradle.kts
+│       ├── gradle.properties
+│       └── src
+├── threadly-commons
+│   ├── build.gradle.kts
+│   ├── gradle.properties
+│   └── src
+│       └── main
+└── threadly-core
+    ├── core-domain
+    │   ├── build.gradle.kts
+    │   ├── gradle.properties
+    │   └── src
+    ├── core-port
+    │   ├── build.gradle.kts
+    │   ├── gradle.properties
+    │   └── src
+    ├── core-service
+    │   ├── build.gradle.kts
+    │   ├── gradle.properties
+    │   └── src
+    └── core-usecase
+        ├── build.gradle.kts
+        ├── gradle.properties
+        └── src
+
+34 directories, 31 files
