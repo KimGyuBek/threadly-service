@@ -2,7 +2,7 @@ package com.threadly.user;
 
 import com.threadly.exception.authentication.UserAuthErrorType;
 import com.threadly.exception.authentication.UserAuthenticationException;
-import com.threadly.user.command.UserRegisterationCommand;
+import com.threadly.user.command.UserRegistrationCommand;
 import com.threadly.user.response.UserPortResponse;
 import com.threadly.user.response.UserRegistrationResponse;
 import com.threadly.user.response.UserResponse;
@@ -18,7 +18,7 @@ public class UserService implements RegisterUserUseCase, FetchUserUseCase {
 
 
   @Override
-  public UserRegistrationResponse register(UserRegisterationCommand command) {
+  public UserRegistrationResponse register(UserRegistrationCommand command) {
     UserPortResponse userPortResponse = insertUserPort.create(
         new CreateUser(
             command.getEmail(),

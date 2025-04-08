@@ -3,7 +3,7 @@ package com.threadly.controller.user;
 import com.threadly.auth.AuthService;
 import com.threadly.controller.user.request.UserRegisterRequest;
 import com.threadly.user.RegisterUserUseCase;
-import com.threadly.user.command.UserRegisterationCommand;
+import com.threadly.user.command.UserRegistrationCommand;
 import com.threadly.user.response.UserRegistrationResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/user")
+@RequestMapping("/api/user")
 public class UserController {
 
   private final RegisterUserUseCase registerUserUseCase;
@@ -26,13 +26,13 @@ public class UserController {
    * @param request
    * @return
    */
-  @PostMapping("/register")
+  @PostMapping("")
   public UserRegistrationResponse register(
       @RequestBody UserRegisterRequest request
   ) {
 
     UserRegistrationResponse response = registerUserUseCase.register(
-        UserRegisterationCommand.builder()
+        UserRegistrationCommand.builder()
             .email(request.getEmail())
             .userName(request.getUserName())
             .password(request.getPassword())

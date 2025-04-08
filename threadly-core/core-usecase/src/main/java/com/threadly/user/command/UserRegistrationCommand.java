@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class UserRegisterationCommand {
+public class UserRegistrationCommand {
 
 
   private String email;
@@ -13,7 +13,7 @@ public class UserRegisterationCommand {
   private String password;
   private String phone;
 
-  public UserRegisterationCommand(String email, String userName, String password, String phone) {
+  public UserRegistrationCommand(String email, String userName, String password, String phone) {
     this.email = email;
     this.userName = userName;
     this.password = password;

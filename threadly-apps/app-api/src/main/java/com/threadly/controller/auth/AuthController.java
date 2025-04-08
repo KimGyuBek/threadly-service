@@ -2,7 +2,6 @@ package com.threadly.controller.auth;
 
 import com.threadly.auth.AuthService;
 import com.threadly.controller.auth.request.UserLoginRequest;
-import com.threadly.token.TokenService;
 import com.threadly.token.response.TokenResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,9 +16,9 @@ public class AuthController {
 
   private final AuthService authService;
 
-
   /**
    * 로그인
+   *
    * @param userLoginRequest
    * @return
    */
@@ -27,7 +26,6 @@ public class AuthController {
   public TokenResponse login(@RequestBody UserLoginRequest userLoginRequest) {
     return authService.login(userLoginRequest);
   }
-
 
 
 }
