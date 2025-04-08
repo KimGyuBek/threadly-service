@@ -1,5 +1,6 @@
 package com.threadly.filter;
 
+import com.threadly.ErrorCode;
 import com.threadly.auth.JwtTokenProvider;
 import com.threadly.exception.token.TokenErrorType;
 import com.threadly.exception.token.TokenException;
@@ -60,6 +61,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     /*존재하지 않을 경우*/
-    throw new TokenException(TokenErrorType.UNSUPPORTED);
+    throw new TokenException(ErrorCode.TOKEN_MISSING);
   }
 }

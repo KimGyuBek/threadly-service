@@ -1,15 +1,15 @@
-package com.threadly.exception.token;
+package com.threadly.exception.user;
 
 import com.threadly.ErrorCode;
 
 /**
- * Token 관련 예외
+ * 사용자 관련 예외
  */
-public class TokenException extends RuntimeException {
+public class UserException extends RuntimeException {
 
   ErrorCode errorCode;
 
-  public TokenException(ErrorCode errorCode) {
+  public UserException(ErrorCode errorCode) {
     super(errorCode.getDesc());
     this.errorCode = errorCode;
   }

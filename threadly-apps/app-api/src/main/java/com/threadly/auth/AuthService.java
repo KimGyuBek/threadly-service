@@ -1,8 +1,9 @@
 package com.threadly.auth;
 
+import com.threadly.ErrorCode;
 import com.threadly.controller.auth.request.UserLoginRequest;
-import com.threadly.exception.authentication.UserAuthErrorType;
 import com.threadly.exception.authentication.UserAuthenticationException;
+import com.threadly.exception.user.UserException;
 import com.threadly.token.response.TokenResponse;
 import com.threadly.user.FetchUserUseCase;
 import com.threadly.user.response.UserResponse;
@@ -62,30 +63,23 @@ public class AuthService {
       return tokenResponse;
 
       /*email로 사용자를 찾을 수 없는 경우*/
-      /*TODO UserException으로 변경*/
-    } catch (UserAuthenticationException e) {
-      throw new UserAuthenticationException(UserAuthErrorType.NOT_FOUND);
-
       /*UserNameNotFound*/
-    } catch (UsernameNotFoundException e) {
-      throw new UserAuthenticationException(UserAuthErrorType.NOT_FOUND);
-
       /*BadCredential*/
-    } catch (BadCredentialsException e) {
-      throw new UserAuthenticationException(UserAuthErrorType.INVALID_PASSWORD);
+    } catch (UserException | UsernameNotFoundException | BadCredentialsException e) {
+      throw new UserAuthenticationException(ErrorCode.USER_AUTHENTICATION_FAILED);
 
       /*Disabled*/
     } catch (DisabledException e) {
-      throw new UserAuthenticationException(UserAuthErrorType.ACCOUNT_DISABLED);
+      throw new UserAuthenticationException(ErrorCode.INVALID_USER_STATUS);
 
       /*Locked*/
     } catch (LockedException e) {
-      throw new UserAuthenticationException(UserAuthErrorType.ACCOUNT_LOCKED);
+      throw new UserAuthenticationException(ErrorCode.ACCOUNT_LOCKED);
 
       /*나머지*/
     } catch (Exception e) {
       System.out.println(e.getMessage());
-      throw new UserAuthenticationException(UserAuthErrorType.AUTHENTICATION_ERROR);
+      throw new UserAuthenticationException(ErrorCode.AUTHENTICATION_ERROR);
     }
 
   }

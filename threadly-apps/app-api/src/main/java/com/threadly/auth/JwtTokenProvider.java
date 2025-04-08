@@ -1,5 +1,6 @@
 package com.threadly.auth;
 
+import com.threadly.ErrorCode;
 import com.threadly.exception.token.TokenErrorType;
 import com.threadly.exception.token.TokenException;
 import com.threadly.token.FetchTokenUseCase;
@@ -152,13 +153,13 @@ public class JwtTokenProvider {
     } catch (ExpiredJwtException e) {
       System.out.println("토큰 만료됨");
 
-      throw new TokenException(TokenErrorType.EXPIRED);
+      throw new TokenException(ErrorCode.TOKEN_EXPIRED);
 
       /*기타 예외*/
     } catch (Exception e) {
       System.out.println("검증 안 됨");
 
-      throw new TokenException(TokenErrorType.INVALID);
+      throw new TokenException(ErrorCode.TOKEN_INVALID);
     }
 
   }
