@@ -14,5 +14,8 @@ dependencies {
     implementation("io.jsonwebtoken:jjwt-impl")
     implementation("io.jsonwebtoken:jjwt-jackson")
 
+    /*mail*/
+    implementation("org.springframework.boot:spring-boot-starter-mail")
+    implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 
 }

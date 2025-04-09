@@ -1,13 +1,14 @@
 package com.threadly.controller.user;
 
 import com.threadly.auth.AuthService;
+import com.threadly.controller.user.request.RequestMail;
 import com.threadly.controller.user.request.UserRegisterRequest;
+import com.threadly.mail.SendMailUseCase;
 import com.threadly.user.RegisterUserUseCase;
 import com.threadly.user.command.UserRegistrationCommand;
 import com.threadly.user.response.UserRegistrationResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,17 @@ public class UserController {
 
   private final RegisterUserUseCase registerUserUseCase;
   private final AuthService authService;
+
+  /*test*/
+  private final SendMailUseCase sendMailUseCase;
+
+  @PostMapping("/mailtest")
+  public boolean testMail(@RequestBody RequestMail body) {
+    sendMailUseCase.sendMail(body.getFrom(), body.getTo(), body.getSubject(), body.getBody());
+
+    return true;
+
+  }
 
 
   /**

@@ -1,10 +1,12 @@
 spring:
   config:
     import:
-      - adapter-persistence-property.yml
+      - adapter-persistence.yml
+      - core-usecase.yml
 
 jwt:
   secret: ZNHd8l6lUl7cG122AmjtaHNgjQFP2NHK0ZRQrpuB4nlZlYtgju7dk7U/5op7U7OnFnXIB/r2Gx4WdtNGbwyuiQ==
   expire:
     access-token: 1
     refresh-token: 24
+
