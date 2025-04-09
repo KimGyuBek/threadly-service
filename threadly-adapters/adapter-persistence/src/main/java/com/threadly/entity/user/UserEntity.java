@@ -45,13 +45,8 @@ public class UserEntity extends BaseEntity {
   @Column(name = "is_active")
   private boolean isActive;
 
-//  /*TODO BaseEntity로 이동*/
-//  @Column(name = "created_at")
-//  private LocalDateTime createAt;
-//
-//  @Column(name = "modified_at")
-//  private LocalDateTime modifiedAt;
-
+  @Column(name = "is_email_verified")
+  private boolean isEmailVerified;
   /**
    * 새로운 User 생성
    *
@@ -65,7 +60,7 @@ public class UserEntity extends BaseEntity {
    */
   public static UserEntity newUser(String userName, String password, String email, String phone,
       UserType userType,
-      boolean isActive) {
+      boolean isActive, boolean isEmailVerified) {
     return new UserEntity(
         userName,
         password,
@@ -73,8 +68,7 @@ public class UserEntity extends BaseEntity {
         phone,
         userType,
         isActive,
-        LocalDateTime.now(),
-        LocalDateTime.now()
+        isEmailVerified
     );
   }
 
@@ -92,16 +86,15 @@ public class UserEntity extends BaseEntity {
         .phone(this.getPhone())
         .userType(this.getUserType().name())
         .isActive(this.isActive())
+        .isEmailVerified(this.isEmailVerified())
         .build();
 
 
   }
-  /*TODO 수정 */
 
   private UserEntity(String userName, String password, String email, String phone,
       UserType userType,
-      boolean isActive,
-      LocalDateTime createdAt, LocalDateTime modifiedAt) {
+      boolean isActive, boolean isEmailVerified) {
     this.userId = UUID.randomUUID().toString();
     this.userName = userName;
     this.password = password;
@@ -109,5 +102,6 @@ public class UserEntity extends BaseEntity {
     this.phone = phone;
     this.userType = userType;
     this.isActive = isActive;
+    this.isEmailVerified = isEmailVerified;
   }
 }

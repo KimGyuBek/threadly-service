@@ -13,6 +13,8 @@ public class UserRegistrationResponse {
   private String userName;
   private String email;
   private String userType;
+  private boolean isActive;
+  private boolean isEmailVerified;
 
 
 

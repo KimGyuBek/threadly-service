@@ -5,7 +5,9 @@ import com.threadly.controller.user.request.UserRegisterRequest;
 import com.threadly.user.RegisterUserUseCase;
 import com.threadly.user.command.UserRegistrationCommand;
 import com.threadly.user.response.UserRegistrationResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +30,7 @@ public class UserController {
    */
   @PostMapping("")
   public UserRegistrationResponse register(
-      @RequestBody UserRegisterRequest request
+      @Valid @RequestBody UserRegisterRequest request
   ) {
 
     UserRegistrationResponse response = registerUserUseCase.register(

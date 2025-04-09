@@ -1,23 +1,38 @@
 package com.threadly.exception;
 
-import static com.threadly.ErrorCode.USER_AUTHENTICATION_FAILED;
-
 import com.threadly.ErrorCode;
 import com.threadly.exception.authentication.UserAuthenticationException;
+import com.threadly.exception.user.UserException;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+/**
+ * Global Exception Handler
+ */
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-  /*TODO error 세분화*/
+  /*Valid*/
+
+  @Override
+  protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+      HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+//    return super.handleMethodArgumentNotValid(ex, headers, status, request);
+
+    return ResponseEntity.status(ex.getStatusCode())
+        .body(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR));
+  }
 
   /*User Authentication*/
   @ExceptionHandler(UserAuthenticationException.class)
-  public ResponseEntity<ErrorResponse> handleUserAuthenticationException(UserAuthenticationException ex,
+  public ResponseEntity<ErrorResponse> handleUserAuthenticationException(
+      UserAuthenticationException ex,
       WebRequest request) {
     System.out.println(ex.getMessage());
 
@@ -26,11 +41,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         .body(new ErrorResponse(ex.getErrorCode()));
   }
 
-//  /*RuntimeException*/
-//  @ExceptionHandler(RuntimeException.class)
-//  public ErrorResponse handleRuntimeException(Exception ex, WebRequest request) {
-//    System.out.println(ex.getMessage());
-//
-//    return new ErrorResponse(USER_ALREADY_EXIST);
-//  }
+  /*User*/
+  @ExceptionHandler(UserException.class)
+  public ResponseEntity<ErrorResponse> handleUserException(UserException ex, WebRequest request) {
+
+    return ResponseEntity.status(ex.getErrorCode().getHttpStatus())
+        .body(new ErrorResponse(ex.getErrorCode()));
+  }
 }

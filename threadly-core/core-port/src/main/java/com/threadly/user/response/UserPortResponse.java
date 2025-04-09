@@ -21,5 +21,7 @@ public class UserPortResponse {
 
   private boolean isActive;
 
+  private boolean isEmailVerified;
+
 
 }

@@ -29,7 +29,7 @@ public class SecurityConfig {
 
     http.authorizeHttpRequests(
         auth -> auth.requestMatchers(
-                "/api/user/**",
+                "/api/users",
             "/api/auth/**"
             ).permitAll()
             .anyRequest().authenticated()

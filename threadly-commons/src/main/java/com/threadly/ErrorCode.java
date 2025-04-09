@@ -14,7 +14,7 @@ public enum ErrorCode {
 
   /*User*/
   USER_NOT_FOUND("TLY2000", "사용자가 존재하지 않습니다.", HttpStatus.NOT_FOUND),
-  USER_ALREADY_EXISTS("TLY2001", "사용자가 이미 존재합니다.", HttpStatus.CONFLICT),
+  USER_ALREADY_EXISTS("TLY2001", "이미 존재하는 사용자입니다.", HttpStatus.CONFLICT),
   USER_INACTIVE("TLY2002", "비활성화된 사용자입니다.", HttpStatus.FORBIDDEN),
   INVALID_PASSWORD("TLY2003", "패스워드가 일치하지 않습니다.", HttpStatus.UNAUTHORIZED),
   ACCOUNT_DISABLED("TLY2004", "비활성화 된 계정입니다.", HttpStatus.FORBIDDEN),
@@ -26,6 +26,7 @@ public enum ErrorCode {
   PASSWORD_REQUIRED("TLY2010", "패스워드는 필수입니다.", HttpStatus.BAD_REQUEST),
   INVALID_USER_STATUS("TLY2011", "유효하지 않은 사용자 상태입니다.", HttpStatus.BAD_REQUEST),
   USER_ALREADY_DELETED("TLY2012", "이미 삭제된 사용자입니다.", HttpStatus.BAD_REQUEST),
+  EMAIL_NOT_VERIFIED("TLY2013", "이메일 인증이 필요합니다.", HttpStatus.UNAUTHORIZED),
 
   /*Token*/
   TOKEN_EXPIRED("TLY3000", "토큰이 만료되었습니다.", HttpStatus.UNAUTHORIZED),
