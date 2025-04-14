@@ -22,6 +22,14 @@ services:
     #      - h2-data:/opt/h2-data  # 파일 저장소, 필요 시
     restart: unless-stopped
 
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./data/threadly-redis:/data
+
+
   prometheus:
     image: prom/prometheus:v2.29.1
     platform: linux/arm64
