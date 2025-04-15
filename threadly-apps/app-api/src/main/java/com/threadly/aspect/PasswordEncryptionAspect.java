@@ -1,6 +1,6 @@
 package com.threadly.aspect;
 
-import com.threadly.PasswordEncryption;
+import com.threadly.annotation.PasswordEncryption;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import lombok.RequiredArgsConstructor;

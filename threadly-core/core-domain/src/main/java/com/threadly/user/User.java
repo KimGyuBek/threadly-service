@@ -29,9 +29,6 @@ public class User {
    * @param password
    * @param email
    * @param phone
-   * @param userType
-   * @param isActive
-   * @param isEmailVerified
    * @return
    */
   public static User newUser(String userName, String password, String email, String phone) {
@@ -41,10 +38,10 @@ public class User {
         email,
         phone,
         UserType.USER
-        );
+    );
   }
 
-  private User( String userName, String password, String email, String phone,
+  private User(String userName, String password, String email, String phone,
       UserType userType) {
     this.userId = null;
     this.userName = userName;
@@ -54,7 +51,14 @@ public class User {
     this.userType = userType;
     this.isActive = true;
     this.isEmailVerified = false;
+  }
 
-
+  /*email 인증*/
+  public void verifyEmail() {
+    if (!isEmailVerified) {
+      this.isEmailVerified = true;
+    } else {
+      /*TODO 예외*/
+    }
   }
 }

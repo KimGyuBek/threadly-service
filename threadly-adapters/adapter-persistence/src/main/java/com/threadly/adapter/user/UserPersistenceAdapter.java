@@ -1,27 +1,39 @@
 package com.threadly.adapter.user;
 
+import com.threadly.entity.user.QUserEntity;
 import com.threadly.entity.user.UserEntity;
 import com.threadly.mapper.UserMapper;
 import com.threadly.repository.user.UserJpaRepository;
 import com.threadly.user.FetchUserPort;
 import com.threadly.user.InsertUserPort;
+import com.threadly.user.UpdateUserPort;
 import com.threadly.user.User;
 import com.threadly.user.response.UserPortResponse;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 @RequiredArgsConstructor
-public class UserPersistenceAdapter implements FetchUserPort, InsertUserPort {
+public class UserPersistenceAdapter implements FetchUserPort, InsertUserPort, UpdateUserPort {
 
   private final UserJpaRepository userJpaRepository;
 
   @Override
-  public Optional<UserPortResponse> findByEmail(String email) {
-    return
-        userJpaRepository.findByEmail(email)
-            .map(UserEntity::toUserPortResponse);
+  public Optional<User> findByEmail(String email) {
+
+    /*userId로 user 조회*/
+    Optional<UserEntity> byEmail = userJpaRepository.findByEmail(email);
+
+    /*user가 존재하지 않을 경우*/
+    if (byEmail.isEmpty()) {
+      return Optional.empty();
+    }
+
+    /*user가 존재할 경우*/
+    return byEmail.map(UserMapper::toDomain);
+
   }
 
   @Override
@@ -44,8 +56,15 @@ public class UserPersistenceAdapter implements FetchUserPort, InsertUserPort {
 
 
   @Override
-  public Optional<UserPortResponse> findByUserId(String userId) {
-    return
-        userJpaRepository.findById(userId).map(UserEntity::toUserPortResponse);
+  public Optional<User> findByUserId(String userId) {
+
+    Optional<UserEntity> byId = userJpaRepository.findById(userId);
+
+    return byId.map(UserMapper::toDomain);
+  }
+
+  @Override
+  public void updateEmailVerification(User user) {
+    userJpaRepository.updateEmailVerification(user.getUserId(), user.isEmailVerified());
   }
 }

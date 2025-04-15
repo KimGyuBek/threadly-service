@@ -22,9 +22,6 @@ allprojects {
     }
 }
 
-//subprojects {
-//    apply(plugin = "idea")
-//}
 
 subprojects {
     apply(plugin = "io.freefair.lombok")

@@ -17,6 +17,7 @@ public class UserService implements RegisterUserUseCase, FetchUserUseCase, Updat
 
   private final InsertUserPort insertUserPort;
   private final FetchUserPort fetchUserPort;
+  private final UpdateUserPort updateUserPort;
 
 
   @Transactional
@@ -24,7 +25,7 @@ public class UserService implements RegisterUserUseCase, FetchUserUseCase, Updat
   public UserRegistrationResponse register(UserRegistrationCommand command) {
 
     /*email로 사용자 조회*/
-    Optional<UserPortResponse> byEmail = fetchUserPort.findByEmail(command.getEmail());
+    Optional<User> byEmail = fetchUserPort.findByEmail(command.getEmail());
 
     /*이미 존재하는 사용자면*/
     if (byEmail.isPresent()) {
@@ -41,6 +42,9 @@ public class UserService implements RegisterUserUseCase, FetchUserUseCase, Updat
 
     UserPortResponse userPortResponse = insertUserPort.create(user);
 
+    /*email 인증 코드 생성 및 메일 전송*/
+
+
     return UserRegistrationResponse.builder()
         .userId(userPortResponse.getUserId())
         .userName(userPortResponse.getUserName())
@@ -53,43 +57,56 @@ public class UserService implements RegisterUserUseCase, FetchUserUseCase, Updat
 
   @Override
   public UserResponse findUserByEmail(String email) {
-    UserPortResponse userPortResponse = fetchUserPort.findByEmail(email).orElseThrow(
+    User user = fetchUserPort.findByEmail(email).orElseThrow(
         () -> new UserException(ErrorCode.USER_NOT_FOUND)
     );
 
     return
         UserResponse.builder()
-            .userId(userPortResponse.getUserId())
-            .userName(userPortResponse.getUserName())
-            .password(userPortResponse.getPassword())
-            .email(userPortResponse.getEmail())
-            .phone(userPortResponse.getPhone())
-            .userType(userPortResponse.getUserType())
-            .isActive(userPortResponse.isActive())
+            .userId(user.getUserId())
+            .userName(user.getUserName())
+            .password(user.getPassword())
+            .email(user.getEmail())
+            .phone(user.getPhone())
+            .userType(user.getUserType().name())
+            .isActive(user.isActive())
             .build();
 
   }
 
   @Override
   public UserResponse findUserByUserId(String userId) {
-    UserPortResponse response = fetchUserPort.findByUserId(userId).orElseThrow(
-        () -> new UserException(ErrorCode.USER_NOT_FOUND)
-    );
+
+    /*userId로 user 조회*/
+    User user = fetchUserPort.findByUserId(userId)
+        .orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
 
     return
         UserResponse.builder()
-            .userId(response.getUserId())
-            .userName(response.getUserName())
-            .password(response.getPassword())
-            .email(response.getEmail())
-            .phone(response.getPhone())
-            .userType(response.getUserType())
-            .isActive(response.isActive())
+            .userId(user.getUserId())
+            .userName(user.getUserName())
+            .password(user.getPassword())
+            .email(user.getEmail())
+            .phone(user.getPhone())
+            .userType(user.getUserType().name())
+            .isActive(user.isActive())
             .build();
   }
 
+  @Transactional
   @Override
-  public boolean validateEmail(String code) {
-    return false;
+  public void verifyEmail(String userId) {
+
+    /*userId로 사용자 조회*/
+    User user = fetchUserPort.findByUserId(userId)
+        .orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
+
+
+    /*email 인증 여부 true*/
+    user.verifyEmail();
+
+    /*TODO 굳이 user를 다 넘겨줘야할까*/
+    updateUserPort.updateEmailVerification(user);
+
   }
 }

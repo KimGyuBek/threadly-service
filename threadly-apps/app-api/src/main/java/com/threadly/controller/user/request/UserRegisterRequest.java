@@ -1,6 +1,6 @@
 package com.threadly.controller.user.request;
 
-import com.threadly.PasswordEncryption;
+import com.threadly.annotation.PasswordEncryption;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

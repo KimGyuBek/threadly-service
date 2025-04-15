@@ -2,7 +2,8 @@ spring:
   config:
     import:
       - adapter-persistence.yml
-      - core-usecase.yml
+#      - adapter-redis.yml
+      - core-port.yml
 
 jwt:
   secret: ZNHd8l6lUl7cG122AmjtaHNgjQFP2NHK0ZRQrpuB4nlZlYtgju7dk7U/5op7U7OnFnXIB/r2Gx4WdtNGbwyuiQ==

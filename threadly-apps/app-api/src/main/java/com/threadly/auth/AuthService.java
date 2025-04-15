@@ -6,6 +6,7 @@ import com.threadly.exception.authentication.UserAuthenticationException;
 import com.threadly.exception.user.UserException;
 import com.threadly.token.response.TokenResponse;
 import com.threadly.user.FetchUserUseCase;
+import com.threadly.user.UpdateUserUseCase;
 import com.threadly.user.response.UserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -15,6 +16,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +29,8 @@ public class AuthService {
   private final FetchUserUseCase fetchUserUseCase;
 
   private final JwtTokenProvider jwtTokenProvider;
+
+  private final UpdateUserUseCase updateUserUseCase;
 
 
   /**
@@ -45,6 +49,8 @@ public class AuthService {
       UserResponse findUser = fetchUserUseCase.findUserByEmail(email);
 
       String userId = findUser.getUserId();
+
+      /*TODO user 상태 검증*/
 
       /*인증용 토큰 생성*/
       UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
@@ -83,4 +89,14 @@ public class AuthService {
     }
 
   }
+
+  /**
+   * Email 검증
+   * @param code
+   */
+  public void verifyEmail(String code) {
+
+
+  }
+
 }

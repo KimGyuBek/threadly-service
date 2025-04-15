@@ -3,10 +3,9 @@ package com.threadly.user;
 public interface UpdateUserUseCase {
 
   /**
-   * email 인증
-   * @param code
-   * @return
+   * userId로 email 인증
+   * @param userId
    */
-  boolean validateEmail(String code);
+  void verifyEmail(String userId);
 
 }

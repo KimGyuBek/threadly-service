@@ -1,8 +1,13 @@
 dependencies {
-    implementation(project(":threadly-adapters:adapter-persistence"))
     implementation(project(":threadly-core:core-usecase"))
-    implementation(project(":threadly-core:core-service"))
     implementation(project(":threadly-commons"))
+
+
+    implementation(project(":threadly-core:core-port"))
+    implementation(project(":threadly-core:core-service"))
+    implementation(project(":threadly-adapters:adapter-http"))
+    implementation(project(":threadly-adapters:adapter-persistence"))
+    implementation(project(":threadly-adapters:adapter-redis"))
 
 
     implementation("org.springframework.boot:spring-boot-starter-aop")

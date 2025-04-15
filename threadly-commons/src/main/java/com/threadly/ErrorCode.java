@@ -27,12 +27,16 @@ public enum ErrorCode {
   INVALID_USER_STATUS("TLY2011", "유효하지 않은 사용자 상태입니다.", HttpStatus.BAD_REQUEST),
   USER_ALREADY_DELETED("TLY2012", "이미 삭제된 사용자입니다.", HttpStatus.BAD_REQUEST),
   EMAIL_NOT_VERIFIED("TLY2013", "이메일 인증이 필요합니다.", HttpStatus.UNAUTHORIZED),
+  EMAIL_VERIFICATION_FAILED("TLY2014", "이메일 인증에 실패했습니다.", HttpStatus.BAD_REQUEST),
+
 
   /*Token*/
   TOKEN_EXPIRED("TLY3000", "토큰이 만료되었습니다.", HttpStatus.UNAUTHORIZED),
   TOKEN_INVALID("TLY3001", "유효하지 않은 토큰입니다.", HttpStatus.BAD_REQUEST),
-  TOKEN_MISSING("TLY3002", "토큰이 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
+  TOKEN_MISSING("TLY3002", "토큰이 존재하지 않습니다.", HttpStatus.BAD_REQUEST),
 
+  /*Email*/
+  SEND_MAIL_ERROR("TLY4000", "메일 전송중 오류 발생", HttpStatus.INTERNAL_SERVER_ERROR);
   private final String code;
   private final String desc;
   private final HttpStatus httpStatus;
