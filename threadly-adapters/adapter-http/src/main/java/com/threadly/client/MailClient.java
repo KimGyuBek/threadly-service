@@ -1,7 +1,7 @@
 package com.threadly.client;
 
 import com.threadly.ErrorCode;
-import com.threadly.exception.mail.MailSenderException;
+import com.threadly.exception.mail.EmailVerificationException;
 import com.threadly.mail.SendMailPort;
 import jakarta.mail.internet.MimeMessage;
 import java.util.HashMap;
@@ -46,7 +46,7 @@ public class MailClient implements SendMailPort {
       System.out.println("인증 메일 전송 완료 : " + to);
 
     } catch (Exception e) {
-      throw new MailSenderException(ErrorCode.SEND_MAIL_ERROR);
+      throw new EmailVerificationException(ErrorCode.EMAIL_SENDING_FAILED);
     }
 
 

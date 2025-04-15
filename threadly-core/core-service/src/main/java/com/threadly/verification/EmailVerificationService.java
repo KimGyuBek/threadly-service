@@ -1,10 +1,18 @@
 package com.threadly.verification;
 
+import com.threadly.ErrorCode;
+import com.threadly.exception.mail.EmailVerificationException;
+import com.threadly.exception.user.UserException;
 import com.threadly.mail.SendMailPort;
+import com.threadly.user.FetchUserPort;
+import com.threadly.user.User;
+import com.threadly.user.UserEmailVerificationPort;
 import java.time.Duration;
+import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Email 인증 관련 Service
@@ -13,16 +21,40 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class EmailVerificationService implements EmailVerificationUseCase {
 
-  private final EmailVerificationPort emailVerificationPort;
+  private final com.threadly.verification.EmailVerificationPort emailVerificationPort;
 
   private final SendMailPort sendMailPort;
+
+  private final UserEmailVerificationPort userEmailVerificationPort;
+
+  private final FetchUserPort fetchUserPort;
 
   /*만료 시간*/
   private static final Duration EXPIRATION = Duration.ofMinutes(5);
 
+  @Transactional
   @Override
   public void verificationEmail(String code) {
 
+    /*code로 userId 조회*/
+    String userId = emailVerificationPort.getUserId(code);
+
+    /*인증되지 않은 사용자인지 찾아서 검증 */
+    Optional<User> findByUserId = fetchUserPort.findByUserId(userId);
+
+    User user = findByUserId.orElseThrow(
+        () -> new UserException(ErrorCode.USER_NOT_FOUND)
+    );
+    /*이미 인증이 되어 있다면*/
+    if (user.isEmailVerified()) {
+      throw new EmailVerificationException(ErrorCode.EMAIL_ALREADY_VERIFIED);
+    }
+
+    /*isVerified => ture*/
+    user.verifyEmail();
+
+    /*db 업데이트*/
+    userEmailVerificationPort.updateEmailVerification(user);
   }
 
   @Override

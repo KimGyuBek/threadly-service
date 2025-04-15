@@ -55,10 +55,11 @@ public class User {
 
   /*email 인증*/
   public void verifyEmail() {
-    if (!isEmailVerified) {
-      this.isEmailVerified = true;
-    } else {
-      /*TODO 예외*/
-    }
+    isEmailVerified = true;
+  }
+
+  /*검증*/
+  public boolean isEmailVerified() {
+    return isEmailVerified;
   }
 }

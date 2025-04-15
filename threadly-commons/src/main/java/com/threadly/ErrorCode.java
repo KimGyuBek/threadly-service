@@ -36,7 +36,16 @@ public enum ErrorCode {
   TOKEN_MISSING("TLY3002", "토큰이 존재하지 않습니다.", HttpStatus.BAD_REQUEST),
 
   /*Email*/
-  SEND_MAIL_ERROR("TLY4000", "메일 전송중 오류 발생", HttpStatus.INTERNAL_SERVER_ERROR);
+  EMAIL_SENDING_FAILED("TLY4000", "메일 전송중 오류 발생", HttpStatus.BAD_GATEWAY),
+  EMAIL_CODE_NOT_PROVIDED("TLY4001", "인증 코드가 제공되지 않았습니다.", HttpStatus.BAD_REQUEST),
+  EMAIL_CODE_INVALID("TLY4002", "유효하지 않은 인증 코드입니다.", HttpStatus.BAD_REQUEST),
+  EMAIL_CODE_EXPIRED("TLY4003", "인증 코드가 만료되었습니다.", HttpStatus.GONE),
+  EMAIL_ALREADY_VERIFIED("TLY4004", "이미 인증이 완료된 이메일입니다.", HttpStatus.CONFLICT),
+  EMAIL_USER_NOT_FOUND("TLY4005", "해당 이메일에 대한 사용자를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+  EMAIL_FORMAT_INVALID("TLY4006", "이메일 형식이 올바르지 않습니다.", HttpStatus.BAD_REQUEST),
+  EMAIL_REQUEST_INVALID("TLY4007", "잘못된 인증 요청입니다.", HttpStatus.BAD_REQUEST);
+
+
   private final String code;
   private final String desc;
   private final HttpStatus httpStatus;

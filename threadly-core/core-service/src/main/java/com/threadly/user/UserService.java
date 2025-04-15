@@ -17,7 +17,7 @@ public class UserService implements RegisterUserUseCase, FetchUserUseCase, Updat
 
   private final InsertUserPort insertUserPort;
   private final FetchUserPort fetchUserPort;
-  private final UpdateUserPort updateUserPort;
+  private final UserEmailVerificationPort updateUserPort;
 
 
   @Transactional

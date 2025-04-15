@@ -2,7 +2,7 @@ package com.threadly.exception;
 
 import com.threadly.ErrorCode;
 import com.threadly.exception.authentication.UserAuthenticationException;
-import com.threadly.exception.mail.MailSenderException;
+import com.threadly.exception.mail.EmailVerificationException;
 import com.threadly.exception.user.UserException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
@@ -50,9 +50,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         .body(new ErrorResponse(ex.getErrorCode()));
   }
 
-  /*Mail*/
-  @ExceptionHandler(MailSenderException.class)
-  public ResponseEntity<ErrorResponse> handleMailSenderException(MailSenderException ex,
+  /*Email Verification*/
+  @ExceptionHandler(EmailVerificationException.class)
+  public ResponseEntity<ErrorResponse> handleMailSenderException(EmailVerificationException ex,
       WebRequest request) {
     return ResponseEntity.status(ex.getErrorCode().getHttpStatus())
         .body(new ErrorResponse(ex.getErrorCode()));

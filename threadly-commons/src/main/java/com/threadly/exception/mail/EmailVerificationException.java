@@ -5,11 +5,11 @@ import com.threadly.ErrorCode;
 /**
  * 메일 전송 관련 예외
  */
-public class MailSenderException extends RuntimeException {
+public class EmailVerificationException extends RuntimeException {
 
   private  ErrorCode errorCode;
 
-  public MailSenderException(ErrorCode errorCode) {
+  public EmailVerificationException(ErrorCode errorCode) {
     super(errorCode.getDesc());
     this.errorCode = errorCode;
   }

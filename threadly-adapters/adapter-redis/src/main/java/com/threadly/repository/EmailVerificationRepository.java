@@ -1,5 +1,7 @@
 package com.threadly.repository;
 
+import com.threadly.ErrorCode;
+import com.threadly.exception.mail.EmailVerificationException;
 import com.threadly.verification.EmailVerificationPort;
 import java.time.Duration;
 import lombok.RequiredArgsConstructor;
@@ -43,6 +45,11 @@ public class EmailVerificationRepository implements EmailVerificationPort {
     String key = generateKey(code);
 
     String userId = (String) redisTemplate.opsForValue().get(key);
+
+    /*만료 되었거나 해당하는 사용자가 없는 경우*/
+    if(userId == null) {
+      throw new EmailVerificationException(ErrorCode.EMAIL_CODE_INVALID);
+    }
 
     return userId;
   }

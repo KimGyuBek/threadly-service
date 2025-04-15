@@ -1,22 +1,21 @@
 package com.threadly.adapter.user;
 
-import com.threadly.entity.user.QUserEntity;
 import com.threadly.entity.user.UserEntity;
 import com.threadly.mapper.UserMapper;
 import com.threadly.repository.user.UserJpaRepository;
 import com.threadly.user.FetchUserPort;
 import com.threadly.user.InsertUserPort;
-import com.threadly.user.UpdateUserPort;
+import com.threadly.user.UserEmailVerificationPort;
 import com.threadly.user.User;
 import com.threadly.user.response.UserPortResponse;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 @RequiredArgsConstructor
-public class UserPersistenceAdapter implements FetchUserPort, InsertUserPort, UpdateUserPort {
+public class UserPersistenceAdapter implements FetchUserPort, InsertUserPort,
+    UserEmailVerificationPort {
 
   private final UserJpaRepository userJpaRepository;
 
@@ -65,6 +64,7 @@ public class UserPersistenceAdapter implements FetchUserPort, InsertUserPort, Up
 
   @Override
   public void updateEmailVerification(User user) {
+
     userJpaRepository.updateEmailVerification(user.getUserId(), user.isEmailVerified());
   }
 }

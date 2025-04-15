@@ -3,6 +3,7 @@ package com.threadly.controller.auth;
 import com.threadly.auth.AuthService;
 import com.threadly.controller.auth.request.UserLoginRequest;
 import com.threadly.token.response.TokenResponse;
+import com.threadly.verification.EmailVerificationUseCase;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
   private final AuthService authService;
+
+  private final EmailVerificationUseCase emailVerificationUseCase;
 
   /**
    * 로그인
@@ -36,7 +39,7 @@ public class AuthController {
    */
   @GetMapping("/verify")
   public void verifyMail(@RequestParam String code) {
-
+    emailVerificationUseCase.verificationEmail(code);
   }
 
 

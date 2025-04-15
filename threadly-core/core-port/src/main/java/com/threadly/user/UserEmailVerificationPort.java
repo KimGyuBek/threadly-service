@@ -1,9 +1,9 @@
 package com.threadly.user;
 
 /**
- * User update
+ * 사용자 email 인증 로직
  */
-public interface UpdateUserPort {
+public interface UserEmailVerificationPort {
 
   void updateEmailVerification(User user);
 
