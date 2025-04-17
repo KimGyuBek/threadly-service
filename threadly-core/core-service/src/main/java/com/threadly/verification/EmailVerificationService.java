@@ -12,6 +12,7 @@ import java.time.Duration;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.functors.ExceptionTransformer;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,28 +38,38 @@ public class EmailVerificationService implements EmailVerificationUseCase {
   @Override
   public void verificationEmail(String code) {
 
-    /*code로 userId 조회*/
-    String userId = emailVerificationPort.getUserId(code);
+    try {
+      /*code로 userId 조회*/
+      String userId = emailVerificationPort.getUserId(code);
 
-    /*인증되지 않은 사용자인지 찾아서 검증 */
-    Optional<User> findByUserId = fetchUserPort.findByUserId(userId);
+      /*인증되지 않은 사용자인지 찾아서 검증 */
+      Optional<User> findByUserId = fetchUserPort.findByUserId(userId);
 
-    User user = findByUserId.orElseThrow(
-        () -> new UserException(ErrorCode.USER_NOT_FOUND)
-    );
-    /*이미 인증이 되어 있다면*/
-    if (user.isEmailVerified()) {
-      throw new EmailVerificationException(ErrorCode.EMAIL_ALREADY_VERIFIED);
+      User user = findByUserId.orElseThrow(
+          () -> new UserException(ErrorCode.USER_NOT_FOUND)
+      );
+      /*이미 인증이 되어 있다면*/
+      if (user.isEmailVerified()) {
+        throw new EmailVerificationException(ErrorCode.EMAIL_ALREADY_VERIFIED);
+      }
+
+      /*인증 처리*/
+      user.verifyEmail();
+
+      /*db 업데이트*/
+      userEmailVerificationPort.updateEmailVerification(user);
+
+      /*redis에서 코드 삭제*/
+      emailVerificationPort.deleteCode(code);
+
+      /*가입 환영 메일 전송*/
+      sendMailPort.sendVerificationCompleteMail(userId, user.getUserName());
+
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+      throw e;
     }
 
-    /*isVerified => ture*/
-    user.verifyEmail();
-
-    /*db 업데이트*/
-    userEmailVerificationPort.updateEmailVerification(user);
-
-    /*redis에서 코드 삭제*/
-    emailVerificationPort.deleteCode(code);
   }
 
   @Override

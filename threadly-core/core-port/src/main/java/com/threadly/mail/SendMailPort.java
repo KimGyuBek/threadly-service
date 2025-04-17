@@ -13,4 +13,6 @@ public interface SendMailPort {
    */
   void sendVerificationMail(String to, String code);
 
+  void sendVerificationCompleteMail(String to, String userName);
+
 }

@@ -38,8 +38,6 @@ public class SecurityConfig {
             .anyRequest().authenticated()
     );
 
-
-
     /*VerificationFilter 등록*/
     http.addFilterBefore(verificationFilter, UsernamePasswordAuthenticationFilter.class);
 

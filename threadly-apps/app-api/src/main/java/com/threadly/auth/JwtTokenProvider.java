@@ -33,7 +33,6 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class JwtTokenProvider {
 
-  private final FetchTokenUseCase fetchTokenUseCase;
   private final UpdateTokenUseCase updateTokenUseCase;
 
   private final FetchUserUseCase fetchUserUseCase;

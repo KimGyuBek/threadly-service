@@ -2,7 +2,9 @@ package com.threadly.filter;
 
 import com.threadly.ErrorCode;
 import com.threadly.auth.JwtTokenProvider;
+import com.threadly.exception.authentication.UserAuthenticationException;
 import com.threadly.exception.token.TokenException;
+import com.threadly.exception.user.UserException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -44,6 +46,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
       }
 
+      /*사용자가 없는 경우*/
+    } catch (UserException e) {
+      UserAuthenticationException exception = new UserAuthenticationException(e.getErrorCode());
+      request.setAttribute("exception", exception);
+      throw exception;
 
     } catch (TokenException e) {
       request.setAttribute("exception", e);

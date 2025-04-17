@@ -20,6 +20,7 @@ public class CustomUserDetailService implements UserDetailsService {
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
     UserResponse result = fetchUserUseCase.findUserByUserId(username);
 
+
     return
         new AuthUser(
             result.getUserId(),

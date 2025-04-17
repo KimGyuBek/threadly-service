@@ -17,6 +17,7 @@ public class ResponseWrapperAdvice implements ResponseBodyAdvice<Object> {
   @Override
   public boolean supports(MethodParameter returnType,
       Class<? extends HttpMessageConverter<?>> converterType) {
+//    return !returnType.getParameterType().equals(String.class);
     return true;
   }
 
