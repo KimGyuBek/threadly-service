@@ -10,11 +10,12 @@ spring:
     properties:
       hibernate:
         format_sql: true
+#        use_sql_comments: true
     hibernate:
       ddl-auto: validate
     generate-ddl: false
     open-in-view: false
-    show-sql: true
+#    show-sql: true
 
   flyway:
     locations: classpath:flyway

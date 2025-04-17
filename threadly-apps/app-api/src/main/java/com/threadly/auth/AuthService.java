@@ -10,6 +10,7 @@ import com.threadly.exception.user.UserException;
 import com.threadly.user.FetchUserUseCase;
 import com.threadly.user.response.UserResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthService implements PasswordVerificationUseCase {
 
   private final AuthenticationManagerBuilder authenticationManagerBuilder;
@@ -47,6 +49,7 @@ public class AuthService implements PasswordVerificationUseCase {
 
       /*SecurityContextHolder에 인증 정보 저장*/
       SecurityContextHolder.getContext().setAuthentication(authenticate);
+      log.info("이중인증 성공");
 
       return new PasswordVerificationToken(tokenResponse);
 
@@ -65,7 +68,7 @@ public class AuthService implements PasswordVerificationUseCase {
 
       /*나머지*/
     } catch (Exception e) {
-      System.out.println(e.getMessage());
+      log.error(e.getMessage());
       throw new UserAuthenticationException(ErrorCode.AUTHENTICATION_ERROR);
     }
   }
@@ -107,19 +110,21 @@ public class AuthService implements PasswordVerificationUseCase {
 
       /*SecurityContextHolder에 인증 정보 저장*/
       SecurityContextHolder.getContext().setAuthentication(authenticate);
+      log.info("로그인 성공");
 
       return tokenResponse;
 
       /*email 인증 실패*/
     } catch (UserAuthenticationException e) {
-      System.out.println(e.getMessage());
+      log.info("이메일 인증 실패");
+      log.error(e.getMessage());
       throw e;
 
       /*email로 사용자를 찾을 수 없는 경우*/
       /*UserNameNotFound*/
       /*BadCredential*/
     } catch (UserException | UsernameNotFoundException | BadCredentialsException e) {
-      System.out.println(e.getMessage());
+      log.info(e.getMessage());
       throw new UserAuthenticationException(ErrorCode.USER_AUTHENTICATION_FAILED);
 
       /*Disabled*/
@@ -132,7 +137,7 @@ public class AuthService implements PasswordVerificationUseCase {
 
       /*나머지*/
     } catch (Exception e) {
-      System.out.println(e.getMessage());
+      log.error(e.getMessage());
       throw new UserAuthenticationException(ErrorCode.AUTHENTICATION_ERROR);
     }
 

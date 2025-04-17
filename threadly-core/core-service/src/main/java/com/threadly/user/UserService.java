@@ -8,12 +8,14 @@ import com.threadly.user.response.UserRegistrationResponse;
 import com.threadly.user.response.UserResponse;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class UserService implements RegisterUserUseCase, FetchUserUseCase, UpdateUserUseCase {
+@Slf4j
+public class UserService implements RegisterUserUseCase, FetchUserUseCase{
 
   private final InsertUserPort insertUserPort;
   private final FetchUserPort fetchUserPort;
@@ -44,6 +46,7 @@ public class UserService implements RegisterUserUseCase, FetchUserUseCase, Updat
 
     /*email 인증 코드 생성 및 메일 전송*/
 
+    log.info("회원 가입 성공");
 
     return UserRegistrationResponse.builder()
         .userId(userPortResponse.getUserId())
@@ -94,20 +97,4 @@ public class UserService implements RegisterUserUseCase, FetchUserUseCase, Updat
             .build();
   }
 
-  @Transactional
-  @Override
-  public void verifyEmail(String userId) {
-
-    /*userId로 사용자 조회*/
-    User user = fetchUserPort.findByUserId(userId)
-        .orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
-
-
-    /*email 인증 여부 true*/
-    user.verifyEmail();
-
-    /*TODO 굳이 user를 다 넘겨줘야할까*/
-    updateUserPort.updateEmailVerification(user);
-
-  }
 }

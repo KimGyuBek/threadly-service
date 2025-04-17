@@ -12,6 +12,7 @@ import java.time.Duration;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.functors.ExceptionTransformer;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class EmailVerificationService implements EmailVerificationUseCase {
 
   private final com.threadly.verification.EmailVerificationPort emailVerificationPort;
@@ -62,11 +64,13 @@ public class EmailVerificationService implements EmailVerificationUseCase {
       /*redis에서 코드 삭제*/
       emailVerificationPort.deleteCode(code);
 
+      log.info("이메일 인증 완료");
+
       /*가입 환영 메일 전송*/
       sendMailPort.sendVerificationCompleteMail(userId, user.getUserName());
 
     } catch (Exception e) {
-      System.out.println(e.getMessage());
+      log.error(e.getMessage());
       throw e;
     }
 
@@ -76,6 +80,8 @@ public class EmailVerificationService implements EmailVerificationUseCase {
   public void sendVerificationEmail(String userId) {
     /*인증 코드 생성*/
     String code = UUID.randomUUID().toString().substring(0, 6);
+
+    log.debug("인증 코드 : {}" , code);
 
     /*인증 코드 저장*/
     emailVerificationPort.saveCode(userId, code, EXPIRATION);

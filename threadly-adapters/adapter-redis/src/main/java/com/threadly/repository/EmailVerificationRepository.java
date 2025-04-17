@@ -5,6 +5,7 @@ import com.threadly.exception.mail.EmailVerificationException;
 import com.threadly.verification.EmailVerificationPort;
 import java.time.Duration;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @RequiredArgsConstructor
+@Slf4j
 public class EmailVerificationRepository implements EmailVerificationPort {
 
   private final RedisTemplate<String, Object> redisTemplate;
@@ -26,13 +28,14 @@ public class EmailVerificationRepository implements EmailVerificationPort {
   public void saveCode(String userId, String code, Duration expiration) {
     String key = generateKey(code);
 
-    System.out.println("인증 코드 : " + code);
+    log.debug("인증 코드 {}" ,code);
 
     /**
      * key : email:verify:{code}
      * value : userId
      */
     redisTemplate.opsForValue().set(key, userId, expiration);
+    log.debug("인증 코드 저장 완료");
   }
 
   /**

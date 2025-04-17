@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.List;
 import javax.crypto.SecretKey;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -31,6 +32,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class JwtTokenProvider {
 
   private final UpdateTokenUseCase updateTokenUseCase;
@@ -154,19 +156,19 @@ public class JwtTokenProvider {
           .build()
           .parseClaimsJws(token);
 
-      System.out.println("검증됨");
+      log.info("토큰 검증됨");
 
       return true;
 
       /*토큰 만료*/
     } catch (ExpiredJwtException e) {
-      System.out.println("토큰 만료됨");
+      log.info("토큰 만료됨");
 
       throw new TokenException(ErrorCode.TOKEN_EXPIRED);
 
       /*기타 예외*/
     } catch (Exception e) {
-      System.out.println("검증 안 됨");
+      log.info("토큰 검증 안 됨");
 
       throw new TokenException(ErrorCode.TOKEN_INVALID);
     }

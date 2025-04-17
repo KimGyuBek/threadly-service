@@ -8,6 +8,7 @@ import jakarta.mail.internet.MimeMessage;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
@@ -16,6 +17,7 @@ import org.thymeleaf.context.Context;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class MailClient implements SendMailPort {
 
   private final JavaMailSender mailSender;
@@ -37,7 +39,8 @@ public class MailClient implements SendMailPort {
     try {
       sendMail(subject, context);
 
-      System.out.println("인증 메일 전송 완료 : " + verifyUrl);
+      log.info("인증 메일 전송 완료");
+      log.debug("verifyUrl : " + verifyUrl);
 
     } catch (Exception e) {
       throw new EmailVerificationException(ErrorCode.EMAIL_SENDING_FAILED);
@@ -53,6 +56,7 @@ public class MailClient implements SendMailPort {
 
       sendMail(subject, context);
 
+      log.info("인증 확인 메일 전송 완료");
     } catch (Exception e) {
       throw new EmailVerificationException(ErrorCode.EMAIL_SENDING_FAILED);
     }

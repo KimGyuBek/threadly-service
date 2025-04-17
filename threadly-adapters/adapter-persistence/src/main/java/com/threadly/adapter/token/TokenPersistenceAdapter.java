@@ -8,10 +8,12 @@ import com.threadly.token.Token;
 import com.threadly.token.UpdateTokenPort;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
+@Slf4j
 public class TokenPersistenceAdapter implements FetchTokenPort, UpdateTokenPort {
 
   private final TokenJpaRepository tokenJpaRepository;
@@ -52,7 +54,7 @@ public class TokenPersistenceAdapter implements FetchTokenPort, UpdateTokenPort 
           token.getRefreshTokenExpiresAt()
       );
 
-      System.out.println("토큰 업데이트 :" + tokenEntity.toString());
+      log.info("토큰 업데이트 됨");
 
     } else {
       /*토큰이 없으면*/
@@ -69,7 +71,8 @@ public class TokenPersistenceAdapter implements FetchTokenPort, UpdateTokenPort 
       /*token save*/
       tokenJpaRepository.save(tokenEntity);
 
-      System.out.println("새로운 토큰 생성 :" + tokenEntity.toString());
+      log.info("새로운 토큰 생성");
+      log.debug("new Token : {}", token);
     }
 
     return token;

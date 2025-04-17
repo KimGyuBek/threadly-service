@@ -4,6 +4,7 @@ import com.threadly.ErrorCode;
 import com.threadly.exception.authentication.UserAuthenticationException;
 import com.threadly.exception.mail.EmailVerificationException;
 import com.threadly.exception.user.UserException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
  * Global Exception Handler
  */
 @RestControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
   /*Valid*/
@@ -35,7 +37,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
   public ResponseEntity<ErrorResponse> handleUserAuthenticationException(
       UserAuthenticationException ex,
       WebRequest request) {
-    System.out.println(ex.getMessage());
+    log.info(ex.getMessage());
 
     return ResponseEntity
         .status(ex.getErrorCode().getHttpStatus())
