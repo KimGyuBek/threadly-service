@@ -1,4 +1,4 @@
-package com.threadly.token.response;
+package com.threadly.auth.token.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

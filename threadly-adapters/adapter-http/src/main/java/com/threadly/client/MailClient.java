@@ -27,8 +27,10 @@ public class MailClient implements SendMailPort {
 
     MimeMessage mimeMessage = mailSender.createMimeMessage();
 
+    String verifyUrl = "http://localhost:8080/api/auth/verify-email?code=" + code;
+
     Map<String, Object> values = new HashMap<>();
-    values.put("code", code);
+    values.put("verifyUrl", verifyUrl);
 
     String subject = "[Threadly] 본인 인증을 위한 메일입니다.";
 

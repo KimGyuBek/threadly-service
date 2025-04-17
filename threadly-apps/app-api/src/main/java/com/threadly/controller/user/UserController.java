@@ -1,12 +1,14 @@
 package com.threadly.controller.user;
 
+import com.threadly.annotation.PasswordEncryption;
 import com.threadly.controller.user.request.UserRegisterRequest;
 import com.threadly.user.RegisterUserUseCase;
 import com.threadly.user.command.UserRegistrationCommand;
 import com.threadly.user.response.UserRegistrationResponse;
-import com.threadly.verification.EmailVerificationUseCase;
+import com.threadly.auth.verification.EmailVerificationUseCase;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,7 +48,11 @@ public class UserController {
     emailVerificationUseCase.sendVerificationEmail(response.getUserId());
 
     return response;
+
   }
+
+
+//
 
 
 }

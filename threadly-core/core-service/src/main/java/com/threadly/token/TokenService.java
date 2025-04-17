@@ -1,7 +1,8 @@
 package com.threadly.token;
 
-import com.threadly.token.response.TokenResponse;
-import com.threadly.token.response.UpdateTokenUseCase;
+import com.threadly.auth.token.FetchTokenUseCase;
+import com.threadly.auth.token.response.TokenResponse;
+import com.threadly.auth.token.response.UpdateTokenUseCase;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

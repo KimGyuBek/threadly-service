@@ -1,7 +1,4 @@
-package com.threadly.token;
-
-import com.threadly.token.response.TokenResponse;
-import com.threadly.user.response.UserResponse;
+package com.threadly.auth.token;
 
 public interface FetchTokenUseCase {
 

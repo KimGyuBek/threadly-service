@@ -2,7 +2,7 @@ package com.threadly.config;
 
 import com.threadly.filter.CustomAuthenticationEntryPoint;
 import com.threadly.filter.JwtAuthenticationFilter;
-import jakarta.servlet.http.HttpServletResponse;
+import com.threadly.filter.VerificationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +18,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
   private final JwtAuthenticationFilter jwtAuthenticationFilter;
+  private final VerificationFilter verificationFilter;
+
   private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
   @Bean
@@ -30,33 +32,31 @@ public class SecurityConfig {
     http.authorizeHttpRequests(
         auth -> auth.requestMatchers(
                 "/api/users",
-            "/api/auth/**"
+                "/api/auth/verify-email",
+                "/api/auth/login"
             ).permitAll()
             .anyRequest().authenticated()
     );
 
-    /*모든 요청 허용*/
-//    http.authorizeHttpRequests(
-//        auth -> auth.anyRequest().permitAll()
-//    );
+
+
+    /*VerificationFilter 등록*/
+    http.addFilterBefore(verificationFilter, UsernamePasswordAuthenticationFilter.class);
 
     /*jwt authentication filter 등록*/
     http.addFilterBefore(jwtAuthenticationFilter,
-        UsernamePasswordAuthenticationFilter.class);
+        VerificationFilter.class);
 
     /*Exception Handling*/
-    /*401*/
     http.exceptionHandling(
         exception -> exception.authenticationEntryPoint(
             customAuthenticationEntryPoint
         )
     );
 
-    /*TODO 403*/
-
     return http.build();
-
   }
+
 
   @Bean
   public PasswordEncoder passwordEncoder() {

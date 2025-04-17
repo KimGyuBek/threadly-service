@@ -14,6 +14,7 @@ public class UserResponse {
   private String phone;
   private String userType;
   private boolean isActive;
+  private boolean isEmailVerified;
 
 
 }

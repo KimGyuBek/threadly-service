@@ -2,7 +2,6 @@ package com.threadly.filter;
 
 import com.threadly.ErrorCode;
 import com.threadly.auth.JwtTokenProvider;
-import com.threadly.exception.token.TokenErrorType;
 import com.threadly.exception.token.TokenException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -15,6 +14,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+/**
+ * Jwt 인증 필터
+ */
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -22,30 +24,34 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
   private final JwtTokenProvider jwtTokenProvider;
 
   @Override
+  protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+    return
+        FilterBypassMatcher.shouldBypass(request.getRequestURI());
+  }
+
+  @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
       FilterChain filterChain) throws ServletException, IOException {
     try {
       String token = resolveToken(request);
 
-      /*토큰이 존재한다면*/
-      if (token != null) {
+      /*토큰이 검증되면*/
+      if (jwtTokenProvider.validateToken(token)) {
+        Authentication authentication = jwtTokenProvider.getAuthentication(token);
 
+        /*인증*/
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        /*토큰이 검증되면*/
-        if (jwtTokenProvider.validateToken(token)) {
-          Authentication authentication = jwtTokenProvider.getAuthentication(token);
-
-          /*인증*/
-          SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        }
       }
+
 
     } catch (TokenException e) {
       request.setAttribute("exception", e);
+      throw e;
 
     } catch (Exception e) {
       request.setAttribute("exception", e);
+      throw e;
     }
 
     filterChain.doFilter(request, response);

@@ -1,6 +1,7 @@
 package com.threadly.verification;
 
 import com.threadly.ErrorCode;
+import com.threadly.auth.verification.EmailVerificationUseCase;
 import com.threadly.exception.mail.EmailVerificationException;
 import com.threadly.exception.user.UserException;
 import com.threadly.mail.SendMailPort;
@@ -55,6 +56,9 @@ public class EmailVerificationService implements EmailVerificationUseCase {
 
     /*db 업데이트*/
     userEmailVerificationPort.updateEmailVerification(user);
+
+    /*redis에서 코드 삭제*/
+    emailVerificationPort.deleteCode(code);
   }
 
   @Override

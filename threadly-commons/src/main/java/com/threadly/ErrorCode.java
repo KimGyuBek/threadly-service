@@ -28,6 +28,7 @@ public enum ErrorCode {
   USER_ALREADY_DELETED("TLY2012", "이미 삭제된 사용자입니다.", HttpStatus.BAD_REQUEST),
   EMAIL_NOT_VERIFIED("TLY2013", "이메일 인증이 필요합니다.", HttpStatus.UNAUTHORIZED),
   EMAIL_VERIFICATION_FAILED("TLY2014", "이메일 인증에 실패했습니다.", HttpStatus.BAD_REQUEST),
+  SECOND_VERIFICATION_FAILED("TLY2015", "2차 인증에 실패했습니다.", HttpStatus.BAD_REQUEST),
 
 
   /*Token*/

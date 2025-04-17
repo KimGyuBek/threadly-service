@@ -1,11 +1,10 @@
 package com.threadly.auth;
 
 import com.threadly.ErrorCode;
-import com.threadly.exception.token.TokenErrorType;
 import com.threadly.exception.token.TokenException;
-import com.threadly.token.FetchTokenUseCase;
-import com.threadly.token.response.TokenResponse;
-import com.threadly.token.response.UpdateTokenUseCase;
+import com.threadly.auth.token.FetchTokenUseCase;
+import com.threadly.auth.token.response.TokenResponse;
+import com.threadly.auth.token.response.UpdateTokenUseCase;
 import com.threadly.user.FetchUserUseCase;
 import com.threadly.user.response.UserResponse;
 import io.jsonwebtoken.Claims;
@@ -89,6 +88,16 @@ public class JwtTokenProvider {
   }
 
   /**
+   * jwt 토큰 생성
+   * @param userId
+   * @return
+   */
+  public String generateToken(String userId) {
+    String token =  getToken(userId, Duration.ofMinutes(5));
+    return token;
+  }
+
+  /**
    * upsert Token
    *
    * @param userId
@@ -135,16 +144,16 @@ public class JwtTokenProvider {
   /**
    * validate Token
    *
-   * @param accessToken
+   * @param token
    * @return
    */
-  public boolean validateToken(String accessToken) {
+  public boolean validateToken(String token) {
 
     try {
       Jwts.parserBuilder()
           .setSigningKey(getSigningKey())
           .build()
-          .parseClaimsJws(accessToken);
+          .parseClaimsJws(token);
 
       System.out.println("검증됨");
 

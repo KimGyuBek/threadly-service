@@ -70,6 +70,7 @@ public class UserService implements RegisterUserUseCase, FetchUserUseCase, Updat
             .phone(user.getPhone())
             .userType(user.getUserType().name())
             .isActive(user.isActive())
+            .isEmailVerified(user.isEmailVerified())
             .build();
 
   }

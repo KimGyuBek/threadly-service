@@ -1,4 +1,4 @@
-package com.threadly.verification;
+package com.threadly.auth.verification;
 
 public interface EmailVerificationUseCase {
 
