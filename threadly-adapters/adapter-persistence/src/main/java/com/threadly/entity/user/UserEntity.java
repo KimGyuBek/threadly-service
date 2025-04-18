@@ -3,6 +3,7 @@ package com.threadly.entity.user;
 import com.threadly.entity.BaseEntity;
 import com.threadly.user.UserType;
 import com.threadly.user.response.UserPortResponse;
+import com.threadly.util.RandomUtils;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -92,10 +93,11 @@ public class UserEntity extends BaseEntity {
 
   }
 
+  /*TODO db pk와 외부 조회용 id 분리 고려*/
   private UserEntity(String userName, String password, String email, String phone,
       UserType userType,
       boolean isActive, boolean isEmailVerified) {
-    this.userId = UUID.randomUUID().toString();
+    this.userId = RandomUtils.generateNanoId();
     this.userName = userName;
     this.password = password;
     this.email = email;

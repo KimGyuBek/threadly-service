@@ -3,6 +3,7 @@ package com.threadly.entity.token;
 import com.threadly.entity.BaseEntity;
 import com.threadly.token.response.TokenPortResponse;
 import com.threadly.user.UserType;
+import com.threadly.util.RandomUtils;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -10,7 +11,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
-import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -80,7 +80,7 @@ public class TokenEntity extends BaseEntity {
       UserType userType, LocalDateTime accessTokenExpiresAt, LocalDateTime refreshTokenExpiresAt
   ) {
     return new TokenEntity(
-        UUID.randomUUID().toString(),
+        RandomUtils.generateNanoId(),
         userId,
         accessToken,
         refreshToken,
