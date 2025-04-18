@@ -1,10 +1,9 @@
 package com.threadly.auth;
 
 import com.threadly.ErrorCode;
-import com.threadly.properties.TtlProperties;
-import com.threadly.exception.token.TokenException;
 import com.threadly.auth.token.response.TokenResponse;
-import com.threadly.auth.token.response.UpdateTokenUseCase;
+import com.threadly.exception.token.TokenException;
+import com.threadly.properties.TtlProperties;
 import com.threadly.user.FetchUserUseCase;
 import com.threadly.user.response.UserResponse;
 import io.jsonwebtoken.Claims;
@@ -35,7 +34,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class JwtTokenProvider {
 
-  private final UpdateTokenUseCase updateTokenUseCase;
+  //  private final UpdateTokenUseCase updateTokenUseCase;
   private final FetchUserUseCase fetchUserUseCase;
 
   private final TtlProperties ttlProperties;
@@ -91,28 +90,30 @@ public class JwtTokenProvider {
 
   /**
    * jwt 토큰 생성
+   *
    * @param userId
    * @param duration
    * @return
    */
   public String generateToken(String userId, Duration duration) {
-    String token =  getToken(userId, duration);
+    String token = getToken(userId, duration);
     return token;
   }
 
   /**
-   * upsert Token
+   * login 토큰 생성
    *
    * @param userId
    * @return
    */
-  public TokenResponse upsertToken(String userId) {
+  public TokenResponse generateLoginToken(String userId) {
     String accessToken = getToken(userId, ttlProperties.getAccessToken());
     String refreshToken = getToken(userId, ttlProperties.getRefreshToken());
 
-    TokenResponse tokenResponse = updateTokenUseCase.upsertToken(userId, accessToken, refreshToken);
-
-    return tokenResponse;
+    return TokenResponse.builder()
+        .accessToken(accessToken)
+        .refreshToken(refreshToken)
+        .build();
   }
 
   /**

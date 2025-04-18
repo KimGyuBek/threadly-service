@@ -109,7 +109,7 @@ public class AuthService implements PasswordVerificationUseCase {
           .authenticate(authenticationToken);
 
       /*토큰 생성*/
-      TokenResponse tokenResponse = jwtTokenProvider.upsertToken(userId);
+      TokenResponse tokenResponse = jwtTokenProvider.generateLoginToken(userId);
 
       /*SecurityContextHolder에 인증 정보 저장*/
       SecurityContextHolder.getContext().setAuthentication(authenticate);
