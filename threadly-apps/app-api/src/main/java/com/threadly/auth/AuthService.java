@@ -7,6 +7,7 @@ import com.threadly.auth.verification.response.PasswordVerificationToken;
 import com.threadly.controller.auth.request.UserLoginRequest;
 import com.threadly.exception.authentication.UserAuthenticationException;
 import com.threadly.exception.user.UserException;
+import com.threadly.properties.TtlProperties;
 import com.threadly.user.FetchUserUseCase;
 import com.threadly.user.response.UserResponse;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,7 @@ public class AuthService implements PasswordVerificationUseCase {
   private final FetchUserUseCase fetchUserUseCase;
 
   private final JwtTokenProvider jwtTokenProvider;
+  private final TtlProperties ttlProperties;
 
   @Override
   public PasswordVerificationToken getPasswordVerificationToken(String userId, String password) {
@@ -45,7 +47,8 @@ public class AuthService implements PasswordVerificationUseCase {
           .authenticate(authenticationToken);
 
       /*토큰 생성*/
-      String tokenResponse = jwtTokenProvider.generateToken(userId);
+      String tokenResponse = jwtTokenProvider.generateToken(userId,
+          ttlProperties.getPasswordVerification());
 
       /*SecurityContextHolder에 인증 정보 저장*/
       SecurityContextHolder.getContext().setAuthentication(authenticate);

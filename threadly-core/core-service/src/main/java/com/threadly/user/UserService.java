@@ -15,11 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class UserService implements RegisterUserUseCase, FetchUserUseCase{
+public class UserService implements RegisterUserUseCase, FetchUserUseCase {
 
   private final InsertUserPort insertUserPort;
   private final FetchUserPort fetchUserPort;
-  private final UserEmailVerificationPort updateUserPort;
 
 
   @Transactional
@@ -43,8 +42,6 @@ public class UserService implements RegisterUserUseCase, FetchUserUseCase{
     );
 
     UserPortResponse userPortResponse = insertUserPort.create(user);
-
-    /*email 인증 코드 생성 및 메일 전송*/
 
     log.info("회원 가입 성공");
 

@@ -11,3 +11,12 @@ jwt:
     access-token: 1
     refresh-token: 24
 
+
+properties:
+  ttl:
+    access-token: 15
+    refresh-token: 360
+    blacklist-token: 15
+    email-verification: 15
+    password-verification: 5
+

@@ -1,8 +1,8 @@
 package com.threadly.auth;
 
 import com.threadly.ErrorCode;
+import com.threadly.properties.TtlProperties;
 import com.threadly.exception.token.TokenException;
-import com.threadly.auth.token.FetchTokenUseCase;
 import com.threadly.auth.token.response.TokenResponse;
 import com.threadly.auth.token.response.UpdateTokenUseCase;
 import com.threadly.user.FetchUserUseCase;
@@ -36,8 +36,9 @@ import org.springframework.stereotype.Component;
 public class JwtTokenProvider {
 
   private final UpdateTokenUseCase updateTokenUseCase;
-
   private final FetchUserUseCase fetchUserUseCase;
+
+  private final TtlProperties ttlProperties;
 
   @Value("${jwt.secret}")
   private String secretKey;
@@ -91,10 +92,11 @@ public class JwtTokenProvider {
   /**
    * jwt 토큰 생성
    * @param userId
+   * @param duration
    * @return
    */
-  public String generateToken(String userId) {
-    String token =  getToken(userId, Duration.ofMinutes(5));
+  public String generateToken(String userId, Duration duration) {
+    String token =  getToken(userId, duration);
     return token;
   }
 
@@ -105,8 +107,8 @@ public class JwtTokenProvider {
    * @return
    */
   public TokenResponse upsertToken(String userId) {
-    String accessToken = getToken(userId, Duration.ofHours(3));
-    String refreshToken = getToken(userId, Duration.ofHours(12));
+    String accessToken = getToken(userId, ttlProperties.getAccessToken());
+    String refreshToken = getToken(userId, ttlProperties.getRefreshToken());
 
     TokenResponse tokenResponse = updateTokenUseCase.upsertToken(userId, accessToken, refreshToken);
 
@@ -126,7 +128,7 @@ public class JwtTokenProvider {
    *
    * @return
    */
-  private String getToken(String userId, Duration expireAt) {
+  private String getToken(String userId, Duration duration) {
     Date now = new Date();
     Instant instant = now.toInstant();
 
@@ -136,7 +138,7 @@ public class JwtTokenProvider {
             .claim("userType", "USER")
             .setIssuedAt(now)
             .setExpiration(
-                Date.from(Instant.from(instant.plus(expireAt)))
+                Date.from(Instant.from(instant.plus(duration)))
             )
             .signWith(getSigningKey(), SignatureAlgorithm.HS256)
             .compact();

@@ -28,7 +28,7 @@ public class EmailVerificationRepository implements EmailVerificationPort {
   public void saveCode(String userId, String code, Duration expiration) {
     String key = generateKey(code);
 
-    log.debug("인증 코드 {}" ,code);
+    log.debug("인증 코드 {}", code);
 
     /**
      * key : email:verify:{code}
@@ -50,7 +50,7 @@ public class EmailVerificationRepository implements EmailVerificationPort {
     String userId = (String) redisTemplate.opsForValue().get(key);
 
     /*만료 되었거나 해당하는 사용자가 없는 경우*/
-    if(userId == null) {
+    if (userId == null) {
       throw new EmailVerificationException(ErrorCode.EMAIL_CODE_INVALID);
     }
 

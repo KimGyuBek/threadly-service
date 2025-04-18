@@ -5,6 +5,7 @@ import com.threadly.auth.verification.EmailVerificationUseCase;
 import com.threadly.exception.mail.EmailVerificationException;
 import com.threadly.exception.user.UserException;
 import com.threadly.mail.SendMailPort;
+import com.threadly.properties.TtlProperties;
 import com.threadly.user.FetchUserPort;
 import com.threadly.user.User;
 import com.threadly.user.UserEmailVerificationPort;
@@ -26,12 +27,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class EmailVerificationService implements EmailVerificationUseCase {
 
   private final com.threadly.verification.EmailVerificationPort emailVerificationPort;
-
   private final SendMailPort sendMailPort;
-
   private final UserEmailVerificationPort userEmailVerificationPort;
-
   private final FetchUserPort fetchUserPort;
+
+  private final TtlProperties ttlProperties;
 
   /*만료 시간*/
   private static final Duration EXPIRATION = Duration.ofMinutes(5);
@@ -84,7 +84,7 @@ public class EmailVerificationService implements EmailVerificationUseCase {
     log.debug("인증 코드 : {}" , code);
 
     /*인증 코드 저장*/
-    emailVerificationPort.saveCode(userId, code, EXPIRATION);
+    emailVerificationPort.saveCode(userId, code, ttlProperties.getAccessToken());
 
     /*메일 전송*/
     sendMailPort.sendVerificationMail(userId, code);
