@@ -26,10 +26,13 @@ allprojects {
 subprojects {
     apply(plugin = "io.freefair.lombok")
 
+    tasks.withType<Test> {
+        useJUnitPlatform()
+    }
 }
 
 dependencies {
-    testImplementation(platform("org.junit:junit-bom:5.9.1"))
+    testImplementation(platform("org.junit:junit-bom:5.10.2"))
     testImplementation("org.junit.jupiter:junit-jupiter")
 }
 
@@ -42,10 +45,6 @@ configureByLabels("java") {
     configure<JavaPluginExtension> {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
-    }
-
-    tasks.withType<Test> {
-        useJUnitPlatform()
     }
 
     the<io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension>().apply {
@@ -62,15 +61,16 @@ configureByLabels("java") {
             dependency("org.mapstruct:mapstruct-processor:${Versions.mapstruct}")
             dependency("com.fasterxml.jackson.core:jackson-databind:${Versions.jacksonCore}")
 
-            dependency("org.junit.jupiter:junit-jupiter-api:${Versions.junit}")
-            dependency("org.junit.jupiter:junit-jupiter-params:${Versions.junit}")
-            dependency("org.junit.jupiter:junit-jupiter-engine:${Versions.junit}")
+            dependency("org.junit.jupiter:junit-jupiter-api:5.10.2")
+            dependency("org.junit.jupiter:junit-jupiter-params:5.10.2")
+            dependency("org.junit.jupiter:junit-jupiter-engine:5.10.2")
             dependency("org.assertj:assertj-core:${Versions.assertjCore}")
             dependency("org.mockito:mockito-junit-jupiter:${Versions.mockitoCore}")
 
             dependency("com.epages:restdocs-api-spec:${Versions.restdocsApiSpec}")
             dependency("com.epages:restdocs-api-spec-mockmvc:${Versions.restdocsApiSpec}")
             dependency("com.epages:restdocs-api-spec-restassured:${Versions.restdocsApiSpec}")
+
 
             dependencySet("io.jsonwebtoken:${Versions.jwt}") {
                 entry("jjwt-api")
@@ -98,28 +98,20 @@ configureByLabels("java") {
 
         annotationProcessor("org.mapstruct:mapstruct-processor")
 
-//        testImplementation ("org.springframework.boot:spring-boot-starter-test")
-//        testImplementation ("org.junit.jupiter:junit-jupiter-api:5.11.4")
-//        testImplementation ("org.junit.jupiter:junit-jupiter-engine:5.11.4")
-
-        testImplementation("org.junit.jupiter:junit-jupiter-api")
         testImplementation("org.assertj:assertj-core")
-        testImplementation("org.junit.jupiter:junit-jupiter-params")
         testImplementation("org.mockito:mockito-core")
         testImplementation("org.mockito:mockito-junit-jupiter")
         testImplementation("com.navercorp.fixturemonkey:fixture-monkey-starter")
         testImplementation("com.h2database:h2")
         testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 
-        integrationImplementation("org.junit.jupiter:junit-jupiter-api")
-        integrationImplementation("org.junit.jupiter:junit-jupiter-params")
-        integrationImplementation("org.assertj:assertj-core")
-        integrationRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+        testImplementation("org.springframework.boot:spring-boot-starter-test")
 
         compileOnly("org.projectlombok:lombok")
         annotationProcessor("org.projectlombok:lombok")
     }
 }
+
 
 configureByLabels("boot") {
     apply(plugin = "org.springframework.boot")

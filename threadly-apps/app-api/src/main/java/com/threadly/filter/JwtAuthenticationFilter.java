@@ -5,6 +5,7 @@ import com.threadly.auth.JwtTokenProvider;
 import com.threadly.exception.authentication.UserAuthenticationException;
 import com.threadly.exception.token.TokenException;
 import com.threadly.exception.user.UserException;
+import com.threadly.user.FetchUserUseCase;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

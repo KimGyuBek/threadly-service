@@ -6,6 +6,6 @@ dependencies{
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
 
-    implementation("org.springframework.boot:spring-boot-starter-data-redis")
 
+    testImplementation("it.ozimov:embedded-redis:0.7.2")
 }

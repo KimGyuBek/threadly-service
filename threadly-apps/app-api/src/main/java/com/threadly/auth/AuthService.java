@@ -10,10 +10,11 @@ import com.threadly.exception.authentication.UserAuthenticationException;
 import com.threadly.exception.token.TokenException;
 import com.threadly.exception.user.UserException;
 import com.threadly.properties.TtlProperties;
-import com.threadly.token.DeleteTokenPort;
 import com.threadly.token.FetchTokenPort;
 import com.threadly.token.InsertRefreshToken;
 import com.threadly.token.InsertTokenPort;
+import com.threadly.token.UpsertRefreshToken;
+import com.threadly.token.UpsertToken;
 import com.threadly.user.FetchUserUseCase;
 import com.threadly.user.response.UserResponse;
 import lombok.RequiredArgsConstructor;
@@ -40,7 +41,7 @@ public class AuthService implements LoginUserUseCase, PasswordVerificationUseCas
 
   private final FetchTokenPort fetchTokenPort;
   private final InsertTokenPort insertTokenPort;
-  private final DeleteTokenPort deleteTokenPort;
+  private final UpsertToken upsertTokenPort;
 
   private final JwtTokenProvider jwtTokenProvider;
   private final TtlProperties ttlProperties;
@@ -119,6 +120,23 @@ public class AuthService implements LoginUserUseCase, PasswordVerificationUseCas
       /*토큰 생성*/
       LoginTokenResponse tokenResponse = jwtTokenProvider.generateLoginToken(userId);
 
+      /*토큰 저장*/
+//      insertTokenPort.save(
+//          InsertRefreshToken.builder()
+//              .refreshToken(tokenResponse.getRefreshToken())
+//              .userId(userId)
+//              .duration(ttlProperties.getRefreshToken())
+//              .build()
+//      );
+
+      /*토큰 저장*/
+      upsertTokenPort.upsertRefreshToken(UpsertRefreshToken.builder()
+          .userId(userId)
+              .refreshToken(tokenResponse.getRefreshToken())
+              .duration(ttlProperties.getRefreshToken())
+          .build());
+
+
       /*SecurityContextHolder에 인증 정보 저장*/
       SecurityContextHolder.getContext().setAuthentication(authenticate);
       log.info("로그인 성공");
@@ -182,16 +200,17 @@ public class AuthService implements LoginUserUseCase, PasswordVerificationUseCas
 
       log.info("로그인 토큰 재발급됨");
 
-      insertTokenPort.save(InsertRefreshToken.builder()
-          .refreshToken(refreshToken)
-          .userId(userId)
-          .duration(ttlProperties.getRefreshToken())
-          .build());
-      log.debug("재발급 토큰 저장");
 
-      /*기존 토큰 삭제*/
-      deleteTokenPort.deleteRefreshToken(refreshToken);
-      log.debug("기존 토큰 삭제");
+      /*기존 토큰 덮어쓰기*/
+      upsertTokenPort.upsertRefreshToken(
+          UpsertRefreshToken.builder()
+              .userId(userId)
+              .refreshToken(loginTokenResponse.getRefreshToken())
+              .duration(ttlProperties.getRefreshToken())
+              .build()
+      );
+
+      log.debug("기존 토큰 대치 성공");
 
       return TokenReissueResponse.builder()
           .accessToken(loginTokenResponse.getAccessToken())

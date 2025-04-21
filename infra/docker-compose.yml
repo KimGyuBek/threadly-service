@@ -29,6 +29,12 @@ services:
     volumes:
       - ./data/threadly-redis:/data
 
+  redis-test:
+    image: redis:latest
+    container_name: threadly-redis-test
+    ports:
+      - 6380:6379
+
 
   prometheus:
     image: prom/prometheus:v2.29.1

@@ -4,8 +4,6 @@ import com.threadly.ErrorCode;
 import com.threadly.auth.token.response.LoginTokenResponse;
 import com.threadly.exception.token.TokenException;
 import com.threadly.properties.TtlProperties;
-import com.threadly.token.FetchTokenPort;
-import com.threadly.token.InsertRefreshToken;
 import com.threadly.token.InsertTokenPort;
 import com.threadly.user.FetchUserUseCase;
 import com.threadly.user.response.UserResponse;
@@ -38,7 +36,6 @@ public class JwtTokenProvider {
 
   private final FetchUserUseCase fetchUserUseCase;
   private final InsertTokenPort insertTokenPort;
-  private final FetchTokenPort fetchTokenPort;
 
   private final TtlProperties ttlProperties;
 
@@ -98,12 +95,6 @@ public class JwtTokenProvider {
   public LoginTokenResponse generateLoginToken(String userId) {
     String accessToken = getToken(userId, ttlProperties.getAccessToken());
     String refreshToken = getToken(userId, ttlProperties.getRefreshToken());
-
-    insertTokenPort.save(InsertRefreshToken.builder()
-        .userId(userId)
-        .refreshToken(refreshToken)
-        .duration(ttlProperties.getRefreshToken())
-        .build());
 
     return LoginTokenResponse.builder()
         .accessToken(accessToken)
