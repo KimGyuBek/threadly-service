@@ -99,10 +99,6 @@ public class AuthService implements LoginUserUseCase, PasswordVerificationUseCas
       /*사용자 조회*/
       UserResponse findUser = fetchUserUseCase.findUserByEmail(email);
 
-      /*email 인증이 되어있는지 검증*/
-      if (!findUser.isEmailVerified()) {
-        throw new UserAuthenticationException(ErrorCode.EMAIL_NOT_VERIFIED);
-      }
 
       String userId = findUser.getUserId();
 
@@ -115,6 +111,11 @@ public class AuthService implements LoginUserUseCase, PasswordVerificationUseCas
       /*인증 시도*/
       Authentication authenticate = authenticationManagerBuilder.getObject()
           .authenticate(authenticationToken);
+
+      /*email 인증이 되어있는지 검증*/
+      if (!findUser.isEmailVerified()) {
+        throw new UserAuthenticationException(ErrorCode.EMAIL_NOT_VERIFIED);
+      }
 
       /*토큰 생성*/
       LoginTokenResponse tokenResponse = jwtTokenProvider.generateLoginToken(userId);
