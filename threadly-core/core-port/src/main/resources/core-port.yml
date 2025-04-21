@@ -1,0 +1,16 @@
+spring:
+  mail:
+    host: smtp.naver.com
+    port: 587
+    username: ${mail.name}
+    password: ${mail.password}
+    properties:
+      mail:
+        smtp:
+          debug: true
+          auth: true
+        starttls:
+          enable: true
+
+mail:
+  from: rlarbqor00@naver.com

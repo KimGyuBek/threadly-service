@@ -1,7 +1,7 @@
 object Versions {
     const val springBoot = "3.3.3"
     const val springDependencyManagementPlugin = "1.1.6"
-    const val lombokPlugin = "6.6.1"
+    const val lombokPlugin = "8.6"
     const val integrationTestPlugin = "1.4.0"
     const val restdocsApiSpec = "0.16.2"
     const val asciidoctorPlugin = "3.3.2"

@@ -1,0 +1,7 @@
+logging:
+  level:
+    root: warn
+    com.threadly: info
+    org.springframework: warn
+    org.hibernate.SQL: warn
+    org.hibernate.type.descriptor.sql.BasicBinder: warn
