@@ -11,7 +11,6 @@ import com.threadly.exception.token.TokenException;
 import com.threadly.exception.user.UserException;
 import com.threadly.properties.TtlProperties;
 import com.threadly.token.FetchTokenPort;
-import com.threadly.token.InsertRefreshToken;
 import com.threadly.token.InsertTokenPort;
 import com.threadly.token.UpsertRefreshToken;
 import com.threadly.token.UpsertToken;
@@ -121,19 +120,10 @@ public class AuthService implements LoginUserUseCase, PasswordVerificationUseCas
       LoginTokenResponse tokenResponse = jwtTokenProvider.generateLoginToken(userId);
 
       /*토큰 저장*/
-//      insertTokenPort.save(
-//          InsertRefreshToken.builder()
-//              .refreshToken(tokenResponse.getRefreshToken())
-//              .userId(userId)
-//              .duration(ttlProperties.getRefreshToken())
-//              .build()
-//      );
-
-      /*토큰 저장*/
       upsertTokenPort.upsertRefreshToken(UpsertRefreshToken.builder()
           .userId(userId)
-              .refreshToken(tokenResponse.getRefreshToken())
-              .duration(ttlProperties.getRefreshToken())
+          .refreshToken(tokenResponse.getRefreshToken())
+          .duration(ttlProperties.getRefreshToken())
           .build());
 
 
