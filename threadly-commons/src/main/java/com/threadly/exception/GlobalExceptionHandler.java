@@ -3,6 +3,7 @@ package com.threadly.exception;
 import com.threadly.ErrorCode;
 import com.threadly.exception.authentication.UserAuthenticationException;
 import com.threadly.exception.mail.EmailVerificationException;
+import com.threadly.exception.token.TokenException;
 import com.threadly.exception.user.UserException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -37,7 +38,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
   public ResponseEntity<ErrorResponse> handleUserAuthenticationException(
       UserAuthenticationException ex,
       WebRequest request) {
-    log.info(ex.getMessage());
 
     return ResponseEntity
         .status(ex.getErrorCode().getHttpStatus())
@@ -59,4 +59,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     return ResponseEntity.status(ex.getErrorCode().getHttpStatus())
         .body(new ErrorResponse(ex.getErrorCode()));
   }
+
+  /*Token Exception*/
+  @ExceptionHandler(TokenException.class)
+  public ResponseEntity<ErrorResponse> handleTokenException(TokenException ex, WebRequest request) {
+    return ResponseEntity.status(ex.getErrorCode().getHttpStatus())
+        .body(new ErrorResponse(ex.getErrorCode()));
+  }
+
 }

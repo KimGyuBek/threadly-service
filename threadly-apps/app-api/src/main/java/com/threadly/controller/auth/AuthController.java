@@ -1,8 +1,8 @@
 package com.threadly.controller.auth;
 
 import com.threadly.auth.AuthService;
-import com.threadly.auth.JwtTokenProvider;
-import com.threadly.auth.token.response.TokenResponse;
+import com.threadly.auth.token.response.LoginTokenResponse;
+import com.threadly.auth.token.response.TokenReissueResponse;
 import com.threadly.auth.verification.EmailVerificationUseCase;
 import com.threadly.auth.verification.PasswordVerificationUseCase;
 import com.threadly.auth.verification.response.PasswordVerificationToken;
@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,12 +24,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthController {
 
-  private final AuthService authService;
 
   private final EmailVerificationUseCase emailVerificationUseCase;
   private final PasswordVerificationUseCase passwordVerificationUseCase;
+  private final AuthService authService;
 
-  private final JwtTokenProvider jwtTokenProvider;
 
   /**
    * 로그인
@@ -37,8 +37,21 @@ public class AuthController {
    * @return
    */
   @PostMapping("/login")
-  public TokenResponse login(@RequestBody UserLoginRequest userLoginRequest) {
-    return authService.login(userLoginRequest);
+  public LoginTokenResponse login(@RequestBody UserLoginRequest userLoginRequest) {
+    return authService.login(userLoginRequest.getEmail(), userLoginRequest.getPassword());
+  }
+
+  /**
+   * refreshToken으로 login Token 재발급
+   *
+   * @param refreshToken
+   * @return
+   */
+  @PostMapping("/reissue")
+  public TokenReissueResponse reissueAccessToken(
+      @RequestHeader(value = "X-refresh-token") String refreshToken) {
+    return
+        authService.reissueLoginToken(refreshToken);
   }
 
   /**

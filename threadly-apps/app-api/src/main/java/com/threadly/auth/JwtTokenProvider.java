@@ -1,9 +1,12 @@
 package com.threadly.auth;
 
 import com.threadly.ErrorCode;
-import com.threadly.auth.token.response.TokenResponse;
+import com.threadly.auth.token.response.LoginTokenResponse;
 import com.threadly.exception.token.TokenException;
 import com.threadly.properties.TtlProperties;
+import com.threadly.token.FetchTokenPort;
+import com.threadly.token.InsertRefreshToken;
+import com.threadly.token.InsertTokenPort;
 import com.threadly.user.FetchUserUseCase;
 import com.threadly.user.response.UserResponse;
 import io.jsonwebtoken.Claims;
@@ -24,7 +27,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -34,31 +36,17 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class JwtTokenProvider {
 
-  //  private final UpdateTokenUseCase updateTokenUseCase;
   private final FetchUserUseCase fetchUserUseCase;
+  private final InsertTokenPort insertTokenPort;
+  private final FetchTokenPort fetchTokenPort;
 
   private final TtlProperties ttlProperties;
 
   @Value("${jwt.secret}")
   private String secretKey;
 
-  /**
-   * accessToken에서 userId 추출
-   *
-   * @param accessToken
-   * @return
-   */
-  private String getUserId(String accessToken) {
-    Claims body = Jwts.parserBuilder()
-        .setSigningKey(getSigningKey())
-        .build()
-        .parseClaimsJws(accessToken)
-        .getBody();
 
-    return
-        body.get("userId", String.class);
-  }
-
+  /*TODO 위치 옮기기*/
   public Authentication getAuthentication(String accessToken) {
 
     /*accessToken으로 사용자 조회*/
@@ -88,6 +76,7 @@ public class JwtTokenProvider {
 
   }
 
+
   /**
    * jwt 토큰 생성
    *
@@ -106,44 +95,22 @@ public class JwtTokenProvider {
    * @param userId
    * @return
    */
-  public TokenResponse generateLoginToken(String userId) {
+  public LoginTokenResponse generateLoginToken(String userId) {
     String accessToken = getToken(userId, ttlProperties.getAccessToken());
     String refreshToken = getToken(userId, ttlProperties.getRefreshToken());
 
-    return TokenResponse.builder()
+    insertTokenPort.save(InsertRefreshToken.builder()
+        .userId(userId)
+        .refreshToken(refreshToken)
+        .duration(ttlProperties.getRefreshToken())
+        .build());
+
+    return LoginTokenResponse.builder()
         .accessToken(accessToken)
         .refreshToken(refreshToken)
         .build();
   }
 
-  /**
-   * SiginingKey 생성
-   */
-  private SecretKey getSigningKey() {
-    byte[] keyBytes = Decoders.BASE64.decode(secretKey);
-    return Keys.hmacShaKeyFor(keyBytes);
-  }
-
-  /**
-   * Token 생성
-   *
-   * @return
-   */
-  private String getToken(String userId, Duration duration) {
-    Date now = new Date();
-    Instant instant = now.toInstant();
-
-    return
-        Jwts.builder()
-            .claim("userId", userId)
-            .claim("userType", "USER")
-            .setIssuedAt(now)
-            .setExpiration(
-                Date.from(Instant.from(instant.plus(duration)))
-            )
-            .signWith(getSigningKey(), SignatureAlgorithm.HS256)
-            .compact();
-  }
 
   /**
    * validate Token
@@ -178,9 +145,50 @@ public class JwtTokenProvider {
 
   }
 
-  public String getUserId() {
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+  /**
+   * accessToken에서 userId 추출
+   *
+   * @param accessToken
+   * @return
+   */
+  private String getUserId(String accessToken) {
+    Claims body = Jwts.parserBuilder()
+        .setSigningKey(getSigningKey())
+        .build()
+        .parseClaimsJws(accessToken)
+        .getBody();
 
-    return (String) auth.getCredentials();
+    return
+        body.get("userId", String.class);
   }
+
+  /**
+   * SiginingKey 생성
+   */
+  private SecretKey getSigningKey() {
+    byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+    return Keys.hmacShaKeyFor(keyBytes);
+  }
+
+  /**
+   * Token 생성
+   *
+   * @return
+   */
+  private String getToken(String userId, Duration duration) {
+    Date now = new Date();
+    Instant instant = now.toInstant();
+
+    return
+        Jwts.builder()
+            .claim("userId", userId)
+            .claim("userType", "USER")
+            .setIssuedAt(now)
+            .setExpiration(
+                Date.from(Instant.from(instant.plus(duration)))
+            )
+            .signWith(getSigningKey(), SignatureAlgorithm.HS256)
+            .compact();
+  }
+
 }

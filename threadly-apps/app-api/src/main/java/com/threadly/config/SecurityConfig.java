@@ -33,7 +33,8 @@ public class SecurityConfig {
         auth -> auth.requestMatchers(
                 "/api/users",
                 "/api/auth/verify-email",
-                "/api/auth/login"
+                "/api/auth/login",
+                "/api/auth/reissue"
             ).permitAll()
             .anyRequest().authenticated()
     );

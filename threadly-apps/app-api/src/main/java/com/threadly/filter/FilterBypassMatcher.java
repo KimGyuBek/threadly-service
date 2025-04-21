@@ -12,7 +12,8 @@ public class FilterBypassMatcher {
   public static final List<String> WHITE_LIST = List.of(
       "/api/users",
       "/api/auth/verify-email",
-      "/api/auth/login"
+      "/api/auth/login",
+      "/api/auth/reissue"
   );
 
   private static final AntPathMatcher PATH_MATCHER = new AntPathMatcher();

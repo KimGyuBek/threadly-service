@@ -1,4 +1,4 @@
-package com.threadly.repository;
+package com.threadly.repository.email;
 
 import com.threadly.ErrorCode;
 import com.threadly.exception.mail.EmailVerificationException;

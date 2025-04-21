@@ -1,13 +1,19 @@
 package com.threadly.auth;
 
 import com.threadly.ErrorCode;
-import com.threadly.auth.token.response.TokenResponse;
+import com.threadly.auth.token.response.LoginTokenResponse;
+import com.threadly.auth.token.response.TokenReissueResponse;
+import com.threadly.auth.verification.LoginUserUseCase;
 import com.threadly.auth.verification.PasswordVerificationUseCase;
 import com.threadly.auth.verification.response.PasswordVerificationToken;
-import com.threadly.controller.auth.request.UserLoginRequest;
 import com.threadly.exception.authentication.UserAuthenticationException;
+import com.threadly.exception.token.TokenException;
 import com.threadly.exception.user.UserException;
 import com.threadly.properties.TtlProperties;
+import com.threadly.token.DeleteTokenPort;
+import com.threadly.token.FetchTokenPort;
+import com.threadly.token.InsertRefreshToken;
+import com.threadly.token.InsertTokenPort;
 import com.threadly.user.FetchUserUseCase;
 import com.threadly.user.response.UserResponse;
 import lombok.RequiredArgsConstructor;
@@ -22,14 +28,19 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+/*TODO 이름 변경*/
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class AuthService implements PasswordVerificationUseCase {
+public class AuthService implements LoginUserUseCase, PasswordVerificationUseCase {
 
   private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
   private final FetchUserUseCase fetchUserUseCase;
+
+  private final FetchTokenPort fetchTokenPort;
+  private final InsertTokenPort insertTokenPort;
+  private final DeleteTokenPort deleteTokenPort;
 
   private final JwtTokenProvider jwtTokenProvider;
   private final TtlProperties ttlProperties;
@@ -79,13 +90,10 @@ public class AuthService implements PasswordVerificationUseCase {
   /**
    * login
    *
-   * @param request
    * @return
    */
-  public TokenResponse login(UserLoginRequest request) {
-
-    String email = request.getEmail();
-    String password = request.getPassword();
+  @Override
+  public LoginTokenResponse login(String email, String password) {
 
     try {
       /*사용자 조회*/
@@ -109,7 +117,7 @@ public class AuthService implements PasswordVerificationUseCase {
           .authenticate(authenticationToken);
 
       /*토큰 생성*/
-      TokenResponse tokenResponse = jwtTokenProvider.generateLoginToken(userId);
+      LoginTokenResponse tokenResponse = jwtTokenProvider.generateLoginToken(userId);
 
       /*SecurityContextHolder에 인증 정보 저장*/
       SecurityContextHolder.getContext().setAuthentication(authenticate);
@@ -143,6 +151,58 @@ public class AuthService implements PasswordVerificationUseCase {
       log.error(e.getMessage());
       throw new UserAuthenticationException(ErrorCode.AUTHENTICATION_ERROR);
     }
+
+  }
+
+  /**
+   * login token 재발급
+   *
+   * @return
+   */
+  public TokenReissueResponse reissueLoginToken(String refreshToken) {
+    try {
+      /*refreshToken이 null일 경우*/
+      if (refreshToken == null) {
+        throw new TokenException(ErrorCode.TOKEN_MISSING);
+      }
+
+      /*refrehToken으로 userId 조회*/
+      String userId = fetchTokenPort.findUserIdByRefreshToken(refreshToken);
+
+      /*userId가 null일 경우*/
+      if (userId == null) {
+        throw new TokenException(ErrorCode.TOKEN_INVALID);
+      }
+
+      /*refreshToken 검증*/
+      jwtTokenProvider.validateToken(refreshToken);
+
+      /*login Token 재생성*/
+      LoginTokenResponse loginTokenResponse = jwtTokenProvider.generateLoginToken(userId);
+
+      log.info("로그인 토큰 재발급됨");
+
+      insertTokenPort.save(InsertRefreshToken.builder()
+          .refreshToken(refreshToken)
+          .userId(userId)
+          .duration(ttlProperties.getRefreshToken())
+          .build());
+      log.debug("재발급 토큰 저장");
+
+      /*기존 토큰 삭제*/
+      deleteTokenPort.deleteRefreshToken(refreshToken);
+      log.debug("기존 토큰 삭제");
+
+      return TokenReissueResponse.builder()
+          .accessToken(loginTokenResponse.getAccessToken())
+          .refreshToken(loginTokenResponse.getRefreshToken())
+          .build();
+
+    } catch (Exception e) {
+      log.error(e.getMessage());
+      throw e;
+    }
+
 
   }
 

@@ -4,19 +4,12 @@ import java.util.Optional;
 
 public interface FetchTokenPort {
 
-  /**
-   * userId로 token 조회
-   * @param userId
-   * @return
-   */
-  Optional<Token> findByUserId(String userId);
 
   /**
-   * accessToken으로 userId 조회
-   * @param accessToken
+   * refreshToken으로 userId 조회
+   * @param refreshToken
    * @return
    */
-  Optional<String> findUserIdByAccessToken(String accessToken);
-
+  String findUserIdByRefreshToken(String refreshToken);
 
 }
