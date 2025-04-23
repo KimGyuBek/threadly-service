@@ -2,10 +2,10 @@ package com.threadly.filter;
 
 import com.threadly.ErrorCode;
 import com.threadly.auth.JwtTokenProvider;
-import com.threadly.exception.authentication.UserAuthenticationException;
+import com.threadly.auth.exception.TokenAuthenticationException;
+import com.threadly.auth.exception.UserAuthenticationException;
 import com.threadly.exception.token.TokenException;
 import com.threadly.exception.user.UserException;
-import com.threadly.user.FetchUserUseCase;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,6 +25,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
   private final JwtTokenProvider jwtTokenProvider;
+
+  private final CustomAuthenticationEntryPoint authenticationEntryPoint;
 
   @Override
   protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
@@ -50,15 +52,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       /*사용자가 없는 경우*/
     } catch (UserException e) {
       UserAuthenticationException exception = new UserAuthenticationException(e.getErrorCode());
-      request.setAttribute("exception", exception);
-      throw exception;
+      authenticationEntryPoint.commence(request, response, exception);
+      return;
 
     } catch (TokenException e) {
-      request.setAttribute("exception", e);
-      throw e;
+      TokenAuthenticationException exception = new TokenAuthenticationException(e.getErrorCode());
+      authenticationEntryPoint.commence(request, response, exception);
+      return;
 
     } catch (Exception e) {
-      request.setAttribute("exception", e);
       throw e;
     }
 

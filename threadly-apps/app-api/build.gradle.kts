@@ -8,6 +8,7 @@ dependencies {
     implementation(project(":threadly-adapters:adapter-http"))
     implementation(project(":threadly-adapters:adapter-persistence"))
     implementation(project(":threadly-adapters:adapter-redis"))
+    implementation(project(":threadly-core:core-domain:"))
 
 
     implementation("org.springframework.boot:spring-boot-starter-aop")
@@ -17,6 +18,8 @@ dependencies {
     implementation("org.springframework.security:spring-security-oauth2-client")
     implementation("org.springframework.data:spring-data-commons")
     implementation("org.springframework.boot:spring-boot-starter-validation")
+//    implementation("org.springframework:spring-context")
+    implementation("org.springframework:spring-tx")
 
 
     implementation("org.springframework.boot:spring-boot-starter-web")
@@ -37,4 +40,8 @@ val appMainClassName = "com.threadly.ThreadlyApplication"
 tasks.getByName<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
     mainClass.set(appMainClassName)
     archiveClassifier.set("boot")
+}
+
+tasks.withType<Test> {
+    systemProperty("spring.profiles.active", "test")
 }

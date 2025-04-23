@@ -5,3 +5,11 @@ logging:
     org.springframework: warn
     org.hibernate.SQL: warn
     org.hibernate.type.descriptor.sql.BasicBinder: warn
+
+properties:
+  ttl:
+    access-token: 15000
+    refresh-token: 60000
+    blacklist-token: 15000
+    email-verification: 15000
+    password-verification: 5000

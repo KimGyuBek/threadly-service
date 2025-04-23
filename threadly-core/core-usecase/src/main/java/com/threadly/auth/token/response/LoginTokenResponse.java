@@ -3,14 +3,16 @@ package com.threadly.auth.token.response;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class LoginTokenResponse {
 
-  private final String accessToken;
-  private final String refreshToken;
+  private  String accessToken;
+  private  String refreshToken;
 
 
 }
