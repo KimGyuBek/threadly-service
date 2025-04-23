@@ -1,11 +1,12 @@
-package com.threadly.exception.authentication;
+package com.threadly.auth.exception;
 
 import com.threadly.ErrorCode;
+import org.springframework.security.core.AuthenticationException;
 
 /**
  * 사용자 인증 관련 예외
  */
-public class UserAuthenticationException extends RuntimeException{
+public class UserAuthenticationException extends AuthenticationException {
 
   ErrorCode errorCode;
 

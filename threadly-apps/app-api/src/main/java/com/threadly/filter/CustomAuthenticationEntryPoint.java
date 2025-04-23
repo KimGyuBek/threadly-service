@@ -3,8 +3,8 @@ package com.threadly.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.threadly.ErrorCode;
-import com.threadly.exception.authentication.UserAuthenticationException;
-import com.threadly.exception.token.TokenException;
+import com.threadly.auth.exception.TokenAuthenticationException;
+import com.threadly.auth.exception.UserAuthenticationException;
 import com.threadly.response.ApiResponse;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,31 +28,27 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
   public void commence(HttpServletRequest request, HttpServletResponse response,
       AuthenticationException authException) throws IOException, ServletException {
 
-    Throwable exception = (Throwable) request.getAttribute("exception");
-    response.setContentType("application/json; charset=utf-8");
+    /*TokenAuthenticationException일 경우*/
+    if (authException instanceof TokenAuthenticationException) {
+      ErrorCode errorCode = ((TokenAuthenticationException) authException).getErrorCode();
 
-    /*TokenException일경우*/
-    if (exception instanceof TokenException) {
-      ErrorCode errorCode = ((TokenException) exception).getErrorCode();
+      response.setStatus(errorCode.getHttpStatus().value());
+      objectMapper.writeValue(response.getWriter(),
+          ApiResponse.fail(errorCode));
 
+      /*UserAuthenticationException일 경우*/
+    } else if (authException instanceof UserAuthenticationException) {
+      ErrorCode errorCode = ((UserAuthenticationException) authException).getErrorCode();
       response.setStatus(errorCode.getHttpStatus().value());
       objectMapper.writeValue(response.getWriter(),
           ApiResponse.fail(errorCode));
 
       /*나머지 예외*/
-    } else if (exception instanceof UserAuthenticationException) {
-      ErrorCode errorCode = ((UserAuthenticationException) exception).getErrorCode();
-      response.setStatus(errorCode.getHttpStatus().value());
-      objectMapper.writeValue(response.getWriter(),
-          ApiResponse.fail(errorCode));
-
-
     } else {
       ErrorCode errorCode = ErrorCode.INTERNAL_SERVER_ERROR;
       response.setStatus(errorCode.getHttpStatus().value());
       objectMapper.writeValue(response.getWriter(),
           ApiResponse.fail(errorCode));
-
     }
 
   }
