@@ -10,6 +10,7 @@ import com.threadly.exception.authentication.UserAuthenticationException;
 import com.threadly.exception.token.TokenException;
 import com.threadly.exception.user.UserException;
 import com.threadly.properties.TtlProperties;
+import com.threadly.repository.token.TokenRepository;
 import com.threadly.token.FetchTokenPort;
 import com.threadly.token.InsertTokenPort;
 import com.threadly.token.UpsertRefreshToken;
@@ -44,6 +45,7 @@ public class AuthService implements LoginUserUseCase, PasswordVerificationUseCas
 
   private final JwtTokenProvider jwtTokenProvider;
   private final TtlProperties ttlProperties;
+  private final TokenRepository tokenRepository;
 
   @Override
   public PasswordVerificationToken getPasswordVerificationToken(String userId, String password) {
@@ -176,11 +178,11 @@ public class AuthService implements LoginUserUseCase, PasswordVerificationUseCas
       }
 
       /*refrehToken으로 userId 조회*/
-      String userId = fetchTokenPort.findUserIdByRefreshToken(refreshToken);
+      String userId = jwtTokenProvider.getUserId(refreshToken);
 
-      /*userId가 null일 경우*/
-      if (userId == null) {
-        throw new TokenException(ErrorCode.TOKEN_INVALID);
+      /*refreshToken이 저장되어 있는지 검증*/
+      if(!fetchTokenPort.existsRefreshTokenByUserId(userId)) {
+        throw new TokenException(ErrorCode.TOKEN_MISSING);
       }
 
       /*refreshToken 검증*/
