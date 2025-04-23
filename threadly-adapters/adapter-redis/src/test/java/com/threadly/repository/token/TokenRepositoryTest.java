@@ -1,11 +1,15 @@
 package com.threadly.repository.token;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.threadly.token.UpsertRefreshToken;
 import java.time.Duration;
+import net.bytebuddy.utility.dispatcher.JavaDispatcher.Container;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,24 +31,24 @@ class TokenRepositoryTest {
 
   private final Duration duration = Duration.ofSeconds(5);
 
-  /**
-   * RefreshToken upserting 테스트
-   * [Case #1] 이미 저장된 토큰이 있는 경우 
-   * [Case #2] 저장 된 토큰이 없는 경우
-   * @throws Exception
-   */
+  @BeforeEach
+  void clearRedis() {
+    redisTemplate.getConnectionFactory().getConnection().flushAll();
+  }
+
+  /* upsertRefreshToken 테스트 */
+  /* [Case #1] 이미 저장된 토큰이 있는 경우 */
+  @DisplayName("upsertRefreshToken - 이미 저장된 토큰이 있는 경우")
   @Test
-  public void upsertRefreshToken_deletesOldReverseKey_andStoresNewToken_whenOldTokenExists() throws Exception {
+  public void upsertRefreshToken_shouldStoreNewToken_whenOldTokenExists() throws Exception {
     //given
     String userId = "user1";
-    String refreshToken = "refreshToken";
+    String oldRefreshToken = "oldRefreshToken";
     String newRefreshToken = "newRefreshToken";
 
     String key = "token:refresh:" + userId;
-    String reverseKey = "token:reverse:" + newRefreshToken;
 
-    redisTemplate.opsForValue().set(key, refreshToken);
-    redisTemplate.opsForValue().set(reverseKey, userId);
+    redisTemplate.opsForValue().set(key, oldRefreshToken);
 
     //when
     tokenRepository.upsertRefreshToken(
@@ -56,22 +60,19 @@ class TokenRepositoryTest {
     );
 
     //then
-    assertAll(
-        () -> assertEquals(redisTemplate.opsForValue().get(key), newRefreshToken),
-        () -> assertEquals(redisTemplate.opsForValue().get(reverseKey), userId),
-        () -> assertThat(redisTemplate.hasKey("token:reverse:" + refreshToken)).isFalse()
-    );
+    assertEquals(redisTemplate.opsForValue().get(key), newRefreshToken);
   }
 
+  /* [Case #2] 저장 된 토큰이 없는 경우*/
+  @DisplayName("upsertRefreshToken - 이미 저장된 토큰이 없는 경우")
   @Test
-  public void upsertToken_storesNewToken_andReverseKey_whenOldTokenNotExists
-      () throws Exception {
+  public void upsertToken_shouldStoreNewToken_whenOldTokenNotExists
+  () throws Exception {
     //given
     String userId = "user1";
     String refreshToken = "newRefreshToken";
 
     String key = "token:refresh:" + userId;
-    String reverseKey = "token:reverse:" + refreshToken;
 
     //when
     tokenRepository.upsertRefreshToken(
@@ -83,13 +84,43 @@ class TokenRepositoryTest {
     );
 
     //then
-    assertAll(
-        () -> assertThat(redisTemplate.opsForValue().get(key)).isEqualTo(refreshToken),
-        () -> assertThat(redisTemplate.opsForValue().get(reverseKey)).isEqualTo(userId)
-    );
-
+    assertThat(redisTemplate.opsForValue().get(key)).isEqualTo(refreshToken);
   }
 
+  /*existsRefreshToken 테스트*/
+  /*[Case #1] userId로 저장된 토큰이 있을 경우 true 리턴*/
+  @DisplayName("existsRefreshToken - userId가 존재할 경우, true 리턴")
+  @Test
+  public void existsRefreshToken_shouldReturnTrue_whenUserIdExists() throws Exception {
+    //given
+    String userId = "user1";
+    String refreshToken = "refreshToken";
+    String key = "token:refresh:" + userId;
+
+    redisTemplate.opsForValue().set(key, refreshToken);
+
+    //when
+    boolean result = tokenRepository.existsRefreshTokenByUserId(userId);
+
+    //then
+    assertTrue(result);
+  }
+
+  /*[Case #2] userId로 저장된 토큰이 있을 경우 false 리턴*/
+  @DisplayName("existsRefreshToken - userId가 존재하지 않을 경우, false 리턴")
+  @Test
+  public void existsRefreshToken_shouldReturnFalse_whenUserIdNotExists() throws Exception {
+    //given
+    String userId = "user1";
+    String key = "token:refresh:" + userId;
+
+    //when
+    boolean result = tokenRepository.existsRefreshTokenByUserId(userId);
+
+    //then
+    assertFalse(result);
+
+  }
 
 }
 

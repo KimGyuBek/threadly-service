@@ -139,14 +139,14 @@ public class JwtTokenProvider {
   /**
    * accessToken에서 userId 추출
    *
-   * @param accessToken
+   * @param token
    * @return
    */
-  private String getUserId(String accessToken) {
+  public String getUserId(String token) {
     Claims body = Jwts.parserBuilder()
         .setSigningKey(getSigningKey())
         .build()
-        .parseClaimsJws(accessToken)
+        .parseClaimsJws(token)
         .getBody();
 
     return
