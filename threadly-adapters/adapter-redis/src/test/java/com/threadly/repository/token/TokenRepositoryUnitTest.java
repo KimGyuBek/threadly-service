@@ -1,7 +1,8 @@
 package com.threadly.repository.token;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.never;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -37,40 +38,36 @@ class TokenRepositoryUnitTest {
    * [Case #2] userId가 없는 경우
    */
   @Test
-  public void findUserByRefreshToken_shouldReturnUserId_ifUserIdExists() throws Exception {
+  public void existsRefreshTokenByUserId_shouldReturnTrue_ifUserIdExists() throws Exception {
     //given
-    String refreshToken = "refreshToken";
-    String key = "token:reverse:" + refreshToken;
     String userId = "userId";
+    String key = "token:refresh:" + userId;
 
-    when(redisTemplate.opsForValue()).thenReturn(valueOperations);
-    when(valueOperations.get(key)).thenReturn(userId);
+    when(redisTemplate.hasKey(key)).thenReturn(true);
 
     //when
-    String result = tokenRepository.findUserIdByRefreshToken(refreshToken);
+    boolean result = tokenRepository.existsRefreshTokenByUserId(userId);
 
     //then
-    verify(redisTemplate.opsForValue()).get(key);
-    assertThat(result).isEqualTo(userId);
+    verify(redisTemplate).hasKey(key);
+    assertThat(result).isTrue();
 
   }
 
   @Test
-  public void findUserByRefreshToken_shouldReturnNull_ifUserNotExists() throws Exception {
+  public void existsRefreshToken_shouldReturnFalse_ifUserNotExists() throws Exception {
     //given
-    String refreshToken = "refreshToken";
-    String key = "token:reverse:" + refreshToken;
     String userId = "userId";
+    String key = "token:refresh:" + userId;
 
-    when(redisTemplate.opsForValue()).thenReturn(valueOperations);
-    when(valueOperations.get(key)).thenReturn(null);
+    when(redisTemplate.hasKey(key)).thenReturn(false);
 
     //when
-    String result = tokenRepository.findUserIdByRefreshToken(refreshToken);
+    boolean result = tokenRepository.existsRefreshTokenByUserId(userId);
 
     //then
-    verify(redisTemplate.opsForValue()).get(key);
-    assertThat(result).isNull();
+    verify(redisTemplate).hasKey(key);
+    assertFalse(result);
 
   }
 
@@ -82,17 +79,14 @@ class TokenRepositoryUnitTest {
    * @throws Exception
    */
   @Test
-  public void upsertToken_deleteOldReverseKey_andStoresNewToken_andRefreshToken_whenOldTokenExists
+  public void upsertToken_shouldStoreRefreshToken_whenOldTokenExists
   () throws Exception {
     //given
     String userId = "user1";
-    String oldRefreshToken = "oldRefreshToken";
     String newRefreshToken = "newRefreshToken";
     Duration duration = Duration.ofMillis(5);
 
     String key = "token:refresh:" + userId;
-    String oldReverseKey = "token:reverse:" + oldRefreshToken;
-    String newReverseKey = "token:reverse:" + newRefreshToken;
 
     UpsertRefreshToken request = UpsertRefreshToken.builder()
         .userId(userId)
@@ -101,19 +95,16 @@ class TokenRepositoryUnitTest {
         .build();
 
     when(redisTemplate.opsForValue()).thenReturn(valueOperations);
-    when(valueOperations.get(key)).thenReturn(oldRefreshToken);
 
     //when
     tokenRepository.upsertRefreshToken(request);
 
     //then
-    verify(redisTemplate).delete(oldReverseKey);
-    verify(redisTemplate.opsForValue()).set(key, newRefreshToken, duration);
-    verify(redisTemplate.opsForValue()).set(newReverseKey, userId, duration);
+    verify(redisTemplate.opsForValue()).set(key,newRefreshToken, duration);
   }
 
   @Test
-  public void upsertToken_storesNewRefreshToken_andReverseMap_whenOldTokenNotExits()
+  public void upsertToken_shouldStoreRefreshToken_whenOldTokenNotExits()
       throws Exception {
     //given
     String userId = "user1";
@@ -121,10 +112,9 @@ class TokenRepositoryUnitTest {
     Duration duration = Duration.ofMillis(5);
 
     String key = "token:refresh:" + userId;
-    String reverseKey = "token:reverse:" + newRefreshToken;
 
     when(redisTemplate.opsForValue()).thenReturn(valueOperations);
-    when(valueOperations.get(key)).thenReturn(null);
+
     //when
     tokenRepository.upsertRefreshToken(
         UpsertRefreshToken.builder()
@@ -135,10 +125,7 @@ class TokenRepositoryUnitTest {
     );
 
     //then
-    verify(redisTemplate, never()).delete(reverseKey);
     verify(redisTemplate.opsForValue()).set(key, newRefreshToken, duration);
-    verify(redisTemplate.opsForValue()).set(reverseKey, userId, duration);
-
   }
 }
 

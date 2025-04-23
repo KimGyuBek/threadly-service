@@ -10,8 +10,8 @@ import com.threadly.exception.authentication.UserAuthenticationException;
 import com.threadly.exception.token.TokenException;
 import com.threadly.exception.user.UserException;
 import com.threadly.properties.TtlProperties;
+import com.threadly.repository.token.TokenRepository;
 import com.threadly.token.FetchTokenPort;
-import com.threadly.token.InsertRefreshToken;
 import com.threadly.token.InsertTokenPort;
 import com.threadly.token.UpsertRefreshToken;
 import com.threadly.token.UpsertToken;
@@ -45,6 +45,7 @@ public class AuthService implements LoginUserUseCase, PasswordVerificationUseCas
 
   private final JwtTokenProvider jwtTokenProvider;
   private final TtlProperties ttlProperties;
+  private final TokenRepository tokenRepository;
 
   @Override
   public PasswordVerificationToken getPasswordVerificationToken(String userId, String password) {
@@ -100,10 +101,6 @@ public class AuthService implements LoginUserUseCase, PasswordVerificationUseCas
       /*사용자 조회*/
       UserResponse findUser = fetchUserUseCase.findUserByEmail(email);
 
-      /*email 인증이 되어있는지 검증*/
-      if (!findUser.isEmailVerified()) {
-        throw new UserAuthenticationException(ErrorCode.EMAIL_NOT_VERIFIED);
-      }
 
       String userId = findUser.getUserId();
 
@@ -117,23 +114,19 @@ public class AuthService implements LoginUserUseCase, PasswordVerificationUseCas
       Authentication authenticate = authenticationManagerBuilder.getObject()
           .authenticate(authenticationToken);
 
+      /*email 인증이 되어있는지 검증*/
+      if (!findUser.isEmailVerified()) {
+        throw new UserAuthenticationException(ErrorCode.EMAIL_NOT_VERIFIED);
+      }
+
       /*토큰 생성*/
       LoginTokenResponse tokenResponse = jwtTokenProvider.generateLoginToken(userId);
 
       /*토큰 저장*/
-//      insertTokenPort.save(
-//          InsertRefreshToken.builder()
-//              .refreshToken(tokenResponse.getRefreshToken())
-//              .userId(userId)
-//              .duration(ttlProperties.getRefreshToken())
-//              .build()
-//      );
-
-      /*토큰 저장*/
       upsertTokenPort.upsertRefreshToken(UpsertRefreshToken.builder()
           .userId(userId)
-              .refreshToken(tokenResponse.getRefreshToken())
-              .duration(ttlProperties.getRefreshToken())
+          .refreshToken(tokenResponse.getRefreshToken())
+          .duration(ttlProperties.getRefreshToken())
           .build());
 
 
@@ -185,11 +178,11 @@ public class AuthService implements LoginUserUseCase, PasswordVerificationUseCas
       }
 
       /*refrehToken으로 userId 조회*/
-      String userId = fetchTokenPort.findUserIdByRefreshToken(refreshToken);
+      String userId = jwtTokenProvider.getUserId(refreshToken);
 
-      /*userId가 null일 경우*/
-      if (userId == null) {
-        throw new TokenException(ErrorCode.TOKEN_INVALID);
+      /*refreshToken이 저장되어 있는지 검증*/
+      if(!fetchTokenPort.existsRefreshTokenByUserId(userId)) {
+        throw new TokenException(ErrorCode.TOKEN_MISSING);
       }
 
       /*refreshToken 검증*/
