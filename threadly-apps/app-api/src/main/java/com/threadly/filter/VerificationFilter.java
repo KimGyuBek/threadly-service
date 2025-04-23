@@ -2,7 +2,7 @@ package com.threadly.filter;
 
 import com.threadly.ErrorCode;
 import com.threadly.auth.JwtTokenProvider;
-import com.threadly.exception.authentication.UserAuthenticationException;
+import com.threadly.auth.exception.UserAuthenticationException;
 import com.threadly.exception.token.TokenException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

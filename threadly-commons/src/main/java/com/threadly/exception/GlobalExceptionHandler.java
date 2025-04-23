@@ -1,7 +1,6 @@
 package com.threadly.exception;
 
 import com.threadly.ErrorCode;
-import com.threadly.exception.authentication.UserAuthenticationException;
 import com.threadly.exception.mail.EmailVerificationException;
 import com.threadly.exception.token.TokenException;
 import com.threadly.exception.user.UserException;
@@ -33,16 +32,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         .body(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR));
   }
 
-  /*User Authentication*/
-  @ExceptionHandler(UserAuthenticationException.class)
-  public ResponseEntity<ErrorResponse> handleUserAuthenticationException(
-      UserAuthenticationException ex,
-      WebRequest request) {
-
-    return ResponseEntity
-        .status(ex.getErrorCode().getHttpStatus())
-        .body(new ErrorResponse(ex.getErrorCode()));
-  }
+//  /*User Authentication*/
+//  @ExceptionHandler(UserException.class)
+//  public ResponseEntity<ErrorResponse> handleUserAuthenticationException(
+//      UserException ex,
+//      WebRequest request) {
+//
+//    return ResponseEntity
+//        .status(ex.getErrorCode().getHttpStatus())
+//        .body(new ErrorResponse(ex.getErrorCode()));
+//  }
 
   /*User*/
   @ExceptionHandler(UserException.class)

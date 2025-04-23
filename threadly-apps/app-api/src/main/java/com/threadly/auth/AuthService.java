@@ -1,12 +1,12 @@
 package com.threadly.auth;
 
 import com.threadly.ErrorCode;
+import com.threadly.auth.exception.UserAuthenticationException;
 import com.threadly.auth.token.response.LoginTokenResponse;
 import com.threadly.auth.token.response.TokenReissueResponse;
 import com.threadly.auth.verification.LoginUserUseCase;
 import com.threadly.auth.verification.PasswordVerificationUseCase;
 import com.threadly.auth.verification.response.PasswordVerificationToken;
-import com.threadly.exception.authentication.UserAuthenticationException;
 import com.threadly.exception.token.TokenException;
 import com.threadly.exception.user.UserException;
 import com.threadly.properties.TtlProperties;
