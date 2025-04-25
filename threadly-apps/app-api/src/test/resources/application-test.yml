@@ -14,8 +14,8 @@ logging:
 
 properties:
   ttl:
-    access-token: 2000
-    refresh-token: 5000
-    blacklist-token: 15
-    email-verification: 15
+    access-token: 2
+    refresh-token: 10
+    blacklist-token: 2
+    email-verification: 5
     password-verification: 5
