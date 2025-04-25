@@ -2,7 +2,7 @@ spring:
   config:
     import:
       - adapter-persistence.yml
-      - adapter-redis.yml
+#      - adapter-redis.yml
       - core-port.yml
 
 jwt:

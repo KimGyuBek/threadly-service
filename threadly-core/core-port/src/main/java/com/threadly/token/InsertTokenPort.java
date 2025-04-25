@@ -10,4 +10,10 @@ public interface InsertTokenPort {
    */
   void save(InsertRefreshToken insertRefreshToken);
 
+  /**
+   * accessToken을 블랙리스트 토큰으로 저장
+   * @param insertBlackListToken
+   */
+  void saveBlackListToken(InsertBlackListToken insertBlackListToken);
+
 }

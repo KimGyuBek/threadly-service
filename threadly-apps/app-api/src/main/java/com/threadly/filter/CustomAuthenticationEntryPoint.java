@@ -28,6 +28,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
   public void commence(HttpServletRequest request, HttpServletResponse response,
       AuthenticationException authException) throws IOException, ServletException {
 
+    response.setCharacterEncoding("UTF-8");
     /*TokenAuthenticationException일 경우*/
     if (authException instanceof TokenAuthenticationException) {
       ErrorCode errorCode = ((TokenAuthenticationException) authException).getErrorCode();

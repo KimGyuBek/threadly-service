@@ -1,3 +1,9 @@
+spring:
+  config:
+    import:
+      - adapter-persistence.yml
+      - adapter-redis-test.yml
+      - core-port.yml
 logging:
   level:
     root: info

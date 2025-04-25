@@ -33,10 +33,8 @@ class AuthServiceTest {
   @Autowired
   InsertTokenPort insertTokenPort;
 
-
   @Autowired
   private JwtTokenProvider jwtTokenProvider;
-
 
   /*reissueLogin 테스트*/
   /*[Case #1] 저장된 refreshToken이 없고 새로 발급하는 겨우*/
