@@ -8,8 +8,8 @@ logging:
 
 properties:
   ttl:
-    access-token: 15000
-    refresh-token: 60000
-    blacklist-token: 15000
-    email-verification: 15000
-    password-verification: 5000
+    access-token: 900
+    refresh-token: 1209600
+    blacklist-token: 900
+    email-verification: 600
+    password-verification: 600

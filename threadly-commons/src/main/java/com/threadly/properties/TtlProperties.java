@@ -19,22 +19,22 @@ public class TtlProperties {
   private long passwordVerification;
 
   public Duration getAccessToken() {
-    return Duration.ofMillis(accessToken);
+    return Duration.ofSeconds(accessToken);
   }
 
   public Duration getRefreshToken() {
-    return Duration.ofMillis(refreshToken);
+    return Duration.ofSeconds(refreshToken);
   }
 
   public Duration getBlacklistToken() {
-    return Duration.ofMillis(blacklistToken);
+    return Duration.ofSeconds(blacklistToken);
   }
 
   public Duration getEmailVerification() {
-    return Duration.ofMillis(emailVerification);
+    return Duration.ofSeconds(emailVerification);
   }
 
   public Duration getPasswordVerification() {
-    return Duration.ofMillis(passwordVerification);
+    return Duration.ofSeconds(passwordVerification);
   }
 }
