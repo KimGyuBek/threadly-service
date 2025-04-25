@@ -1,14 +1,9 @@
 package com.threadly.token;
 
+/**
+ * token 조회 port
+ */
 public interface FetchTokenPort {
-
-
-//  /**
-//   * refreshToken으로 userId 조회
-//   * @param refreshToken
-//   * @return
-//   */
-//  String findUserIdByRefreshToken(String refreshToken);
 
   /**
    * userId로 refreshToken 조회
@@ -23,5 +18,12 @@ public interface FetchTokenPort {
    * @return
    */
   String findRefreshTokenByUserId(String userId);
+
+  /**
+   * accessToken으로 blacklist 토큰이 존재하는지 조회
+   * @param accessToken
+   * @return
+   */
+  boolean existsBlackListTokenByAccessToken(String accessToken);
 
 }

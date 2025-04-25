@@ -1,4 +1,4 @@
-package com.threadly.scenario;
+package com.threadly.scenario.auth;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -19,9 +19,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * auth 시나리오 테스트
+ * auth - login 시나리오 테스트
  */
-public class AuthScenarioTest extends BaseApiTest {
+public class LoginScenarioTest extends BaseApiTest {
 
 
   /*token 시나리오 테스트*/
@@ -36,7 +36,7 @@ public class AuthScenarioTest extends BaseApiTest {
     //given
 
     /*로그인 요청 body*/
-    String requestJson = getLoginRequest("auth-scenario-user1@test.com", "1234");
+    String requestJson = getLoginRequest(USER_EMAIL_VERIFIED, "1234");
 
     //when
     /*1. 로그인 요청 전송*/
@@ -49,7 +49,8 @@ public class AuthScenarioTest extends BaseApiTest {
 
     /*2. "/" 접속*/
     System.out.println("path {'/'} 접속");
-    CommonResponse response = sendGetRequest(accessToken, "/", status().isNotFound());
+    CommonResponse response = sendGetRequest(accessToken, "/", status().isNotFound()
+        );
 
     //then
     assertAll(
@@ -67,7 +68,7 @@ public class AuthScenarioTest extends BaseApiTest {
   public void accessProtectedResource_sholudReturnUnAuthorized_whenAccessTokenNotExists()
       throws Exception {
     //given
-    String requestJson = getLoginRequest("auth-scenario-user1@test.com", "1234");
+    String requestJson = getLoginRequest(USER_EMAIL_VERIFIED, "1234");
 
     //when
     /*로그인*/
@@ -107,7 +108,7 @@ public class AuthScenarioTest extends BaseApiTest {
   public void accessProtectedResource_shouldSucceed_afterAccessTokenExpired_whenReissueAccessToken()
       throws Exception {
     //given
-    String loginRequestJson = getLoginRequest("auth-scenario-user1@test.com", "1234");
+    String loginRequestJson = getLoginRequest(USER_EMAIL_VERIFIED, "1234");
 
     //when
 
@@ -126,7 +127,7 @@ public class AuthScenarioTest extends BaseApiTest {
     /*accessToken 만료 후 '/' 접속*/
     System.out.println("path : / 접속");
     CommonResponse tokenExpiredResponse = sendGetRequest(
-        accessToken, "/", status().isUnauthorized());
+        accessToken, "/", status().isUnauthorized() );
 
     /*accessToken 재발급*/
     System.out.println("path : /api/auth/reissue 접속");

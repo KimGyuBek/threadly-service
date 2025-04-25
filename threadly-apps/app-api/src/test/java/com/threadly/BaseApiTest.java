@@ -2,12 +2,14 @@ package com.threadly;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.request;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.threadly.controller.auth.request.UserLoginRequest;
+import com.threadly.utils.TestLogUtils;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
@@ -32,21 +34,48 @@ public abstract class BaseApiTest {
   @Autowired
   private ObjectMapper objectMapper;
 
+  public final String USER_EMAIL_VERIFIED = "user_email_verified@test.com";
+  public final String USER_EMAIL_NOT_VERIFIED = "user_email_not_verified@test.com";
+  public final String PASSWORD = "1234";
+
   /**
    * login 요청
-   * @param invalidEmail
+   *
+   * @param expectedStatus
+   * @param email
    * @param password
    * @return
    * @throws Exception
    */
-  public <T> CommonResponse<T> sendLoginRequest(String invalidEmail, String password, TypeReference<CommonResponse<T>> typeRef)
+  public <T> CommonResponse<T> sendLoginRequest(String email, String password,
+      TypeReference<CommonResponse<T>> typeRef, ResultMatcher expectedStatus)
       throws Exception {
-    String loginRequest = getLoginRequest(invalidEmail, password);
-    CommonResponse<Object> loginResponse = sendPostRequest(loginRequest, "/api/auth/login",
-        status().isUnauthorized(),
-        new TypeReference<CommonResponse<Object>>() {
-        },
+    String loginRequest = getLoginRequest(email, password);
+    CommonResponse<T> loginResponse = sendPostRequest(loginRequest, "/api/auth/login",
+        expectedStatus,
+        typeRef,
         Map.of());
+    return (CommonResponse<T>) loginResponse;
+  }
+
+  /**
+   * 로그아웃 요청
+   * @param typeRef
+   * @param expectedStatus
+   * @param headers
+   * @return
+   * @param <T>
+   * @throws Exception
+   */
+  public <T> CommonResponse<T> sendLogoutRequest(
+      TypeReference<CommonResponse<T>> typeRef, ResultMatcher expectedStatus,
+      Map<String, String> headers)
+      throws Exception {
+    CommonResponse<T> loginResponse = sendPostRequest("", "/api/auth/logout",
+        expectedStatus,
+        typeRef,
+        headers
+    );
     return (CommonResponse<T>) loginResponse;
   }
 
@@ -67,11 +96,13 @@ public abstract class BaseApiTest {
         get(path)
             .header("Authorization", bearerToken)
     ).andExpect(expectedStatus).andReturn();
+    TestLogUtils.log(result);
 
     return
         getResponse(result, new TypeReference<>() {
         });
   }
+
 
   /**
    * post 요청 전송
@@ -95,9 +126,9 @@ public abstract class BaseApiTest {
             .contentType(MediaType.APPLICATION_JSON)
             .content(requestJson)
     ).andExpect(expectedStatus).andReturn();
+    TestLogUtils.log(result);
 
     return getResponse(result, typeRef);
-
   }
 
   /**

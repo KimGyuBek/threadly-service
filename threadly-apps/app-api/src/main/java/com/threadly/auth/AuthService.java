@@ -10,8 +10,9 @@ import com.threadly.auth.verification.response.PasswordVerificationToken;
 import com.threadly.exception.token.TokenException;
 import com.threadly.exception.user.UserException;
 import com.threadly.properties.TtlProperties;
-import com.threadly.repository.token.TokenRepository;
+import com.threadly.token.DeleteTokenPort;
 import com.threadly.token.FetchTokenPort;
+import com.threadly.token.InsertBlackListToken;
 import com.threadly.token.InsertTokenPort;
 import com.threadly.token.UpsertRefreshToken;
 import com.threadly.token.UpsertToken;
@@ -42,10 +43,10 @@ public class AuthService implements LoginUserUseCase, PasswordVerificationUseCas
   private final FetchTokenPort fetchTokenPort;
   private final InsertTokenPort insertTokenPort;
   private final UpsertToken upsertTokenPort;
+  private final DeleteTokenPort deleteTokenPort;
 
   private final JwtTokenProvider jwtTokenProvider;
   private final TtlProperties ttlProperties;
-  private final TokenRepository tokenRepository;
 
   @Override
   public PasswordVerificationToken getPasswordVerificationToken(String userId, String password) {
@@ -100,7 +101,6 @@ public class AuthService implements LoginUserUseCase, PasswordVerificationUseCas
     try {
       /*사용자 조회*/
       UserResponse findUser = fetchUserUseCase.findUserByEmail(email);
-
 
       String userId = findUser.getUserId();
 
@@ -181,7 +181,7 @@ public class AuthService implements LoginUserUseCase, PasswordVerificationUseCas
       String userId = jwtTokenProvider.getUserId(refreshToken);
 
       /*refreshToken이 저장되어 있는지 검증*/
-      if(!fetchTokenPort.existsRefreshTokenByUserId(userId)) {
+      if (!fetchTokenPort.existsRefreshTokenByUserId(userId)) {
         throw new TokenException(ErrorCode.TOKEN_MISSING);
       }
 
@@ -214,8 +214,43 @@ public class AuthService implements LoginUserUseCase, PasswordVerificationUseCas
       log.error(e.getMessage());
       throw e;
     }
+  }
 
+  public void logout(String token) {
 
+    /*header에 토큰이 존재하지 않을경우*/
+    if (!token.startsWith("Bearer")) {
+      throw new TokenException(ErrorCode.TOKEN_MISSING);
+    }
+
+    /*accessToken 추출*/
+    String accessToken = token.substring(7);
+
+    /*accessToken 검증*/
+    jwtTokenProvider.validateToken(accessToken);
+
+    /*tokne으로 부터 userId 추출*/
+    String userId = jwtTokenProvider.getUserId(accessToken);
+    log.debug("userId = " + userId);
+
+    /*redis에 저장*/
+    insertTokenPort.saveBlackListToken(
+        InsertBlackListToken.builder()
+            .userId(userId)
+            .accessToken(accessToken)
+            .duration(ttlProperties.getBlacklistToken())
+            .build()
+    );
+
+    /*refreshToken 삭제*/
+    deleteTokenPort.deleteRefreshToken(userId);
+
+    log.info("로그아웃 성공");
+  }
+
+  public boolean isBlacklisted(String token) {
+    return
+        fetchTokenPort.existsBlackListTokenByAccessToken(token);
   }
 
 }
