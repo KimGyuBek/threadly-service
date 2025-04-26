@@ -16,7 +16,6 @@ import com.threadly.auth.verification.response.PasswordVerificationToken;
 import com.threadly.controller.auth.request.PasswordVerificationRequest;
 import java.util.HashMap;
 import java.util.Map;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,7 +30,7 @@ public class PasswordVerificationScenarioTest extends BaseApiTest {
   @DisplayName("사용자 정보 업데이트 경로 접근 허용 테스트")
   @Test
   @Transactional
-  public void accessProtectedResource_shouldFail_afterLogout() throws Exception {
+  public void accessProtectedResource_shouldSucceed_afterPasswordVerification() throws Exception {
     //given
     Thread.sleep(3000);
 
@@ -94,11 +93,103 @@ public class PasswordVerificationScenarioTest extends BaseApiTest {
     /*비밀번호 이중 인증 응답 검증*/
     assertAll(
         () -> assertTrue(passwordVerificationResponse.isSuccess()),
-        () ->assertNotNull(passwordVerificationResponse.getData().getVerifyToken())
+        () -> assertNotNull(passwordVerificationResponse.getData().getVerifyToken())
     );
 
     /*response2 검증*/
     assertTrue(response2.isSuccess());
+
+  }
+
+  /*[Case #2] 로그인 -> 사용자 정보 업데이트 접근 -> 실패 -> 이중인증 성공 -> 사용자 정보 업데이트 재접속 -> 성공
+   * -> X-Verification-token 만료 후 접속 -> 실패
+   * */
+  @DisplayName("사용자 정보 업데이트 경로 접근 허용 테스트 - X-Verification-token 만료후 접속 -> 실패")
+  @Test
+  @Transactional
+  public void accessProtectedResource_shouldFail_afterXVerificationTokenExpired() throws Exception {
+    //given
+    //when
+
+    /*1. 로그인 요청 전송*/
+    CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(
+        USER_EMAIL_VERIFIED, PASSWORD, new TypeReference<>() {
+        }, status().isOk());
+
+    String accessToken = loginResponse.getData().accessToken();
+
+    /*2. /users/update/password 접속*/
+    Map<String, String> headers = new HashMap<>();
+    headers.put("Authorization", "Bearer " + accessToken);
+
+    CommonResponse<Object> response1 = sendPostRequest(
+        "",
+        "/api/users/update/password",
+        status().isBadRequest(),
+        new TypeReference<>() {
+        },
+        headers
+    );
+
+    /*3. 비밀번호 이중 인증 요청 */
+    String requestBody = generateRequestBody(
+        new PasswordVerificationRequest(PASSWORD)
+    );
+    CommonResponse<PasswordVerificationToken> passwordVerificationResponse = sendPostRequest(
+        requestBody, "/api/auth/verify-password", status().isOk(),
+        new TypeReference<>() {
+        },
+        headers
+    );
+    String verifyToken = passwordVerificationResponse.getData().getVerifyToken();
+
+    /*4. /users/update/password 재접속*/
+    headers.put("X-Verify-Token", "Bearer " + verifyToken);
+    CommonResponse<Object> response2 = sendPostRequest(
+        "",
+        "/api/users/update/password",
+        status().isOk(),
+        new TypeReference<>() {
+        },
+        headers
+    );
+
+    /* X-Verificatoin-token 만료 후 재접속*/
+    Thread.sleep(3500);
+    CommonResponse<Object> response3 = sendPostRequest(
+        "",
+        "/api/users/update/password",
+        status().isUnauthorized(),
+        new TypeReference<>() {
+        },
+        headers
+    );
+
+    //then
+    /*login response 검증*/
+    assertAll(
+        () -> assertTrue(loginResponse.isSuccess()),
+        () -> assertNotNull(loginResponse.getData().accessToken())
+    );
+
+    /*response 1 검증*/
+    assertFalse(response1.isSuccess());
+    assertThat(response1.getCode()).isEqualTo(ErrorCode.SECOND_VERIFICATION_FAILED.getCode());
+
+    /*비밀번호 이중 인증 응답 검증*/
+    assertAll(
+        () -> assertTrue(passwordVerificationResponse.isSuccess()),
+        () -> assertNotNull(passwordVerificationResponse.getData().getVerifyToken())
+    );
+
+    /*response2 검증*/
+    assertTrue(response2.isSuccess());
+
+    /*respomse3 검증*/
+    assertAll(
+        () -> assertFalse(response3.isSuccess()),
+        () -> assertThat(response3.getCode()).isEqualTo(ErrorCode.TOKEN_EXPIRED.getCode())
+    );
 
   }
 
