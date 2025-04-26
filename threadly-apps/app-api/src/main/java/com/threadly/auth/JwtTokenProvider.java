@@ -17,6 +17,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import javax.crypto.SecretKey;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -171,12 +172,36 @@ public class JwtTokenProvider {
         Jwts.builder()
             .claim("userId", userId)
             .claim("userType", "USER")
+            .setId(UUID.randomUUID().toString().substring(0, 8))
             .setIssuedAt(now)
             .setExpiration(
                 Date.from(Instant.from(instant.plus(duration)))
             )
             .signWith(getSigningKey(), SignatureAlgorithm.HS256)
             .compact();
+  }
+
+  /**
+   * accessToken에서 남은 ttl 추출
+   * @return
+   */
+  public Duration getAccessTokenTtl(String accessToken) {
+    Claims claims = Jwts.parserBuilder()
+        .setSigningKey(getSigningKey())
+        .build()
+        .parseClaimsJws(accessToken)
+        .getBody();
+
+    /*만료 시간*/
+    Date expiration = claims.getExpiration();
+
+    /*현재 시간*/
+    Date now = new Date();
+
+    long ttlMillis = expiration.getTime() - now.getTime();
+
+    return
+        Duration.ofSeconds(ttlMillis);
   }
 
 }

@@ -14,7 +14,9 @@ import com.threadly.ErrorCode;
 import com.threadly.auth.token.response.LoginTokenResponse;
 import com.threadly.auth.token.response.TokenReissueResponse;
 import com.threadly.controller.auth.request.UserLoginRequest;
-import com.threadly.utils.TestLogUtils;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,7 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class LoginScenarioTest extends BaseApiTest {
 
 
-  /*token 시나리오 테스트*/
+  /* 로그인 시나리오 테스트*/
   /*
    * [Case #1]
    * 로그인 성공 -> "/" 접속 -> 요청 성공 (정상 동작)
@@ -57,7 +59,7 @@ public class LoginScenarioTest extends BaseApiTest {
 
     /*2. "/" 접속*/
     CommonResponse response = sendGetRequest(accessToken, "/", status().isNotFound()
-        );
+    );
 
     //then
     assertAll(
@@ -131,7 +133,7 @@ public class LoginScenarioTest extends BaseApiTest {
 
     /*accessToken 만료 후 '/' 접속*/
     CommonResponse tokenExpiredResponse = sendGetRequest(
-        accessToken, "/", status().isUnauthorized() );
+        accessToken, "/", status().isUnauthorized());
 
     /*accessToken 재발급*/
     CommonResponse<TokenReissueResponse> tokenReissueResponse = sendPostRequest(
@@ -171,5 +173,36 @@ public class LoginScenarioTest extends BaseApiTest {
     assertAll(() -> assertTrue(response.isSuccess()));
   }
 
+  /* [case #4] 로그인시 재발급되는 토큰 비교 검증*/
+  @Test
+  public void verifyLoginToken_shouldDifferent_whenForEachLogin() throws Exception {
+    //given
+
+    List<String> accessTokenList = new ArrayList<>();
+    List<String> refreshTokenList = new ArrayList<>();
+
+    CommonResponse<LoginTokenResponse> loginResponse;
+
+    for (int i = 0; i < 50; i++) {
+      loginResponse = sendLoginRequest(
+          USER_EMAIL_VERIFIED, PASSWORD, new TypeReference<>() {
+          }, status().isOk()
+      );
+      accessTokenList.add(loginResponse.getData().accessToken());
+      refreshTokenList.add(loginResponse.getData().refreshToken());
+    }
+
+    //when
+    HashSet<String> accessTokenSet = new HashSet<>(accessTokenList);
+    HashSet<String> refreshTokenSet = new HashSet<>(refreshTokenList);
+
+    //then
+    assertAll(
+        () -> assertThat(accessTokenSet.size()).isEqualTo(accessTokenList.size()),
+        () -> assertThat(refreshTokenSet.size()).isEqualTo(refreshTokenSet.size())
+    );
+
+
+  }
 
 }

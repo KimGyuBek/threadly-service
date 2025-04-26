@@ -215,6 +215,10 @@ public class AuthService implements LoginUserUseCase, PasswordVerificationUseCas
     }
   }
 
+  /**
+   * 로그아웃
+   * @param token
+   */
   public void logout(String token) {
 
     /*header에 토큰이 존재하지 않을경우*/
@@ -237,7 +241,7 @@ public class AuthService implements LoginUserUseCase, PasswordVerificationUseCas
         InsertBlackListToken.builder()
             .userId(userId)
             .accessToken(accessToken)
-            .duration(ttlProperties.getBlacklistToken())
+            .duration(jwtTokenProvider.getAccessTokenTtl(accessToken))
             .build()
     );
 
@@ -247,6 +251,11 @@ public class AuthService implements LoginUserUseCase, PasswordVerificationUseCas
     log.info("로그아웃 성공");
   }
 
+  /**
+   * blacklist 검증
+   * @param token
+   * @return
+   */
   public boolean isBlacklisted(String token) {
     return
         fetchTokenPort.existsBlackListTokenByAccessToken(token);
