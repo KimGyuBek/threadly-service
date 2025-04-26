@@ -13,6 +13,8 @@ import com.threadly.CommonResponse;
 import com.threadly.ErrorCode;
 import com.threadly.auth.token.response.LoginTokenResponse;
 import com.threadly.auth.token.response.TokenReissueResponse;
+import com.threadly.controller.auth.request.UserLoginRequest;
+import com.threadly.utils.TestLogUtils;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -36,19 +38,24 @@ public class LoginScenarioTest extends BaseApiTest {
     //given
 
     /*로그인 요청 body*/
-    String requestJson = getLoginRequest(USER_EMAIL_VERIFIED, "1234");
+//    String requestJson = getLoginRequest(USER_EMAIL_VERIFIED, "1234");
+    String loginRequestBody = generateRequestBody(
+        UserLoginRequest.builder()
+            .email(USER_EMAIL_VERIFIED)
+            .password(PASSWORD)
+            .build()
+
+    );
 
     //when
     /*1. 로그인 요청 전송*/
-    System.out.println("로그인 요청 전송");
-    CommonResponse<LoginTokenResponse> loginResponse = sendPostRequest(requestJson,
+    CommonResponse<LoginTokenResponse> loginResponse = sendPostRequest(loginRequestBody,
         "/api/auth/login",
         status().isOk(), new TypeReference<CommonResponse<LoginTokenResponse>>() {
         }, Map.of());
-    String accessToken = loginResponse.getData().getAccessToken();
+    String accessToken = loginResponse.getData().accessToken();
 
     /*2. "/" 접속*/
-    System.out.println("path {'/'} 접속");
     CommonResponse response = sendGetRequest(accessToken, "/", status().isNotFound()
         );
 
@@ -68,27 +75,27 @@ public class LoginScenarioTest extends BaseApiTest {
   public void accessProtectedResource_sholudReturnUnAuthorized_whenAccessTokenNotExists()
       throws Exception {
     //given
-    String requestJson = getLoginRequest(USER_EMAIL_VERIFIED, "1234");
-
     //when
     /*로그인*/
-    System.out.println("로그인 요청 ");
-    CommonResponse<LoginTokenResponse> loginResponse = sendPostRequest(
-        requestJson, "/api/auth/login", status().isOk(),
-        new TypeReference<CommonResponse<LoginTokenResponse>>() {
-        }, Map.of());
-    Thread.sleep(2500);
+    CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(
+        USER_EMAIL_VERIFIED,
+        PASSWORD,
+        new TypeReference<>() {
+        },
+        status().isOk()
+    );
+
+    Thread.sleep(3500);
 
     /* accessToken 만료 후 '/' 접속*/
-    System.out.println("path : / 접속");
     CommonResponse tokenExpiredResponse = sendGetRequest(
-        loginResponse.getData().getAccessToken(), "/", status().isUnauthorized());
+        loginResponse.getData().accessToken(), "/", status().isUnauthorized());
 
     //then
     /*로그인 응답 검증*/
     assertAll(
         () -> assertTrue(loginResponse.isSuccess()),
-        () -> assertNotNull(loginResponse.getData().getAccessToken())
+        () -> assertNotNull(loginResponse.getData().accessToken())
     );
 
     /*토큰 만료 응답 검증*/
@@ -108,29 +115,25 @@ public class LoginScenarioTest extends BaseApiTest {
   public void accessProtectedResource_shouldSucceed_afterAccessTokenExpired_whenReissueAccessToken()
       throws Exception {
     //given
-    String loginRequestJson = getLoginRequest(USER_EMAIL_VERIFIED, "1234");
-
     //when
 
     /*로그인*/
-    System.out.println("로그인 요청 ");
-    CommonResponse<LoginTokenResponse> loginResponse = sendPostRequest(
-        loginRequestJson, "/api/auth/login", status().isOk(),
-        new TypeReference<CommonResponse<LoginTokenResponse>>() {
-        }, Map.of());
-    String accessToken = loginResponse.getData().getAccessToken();
-    String refreshToken = loginResponse.getData().getRefreshToken();
+    CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(
+        USER_EMAIL_VERIFIED, PASSWORD, new TypeReference<CommonResponse<LoginTokenResponse>>() {
+        }, status().isOk()
+    );
+
+    String accessToken = loginResponse.getData().accessToken();
+    String refreshToken = loginResponse.getData().refreshToken();
 
     /*토큰 만료까지 대기*/
-    Thread.sleep(2500);
+    Thread.sleep(3500);
 
     /*accessToken 만료 후 '/' 접속*/
-    System.out.println("path : / 접속");
     CommonResponse tokenExpiredResponse = sendGetRequest(
         accessToken, "/", status().isUnauthorized() );
 
     /*accessToken 재발급*/
-    System.out.println("path : /api/auth/reissue 접속");
     CommonResponse<TokenReissueResponse> tokenReissueResponse = sendPostRequest(
         "", "/api/auth/reissue", status().isOk(),
         new TypeReference<CommonResponse<TokenReissueResponse>>() {
@@ -140,7 +143,6 @@ public class LoginScenarioTest extends BaseApiTest {
 
 
     /*accessToken 재발급 후 '/' 재접속*/
-    System.out.println("path : / 재접속");
     CommonResponse response = sendGetRequest(
         reIssueAccessToken, "/", status().isNotFound());
 
@@ -148,7 +150,7 @@ public class LoginScenarioTest extends BaseApiTest {
     /*로그인 응답 검증*/
     assertAll(
         () -> assertTrue(loginResponse.isSuccess()),
-        () -> assertNotNull(loginResponse.getData().getAccessToken())
+        () -> assertNotNull(loginResponse.getData().accessToken())
     );
 
     /*토큰 만료 응답 검증*/

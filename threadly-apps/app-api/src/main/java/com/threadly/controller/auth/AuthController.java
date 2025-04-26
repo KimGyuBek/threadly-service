@@ -41,6 +41,10 @@ public class AuthController {
     return authService.login(userLoginRequest.getEmail(), userLoginRequest.getPassword());
   }
 
+  /**
+   * 로그아웃
+   * @param accessToken
+   */
   @PostMapping("/logout")
   public void logout(@RequestHeader("Authorization") String accessToken) {
     authService.logout(accessToken);

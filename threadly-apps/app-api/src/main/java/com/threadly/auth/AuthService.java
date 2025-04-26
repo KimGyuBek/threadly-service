@@ -66,7 +66,6 @@ public class AuthService implements LoginUserUseCase, PasswordVerificationUseCas
 
       /*SecurityContextHolder에 인증 정보 저장*/
       SecurityContextHolder.getContext().setAuthentication(authenticate);
-      log.info("이중인증 성공");
 
       return new PasswordVerificationToken(tokenResponse);
 
@@ -125,7 +124,7 @@ public class AuthService implements LoginUserUseCase, PasswordVerificationUseCas
       /*토큰 저장*/
       upsertTokenPort.upsertRefreshToken(UpsertRefreshToken.builder()
           .userId(userId)
-          .refreshToken(tokenResponse.getRefreshToken())
+          .refreshToken(tokenResponse.refreshToken())
           .duration(ttlProperties.getRefreshToken())
           .build());
 
@@ -198,7 +197,7 @@ public class AuthService implements LoginUserUseCase, PasswordVerificationUseCas
       upsertTokenPort.upsertRefreshToken(
           UpsertRefreshToken.builder()
               .userId(userId)
-              .refreshToken(loginTokenResponse.getRefreshToken())
+              .refreshToken(loginTokenResponse.refreshToken())
               .duration(ttlProperties.getRefreshToken())
               .build()
       );
@@ -206,8 +205,8 @@ public class AuthService implements LoginUserUseCase, PasswordVerificationUseCas
       log.debug("기존 토큰 대치 성공");
 
       return TokenReissueResponse.builder()
-          .accessToken(loginTokenResponse.getAccessToken())
-          .refreshToken(loginTokenResponse.getRefreshToken())
+          .accessToken(loginTokenResponse.accessToken())
+          .refreshToken(loginTokenResponse.refreshToken())
           .build();
 
     } catch (Exception e) {
