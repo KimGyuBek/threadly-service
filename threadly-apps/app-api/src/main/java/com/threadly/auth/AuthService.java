@@ -10,8 +10,9 @@ import com.threadly.auth.verification.response.PasswordVerificationToken;
 import com.threadly.exception.token.TokenException;
 import com.threadly.exception.user.UserException;
 import com.threadly.properties.TtlProperties;
-import com.threadly.repository.token.TokenRepository;
+import com.threadly.token.DeleteTokenPort;
 import com.threadly.token.FetchTokenPort;
+import com.threadly.token.InsertBlackListToken;
 import com.threadly.token.InsertTokenPort;
 import com.threadly.token.UpsertRefreshToken;
 import com.threadly.token.UpsertToken;
@@ -42,10 +43,10 @@ public class AuthService implements LoginUserUseCase, PasswordVerificationUseCas
   private final FetchTokenPort fetchTokenPort;
   private final InsertTokenPort insertTokenPort;
   private final UpsertToken upsertTokenPort;
+  private final DeleteTokenPort deleteTokenPort;
 
   private final JwtTokenProvider jwtTokenProvider;
   private final TtlProperties ttlProperties;
-  private final TokenRepository tokenRepository;
 
   @Override
   public PasswordVerificationToken getPasswordVerificationToken(String userId, String password) {
@@ -65,7 +66,6 @@ public class AuthService implements LoginUserUseCase, PasswordVerificationUseCas
 
       /*SecurityContextHolder에 인증 정보 저장*/
       SecurityContextHolder.getContext().setAuthentication(authenticate);
-      log.info("이중인증 성공");
 
       return new PasswordVerificationToken(tokenResponse);
 
@@ -101,7 +101,6 @@ public class AuthService implements LoginUserUseCase, PasswordVerificationUseCas
       /*사용자 조회*/
       UserResponse findUser = fetchUserUseCase.findUserByEmail(email);
 
-
       String userId = findUser.getUserId();
 
       /*TODO user 상태 검증*/
@@ -125,7 +124,7 @@ public class AuthService implements LoginUserUseCase, PasswordVerificationUseCas
       /*토큰 저장*/
       upsertTokenPort.upsertRefreshToken(UpsertRefreshToken.builder()
           .userId(userId)
-          .refreshToken(tokenResponse.getRefreshToken())
+          .refreshToken(tokenResponse.refreshToken())
           .duration(ttlProperties.getRefreshToken())
           .build());
 
@@ -181,7 +180,7 @@ public class AuthService implements LoginUserUseCase, PasswordVerificationUseCas
       String userId = jwtTokenProvider.getUserId(refreshToken);
 
       /*refreshToken이 저장되어 있는지 검증*/
-      if(!fetchTokenPort.existsRefreshTokenByUserId(userId)) {
+      if (!fetchTokenPort.existsRefreshTokenByUserId(userId)) {
         throw new TokenException(ErrorCode.TOKEN_MISSING);
       }
 
@@ -198,7 +197,7 @@ public class AuthService implements LoginUserUseCase, PasswordVerificationUseCas
       upsertTokenPort.upsertRefreshToken(
           UpsertRefreshToken.builder()
               .userId(userId)
-              .refreshToken(loginTokenResponse.getRefreshToken())
+              .refreshToken(loginTokenResponse.refreshToken())
               .duration(ttlProperties.getRefreshToken())
               .build()
       );
@@ -206,16 +205,60 @@ public class AuthService implements LoginUserUseCase, PasswordVerificationUseCas
       log.debug("기존 토큰 대치 성공");
 
       return TokenReissueResponse.builder()
-          .accessToken(loginTokenResponse.getAccessToken())
-          .refreshToken(loginTokenResponse.getRefreshToken())
+          .accessToken(loginTokenResponse.accessToken())
+          .refreshToken(loginTokenResponse.refreshToken())
           .build();
 
     } catch (Exception e) {
       log.error(e.getMessage());
       throw e;
     }
+  }
 
+  /**
+   * 로그아웃
+   * @param token
+   */
+  public void logout(String token) {
 
+    /*header에 토큰이 존재하지 않을경우*/
+    if (!token.startsWith("Bearer")) {
+      throw new TokenException(ErrorCode.TOKEN_MISSING);
+    }
+
+    /*accessToken 추출*/
+    String accessToken = token.substring(7);
+
+    /*accessToken 검증*/
+    jwtTokenProvider.validateToken(accessToken);
+
+    /*tokne으로 부터 userId 추출*/
+    String userId = jwtTokenProvider.getUserId(accessToken);
+    log.debug("userId = " + userId);
+
+    /*redis에 저장*/
+    insertTokenPort.saveBlackListToken(
+        InsertBlackListToken.builder()
+            .userId(userId)
+            .accessToken(accessToken)
+            .duration(jwtTokenProvider.getAccessTokenTtl(accessToken))
+            .build()
+    );
+
+    /*refreshToken 삭제*/
+    deleteTokenPort.deleteRefreshToken(userId);
+
+    log.info("로그아웃 성공");
+  }
+
+  /**
+   * blacklist 검증
+   * @param token
+   * @return
+   */
+  public boolean isBlacklisted(String token) {
+    return
+        fetchTokenPort.existsBlackListTokenByAccessToken(token);
   }
 
 }

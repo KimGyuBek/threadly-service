@@ -1,6 +1,7 @@
 package com.threadly.filter;
 
 import com.threadly.ErrorCode;
+import com.threadly.auth.AuthService;
 import com.threadly.auth.JwtTokenProvider;
 import com.threadly.auth.exception.TokenAuthenticationException;
 import com.threadly.auth.exception.UserAuthenticationException;
@@ -28,6 +29,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
   private final CustomAuthenticationEntryPoint authenticationEntryPoint;
 
+  private final AuthService authService;
+
+
   @Override
   protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
     return
@@ -39,6 +43,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       FilterChain filterChain) throws ServletException, IOException {
     try {
       String token = resolveToken(request);
+
+      /*blacklist token 조회 후 있을경우 예외 처리*/
+      if (authService.isBlacklisted(token)) {
+        throw new TokenException(ErrorCode.TOKEN_INVALID);
+      }
 
       /*토큰이 검증되면*/
       if (jwtTokenProvider.validateToken(token)) {

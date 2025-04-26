@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -24,6 +25,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 public class VerificationFilter extends OncePerRequestFilter {
 
   private final JwtTokenProvider jwtTokenProvider;
+  private final AuthenticationEntryPoint authenticationEntryPoint;
 
   @Override
   protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
@@ -42,11 +44,11 @@ public class VerificationFilter extends OncePerRequestFilter {
 
     } catch (Exception e) {
       log.error(e.getMessage());
+
       UserAuthenticationException exception = new UserAuthenticationException(
           ErrorCode.SECOND_VERIFICATION_FAILED);
-
-      request.setAttribute("exception", exception);
-      throw exception;
+      authenticationEntryPoint.commence(request, response, exception);
+      return;
     }
 
     filterChain.doFilter(request, response);

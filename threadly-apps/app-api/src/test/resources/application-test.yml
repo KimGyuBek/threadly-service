@@ -1,9 +1,9 @@
 spring:
   config:
     import:
-      - adapter-persistence-test.yml
-      - adapter-redis.yml
-      - core-port.yml
+#      - adapter-persistence-test.yml
+#      - optional:adapter-redis-test.yml
+#      - core-port.yml
 
 logging:
   level:
@@ -14,8 +14,8 @@ logging:
 
 properties:
   ttl:
-    access-token: 2000
-    refresh-token: 5000
-    blacklist-token: 15
-    email-verification: 15
+    access-token: 3
+    refresh-token: 5
+    blacklist-token: 3
+    email-verification: 5
     password-verification: 5

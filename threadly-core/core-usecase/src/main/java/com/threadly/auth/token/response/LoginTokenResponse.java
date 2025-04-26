@@ -1,18 +1,14 @@
 package com.threadly.auth.token.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
-@Getter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class LoginTokenResponse {
-
-  private  String accessToken;
-  private  String refreshToken;
+/**
+ * login token 응답 DTO
+ * @param accessToken
+ * @param refreshToken
+ */
+public record LoginTokenResponse(
+    String accessToken,
+    String refreshToken
+) {
 
 
 }
