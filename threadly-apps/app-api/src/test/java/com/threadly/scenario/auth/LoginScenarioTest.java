@@ -174,8 +174,9 @@ public class LoginScenarioTest extends BaseApiTest {
   }
 
   /* [case #4] 로그인시 재발급되는 토큰 비교 검증*/
+  @DisplayName("여러 번 로그인 시 매번 새로운 accessToken, refreshToken이 발급되어야 한다")
   @Test
-  public void verifyLoginToken_shouldDifferent_whenForEachLogin() throws Exception {
+  public void verifyLoginTokens_shouldBeUnique_whenForEachLogin() throws Exception {
     //given
 
     List<String> accessTokenList = new ArrayList<>();
