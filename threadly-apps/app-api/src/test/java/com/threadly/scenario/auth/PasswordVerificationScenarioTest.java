@@ -32,7 +32,7 @@ public class PasswordVerificationScenarioTest extends BaseApiTest {
   @Transactional
   public void accessProtectedResource_shouldSucceed_afterPasswordVerification() throws Exception {
     //given
-    Thread.sleep(3000);
+//    Thread.sleep(3000);
 
     //when
 
