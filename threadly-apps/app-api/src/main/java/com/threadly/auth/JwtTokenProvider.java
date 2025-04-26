@@ -96,10 +96,7 @@ public class JwtTokenProvider {
     String accessToken = getToken(userId, ttlProperties.getAccessToken());
     String refreshToken = getToken(userId, ttlProperties.getRefreshToken());
 
-    return LoginTokenResponse.builder()
-        .accessToken(accessToken)
-        .refreshToken(refreshToken)
-        .build();
+    return new LoginTokenResponse(accessToken, refreshToken);
   }
 
 

@@ -37,7 +37,7 @@ public class LogoutScenarioTest extends BaseApiTest {
         USER_EMAIL_VERIFIED, PASSWORD, new TypeReference<CommonResponse<LoginTokenResponse>>() {
         }, status().isOk());
 
-    String accessToken = loginResponse.getData().getAccessToken();
+    String accessToken = loginResponse.getData().accessToken();
 
     /*2. 로그아웃 요청 전송*/
     Map<String, String> headers = new HashMap<>();
@@ -51,7 +51,6 @@ public class LogoutScenarioTest extends BaseApiTest {
     );
 
     /* '/' 경로로 접속*/
-    System.out.println("'/' 경로로 접속");
     CommonResponse response = sendGetRequest(
         accessToken,
         "/",
@@ -62,7 +61,7 @@ public class LogoutScenarioTest extends BaseApiTest {
     /*login response 검증*/
     assertAll(
         () -> assertTrue(loginResponse.isSuccess()),
-        () -> assertNotNull(loginResponse.getData().getAccessToken())
+        () -> assertNotNull(loginResponse.getData().accessToken())
     );
 
     /*logout response 검증*/

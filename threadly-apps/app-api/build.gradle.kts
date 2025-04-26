@@ -18,7 +18,6 @@ dependencies {
     implementation("org.springframework.security:spring-security-oauth2-client")
     implementation("org.springframework.data:spring-data-commons")
     implementation("org.springframework.boot:spring-boot-starter-validation")
-//    implementation("org.springframework:spring-context")
     implementation("org.springframework:spring-tx")
 
 
@@ -33,7 +32,6 @@ dependencies {
     implementation("io.jsonwebtoken:jjwt-impl:0.11.5")
     implementation("io.jsonwebtoken:jjwt-jackson:0.11.5")
 
-
 }
 
 val appMainClassName = "com.threadly.ThreadlyApplication"
@@ -44,4 +42,5 @@ tasks.getByName<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar
 
 tasks.withType<Test> {
     systemProperty("spring.profiles.active", "test")
+    systemProperty("file.encoding", "UTF-8")
 }

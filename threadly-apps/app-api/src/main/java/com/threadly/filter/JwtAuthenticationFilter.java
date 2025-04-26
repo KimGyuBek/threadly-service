@@ -31,6 +31,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
   private final AuthService authService;
 
+
   @Override
   protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
     return

@@ -48,11 +48,18 @@ public class UserController {
     emailVerificationUseCase.sendVerificationEmail(response.getUserId());
 
     return response;
+  }
+
+  /**
+   * test - 사용자 정보 비밀번호 수정
+   * @return
+   */
+  @PostMapping("/update/password")
+  public boolean updatePassword() {
+    return true;
 
   }
 
-
-//
 
 
 }

@@ -1,7 +1,7 @@
 package com.threadly.utils;
 
-import com.threadly.BaseApiTest;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Optional;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -28,8 +28,12 @@ public class TestLogUtils {
     response.getHeaderNames()
         .forEach(header -> System.out.printf("  %s: %s\n", header, response.getHeader(header)));
     System.out.println("Body:");
-    System.out.println(response.getContentAsString());
+    System.out.println(new String(response.getContentAsByteArray(), StandardCharsets.UTF_8));
 
     System.out.println("==========================================\n");
+  }
+
+  public static void log(String desc) {
+    System.out.println("\n\n================" + desc + "================");
   }
 }

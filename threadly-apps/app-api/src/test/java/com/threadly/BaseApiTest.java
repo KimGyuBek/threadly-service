@@ -2,8 +2,6 @@ package com.threadly;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.request;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -50,51 +48,57 @@ public abstract class BaseApiTest {
   public <T> CommonResponse<T> sendLoginRequest(String email, String password,
       TypeReference<CommonResponse<T>> typeRef, ResultMatcher expectedStatus)
       throws Exception {
-    String loginRequest = getLoginRequest(email, password);
-    CommonResponse<T> loginResponse = sendPostRequest(loginRequest, "/api/auth/login",
+
+    String loginRequestBody = generateRequestBody(UserLoginRequest.builder()
+        .email(email).password(password).build());
+    CommonResponse<T> loginResponse = sendPostRequest(loginRequestBody, "/api/auth/login",
         expectedStatus,
         typeRef,
         Map.of());
-    return (CommonResponse<T>) loginResponse;
+
+    return  loginResponse;
   }
 
   /**
    * 로그아웃 요청
+   *
    * @param typeRef
    * @param expectedStatus
    * @param headers
-   * @return
    * @param <T>
+   * @return
    * @throws Exception
    */
   public <T> CommonResponse<T> sendLogoutRequest(
       TypeReference<CommonResponse<T>> typeRef, ResultMatcher expectedStatus,
       Map<String, String> headers)
       throws Exception {
+
     CommonResponse<T> loginResponse = sendPostRequest("", "/api/auth/logout",
         expectedStatus,
         typeRef,
         headers
     );
-    return (CommonResponse<T>) loginResponse;
+    return  loginResponse;
   }
 
   /**
    * get 요청 전송
-   *
-   * @param accessToken
-   * @param path
-   * @param expectedStatus
-   * @return
-   * @throws Exception
    */
   public CommonResponse sendGetRequest(String accessToken, String path,
       ResultMatcher expectedStatus) throws Exception {
+
+    TestLogUtils.log(path + " 요청 전송");
+
     String bearerToken = "Bearer " + accessToken;
+
+    HttpHeaders headers = new HttpHeaders();
+    headers.set("Authorization", bearerToken);
+    headers.set("Accept-Charset", "utf-8");
 
     MvcResult result = mockMvc.perform(
         get(path)
-            .header("Authorization", bearerToken)
+            .headers(headers)
     ).andExpect(expectedStatus).andReturn();
     TestLogUtils.log(result);
 
@@ -116,14 +120,16 @@ public abstract class BaseApiTest {
   public <T> CommonResponse<T> sendPostRequest(String requestJson, String path,
       ResultMatcher expectedStatus, TypeReference<CommonResponse<T>> typeRef,
       Map<String, String> headers) throws Exception {
+    TestLogUtils.log(path + " 요청 전송");
 
     HttpHeaders httpHeaders = new HttpHeaders();
+    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+    httpHeaders.set("Accept-Charset", "utf-8");
     headers.forEach((key, value) -> httpHeaders.add(key, value));
 
     MvcResult result = mockMvc.perform(
         post(path)
             .headers(httpHeaders)
-            .contentType(MediaType.APPLICATION_JSON)
             .content(requestJson)
     ).andExpect(expectedStatus).andReturn();
     TestLogUtils.log(result);
@@ -148,22 +154,15 @@ public abstract class BaseApiTest {
   }
 
   /**
-   * 사용자 등록 후 loginRequest 생성
-   *
-   * @param email
-   * @param password
+   * request body 생성
+   * @param data
    * @return
+   * @param <T>
    * @throws JsonProcessingException
    */
-  public String getLoginRequest(String email, String password) throws JsonProcessingException {
-
-    String requestJson = objectMapper.writeValueAsString(
-        UserLoginRequest.builder()
-            .email(email)
-            .password(password)
-            .build()
-    );
-    return requestJson;
+  public <T> String generateRequestBody(T data) throws JsonProcessingException {
+    return
+        objectMapper.writeValueAsString(data);
   }
 
 }
