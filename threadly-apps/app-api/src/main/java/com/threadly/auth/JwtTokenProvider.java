@@ -1,5 +1,7 @@
 package com.threadly.auth;
 
+import static com.threadly.util.LogFormatUtils.*;
+
 import com.threadly.ErrorCode;
 import com.threadly.auth.token.response.LoginTokenResponse;
 import com.threadly.exception.token.TokenException;
@@ -7,6 +9,7 @@ import com.threadly.properties.TtlProperties;
 import com.threadly.token.InsertTokenPort;
 import com.threadly.user.FetchUserUseCase;
 import com.threadly.user.response.UserResponse;
+import com.threadly.util.LogFormatUtils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -32,11 +35,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-@Slf4j
 public class JwtTokenProvider {
 
   private final FetchUserUseCase fetchUserUseCase;
-  private final InsertTokenPort insertTokenPort;
 
   private final TtlProperties ttlProperties;
 
@@ -115,20 +116,18 @@ public class JwtTokenProvider {
           .build()
           .parseClaimsJws(token);
 
-      log.info("토큰 검증됨");
+      logSuccess("토큰 검증됨");
 
       return true;
 
       /*토큰 만료*/
     } catch (ExpiredJwtException e) {
-      log.info("토큰 만료됨");
-
+      logFailure("토큰 만료됨");
       throw new TokenException(ErrorCode.TOKEN_EXPIRED);
 
       /*기타 예외*/
     } catch (Exception e) {
-      log.info("토큰 검증 안 됨");
-
+      logFailure("토큰 검증 안 됨");
       throw new TokenException(ErrorCode.TOKEN_INVALID);
     }
 
