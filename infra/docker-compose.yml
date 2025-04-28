@@ -1,4 +1,26 @@
 services:
+  app:
+    image: threadly-app
+    build:
+      context: ../
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgresql
+      - h2
+      - redis
+      - redis-test
+    environment:
+      - mail.name=rlarbqor00@naver.com
+      - mail.password=Z38NR6QCKD7K
+      - spring.profiles.active=prod
+      - spring.data.redis.host=redis
+      - spring.data.redis.port=6379
+#      - spring.config.import=optional:classpath:application-persistence-prod.yml,optional:classpath:application-redis-prod.yml,optional:classpath:application-port.yml
+    networks:
+      - threadly-network
+
   postgresql:
     image:
       postgres:16
@@ -9,6 +31,8 @@ services:
       - "5433:5432"
     environment:
       POSTGRES_PASSWORD: localpwd
+    networks:
+      - threadly-network
 
   h2:
     image: oscarfonts/h2
@@ -18,22 +42,24 @@ services:
     ports:
       - "9092:9092"
       - "8082:8082"  # H2 웹 콘솔 포트
-    #    volumes:
-    #      - h2-data:/opt/h2-data  # 파일 저장소, 필요 시
     restart: unless-stopped
 
   redis:
+    container_name: redis
     image: redis:latest
     ports:
       - "6379:6379"
     volumes:
       - ./data/threadly-redis:/data
+    networks:
+      - threadly-network
 
   redis-test:
     image: redis:latest
     container_name: threadly-redis-test
     ports:
-      - 6380:6379
+      - "6380:6379"
+
 
 
   prometheus:
@@ -57,3 +83,5 @@ services:
     restart: always
     ports:
       - '3000:3000'
+networks:
+  threadly-network:

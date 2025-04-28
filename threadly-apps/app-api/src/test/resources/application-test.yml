@@ -1,9 +1,9 @@
 spring:
   config:
     import:
-#      - adapter-persistence-test.yml
-#      - optional:adapter-redis-test.yml
-#      - core-port.yml
+      - application-redis-dev.yml
+      - application-persistence-test.yml
+      - application-port.yml
 
 logging:
   level:

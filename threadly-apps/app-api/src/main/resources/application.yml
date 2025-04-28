@@ -1,13 +1,10 @@
-spring:
-  config:
-    import:
-      - adapter-persistence.yml
-#      - adapter-redis.yml
-      - core-port.yml
 
 jwt:
   secret: ZNHd8l6lUl7cG122AmjtaHNgjQFP2NHK0ZRQrpuB4nlZlYtgju7dk7U/5op7U7OnFnXIB/r2Gx4WdtNGbwyuiQ==
-  expire:
-    access-token: 1
-    refresh-token: 24
-
+spring:
+  data:
+    redis:
+      host: redis
+      port: 6379
+server:
+  port: 8081
