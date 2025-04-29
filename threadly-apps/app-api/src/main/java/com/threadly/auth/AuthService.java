@@ -8,7 +8,6 @@ import com.threadly.auth.verification.LoginUserUseCase;
 import com.threadly.auth.verification.PasswordVerificationUseCase;
 import com.threadly.auth.verification.response.PasswordVerificationToken;
 import com.threadly.exception.token.TokenException;
-import com.threadly.exception.user.UserException;
 import com.threadly.properties.TtlProperties;
 import com.threadly.token.DeleteTokenPort;
 import com.threadly.token.FetchTokenPort;
@@ -19,21 +18,15 @@ import com.threadly.token.UpsertToken;
 import com.threadly.user.FetchUserUseCase;
 import com.threadly.user.response.UserResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 /*TODO 이름 변경*/
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class AuthService implements LoginUserUseCase, PasswordVerificationUseCase {
 
   private final AuthenticationManagerBuilder authenticationManagerBuilder;
@@ -51,42 +44,23 @@ public class AuthService implements LoginUserUseCase, PasswordVerificationUseCas
   @Override
   public PasswordVerificationToken getPasswordVerificationToken(String userId, String password) {
 
-    try {
-      /*인증용 토큰 생성*/
-      UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-          userId, password);
+    /*인증용 토큰 생성*/
+    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+        userId, password);
 
-      /*인증 시도*/
-      Authentication authenticate = authenticationManagerBuilder.getObject()
-          .authenticate(authenticationToken);
+    /*인증 시도*/
+    Authentication authenticate = authenticationManagerBuilder.getObject()
+        .authenticate(authenticationToken);
 
-      /*토큰 생성*/
-      String tokenResponse = jwtTokenProvider.generateToken(userId,
-          ttlProperties.getPasswordVerification());
+    /*토큰 생성*/
+    String tokenResponse = jwtTokenProvider.generateToken(userId,
+        ttlProperties.getPasswordVerification());
 
-      /*SecurityContextHolder에 인증 정보 저장*/
-      SecurityContextHolder.getContext().setAuthentication(authenticate);
+    /*SecurityContextHolder에 인증 정보 저장*/
+    SecurityContextHolder.getContext().setAuthentication(authenticate);
 
-      return new PasswordVerificationToken(tokenResponse);
+    return new PasswordVerificationToken(tokenResponse);
 
-      /*UserNameNotFound*/
-      /*BadCredential*/
-    } catch (UserException | UsernameNotFoundException | BadCredentialsException e) {
-      throw new UserAuthenticationException(ErrorCode.USER_AUTHENTICATION_FAILED);
-
-      /*Disabled*/
-    } catch (DisabledException e) {
-      throw new UserAuthenticationException(ErrorCode.INVALID_USER_STATUS);
-
-      /*Locked*/
-    } catch (LockedException e) {
-      throw new UserAuthenticationException(ErrorCode.ACCOUNT_LOCKED);
-
-      /*나머지*/
-    } catch (Exception e) {
-      log.error(e.getMessage());
-      throw new UserAuthenticationException(ErrorCode.AUTHENTICATION_ERROR);
-    }
   }
 
   /**
@@ -97,71 +71,40 @@ public class AuthService implements LoginUserUseCase, PasswordVerificationUseCas
   @Override
   public LoginTokenResponse login(String email, String password) {
 
-    try {
-      /*사용자 조회*/
-      UserResponse findUser = fetchUserUseCase.findUserByEmail(email);
+    /*사용자 조회*/
+    UserResponse findUser = fetchUserUseCase.findUserByEmail(email);
 
-      String userId = findUser.getUserId();
+    String userId = findUser.getUserId();
 
-      /*TODO user 상태 검증*/
+    /*TODO user 상태 검증*/
 
-      /*인증용 토큰 생성*/
-      UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-          userId, password);
+    /*인증용 토큰 생성*/
+    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+        userId, password);
 
-      /*인증 시도*/
-      Authentication authenticate = authenticationManagerBuilder.getObject()
-          .authenticate(authenticationToken);
+    /*인증 시도*/
+    Authentication authenticate = authenticationManagerBuilder.getObject()
+        .authenticate(authenticationToken);
 
-      /*email 인증이 되어있는지 검증*/
-      if (!findUser.isEmailVerified()) {
-        throw new UserAuthenticationException(ErrorCode.EMAIL_NOT_VERIFIED);
-      }
-
-      /*토큰 생성*/
-      LoginTokenResponse tokenResponse = jwtTokenProvider.generateLoginToken(userId);
-
-      /*토큰 저장*/
-      upsertTokenPort.upsertRefreshToken(UpsertRefreshToken.builder()
-          .userId(userId)
-          .refreshToken(tokenResponse.refreshToken())
-          .duration(ttlProperties.getRefreshToken())
-          .build());
-
-
-      /*SecurityContextHolder에 인증 정보 저장*/
-      SecurityContextHolder.getContext().setAuthentication(authenticate);
-      log.info("로그인 성공");
-
-      return tokenResponse;
-
-      /*email 인증 실패*/
-    } catch (UserAuthenticationException e) {
-      log.info("이메일 인증 실패");
-      log.error(e.getMessage());
-      throw e;
-
-      /*email로 사용자를 찾을 수 없는 경우*/
-      /*UserNameNotFound*/
-      /*BadCredential*/
-    } catch (UserException | UsernameNotFoundException | BadCredentialsException e) {
-      log.info(e.getMessage());
-      throw new UserAuthenticationException(ErrorCode.USER_AUTHENTICATION_FAILED);
-
-      /*Disabled*/
-    } catch (DisabledException e) {
-      throw new UserAuthenticationException(ErrorCode.INVALID_USER_STATUS);
-
-      /*Locked*/
-    } catch (LockedException e) {
-      throw new UserAuthenticationException(ErrorCode.ACCOUNT_LOCKED);
-
-      /*나머지*/
-    } catch (Exception e) {
-      log.error(e.getMessage());
-      throw new UserAuthenticationException(ErrorCode.AUTHENTICATION_ERROR);
+    /*email 인증이 되어있는지 검증*/
+    if (!findUser.isEmailVerified()) {
+      throw new UserAuthenticationException(ErrorCode.EMAIL_NOT_VERIFIED);
     }
 
+    /*토큰 생성*/
+    LoginTokenResponse tokenResponse = jwtTokenProvider.generateLoginToken(userId);
+
+    /*토큰 저장*/
+    upsertTokenPort.upsertRefreshToken(UpsertRefreshToken.builder()
+        .userId(userId)
+        .refreshToken(tokenResponse.refreshToken())
+        .duration(ttlProperties.getRefreshToken())
+        .build());
+
+    /*SecurityContextHolder에 인증 정보 저장*/
+    SecurityContextHolder.getContext().setAuthentication(authenticate);
+
+    return tokenResponse;
   }
 
   /**
@@ -170,53 +113,44 @@ public class AuthService implements LoginUserUseCase, PasswordVerificationUseCas
    * @return
    */
   public TokenReissueResponse reissueLoginToken(String refreshToken) {
-    try {
-      /*refreshToken이 null일 경우*/
-      if (refreshToken == null) {
-        throw new TokenException(ErrorCode.TOKEN_MISSING);
-      }
-
-      /*refrehToken으로 userId 조회*/
-      String userId = jwtTokenProvider.getUserId(refreshToken);
-
-      /*refreshToken이 저장되어 있는지 검증*/
-      if (!fetchTokenPort.existsRefreshTokenByUserId(userId)) {
-        throw new TokenException(ErrorCode.TOKEN_MISSING);
-      }
-
-      /*refreshToken 검증*/
-      jwtTokenProvider.validateToken(refreshToken);
-
-      /*login Token 재생성*/
-      LoginTokenResponse loginTokenResponse = jwtTokenProvider.generateLoginToken(userId);
-
-      log.info("로그인 토큰 재발급됨");
-
-
-      /*기존 토큰 덮어쓰기*/
-      upsertTokenPort.upsertRefreshToken(
-          UpsertRefreshToken.builder()
-              .userId(userId)
-              .refreshToken(loginTokenResponse.refreshToken())
-              .duration(ttlProperties.getRefreshToken())
-              .build()
-      );
-
-      log.debug("기존 토큰 대치 성공");
-
-      return TokenReissueResponse.builder()
-          .accessToken(loginTokenResponse.accessToken())
-          .refreshToken(loginTokenResponse.refreshToken())
-          .build();
-
-    } catch (Exception e) {
-      log.error(e.getMessage());
-      throw e;
+    /*refreshToken이 null일 경우*/
+    if (refreshToken == null) {
+      throw new TokenException(ErrorCode.TOKEN_MISSING);
     }
+
+    /*refrehToken으로 userId 조회*/
+    String userId = jwtTokenProvider.getUserId(refreshToken);
+
+    /*refreshToken이 저장되어 있는지 검증*/
+    if (!fetchTokenPort.existsRefreshTokenByUserId(userId)) {
+      throw new TokenException(ErrorCode.TOKEN_MISSING);
+    }
+
+    /*refreshToken 검증*/
+    jwtTokenProvider.validateToken(refreshToken);
+
+    /*login Token 재생성*/
+    LoginTokenResponse loginTokenResponse = jwtTokenProvider.generateLoginToken(userId);
+
+    /*기존 토큰 덮어쓰기*/
+    upsertTokenPort.upsertRefreshToken(
+        UpsertRefreshToken.builder()
+            .userId(userId)
+            .refreshToken(loginTokenResponse.refreshToken())
+            .duration(ttlProperties.getRefreshToken())
+            .build()
+    );
+
+    return TokenReissueResponse.builder()
+        .accessToken(loginTokenResponse.accessToken())
+        .refreshToken(loginTokenResponse.refreshToken())
+        .build();
+
   }
 
   /**
    * 로그아웃
+   *
    * @param token
    */
   public void logout(String token) {
@@ -234,7 +168,6 @@ public class AuthService implements LoginUserUseCase, PasswordVerificationUseCas
 
     /*tokne으로 부터 userId 추출*/
     String userId = jwtTokenProvider.getUserId(accessToken);
-    log.debug("userId = " + userId);
 
     /*redis에 저장*/
     insertTokenPort.saveBlackListToken(
@@ -248,11 +181,11 @@ public class AuthService implements LoginUserUseCase, PasswordVerificationUseCas
     /*refreshToken 삭제*/
     deleteTokenPort.deleteRefreshToken(userId);
 
-    log.info("로그아웃 성공");
   }
 
   /**
    * blacklist 검증
+   *
    * @param token
    * @return
    */

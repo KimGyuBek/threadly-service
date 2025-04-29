@@ -1,9 +1,12 @@
 package com.threadly.filter;
 
+import static com.threadly.util.LogFormatUtils.*;
+
 import com.threadly.ErrorCode;
 import com.threadly.auth.JwtTokenProvider;
 import com.threadly.auth.exception.UserAuthenticationException;
 import com.threadly.exception.token.TokenException;
+import com.threadly.util.LogFormatUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -43,7 +46,7 @@ public class VerificationFilter extends OncePerRequestFilter {
       jwtTokenProvider.validateToken(token);
 
     } catch (Exception e) {
-      log.error(e.getMessage());
+      logFailure(e.getMessage());
 
       UserAuthenticationException exception = new UserAuthenticationException(
           ErrorCode.SECOND_VERIFICATION_FAILED);
