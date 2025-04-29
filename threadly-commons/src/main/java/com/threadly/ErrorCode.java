@@ -29,6 +29,7 @@ public enum ErrorCode {
   EMAIL_NOT_VERIFIED("TLY2013", "이메일 인증이 필요합니다.", HttpStatus.UNAUTHORIZED),
   EMAIL_VERIFICATION_FAILED("TLY2014", "이메일 인증에 실패했습니다.", HttpStatus.BAD_REQUEST),
   SECOND_VERIFICATION_FAILED("TLY2015", "2차 인증에 실패했습니다.", HttpStatus.BAD_REQUEST),
+  LOGIN_ATTEMPT_EXCEEDED("TLY2016", "로그인 시도 횟수를 초과하였습니다.", HttpStatus.TOO_MANY_REQUESTS),
 
 
   /*Token*/

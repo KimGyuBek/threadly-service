@@ -1,7 +1,6 @@
-package com.threadly.repository.token;
+package com.threadly;
 
 
-import com.threadly.RedisModule;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication(

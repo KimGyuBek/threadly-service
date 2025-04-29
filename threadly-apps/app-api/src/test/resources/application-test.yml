@@ -19,3 +19,4 @@ properties:
     blacklist-token: 3
     email-verification: 5
     password-verification: 5
+    login-attempt: 5

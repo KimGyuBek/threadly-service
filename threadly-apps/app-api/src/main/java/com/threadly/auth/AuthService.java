@@ -18,6 +18,7 @@ import com.threadly.token.UpsertToken;
 import com.threadly.user.FetchUserUseCase;
 import com.threadly.user.response.UserResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -37,6 +38,8 @@ public class AuthService implements LoginUserUseCase, PasswordVerificationUseCas
   private final InsertTokenPort insertTokenPort;
   private final UpsertToken upsertTokenPort;
   private final DeleteTokenPort deleteTokenPort;
+
+  private final LoginAttemptLimiterService loginAttemptLimiterService;
 
   private final JwtTokenProvider jwtTokenProvider;
   private final TtlProperties ttlProperties;
@@ -76,6 +79,12 @@ public class AuthService implements LoginUserUseCase, PasswordVerificationUseCas
 
     String userId = findUser.getUserId();
 
+    /*로그인 횟수 제한이 걸려있는지 검증*/
+    if (!loginAttemptLimiterService.checkLoginAttempt(userId)) {
+      throw new UserAuthenticationException(ErrorCode.LOGIN_ATTEMPT_EXCEEDED);
+    }
+
+
     /*TODO user 상태 검증*/
 
     /*인증용 토큰 생성*/
@@ -83,8 +92,10 @@ public class AuthService implements LoginUserUseCase, PasswordVerificationUseCas
         userId, password);
 
     /*인증 시도*/
-    Authentication authenticate = authenticationManagerBuilder.getObject()
-        .authenticate(authenticationToken);
+    try {
+      Authentication authenticate = authenticationManagerBuilder.getObject()
+          .authenticate(authenticationToken);
+
 
     /*email 인증이 되어있는지 검증*/
     if (!findUser.isEmailVerified()) {
@@ -104,7 +115,17 @@ public class AuthService implements LoginUserUseCase, PasswordVerificationUseCas
     /*SecurityContextHolder에 인증 정보 저장*/
     SecurityContextHolder.getContext().setAuthentication(authenticate);
 
+    /*login attempt 삭제*/
+    loginAttemptLimiterService.removeLoginAttempt(userId);
+
     return tokenResponse;
+
+    /*비밀번호가 일치하지 않는 경우*/
+    } catch (BadCredentialsException e) {
+      loginAttemptLimiterService.upsertLoginAttempt(userId);
+      throw e;
+
+    }
   }
 
   /**
