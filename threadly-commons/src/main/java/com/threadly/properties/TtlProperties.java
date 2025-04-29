@@ -6,6 +6,9 @@ import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+/**
+ * Ttl
+ */
 @Component
 @ConfigurationProperties(prefix = "properties.ttl")
 @Setter
@@ -17,6 +20,7 @@ public class TtlProperties {
   private long blacklistToken;
   private long emailVerification;
   private long passwordVerification;
+  private long loginAttempt;
 
   public Duration getAccessToken() {
     return Duration.ofSeconds(accessToken);
@@ -36,5 +40,8 @@ public class TtlProperties {
 
   public Duration getPasswordVerification() {
     return Duration.ofSeconds(passwordVerification);
+  }
+  public Duration getLoginAttempt() {
+    return Duration.ofSeconds(loginAttempt);
   }
 }

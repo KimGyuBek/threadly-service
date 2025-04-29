@@ -18,3 +18,4 @@ properties:
     blacklist-token: 600
     email-verification: 300
     password-verification: 300
+    login-attempt: 300

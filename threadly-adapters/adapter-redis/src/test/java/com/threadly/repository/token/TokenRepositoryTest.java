@@ -5,16 +5,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.threadly.RedisTestApplication;
 import com.threadly.token.InsertBlackListToken;
 import com.threadly.token.UpsertRefreshToken;
 import java.time.Duration;
-import net.bytebuddy.utility.dispatcher.JavaDispatcher.Container;
-import org.h2.command.dml.Insert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.ActiveProfiles;

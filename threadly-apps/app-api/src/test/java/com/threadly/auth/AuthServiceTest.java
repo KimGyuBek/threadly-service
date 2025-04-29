@@ -75,9 +75,9 @@ class AuthServiceTest {
     String refreshToken = jwtTokenProvider.generateToken(userId, duration);
 
     insertTokenPort.save(InsertRefreshToken.builder()
-            .userId(userId)
-            .refreshToken(refreshToken)
-            .duration(duration)
+        .userId(userId)
+        .refreshToken(refreshToken)
+        .duration(duration)
         .build());
 
     //when
@@ -93,7 +93,7 @@ class AuthServiceTest {
         () -> assertTrue(isTokenExists),
         () -> assertThat(result.getRefreshToken()).isEqualTo(refreshTokenByUserId)
     );
-
   }
+
 
 }
