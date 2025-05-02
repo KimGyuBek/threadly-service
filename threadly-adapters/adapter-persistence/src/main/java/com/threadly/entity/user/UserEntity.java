@@ -27,25 +27,32 @@ public class UserEntity extends BaseEntity {
   @Column(name = "user_id")
   private String userId;
 
+  /*사용자 이름*/
   @Column(name = "user_name")
   private String userName;
 
+  /*비밀번호*/
   @Column(name = "password")
   private String password;
 
+  /*이메일*/
   @Column(name = "email")
   private String email;
 
+  /*전화번호*/
   @Column(name = "phone")
   private String phone;
 
   @Enumerated(EnumType.STRING)
+  /*사용자 타입*/
   @Column(name = "user_type")
   private UserType userType;
 
+  /*계정 활성화 유무*/
   @Column(name = "is_active")
   private boolean isActive;
 
+  /*이메일 인증 유무*/
   @Column(name = "is_email_verified")
   private boolean isEmailVerified;
   /**
