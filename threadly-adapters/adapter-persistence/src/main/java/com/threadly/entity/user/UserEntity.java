@@ -4,11 +4,15 @@ import com.threadly.entity.BaseEntity;
 import com.threadly.user.UserType;
 import com.threadly.user.response.UserPortResponse;
 import com.threadly.util.RandomUtils;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -55,6 +59,10 @@ public class UserEntity extends BaseEntity {
   /*이메일 인증 유무*/
   @Column(name = "is_email_verified")
   private boolean isEmailVerified;
+
+  @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @JoinColumn(name = "user_profile_id")
+  private UserProfileEntity userProfile;
   /**
    * 새로운 User 생성
    *
