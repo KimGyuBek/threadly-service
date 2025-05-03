@@ -134,10 +134,13 @@ public class AuthService implements LoginUserUseCase, PasswordVerificationUseCas
    * @return
    */
   public TokenReissueResponse reissueLoginToken(String refreshToken) {
+
     /*refreshToken이 null일 경우*/
     if (refreshToken == null) {
       throw new TokenException(ErrorCode.TOKEN_MISSING);
     }
+
+    refreshToken = refreshToken.substring(7);
 
     /*refrehToken으로 userId 조회*/
     String userId = jwtTokenProvider.getUserId(refreshToken);

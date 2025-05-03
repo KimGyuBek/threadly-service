@@ -14,7 +14,7 @@ import com.threadly.ErrorCode;
 import com.threadly.auth.token.response.LoginTokenResponse;
 import com.threadly.auth.token.response.TokenReissueResponse;
 import com.threadly.controller.auth.request.UserLoginRequest;
-import com.threadly.repository.auth.TestLoginAttemptHelper;
+import com.threadly.repository.auth.TestRedisHelper;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -33,7 +33,7 @@ public class LoginScenarioTest extends BaseApiTest {
   private static final int MAX_LOGIN_ATTEMPTS = 5;
 
   @Autowired
-  private TestLoginAttemptHelper loginAttemptHelper;
+  private TestRedisHelper loginAttemptHelper;
 
   @BeforeEach
   public void setUp() throws Exception {

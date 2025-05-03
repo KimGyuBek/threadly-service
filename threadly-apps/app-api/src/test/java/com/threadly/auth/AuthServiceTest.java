@@ -3,13 +3,15 @@ package com.threadly.auth;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.threadly.auth.token.response.TokenReissueResponse;
+import com.threadly.exception.token.TokenException;
+import com.threadly.properties.TtlProperties;
+import com.threadly.repository.auth.TestRedisHelper;
 import com.threadly.token.FetchTokenPort;
-import com.threadly.token.InsertRefreshToken;
-import com.threadly.token.InsertTokenPort;
 import java.time.Duration;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,68 +33,59 @@ class AuthServiceTest {
   private FetchTokenPort fetchTokenPort;
 
   @Autowired
-  InsertTokenPort insertTokenPort;
-
-  @Autowired
   private JwtTokenProvider jwtTokenProvider;
 
+  @Autowired
+  private TestRedisHelper loginAttemptHelper;
+
+  @Autowired
+  private TtlProperties ttlProperties;
+
+  @BeforeEach
+  void setUp() {
+    loginAttemptHelper.clearRedis();
+  }
+
   /*reissueLogin 테스트*/
-  /*[Case #1] 저장된 refreshToken이 없고 새로 발급하는 겨우*/
-  @DisplayName("reissueLoginTest - 새로 발급하는 경우")
+  /*[Case #1] 저장된 refreshToken이 있고, 클라이언트가 같은 토큰을 전달하면 새로운 토큰을 발급한다.*/
+  @DisplayName("저장된 refreshToken이 있고, 클라이언트가 같은 토큰을 전달하면 새로운 토큰을 발급한다")
   @Test
-  public void reissueLogin_shouldReturnLoginTokens_whenRefreshTokenNotExist() throws Exception {
+  public void reissueLogin_shouldReturnNewToken_whenRefreshMatchesStoredToken() throws Exception {
 
     //given
     String userId = "user1";
     Duration duration = Duration.ofSeconds(5);
     String refreshToken = jwtTokenProvider.generateToken(userId, duration);
+    String token = "Bearer " + refreshToken;
+    loginAttemptHelper.insert("token:refresh:" + userId, refreshToken,
+        ttlProperties.getRefreshToken());
 
     //when
-    TokenReissueResponse result = authService.reissueLoginToken(refreshToken);
+    TokenReissueResponse result = authService.reissueLoginToken(token);
 
     //then
-    boolean isTokenExists = fetchTokenPort.existsRefreshTokenByUserId(userId);
     String refreshTokenByUserId = fetchTokenPort.findRefreshTokenByUserId(userId);
 
     assertAll(
-        () -> assertNotNull(result.getRefreshToken()),
         () -> assertNotNull(result.getAccessToken()),
-        () -> assertTrue(isTokenExists),
-        () -> assertThat(result.getRefreshToken()).isEqualTo(
-            refreshTokenByUserId)
+        () -> assertNotNull(result.getRefreshToken()),
+        () -> assertThat(result.getRefreshToken()).isEqualTo(refreshTokenByUserId)
     );
 
 
   }
 
-  /*[Case #2] 이미 저장된 refreshToken이 있어서 덮어쓰는 경우*/
+  /*[Case #2] 저장된 refreshToken이 없는 경우 예외를 던진다.*/
+  @DisplayName("저장된 refreshToken이 없는 경우 예외를 던진다.")
   @Test
-  public void reissueToken_shouldReturnLoginTokens_whenRefreshTokenExists() throws Exception {
+  public void reissueToken_shouldReturnException_whenRefreshTokenNotExists() throws Exception {
     //given
     String userId = "user1";
-    Duration duration = Duration.ofSeconds(5);
-
-    String refreshToken = jwtTokenProvider.generateToken(userId, duration);
-
-    insertTokenPort.save(InsertRefreshToken.builder()
-        .userId(userId)
-        .refreshToken(refreshToken)
-        .duration(duration)
-        .build());
+    String refreshToken = "Bearer " + jwtTokenProvider.generateToken(userId, Duration.ofSeconds(5));
 
     //when
-    TokenReissueResponse result = authService.reissueLoginToken(refreshToken);
+    assertThrows(TokenException.class, () -> authService.reissueLoginToken(refreshToken));
 
-    String refreshTokenByUserId = fetchTokenPort.findRefreshTokenByUserId(userId);
-    boolean isTokenExists = fetchTokenPort.existsRefreshTokenByUserId(userId);
-
-    //then
-    assertAll(
-        () -> assertNotNull(result.getAccessToken()),
-        () -> assertNotNull(result.getRefreshToken()),
-        () -> assertTrue(isTokenExists),
-        () -> assertThat(result.getRefreshToken()).isEqualTo(refreshTokenByUserId)
-    );
   }
 
 
