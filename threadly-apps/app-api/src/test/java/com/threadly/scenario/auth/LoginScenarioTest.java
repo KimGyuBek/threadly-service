@@ -150,7 +150,7 @@ public class LoginScenarioTest extends BaseApiTest {
     CommonResponse<TokenReissueResponse> tokenReissueResponse = sendPostRequest(
         "", "/api/auth/reissue", status().isOk(),
         new TypeReference<CommonResponse<TokenReissueResponse>>() {
-        }, Map.of("X-refresh-token", refreshToken)
+        }, Map.of("X-refresh-token", "Bearer " + refreshToken)
     );
     String reIssueAccessToken = tokenReissueResponse.getData().getAccessToken();
 

@@ -3,13 +3,16 @@ package com.threadly.entity.user;
 import com.threadly.entity.BaseEntity;
 import com.threadly.user.UserGenderType;
 import com.threadly.user.UserProfileType;
+import com.threadly.util.RandomUtils;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
@@ -19,6 +22,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "user_profile")
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
 public class UserProfileEntity extends BaseEntity {
 
   @Id
@@ -51,4 +55,17 @@ public class UserProfileEntity extends BaseEntity {
   @Column(name = "profile_image_url")
   private String profileImageUrl;
 
+  public static UserProfileEntity newUserProfile(String nickname, String statusMessage, String bio, UserGenderType gender,
+      UserProfileType profileType, String profileImageUrl) {
+
+    return new UserProfileEntity(
+        RandomUtils.generateNanoId(),
+        nickname,
+        statusMessage,
+        bio,
+        gender,
+        profileType,
+        profileImageUrl
+    );
+  }
 }

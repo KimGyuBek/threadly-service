@@ -88,6 +88,10 @@ public class UserEntity extends BaseEntity {
     );
   }
 
+  public void setUserProfile(UserProfileEntity userProfile) {
+    this.userProfile = userProfile;
+  }
+
   /**
    * UserEntity -> UserPortResponse
    *

@@ -1,14 +1,20 @@
 package com.threadly.controller.user;
 
-import com.threadly.annotation.PasswordEncryption;
+import com.threadly.auth.verification.EmailVerificationUseCase;
+import com.threadly.controller.user.mapper.UserProfileRequestMapper;
+import com.threadly.controller.user.request.UserProfileRequest;
 import com.threadly.controller.user.request.UserRegisterRequest;
 import com.threadly.user.RegisterUserUseCase;
+import com.threadly.user.UpdateUserUseCase;
 import com.threadly.user.command.UserRegistrationCommand;
+import com.threadly.user.response.UserProfileApiResponse;
 import com.threadly.user.response.UserRegistrationResponse;
-import com.threadly.auth.verification.EmailVerificationUseCase;
 import jakarta.validation.Valid;
+import java.net.URI;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +27,9 @@ public class UserController {
 
   private final RegisterUserUseCase registerUserUseCase;
   private final EmailVerificationUseCase emailVerificationUseCase;
+  private final UpdateUserUseCase updateUserUseCase;
+
+  private final UserProfileRequestMapper userProfileRequestMapper;
 
 
   /**
@@ -50,8 +59,22 @@ public class UserController {
     return response;
   }
 
+  @PostMapping("/profile")
+  public ResponseEntity<UserProfileApiResponse> setUserProfile(
+      @RequestBody UserProfileRequest request) {
+    /*userId 추출*/
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    String userId = (String) auth.getCredentials();
+
+    URI location = URI.create("/api/users/" + userId);
+
+    return ResponseEntity.created(location)
+        .body(updateUserUseCase.upsertUserProfile(userId, userProfileRequestMapper.toCommand(request)));
+  }
+
   /**
    * test - 사용자 정보 비밀번호 수정
+   *
    * @return
    */
   @PostMapping("/update/password")
@@ -59,7 +82,6 @@ public class UserController {
     return true;
 
   }
-
 
 
 }

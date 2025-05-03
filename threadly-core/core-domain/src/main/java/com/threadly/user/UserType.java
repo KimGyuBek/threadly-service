@@ -5,10 +5,15 @@ public enum UserType {
   SELLER("판매자"),
   ADMIN("관리자");
 
-  private String value;
+  private String desc;
+
 
   UserType(final String value) {
-    this.value = value;
+    this.desc = value;
+  }
+
+  public String getDesc() {
+    return desc;
   }
 }
 

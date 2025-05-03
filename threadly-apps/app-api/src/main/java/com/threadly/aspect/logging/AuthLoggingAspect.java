@@ -51,30 +51,34 @@ public class AuthLoggingAspect {
     debugLog(joinPoint, "로그인 실패");
 
     if (exception instanceof UserAuthenticationException) {
+      log.error(exception.getMessage(), exception);
       logFailure(joinPoint, exception);
       throw new UserAuthenticationException(
           ((UserAuthenticationException) exception).getErrorCode());
 
     } else if (exception instanceof UserException || exception instanceof UsernameNotFoundException
         || exception instanceof BadCredentialsException) {
+      log.error(exception.getMessage(), exception);
       logFailure(joinPoint, exception);
       throw new UserAuthenticationException(ErrorCode.USER_AUTHENTICATION_FAILED);
 
     } else if (exception instanceof DisabledException) {
+      log.error(exception.getMessage(), exception);
       logFailure(joinPoint, exception);
       throw new UserAuthenticationException(ErrorCode.ACCOUNT_DISABLED);
 
     } else if (exception instanceof LockedException) {
+      log.error(exception.getMessage(), exception);
       logFailure(joinPoint, exception);
       throw new UserAuthenticationException(ErrorCode.ACCOUNT_LOCKED);
     } else {
+      log.error(exception.getMessage(), exception);
       logFailure(joinPoint, exception);
       throw new UserAuthenticationException(ErrorCode.AUTHENTICATION_ERROR);
     }
   }
 
   /*
-   * logout()
    * */
   @Pointcut("execution(* com.threadly.auth.AuthService.logout(..))")
   public void logout() {

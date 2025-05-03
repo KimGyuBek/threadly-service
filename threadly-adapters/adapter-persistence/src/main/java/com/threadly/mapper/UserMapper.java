@@ -1,6 +1,7 @@
 package com.threadly.mapper;
 
 import com.threadly.entity.user.UserEntity;
+import com.threadly.entity.user.UserProfileEntity;
 import com.threadly.user.User;
 
 public class UserMapper {
@@ -12,16 +13,38 @@ public class UserMapper {
    * @return
    */
   public static User toDomain(UserEntity entity) {
-    return new User(
-        entity.getUserId(),
-        entity.getUserName(),
-        entity.getPassword(),
-        entity.getEmail(),
-        entity.getPhone(),
-        entity.getUserType(),
-        entity.isActive(),
-        entity.isEmailVerified()
-    );
+    return
+        User.builder()
+            .userId(entity.getUserId())
+            .userName(entity.getUserName())
+            .password(entity.getPassword())
+            .email(entity.getEmail())
+            .phone(entity.getPhone())
+            .userType(entity.getUserType())
+            .isEmailVerified(entity.isEmailVerified())
+            .isActive(entity.isActive())
+            .build();
+  }
+
+  public static User toDomain(UserEntity userEntity, UserProfileEntity userProfileEntity) {
+    User user;
+    user = User.builder()
+        .userId(userEntity.getUserId())
+        .userName(userEntity.getUserName())
+        .password(userEntity.getPassword())
+        .email(userEntity.getEmail())
+        .phone(userEntity.getPhone())
+        .userType(userEntity.getUserType())
+        .isEmailVerified(userEntity.isEmailVerified())
+        .isActive(userEntity.isActive())
+        .build();
+
+    if (userProfileEntity != null) {
+      user.setUserProfile(
+          UserProfileMapper.toDomain(userProfileEntity));
+    }
+
+    return user;
   }
 
   /**
@@ -31,15 +54,32 @@ public class UserMapper {
    * @return
    */
   public static UserEntity toEntity(User domain) {
-    return UserEntity.newUser(
-        domain.getUserName(),
-        domain.getPassword(),
-        domain.getEmail(),
-        domain.getPhone(),
-        domain.getUserType(),
-        domain.isActive(),
-        domain.isEmailVerified()
-    );
+    UserEntity userEntity;
+    if (domain.getUserId() == null) {
+      userEntity = UserEntity.newUser(
+          domain.getUserName(),
+          domain.getPassword(),
+          domain.getEmail(),
+          domain.getPhone(),
+          domain.getUserType(),
+          domain.isActive(),
+          domain.isEmailVerified()
+      );
+    } else {
+      userEntity = new UserEntity(
+          domain.getUserId(),
+          domain.getUserName(),
+          domain.getPassword(),
+          domain.getEmail(),
+          domain.getPhone(),
+          domain.getUserType(),
+          domain.isActive(),
+          domain.isEmailVerified(),
+          null
+      );
+    }
+
+    return userEntity;
   }
 
 }

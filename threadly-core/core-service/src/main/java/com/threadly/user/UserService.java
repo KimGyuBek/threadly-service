@@ -3,7 +3,9 @@ package com.threadly.user;
 import com.threadly.ErrorCode;
 import com.threadly.exception.user.UserException;
 import com.threadly.user.command.UserRegistrationCommand;
+import com.threadly.user.command.UserSetProfileCommand;
 import com.threadly.user.response.UserPortResponse;
+import com.threadly.user.response.UserProfileApiResponse;
 import com.threadly.user.response.UserRegistrationResponse;
 import com.threadly.user.response.UserResponse;
 import java.util.Optional;
@@ -15,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class UserService implements RegisterUserUseCase, FetchUserUseCase {
+public class UserService implements RegisterUserUseCase, FetchUserUseCase, UpdateUserUseCase {
 
   private final InsertUserPort insertUserPort;
   private final FetchUserPort fetchUserPort;
@@ -94,4 +96,72 @@ public class UserService implements RegisterUserUseCase, FetchUserUseCase {
             .build();
   }
 
+  @Transactional
+  @Override
+  public UserProfileApiResponse upsertUserProfile(String userId, UserSetProfileCommand command) {
+    /*userId로 user 조회*/
+    User user = fetchUserPort.findByUserIdWithUserProfile(userId)
+        .orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
+
+    /*조회한 user의 profile이 있는지 검증*/
+    /*있으면 대치  */
+    if (user.hasUserProfile()) {
+      updateExistingProfile(command, user);
+
+    } else {
+      /*없으면 생성*/
+      createNewProfile(command, user);
+    }
+
+    return new UserProfileApiResponse(
+        user.getUserName(),
+        user.getNickname(),
+        user.getStatusMessage(),
+        user.getBio(),
+        user.getGender().name(),
+        user.getProfileImageUrl()
+    );
+  }
+
+  /**
+   * 새로운 profile 생성
+   *
+   * @param command
+   * @param user
+   */
+  private void createNewProfile(UserSetProfileCommand command, User user) {
+    user.setProfile(
+        command.getNickname(),
+        command.getStatusMessage(),
+        command.getBio(),
+        command.getGender(),
+        command.getProfileImageUrl(),
+        UserProfileType.USER
+    );
+
+    insertUserPort.saveUserProfile(user, user.getUserProfile());
+  }
+
+  /**
+   * profile 업데이트
+   *
+   * @param command
+   * @param user
+   */
+  private void updateExistingProfile(UserSetProfileCommand command, User user) {
+    UserProfile userProfile = fetchUserPort.findUserProfileByUserProfileId(
+            user.getUserProfileId())
+        .orElseThrow(() -> new UserException(ErrorCode.USER_PROFILE_NOT_FOUND));
+
+    userProfile.updateProfile(
+        command.getNickname(),
+        command.getStatusMessage(),
+        command.getBio(),
+        command.getGender(),
+        command.getProfileImageUrl()
+    );
+
+    /*저장*/
+    insertUserPort.saveUserProfile(user, userProfile);
+  }
 }
