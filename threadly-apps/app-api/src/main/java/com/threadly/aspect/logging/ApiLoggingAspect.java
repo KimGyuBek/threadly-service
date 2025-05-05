@@ -30,7 +30,7 @@ public class ApiLoggingAspect {
   public void controllerMethod() {
   }
 
-  @Around("controllerMethod()")
+//  @Around("controllerMethod()")
   public Object logRequestResponse(ProceedingJoinPoint pjp) throws Throwable {
     String className = pjp.getSignature().getDeclaringTypeName();
     String methodName = pjp.getSignature().getName();

@@ -1,12 +1,16 @@
 package com.threadly.adapter.user;
 
 import com.threadly.entity.user.UserEntity;
+import com.threadly.entity.user.UserProfileEntity;
 import com.threadly.mapper.UserMapper;
+import com.threadly.mapper.UserProfileMapper;
 import com.threadly.repository.user.UserJpaRepository;
+import com.threadly.repository.user.UserProfileJpaRepository;
 import com.threadly.user.FetchUserPort;
 import com.threadly.user.InsertUserPort;
-import com.threadly.user.UserEmailVerificationPort;
 import com.threadly.user.User;
+import com.threadly.user.UserEmailVerificationPort;
+import com.threadly.user.UserProfile;
 import com.threadly.user.response.UserPortResponse;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +22,7 @@ public class UserPersistenceAdapter implements FetchUserPort, InsertUserPort,
     UserEmailVerificationPort {
 
   private final UserJpaRepository userJpaRepository;
+  private final UserProfileJpaRepository userProfileJpaRepository;
 
   @Override
   public Optional<User> findByEmail(String email) {
@@ -32,7 +37,6 @@ public class UserPersistenceAdapter implements FetchUserPort, InsertUserPort,
 
     /*user가 존재할 경우*/
     return byEmail.map(UserMapper::toDomain);
-
   }
 
   @Override
@@ -47,7 +51,7 @@ public class UserPersistenceAdapter implements FetchUserPort, InsertUserPort,
             .password(userEntity.getPassword())
             .email(userEntity.getEmail())
             .phone(userEntity.getPhone())
-            .userType(userEntity.getUserType().name())
+            .userType(userEntity.getUserType().getDesc())
             .isActive(userEntity.isActive())
             .isEmailVerified(userEntity.isEmailVerified())
             .build();
@@ -56,15 +60,67 @@ public class UserPersistenceAdapter implements FetchUserPort, InsertUserPort,
 
   @Override
   public Optional<User> findByUserId(String userId) {
-
-    Optional<UserEntity> byId = userJpaRepository.findById(userId);
-
-    return byId.map(UserMapper::toDomain);
+    return userJpaRepository.findById(userId).map(
+        UserMapper::toDomain);
   }
 
   @Override
   public void updateEmailVerification(User user) {
-
     userJpaRepository.updateEmailVerification(user.getUserId(), user.isEmailVerified());
   }
+
+
+  /**
+   * userProfileId로 userProfile 조회
+   *
+   * @param userProfileId
+   * @return
+   */
+  @Override
+  public Optional<UserProfile> findUserProfileByUserProfileId(String userProfileId) {
+    return userProfileJpaRepository.findById(userProfileId)
+        .map(
+            entity -> UserProfile.builder()
+                .userProfileId(entity.getUserProfileId())
+                .nickname(entity.getNickname())
+                .statusMessage(entity.getStatusMessage())
+                .bio(entity.getBio())
+                .gender(entity.getGender())
+                .profileType(entity.getProfileType())
+                .profileImageUrl(entity.getProfileImageUrl())
+                .build()
+        );
+  }
+
+  @Override
+  public void saveUserProfile(User user, UserProfile userProfile) {
+
+    UserProfileEntity userProfileEntity = UserProfileMapper.toEntity(userProfile);
+    userProfileJpaRepository.save(userProfileEntity);
+
+    UserEntity userEntity = UserMapper.toEntity(user);
+    userEntity.setUserProfile(userProfileEntity);
+    userJpaRepository.save(userEntity);
+  }
+
+
+  @Override
+  public void saveUser(User user) {
+    userJpaRepository.save(UserMapper.toEntity(user));
+  }
+
+  @Override
+  public Optional<User> findByUserIdWithUserProfile(String userId) {
+    Optional<UserEntity> userEntity = userJpaRepository.findByUserIdWithUserProfile(
+        userId);
+
+    return
+        userEntity.map(entity ->
+            UserMapper.toDomain(
+                entity,
+                entity.getUserProfile()
+            )
+        );
+  }
+
 }

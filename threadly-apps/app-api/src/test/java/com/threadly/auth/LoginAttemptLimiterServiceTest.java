@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.threadly.repository.auth.TestLoginAttemptHelper;
+import com.threadly.repository.auth.TestRedisHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
@@ -30,7 +30,7 @@ class LoginAttemptLimiterServiceTest {
   private LoginAttemptLimiterService loginAttemptLimiterService;
 
   @Autowired
-  private TestLoginAttemptHelper testLoginAttemptHelper;
+  private TestRedisHelper testLoginAttemptHelper;
 
   private static final int MAX_LOGIN_ATTEMPTS = 5;
 

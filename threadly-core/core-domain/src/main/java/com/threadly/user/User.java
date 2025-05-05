@@ -21,25 +21,23 @@ public class User {
   private boolean isActive;
   private boolean isEmailVerified;
 
+  private UserProfile userProfile;
 
-  /**
-   * 새로운 사용자 생성
-   *
-   * @param userName
-   * @param password
-   * @param email
-   * @param phone
-   * @return
-   */
-  public static User newUser(String userName, String password, String email, String phone) {
-    return new User(
-        userName,
-        password,
-        email,
-        phone,
-        UserType.USER
-    );
+  /*email 인증*/
+  public void verifyEmail() {
+    isEmailVerified = true;
   }
+
+  /*검증*/
+  public boolean isEmailVerified() {
+    return isEmailVerified;
+  }
+
+  public boolean hasUserProfile() {
+    return userProfile != null;
+  }
+
+
 
   private User(String userName, String password, String email, String phone,
       UserType userType) {
@@ -51,15 +49,88 @@ public class User {
     this.userType = userType;
     this.isActive = true;
     this.isEmailVerified = false;
+    this.userProfile = null;
   }
 
-  /*email 인증*/
-  public void verifyEmail() {
-    isEmailVerified = true;
+  /**
+   * 새로운 사용자 생성
+   *
+   * @param userName
+   * @param password
+   * @param email
+   * @param phone
+   * @return
+   */
+  public static User newUser(String userName, String password, String email, String phone) {
+    return
+        User.builder()
+            .userName(userName)
+            .password(password)
+            .email(email)
+            .phone(phone)
+            .userType(UserType.USER)
+            .build();
   }
 
-  /*검증*/
-  public boolean isEmailVerified() {
-    return isEmailVerified;
+  /*User Profile*/
+
+  public void setUserProfile(UserProfile userProfile) {
+    this.userProfile = userProfile;
   }
+  /**
+   * UserProfile 생성
+   *
+   * @param nickname
+   * @param statusMessage
+   * @param bio
+   * @param gender
+   * @param profileImageUrl
+   * @param profileType
+   */
+  public void setProfile(
+      String nickname,
+      String statusMessage,
+      String bio,
+      UserGenderType gender,
+      String profileImageUrl,
+      UserProfileType profileType
+  ) {
+    this.userProfile = UserProfile.create(
+        nickname,
+        statusMessage,
+        bio,
+        gender,
+        profileType,
+        profileImageUrl
+    );
+  }
+
+  public String getUserProfileId() {
+    return userProfile.getUserProfileId();
+  }
+
+  public String getNickname() {
+    return userProfile.getNickname();
+  }
+
+  public String getStatusMessage() {
+    return userProfile.getStatusMessage();
+  }
+
+  public String getBio() {
+    return userProfile.getBio();
+  }
+
+  public UserGenderType getGender() {
+    return userProfile.getGender();
+  }
+
+  public UserProfileType getProfileType() {
+    return userProfile.getProfileType();
+  }
+
+  public String getProfileImageUrl() {
+    return userProfile.getProfileImageUrl();
+  }
+
 }

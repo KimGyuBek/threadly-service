@@ -22,3 +22,4 @@ spring:
     generate-ddl: false
     open-in-view: false
 
+

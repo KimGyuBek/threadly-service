@@ -3,7 +3,6 @@ package com.threadly.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.threadly.ErrorCode;
-import com.threadly.auth.LoginAttemptLimiterService;
 import com.threadly.auth.exception.TokenAuthenticationException;
 import com.threadly.auth.exception.UserAuthenticationException;
 import com.threadly.response.ApiResponse;
@@ -24,13 +23,14 @@ import org.springframework.stereotype.Component;
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
   private final ObjectMapper objectMapper;
-  private final LoginAttemptLimiterService loginAttemptLimiterService;
 
   @Override
   public void commence(HttpServletRequest request, HttpServletResponse response,
       AuthenticationException authException) throws IOException, ServletException {
 
     response.setCharacterEncoding("UTF-8");
+    response.setContentType("application/json");
+
     /*TokenAuthenticationException일 경우*/
     if (authException instanceof TokenAuthenticationException) {
       ErrorCode errorCode = ((TokenAuthenticationException) authException).getErrorCode();

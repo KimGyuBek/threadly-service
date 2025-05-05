@@ -1,5 +1,6 @@
 package com.threadly.repository.auth;
 
+import java.time.Duration;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Repository;
 @Profile("test")
 @Repository
 @RequiredArgsConstructor
-public class TestLoginAttemptHelper {
+public class TestRedisHelper {
 
   private final RedisTemplate<String, Object> redisTemplate;
 
@@ -29,6 +30,11 @@ public class TestLoginAttemptHelper {
     String key = "login:attempt:" + userId;
     return
         (Integer) redisTemplate.opsForValue().get(key);
+  }
+
+  public void insert(String key, String value, Duration duration) {
+    redisTemplate.opsForValue().set(key, duration.toMillis());
+
   }
 
 }

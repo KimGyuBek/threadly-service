@@ -7,5 +7,9 @@ public interface InsertUserPort {
 
   UserPortResponse create(User user);
 
+  void saveUserProfile(User user, UserProfile userProfile);
+
+  void saveUser(User user);
+
 
 }
