@@ -1,7 +1,7 @@
 drop table if exists users;
 create table users
 (
-    user_id     varchar(255) not null,
+    user_id     varchar(255) not null primary key ,
     user_name   varchar(255) not null,
     password    varchar(255) not null,
     email       varchar(255) not null,
