@@ -1,7 +1,5 @@
 package com.threadly.user;
 
-import com.threadly.user.response.UserProfileResponse;
-
 /**
  * 사용자 정보 업데이트 port
  */
