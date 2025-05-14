@@ -4,13 +4,11 @@ package com.threadly.entity.post;
 import com.threadly.entity.BaseEntity;
 import com.threadly.entity.user.UserEntity;
 import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
 
 /**
@@ -18,7 +16,7 @@ import jakarta.persistence.Table;
  */
 @Table(name = "post_comments")
 @Entity
-public class PostCommentsEntity extends BaseEntity {
+public class PostCommentEntity extends BaseEntity {
 
   @Id
   @Column(name = "comment_id")
@@ -34,6 +32,4 @@ public class PostCommentsEntity extends BaseEntity {
 
   @Column(name = "content")
   private String content;
-
-
 }
