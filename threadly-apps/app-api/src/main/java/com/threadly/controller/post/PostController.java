@@ -23,6 +23,16 @@ public class PostController {
 
   private final CreatePostUseCase createPostUseCase;
 
+  /*
+   * 게시글 저장 - POST /api/posts
+   * 게시글 수정 - PATCH /api/posts/{postId}
+   * 게시글 좋아요 - POST /api/posts/{postId}/likes
+   * 게시글 좋아요 목록 조회 - GET /api/posts/{postId}/likes
+   * 게시글 댓글 목록 조회 - GET /api/posts/{postId}/comments
+   * 게시글 댓글 좋아요 - POST /api/posts/{postId}/comments/{commentId}/likes
+   * 게시글 댓글 좋아요 목록 조회 - GET /api/posts/{postId}/comments/{commentsId}/likes
+   */
+
   /**
    * 게시글 생성
    *

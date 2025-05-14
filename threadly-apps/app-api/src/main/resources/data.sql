@@ -1,3 +1,20 @@
+-- 프로필 등록
+insert into user_profile(user_profile_id,
+                         nickname,
+                         status_message,
+                         bio,
+                         gender,
+                         profile_type,
+                         profile_image_url)
+values ('up1',
+        'nickname',
+        'status message',
+        'bio',
+        'MALE',
+        'USER',
+        '/');
+
+-- email 인증 사용자
 insert into users (user_id,
                    user_name,
                    password,
@@ -6,6 +23,7 @@ insert into users (user_id,
                    user_type,
                    is_active,
                    is_email_verified,
+                   user_profile_id,
                    created_at,
                    modified_at)
 values ('1',
@@ -16,9 +34,12 @@ values ('1',
         'USER',
         true,
         true,
+        'up1',
         '2025-04-22 00:55:59.733403',
         '2025-04-22 00:55:59.733403');
 
+
+-- email 미인증 사용자
 insert into users (user_id,
                    user_name,
                    password,
