@@ -43,4 +43,8 @@ tasks.getByName<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar
 tasks.withType<Test> {
     systemProperty("spring.profiles.active", "test")
     systemProperty("file.encoding", "UTF-8")
+    maxParallelForks = 1
+
+
 }
+

@@ -12,17 +12,20 @@ import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 
-@Table(name = "post_likes")
+/**
+ * 댓글 좋아요 Entity
+ */
+@Table(name = "comment_likes")
 @Entity
-public class PostLikesEntity {
+public class CommentLikeEntity {
 
   @EmbeddedId
-  private PostIdAndUserId id;
+  private UserIdAndCommentId id;
 
-  @MapsId("postId")
+  @MapsId("commentId")
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "post_id")
-  private PostEntity post;
+  @JoinColumn(name = "comment_id")
+  private PostCommentEntity comment;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
