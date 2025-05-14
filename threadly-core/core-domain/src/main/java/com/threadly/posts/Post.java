@@ -1,6 +1,7 @@
 package com.threadly.posts;
 
 import com.google.common.annotations.VisibleForTesting;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -23,15 +24,25 @@ public class Post {
   private List<PostComment> postComments;
 
   private int viewCount;
+  private LocalDateTime postedAt;
+
+  public Post(String postId, String content, String userId, int viewCount, LocalDateTime postedAt) {
+    this.postId = postId;
+    this.content = content;
+    this.userId = userId;
+    this.viewCount = viewCount;
+    this.postedAt = postedAt;
+  }
 
   private Post(String postId, String userId, String content, Set<PostLike> postLikes,
-      List<PostComment> postComments, int viewCount) {
+      List<PostComment> postComments, int viewCount, LocalDateTime postedAt) {
     this.postId = postId;
     this.userId = userId;
     this.content = content;
     this.postLikes = postLikes != null ? postLikes : new HashSet<>();
     this.postComments = postComments != null ? postComments : new ArrayList<>();
     this.viewCount = viewCount;
+    this.postedAt = postedAt;
   }
 
   /**
@@ -49,6 +60,7 @@ public class Post {
         .postLikes(new HashSet<>())
         .postComments(new ArrayList<>())
         .viewCount(0)
+        .postedAt(LocalDateTime.now())
         .build();
   }
 

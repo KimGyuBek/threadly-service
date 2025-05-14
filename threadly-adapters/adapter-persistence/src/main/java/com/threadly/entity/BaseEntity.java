@@ -20,4 +20,8 @@ public abstract class BaseEntity {
   @Column(name = "modified_at")
   private LocalDateTime modifiedAt;
 
+  public LocalDateTime getModifiedAt() {
+    return modifiedAt;
+  }
+
 }

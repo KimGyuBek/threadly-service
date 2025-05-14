@@ -37,5 +37,12 @@ public interface UserJpaRepository extends JpaRepository<UserEntity, String> {
           + "where u.userId = :userId")
   Optional<UserEntity> findByUserIdWithUserProfile(@Param("userId") String userId);
 
+  @Query(value =
+      "select up "
+          + "from UserEntity u "
+          + "left join u.userProfile up "
+          + "where u.userId = :userId"
+  )
+  Optional<UserProfileEntity> findUserProfileByUserId(@Param("userId") String userId);
 
 }

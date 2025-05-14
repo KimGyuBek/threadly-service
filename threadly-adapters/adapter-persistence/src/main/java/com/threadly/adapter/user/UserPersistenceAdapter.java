@@ -2,8 +2,8 @@ package com.threadly.adapter.user;
 
 import com.threadly.entity.user.UserEntity;
 import com.threadly.entity.user.UserProfileEntity;
-import com.threadly.mapper.UserMapper;
-import com.threadly.mapper.UserProfileMapper;
+import com.threadly.mapper.user.UserMapper;
+import com.threadly.mapper.user.UserProfileMapper;
 import com.threadly.repository.user.UserJpaRepository;
 import com.threadly.repository.user.UserProfileJpaRepository;
 import com.threadly.user.FetchUserPort;
@@ -123,4 +123,12 @@ public class UserPersistenceAdapter implements FetchUserPort, InsertUserPort,
         );
   }
 
+  @Override
+  public Optional<UserProfile> getUserProfile(String userId) {
+    return
+        userJpaRepository.findUserProfileByUserId(
+            userId).map(
+            UserProfileMapper::toDomain
+        );
+  }
 }
