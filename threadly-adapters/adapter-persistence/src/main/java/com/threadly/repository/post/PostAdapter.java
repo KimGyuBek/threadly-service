@@ -6,8 +6,11 @@ import com.threadly.entity.user.UserEntity;
 import com.threadly.exception.user.UserException;
 import com.threadly.mapper.post.PostMapper;
 import com.threadly.port.CreatePostPort;
+import com.threadly.port.FetchPostPort;
+import com.threadly.port.UpdatePostPort;
 import com.threadly.posts.Post;
 import com.threadly.repository.user.UserJpaRepository;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -16,7 +19,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @RequiredArgsConstructor
-public class PostAdapter implements CreatePostPort {
+public class PostAdapter implements CreatePostPort, FetchPostPort, UpdatePostPort {
 
   private final PostJpaRepository postJpaRepository;
   private final UserJpaRepository userJpaRepository;
@@ -32,5 +35,18 @@ public class PostAdapter implements CreatePostPort {
     );
 
     return PostMapper.toDomain(saved);
+  }
+
+  @Override
+  public Optional<Post> findById(String postId) {
+    return
+        postJpaRepository.findById(postId).map(
+            PostMapper::toDomain
+        );
+  }
+
+  @Override
+  public void updatePost(Post post) {
+    postJpaRepository.updatePostContentByPostId(post.getPostId(), post.getContent());
   }
 }

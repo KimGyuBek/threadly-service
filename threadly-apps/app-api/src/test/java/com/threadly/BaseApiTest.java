@@ -1,6 +1,7 @@
 package com.threadly;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -35,7 +36,8 @@ public abstract class BaseApiTest {
   @Autowired
   private ObjectMapper objectMapper;
 
-  public final String USER_EMAIL_VERIFIED = "user_email_verified@test.com";
+  public final String USER_EMAIL_VERIFIED_1 = "user_email_verified1@test.com";
+  public final String USER_EMAIL_VERIFIED_2 = "user_email_verified2@test.com";
   public final String USER_EMAIL_NOT_VERIFIED = "user_email_not_verified@test.com";
   public final String PASSWORD = "1234";
 
@@ -59,7 +61,7 @@ public abstract class BaseApiTest {
         typeRef,
         Map.of());
 
-    return  loginResponse;
+    return loginResponse;
   }
 
   /**
@@ -82,7 +84,7 @@ public abstract class BaseApiTest {
         typeRef,
         headers
     );
-    return  loginResponse;
+    return loginResponse;
   }
 
   /**
@@ -141,6 +143,35 @@ public abstract class BaseApiTest {
   }
 
   /**
+   * patch 요청 전송
+   *
+   * @param requestJson
+   * @param path
+   * @param expectedStatus
+   * @return
+   * @throws Exception
+   */
+  public <T> CommonResponse<T> sendPatchRequest(String requestJson, String path,
+      ResultMatcher expectedStatus, TypeReference<CommonResponse<T>> typeRef,
+      Map<String, String> headers) throws Exception {
+    TestLogUtils.log(path + " 요청 전송");
+
+    HttpHeaders httpHeaders = new HttpHeaders();
+    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+    httpHeaders.set("Accept-Charset", "utf-8");
+    headers.forEach((key, value) -> httpHeaders.add(key, value));
+
+    MvcResult result = mockMvc.perform(
+        patch(path)
+            .headers(httpHeaders)
+            .content(requestJson)
+    ).andExpect(expectedStatus).andReturn();
+    TestLogUtils.log(result);
+
+    return getResponse(result, typeRef);
+  }
+
+  /**
    * response -> CommonResponse<T>
    *
    * @param result
@@ -158,9 +189,10 @@ public abstract class BaseApiTest {
 
   /**
    * request body 생성
+   *
    * @param data
-   * @return
    * @param <T>
+   * @return
    * @throws JsonProcessingException
    */
   public <T> String generateRequestBody(T data) throws JsonProcessingException {

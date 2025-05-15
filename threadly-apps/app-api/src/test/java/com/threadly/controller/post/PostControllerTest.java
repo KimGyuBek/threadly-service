@@ -6,12 +6,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.threadly.BaseApiTest;
 import com.threadly.CommonResponse;
+import com.threadly.ErrorCode;
 import com.threadly.auth.token.response.LoginTokenResponse;
 import com.threadly.controller.post.request.CreatePostRequest;
+import com.threadly.controller.post.request.UpdatePostRequest;
 import com.threadly.post.response.CreatePostApiResponse;
 import java.util.HashMap;
 import java.util.Map;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.web.servlet.ResultMatcher;
 
 /**
  * Post Controller Test
@@ -22,29 +26,209 @@ class PostControllerTest extends BaseApiTest {
   /**
    * createPost()
    */
+  /*[Case #1] 게시글 작성 성공 시 요청한 content가 응답에 포함된다*/
+  @DisplayName("createPost - 정상적으로 작성되면 요청한 content가 응답에 포함된다")
   @Test
-  public void createNewContent_shouldSuccess() throws Exception {
+  public void createPost_shouldCreatedContent_whenCreatePostWithValidInput() throws Exception {
     //given
     /*로그인*/
-    CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(
-        USER_EMAIL_VERIFIED, PASSWORD, new TypeReference<>() {
-        },
-        status().isOk()
-    );
-
+    String accessToken = getAccessToken(USER_EMAIL_VERIFIED_1);
 
     //when
     /*게시글 생성*/
     String content = "content";
-    String requestBody = generateRequestBody(new CreatePostRequest(content));
-    Map<String, String> headers = new HashMap<>();
-    headers.put("Authorization", "Bearer " + loginResponse.getData().accessToken());
 
-    CommonResponse<CreatePostApiResponse> response = sendPostRequest(requestBody, "/api/posts",
-        status().isCreated(), new TypeReference<>() {
-        }, headers);
+    CommonResponse<CreatePostApiResponse> response = sendCreatePostRequest(
+        accessToken, "content", status().isCreated());
 
     //then
     assertThat(response.getData().content()).isEqualTo(content);
   }
+
+  /*[Case #2] 게시글 작성 요청 시 content가 비어있을 경우 실패한다*/
+  @DisplayName("createPost - 게시글 작성 요청 시 content가 비어있으면 실패한다")
+  @Test
+  public void createPost_shouldRetrurnBadRequest_whenContentIsBlank() throws Exception {
+    //given
+    /*로그인*/
+    String accessToken = getAccessToken(USER_EMAIL_VERIFIED_1);
+
+    //when
+    /*게시글 생성*/
+    String content = "";
+
+    CommonResponse<CreatePostApiResponse> response = sendCreatePostRequest(
+        accessToken, content, status().isBadRequest());
+
+    //then
+    assertThat(response.getCode()).isEqualTo(ErrorCode.INVALID_REQUEST.getCode());
+  }
+
+  /**
+   * updatePost()
+   */
+  /*[Case #1] 작성자가 수정 요청 시 정상적으로 수정되어야 한다 */
+  @DisplayName("updatePost - 작성자가 수정 요청 시 정상적으로 수정된다")
+  @Test
+  public void updatePost_shouldUpdatePostSuccessfully_whenWriterRequestsUpdate() throws Exception {
+    //given
+    /*로그인*/
+    String accessToken = getAccessToken(USER_EMAIL_VERIFIED_1);
+
+    String content = "content";
+    String modifiedContent = "modifiedContent";
+
+    /*게시글 생성*/
+    CommonResponse<CreatePostApiResponse> response = sendCreatePostRequest(accessToken, content,
+        status().isCreated());
+    String postId = response.getData().postId();
+
+    //when
+    /*게시글 수정 요청 전송*/
+    String requestBody = generateRequestBody(new UpdatePostRequest(modifiedContent));
+    Map<String, String> headers = new HashMap<>();
+    headers.put("Authorization", "Bearer " + accessToken);
+
+    CommonResponse<CreatePostApiResponse> updatedPostResponse = sendPatchRequest(requestBody,
+        "/api/posts/" + postId,
+        status().isOk(), new TypeReference<>() {
+        }, headers);
+
+    //then
+    assertThat(updatedPostResponse.getData().content()).isEqualTo(modifiedContent);
+  }
+
+  /*[Case #2]  작성자가 아닌 사용자가 게시글 수정 요청을 보내면 실패한다*/
+  @DisplayName("updatePost - 작성자가 아닌 사용자가 수정 요청 시 403 Forbidden 응답이 반환된다")
+  @Test
+  public void updatePost_shouldReturnForbidden_whenNonWriterTriesToUpdatePost() throws Exception {
+    //given
+    /*로그인*/
+    String accessToken1 = getAccessToken(USER_EMAIL_VERIFIED_1);
+    String accessToken2 = getAccessToken(USER_EMAIL_VERIFIED_2);
+
+    String content = "content";
+    String modifiedContent = "modifiedContent";
+
+    /*게시글 생성*/
+    CommonResponse<CreatePostApiResponse> response = sendCreatePostRequest(accessToken1, content,
+        status().isCreated());
+    String postId = response.getData().postId();
+
+    //when
+    /*게시글 수정 요청 전송*/
+    String requestBody = generateRequestBody(new UpdatePostRequest(modifiedContent));
+    Map<String, String> headers = new HashMap<>();
+    headers.put("Authorization", "Bearer " + accessToken2);
+
+    CommonResponse<CreatePostApiResponse> updatedPostResponse = sendPatchRequest(requestBody,
+        "/api/posts/" + postId,
+        status().isForbidden(), new TypeReference<>() {
+        }, headers);
+
+    //then
+    assertThat(updatedPostResponse.isSuccess()).isFalse();
+    assertThat(updatedPostResponse.getCode()).isEqualTo(ErrorCode.POST_UPDATE_FORBIDDEN.getCode());
+  }
+
+  /*[Case #3] 작성자가 존재하지 않는 postId로 수정 요청 시 실패해야 한다*/
+  @DisplayName("updatePost - 작성자가 존재하지 않는 postId로 수정 요청 시 ")
+  @Test
+  public void updatePost_shouldReturnNotFound_whenRequestNotExistsPostId() throws Exception {
+    //given
+    /*로그인*/
+    String accessToken = getAccessToken(USER_EMAIL_VERIFIED_1);
+
+    String content = "content";
+    String modifiedContent = "modifiedContent";
+
+    /*게시글 생성*/
+    CommonResponse<CreatePostApiResponse> response = sendCreatePostRequest(accessToken, content,
+        status().isCreated());
+
+    //when
+    /*게시글 수정 요청 전송*/
+    String requestBody = generateRequestBody(new UpdatePostRequest(modifiedContent));
+    Map<String, String> headers = new HashMap<>();
+    headers.put("Authorization", "Bearer " + accessToken);
+
+    CommonResponse<CreatePostApiResponse> updatedPostResponse = sendPatchRequest(requestBody,
+        "/api/posts/" + "post123",
+        status().isNotFound(), new TypeReference<>() {
+        }, headers);
+
+    //then
+    assertThat(updatedPostResponse.isSuccess()).isFalse();
+    assertThat(updatedPostResponse.getCode()).isEqualTo(ErrorCode.POST_NOT_FOUND.getCode());
+  }
+  /*[Case #4] 작성자가 빈 content로 수정 요청 시 실패해야 한다*/
+  @DisplayName("updatePost - 작성자가 비어있는 content로 요청 시 실패해야한다")
+  @Test
+  public void updatePost_shouldReturnBadRequest_whenContentIsBlank() throws Exception {
+    //given
+    /*로그인*/
+    String accessToken = getAccessToken(USER_EMAIL_VERIFIED_1);
+
+    String content = "content";
+    String modifiedContent = "";
+
+    /*게시글 생성*/
+    CommonResponse<CreatePostApiResponse> response = sendCreatePostRequest(accessToken, content,
+        status().isCreated());
+    String postId = response.getData().postId();
+
+    //when
+    /*게시글 수정 요청 전송*/
+    String requestBody = generateRequestBody(new UpdatePostRequest(modifiedContent));
+    Map<String, String> headers = new HashMap<>();
+    headers.put("Authorization", "Bearer " + accessToken);
+
+    CommonResponse<CreatePostApiResponse> updatedPostResponse = sendPatchRequest(requestBody,
+        "/api/posts/" + postId,
+        status().isBadRequest(), new TypeReference<>() {
+        }, headers);
+
+    //then
+    assertThat(updatedPostResponse.isSuccess()).isFalse();
+    assertThat(updatedPostResponse.getCode()).isEqualTo(ErrorCode.INVALID_REQUEST.getCode());
+  }
+
+
+  /**
+   * 로그인 후 accessToken 추출
+   *
+   * @param email
+   * @return
+   * @throws Exception
+   */
+  private String getAccessToken(String email) throws Exception {
+    CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(
+        email, PASSWORD, new TypeReference<>() {
+        },
+        status().isOk()
+    );
+    return loginResponse.getData().accessToken();
+  }
+
+  /**
+   * 게시글 등록 요청 전송
+   *
+   * @param content
+   * @param expectedStatus
+   * @return
+   */
+  private CommonResponse<CreatePostApiResponse> sendCreatePostRequest(String accessToken,
+      String content, ResultMatcher expectedStatus) throws Exception {
+
+    String requestBody = generateRequestBody(new CreatePostRequest(content));
+    Map<String, String> headers = new HashMap<>();
+    headers.put("Authorization", "Bearer " + accessToken);
+
+    CommonResponse<CreatePostApiResponse> response = sendPostRequest(requestBody, "/api/posts",
+        expectedStatus, new TypeReference<>() {
+        }, headers);
+
+    return response;
+  }
+
 }

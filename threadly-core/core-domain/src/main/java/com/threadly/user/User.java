@@ -38,7 +38,6 @@ public class User {
   }
 
 
-
   private User(String userName, String password, String email, String phone,
       UserType userType) {
     this.userId = null;
@@ -77,6 +76,7 @@ public class User {
   public void setUserProfile(UserProfile userProfile) {
     this.userProfile = userProfile;
   }
+
   /**
    * UserProfile 생성
    *
@@ -103,6 +103,19 @@ public class User {
         profileType,
         profileImageUrl
     );
+  }
+
+  /**
+   * userProfile 업데이트
+   * @param nickname
+   * @param statusMessage
+   * @param bio
+   * @param gender
+   * @param profileImageUrl
+   */
+  public void updateUserProfile(String nickname, String statusMessage, String bio,
+      UserGenderType gender, String profileImageUrl) {
+    userProfile.updateProfile(nickname, statusMessage, bio, gender, profileImageUrl);
   }
 
   public String getUserProfileId() {

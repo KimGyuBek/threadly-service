@@ -1,13 +1,20 @@
 package com.threadly.controller.post;
 
 import com.threadly.controller.post.request.CreatePostRequest;
+import com.threadly.controller.post.request.UpdatePostRequest;
 import com.threadly.post.CreatePostUseCase;
+import com.threadly.post.UpdatePostUseCase;
 import com.threadly.post.command.CreatePostCommand;
+import com.threadly.post.command.UpdatePostCommand;
 import com.threadly.post.response.CreatePostApiResponse;
+import com.threadly.post.response.UpdatePostApiResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PostController {
 
   private final CreatePostUseCase createPostUseCase;
+  private final UpdatePostUseCase updatePostUseCase;
 
   /*
    * 게시글 저장 - POST /api/posts
@@ -39,7 +47,7 @@ public class PostController {
    * @return
    */
   @PostMapping("")
-  public ResponseEntity<CreatePostApiResponse> createPost(@RequestBody CreatePostRequest request) {
+  public ResponseEntity<CreatePostApiResponse> createPost(@Valid @RequestBody CreatePostRequest request) {
     /*userId 추출*/
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     String userId = (String) auth.getCredentials();
@@ -47,6 +55,27 @@ public class PostController {
     return ResponseEntity.status(201).body(
         createPostUseCase.createPost(
             new CreatePostCommand(userId, request.content())
+        )
+    );
+  }
+
+  /**
+   * 게시글 수정
+   * @param request
+   * @param postId
+   * @return
+   */
+  @PatchMapping("/{postId}")
+  public ResponseEntity<UpdatePostApiResponse> updatePost(@Valid @RequestBody UpdatePostRequest request,
+      @PathVariable("postId") String postId) {
+
+    /*userId 추출*/
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    String userId = (String) auth.getCredentials();
+
+    return ResponseEntity.status(200).body(
+        updatePostUseCase.updatePost(
+            new UpdatePostCommand(postId, userId, request.content())
         )
     );
   }

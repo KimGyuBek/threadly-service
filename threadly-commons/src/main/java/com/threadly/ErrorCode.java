@@ -46,7 +46,15 @@ public enum ErrorCode {
   EMAIL_ALREADY_VERIFIED("TLY4004", "이미 인증이 완료된 이메일입니다.", HttpStatus.CONFLICT),
   EMAIL_USER_NOT_FOUND("TLY4005", "해당 이메일에 대한 사용자를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
   EMAIL_FORMAT_INVALID("TLY4006", "이메일 형식이 올바르지 않습니다.", HttpStatus.BAD_REQUEST),
-  EMAIL_REQUEST_INVALID("TLY4007", "잘못된 인증 요청입니다.", HttpStatus.BAD_REQUEST);
+  EMAIL_REQUEST_INVALID("TLY4007", "잘못된 인증 요청입니다.", HttpStatus.BAD_REQUEST),
+
+  /*Post*/
+  POST_NOT_FOUND("TLY5000", "게시글을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+  POST_ALREADY_DELETED("TLY5001", "이미 삭제된 게시글입니다.", HttpStatus.BAD_REQUEST),
+  POST_UPDATE_FORBIDDEN("TLY5002", "게시글을 수정할 권한이 없습니다.", HttpStatus.FORBIDDEN),
+  POST_DELETE_FORBIDDEN("TLY5003", "게시글을 삭제할 권한이 없습니다.", HttpStatus.FORBIDDEN),
+  POST_LIKE_DUPLICATED("TLY5004", "이미 좋아요를 누른 게시글입니다.", HttpStatus.CONFLICT),
+  POST_LIKE_NOT_FOUND("TLY5005", "좋아요를 누르지 않은 게시글입니다.", HttpStatus.BAD_REQUEST);
 
 
   private final String code;

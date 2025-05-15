@@ -11,10 +11,10 @@ public interface CreatePostUseCase {
 
   /**
    * 게시글 생성
-   * @param createPostCommand
+   * @param command
    * @return
    */
-  CreatePostApiResponse createPost(CreatePostCommand createPostCommand);
+  CreatePostApiResponse createPost(CreatePostCommand command);
 
 
 }

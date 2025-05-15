@@ -31,6 +31,7 @@ public class PostMapper {
 
   /**
    * PostDomain -> PostEntity
+   *
    * @param post
    * @return
    */
@@ -43,3 +44,4 @@ public class PostMapper {
     );
   }
 }
+
