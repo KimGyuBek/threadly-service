@@ -104,3 +104,17 @@ values ('usr3',
         '2025-04-22 00:55:59.733403',
         '2025-04-22 00:55:59.733403');
 
+--- 게시글
+-- 사용자 1이 작성한 게시글 5개
+insert into posts (post_id, user_id, content, view_count, created_at, modified_at)
+values ('post1', 'usr1', '카페에서 커피 마시다 옆 테이블 대화에 집중한 지 30분째. 이제 걔네보다 내가 더 잘 앎.', 42,
+        current_timestamp, current_timestamp),
+       ('post2', 'usr1', '방 청소한다고 음악 틀었는데 결국 춤만 추다 끝남. 방은 그대로다.', 37, current_timestamp,
+        current_timestamp),
+       ('post3', 'usr1', '치킨 시켰는데 날개 두 조각 실종. 혹시 배달 중에 날아간 거 아님?', 58, current_timestamp,
+        current_timestamp),
+       ('post4', 'usr1', '엘리베이터에서 모르는 사람이랑 동시에 "안녕하세요" 해서 혼자 민망했다. 나 혼잣말 한 거였음.', 31,
+        current_timestamp, current_timestamp),
+       ('post5', 'usr1', '오늘은 아무것도 안 했지만 피곤하다. 아마 존재 자체가 피로인 듯.', 65, current_timestamp,
+        current_timestamp);
+

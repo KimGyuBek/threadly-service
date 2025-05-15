@@ -1,4 +1,4 @@
-package com.threadly.port;
+package com.threadly.post;
 
 import com.threadly.posts.Post;
 

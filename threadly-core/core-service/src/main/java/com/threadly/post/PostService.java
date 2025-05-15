@@ -3,12 +3,11 @@ package com.threadly.post;
 import com.threadly.ErrorCode;
 import com.threadly.exception.post.PostException;
 import com.threadly.exception.user.UserException;
-import com.threadly.port.CreatePostPort;
-import com.threadly.port.FetchPostPort;
-import com.threadly.port.UpdatePostPort;
 import com.threadly.post.command.CreatePostCommand;
 import com.threadly.post.command.UpdatePostCommand;
 import com.threadly.post.response.CreatePostApiResponse;
+import com.threadly.post.response.PostDetailApiResponse;
+import com.threadly.post.response.PostDetailResponse;
 import com.threadly.post.response.UpdatePostApiResponse;
 import com.threadly.posts.Post;
 import com.threadly.user.FetchUserPort;
@@ -22,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @RequiredArgsConstructor
-public class PostService implements CreatePostUseCase, UpdatePostUseCase {
+public class PostService implements CreatePostUseCase, UpdatePostUseCase, FetchPostUseCase {
 
   private final CreatePostPort createPostPort;
   private final FetchPostPort fetchPostPort;
@@ -75,7 +74,6 @@ public class PostService implements CreatePostUseCase, UpdatePostUseCase {
     post.updateContent(command.getContent());
     updatePostPort.updatePost(post);
 
-
     return new UpdatePostApiResponse(
         post.getPostId(),
         userProfile.getProfileImageUrl(),
@@ -85,6 +83,22 @@ public class PostService implements CreatePostUseCase, UpdatePostUseCase {
         post.getLikesCount(),
         post.getCommentsCount(),
         post.getPostedAt()
+    );
+  }
+
+  @Transactional(readOnly = true)
+  @Override
+  public PostDetailApiResponse getPost(String postId) {
+    PostDetailResponse postDetailResponse = fetchPostPort.fetchPostDetailsByPostId(postId)
+        .orElseThrow(() -> new PostException(ErrorCode.POST_NOT_FOUND));
+    return new PostDetailApiResponse(
+        postDetailResponse.getPostId(),
+        postDetailResponse.getUserId(),
+        postDetailResponse.getUserProfileImageUrl(),
+        postDetailResponse.getUserNickname(),
+        postDetailResponse.getContent(),
+        postDetailResponse.getViewCount(),
+        postDetailResponse.getPostedAt()
     );
   }
 

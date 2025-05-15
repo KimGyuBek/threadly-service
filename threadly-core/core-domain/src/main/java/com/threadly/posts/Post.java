@@ -56,7 +56,7 @@ public class Post {
     return Post.builder()
         .postId(null)
         .userId(userId)
-        .content(content)
+        .content((content != null) ? content : "")
         .postLikes(new HashSet<>())
         .postComments(new ArrayList<>())
         .viewCount(0)
@@ -70,7 +70,7 @@ public class Post {
    * @return
    */
   public Post updateContent(String content) {
-    this.content = content;
+    this.content = (content != null) ? content : "";
     return this;
   }
 

@@ -44,7 +44,7 @@ public class PostComment {
         .commentId(null)
         .postId(postId)
         .userId(userId)
-        .content(content)
+        .content((content != null) ? content : "")
         .commentLikes(new HashSet<>())
         .build();
   }

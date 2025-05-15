@@ -112,6 +112,26 @@ public abstract class BaseApiTest {
         });
   }
 
+  public <T> CommonResponse<T> sendGetRequest(String accessToken, String path,
+      ResultMatcher expectedStatus, TypeReference<CommonResponse<T>> typeRef) throws Exception {
+
+    TestLogUtils.log(path + " 요청 전송");
+
+    String bearerToken = "Bearer " + accessToken;
+
+    HttpHeaders headers = new HttpHeaders();
+    headers.set("Authorization", bearerToken);
+    headers.set("Accept-Charset", "utf-8");
+
+    MvcResult result = mockMvc.perform(
+        get(path)
+            .headers(headers)
+    ).andExpect(expectedStatus).andReturn();
+    TestLogUtils.log(result);
+
+    return
+        getResponse(result, typeRef);
+  }
 
   /**
    * post 요청 전송
