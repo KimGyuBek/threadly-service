@@ -11,6 +11,7 @@ import com.threadly.post.UpdatePostPort;
 import com.threadly.post.response.PostDetailResponse;
 import com.threadly.posts.Post;
 import com.threadly.repository.user.UserJpaRepository;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -55,5 +56,11 @@ public class PostAdapter implements CreatePostPort, FetchPostPort, UpdatePostPor
   public Optional<PostDetailResponse> fetchPostDetailsByPostId(String postId) {
     return
         postJpaRepository.getPostDetailsByPostId(postId);
+  }
+
+  @Override
+  public List<PostDetailResponse> fetchPostDetailsList() {
+    return
+        postJpaRepository.getPostDetailsList();
   }
 }

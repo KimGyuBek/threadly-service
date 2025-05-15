@@ -2,6 +2,7 @@ package com.threadly.post;
 
 import com.threadly.post.response.PostDetailResponse;
 import com.threadly.posts.Post;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -24,5 +25,12 @@ public interface FetchPostPort {
    * @return
    */
   Optional<PostDetailResponse> fetchPostDetailsByPostId(String postId);
+
+  /**
+   * 게시글 상세 리스트 조회
+   *
+   * @return
+   */
+  List<PostDetailResponse> fetchPostDetailsList();
 
 }

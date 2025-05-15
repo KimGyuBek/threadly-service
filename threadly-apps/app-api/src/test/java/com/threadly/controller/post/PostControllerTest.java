@@ -12,6 +12,7 @@ import com.threadly.controller.post.request.CreatePostRequest;
 import com.threadly.controller.post.request.UpdatePostRequest;
 import com.threadly.post.response.CreatePostApiResponse;
 import com.threadly.post.response.PostDetailApiResponse;
+import com.threadly.post.response.PostDetailListApiResponse;
 import com.threadly.post.response.UpdatePostApiResponse;
 import java.util.HashMap;
 import java.util.Map;
@@ -189,10 +190,8 @@ class PostControllerTest extends BaseApiTest {
     //then
     /*게시글 조회*/
     String postId = "post1";
-    CommonResponse<PostDetailApiResponse> postDetailResponse = sendGetRequest(
-        accessToken, "/api/posts/" + postId, status().isOk(),
-        new TypeReference<>() {
-        });
+    CommonResponse<PostDetailApiResponse> postDetailResponse = sendGetPostRequest(
+        accessToken, postId, status().isOk());
 
     assertThat(postDetailResponse.getData().postId()).isEqualTo(postId);
   }
@@ -209,14 +208,13 @@ class PostControllerTest extends BaseApiTest {
     //then
     /*게시글 조회*/
     String postId = "post123";
-    CommonResponse<PostDetailApiResponse> postDetailResponse = sendGetRequest(
-        accessToken, "/api/posts/" + postId, status().isNotFound(),
-        new TypeReference<>() {
-        });
+    CommonResponse<PostDetailApiResponse> postDetailResponse = sendGetPostRequest(
+        accessToken, postId, status().isNotFound());
 
     assertThat(postDetailResponse.isSuccess()).isFalse();
     assertThat(postDetailResponse.getCode()).isEqualTo(ErrorCode.POST_NOT_FOUND.getCode());
   }
+
   /*[Case #3]  게시글 작성 후 조회시 작성한 내용과 동일해야함*/
   @DisplayName("getPost() - 게시글 작성 후 조회 시 작성한 내용과 postId가 동일해야한다")
   @Test
@@ -234,10 +232,8 @@ class PostControllerTest extends BaseApiTest {
     //when
     /*게시글 조회*/
     String postId = createPostResponse.getData().postId();
-    CommonResponse<PostDetailApiResponse> postDetailResponse = sendGetRequest(
-        accessToken, "/api/posts/" + postId, status().isOk(),
-        new TypeReference<>() {
-        });
+    CommonResponse<PostDetailApiResponse> postDetailResponse = sendGetPostRequest(
+        accessToken, postId, status().isOk());
 
     //then
     assertThat(postDetailResponse.getData().postId()).isEqualTo(postId);
@@ -267,14 +263,33 @@ class PostControllerTest extends BaseApiTest {
 
     //when
     /*게시글 조회*/
-    CommonResponse<PostDetailApiResponse> postDetailResponse = sendGetRequest(
-        accessToken, "/api/posts/" + postId, status().isOk(),
-        new TypeReference<>() {
-        });
+    CommonResponse<PostDetailApiResponse> postDetailResponse = sendGetPostRequest(
+        accessToken, postId, status().isOk());
 
     //then
     assertThat(postDetailResponse.getData().postId()).isEqualTo(postId);
     assertThat(postDetailResponse.getData().content()).isEqualTo(modifiedContent);
+  }
+
+  /**
+   * getPostList() - 게시글 리스트 조회 테스트
+   */
+  /*[Case #1] getPostList()  게시글 리스트 조회 시 200 OK 반환*/
+  @DisplayName("getPostList -  게시글 리스트  조회 시 200 OK 응답을 반환한다")
+  @Test
+  public void getPostList_shouldReturnOk_whenGetExistingPost() throws Exception {
+    //given
+    /*로그인*/
+    String accessToken = getAccessToken(USER_EMAIL_VERIFIED_1);
+
+    //when
+    //then
+    /*게시글 목록 조회*/
+    CommonResponse<PostDetailListApiResponse> postListResponse = sendGetPostListRequest(
+        accessToken, status().isOk());
+
+    System.out.println(postListResponse.getData().posts());
+
   }
 
 
@@ -308,11 +323,11 @@ class PostControllerTest extends BaseApiTest {
     Map<String, String> headers = new HashMap<>();
     headers.put("Authorization", "Bearer " + accessToken);
 
-    CommonResponse<CreatePostApiResponse> response = sendPostRequest(requestBody, "/api/posts",
-        expectedStatus, new TypeReference<>() {
-        }, headers);
+    return
+        sendPostRequest(requestBody, "/api/posts",
+            expectedStatus, new TypeReference<>() {
+            }, headers);
 
-    return response;
   }
 
   /**
@@ -331,11 +346,46 @@ class PostControllerTest extends BaseApiTest {
     Map<String, String> headers = new HashMap<>();
     headers.put("Authorization", "Bearer " + accessToken);
 
-    CommonResponse<UpdatePostApiResponse> updatedPostResponse = sendPatchRequest(requestBody,
-        "/api/posts/" + postId,
-        expectedStatus, new TypeReference<>() {
-        }, headers);
+    return
+        sendPatchRequest(requestBody,
+            "/api/posts/" + postId,
+            expectedStatus, new TypeReference<>() {
+            }, headers);
 
-    return updatedPostResponse;
+  }
+
+  /**
+   * 게시글 조회 요청 전송
+   *
+   * @param accessToken
+   * @param postId
+   * @param expectedStatus
+   * @return
+   */
+  private CommonResponse<PostDetailApiResponse> sendGetPostRequest(String accessToken,
+      String postId, ResultMatcher expectedStatus) throws Exception {
+    CommonResponse<PostDetailApiResponse> postDetailResponse = sendGetRequest(
+        accessToken, "/api/posts/" + postId, expectedStatus,
+        new TypeReference<>() {
+        });
+
+    return postDetailResponse;
+  }
+
+  /**
+   * 게시글 목록 조회 요청 전송
+   *
+   * @param accessToken
+   * @param expectedStatus
+   * @return
+   */
+  private CommonResponse<PostDetailListApiResponse> sendGetPostListRequest(String accessToken,
+      ResultMatcher expectedStatus) throws Exception {
+    return
+        sendGetRequest(
+            accessToken, "/api/posts", expectedStatus,
+            new TypeReference<>() {
+            });
+
   }
 }

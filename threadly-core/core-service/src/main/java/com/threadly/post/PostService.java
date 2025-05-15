@@ -7,11 +7,13 @@ import com.threadly.post.command.CreatePostCommand;
 import com.threadly.post.command.UpdatePostCommand;
 import com.threadly.post.response.CreatePostApiResponse;
 import com.threadly.post.response.PostDetailApiResponse;
+import com.threadly.post.response.PostDetailListApiResponse;
 import com.threadly.post.response.PostDetailResponse;
 import com.threadly.post.response.UpdatePostApiResponse;
 import com.threadly.posts.Post;
 import com.threadly.user.FetchUserPort;
 import com.threadly.user.UserProfile;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -99,6 +101,30 @@ public class PostService implements CreatePostUseCase, UpdatePostUseCase, FetchP
         postDetailResponse.getContent(),
         postDetailResponse.getViewCount(),
         postDetailResponse.getPostedAt()
+    );
+  }
+
+  @Override
+  public PostDetailListApiResponse getPostList() {
+
+    List<PostDetailApiResponse> postList = fetchPostPort.fetchPostDetailsList().stream().map(
+        post -> new PostDetailApiResponse(
+            post.getPostId(),
+            post.getUserId(),
+            post.getUserProfileImageUrl(),
+            post.getUserNickname(),
+            post.getContent(),
+            post.getViewCount(),
+            post.getPostedAt()
+        )
+    ).toList();
+
+    if(postList == null || postList.isEmpty()) {
+      throw new PostException(ErrorCode.POST_NOT_FOUND);
+    }
+
+    return new PostDetailListApiResponse(
+        postList
     );
   }
 

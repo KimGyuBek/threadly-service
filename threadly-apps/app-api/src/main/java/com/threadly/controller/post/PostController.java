@@ -9,6 +9,7 @@ import com.threadly.post.command.CreatePostCommand;
 import com.threadly.post.command.UpdatePostCommand;
 import com.threadly.post.response.CreatePostApiResponse;
 import com.threadly.post.response.PostDetailApiResponse;
+import com.threadly.post.response.PostDetailListApiResponse;
 import com.threadly.post.response.UpdatePostApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +38,9 @@ public class PostController {
 
   /*
    * 게시글 저장 - POST /api/posts
+   * 게시글 삭제 - DELETE /api/posts
    * 게시글 조회 - GET /api/posts/{postId}
+   * 게시글 목록 조회 - GET /api/posts
    * 게시글 수정 - PATCH /api/posts/{postId}
    * 게시글 통계 - GET /api/posts/{postId}/summary
    * 게시글 좋아요 - POST /api/posts/{postId}/likes
@@ -49,6 +52,7 @@ public class PostController {
 
   /**
    * postId로 게시글 조회
+   *
    * @param postId
    * @return
    */
@@ -58,12 +62,25 @@ public class PostController {
   }
 
   /**
+   * 게시글 목록 조회
+   *
+   * @return
+   */
+  @GetMapping("")
+  public ResponseEntity<PostDetailListApiResponse> getPostList() {
+    return ResponseEntity.status(200).body(
+        fetchPostUseCase.getPostList()
+    );
+  }
+
+  /**
    * 게시글 생성
    *
    * @return
    */
   @PostMapping("")
-  public ResponseEntity<CreatePostApiResponse> createPost(@Valid @RequestBody CreatePostRequest request) {
+  public ResponseEntity<CreatePostApiResponse> createPost(
+      @Valid @RequestBody CreatePostRequest request) {
     /*userId 추출*/
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     String userId = (String) auth.getCredentials();
@@ -77,12 +94,14 @@ public class PostController {
 
   /**
    * 게시글 수정
+   *
    * @param request
    * @param postId
    * @return
    */
   @PatchMapping("/{postId}")
-  public ResponseEntity<UpdatePostApiResponse> updatePost(@Valid @RequestBody UpdatePostRequest request,
+  public ResponseEntity<UpdatePostApiResponse> updatePost(
+      @Valid @RequestBody UpdatePostRequest request,
       @PathVariable("postId") String postId) {
 
     /*userId 추출*/
