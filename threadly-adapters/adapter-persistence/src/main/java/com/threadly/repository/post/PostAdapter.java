@@ -53,14 +53,19 @@ public class PostAdapter implements CreatePostPort, FetchPostPort, UpdatePostPor
   }
 
   @Override
-  public Optional<PostDetailResponse> fetchPostDetailsByPostId(String postId) {
+  public Optional<PostDetailResponse> findPostDetailsByPostId(String postId) {
     return
         postJpaRepository.getPostDetailsByPostId(postId);
   }
 
   @Override
-  public List<PostDetailResponse> fetchPostDetailsList() {
+  public List<PostDetailResponse> findUserVisiblePostList() {
     return
-        postJpaRepository.getPostDetailsList();
+        postJpaRepository.getUserVisiblePostList();
+  }
+
+  @Override
+  public void changeStatus(Post post) {
+    postJpaRepository.updateStatus(post.getPostId(), post.getStatus());
   }
 }

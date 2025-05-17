@@ -1,8 +1,6 @@
 package com.threadly;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -11,6 +9,7 @@ import com.threadly.controller.auth.request.UserLoginRequest;
 import com.threadly.utils.TestLogUtils;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -36,7 +35,14 @@ public abstract class BaseApiTest {
   @Autowired
   private ObjectMapper objectMapper;
 
-  public final String USER_EMAIL_VERIFIED_1 = "user_email_verified1@test.com";
+  /*이메일 인증 받은 사용자 id*/
+  protected static final List<String> VERIFIED_USER_EMAILS = List.of(
+      "user_email_verified1@test.com",
+      "user_email_verified2@test.com",
+      "sunny@test.com",
+      "noodle@test.com"
+  );
+
   public final String USER_EMAIL_VERIFIED_2 = "user_email_verified2@test.com";
   public final String USER_EMAIL_NOT_VERIFIED = "user_email_not_verified@test.com";
   public final String PASSWORD = "1234";
@@ -191,6 +197,34 @@ public abstract class BaseApiTest {
     return getResponse(result, typeRef);
   }
 
+  /**
+   * delete 요청 전송
+   *
+   * @param requestJson
+   * @param path
+   * @param expectedStatus
+   * @return
+   * @throws Exception
+   */
+  public <T> CommonResponse<T> sendDeleteRequest(String requestJson, String path,
+      ResultMatcher expectedStatus, TypeReference<CommonResponse<T>> typeRef,
+      Map<String, String> headers) throws Exception {
+    TestLogUtils.log(path + " 요청 전송");
+
+    HttpHeaders httpHeaders = new HttpHeaders();
+    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+    httpHeaders.set("Accept-Charset", "utf-8");
+    headers.forEach((key, value) -> httpHeaders.add(key, value));
+
+    MvcResult result = mockMvc.perform(
+        delete(path)
+            .headers(httpHeaders)
+            .content(requestJson)
+    ).andExpect(expectedStatus).andReturn();
+    TestLogUtils.log(result);
+
+    return getResponse(result, typeRef);
+  }
   /**
    * response -> CommonResponse<T>
    *

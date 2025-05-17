@@ -13,6 +13,12 @@ public interface UpdatePostPort {
    */
   void updatePost(Post post);
 
+  /**
+   * 게시글 상태 변경
+   *
+   * @param post
+   */
+  void changeStatus(Post post);
 
 
 }

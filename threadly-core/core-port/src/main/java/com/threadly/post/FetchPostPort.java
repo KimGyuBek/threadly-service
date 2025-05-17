@@ -24,13 +24,13 @@ public interface FetchPostPort {
    * @param postId
    * @return
    */
-  Optional<PostDetailResponse> fetchPostDetailsByPostId(String postId);
+  Optional<PostDetailResponse> findPostDetailsByPostId(String postId);
 
   /**
-   * 게시글 상세 리스트 조회
+   * 사용자가 조회 가능한 게시글 목록 조회
    *
    * @return
    */
-  List<PostDetailResponse> fetchPostDetailsList();
+  List<PostDetailResponse> findUserVisiblePostList();
 
 }

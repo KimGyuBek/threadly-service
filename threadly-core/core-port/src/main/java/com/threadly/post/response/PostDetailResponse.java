@@ -1,5 +1,6 @@
 package com.threadly.post.response;
 
+import com.threadly.posts.PostStatusType;
 import java.time.LocalDateTime;
 
 /**
@@ -13,4 +14,5 @@ public interface PostDetailResponse {
   String getContent();
   int getViewCount();
   LocalDateTime getPostedAt();
+  PostStatusType getPostStatus();
 }

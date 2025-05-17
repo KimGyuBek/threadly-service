@@ -38,7 +38,7 @@ public class PasswordVerificationScenarioTest extends BaseApiTest {
 
     /*1. 로그인 요청 전송*/
     CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(
-        USER_EMAIL_VERIFIED_1, PASSWORD, new TypeReference<>() {
+        VERIFIED_USER_EMAILS.getFirst(), PASSWORD, new TypeReference<>() {
         }, status().isOk());
 
     String accessToken = loginResponse.getData().accessToken();
@@ -113,7 +113,7 @@ public class PasswordVerificationScenarioTest extends BaseApiTest {
 
     /*1. 로그인 요청 전송*/
     CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(
-        USER_EMAIL_VERIFIED_1, PASSWORD, new TypeReference<>() {
+        VERIFIED_USER_EMAILS.getFirst(), PASSWORD, new TypeReference<>() {
         }, status().isOk());
 
     String accessToken = loginResponse.getData().accessToken();

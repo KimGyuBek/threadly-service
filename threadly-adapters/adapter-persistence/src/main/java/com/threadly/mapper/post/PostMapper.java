@@ -22,9 +22,10 @@ public class PostMapper {
     String userId = (entity.getUser() != null) ? entity.getUser().getUserId() : null;
     return new Post(
         entity.getPostId(),
-        entity.getContent(),
         userId,
+        entity.getContent(),
         entity.getViewCount(),
+        entity.getStatus(),
         entity.getModifiedAt()
     );
   }

@@ -24,20 +24,24 @@ public class Post {
   private List<PostComment> postComments;
 
   private int viewCount;
-  private LocalDateTime postedAt;
 
   private PostStatusType status;
 
-  public Post(String postId, String content, String userId, int viewCount, LocalDateTime postedAt) {
+  private LocalDateTime postedAt;
+
+  public Post(String postId, String userId, String content, int viewCount, PostStatusType status,
+      LocalDateTime postedAt) {
     this.postId = postId;
     this.content = content;
     this.userId = userId;
     this.viewCount = viewCount;
     this.postedAt = postedAt;
+    this.status = status;
   }
 
   private Post(String postId, String userId, String content, Set<PostLike> postLikes,
-      List<PostComment> postComments, int viewCount, LocalDateTime postedAt, PostStatusType status) {
+      List<PostComment> postComments, int viewCount,PostStatusType status, LocalDateTime postedAt
+      ) {
     this.postId = postId;
     this.userId = userId;
     this.content = content;
@@ -70,6 +74,7 @@ public class Post {
 
   /**
    * content 수정
+   *
    * @param content
    * @return
    */
@@ -98,8 +103,8 @@ public class Post {
   /**
    * 좋아요 생성
    *
-   * @return
    * @param userId
+   * @return
    */
   public PostLike like(String userId) {
     PostLike newLike = new PostLike(this.postId, userId);
@@ -121,6 +126,34 @@ public class Post {
    */
   public List<PostLike> getLikesList() {
     return new ArrayList<>(postLikes);
+  }
+
+  /**
+   * 게시글 삭제 상태로 변경
+   */
+  public void markAsDeleted() {
+    this.status = PostStatusType.DELETED;
+  }
+
+  /**
+   * 게시글 블라인드 상태로 변경
+   */
+  public void markAsBlocked() {
+    this.status = PostStatusType.BLOCKED;
+  }
+
+  /**
+   * 게시글 블라인드 해제 상태로 변경
+   */
+  public void markAsUnblocked() {
+    this.status = PostStatusType.ACTIVE;
+  }
+
+  /**
+   * 게시글 아카이브 상태로 변경
+   */
+  public void markAsArchived() {
+    this.status = PostStatusType.ARCHIVE;
   }
 
   /**

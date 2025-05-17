@@ -34,7 +34,7 @@ public class LogoutScenarioTest extends BaseApiTest {
 
     /*1. 로그인 요청 전송*/
     CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(
-        USER_EMAIL_VERIFIED_1, PASSWORD, new TypeReference<CommonResponse<LoginTokenResponse>>() {
+        VERIFIED_USER_EMAILS.getFirst(), PASSWORD, new TypeReference<CommonResponse<LoginTokenResponse>>() {
         }, status().isOk());
 
     String accessToken = loginResponse.getData().accessToken();

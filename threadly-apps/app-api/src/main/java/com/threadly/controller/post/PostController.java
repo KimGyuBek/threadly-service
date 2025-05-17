@@ -6,6 +6,7 @@ import com.threadly.post.CreatePostUseCase;
 import com.threadly.post.FetchPostUseCase;
 import com.threadly.post.UpdatePostUseCase;
 import com.threadly.post.command.CreatePostCommand;
+import com.threadly.post.command.DeletePostCommand;
 import com.threadly.post.command.UpdatePostCommand;
 import com.threadly.post.response.CreatePostApiResponse;
 import com.threadly.post.response.PostDetailApiResponse;
@@ -16,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -69,7 +71,7 @@ public class PostController {
   @GetMapping("")
   public ResponseEntity<PostDetailListApiResponse> getPostList() {
     return ResponseEntity.status(200).body(
-        fetchPostUseCase.getPostList()
+        fetchPostUseCase.getUserVisiblePostList()
     );
   }
 
@@ -113,6 +115,25 @@ public class PostController {
             new UpdatePostCommand(postId, userId, request.content())
         )
     );
+  }
+
+  /**
+   * 게시글 삭제 상태로 변경
+   *
+   * @param postId
+   * @return
+   */
+  @DeleteMapping("/{postId}")
+  public ResponseEntity<Void> deletePost(@PathVariable("postId") String postId) {
+
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    String userId = (String) auth.getCredentials();
+
+    updatePostUseCase.deletePost(
+        new DeletePostCommand(postId, userId)
+    );
+
+    return ResponseEntity.status(200).build();
   }
 
 
