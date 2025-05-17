@@ -44,6 +44,7 @@ create table posts
     user_id     varchar(50) not null,
     content     varchar(1000),
     view_count  int                  default 0,
+    status varchar(50) not null ,
     created_at  timestamp   not null default current_timestamp,
     modified_at timestamp   not null default current_timestamp,
     foreign key (user_id) references users (user_id)

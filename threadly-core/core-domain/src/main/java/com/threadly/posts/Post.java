@@ -26,6 +26,8 @@ public class Post {
   private int viewCount;
   private LocalDateTime postedAt;
 
+  private PostStatusType status;
+
   public Post(String postId, String content, String userId, int viewCount, LocalDateTime postedAt) {
     this.postId = postId;
     this.content = content;
@@ -35,7 +37,7 @@ public class Post {
   }
 
   private Post(String postId, String userId, String content, Set<PostLike> postLikes,
-      List<PostComment> postComments, int viewCount, LocalDateTime postedAt) {
+      List<PostComment> postComments, int viewCount, LocalDateTime postedAt, PostStatusType status) {
     this.postId = postId;
     this.userId = userId;
     this.content = content;
@@ -43,6 +45,8 @@ public class Post {
     this.postComments = postComments != null ? postComments : new ArrayList<>();
     this.viewCount = viewCount;
     this.postedAt = postedAt;
+    this.status = status;
+    this.status = status;
   }
 
   /**

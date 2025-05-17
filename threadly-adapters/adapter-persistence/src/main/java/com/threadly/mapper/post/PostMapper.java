@@ -40,8 +40,11 @@ public class PostMapper {
         post.getPostId(),
         userEntity,
         post.getContent(),
-        post.getViewCount()
+        post.getViewCount(),
+        post.getStatus()
     );
   }
 }
+
+
 
