@@ -98,7 +98,7 @@ class AuthControllerTest extends BaseApiTest {
 
     /*로그인 요청*/
     CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(
-        USER_EMAIL_VERIFIED, PASSWORD, new TypeReference<CommonResponse<LoginTokenResponse>>() {
+        VERIFIED_USER_EMAILS.getFirst(), PASSWORD, new TypeReference<CommonResponse<LoginTokenResponse>>() {
         }, status().isOk()
     );
 
@@ -138,7 +138,7 @@ class AuthControllerTest extends BaseApiTest {
 
     /*로그인 요청*/
     CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(
-        USER_EMAIL_VERIFIED, PASSWORD, new TypeReference<CommonResponse<LoginTokenResponse>>() {
+        VERIFIED_USER_EMAILS.getFirst(), PASSWORD, new TypeReference<CommonResponse<LoginTokenResponse>>() {
         }, status().isOk()
     );
 
@@ -182,7 +182,7 @@ class AuthControllerTest extends BaseApiTest {
 
     /*로그인 요청*/
     CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(
-        USER_EMAIL_VERIFIED, PASSWORD, new TypeReference<CommonResponse<LoginTokenResponse>>() {
+        VERIFIED_USER_EMAILS.getFirst(), PASSWORD, new TypeReference<CommonResponse<LoginTokenResponse>>() {
         }, status().isOk()
     );
 
@@ -230,7 +230,7 @@ class AuthControllerTest extends BaseApiTest {
 
     /*로그인 요청*/
     CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(
-        USER_EMAIL_VERIFIED,
+        VERIFIED_USER_EMAILS.getFirst(),
         PASSWORD,
         new TypeReference<>() {
         },
@@ -278,7 +278,7 @@ class AuthControllerTest extends BaseApiTest {
 
     /*로그인 요청*/
     CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(
-        USER_EMAIL_VERIFIED,
+        VERIFIED_USER_EMAILS.getFirst(),
         PASSWORD,
         new TypeReference<>() {
         },

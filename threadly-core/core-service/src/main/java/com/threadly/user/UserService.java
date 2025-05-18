@@ -106,11 +106,13 @@ public class UserService implements RegisterUserUseCase, FetchUserUseCase, Updat
     /*조회한 user의 profile이 있는지 검증*/
     /*있으면 대치  */
     if (user.hasUserProfile()) {
-      updateExistingProfile(command, user);
+      user = updateExistingProfile(command, user);
+
+      /*TODO 도메인을 리턴해버리니깐 생기는 문제! 도메인에도 적용 해줘야지*/
 
     } else {
       /*없으면 생성*/
-      createNewProfile(command, user);
+      user = createNewProfile(command, user);
     }
 
     return new UserProfileApiResponse(
@@ -129,7 +131,7 @@ public class UserService implements RegisterUserUseCase, FetchUserUseCase, Updat
    * @param command
    * @param user
    */
-  private void createNewProfile(UserSetProfileCommand command, User user) {
+  private User createNewProfile(UserSetProfileCommand command, User user) {
     user.setProfile(
         command.getNickname(),
         command.getStatusMessage(),
@@ -140,6 +142,8 @@ public class UserService implements RegisterUserUseCase, FetchUserUseCase, Updat
     );
 
     insertUserPort.saveUserProfile(user, user.getUserProfile());
+
+    return user;
   }
 
   /**
@@ -148,12 +152,12 @@ public class UserService implements RegisterUserUseCase, FetchUserUseCase, Updat
    * @param command
    * @param user
    */
-  private void updateExistingProfile(UserSetProfileCommand command, User user) {
+  private User updateExistingProfile(UserSetProfileCommand command, User user) {
     UserProfile userProfile = fetchUserPort.findUserProfileByUserProfileId(
             user.getUserProfileId())
         .orElseThrow(() -> new UserException(ErrorCode.USER_PROFILE_NOT_FOUND));
 
-    userProfile.updateProfile(
+    user.updateUserProfile(
         command.getNickname(),
         command.getStatusMessage(),
         command.getBio(),
@@ -163,5 +167,7 @@ public class UserService implements RegisterUserUseCase, FetchUserUseCase, Updat
 
     /*저장*/
     insertUserPort.saveUserProfile(user, userProfile);
+
+    return user;
   }
 }

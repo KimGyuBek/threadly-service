@@ -9,7 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
- * 댓글 좋아요 도메인 테스트
+ * 게시글 댓글 도메인 테스트
  */
 class PostCommentTest {
 

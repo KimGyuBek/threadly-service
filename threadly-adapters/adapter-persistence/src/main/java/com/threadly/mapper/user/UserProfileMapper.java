@@ -1,4 +1,4 @@
-package com.threadly.mapper;
+package com.threadly.mapper.user;
 
 import com.threadly.entity.user.UserProfileEntity;
 import com.threadly.user.UserProfile;

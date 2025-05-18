@@ -1,6 +1,7 @@
 package com.threadly.posts;
 
 import com.google.common.annotations.VisibleForTesting;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -24,14 +25,32 @@ public class Post {
 
   private int viewCount;
 
+  private PostStatusType status;
+
+  private LocalDateTime postedAt;
+
+  public Post(String postId, String userId, String content, int viewCount, PostStatusType status,
+      LocalDateTime postedAt) {
+    this.postId = postId;
+    this.content = content;
+    this.userId = userId;
+    this.viewCount = viewCount;
+    this.postedAt = postedAt;
+    this.status = status;
+  }
+
   private Post(String postId, String userId, String content, Set<PostLike> postLikes,
-      List<PostComment> postComments, int viewCount) {
+      List<PostComment> postComments, int viewCount,PostStatusType status, LocalDateTime postedAt
+      ) {
     this.postId = postId;
     this.userId = userId;
     this.content = content;
     this.postLikes = postLikes != null ? postLikes : new HashSet<>();
     this.postComments = postComments != null ? postComments : new ArrayList<>();
     this.viewCount = viewCount;
+    this.postedAt = postedAt;
+    this.status = status;
+    this.status = status;
   }
 
   /**
@@ -45,20 +64,22 @@ public class Post {
     return Post.builder()
         .postId(null)
         .userId(userId)
-        .content(content)
+        .content((content != null) ? content : "")
         .postLikes(new HashSet<>())
         .postComments(new ArrayList<>())
         .viewCount(0)
+        .postedAt(LocalDateTime.now())
         .build();
   }
 
   /**
    * content 수정
+   *
    * @param content
    * @return
    */
   public Post updateContent(String content) {
-    this.content = content;
+    this.content = (content != null) ? content : "";
     return this;
   }
 
@@ -82,8 +103,8 @@ public class Post {
   /**
    * 좋아요 생성
    *
-   * @return
    * @param userId
+   * @return
    */
   public PostLike like(String userId) {
     PostLike newLike = new PostLike(this.postId, userId);
@@ -105,6 +126,34 @@ public class Post {
    */
   public List<PostLike> getLikesList() {
     return new ArrayList<>(postLikes);
+  }
+
+  /**
+   * 게시글 삭제 상태로 변경
+   */
+  public void markAsDeleted() {
+    this.status = PostStatusType.DELETED;
+  }
+
+  /**
+   * 게시글 블라인드 상태로 변경
+   */
+  public void markAsBlocked() {
+    this.status = PostStatusType.BLOCKED;
+  }
+
+  /**
+   * 게시글 블라인드 해제 상태로 변경
+   */
+  public void markAsUnblocked() {
+    this.status = PostStatusType.ACTIVE;
+  }
+
+  /**
+   * 게시글 아카이브 상태로 변경
+   */
+  public void markAsArchived() {
+    this.status = PostStatusType.ARCHIVE;
   }
 
   /**
