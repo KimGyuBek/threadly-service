@@ -1,15 +1,16 @@
-package com.threadly.repository.post;
+package com.threadly.adapter.post;
 
 import com.threadly.ErrorCode;
 import com.threadly.entity.post.PostEntity;
 import com.threadly.entity.user.UserEntity;
 import com.threadly.exception.user.UserException;
 import com.threadly.mapper.post.PostMapper;
-import com.threadly.post.CreatePostPort;
+import com.threadly.post.SavePostPort;
 import com.threadly.post.FetchPostPort;
 import com.threadly.post.UpdatePostPort;
 import com.threadly.post.response.PostDetailResponse;
 import com.threadly.posts.Post;
+import com.threadly.repository.post.PostJpaRepository;
 import com.threadly.repository.user.UserJpaRepository;
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +22,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @RequiredArgsConstructor
-public class PostAdapter implements CreatePostPort, FetchPostPort, UpdatePostPort {
+public class PostAdapter implements SavePostPort, FetchPostPort, UpdatePostPort {
 
   private final PostJpaRepository postJpaRepository;
   private final UserJpaRepository userJpaRepository;

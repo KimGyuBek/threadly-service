@@ -49,6 +49,7 @@ public class PostComment {
         .userId(userId)
         .content((content != null) ? content : "")
         .commentLikes(new HashSet<>())
+        .status(PostCommentStatusType.ACTIVE)
         .build();
   }
 

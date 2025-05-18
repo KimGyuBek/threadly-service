@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 public class UserService implements RegisterUserUseCase, FetchUserUseCase, UpdateUserUseCase {
 
-  private final InsertUserPort insertUserPort;
+  private final SaveUserPort saveUserPort;
   private final FetchUserPort fetchUserPort;
 
 
@@ -43,7 +43,7 @@ public class UserService implements RegisterUserUseCase, FetchUserUseCase, Updat
         command.getPhone()
     );
 
-    UserPortResponse userPortResponse = insertUserPort.create(user);
+    UserPortResponse userPortResponse = saveUserPort.save(user);
 
     log.info("회원 가입 성공");
 
@@ -141,7 +141,7 @@ public class UserService implements RegisterUserUseCase, FetchUserUseCase, Updat
         UserProfileType.USER
     );
 
-    insertUserPort.saveUserProfile(user, user.getUserProfile());
+    saveUserPort.saveUserProfile(user, user.getUserProfile());
 
     return user;
   }
@@ -166,7 +166,7 @@ public class UserService implements RegisterUserUseCase, FetchUserUseCase, Updat
     );
 
     /*저장*/
-    insertUserPort.saveUserProfile(user, userProfile);
+    saveUserPort.saveUserProfile(user, userProfile);
 
     return user;
   }

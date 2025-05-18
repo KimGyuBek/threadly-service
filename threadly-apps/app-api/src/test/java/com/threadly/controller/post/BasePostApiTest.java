@@ -6,9 +6,11 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.threadly.BaseApiTest;
 import com.threadly.CommonResponse;
 import com.threadly.auth.token.response.LoginTokenResponse;
+import com.threadly.controller.post.request.CreatePostCommentRequest;
 import com.threadly.controller.post.request.CreatePostRequest;
 import com.threadly.controller.post.request.UpdatePostRequest;
 import com.threadly.post.response.CreatePostApiResponse;
+import com.threadly.post.response.CreatePostCommentApiResponse;
 import com.threadly.post.response.PostDetailApiResponse;
 import com.threadly.post.response.PostDetailListApiResponse;
 import com.threadly.post.response.UpdatePostApiResponse;
@@ -20,12 +22,10 @@ import org.springframework.test.web.servlet.ResultMatcher;
 /**
  * Base Post Api Test
  */
-abstract class BasePostApiTest extends BaseApiTest {
-
-
+public abstract class BasePostApiTest extends BaseApiTest {
 
   //[ACTIVE] 상태의 게시글
-  protected static final List<Map<String, String>> ACTIVE_POSTS = List.of(
+  public static final List<Map<String, String>> ACTIVE_POSTS = List.of(
       Map.of("userId", "usr1", "userEmail", "user_email_verified1@test.com", "postId", "post1"),
       Map.of("userId", "usr1", "userEmail", "user_email_verified1@test.com", "postId", "post2"),
       Map.of("userId", "usr1", "userEmail", "user_email_verified1@test.com", "postId", "post3"),
@@ -59,7 +59,7 @@ abstract class BasePostApiTest extends BaseApiTest {
   );
 
   // DELETED 상태의 게시글
-  protected static final List<Map<String, String>> DELETED_POSTS = List.of(
+  public static final List<Map<String, String>> DELETED_POSTS = List.of(
       Map.of("userId", "usr2", "userEmail", "user_email_verified2@test.com", "postId", "post21"),
       Map.of("userId", "usr4", "userEmail", "sunny@test.com", "postId", "post22"),
       Map.of("userId", "usr5", "userEmail", "noodle@test.com", "postId", "post23"),
@@ -73,7 +73,7 @@ abstract class BasePostApiTest extends BaseApiTest {
   );
 
   // BLOCKED 상태의 게시글
-  protected static final List<Map<String, String>> BLOCKED_POSTS = List.of(
+  public static final List<Map<String, String>> BLOCKED_POSTS = List.of(
       Map.of("userId", "usr2", "userEmail", "user_email_verified2@test.com", "postId", "post31"),
       Map.of("userId", "usr4", "userEmail", "sunny@test.com", "postId", "post32"),
       Map.of("userId", "usr5", "userEmail", "noodle@test.com", "postId", "post33"),
@@ -82,7 +82,7 @@ abstract class BasePostApiTest extends BaseApiTest {
   );
 
   // ARCHIVED 상태의 게시글
-  protected static final List<Map<String, String>> ARCHIVED_POSTS = List.of(
+  public static final List<Map<String, String>> ARCHIVED_POSTS = List.of(
       Map.of("userId", "usr2", "userEmail", "user_email_verified2@test.com", "postId", "post36"),
       Map.of("userId", "usr4", "userEmail", "sunny@test.com", "postId", "post37"),
       Map.of("userId", "usr5", "userEmail", "noodle@test.com", "postId", "post38"),
@@ -204,5 +204,25 @@ abstract class BasePostApiTest extends BaseApiTest {
             "/api/posts/" + postId,
             expectedStatus, new TypeReference<>() {
             }, headers);
+  }
+
+  /**
+   * 게시글 댓글 작성 요청 전송
+   */
+  public CommonResponse<CreatePostCommentApiResponse> sendCreatePostCommentRequest(
+      String accessToken,
+      String postId, String content, ResultMatcher expectedStatus) throws Exception {
+    String requestBody = generateRequestBody(new CreatePostCommentRequest(content));
+    return
+        sendPostRequest(
+            requestBody,
+            "/api/posts/" + postId + "/comments",
+            expectedStatus,
+            new TypeReference<CommonResponse<CreatePostCommentApiResponse>>() {
+            },
+            Map.of("Authorization", "Bearer " + accessToken)
+        );
+
+
   }
 }

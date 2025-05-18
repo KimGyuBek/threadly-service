@@ -29,7 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class PostService implements CreatePostUseCase, UpdatePostUseCase, FetchPostUseCase {
 
-  private final CreatePostPort createPostPort;
+  private final SavePostPort savePostPort;
   private final FetchPostPort fetchPostPort;
   private final UpdatePostPort updatePostPort;
 
@@ -45,7 +45,7 @@ public class PostService implements CreatePostUseCase, UpdatePostUseCase, FetchP
     Post newPost = Post.newPost(command.getUserId(), command.getContent());
 
     /*post 저장*/
-    Post savedPost = createPostPort.savePost(newPost);
+    Post savedPost = savePostPort.savePost(newPost);
 
     return new CreatePostApiResponse(
         savedPost.getPostId(),

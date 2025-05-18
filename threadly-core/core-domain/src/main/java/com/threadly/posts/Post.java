@@ -37,6 +37,8 @@ public class Post {
     this.viewCount = viewCount;
     this.postedAt = postedAt;
     this.status = status;
+    this.postLikes = new HashSet<>();
+    this.postComments = new ArrayList<>();
   }
 
   private Post(String postId, String userId, String content, Set<PostLike> postLikes,
@@ -49,7 +51,6 @@ public class Post {
     this.postComments = postComments != null ? postComments : new ArrayList<>();
     this.viewCount = viewCount;
     this.postedAt = postedAt;
-    this.status = status;
     this.status = status;
   }
 

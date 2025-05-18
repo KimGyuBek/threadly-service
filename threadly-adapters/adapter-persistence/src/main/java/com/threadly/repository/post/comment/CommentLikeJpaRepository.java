@@ -1,4 +1,4 @@
-package com.threadly.repository.post;
+package com.threadly.repository.post.comment;
 
 import com.threadly.entity.post.CommentLikeEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
