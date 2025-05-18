@@ -8,7 +8,7 @@ drop table if exists user_profile;
 --user_profile
 create table user_profile
 (
-    user_profile_id   varchar(50)   primary key,
+    user_profile_id   varchar(50) primary key,
     nickname          varchar(255) not null,
     status_message    varchar(255) not null,
     bio               varchar(255) not null,
@@ -22,14 +22,14 @@ create table user_profile
 --users
 create table users
 (
-    user_id           varchar(50)   primary key,
+    user_id           varchar(50) primary key,
     user_name         varchar(255) not null,
     password          varchar(255) not null,
     email             varchar(255) not null,
     phone             varchar(50)  not null,
     user_type         varchar(50)  not null,
-    is_active         boolean         not null,
-    is_email_verified boolean         not null default false,
+    is_active         boolean      not null,
+    is_email_verified boolean      not null default false,
     user_profile_id   varchar(50),
     created_at        timestamp    not null default current_timestamp,
     modified_at       timestamp    not null default current_timestamp,
@@ -44,7 +44,7 @@ create table posts
     user_id     varchar(50) not null,
     content     varchar(1000),
     view_count  int                  default 0,
-    status varchar(50) not null ,
+    status      varchar(50) not null,
     created_at  timestamp   not null default current_timestamp,
     modified_at timestamp   not null default current_timestamp,
     foreign key (user_id) references users (user_id)
@@ -64,12 +64,13 @@ create table post_likes
 --post_comments
 create table post_comments
 (
-    comment_id  varchar(50) not null primary key,
-    post_id     varchar(50) not null,
-    user_id     varchar(50) not null,
-    content     varchar(1000)        not null,
-    created_at  timestamp   not null default current_timestamp,
-    modified_at timestamp   not null default current_timestamp,
+    comment_id  varchar(50)   not null primary key,
+    post_id     varchar(50)   not null,
+    user_id     varchar(50)   not null,
+    content     varchar(1000) not null,
+    status      varchar(50)   not null,
+    created_at  timestamp     not null default current_timestamp,
+    modified_at timestamp     not null default current_timestamp,
     foreign key (post_id) references posts (post_id) on delete cascade,
     foreign key (user_id) references users (user_id) on delete cascade
 );

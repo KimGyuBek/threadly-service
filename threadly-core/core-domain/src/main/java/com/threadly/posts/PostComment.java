@@ -19,15 +19,18 @@ public class PostComment {
   private String postId;
   private String userId;
   private String content;
+  private PostCommentStatusType status;
 
   private Set<CommentLike> commentLikes;
 
   private PostComment(String commentId, String postId, String userId, String content,
+      PostCommentStatusType status,
       Set<CommentLike> commentLikes) {
     this.commentId = commentId;
     this.postId = postId;
     this.userId = userId;
     this.content = content;
+    this.status = status;
     this.commentLikes = new HashSet<>();
   }
 

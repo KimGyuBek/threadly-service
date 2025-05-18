@@ -11,6 +11,7 @@ import com.threadly.post.command.UpdatePostCommand;
 import com.threadly.post.response.CreatePostApiResponse;
 import com.threadly.post.response.PostDetailApiResponse;
 import com.threadly.post.response.PostDetailListApiResponse;
+import com.threadly.post.response.PostStatusApiResponse;
 import com.threadly.post.response.UpdatePostApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -44,7 +45,7 @@ public class PostController {
    * 게시글 조회 - GET /api/posts/{postId}
    * 게시글 목록 조회 - GET /api/posts
    * 게시글 수정 - PATCH /api/posts/{postId}
-   * 게시글 통계 - GET /api/posts/{postId}/summary
+   * 게시글 통계 - GET /api/posts/{postId}/stats
    * 게시글 좋아요 - POST /api/posts/{postId}/likes
    * 게시글 좋아요 목록 조회 - GET /api/posts/{postId}/likes
    * 게시글 댓글 목록 조회 - GET /api/posts/{postId}/comments
@@ -135,6 +136,19 @@ public class PostController {
 
     return ResponseEntity.status(200).build();
   }
+
+  /**
+   * 게시글 좋아요/댓글 수 통계 조회
+   * @param postId
+   * @return
+   */
+  @GetMapping("/{postId}/stats")
+  public ResponseEntity<PostStatusApiResponse> getPostStatus(
+      @PathVariable("postId") String postId) {
+
+    return ResponseEntity.status(200).body(null);
+  }
+
 
 
 }

@@ -2,6 +2,7 @@ package com.threadly.repository.post;
 
 import com.threadly.entity.post.PostEntity;
 import com.threadly.post.response.PostDetailResponse;
+import com.threadly.post.response.PostStatusResponse;
 import com.threadly.posts.PostStatusType;
 import java.util.List;
 import java.util.Optional;
@@ -104,6 +105,9 @@ public interface PostJpaRepository extends JpaRepository<PostEntity, String> {
       where p.postId = :postId
       """)
   void updateStatus(@Param("postId") String postId, @Param("status") PostStatusType status);
+
+//  Optional<PostStatusResponse> getPostStatus(@Param("postId") String postId);
+
 
 
 }
