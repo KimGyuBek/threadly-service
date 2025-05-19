@@ -3,8 +3,8 @@ package com.threadly.entity.post;
 
 import com.threadly.entity.BaseEntity;
 import com.threadly.entity.user.UserEntity;
+import com.threadly.posts.PostComment;
 import com.threadly.posts.PostCommentStatusType;
-import com.threadly.util.RandomUtils;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -54,14 +54,15 @@ public class PostCommentEntity extends BaseEntity {
    * @param status
    * @return
    */
-  public static PostCommentEntity newComment(PostEntity post, UserEntity user, String content,
-      PostCommentStatusType status) {
+  public static PostCommentEntity newComment(PostEntity post, UserEntity user,
+      PostComment postComment
+  ) {
     return new PostCommentEntity(
-        RandomUtils.generateNanoId(),
+        postComment.getCommentId(),
         post,
         user,
-        content,
-        status
+        postComment.getContent(),
+        postComment.getStatus()
     );
   }
 

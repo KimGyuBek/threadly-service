@@ -68,7 +68,7 @@ public class PostService implements CreatePostUseCase, UpdatePostUseCase, FetchP
         () -> new PostException(ErrorCode.POST_NOT_FOUND)
     );
 
-    /*작성자와 수정 요청 userId가 일치하지 않는 경우*/
+    /*작성자와 수정 요청자의 userId가 일치하지 않는 경우*/
     if (!post.getUserId().equals(command.getUserId())) {
       throw new PostException(ErrorCode.POST_UPDATE_FORBIDDEN);
     }

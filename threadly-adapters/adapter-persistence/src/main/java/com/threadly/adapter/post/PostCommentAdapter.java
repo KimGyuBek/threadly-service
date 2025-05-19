@@ -32,7 +32,7 @@ public class PostCommentAdapter implements SavePostCommentPort {
     PostEntity postEntity = PostMapper.toEntity(post, userEntity);
 
     PostCommentEntity postCommentEntity = PostCommentEntity.newComment(
-        postEntity, userEntity, postComment.getContent(), postComment.getStatus()
+        postEntity, userEntity, postComment
     );
 
     postCommentJpaRepository.save(postCommentEntity);

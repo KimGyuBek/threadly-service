@@ -1,5 +1,6 @@
 package com.threadly.user;
 
+import com.threadly.util.RandomUtils;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -63,6 +64,7 @@ public class User {
   public static User newUser(String userName, String password, String email, String phone) {
     return
         User.builder()
+            .userId(RandomUtils.generateNanoId())
             .userName(userName)
             .password(password)
             .email(email)

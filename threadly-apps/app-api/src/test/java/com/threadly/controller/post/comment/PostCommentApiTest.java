@@ -3,13 +3,10 @@ package com.threadly.controller.post.comment;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.threadly.CommonResponse;
 import com.threadly.ErrorCode;
 import com.threadly.controller.post.BasePostApiTest;
-import com.threadly.controller.post.request.CreatePostCommentRequest;
 import com.threadly.post.response.CreatePostCommentApiResponse;
-import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

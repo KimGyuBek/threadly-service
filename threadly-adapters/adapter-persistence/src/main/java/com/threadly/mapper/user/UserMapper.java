@@ -54,32 +54,11 @@ public class UserMapper {
    * @return
    */
   public static UserEntity toEntity(User domain) {
-    UserEntity userEntity;
-    if (domain.getUserId() == null) {
-      userEntity = UserEntity.newUser(
-          domain.getUserName(),
-          domain.getPassword(),
-          domain.getEmail(),
-          domain.getPhone(),
-          domain.getUserType(),
-          domain.isActive(),
-          domain.isEmailVerified()
-      );
-    } else {
-      userEntity = new UserEntity(
-          domain.getUserId(),
-          domain.getUserName(),
-          domain.getPassword(),
-          domain.getEmail(),
-          domain.getPhone(),
-          domain.getUserType(),
-          domain.isActive(),
-          domain.isEmailVerified(),
-          null
-      );
-    }
-
-    return userEntity;
+    return
+        UserEntity.newUser(
+            domain
+        );
   }
-
 }
+
+

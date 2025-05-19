@@ -1,6 +1,7 @@
 package com.threadly.entity.user;
 
 import com.threadly.entity.BaseEntity;
+import com.threadly.user.User;
 import com.threadly.user.UserType;
 import com.threadly.user.response.UserPortResponse;
 import com.threadly.util.RandomUtils;
@@ -74,17 +75,17 @@ public class UserEntity extends BaseEntity {
    * @param isActive
    * @return
    */
-  public static UserEntity newUser(String userName, String password, String email, String phone,
-      UserType userType,
-      boolean isActive, boolean isEmailVerified) {
+  public static UserEntity newUser(User user) {
     return new UserEntity(
-        userName,
-        password,
-        email,
-        phone,
-        userType,
-        isActive,
-        isEmailVerified
+        user.getUserId(),
+        user.getUserName(),
+        user.getPassword(),
+        user.getEmail(),
+        user.getPhone(),
+        user.getUserType(),
+        user.isActive(),
+        user.isEmailVerified(),
+        null
     );
   }
 
@@ -92,37 +93,4 @@ public class UserEntity extends BaseEntity {
     this.userProfile = userProfile;
   }
 
-  /**
-   * UserEntity -> UserPortResponse
-   *
-   * @return
-   */
-  public UserPortResponse toUserPortResponse() {
-    return UserPortResponse.builder()
-        .userId(this.getUserId())
-        .userName(this.getUserName())
-        .password(this.getPassword())
-        .email(this.getEmail())
-        .phone(this.getPhone())
-        .userType(this.getUserType().name())
-        .isActive(this.isActive())
-        .isEmailVerified(this.isEmailVerified())
-        .build();
-
-
-  }
-
-  /*TODO db pk와 외부 조회용 id 분리 고려*/
-  private UserEntity(String userName, String password, String email, String phone,
-      UserType userType,
-      boolean isActive, boolean isEmailVerified) {
-    this.userId = RandomUtils.generateNanoId();
-    this.userName = userName;
-    this.password = password;
-    this.email = email;
-    this.phone = phone;
-    this.userType = userType;
-    this.isActive = isActive;
-    this.isEmailVerified = isEmailVerified;
-  }
 }
