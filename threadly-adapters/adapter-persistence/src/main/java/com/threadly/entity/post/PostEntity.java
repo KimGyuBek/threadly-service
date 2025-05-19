@@ -2,6 +2,7 @@ package com.threadly.entity.post;
 
 import com.threadly.entity.BaseEntity;
 import com.threadly.entity.user.UserEntity;
+import com.threadly.posts.Post;
 import com.threadly.posts.PostStatusType;
 import com.threadly.util.RandomUtils;
 import jakarta.persistence.Column;
@@ -48,13 +49,19 @@ public class PostEntity extends BaseEntity {
     return super.getModifiedAt();
   }
 
-  public static PostEntity newPost(UserEntity user, String content) {
+  /**
+   * 새로운 PostEntity 생성
+   * @param user
+   * @param post
+   * @return
+   */
+  public static PostEntity newPost(UserEntity user, Post post) {
     return new PostEntity(
-        RandomUtils.generateUUID(),
+        post.getPostId(),
         user,
-        content,
-        0,
-        PostStatusType.ACTIVE
+        post.getContent(),
+        post.getViewCount(),
+        post.getStatus()
     );
   }
 

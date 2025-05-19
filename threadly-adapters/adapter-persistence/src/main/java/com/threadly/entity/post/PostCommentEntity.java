@@ -3,6 +3,7 @@ package com.threadly.entity.post;
 
 import com.threadly.entity.BaseEntity;
 import com.threadly.entity.user.UserEntity;
+import com.threadly.posts.PostComment;
 import com.threadly.posts.PostCommentStatusType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,12 +14,16 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 /**
  * 게시글 댓글 Entity
  */
+@Getter
 @Table(name = "post_comments")
 @Entity
+@AllArgsConstructor
 public class PostCommentEntity extends BaseEntity {
 
   @Id
@@ -39,4 +44,28 @@ public class PostCommentEntity extends BaseEntity {
   @Enumerated(EnumType.STRING)
   @Column(name = "status")
   private PostCommentStatusType status;
+
+  /**
+   * 새 댓글 생성
+   *
+   * @param post
+   * @param user
+   * @param content
+   * @param status
+   * @return
+   */
+  public static PostCommentEntity newComment(PostEntity post, UserEntity user,
+      PostComment postComment
+  ) {
+    return new PostCommentEntity(
+        postComment.getCommentId(),
+        post,
+        user,
+        postComment.getContent(),
+        postComment.getStatus()
+    );
+  }
+
+  public PostCommentEntity() {
+  }
 }

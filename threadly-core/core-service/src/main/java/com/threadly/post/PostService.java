@@ -29,7 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class PostService implements CreatePostUseCase, UpdatePostUseCase, FetchPostUseCase {
 
-  private final CreatePostPort createPostPort;
+  private final SavePostPort savePostPort;
   private final FetchPostPort fetchPostPort;
   private final UpdatePostPort updatePostPort;
 
@@ -45,7 +45,7 @@ public class PostService implements CreatePostUseCase, UpdatePostUseCase, FetchP
     Post newPost = Post.newPost(command.getUserId(), command.getContent());
 
     /*post 저장*/
-    Post savedPost = createPostPort.savePost(newPost);
+    Post savedPost = savePostPort.savePost(newPost);
 
     return new CreatePostApiResponse(
         savedPost.getPostId(),
@@ -68,7 +68,7 @@ public class PostService implements CreatePostUseCase, UpdatePostUseCase, FetchP
         () -> new PostException(ErrorCode.POST_NOT_FOUND)
     );
 
-    /*작성자와 수정 요청 userId가 일치하지 않는 경우*/
+    /*작성자와 수정 요청자의 userId가 일치하지 않는 경우*/
     if (!post.getUserId().equals(command.getUserId())) {
       throw new PostException(ErrorCode.POST_UPDATE_FORBIDDEN);
     }

@@ -3,9 +3,9 @@ package com.threadly.post;
 import com.threadly.posts.Post;
 
 /**
- * 게시글 생성 관련 port
+ * 게시글 저장 관련 port
  */
-public interface CreatePostPort {
+public interface SavePostPort {
 
   /**
    * post 저장

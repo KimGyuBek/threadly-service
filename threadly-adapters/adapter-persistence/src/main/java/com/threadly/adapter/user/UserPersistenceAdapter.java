@@ -7,7 +7,7 @@ import com.threadly.mapper.user.UserProfileMapper;
 import com.threadly.repository.user.UserJpaRepository;
 import com.threadly.repository.user.UserProfileJpaRepository;
 import com.threadly.user.FetchUserPort;
-import com.threadly.user.InsertUserPort;
+import com.threadly.user.SaveUserPort;
 import com.threadly.user.User;
 import com.threadly.user.UserEmailVerificationPort;
 import com.threadly.user.UserProfile;
@@ -18,7 +18,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-public class UserPersistenceAdapter implements FetchUserPort, InsertUserPort,
+public class UserPersistenceAdapter implements FetchUserPort, SaveUserPort,
     UserEmailVerificationPort {
 
   private final UserJpaRepository userJpaRepository;
@@ -40,7 +40,7 @@ public class UserPersistenceAdapter implements FetchUserPort, InsertUserPort,
   }
 
   @Override
-  public UserPortResponse create(User user) {
+  public UserPortResponse save(User user) {
     UserEntity userEntity = UserMapper.toEntity(user);
     userJpaRepository.save(userEntity);
 
@@ -101,12 +101,6 @@ public class UserPersistenceAdapter implements FetchUserPort, InsertUserPort,
     UserEntity userEntity = UserMapper.toEntity(user);
     userEntity.setUserProfile(userProfileEntity);
     userJpaRepository.save(userEntity);
-  }
-
-
-  @Override
-  public void saveUser(User user) {
-    userJpaRepository.save(UserMapper.toEntity(user));
   }
 
   @Override

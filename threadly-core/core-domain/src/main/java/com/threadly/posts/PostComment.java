@@ -1,6 +1,7 @@
 package com.threadly.posts;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.threadly.util.RandomUtils;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -44,10 +45,11 @@ public class PostComment {
    */
   public static PostComment newComment(String postId, String userId, String content) {
     return PostComment.builder()
-        .commentId(null)
+        .commentId(RandomUtils.generateNanoId())
         .postId(postId)
         .userId(userId)
         .content((content != null) ? content : "")
+        .status(PostCommentStatusType.ACTIVE)
         .commentLikes(new HashSet<>())
         .build();
   }

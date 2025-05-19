@@ -1,6 +1,7 @@
 package com.threadly.posts;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.threadly.util.RandomUtils;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -37,6 +38,8 @@ public class Post {
     this.viewCount = viewCount;
     this.postedAt = postedAt;
     this.status = status;
+    this.postLikes = new HashSet<>();
+    this.postComments = new ArrayList<>();
   }
 
   private Post(String postId, String userId, String content, Set<PostLike> postLikes,
@@ -50,7 +53,6 @@ public class Post {
     this.viewCount = viewCount;
     this.postedAt = postedAt;
     this.status = status;
-    this.status = status;
   }
 
   /**
@@ -62,12 +64,13 @@ public class Post {
    */
   public static Post newPost(String userId, String content) {
     return Post.builder()
-        .postId(null)
+        .postId(RandomUtils.generateNanoId())
         .userId(userId)
         .content((content != null) ? content : "")
         .postLikes(new HashSet<>())
         .postComments(new ArrayList<>())
         .viewCount(0)
+        .status(PostStatusType.ACTIVE)
         .postedAt(LocalDateTime.now())
         .build();
   }
