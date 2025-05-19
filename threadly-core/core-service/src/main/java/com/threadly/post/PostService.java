@@ -165,7 +165,6 @@ public class PostService implements CreatePostUseCase, UpdatePostUseCase, FetchP
     /*삭제 상태 변경 수행*/
     post.markAsDeleted();
     updatePostPort.changeStatus(post);
-
   }
 
   /**

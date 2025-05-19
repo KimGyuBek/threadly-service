@@ -2,6 +2,7 @@ package com.threadly.post;
 
 import com.threadly.post.response.PostDetailResponse;
 import com.threadly.posts.Post;
+import com.threadly.posts.PostStatusType;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,5 +33,13 @@ public interface FetchPostPort {
    * @return
    */
   List<PostDetailResponse> findUserVisiblePostList();
+
+
+  /**
+   * postId로 게시글 status 조회
+   * @param postId
+   * @return
+   */
+  Optional<PostStatusType> findPostStatusByPostId(String postId);
 
 }

@@ -3,7 +3,7 @@ package com.threadly.entity.post;
 
 import com.threadly.entity.BaseEntity;
 import com.threadly.entity.user.UserEntity;
-import com.threadly.posts.PostComment;
+import com.threadly.posts.comment.PostComment;
 import com.threadly.posts.PostCommentStatusType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -50,8 +50,7 @@ public class PostCommentEntity extends BaseEntity {
    *
    * @param post
    * @param user
-   * @param content
-   * @param status
+   * @param postComment
    * @return
    */
   public static PostCommentEntity newComment(PostEntity post, UserEntity user,

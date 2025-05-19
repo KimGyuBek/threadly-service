@@ -1,4 +1,4 @@
-package com.threadly.posts;
+package com.threadly.posts.comment;
 
 import java.util.Objects;
 import lombok.Builder;

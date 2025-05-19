@@ -1,28 +1,25 @@
 package com.threadly.posts;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.threadly.posts.comment.PostComment;
 import com.threadly.util.RandomUtils;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import lombok.Builder;
 import lombok.Getter;
 
 /**
  * Post 도메인
  */
 @Getter
-@Builder
 public class Post {
 
   private String postId;
   private String userId;
   private String content;
 
-  private Set<PostLike> postLikes;
-  private List<PostComment> postComments;
+  private List<PostLike> postLikes = new ArrayList<>();
+  private List<PostComment> postComments = new ArrayList<>();
 
   private int viewCount;
 
@@ -38,21 +35,6 @@ public class Post {
     this.viewCount = viewCount;
     this.postedAt = postedAt;
     this.status = status;
-    this.postLikes = new HashSet<>();
-    this.postComments = new ArrayList<>();
-  }
-
-  private Post(String postId, String userId, String content, Set<PostLike> postLikes,
-      List<PostComment> postComments, int viewCount,PostStatusType status, LocalDateTime postedAt
-      ) {
-    this.postId = postId;
-    this.userId = userId;
-    this.content = content;
-    this.postLikes = postLikes != null ? postLikes : new HashSet<>();
-    this.postComments = postComments != null ? postComments : new ArrayList<>();
-    this.viewCount = viewCount;
-    this.postedAt = postedAt;
-    this.status = status;
   }
 
   /**
@@ -63,16 +45,14 @@ public class Post {
    * @return
    */
   public static Post newPost(String userId, String content) {
-    return Post.builder()
-        .postId(RandomUtils.generateNanoId())
-        .userId(userId)
-        .content((content != null) ? content : "")
-        .postLikes(new HashSet<>())
-        .postComments(new ArrayList<>())
-        .viewCount(0)
-        .status(PostStatusType.ACTIVE)
-        .postedAt(LocalDateTime.now())
-        .build();
+    return new Post(
+        RandomUtils.generateNanoId(),
+        userId,
+        (content != null) ? content : "",
+        0,
+        PostStatusType.ACTIVE,
+        LocalDateTime.now()
+    );
   }
 
   /**
@@ -182,14 +162,15 @@ public class Post {
   }
 
   /**
-   * 댓글 삭제
+   * 특정 댓글 조회
    *
    * @param commentId
-   * @return
+   * @return postComment
    */
-  public boolean removeComment(String commentId) {
-    return
-        postComments.removeIf(postComment -> postComment.getCommentId().equals(commentId));
+  public PostComment findComment(String commentId) {
+    return postComments.stream().filter(
+        comment -> comment.getPostId().equals(commentId)
+    ).findFirst().orElse(null);
   }
 
   /**
@@ -207,7 +188,7 @@ public class Post {
 
   /*Test*/
   @VisibleForTesting
-  void setPostId(String postId) {
+  public void setPostId(String postId) {
     this.postId = postId;
   }
 

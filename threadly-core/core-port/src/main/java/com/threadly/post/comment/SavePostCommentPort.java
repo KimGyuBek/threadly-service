@@ -2,7 +2,7 @@ package com.threadly.post.comment;
 
 import com.threadly.post.comment.response.CreatePostCommentResponse;
 import com.threadly.posts.Post;
-import com.threadly.posts.PostComment;
+import com.threadly.posts.comment.PostComment;
 import com.threadly.user.User;
 
 /**

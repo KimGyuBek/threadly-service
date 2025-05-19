@@ -1,7 +1,7 @@
-package com.threadly.post;
+package com.threadly.post.comment;
 
-import com.threadly.post.command.CreatePostCommentCommand;
-import com.threadly.post.response.CreatePostCommentApiResponse;
+import com.threadly.post.comment.command.CreatePostCommentCommand;
+import com.threadly.post.comment.response.CreatePostCommentApiResponse;
 
 /**
  * 댓글 생성 관련 UseCase

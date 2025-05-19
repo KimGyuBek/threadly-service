@@ -3,16 +3,18 @@ package com.threadly.controller.post;
 import com.threadly.controller.post.request.CreatePostCommentRequest;
 import com.threadly.controller.post.request.CreatePostRequest;
 import com.threadly.controller.post.request.UpdatePostRequest;
-import com.threadly.post.CreatePostCommentUseCase;
 import com.threadly.post.CreatePostUseCase;
 import com.threadly.post.FetchPostUseCase;
 import com.threadly.post.UpdatePostUseCase;
 import com.threadly.post.command.CreatePostCommand;
-import com.threadly.post.command.CreatePostCommentCommand;
 import com.threadly.post.command.DeletePostCommand;
 import com.threadly.post.command.UpdatePostCommand;
+import com.threadly.post.comment.CreatePostCommentUseCase;
+import com.threadly.post.comment.UpdatePostCommentUseCase;
+import com.threadly.post.comment.command.CreatePostCommentCommand;
+import com.threadly.post.comment.command.DeletePostCommentCommand;
+import com.threadly.post.comment.response.CreatePostCommentApiResponse;
 import com.threadly.post.response.CreatePostApiResponse;
-import com.threadly.post.response.CreatePostCommentApiResponse;
 import com.threadly.post.response.PostDetailApiResponse;
 import com.threadly.post.response.PostDetailListApiResponse;
 import com.threadly.post.response.PostStatusApiResponse;
@@ -44,6 +46,7 @@ public class PostController {
   private final FetchPostUseCase fetchPostUseCase;
 
   private final CreatePostCommentUseCase createPostCommentUseCase;
+  private final UpdatePostCommentUseCase updatePostCommentUseCase;
 
   /*
    * 게시글 저장 - POST /api/posts
@@ -55,6 +58,7 @@ public class PostController {
    * 게시글 좋아요 - POST /api/posts/{postId}/likes
    * 게시글 좋아요 목록 조회 - GET /api/posts/{postId}/likes
    * 게시글 댓글 생성 - POST /api/posts/{postId}/comments
+   * 게시글 댓글 삭제 - DELETE /api/posts/{postId}/comments
    * 게시글 댓글 목록 조회 - GET /api/posts/{postId}/comments
    * 게시글 댓글 좋아요 - POST /api/posts/{postId}/comments/{commentId}/likes
    * 게시글 댓글 좋아요 목록 조회 - GET /api/posts/{postId}/comments/{commentsId}/likes
@@ -179,6 +183,28 @@ public class PostController {
             )
         )
     );
+  }
+
+  /**
+   * 게시글 댓글 삭제
+   *
+   * @param commentId
+   * @return
+   */
+  @DeleteMapping("/{postId}/comments/{commentId}")
+  public ResponseEntity<Void> deletePostComment(@PathVariable("postId") String postId,
+      @PathVariable("commentId") String commentId) {
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    String userId = (String) auth.getCredentials();
+
+    updatePostCommentUseCase.deletePostComment(
+        new DeletePostCommentCommand(
+            userId,
+            postId,
+            commentId)
+    );
+
+    return ResponseEntity.status(204).build();
   }
 
 

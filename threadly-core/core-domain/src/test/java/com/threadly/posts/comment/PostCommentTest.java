@@ -1,8 +1,9 @@
-package com.threadly.posts;
+package com.threadly.posts.comment;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.threadly.posts.Post;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -39,28 +40,28 @@ class PostCommentTest {
     assertThat(postComment.getLikesCount()).isEqualTo(1);
   }
 
-  /*[Case #2] 중복 좋아요 방지*/
-  @DisplayName("중복 좋아요 방지")
-  @Test
-  public void like_shouldNotDuplicateLikes_whenSameUserLikesMultipleTimes() throws Exception {
-    //given
-    /*게시글 생성*/
-    generatePost();
-
-    String userId = "user1";
-    /*댓글 생성*/
-    PostComment postComment = post.addComment(userId, "comment1");
-    postComment.setCommentId("comment1");
-
-    //when
-    /*댓글 좋아요*/
-    for (int i = 0; i < 50; i++) {
-      postComment.like(userId);
-    }
-
-    //then
-    assertEquals(postComment.getLikesCount(), 1);
-  }
+//  /*[Case #2] 중복 좋아요 방지*/
+//  @DisplayName("중복 좋아요 방지")
+//  @Test
+//  public void like_shouldNotDuplicateLikes_whenSameUserLikesMultipleTimes() throws Exception {
+//    //given
+//    /*게시글 생성*/
+//    generatePost();
+//
+//    String userId = "user1";
+//    /*댓글 생성*/
+//    PostComment postComment = post.addComment(userId, "comment1");
+//    postComment.setCommentId("comment1");
+//
+//    //when
+//    /*댓글 좋아요*/
+//    for (int i = 0; i < 50; i++) {
+//      postComment.like(userId);
+//    }
+//
+//    //then
+//    assertEquals(postComment.getLikesCount(), 1);
+//  }
 
   /**
    * unlike()

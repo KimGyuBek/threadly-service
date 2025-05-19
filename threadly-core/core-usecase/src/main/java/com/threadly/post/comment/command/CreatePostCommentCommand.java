@@ -1,4 +1,4 @@
-package com.threadly.post.command;
+package com.threadly.post.comment.command;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
