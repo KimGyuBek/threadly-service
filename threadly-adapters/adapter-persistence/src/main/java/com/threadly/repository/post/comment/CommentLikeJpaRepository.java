@@ -2,6 +2,7 @@ package com.threadly.repository.post.comment;
 
 import com.threadly.entity.post.CommentLikeEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -38,4 +39,19 @@ public interface CommentLikeJpaRepository extends JpaRepository<CommentLikeEntit
       where c.id.commentId = :commentId
       """)
   long countByCommentId(@Param("commentId") String commentId);
+
+  /**
+   * userId, commentId에 해당하는 데이터 삭제
+   *
+   * @param commentId
+   * @param userId
+   */
+  @Modifying(clearAutomatically = true, flushAutomatically = true)
+  @Query(value = """
+      delete from CommentLikeEntity  c 
+      where c.id.commentId = :commentId 
+      and c.id.userId = :userId
+      """)
+  void deleteByCommentIdAndUserId(@Param("commentId") String commentId,
+      @Param("userId") String userId);
 }

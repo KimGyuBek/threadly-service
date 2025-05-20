@@ -13,6 +13,7 @@ import com.threadly.post.comment.CreatePostCommentUseCase;
 import com.threadly.post.comment.UpdatePostCommentUseCase;
 import com.threadly.post.comment.command.CreatePostCommentCommand;
 import com.threadly.post.comment.command.DeletePostCommentCommand;
+import com.threadly.post.comment.like.CancelPostCommentLikeUseCase;
 import com.threadly.post.comment.like.LikePostCommentUseCase;
 import com.threadly.post.comment.like.command.LikePostCommentCommand;
 import com.threadly.post.comment.like.response.LikePostCommentApiResponse;
@@ -54,6 +55,7 @@ public class PostController {
   private final UpdatePostCommentUseCase updatePostCommentUseCase;
 
   private final LikePostCommentUseCase likePostCommentUseCase;
+  private final CancelPostCommentLikeUseCase cancelPostCommentLikeUseCase;
 
   /*
    * 게시글 저장 - POST /api/posts
@@ -215,6 +217,13 @@ public class PostController {
     return ResponseEntity.status(204).build();
   }
 
+  /**
+   * 게시글 댓글 좋아요
+   *
+   * @param postId
+   * @param commentId
+   * @return
+   */
   @PostMapping("/{postId}/comments/{commentId}/likes")
   public ResponseEntity<LikePostCommentApiResponse> likePostComment(
       @PathVariable("postId") String postId, @PathVariable("commentId") String commentId
@@ -230,6 +239,27 @@ public class PostController {
     );
 
     return ResponseEntity.status(201).body(likePostCommentApiResponse);
+  }
+
+  /**
+   * 게시글 댓글 좋아요 삭제
+   *
+   * @return
+   */
+  @DeleteMapping("/{postId}/comments/{commentId}/likes")
+  public ResponseEntity<LikePostCommentApiResponse> cancelPostCommentLike(
+      @PathVariable("postId") String postId, @PathVariable("commentId") String commentId) {
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    String userId = (String) auth.getCredentials();
+
+    return ResponseEntity.status(204).body(
+        cancelPostCommentLikeUseCase.cancelPostCommentLike(
+            new LikePostCommentCommand(
+                commentId,
+                userId
+            )
+        )
+    );
   }
 
 

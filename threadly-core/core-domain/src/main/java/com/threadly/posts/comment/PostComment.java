@@ -103,8 +103,8 @@ public class PostComment {
     if(this.status != PostCommentStatusType.ACTIVE) {
       throw new CannotLikePostCommentException();
     }
-
   }
+
   /**
    * 댓글 좋아요
    *

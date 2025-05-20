@@ -164,7 +164,7 @@ public abstract class BasePostApiTest extends BaseApiTest {
    */
   public CommonResponse<LikePostCommentApiResponse> sendLikePostCommentRequest(
       String accessToken,
-      String postId,  String commentId, ResultMatcher expectedStatus) throws Exception {
+      String postId, String commentId, ResultMatcher expectedStatus) throws Exception {
     return
         sendPostRequest(
             "",
@@ -177,7 +177,7 @@ public abstract class BasePostApiTest extends BaseApiTest {
   }
 
   /**
-   * 게시글 삭제 요청 전송
+   * 게시글 댓글 삭제 요청 전송
    *
    * @param accessToken
    * @param postId
@@ -196,6 +196,29 @@ public abstract class BasePostApiTest extends BaseApiTest {
             expectedStatus, new TypeReference<>() {
             }, headers);
   }
+
+  /**
+   * 게시글 댓글 좋아요 삭제 요청 전송
+   *
+   * @param accessToken
+   * @param postId
+   * @param expectedStatus
+   * @return
+   * @throws Exception
+   */
+  public CommonResponse<LikePostCommentApiResponse> sendDeletePostCommentLikeRequest(
+      String accessToken,
+      String postId, String commentId, ResultMatcher expectedStatus) throws Exception {
+    Map<String, String> headers = new HashMap<>();
+    headers.put("Authorization", "Bearer " + accessToken);
+
+    return
+        sendDeleteRequest("",
+            "/api/posts/" + postId + "/comments/" + commentId + "/likes",
+            expectedStatus, new TypeReference<CommonResponse<LikePostCommentApiResponse>>() {
+            }, headers);
+  }
+
   /*게시글*/
   //[ACTIVE] 상태의 게시글
   public static final List<Map<String, String>> ACTIVE_POSTS = List.of(
@@ -267,44 +290,92 @@ public abstract class BasePostApiTest extends BaseApiTest {
   /*댓글*/
   // ACTIVE 상태의 댓글
   public static final List<Map<String, String>> ACTIVE_COMMENTS = List.of(
-      Map.of("commentId", "cmt1", "postId", "post1", "userId", "usr1", "userEmail", "user_email_verified1@test.com"),
-      Map.of("commentId", "cmt3", "postId", "post2", "userId", "usr5", "userEmail", "noodle@test.com"),
-      Map.of("commentId", "cmt5", "postId", "post3", "userId", "usr5", "userEmail", "noodle@test.com"),
-      Map.of("commentId", "cmt6", "postId", "post3", "userId", "usr4", "userEmail", "sunny@test.com"),
-      Map.of("commentId", "cmt7", "postId", "post3", "userId", "usr2", "userEmail", "user_email_verified2@test.com"),
-      Map.of("commentId", "cmt10", "postId", "post3", "userId", "usr1", "userEmail", "user_email_verified1@test.com"),
-      Map.of("commentId", "cmt11", "postId", "post4", "userId", "usr4", "userEmail", "sunny@test.com"),
-      Map.of("commentId", "cmt12", "postId", "post6", "userId", "usr1", "userEmail", "user_email_verified1@test.com"),
-      Map.of("commentId", "cmt13", "postId", "post6", "userId", "usr1", "userEmail", "user_email_verified1@test.com"),
-      Map.of("commentId", "cmt15", "postId", "post6", "userId", "usr4", "userEmail", "sunny@test.com")
+      Map.of("commentId", "cmt1", "postId", "post1", "userId", "usr1", "userEmail",
+          "user_email_verified1@test.com"),
+      Map.of("commentId", "cmt3", "postId", "post2", "userId", "usr5", "userEmail",
+          "noodle@test.com"),
+      Map.of("commentId", "cmt5", "postId", "post3", "userId", "usr5", "userEmail",
+          "noodle@test.com"),
+      Map.of("commentId", "cmt6", "postId", "post3", "userId", "usr4", "userEmail",
+          "sunny@test.com"),
+      Map.of("commentId", "cmt7", "postId", "post3", "userId", "usr2", "userEmail",
+          "user_email_verified2@test.com"),
+      Map.of("commentId", "cmt10", "postId", "post3", "userId", "usr1", "userEmail",
+          "user_email_verified1@test.com"),
+      Map.of("commentId", "cmt11", "postId", "post4", "userId", "usr4", "userEmail",
+          "sunny@test.com"),
+      Map.of("commentId", "cmt12", "postId", "post6", "userId", "usr1", "userEmail",
+          "user_email_verified1@test.com"),
+      Map.of("commentId", "cmt13", "postId", "post6", "userId", "usr1", "userEmail",
+          "user_email_verified1@test.com"),
+      Map.of("commentId", "cmt15", "postId", "post6", "userId", "usr4", "userEmail",
+          "sunny@test.com")
   );
 
   // BLOCKED 상태의 댓글
   public static final List<Map<String, String>> BLOCKED_COMMENTS = List.of(
-      Map.of("commentId", "cmt2", "postId", "post1", "userId", "usr4", "userEmail", "sunny@test.com"),
-      Map.of("commentId", "cmt4", "postId", "post3", "userId", "usr5", "userEmail", "noodle@test.com"),
-      Map.of("commentId", "cmt9", "postId", "post3", "userId", "usr5", "userEmail", "noodle@test.com"),
-      Map.of("commentId", "cmt16", "postId", "post6", "userId", "usr4", "userEmail", "sunny@test.com"),
-      Map.of("commentId", "cmt24", "postId", "post8", "userId", "usr2", "userEmail", "user_email_verified2@test.com"),
-      Map.of("commentId", "cmt27", "postId", "post8", "userId", "usr1", "userEmail", "user_email_verified1@test.com"),
-      Map.of("commentId", "cmt35", "postId", "post9", "userId", "usr1", "userEmail", "user_email_verified1@test.com"),
-      Map.of("commentId", "cmt39", "postId", "post10", "userId", "usr2", "userEmail", "user_email_verified2@test.com"),
-      Map.of("commentId", "cmt45", "postId", "post11", "userId", "usr2", "userEmail", "user_email_verified2@test.com"),
-      Map.of("commentId", "cmt54", "postId", "post12", "userId", "usr4", "userEmail", "sunny@test.com")
+      Map.of("commentId", "cmt2", "postId", "post1", "userId", "usr4", "userEmail",
+          "sunny@test.com"),
+      Map.of("commentId", "cmt4", "postId", "post3", "userId", "usr5", "userEmail",
+          "noodle@test.com"),
+      Map.of("commentId", "cmt9", "postId", "post3", "userId", "usr5", "userEmail",
+          "noodle@test.com"),
+      Map.of("commentId", "cmt16", "postId", "post6", "userId", "usr4", "userEmail",
+          "sunny@test.com"),
+      Map.of("commentId", "cmt24", "postId", "post8", "userId", "usr2", "userEmail",
+          "user_email_verified2@test.com"),
+      Map.of("commentId", "cmt27", "postId", "post8", "userId", "usr1", "userEmail",
+          "user_email_verified1@test.com"),
+      Map.of("commentId", "cmt35", "postId", "post9", "userId", "usr1", "userEmail",
+          "user_email_verified1@test.com"),
+      Map.of("commentId", "cmt39", "postId", "post10", "userId", "usr2", "userEmail",
+          "user_email_verified2@test.com"),
+      Map.of("commentId", "cmt45", "postId", "post11", "userId", "usr2", "userEmail",
+          "user_email_verified2@test.com"),
+      Map.of("commentId", "cmt54", "postId", "post12", "userId", "usr4", "userEmail",
+          "sunny@test.com")
   );
 
   // DELETED 상태의 댓글
   public static final List<Map<String, String>> DELETED_COMMENTS = List.of(
-      Map.of("commentId", "cmt8", "postId", "post3", "userId", "usr1", "userEmail", "user_email_verified1@test.com"),
-      Map.of("commentId", "cmt14", "postId", "post6", "userId", "usr4", "userEmail", "sunny@test.com"),
-      Map.of("commentId", "cmt20", "postId", "post7", "userId", "usr4", "userEmail", "sunny@test.com"),
-      Map.of("commentId", "cmt22", "postId", "post8", "userId", "usr4", "userEmail", "sunny@test.com"),
-      Map.of("commentId", "cmt36", "postId", "post9", "userId", "usr5", "userEmail", "noodle@test.com"),
-      Map.of("commentId", "cmt37", "postId", "post9", "userId", "usr2", "userEmail", "user_email_verified2@test.com"),
-      Map.of("commentId", "cmt47", "postId", "post11", "userId", "usr1", "userEmail", "user_email_verified1@test.com"),
-      Map.of("commentId", "cmt55", "postId", "post12", "userId", "usr2", "userEmail", "user_email_verified2@test.com"),
-      Map.of("commentId", "cmt74", "postId", "post16", "userId", "usr1", "userEmail", "user_email_verified1@test.com"),
-      Map.of("commentId", "cmt79", "postId", "post16", "userId", "usr2", "userEmail", "user_email_verified2@test.com")
+      Map.of("commentId", "cmt8", "postId", "post3", "userId", "usr1", "userEmail",
+          "user_email_verified1@test.com"),
+      Map.of("commentId", "cmt14", "postId", "post6", "userId", "usr4", "userEmail",
+          "sunny@test.com"),
+      Map.of("commentId", "cmt20", "postId", "post7", "userId", "usr4", "userEmail",
+          "sunny@test.com"),
+      Map.of("commentId", "cmt22", "postId", "post8", "userId", "usr4", "userEmail",
+          "sunny@test.com"),
+      Map.of("commentId", "cmt36", "postId", "post9", "userId", "usr5", "userEmail",
+          "noodle@test.com"),
+      Map.of("commentId", "cmt37", "postId", "post9", "userId", "usr2", "userEmail",
+          "user_email_verified2@test.com"),
+      Map.of("commentId", "cmt47", "postId", "post11", "userId", "usr1", "userEmail",
+          "user_email_verified1@test.com"),
+      Map.of("commentId", "cmt55", "postId", "post12", "userId", "usr2", "userEmail",
+          "user_email_verified2@test.com"),
+      Map.of("commentId", "cmt74", "postId", "post16", "userId", "usr1", "userEmail",
+          "user_email_verified1@test.com"),
+      Map.of("commentId", "cmt79", "postId", "post16", "userId", "usr2", "userEmail",
+          "user_email_verified2@test.com")
+  );
+
+  // ACTIVE 상태 댓글 좋아요 데이터
+  public static final List<Map<String, String>> ACTIVE_COMMENT_LIKES = List.of(
+      Map.of("commentId", "cmt102", "postId", "post23", "userEmail", "noodle@test.com"),
+      Map.of("commentId", "cmt3", "postId", "post2", "userEmail", "user_email_verified1@test.com"),
+      Map.of("commentId", "cmt5", "postId", "post3", "userEmail", "sunny@test.com"),
+      Map.of("commentId", "cmt6", "postId", "post3", "userEmail", "user_email_verified2@test.com"),
+      Map.of("commentId", "cmt10", "postId", "post3", "userEmail", "noodle@test.com")
+  );
+
+  // BLOCKED / DELETED 상태 댓글 좋아요 데이터
+  public static final List<Map<String, String>> INACTIVE_COMMENT_LIKES = List.of(
+      Map.of("commentId", "cmt2", "postId", "post1", "userEmail", "user_email_verified1@test.com"),
+      Map.of("commentId", "cmt4", "postId", "post3", "userEmail", "user_email_verified1@test.com"),
+      Map.of("commentId", "cmt8", "postId", "post3", "userEmail", "user_email_verified2@test.com"),
+      Map.of("commentId", "cmt14", "postId", "post6", "userEmail", "noodle@test.com"),
+      Map.of("commentId", "cmt16", "postId", "post6", "userEmail", "user_email_verified1@test.com")
   );
 
 }

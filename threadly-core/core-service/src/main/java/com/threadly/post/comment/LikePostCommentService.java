@@ -2,7 +2,9 @@ package com.threadly.post.comment;
 
 import com.threadly.ErrorCode;
 import com.threadly.exception.post.PostCommentException;
+import com.threadly.post.comment.like.CancelPostCommentLikeUseCase;
 import com.threadly.post.comment.like.CreatePostCommentLikePort;
+import com.threadly.post.comment.like.DeletePostCommentLikePort;
 import com.threadly.post.comment.like.FetchPostCommentLikePort;
 import com.threadly.post.comment.like.LikePostCommentUseCase;
 import com.threadly.post.comment.like.command.LikePostCommentCommand;
@@ -18,12 +20,14 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @RequiredArgsConstructor
-public class LikePostCommentService implements LikePostCommentUseCase {
+public class LikePostCommentService implements LikePostCommentUseCase,
+    CancelPostCommentLikeUseCase {
 
   private final FetchPostCommentPort fetchPostCommentPort;
 
   private final FetchPostCommentLikePort fetchPostCommentLikePort;
   private final CreatePostCommentLikePort createPostCommentLikePort;
+  private final DeletePostCommentLikePort deletePostCommentLikePort;
 
   @Transactional
   @Override
@@ -36,8 +40,7 @@ public class LikePostCommentService implements LikePostCommentUseCase {
     validateLikeable(postComment);
 
     /*좋아요 누르지 않았다면*/
-    if (!fetchPostCommentLikePort.existsByCommentIdAndUserId(command.getCommentId(),
-        command.getUserId())) {
+    if (!isUserLiked(command)) {
 
       /*좋아요 처리*/
       createPostCommentLikePort.createPostCommentLike(
@@ -45,6 +48,31 @@ public class LikePostCommentService implements LikePostCommentUseCase {
     }
 
     /*좋아요 수 조회*/
+    long likeCount = fetchLikeCount(command);
+
+    return new LikePostCommentApiResponse(
+        postComment.getCommentId(),
+        likeCount
+    );
+  }
+
+
+  @Transactional
+  @Override
+  public LikePostCommentApiResponse cancelPostCommentLike(LikePostCommentCommand command) {
+    /*게시글 댓글 조회*/
+    PostComment postComment = fetchPostComment(command);
+
+    /*좋아요 취소 가능한 상태인지 검증*/
+    validateLikeable(postComment);
+
+    /*사용자가 좋아요를 누른 상태인지 검증*/
+    /*좋아요를 누른 상태인 경우*/
+    if (isUserLiked(command)) {
+      /*좋아요 삭제*/
+      deletePostCommentLikePort.deletePostCommentLike(command.getCommentId(), command.getUserId());
+    }
+
     long likeCount = fetchLikeCount(command);
 
     return new LikePostCommentApiResponse(
@@ -89,5 +117,16 @@ public class LikePostCommentService implements LikePostCommentUseCase {
     } catch (CannotLikePostCommentException e) {
       throw new PostCommentException(ErrorCode.POST_COMMENT_LIKE_NOT_ALLOWED);
     }
+  }
+
+  /**
+   * 사용자가 이미 좋아요 눌렀는지 검증
+   *
+   * @param command
+   * @return
+   */
+  private boolean isUserLiked(LikePostCommentCommand command) {
+    return fetchPostCommentLikePort.existsByCommentIdAndUserId(command.getCommentId(),
+        command.getUserId());
   }
 }

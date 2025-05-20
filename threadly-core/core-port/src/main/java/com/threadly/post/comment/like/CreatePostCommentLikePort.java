@@ -1,6 +1,5 @@
 package com.threadly.post.comment.like;
 
-import com.threadly.post.comment.like.response.CreatePostCommentLikeResponse;
 import com.threadly.posts.comment.CommentLike;
 
 /**

@@ -2,6 +2,7 @@ package com.threadly.adapter.post;
 
 import com.threadly.mapper.post.CommentLikeMapper;
 import com.threadly.post.comment.like.CreatePostCommentLikePort;
+import com.threadly.post.comment.like.DeletePostCommentLikePort;
 import com.threadly.post.comment.like.FetchPostCommentLikePort;
 import com.threadly.posts.comment.CommentLike;
 import com.threadly.repository.post.comment.CommentLikeJpaRepository;
@@ -13,7 +14,8 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @RequiredArgsConstructor
-public class PostCommentLikeAdapter implements FetchPostCommentLikePort, CreatePostCommentLikePort {
+public class PostCommentLikeAdapter implements FetchPostCommentLikePort, CreatePostCommentLikePort,
+    DeletePostCommentLikePort {
 
   private final CommentLikeJpaRepository commentLikeJpaRepository;
 
@@ -32,5 +34,10 @@ public class PostCommentLikeAdapter implements FetchPostCommentLikePort, CreateP
   public long getLikeCountByCommentId(String commentId) {
     return
         commentLikeJpaRepository.countByCommentId(commentId);
+  }
+
+  @Override
+  public void deletePostCommentLike(String commentId, String userId) {
+    commentLikeJpaRepository.deleteByCommentIdAndUserId(commentId, userId);
   }
 }
