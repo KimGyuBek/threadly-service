@@ -1,6 +1,8 @@
 package com.threadly.post;
 
-import static com.threadly.posts.PostStatusType.*;
+import static com.threadly.posts.PostStatusType.ARCHIVE;
+import static com.threadly.posts.PostStatusType.BLOCKED;
+import static com.threadly.posts.PostStatusType.DELETED;
 
 import com.threadly.ErrorCode;
 import com.threadly.exception.post.PostException;
@@ -64,9 +66,7 @@ public class PostService implements CreatePostUseCase, UpdatePostUseCase, FetchP
   @Override
   public UpdatePostApiResponse updatePost(UpdatePostCommand command) {
     /*게시글 조회*/
-    Post post = fetchPostPort.findById(command.getPostId()).orElseThrow(
-        () -> new PostException(ErrorCode.POST_NOT_FOUND)
-    );
+    Post post = fetchPost(command.getPostId());
 
     /*작성자와 수정 요청자의 userId가 일치하지 않는 경우*/
     if (!post.getUserId().equals(command.getUserId())) {
@@ -92,12 +92,14 @@ public class PostService implements CreatePostUseCase, UpdatePostUseCase, FetchP
     );
   }
 
+
   @Transactional(readOnly = true)
   @Override
   public PostDetailApiResponse getPost(String postId) {
     PostDetailResponse postDetailResponse = fetchPostPort.findPostDetailsByPostId(postId)
         .orElseThrow(() -> new PostException(ErrorCode.POST_NOT_FOUND));
 
+    /*TODO 도메인 로직으로 변경*/
     PostStatusType status = postDetailResponse.getPostStatus();
     if (status == DELETED) {
       throw new PostException(ErrorCode.POST_ALREADY_DELETED);
@@ -133,7 +135,7 @@ public class PostService implements CreatePostUseCase, UpdatePostUseCase, FetchP
         )
     ).toList();
 
-    if (postList == null || postList.isEmpty()) {
+    if (postList.isEmpty()) {
       throw new PostException(ErrorCode.POST_NOT_FOUND);
     }
 
@@ -146,8 +148,7 @@ public class PostService implements CreatePostUseCase, UpdatePostUseCase, FetchP
   @Override
   public void deletePost(DeletePostCommand command) {
     /*게시글 조회*/
-    Post post = fetchPostPort.findById(command.getPostId())
-        .orElseThrow(() -> new PostException(ErrorCode.POST_NOT_FOUND));
+    Post post = fetchPost(command.getPostId());
 
     /*게시글 작성자와 사용자 검증*/
     if (!post.getUserId().equals(command.getUserId())) {
@@ -168,15 +169,28 @@ public class PostService implements CreatePostUseCase, UpdatePostUseCase, FetchP
   }
 
   /**
+   * 게시글 조회
+   *
+   * @param command
+   * @return
+   */
+  private Post fetchPost(String command) {
+    return
+        fetchPostPort.findById(command).orElseThrow(
+            () -> new PostException(ErrorCode.POST_NOT_FOUND)
+        );
+  }
+
+  /**
    * userProfile 조회
    *
    * @param userId
    * @return
    */
   private UserProfile getUserProfile(String userId) {
-    UserProfile userProfile = fetchUserPort.getUserProfile(userId)
-        .orElseThrow(() -> new UserException(
-            ErrorCode.USER_PROFILE_NOT_FOUND));
-    return userProfile;
+    return
+        fetchUserPort.getUserProfile(userId)
+            .orElseThrow(() -> new UserException(
+                ErrorCode.USER_PROFILE_NOT_FOUND));
   }
 }

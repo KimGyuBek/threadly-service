@@ -37,7 +37,7 @@ public class PostAdapter implements SavePostPort, FetchPostPort, UpdatePostPort 
 
     /*게시글 조회*/
     PostEntity saved = postJpaRepository.save(
-        PostEntity.newPost(userEntity, post)
+        PostMapper.toEntity(post, userEntity)
     );
 
     return PostMapper.toDomain(saved);

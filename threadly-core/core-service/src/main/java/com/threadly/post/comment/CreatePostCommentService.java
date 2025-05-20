@@ -24,7 +24,7 @@ public class CreatePostCommentService implements CreatePostCommentUseCase {
 
   private final FetchPostPort fetchPostPort;
 
-  private final SavePostCommentPort savePostCommentPort;
+  private final CreatePostCommentPort createPostCommentPort;
 
   private final FetchUserPort fetchUserPort;
 
@@ -52,7 +52,7 @@ public class CreatePostCommentService implements CreatePostCommentUseCase {
 
     /*저장*/
     /*TODO DTO로 묶기*/
-    CreatePostCommentResponse createPostCommentResponse = savePostCommentPort.savePostComment(post,
+    CreatePostCommentResponse createPostCommentResponse = createPostCommentPort.savePostComment(post,
         newComment, user);
 
     return new CreatePostCommentApiResponse(

@@ -1,7 +1,7 @@
 package com.threadly.posts.comment;
 
 /**
- * 게시글 삭제 불가 예외
+ * 게시글 댓글 삭제 불가 예외
  */
 public class CannotDeleteCommentException extends RuntimeException{
 

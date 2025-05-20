@@ -69,9 +69,10 @@ public enum ErrorCode {
   POST_COMMENT_LIKE_DUPLICATED("TLY5105", "이미 좋아요를 누른 댓글입니다.", HttpStatus.CONFLICT),
   POST_COMMENT_LIKE_NOT_FOUND("TLY5106", "좋아요를 누르지 않은 댓글입니다.", HttpStatus.BAD_REQUEST),
   POST_COMMENT_DELETE_BLOCKED("TLY5107", "차단된 댓글은 삭제할 수 없습니다.", HttpStatus.BAD_REQUEST),
-  POST_COMMENT_PARENT_POST_INACTIVE("TLY5108", "댓글이 속한 게시글은 현재 수정/삭제할 수 없습니다.", HttpStatus.BAD_REQUEST);
-
-
+  POST_COMMENT_PARENT_POST_INACTIVE("TLY5108", "댓글이 속한 게시글은 현재 수정/삭제할 수 없습니다.",
+      HttpStatus.BAD_REQUEST),
+  POST_COMMENT_LIKE_NOT_ALLOWED("TLY5109", "삭제되었거나 차단된 댓글에는 좋아요를 누를 수 없습니다.",
+      HttpStatus.BAD_REQUEST);
 
 
   private final String code;

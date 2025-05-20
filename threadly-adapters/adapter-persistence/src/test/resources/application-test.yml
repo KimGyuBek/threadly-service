@@ -10,7 +10,7 @@ spring:
     init:
       mode: always
       schema-locations: classpath:schema.sql
-      data-locations: classpath:user_data.sql
+#      data-locations: classpath:user_data.sql
 
 
   jpa:

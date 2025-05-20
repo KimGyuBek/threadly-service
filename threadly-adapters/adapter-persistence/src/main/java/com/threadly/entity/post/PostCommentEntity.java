@@ -3,8 +3,8 @@ package com.threadly.entity.post;
 
 import com.threadly.entity.BaseEntity;
 import com.threadly.entity.user.UserEntity;
-import com.threadly.posts.comment.PostComment;
 import com.threadly.posts.PostCommentStatusType;
+import com.threadly.posts.comment.PostComment;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -63,6 +63,17 @@ public class PostCommentEntity extends BaseEntity {
         postComment.getContent(),
         postComment.getStatus()
     );
+  }
+
+  /**
+   * 프록시 객체 생성
+   * @param commentId
+   * @return
+   */
+  public static PostCommentEntity fromId(String commentId) {
+    PostCommentEntity postCommentEntity = new PostCommentEntity();
+    postCommentEntity.commentId = commentId;
+    return postCommentEntity;
   }
 
   public PostCommentEntity() {

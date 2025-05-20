@@ -89,6 +89,18 @@ public class UserEntity extends BaseEntity {
     );
   }
 
+  /**
+   * 프록시 객체 생성
+   * @param userId
+   * @return
+   */
+  public static UserEntity fromId(String userId) {
+    UserEntity userEntity = new UserEntity();
+    userEntity.userId = userId;
+
+    return userEntity;
+  }
+
   public void setUserProfile(UserProfileEntity userProfile) {
     this.userProfile = userProfile;
   }

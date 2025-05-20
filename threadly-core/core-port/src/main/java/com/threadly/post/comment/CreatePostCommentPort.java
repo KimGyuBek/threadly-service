@@ -8,7 +8,7 @@ import com.threadly.user.User;
 /**
  * 게시글 댓글 저장 관련 port
  */
-public interface SavePostCommentPort {
+public interface CreatePostCommentPort {
 
   /**
    * 게시글 댓글 저장

@@ -95,6 +95,16 @@ public class PostComment {
     return new ArrayList<>(commentLikes);
   }
 
+
+  /**
+   * 댓글 좋아요 가능한지 검증
+   */
+  public void validateLikeable() {
+    if(this.status != PostCommentStatusType.ACTIVE) {
+      throw new CannotLikePostCommentException();
+    }
+
+  }
   /**
    * 댓글 좋아요
    *

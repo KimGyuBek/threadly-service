@@ -9,6 +9,7 @@ import com.threadly.auth.token.response.LoginTokenResponse;
 import com.threadly.controller.post.request.CreatePostCommentRequest;
 import com.threadly.controller.post.request.CreatePostRequest;
 import com.threadly.controller.post.request.UpdatePostRequest;
+import com.threadly.post.comment.like.response.LikePostCommentApiResponse;
 import com.threadly.post.comment.response.CreatePostCommentApiResponse;
 import com.threadly.post.response.CreatePostApiResponse;
 import com.threadly.post.response.PostDetailApiResponse;
@@ -153,6 +154,23 @@ public abstract class BasePostApiTest extends BaseApiTest {
             "/api/posts/" + postId + "/comments",
             expectedStatus,
             new TypeReference<CommonResponse<CreatePostCommentApiResponse>>() {
+            },
+            Map.of("Authorization", "Bearer " + accessToken)
+        );
+  }
+
+  /**
+   * 게시글 댓글 좋아요 요청 전송
+   */
+  public CommonResponse<LikePostCommentApiResponse> sendLikePostCommentRequest(
+      String accessToken,
+      String postId,  String commentId, ResultMatcher expectedStatus) throws Exception {
+    return
+        sendPostRequest(
+            "",
+            "/api/posts/" + postId + "/comments/" + commentId + "/likes",
+            expectedStatus,
+            new TypeReference<CommonResponse<LikePostCommentApiResponse>>() {
             },
             Map.of("Authorization", "Bearer " + accessToken)
         );

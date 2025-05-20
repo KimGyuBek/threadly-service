@@ -13,6 +13,9 @@ import com.threadly.post.comment.CreatePostCommentUseCase;
 import com.threadly.post.comment.UpdatePostCommentUseCase;
 import com.threadly.post.comment.command.CreatePostCommentCommand;
 import com.threadly.post.comment.command.DeletePostCommentCommand;
+import com.threadly.post.comment.like.LikePostCommentUseCase;
+import com.threadly.post.comment.like.command.LikePostCommentCommand;
+import com.threadly.post.comment.like.response.LikePostCommentApiResponse;
 import com.threadly.post.comment.response.CreatePostCommentApiResponse;
 import com.threadly.post.response.CreatePostApiResponse;
 import com.threadly.post.response.PostDetailApiResponse;
@@ -33,6 +36,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/*TODO 게시글과 댓글 컨트롤러 분리 고려*/
+
 /**
  * post controller
  */
@@ -48,9 +53,11 @@ public class PostController {
   private final CreatePostCommentUseCase createPostCommentUseCase;
   private final UpdatePostCommentUseCase updatePostCommentUseCase;
 
+  private final LikePostCommentUseCase likePostCommentUseCase;
+
   /*
    * 게시글 저장 - POST /api/posts
-   * 게시글 삭제 - DELETE /api/posts
+   * 게시글 삭제 - DELETE /api/posts/{postId}
    * 게시글 조회 - GET /api/posts/{postId}
    * 게시글 목록 조회 - GET /api/posts
    * 게시글 수정 - PATCH /api/posts/{postId}
@@ -61,6 +68,7 @@ public class PostController {
    * 게시글 댓글 삭제 - DELETE /api/posts/{postId}/comments
    * 게시글 댓글 목록 조회 - GET /api/posts/{postId}/comments
    * 게시글 댓글 좋아요 - POST /api/posts/{postId}/comments/{commentId}/likes
+   * 게시글 댓글 좋아요 취소 - DELETE /api/posts/{postId}/comments/{commentId}/likes
    * 게시글 댓글 좋아요 목록 조회 - GET /api/posts/{postId}/comments/{commentsId}/likes
    */
 
@@ -205,6 +213,23 @@ public class PostController {
     );
 
     return ResponseEntity.status(204).build();
+  }
+
+  @PostMapping("/{postId}/comments/{commentId}/likes")
+  public ResponseEntity<LikePostCommentApiResponse> likePostComment(
+      @PathVariable("postId") String postId, @PathVariable("commentId") String commentId
+  ) {
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    String userId = (String) auth.getCredentials();
+
+    LikePostCommentApiResponse likePostCommentApiResponse = likePostCommentUseCase.likePostComment(
+        new LikePostCommentCommand(
+            commentId,
+            userId
+        )
+    );
+
+    return ResponseEntity.status(201).body(likePostCommentApiResponse);
   }
 
 

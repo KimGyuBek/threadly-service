@@ -2,9 +2,7 @@ package com.threadly.entity.post;
 
 import com.threadly.entity.BaseEntity;
 import com.threadly.entity.user.UserEntity;
-import com.threadly.posts.Post;
 import com.threadly.posts.PostStatusType;
-import com.threadly.util.RandomUtils;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -44,25 +42,10 @@ public class PostEntity extends BaseEntity {
   @Column(name = "status")
   @Enumerated(EnumType.STRING)
   private PostStatusType status;
+
   /*수정 시간 조회*/
   public LocalDateTime getModifiedAt() {
     return super.getModifiedAt();
-  }
-
-  /**
-   * 새로운 PostEntity 생성
-   * @param user
-   * @param post
-   * @return
-   */
-  public static PostEntity newPost(UserEntity user, Post post) {
-    return new PostEntity(
-        post.getPostId(),
-        user,
-        post.getContent(),
-        post.getViewCount(),
-        post.getStatus()
-    );
   }
 
   public PostEntity() {
