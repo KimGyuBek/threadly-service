@@ -48,6 +48,18 @@ public class PostEntity extends BaseEntity {
     return super.getModifiedAt();
   }
 
+  /**
+   * 매핑 전용
+   * @param postId
+   * @return
+   */
+  public static PostEntity fromId(String postId) {
+    PostEntity postEntity = new PostEntity();
+    postEntity.postId = postId;
+
+    return postEntity;
+  }
+
   public PostEntity() {
   }
 }

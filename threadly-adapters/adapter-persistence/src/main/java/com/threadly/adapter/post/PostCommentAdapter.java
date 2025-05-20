@@ -1,11 +1,7 @@
 package com.threadly.adapter.post;
 
 import com.threadly.entity.post.PostCommentEntity;
-import com.threadly.entity.post.PostEntity;
-import com.threadly.entity.user.UserEntity;
 import com.threadly.mapper.post.PostCommentMapper;
-import com.threadly.mapper.post.PostMapper;
-import com.threadly.mapper.user.UserMapper;
 import com.threadly.post.comment.CreatePostCommentPort;
 import com.threadly.post.comment.FetchPostCommentPort;
 import com.threadly.post.comment.UpdatePostCommentPort;
@@ -32,13 +28,7 @@ public class PostCommentAdapter implements CreatePostCommentPort, FetchPostComme
 
   @Override
   public CreatePostCommentResponse savePostComment(Post post, PostComment postComment, User user) {
-
-    UserEntity userEntity = UserMapper.toEntity(user);
-    PostEntity postEntity = PostMapper.toEntity(post, userEntity);
-
-    PostCommentEntity postCommentEntity = PostCommentEntity.newComment(
-        postEntity, userEntity, postComment
-    );
+    PostCommentEntity postCommentEntity = PostCommentEntity.newComment(postComment);
 
     postCommentJpaRepository.save(postCommentEntity);
 

@@ -83,6 +83,16 @@ public class Post {
     return postLikes != null ? postLikes.size() : 0;
   }
 
+
+  /**
+   * 게시글이 좋아요 가능한 상태인지 검증
+   * @return
+   */
+  public void validateLikable() {
+    if (status != PostStatusType.ACTIVE) {
+      throw new CannotLikePostException();
+    }
+  }
   /**
    * 좋아요 생성
    *
@@ -90,19 +100,18 @@ public class Post {
    * @return
    */
   public PostLike like(String userId) {
-    PostLike newLike = new PostLike(this.postId, userId);
-    postLikes.add(newLike);
-    return newLike;
+    return
+        PostLike.newLike(this.postId, userId);
   }
 
-  /**
-   * 좋아요 취소
-   *
-   * @param userId
-   */
-  public void unlike(String userId) {
-    postLikes.removeIf(postLike -> postLike.getUserId().equals(userId));
-  }
+//  /**
+//   * 좋아요 취소
+//   *
+//   * @param userId
+//   */
+//  public void unlike(String userId) {
+////    postLikes.removeIf(postLike -> postLike.getUserId().equals(userId));
+//  }
 
   /**
    * 좋아요 목록 조회

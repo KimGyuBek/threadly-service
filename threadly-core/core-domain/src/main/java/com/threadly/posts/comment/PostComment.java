@@ -111,20 +111,18 @@ public class PostComment {
    * @param userId
    */
   public CommentLike like(String userId) {
-    CommentLike newCommentLike = new CommentLike(this.commentId, userId);
-    commentLikes.add(newCommentLike);
     return
-        newCommentLike;
+     CommentLike.newLike(this.commentId, userId);
   }
 
-  /**
-   * 댓글 좋아요 취소
-   *
-   * @param userId
-   */
-  public void unlike(String userId) {
-    commentLikes.remove(new CommentLike(this.commentId, userId));
-  }
+//  /**
+//   * 댓글 좋아요 취소
+//   *
+//   * @param userId
+//   */
+//  public void unlike(String userId) {
+//    commentLikes.remove(new CommentLike(this.commentId, userId));
+//  }
 
 
   /**

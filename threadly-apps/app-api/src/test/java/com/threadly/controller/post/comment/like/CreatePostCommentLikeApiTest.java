@@ -21,7 +21,7 @@ public class CreatePostCommentLikeApiTest extends BasePostApiTest {
    * @throws Exception
    */
   /*[Case #1] likePostComment - 이메일 인증된 사용자가 ACTIVE 상태의 댓글에 좋아요를 누를경우 성공해야한다*/
-  @DisplayName("게시글 댓글 좋아요 생성 - 정상 요청 시 201 Created, 좋아요 수 = 1 반환해야 한다")
+  @DisplayName("게시글 댓글 좋아요 생성 - 정상 요청 시 201 Created, likeCount = 1을 반환해야 한다")
   @Test
   public void likePostComment_shouldReturnCreated_whenUserLikesActiveComment() throws Exception {
     //given

@@ -31,13 +31,9 @@ public class PostAdapter implements SavePostPort, FetchPostPort, UpdatePostPort 
 
   @Override
   public Post savePost(Post post) {
-    /*사용자 조회*/
-    UserEntity userEntity = userJpaRepository.findById(post.getUserId())
-        .orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
-
     /*게시글 조회*/
     PostEntity saved = postJpaRepository.save(
-        PostMapper.toEntity(post, userEntity)
+        PostMapper.toEntity(post)
     );
 
     return PostMapper.toDomain(saved);

@@ -18,6 +18,9 @@ import com.threadly.post.comment.like.LikePostCommentUseCase;
 import com.threadly.post.comment.like.command.LikePostCommentCommand;
 import com.threadly.post.comment.like.response.LikePostCommentApiResponse;
 import com.threadly.post.comment.response.CreatePostCommentApiResponse;
+import com.threadly.post.like.LikePostUseCase;
+import com.threadly.post.like.command.LikePostCommand;
+import com.threadly.post.like.response.LikePostApiResponse;
 import com.threadly.post.response.CreatePostApiResponse;
 import com.threadly.post.response.PostDetailApiResponse;
 import com.threadly.post.response.PostDetailListApiResponse;
@@ -50,6 +53,7 @@ public class PostController {
   private final CreatePostUseCase createPostUseCase;
   private final UpdatePostUseCase updatePostUseCase;
   private final FetchPostUseCase fetchPostUseCase;
+  private final LikePostUseCase likePostUseCase;
 
   private final CreatePostCommentUseCase createPostCommentUseCase;
   private final UpdatePostCommentUseCase updatePostCommentUseCase;
@@ -156,6 +160,26 @@ public class PostController {
     );
 
     return ResponseEntity.status(200).build();
+  }
+
+  /**
+   * 게시글 좋아요
+   * @param postId
+   * @return
+   */
+  @PostMapping("/{postId}/likes")
+  public ResponseEntity<LikePostApiResponse> likePost(@PathVariable("postId")String postId) {
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    String userId = (String) auth.getCredentials();
+
+    return ResponseEntity.status(201).body(
+        likePostUseCase.likePost(
+            new LikePostCommand(
+                postId,
+                userId
+            )
+        )
+    );
   }
 
   /**

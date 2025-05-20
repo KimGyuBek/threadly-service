@@ -59,6 +59,8 @@ public enum ErrorCode {
   POST_ALREADY_DELETED_ACTION("TLY5007", "이미 삭제된 게시글은 다시 삭제할 수 없습니다.", HttpStatus.BAD_REQUEST),
   POST_BLOCKED("TLY5008", "블라인드 된 게시글입니다.", HttpStatus.BAD_REQUEST),
   POST_ARCHIVED("TLY5009", "비공개 처리된 게시글입니다.", HttpStatus.BAD_REQUEST),
+  POST_LIKE_NOT_ALLOWED("TLY5010", "삭제되었거나 차단된 게시글에는 좋아요를 누를 수 없습니다.",
+      HttpStatus.BAD_REQUEST),
 
   /*PostComment*/
   POST_COMMENT_NOT_FOUND("TLY5100", "댓글을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),

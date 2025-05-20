@@ -34,7 +34,7 @@ public class LikePostCommentService implements LikePostCommentUseCase,
   public LikePostCommentApiResponse likePostComment(LikePostCommentCommand command) {
 
     /*게시글 댓글 조회*/
-    PostComment postComment = fetchPostComment(command);
+    PostComment postComment = getPostComment(command);
 
     /*좋아요 가능한지 검증*/
     validateLikeable(postComment);
@@ -48,7 +48,7 @@ public class LikePostCommentService implements LikePostCommentUseCase,
     }
 
     /*좋아요 수 조회*/
-    long likeCount = fetchLikeCount(command);
+    long likeCount = getLikeCount(command);
 
     return new LikePostCommentApiResponse(
         postComment.getCommentId(),
@@ -61,7 +61,7 @@ public class LikePostCommentService implements LikePostCommentUseCase,
   @Override
   public LikePostCommentApiResponse cancelPostCommentLike(LikePostCommentCommand command) {
     /*게시글 댓글 조회*/
-    PostComment postComment = fetchPostComment(command);
+    PostComment postComment = getPostComment(command);
 
     /*좋아요 취소 가능한 상태인지 검증*/
     validateLikeable(postComment);
@@ -73,7 +73,7 @@ public class LikePostCommentService implements LikePostCommentUseCase,
       deletePostCommentLikePort.deletePostCommentLike(command.getCommentId(), command.getUserId());
     }
 
-    long likeCount = fetchLikeCount(command);
+    long likeCount = getLikeCount(command);
 
     return new LikePostCommentApiResponse(
         postComment.getCommentId(),
@@ -87,7 +87,7 @@ public class LikePostCommentService implements LikePostCommentUseCase,
    * @param command
    * @return
    */
-  private long fetchLikeCount(LikePostCommentCommand command) {
+  private long getLikeCount(LikePostCommentCommand command) {
     long likeCount = fetchPostCommentLikePort.getLikeCountByCommentId(
         command.getCommentId());
     return likeCount;
@@ -99,7 +99,7 @@ public class LikePostCommentService implements LikePostCommentUseCase,
    * @param command
    * @return
    */
-  private PostComment fetchPostComment(LikePostCommentCommand command) {
+  private PostComment getPostComment(LikePostCommentCommand command) {
     return
         fetchPostCommentPort.findById(command.getCommentId())
             .orElseThrow(() -> new PostCommentException(

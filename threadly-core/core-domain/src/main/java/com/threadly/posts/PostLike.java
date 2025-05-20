@@ -1,14 +1,14 @@
 package com.threadly.posts;
 
 import java.util.Objects;
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
  * 게시글 좋아요 도메인
  */
 @Getter
-@Builder
+@AllArgsConstructor
 public class PostLike {
 
   private String postId;
@@ -22,30 +22,7 @@ public class PostLike {
    * @return
    */
   public static PostLike newLike(String postId, String userId) {
-    return PostLike.builder()
-        .postId(postId)
-        .userId(userId)
-        .build();
+    return new PostLike(postId, userId);
   }
 
-  @Override
-  public boolean equals(Object object) {
-    if (this == object) {
-      return true;
-    }
-
-    if (object == null || getClass() != object.getClass()) {
-      return false;
-    }
-
-    PostLike postLike = (PostLike) object;
-    return Objects.equals(postId, postLike.postId)
-        && Objects.equals(userId, postLike.userId);
-
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(postId, userId);
-  }
 }

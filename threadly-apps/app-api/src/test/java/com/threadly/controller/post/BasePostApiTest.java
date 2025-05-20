@@ -11,6 +11,7 @@ import com.threadly.controller.post.request.CreatePostRequest;
 import com.threadly.controller.post.request.UpdatePostRequest;
 import com.threadly.post.comment.like.response.LikePostCommentApiResponse;
 import com.threadly.post.comment.response.CreatePostCommentApiResponse;
+import com.threadly.post.like.response.LikePostApiResponse;
 import com.threadly.post.response.CreatePostApiResponse;
 import com.threadly.post.response.PostDetailApiResponse;
 import com.threadly.post.response.PostDetailListApiResponse;
@@ -142,6 +143,23 @@ public abstract class BasePostApiTest extends BaseApiTest {
   }
 
   /**
+   * 게시글  좋아요 요청 전송
+   */
+  public CommonResponse<LikePostApiResponse> sendLikePostRequest(
+      String accessToken,
+      String postId, ResultMatcher expectedStatus) throws Exception {
+    return
+        sendPostRequest(
+            "",
+            "/api/posts/" + postId + "/likes",
+            expectedStatus,
+            new TypeReference<CommonResponse<LikePostApiResponse>>() {
+            },
+            Map.of("Authorization", "Bearer " + accessToken)
+        );
+  }
+
+  /**
    * 게시글 댓글 작성 요청 전송
    */
   public CommonResponse<CreatePostCommentApiResponse> sendCreatePostCommentRequest(
@@ -159,22 +177,6 @@ public abstract class BasePostApiTest extends BaseApiTest {
         );
   }
 
-  /**
-   * 게시글 댓글 좋아요 요청 전송
-   */
-  public CommonResponse<LikePostCommentApiResponse> sendLikePostCommentRequest(
-      String accessToken,
-      String postId, String commentId, ResultMatcher expectedStatus) throws Exception {
-    return
-        sendPostRequest(
-            "",
-            "/api/posts/" + postId + "/comments/" + commentId + "/likes",
-            expectedStatus,
-            new TypeReference<CommonResponse<LikePostCommentApiResponse>>() {
-            },
-            Map.of("Authorization", "Bearer " + accessToken)
-        );
-  }
 
   /**
    * 게시글 댓글 삭제 요청 전송
@@ -195,6 +197,23 @@ public abstract class BasePostApiTest extends BaseApiTest {
             "/api/posts/" + postId + "/comments/" + commentId,
             expectedStatus, new TypeReference<>() {
             }, headers);
+  }
+
+  /**
+   * 게시글 댓글 좋아요 요청 전송
+   */
+  public CommonResponse<LikePostCommentApiResponse> sendLikePostCommentRequest(
+      String accessToken,
+      String postId, String commentId, ResultMatcher expectedStatus) throws Exception {
+    return
+        sendPostRequest(
+            "",
+            "/api/posts/" + postId + "/comments/" + commentId + "/likes",
+            expectedStatus,
+            new TypeReference<CommonResponse<LikePostCommentApiResponse>>() {
+            },
+            Map.of("Authorization", "Bearer " + accessToken)
+        );
   }
 
   /**
