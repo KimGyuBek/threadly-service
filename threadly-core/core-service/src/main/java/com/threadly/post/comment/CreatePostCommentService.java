@@ -3,13 +3,12 @@ package com.threadly.post.comment;
 import com.threadly.ErrorCode;
 import com.threadly.exception.post.PostException;
 import com.threadly.exception.user.UserException;
-import com.threadly.post.CreatePostCommentUseCase;
 import com.threadly.post.FetchPostPort;
-import com.threadly.post.command.CreatePostCommentCommand;
+import com.threadly.post.comment.command.CreatePostCommentCommand;
 import com.threadly.post.comment.response.CreatePostCommentResponse;
-import com.threadly.post.response.CreatePostCommentApiResponse;
+import com.threadly.post.comment.response.CreatePostCommentApiResponse;
 import com.threadly.posts.Post;
-import com.threadly.posts.PostComment;
+import com.threadly.posts.comment.PostComment;
 import com.threadly.posts.PostStatusType;
 import com.threadly.user.FetchUserPort;
 import com.threadly.user.User;
@@ -21,11 +20,11 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @RequiredArgsConstructor
-public class PostCommentService implements CreatePostCommentUseCase {
+public class CreatePostCommentService implements CreatePostCommentUseCase {
 
   private final FetchPostPort fetchPostPort;
 
-  private final SavePostCommentPort savePostCommentPort;
+  private final CreatePostCommentPort createPostCommentPort;
 
   private final FetchUserPort fetchUserPort;
 
@@ -53,7 +52,7 @@ public class PostCommentService implements CreatePostCommentUseCase {
 
     /*저장*/
     /*TODO DTO로 묶기*/
-    CreatePostCommentResponse createPostCommentResponse = savePostCommentPort.savePostComment(post,
+    CreatePostCommentResponse createPostCommentResponse = createPostCommentPort.savePostComment(post,
         newComment, user);
 
     return new CreatePostCommentApiResponse(

@@ -2,11 +2,13 @@ package com.threadly.entity.post;
 
 
 import jakarta.persistence.Embeddable;
+import lombok.Getter;
 
 /**
  * comment_likes 복합키
  */
 @Embeddable
+@Getter
 public class UserIdAndCommentId {
 
   private String commentId;

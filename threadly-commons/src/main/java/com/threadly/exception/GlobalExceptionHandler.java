@@ -2,6 +2,7 @@ package com.threadly.exception;
 
 import com.threadly.ErrorCode;
 import com.threadly.exception.mail.EmailVerificationException;
+import com.threadly.exception.post.PostCommentException;
 import com.threadly.exception.post.PostException;
 import com.threadly.exception.token.TokenException;
 import com.threadly.exception.user.UserException;
@@ -61,4 +62,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         .body(new ErrorResponse(ex.getErrorCode()));
   }
 
+  /*Post Comment Exception*/
+  @ExceptionHandler(PostCommentException.class)
+  public ResponseEntity<ErrorResponse> handlePostCommentException(PostCommentException ex, WebRequest request) {
+    return ResponseEntity.status(ex.getErrorCode().getHttpStatus())
+        .body(new ErrorResponse(ex.getErrorCode()));
+  }
 }

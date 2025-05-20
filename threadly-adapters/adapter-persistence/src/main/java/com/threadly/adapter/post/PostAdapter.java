@@ -5,11 +5,12 @@ import com.threadly.entity.post.PostEntity;
 import com.threadly.entity.user.UserEntity;
 import com.threadly.exception.user.UserException;
 import com.threadly.mapper.post.PostMapper;
-import com.threadly.post.SavePostPort;
 import com.threadly.post.FetchPostPort;
+import com.threadly.post.SavePostPort;
 import com.threadly.post.UpdatePostPort;
 import com.threadly.post.response.PostDetailResponse;
 import com.threadly.posts.Post;
+import com.threadly.posts.PostStatusType;
 import com.threadly.repository.post.PostJpaRepository;
 import com.threadly.repository.user.UserJpaRepository;
 import java.util.List;
@@ -36,7 +37,7 @@ public class PostAdapter implements SavePostPort, FetchPostPort, UpdatePostPort 
 
     /*게시글 조회*/
     PostEntity saved = postJpaRepository.save(
-        PostEntity.newPost(userEntity, post)
+        PostMapper.toEntity(post, userEntity)
     );
 
     return PostMapper.toDomain(saved);
@@ -70,5 +71,11 @@ public class PostAdapter implements SavePostPort, FetchPostPort, UpdatePostPort 
   @Override
   public void changeStatus(Post post) {
     postJpaRepository.updateStatus(post.getPostId(), post.getStatus());
+  }
+
+  @Override
+  public Optional<PostStatusType> findPostStatusByPostId(String postId) {
+    return
+        postJpaRepository.findPostStatusByPostId(postId);
   }
 }

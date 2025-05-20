@@ -58,7 +58,21 @@ public enum ErrorCode {
   POST_DELETE_BLOCKED("TLY5006", "차단된 게시글은 삭제할 수 없습니다.", HttpStatus.BAD_REQUEST),
   POST_ALREADY_DELETED_ACTION("TLY5007", "이미 삭제된 게시글은 다시 삭제할 수 없습니다.", HttpStatus.BAD_REQUEST),
   POST_BLOCKED("TLY5008", "블라인드 된 게시글입니다.", HttpStatus.BAD_REQUEST),
-  POST_ARCHIVED("TLY5009", "비공개 처리된 게시글입니다.", HttpStatus.BAD_REQUEST);
+  POST_ARCHIVED("TLY5009", "비공개 처리된 게시글입니다.", HttpStatus.BAD_REQUEST),
+
+  /*PostComment*/
+  POST_COMMENT_NOT_FOUND("TLY5100", "댓글을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+  POST_COMMENT_ALREADY_DELETED("TLY5101", "이미 삭제된 댓글입니다.", HttpStatus.BAD_REQUEST),
+  POST_COMMENT_DELETE_FORBIDDEN("TLY5102", "댓글을 삭제할 권한이 없습니다.", HttpStatus.FORBIDDEN),
+  POST_COMMENT_WRITE_FORBIDDEN("TLY5103", "댓글을 작성할 권한이 없습니다.", HttpStatus.FORBIDDEN),
+  POST_COMMENT_CONTENT_EMPTY("TLY5104", "댓글 내용이 비어있습니다.", HttpStatus.BAD_REQUEST),
+  POST_COMMENT_LIKE_DUPLICATED("TLY5105", "이미 좋아요를 누른 댓글입니다.", HttpStatus.CONFLICT),
+  POST_COMMENT_LIKE_NOT_FOUND("TLY5106", "좋아요를 누르지 않은 댓글입니다.", HttpStatus.BAD_REQUEST),
+  POST_COMMENT_DELETE_BLOCKED("TLY5107", "차단된 댓글은 삭제할 수 없습니다.", HttpStatus.BAD_REQUEST),
+  POST_COMMENT_PARENT_POST_INACTIVE("TLY5108", "댓글이 속한 게시글은 현재 수정/삭제할 수 없습니다.",
+      HttpStatus.BAD_REQUEST),
+  POST_COMMENT_LIKE_NOT_ALLOWED("TLY5109", "삭제되었거나 차단된 댓글에는 좋아요를 누를 수 없습니다.",
+      HttpStatus.BAD_REQUEST);
 
 
   private final String code;

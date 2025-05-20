@@ -6,14 +6,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.threadly.CommonResponse;
 import com.threadly.ErrorCode;
 import com.threadly.controller.post.BasePostApiTest;
-import com.threadly.post.response.CreatePostCommentApiResponse;
+import com.threadly.post.comment.response.CreatePostCommentApiResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
- * 게시글 댓글 관련 API 테스트
+ * 게시글 댓글 생성 관련 API 테스트
  */
-public class PostCommentApiTest extends BasePostApiTest {
+public class CreatePostCommentApiTest extends BasePostApiTest {
 
   /**
    * createPostcomment() 테스트

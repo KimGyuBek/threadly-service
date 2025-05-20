@@ -1,4 +1,4 @@
-package com.threadly.post.response;
+package com.threadly.post.comment.response;
 
 import java.time.LocalDateTime;
 

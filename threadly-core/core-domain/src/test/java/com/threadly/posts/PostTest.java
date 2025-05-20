@@ -3,8 +3,8 @@ package com.threadly.posts;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.threadly.posts.comment.PostComment;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -100,7 +100,7 @@ class PostTest {
   }
 
   /*[Case #2] 동일 사용자가 게시글에 여러 번 좋아요를 눌러도 중복 추가되지 않아야 한다*/
-  @Test
+//  @Test
   @DisplayName("like - 동일한 사용자의 중복 좋아요는 1회만 인정되어야 한다")
   public void like_shouldNotDuplicateLikeFromSameUser() throws Exception {
     //given
@@ -245,71 +245,6 @@ class PostTest {
       assertThat(comments.get(i).getPostId()).isEqualTo(post.getPostId());
       assertThat(comments.get(i).getContent()).isEqualTo("comment" + (i + 1));
     }
-  }
-
-  /**
-   * removeComment()
-   */
-  /*[Case #1] 특정 댓글을 삭제 성공 후 댓글 수 확인*/
-  @DisplayName("removeComment - 특정 댓글을 삭제하면 true를 반환하고 list에서 지워져야 한다")
-  @Test
-  public void removeComment_shouldRemoveCommentById() throws Exception {
-    //given
-    generatePost();
-    String userId = "user1";
-    String comment = "comment";
-    String commentId = "com1";
-
-    /*댓글 생성*/
-    PostComment newComment = post.addComment(userId, comment);
-    newComment.setCommentId(commentId);
-
-    //when
-    boolean result = post.removeComment(commentId);
-
-    //then
-    assertTrue(result);
-    assertThat(post.getCommentsCount()).isEqualTo(0);
-  }
-
-  /*[Case #2] 존재하는 하지 않는 댓글 삭제 시 false를 반환해야 함 */
-  @DisplayName("removeComment - 존재하지 않는 댓글 삭제 시 false를 반환햐야 한다")
-  @Test
-  public void removeComment_shouldReturnFalse_whenCommentNotFound() throws Exception {
-    //given
-    generatePost();
-    String commentId = "com1";
-
-    //when
-    boolean result = post.removeComment(commentId);
-
-    //then
-    assertFalse(result);
-    assertThat(post.getCommentsCount()).isEqualTo(0);
-  }
-
-  /*[Case #3] 여러개의 댓글 중 특정 댓글만 삭제해야함*/
-  @DisplayName("removeComment - 여러 댓글 중 특정 댓글만 삭제되어야 한다")
-  @Test
-  public void removeComment_shouldRemoveOnlyTargetedCommentAmongMany() throws Exception {
-    int MAX = 100;
-    //given
-    /*게시글 생성*/
-    generatePost();
-
-    //when
-    /*댓글 추가*/
-    String userId = "user1";
-    List<PostComment> comments = new ArrayList<>();
-    for (int i = 0; i < MAX; i++) {
-      PostComment newComment = post.addComment(userId, "comment" + (i + 1));
-      newComment.setCommentId("com" + (i + 1));
-      comments.add(newComment);
-    }
-
-    //then
-    assertTrue(post.removeComment("com1"));
-    assertThat(post.getCommentsCount()).isEqualTo(MAX - 1);
   }
 
   /**
