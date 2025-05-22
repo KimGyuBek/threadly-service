@@ -2,6 +2,7 @@ package com.threadly.adapter.post;
 
 import com.threadly.mapper.post.PostLikeMapper;
 import com.threadly.post.like.CreatePostLikePort;
+import com.threadly.post.like.DeletePostLikePort;
 import com.threadly.post.like.FetchPostLikePort;
 import com.threadly.posts.PostLike;
 import com.threadly.repository.post.PostLikeJpaRepository;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Repository;
 
 @RequiredArgsConstructor
 @Repository
-public class PostLikeAdapter implements FetchPostLikePort , CreatePostLikePort {
+public class PostLikeAdapter implements FetchPostLikePort, CreatePostLikePort, DeletePostLikePort {
 
   private final PostLikeJpaRepository postLikeJpaRepository;
 
@@ -31,5 +32,10 @@ public class PostLikeAdapter implements FetchPostLikePort , CreatePostLikePort {
     postLikeJpaRepository.save(
         PostLikeMapper.toEntity(postLike)
     );
+  }
+
+  @Override
+  public int deleteByPostIdAndUserId(String postId, String userId) {
+    return postLikeJpaRepository.deleteByPostIdAndUserId(postId, userId);
   }
 }

@@ -41,18 +41,16 @@ public class LikePostCommentService implements LikePostCommentUseCase,
 
     /*좋아요 누르지 않았다면*/
     if (!isUserLiked(command)) {
-
       /*좋아요 처리*/
       createPostCommentLikePort.createPostCommentLike(
           postComment.like(command.getUserId()));
     }
 
     /*좋아요 수 조회*/
-    long likeCount = getLikeCount(command);
 
     return new LikePostCommentApiResponse(
         postComment.getCommentId(),
-        likeCount
+        getLikeCount(command)
     );
   }
 
@@ -66,18 +64,15 @@ public class LikePostCommentService implements LikePostCommentUseCase,
     /*좋아요 취소 가능한 상태인지 검증*/
     validateLikeable(postComment);
 
-    /*사용자가 좋아요를 누른 상태인지 검증*/
     /*좋아요를 누른 상태인 경우*/
     if (isUserLiked(command)) {
       /*좋아요 삭제*/
       deletePostCommentLikePort.deletePostCommentLike(command.getCommentId(), command.getUserId());
     }
 
-    long likeCount = getLikeCount(command);
-
     return new LikePostCommentApiResponse(
         postComment.getCommentId(),
-        likeCount
+        getLikeCount(command)
     );
   }
 

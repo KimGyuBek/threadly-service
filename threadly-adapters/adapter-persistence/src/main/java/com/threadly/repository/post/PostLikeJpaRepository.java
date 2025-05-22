@@ -2,6 +2,7 @@ package com.threadly.repository.post;
 
 import com.threadly.entity.post.PostLikeEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -27,6 +28,7 @@ public interface PostLikeJpaRepository extends JpaRepository<PostLikeEntity, Str
 
   /**
    * postId로 데이터 수 조회
+   *
    * @param postId
    * @return
    */
@@ -36,5 +38,19 @@ public interface PostLikeJpaRepository extends JpaRepository<PostLikeEntity, Str
       where p.id.postId=:postId
       """)
   long countByPostId(@Param("postId") String postId);
+
+  /**
+   * postId, userId와 일치하는 데이터 삭제
+   * @param postId
+   * @param userId
+   * @return
+   */
+  @Modifying(clearAutomatically = true, flushAutomatically = true)
+  @Query(value = """
+      delete from PostLikeEntity p 
+      where p.id.postId=:postId
+      and p.id.userId=:userId
+      """)
+  int deleteByPostIdAndUserId(@Param("postId") String postId, @Param("userId") String userId);
 
 }

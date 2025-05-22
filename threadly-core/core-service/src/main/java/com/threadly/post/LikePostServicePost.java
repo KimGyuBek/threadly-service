@@ -2,9 +2,11 @@ package com.threadly.post;
 
 import com.threadly.ErrorCode;
 import com.threadly.exception.post.PostException;
+import com.threadly.post.like.CancelPostLikeUseCase;
 import com.threadly.post.like.CreatePostLikePort;
-import com.threadly.post.like.LikePostUseCase;
+import com.threadly.post.like.DeletePostLikePort;
 import com.threadly.post.like.FetchPostLikePort;
+import com.threadly.post.like.LikePostUseCase;
 import com.threadly.post.like.command.LikePostCommand;
 import com.threadly.post.like.response.LikePostApiResponse;
 import com.threadly.posts.CannotLikePostException;
@@ -12,25 +14,26 @@ import com.threadly.posts.Post;
 import com.threadly.posts.PostLike;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 게시글 좋아요 관련 Service
  */
 @Service
 @RequiredArgsConstructor
-public class LikePostServicePost implements LikePostUseCase {
+public class LikePostServicePost implements LikePostUseCase, CancelPostLikeUseCase {
 
   private final FetchPostPort fetchPostPort;
 
   private final FetchPostLikePort fetchPostLikePort;
   private final CreatePostLikePort createPostLikePort;
+  private final DeletePostLikePort deletePostLikePort;
 
   @Override
   public LikePostApiResponse likePost(LikePostCommand command) {
 
     /*게시글 조회*/
-    Post post = fetchPostPort.findById(command.getPostId()).orElseThrow(() -> new PostException(
-        ErrorCode.POST_NOT_FOUND));
+    Post post = getPost(command);
 
     /*게시글이 좋아요 가능 상태인지 조회*/
     validateLikable(post);
@@ -51,8 +54,44 @@ public class LikePostServicePost implements LikePostUseCase {
     );
   }
 
+
+  @Transactional
+  @Override
+  public LikePostApiResponse cancelLikePost(LikePostCommand command) {
+    /*게시글 조회*/
+    Post post = getPost(command);
+
+    /*좋아요 취소 가능한 상태인지 검증*/
+    validateLikable(post);
+
+    /*사용자가 좋아요를 눌렀으면*/
+    if(isUserLiked(command)) {
+
+      /*좋아요 삭제 */
+      deletePostLikePort.deleteByPostIdAndUserId(command.getPostId(), command.getUserId());
+    }
+
+    return new LikePostApiResponse(
+        post.getPostId(),
+        getLikeCount(command)
+    );
+  }
+
+  /**
+   * 게시글 조회
+   *
+   * @param command
+   * @return
+   */
+  private Post getPost(LikePostCommand command) {
+    Post post = fetchPostPort.findById(command.getPostId()).orElseThrow(() -> new PostException(
+        ErrorCode.POST_NOT_FOUND));
+    return post;
+  }
+
   /**
    * postId로 좋아요 수 조회
+   *
    * @param command
    * @return
    */
@@ -62,6 +101,7 @@ public class LikePostServicePost implements LikePostUseCase {
 
   /**
    * 사용자가 해당 게시글에 좋아요를 눌렀는지 조회
+   *
    * @param command
    * @return
    */
@@ -71,6 +111,7 @@ public class LikePostServicePost implements LikePostUseCase {
 
   /**
    * 게시글이 좋아요 가능한 상태인지 검증
+   *
    * @param post
    */
   private static void validateLikable(Post post) {

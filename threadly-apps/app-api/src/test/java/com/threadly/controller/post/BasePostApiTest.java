@@ -160,6 +160,22 @@ public abstract class BasePostApiTest extends BaseApiTest {
   }
 
   /**
+   * 게시글  좋아요 취소 요청 전송
+   */
+  public CommonResponse<LikePostApiResponse> sendCancelPostLikeRequest(
+      String accessToken,
+      String postId, ResultMatcher expectedStatus) throws Exception {
+    return
+        sendDeleteRequest(
+            "",
+            "/api/posts/" + postId + "/likes",
+            expectedStatus,
+            new TypeReference<>() {
+            },
+            Map.of("Authorization", "Bearer " + accessToken)
+        );
+  }
+  /**
    * 게시글 댓글 작성 요청 전송
    */
   public CommonResponse<CreatePostCommentApiResponse> sendCreatePostCommentRequest(
