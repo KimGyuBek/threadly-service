@@ -9,6 +9,7 @@ import com.threadly.post.response.PostDetailResponse;
 import com.threadly.posts.Post;
 import com.threadly.posts.PostStatusType;
 import com.threadly.repository.post.PostJpaRepository;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -58,6 +59,13 @@ public class PostAdapter implements SavePostPort, FetchPostPort, UpdatePostPort 
   public List<PostDetailResponse> findUserVisiblePostList(String userId) {
     return
         postJpaRepository.getUserVisiblePostListByUserId(userId);
+  }
+
+  @Override
+  public List<PostDetailResponse> findUserVisiblePostListByCursor(String userId,
+      LocalDateTime cursorPostedAt, String cursorPostId,
+      int limit) {
+    return postJpaRepository.getUserVisiblePostsBeforeModifiedAt(userId, cursorPostedAt, cursorPostId, limit);
   }
 
   @Override

@@ -33,7 +33,7 @@ class UpdatePostStatusApiTest extends BasePostApiTest {
     //then
     /*삭제 요청 전송*/
     CommonResponse<Void> deletePostResponse = sendDeletePostRequest(
-        accessToken,postId, status().isOk());
+        accessToken, postId, status().isOk());
 
     /*게시글 조회 요청 전송*/
     CommonResponse<PostDetailApiResponse> getPostResponse = sendGetPostRequest(
@@ -41,7 +41,7 @@ class UpdatePostStatusApiTest extends BasePostApiTest {
 
     /*게시글 목록 조회 요청 전송*/
     CommonResponse<PostDetailListApiResponse> getPostListResponse = sendGetPostListRequest(
-        accessToken, status().isOk());
+        accessToken, null, null, 10, status().isOk());
 
     assertThat(getPostResponse.isSuccess()).isFalse();
     assertThat(getPostResponse.getCode()).isEqualTo(ErrorCode.POST_ALREADY_DELETED.getCode());
@@ -61,14 +61,14 @@ class UpdatePostStatusApiTest extends BasePostApiTest {
     /*로그인*/
     String accessToken = getAccessToken(email);
 
-
     //when
     //then
     CommonResponse<Void> deletePostResponse = sendDeletePostRequest(accessToken,
         postId, status().isBadRequest());
 
     assertThat(deletePostResponse.isSuccess()).isFalse();
-    assertThat(deletePostResponse.getCode()).isEqualTo(ErrorCode.POST_ALREADY_DELETED_ACTION.getCode());
+    assertThat(deletePostResponse.getCode()).isEqualTo(
+        ErrorCode.POST_ALREADY_DELETED_ACTION.getCode());
   }
 
 

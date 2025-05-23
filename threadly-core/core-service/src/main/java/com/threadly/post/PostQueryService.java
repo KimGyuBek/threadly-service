@@ -6,11 +6,14 @@ import static com.threadly.posts.PostStatusType.DELETED;
 
 import com.threadly.ErrorCode;
 import com.threadly.exception.post.PostException;
+import com.threadly.post.query.GetPostListQuery;
 import com.threadly.post.query.GetPostQuery;
 import com.threadly.post.response.PostDetailApiResponse;
 import com.threadly.post.response.PostDetailListApiResponse;
+import com.threadly.post.response.PostDetailListApiResponse.NextCursor;
 import com.threadly.post.response.PostDetailResponse;
 import com.threadly.posts.PostStatusType;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,26 +30,40 @@ public class PostQueryService implements FetchPostUseCase {
 
 
   @Override
-  public PostDetailListApiResponse getUserVisiblePostList(String userId) {
+  public PostDetailListApiResponse getUserVisiblePostListByCursor(GetPostListQuery query) {
 
-    List<PostDetailApiResponse> postDetailList = fetchPostPort.findUserVisiblePostList(userId).stream().map(
-        postDetails -> new PostDetailApiResponse(
-            postDetails.getPostId(),
-            postDetails.getUserId(),
-            postDetails.getUserProfileImageUrl(),
-            postDetails.getUserNickname(),
-            postDetails.getContent(),
-            postDetails.getViewCount(),
-            postDetails.getPostedAt(),
-            postDetails.getLikeCount(),
-            postDetails.getCommentCount(),
-            postDetails.isLiked())).toList();
+    List<PostDetailApiResponse> allPostList = fetchPostPort.findUserVisiblePostListByCursor(
+            query.getUserId(), query.getCursorPostedAt(), query.getCursorPostId(), query.getLimit() + 1)
+        .stream().map(
+            postDetails -> new PostDetailApiResponse(
+                postDetails.getPostId(),
+                postDetails.getUserId(),
+                postDetails.getUserProfileImageUrl(),
+                postDetails.getUserNickname(),
+                postDetails.getContent(),
+                postDetails.getViewCount(),
+                postDetails.getPostedAt(),
+                postDetails.getLikeCount(),
+                postDetails.getCommentCount(),
+                postDetails.isLiked())).toList();
 
-    if (postDetailList.isEmpty()) {
+    if (allPostList.isEmpty()) {
       throw new PostException(ErrorCode.POST_NOT_FOUND);
     }
 
-    return new PostDetailListApiResponse(postDetailList);
+    boolean hasNext = allPostList.size() > query.getLimit();
+    List<PostDetailApiResponse> pagedPostList =
+        hasNext
+            ? allPostList.subList(0, query.getLimit())
+            : allPostList;
+
+    LocalDateTime cursorPostedAt =
+        hasNext ? pagedPostList.getLast().postedAt() : null;
+    String cursorPostId = hasNext ? pagedPostList.getLast().postId() : null;
+
+    return new PostDetailListApiResponse(pagedPostList,
+        new NextCursor(cursorPostedAt, cursorPostId));
+
   }
 
   @Transactional(readOnly = true)

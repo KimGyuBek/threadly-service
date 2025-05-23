@@ -16,6 +16,7 @@ import com.threadly.post.response.CreatePostApiResponse;
 import com.threadly.post.response.PostDetailApiResponse;
 import com.threadly.post.response.PostDetailListApiResponse;
 import com.threadly.post.response.UpdatePostApiResponse;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -113,10 +114,18 @@ public abstract class BasePostApiTest extends BaseApiTest {
    * @return
    */
   public CommonResponse<PostDetailListApiResponse> sendGetPostListRequest(String accessToken,
+      LocalDateTime cursorPostedAt, String cursorPostId, int limit,
       ResultMatcher expectedStatus) throws Exception {
+    String path =
+        "/api/posts?limit=" + limit;
+
+    if (cursorPostedAt != null || cursorPostId != null) {
+      path += "&cursor_posted_at=" + cursorPostedAt + "&cursor_post_id=" + cursorPostId;
+    }
+
     return
         sendGetRequest(
-            accessToken, "/api/posts", expectedStatus,
+            accessToken, path, expectedStatus,
             new TypeReference<>() {
             });
   }
@@ -175,6 +184,7 @@ public abstract class BasePostApiTest extends BaseApiTest {
             Map.of("Authorization", "Bearer " + accessToken)
         );
   }
+
   /**
    * 게시글 댓글 작성 요청 전송
    */
@@ -254,8 +264,12 @@ public abstract class BasePostApiTest extends BaseApiTest {
             }, headers);
   }
 
+  public static final int ACTIVE_POST_COUNT = 142;
+  public static final int DELETED_POST_COUNT = 38;
+  public static final int BLOCKED_POST_COUNT = 15;
+  public static final int ARCHIVED_POST_COUNT = 5;
   /*게시글*/
-  //[ACTIVE] 상태의 게시글
+//[ACTIVE] 상태의 게시글
   public static final List<Map<String, String>> ACTIVE_POSTS = List.of(
       Map.of("userId", "usr1", "userEmail", "user_email_verified1@test.com", "postId", "post1"),
       Map.of("userId", "usr1", "userEmail", "user_email_verified1@test.com", "postId", "post2"),
@@ -323,7 +337,7 @@ public abstract class BasePostApiTest extends BaseApiTest {
 
 
   /*댓글*/
-  // ACTIVE 상태의 댓글
+// ACTIVE 상태의 댓글
   public static final List<Map<String, String>> ACTIVE_COMMENTS = List.of(
       Map.of("commentId", "cmt1", "postId", "post1", "userId", "usr1", "userEmail",
           "user_email_verified1@test.com"),

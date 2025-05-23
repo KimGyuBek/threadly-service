@@ -22,6 +22,7 @@ import com.threadly.post.like.CancelPostLikeUseCase;
 import com.threadly.post.like.LikePostUseCase;
 import com.threadly.post.like.command.LikePostCommand;
 import com.threadly.post.like.response.LikePostApiResponse;
+import com.threadly.post.query.GetPostListQuery;
 import com.threadly.post.query.GetPostQuery;
 import com.threadly.post.response.CreatePostApiResponse;
 import com.threadly.post.response.PostDetailApiResponse;
@@ -29,7 +30,7 @@ import com.threadly.post.response.PostDetailListApiResponse;
 import com.threadly.post.response.PostStatusApiResponse;
 import com.threadly.post.response.UpdatePostApiResponse;
 import jakarta.validation.Valid;
-import jakarta.websocket.server.PathParam;
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -41,6 +42,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /*TODO 게시글과 댓글 컨트롤러 분리 고려*/
@@ -99,18 +101,29 @@ public class PostController {
     ));
   }
 
+
   /**
-   * 게시글 목록 조회
+   * 사용자에게 노출되는 게시글 목록을 커서 기반으로 조회
+   * <p>
+   * 최신 게시글 부터 수정일(postedAt) 기준으로 내림차순 정렬되며, 커서 값보다 이전에 수정된 게시글들을 조회
    *
    * @return
    */
   @GetMapping("")
-  public ResponseEntity<PostDetailListApiResponse> getPostList() {
+  public ResponseEntity<PostDetailListApiResponse> getPostList(
+      @RequestParam(value = "cursor_posted_at", required = false) LocalDateTime cursorPostedAt,
+      @RequestParam(value = "cursor_post_id", required = false) String cursorPostId,
+      @RequestParam(value = "limit", defaultValue = "10") int limit
+  ) {
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     String userId = (String) auth.getCredentials();
 
     return ResponseEntity.status(200).body(
-        fetchPostUseCase.getUserVisiblePostList(userId)
+        fetchPostUseCase.getUserVisiblePostListByCursor(
+            new GetPostListQuery(
+                userId, cursorPostedAt, cursorPostId, limit
+            )
+        )
     );
   }
 

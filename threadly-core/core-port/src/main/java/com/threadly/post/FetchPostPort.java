@@ -3,6 +3,7 @@ package com.threadly.post;
 import com.threadly.post.response.PostDetailResponse;
 import com.threadly.posts.Post;
 import com.threadly.posts.PostStatusType;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,6 +37,15 @@ public interface FetchPostPort {
    * @return
    */
   List<PostDetailResponse> findUserVisiblePostList(String userId);
+
+  /**
+   * 사용자 조회 가능한 커서기반 게시글 목록 조회
+   * @param userId
+   * @param cursorPostedAt
+   * @param limit
+   * @return
+   */
+  List<PostDetailResponse> findUserVisiblePostListByCursor(String userId, LocalDateTime cursorPostedAt, String cursorPostId, int limit);
 
 
   /**
