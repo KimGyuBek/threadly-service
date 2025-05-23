@@ -1,12 +1,8 @@
-package com.threadly.post;
+package com.threadly.post.like;
 
 import com.threadly.ErrorCode;
 import com.threadly.exception.post.PostException;
-import com.threadly.post.like.CancelPostLikeUseCase;
-import com.threadly.post.like.CreatePostLikePort;
-import com.threadly.post.like.DeletePostLikePort;
-import com.threadly.post.like.FetchPostLikePort;
-import com.threadly.post.like.LikePostUseCase;
+import com.threadly.post.FetchPostPort;
 import com.threadly.post.like.command.LikePostCommand;
 import com.threadly.post.like.response.LikePostApiResponse;
 import com.threadly.posts.CannotLikePostException;
@@ -17,11 +13,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * 게시글 좋아요 관련 Service
+ * 게시글 좋아요 생성 및 취소 관련 Service
  */
 @Service
 @RequiredArgsConstructor
-public class LikePostServicePost implements LikePostUseCase, CancelPostLikeUseCase {
+public class PostLikeCommandService implements LikePostUseCase, CancelPostLikeUseCase {
 
   private final FetchPostPort fetchPostPort;
 
@@ -65,7 +61,7 @@ public class LikePostServicePost implements LikePostUseCase, CancelPostLikeUseCa
     validateLikable(post);
 
     /*사용자가 좋아요를 눌렀으면*/
-    if(isUserLiked(command)) {
+    if (isUserLiked(command)) {
 
       /*좋아요 삭제 */
       deletePostLikePort.deleteByPostIdAndUserId(command.getPostId(), command.getUserId());

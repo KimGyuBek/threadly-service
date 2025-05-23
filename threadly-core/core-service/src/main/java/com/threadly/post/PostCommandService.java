@@ -1,6 +1,5 @@
 package com.threadly.post;
 
-import static com.threadly.posts.PostStatusType.ARCHIVE;
 import static com.threadly.posts.PostStatusType.BLOCKED;
 import static com.threadly.posts.PostStatusType.DELETED;
 
@@ -11,25 +10,21 @@ import com.threadly.post.command.CreatePostCommand;
 import com.threadly.post.command.DeletePostCommand;
 import com.threadly.post.command.UpdatePostCommand;
 import com.threadly.post.response.CreatePostApiResponse;
-import com.threadly.post.response.PostDetailApiResponse;
-import com.threadly.post.response.PostDetailListApiResponse;
-import com.threadly.post.response.PostDetailResponse;
 import com.threadly.post.response.UpdatePostApiResponse;
 import com.threadly.posts.Post;
-import com.threadly.posts.PostStatusType;
 import com.threadly.user.FetchUserPort;
 import com.threadly.user.UserProfile;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 /**
- * 게시글 관련 Service 구현체
+ * 게시글 생성 및 수정 관련 서비스
  */
 @Service
 @RequiredArgsConstructor
-public class PostService implements CreatePostUseCase, UpdatePostUseCase, FetchPostUseCase {
+public class PostCommandService implements CreatePostUseCase, UpdatePostUseCase {
 
   private final SavePostPort savePostPort;
   private final FetchPostPort fetchPostPort;
@@ -61,12 +56,11 @@ public class PostService implements CreatePostUseCase, UpdatePostUseCase, FetchP
     );
   }
 
-
   @Transactional
   @Override
   public UpdatePostApiResponse updatePost(UpdatePostCommand command) {
     /*게시글 조회*/
-    Post post = fetchPost(command.getPostId());
+    Post post = getPost(command.getPostId());
 
     /*작성자와 수정 요청자의 userId가 일치하지 않는 경우*/
     if (!post.getUserId().equals(command.getUserId())) {
@@ -92,63 +86,11 @@ public class PostService implements CreatePostUseCase, UpdatePostUseCase, FetchP
     );
   }
 
-
-  @Transactional(readOnly = true)
-  @Override
-  public PostDetailApiResponse getPost(String postId) {
-    PostDetailResponse postDetailResponse = fetchPostPort.findPostDetailsByPostId(postId)
-        .orElseThrow(() -> new PostException(ErrorCode.POST_NOT_FOUND));
-
-    /*TODO 도메인 로직으로 변경*/
-    PostStatusType status = postDetailResponse.getPostStatus();
-    if (status == DELETED) {
-      throw new PostException(ErrorCode.POST_ALREADY_DELETED);
-    } else if (status == ARCHIVE) {
-      throw new PostException(ErrorCode.POST_NOT_FOUND);
-    } else if (status == BLOCKED) {
-      throw new PostException(ErrorCode.POST_BLOCKED);
-    }
-
-    return new PostDetailApiResponse(
-        postDetailResponse.getPostId(),
-        postDetailResponse.getUserId(),
-        postDetailResponse.getUserProfileImageUrl(),
-        postDetailResponse.getUserNickname(),
-        postDetailResponse.getContent(),
-        postDetailResponse.getViewCount(),
-        postDetailResponse.getPostedAt()
-    );
-  }
-
-  @Override
-  public PostDetailListApiResponse getUserVisiblePostList() {
-
-    List<PostDetailApiResponse> postList = fetchPostPort.findUserVisiblePostList().stream().map(
-        post -> new PostDetailApiResponse(
-            post.getPostId(),
-            post.getUserId(),
-            post.getUserProfileImageUrl(),
-            post.getUserNickname(),
-            post.getContent(),
-            post.getViewCount(),
-            post.getPostedAt()
-        )
-    ).toList();
-
-    if (postList.isEmpty()) {
-      throw new PostException(ErrorCode.POST_NOT_FOUND);
-    }
-
-    return new PostDetailListApiResponse(
-        postList
-    );
-  }
-
   @Transactional
   @Override
   public void deletePost(DeletePostCommand command) {
     /*게시글 조회*/
-    Post post = fetchPost(command.getPostId());
+    Post post = getPost(command.getPostId());
 
     /*게시글 작성자와 사용자 검증*/
     if (!post.getUserId().equals(command.getUserId())) {
@@ -174,7 +116,7 @@ public class PostService implements CreatePostUseCase, UpdatePostUseCase, FetchP
    * @param command
    * @return
    */
-  private Post fetchPost(String command) {
+  private Post getPost(String command) {
     return
         fetchPostPort.findById(command).orElseThrow(
             () -> new PostException(ErrorCode.POST_NOT_FOUND)

@@ -103,6 +103,12 @@ public class PostController {
     );
   }
 
+//  @GetMapping("")
+//  public ResponseEntity<Void> getUserFeedPosts() {
+//
+//    return ResponseEntity.status(200).body(null);
+//  }
+
   /**
    * 게시글 생성
    *
