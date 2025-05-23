@@ -1,9 +1,6 @@
 package com.threadly.adapter.post;
 
-import com.threadly.ErrorCode;
 import com.threadly.entity.post.PostEntity;
-import com.threadly.entity.user.UserEntity;
-import com.threadly.exception.user.UserException;
 import com.threadly.mapper.post.PostMapper;
 import com.threadly.post.FetchPostPort;
 import com.threadly.post.SavePostPort;
@@ -12,7 +9,6 @@ import com.threadly.post.response.PostDetailResponse;
 import com.threadly.posts.Post;
 import com.threadly.posts.PostStatusType;
 import com.threadly.repository.post.PostJpaRepository;
-import com.threadly.repository.user.UserJpaRepository;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +22,6 @@ import org.springframework.stereotype.Repository;
 public class PostAdapter implements SavePostPort, FetchPostPort, UpdatePostPort {
 
   private final PostJpaRepository postJpaRepository;
-  private final UserJpaRepository userJpaRepository;
 
 
   @Override
@@ -53,15 +48,16 @@ public class PostAdapter implements SavePostPort, FetchPostPort, UpdatePostPort 
   }
 
   @Override
-  public Optional<PostDetailResponse> findPostDetailsByPostId(String postId) {
+  public Optional<PostDetailResponse> findPostDetailsByPostIdAndUserId(String postId,
+      String userId) {
     return
-        postJpaRepository.getPostDetailsByPostId(postId);
+        postJpaRepository.getPostDetailsByPostIdAndUserId(postId, userId);
   }
 
   @Override
-  public List<PostDetailResponse> findUserVisiblePostList() {
+  public List<PostDetailResponse> findUserVisiblePostList(String userId) {
     return
-        postJpaRepository.getUserVisiblePostList();
+        postJpaRepository.getUserVisiblePostListByUserId(userId);
   }
 
   @Override

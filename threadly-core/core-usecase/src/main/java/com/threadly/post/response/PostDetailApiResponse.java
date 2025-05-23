@@ -12,7 +12,10 @@ public record PostDetailApiResponse(
     String userNickname,
     String content,
     int viewCount,
-    LocalDateTime postedAt
+    LocalDateTime postedAt,
+    long likeCount,
+    long commentCount,
+    boolean liked
 ) {
 
 

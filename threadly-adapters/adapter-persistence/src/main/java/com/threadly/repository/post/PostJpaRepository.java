@@ -30,67 +30,88 @@ public interface PostJpaRepository extends JpaRepository<PostEntity, String> {
   void updatePostContentByPostId(@Param("postId") String postId,
       @Param("content") String content);
 
-
-  @Query(value = """
-      select 
-      p.postId as postId,
-      u.userId as userId,
-      up.nickname as userNickname,
-      up.profileImageUrl as userProfileImageUrl,
-      p.content as content,
-      p.viewCount as viewCount,
-      p.status as postStatus,
-      p.modifiedAt as postedAt
-      from PostEntity p 
-      join p.user u
-      join u.userProfile up
-      where p.postId = :postId
-      """
-  )
-  Optional<PostDetailResponse> getPostDetailsByPostId(@Param("postId") String postId);
-
   /**
-   * 게시글 상세 리스트 조회, sort = createdAt Desc
+   * postId, userId로 게시글 상세 정보 조회
    *
+   * @param postId
+   * @param userId
    * @return
    */
   @Query(value = """
-      select 
-            p.postId as postId,
-            u.userId as userId,
-            up.nickname as userNickname,
-            up.profileImageUrl as userProfileImageUrl,
-            p.content as content,
-            p.viewCount as viewCount,
-            p.modifiedAt as postedAt
-            from PostEntity p
-            join p.user u
-            join u.userProfile up
-            order by p.createdAt desc
-      """
-  )
-  List<PostDetailResponse> getPostDetailsList();
+      select p.post_id                     as postId,
+             u.user_id                     as userId,
+             up.nickname                   as userNickname,
+             p.content                     as content,
+             p.view_count                  as viewCount,
+             p.modified_at                 as postedAt,
+             p.status                      as postStatus,
+             coalesce(pl.like_count, 0)    as likeCount,
+             coalesce(pc.comment_count, 0) as commentCount,
+             coalesce(pl.is_liked, false)  as liked
+      from posts p
+               join users u on p.user_id = u.user_id
+               join user_profile up on u.user_profile_id = up.user_profile_id
+               left join(select post_id,
+                                count(*) as like_count,
+                                max(
+                                        case
+                                            when user_id = :userId
+                                                then true
+                                            else false
+                                            end
+                                )        as is_liked
+                         from post_likes
+                         where post_id = :postId
+                         group by post_id) pl on p.post_id = pl.post_id
+               left join (select post_id, count(*) as comment_count
+                          from post_comments
+                          where post_id = :postId
+                          group by post_id) pc on p.post_id = pc.post_id
+      where p.post_id = :postId
+      """, nativeQuery = true)
+  Optional<PostDetailResponse> getPostDetailsByPostIdAndUserId(@Param("postId") String postId,
+      @Param("userId") String userId);
+
 
   /**
    * 사용자에게 보이는 게시글 리스트 조회
    *
+   * @param userId
    * @return
    */
   @Query(value = """
-      select
-      p.postId as postId,
-      u.userId as userId,
-      up.nickname as userNickname,
-      p.content as content,
-      p.viewCount as viewCount,
-      p.modifiedAt as postedAt
-      from PostEntity p 
-      join p.user u 
-      join u.userProfile up 
+      select p.post_id                     as postId,
+             u.user_id                     as userId,
+             up.profile_image_url          as userProfileImageUrl,
+             up.nickname                   as userNickname,
+             p.content                     as content,
+             p.view_count                  as viewCount,
+             p.modified_at                 as postedAt,
+             coalesce(pl.like_count, 0)    as likeCount,
+             coalesce(pc.comment_count, 0) as commentCount,
+             coalesce(pl.is_liked, false)  as liked
+      from posts p
+               join users u on p.user_id = u.user_id
+               join user_profile up on u.user_profile_id = up.user_profile_id
+               left join(select post_id,
+                                count(*) as like_count,
+                                max(
+                                        case
+                                            when user_id = :userId
+                                                then true
+                                            else false
+                                            end
+                                )        as is_liked
+                         from post_likes
+                         group by post_id) pl on p.post_id = pl.post_id
+               left join(select post_id,
+                                count(*) as comment_count
+                         from post_comments
+                         group by post_id) pc on p.post_id = pc.post_id
       where p.status = 'ACTIVE'
-      order by p.createdAt desc
-      """)
-  List<PostDetailResponse> getUserVisiblePostList();
+      order by p.modified_at desc
+      """, nativeQuery = true)
+  List<PostDetailResponse> getUserVisiblePostListByUserId(@Param("userId") String userId);
 
   /**
    * 게시글 상태 변경

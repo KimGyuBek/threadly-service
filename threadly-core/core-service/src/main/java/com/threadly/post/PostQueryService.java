@@ -6,6 +6,7 @@ import static com.threadly.posts.PostStatusType.DELETED;
 
 import com.threadly.ErrorCode;
 import com.threadly.exception.post.PostException;
+import com.threadly.post.query.GetPostQuery;
 import com.threadly.post.response.PostDetailApiResponse;
 import com.threadly.post.response.PostDetailListApiResponse;
 import com.threadly.post.response.PostDetailResponse;
@@ -26,34 +27,35 @@ public class PostQueryService implements FetchPostUseCase {
 
 
   @Override
-  public PostDetailListApiResponse getUserVisiblePostList() {
+  public PostDetailListApiResponse getUserVisiblePostList(String userId) {
 
-    List<PostDetailApiResponse> postList = fetchPostPort.findUserVisiblePostList().stream().map(
-        post -> new PostDetailApiResponse(
-            post.getPostId(),
-            post.getUserId(),
-            post.getUserProfileImageUrl(),
-            post.getUserNickname(),
-            post.getContent(),
-            post.getViewCount(),
-            post.getPostedAt()
-        )
-    ).toList();
+    List<PostDetailApiResponse> postDetailList = fetchPostPort.findUserVisiblePostList(userId).stream().map(
+        postDetails -> new PostDetailApiResponse(
+            postDetails.getPostId(),
+            postDetails.getUserId(),
+            postDetails.getUserProfileImageUrl(),
+            postDetails.getUserNickname(),
+            postDetails.getContent(),
+            postDetails.getViewCount(),
+            postDetails.getPostedAt(),
+            postDetails.getLikeCount(),
+            postDetails.getCommentCount(),
+            postDetails.isLiked())).toList();
 
-    if (postList.isEmpty()) {
+    if (postDetailList.isEmpty()) {
       throw new PostException(ErrorCode.POST_NOT_FOUND);
     }
 
-    return new PostDetailListApiResponse(
-        postList
-    );
+    return new PostDetailListApiResponse(postDetailList);
   }
 
   @Transactional(readOnly = true)
   @Override
-  public PostDetailApiResponse getPost(String postId) {
-    PostDetailResponse postDetailResponse = fetchPostPort.findPostDetailsByPostId(postId)
+  public PostDetailApiResponse getPost(GetPostQuery query) {
+    PostDetailResponse postDetailResponse = fetchPostPort.findPostDetailsByPostIdAndUserId(
+            query.getPostId(), query.getUserId())
         .orElseThrow(() -> new PostException(ErrorCode.POST_NOT_FOUND));
+
 
     /*TODO 도메인 로직으로 변경*/
     PostStatusType status = postDetailResponse.getPostStatus();
@@ -65,14 +67,10 @@ public class PostQueryService implements FetchPostUseCase {
       throw new PostException(ErrorCode.POST_BLOCKED);
     }
 
-    return new PostDetailApiResponse(
-        postDetailResponse.getPostId(),
-        postDetailResponse.getUserId(),
-        postDetailResponse.getUserProfileImageUrl(),
-        postDetailResponse.getUserNickname(),
-        postDetailResponse.getContent(),
-        postDetailResponse.getViewCount(),
-        postDetailResponse.getPostedAt()
-    );
+    return new PostDetailApiResponse(postDetailResponse.getPostId(), postDetailResponse.getUserId(),
+        postDetailResponse.getUserProfileImageUrl(), postDetailResponse.getUserNickname(),
+        postDetailResponse.getContent(), postDetailResponse.getViewCount(),
+        postDetailResponse.getPostedAt(), postDetailResponse.getLikeCount(),
+        postDetailResponse.getCommentCount(), postDetailResponse.isLiked());
   }
 }

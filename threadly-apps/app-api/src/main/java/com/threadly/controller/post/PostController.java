@@ -22,12 +22,14 @@ import com.threadly.post.like.CancelPostLikeUseCase;
 import com.threadly.post.like.LikePostUseCase;
 import com.threadly.post.like.command.LikePostCommand;
 import com.threadly.post.like.response.LikePostApiResponse;
+import com.threadly.post.query.GetPostQuery;
 import com.threadly.post.response.CreatePostApiResponse;
 import com.threadly.post.response.PostDetailApiResponse;
 import com.threadly.post.response.PostDetailListApiResponse;
 import com.threadly.post.response.PostStatusApiResponse;
 import com.threadly.post.response.UpdatePostApiResponse;
 import jakarta.validation.Valid;
+import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -88,7 +90,13 @@ public class PostController {
    */
   @GetMapping("/{postId}")
   public ResponseEntity<PostDetailApiResponse> getPost(@PathVariable String postId) {
-    return ResponseEntity.status(200).body(fetchPostUseCase.getPost(postId));
+
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    String userId = (String) auth.getCredentials();
+
+    return ResponseEntity.status(200).body(fetchPostUseCase.getPost(
+        new GetPostQuery(postId, userId)
+    ));
   }
 
   /**
@@ -98,16 +106,14 @@ public class PostController {
    */
   @GetMapping("")
   public ResponseEntity<PostDetailListApiResponse> getPostList() {
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    String userId = (String) auth.getCredentials();
+
     return ResponseEntity.status(200).body(
-        fetchPostUseCase.getUserVisiblePostList()
+        fetchPostUseCase.getUserVisiblePostList(userId)
     );
   }
 
-//  @GetMapping("")
-//  public ResponseEntity<Void> getUserFeedPosts() {
-//
-//    return ResponseEntity.status(200).body(null);
-//  }
 
   /**
    * 게시글 생성

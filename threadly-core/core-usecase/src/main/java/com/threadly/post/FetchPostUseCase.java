@@ -1,5 +1,6 @@
 package com.threadly.post;
 
+import com.threadly.post.query.GetPostQuery;
 import com.threadly.post.response.PostDetailApiResponse;
 import com.threadly.post.response.PostDetailListApiResponse;
 
@@ -13,12 +14,14 @@ public interface FetchPostUseCase {
    * @param postId
    * @return
    */
-  PostDetailApiResponse getPost(String postId);
+  PostDetailApiResponse getPost(GetPostQuery query);
 
   /**
    * 사용자가 조회 가능한 게시글 목록 조회
+   * @param userId
+   *
    * @return
    */
-  PostDetailListApiResponse getUserVisiblePostList();
+  PostDetailListApiResponse getUserVisiblePostList(String userId);
 
 }
