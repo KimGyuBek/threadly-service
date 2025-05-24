@@ -8,6 +8,7 @@ import com.threadly.ErrorCode;
 import com.threadly.post.response.CreatePostApiResponse;
 import com.threadly.post.response.PostDetailApiResponse;
 import com.threadly.post.response.PostDetailListApiResponse;
+import com.threadly.post.response.PostEngagementApiResponse;
 import com.threadly.post.response.UpdatePostApiResponse;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
@@ -16,7 +17,7 @@ import org.junit.jupiter.api.Test;
 /**
  * 게시글 조회 관련 API 테스트
  */
-class FetchPostApiTest extends BasePostApiTest {
+class GetPostApiTest extends BasePostApiTest {
 
 
   /**
@@ -117,7 +118,7 @@ class FetchPostApiTest extends BasePostApiTest {
 
 
   /**
-   * getPostList() - 게시글 리스트 조회 테스트
+   * getPostList() - 테스트
    */
   /*[Case #1] getPostList()  게시글 리스트 조회 시 200 OK 반환*/
   @DisplayName("게시글 목록 조회 -  게시글 리스트  조회 시 200 OK 응답을 반환한다")
@@ -149,7 +150,7 @@ class FetchPostApiTest extends BasePostApiTest {
         postListResponse1.getData().nextCursor().postId());
   }
 
-  /*[Case #1] getPostList - 게시글 목록 전체 조회 - 커서 기반 페이징 방식으로 전체 페이지를 순회하면서 마지막 페이지까지 반복 조회하는 테스트
+  /*[Case #2] getPostList - 게시글 목록 전체 조회 - 커서 기반 페이징 방식으로 전체 페이지를 순회하면서 마지막 페이지까지 반복 조회하는 테스트
    * nextCursor가 null이 되는 시점까지 반복적으로 조회 요청을 전송함으로써 페이징 커서의 정확성과 순회 종료 조건을 검증한다
    * */
 
@@ -185,4 +186,65 @@ class FetchPostApiTest extends BasePostApiTest {
     assertThat(size).isEqualTo(ACTIVE_POST_COUNT);
   }
 
+  /**
+   * getPostEngagement() - 테스트
+   */
+  /*[Case #1] getPostEngagement - 게시글 좋아요 요약 조회시 성공해야 한다*/
+  @DisplayName("게시글 좋아요 요약 조회 - 좋아요가 존재하는 게시글에 요청을 보내면 likeCount가 정확하게 반환되어야 한다")
+  @Test
+  public void getPostEngagement_shouldReturnCorrectLikeCount_whenPostHasLikes() throws Exception {
+    //given
+    /*로그인*/
+    String accessToken = getAccessToken(VERIFIED_USER_EMAILS.getFirst());
+    String postId = "post10";
+
+    long likeCount = POST_LIKES.get(postId);
+
+    //when
+    //then
+    /*조회 요청*/
+    CommonResponse<PostEngagementApiResponse> postEngagementResponse = sendGetPostEngagementRequest(
+        accessToken, "post10", status().isOk()
+    );
+    assertThat(postEngagementResponse.getData().likeCount()).isEqualTo(likeCount);
+  }
+
+  /*[Case #2] getPostEngagement - 존재하지 않는 게시글 조회 시 404 Not Found, 실패해야 한다*/
+  @DisplayName("게시글 좋아요 요약 조회 - 존재하지 않는 게시글 조회 시 404 Not Found를 응답한다 ")
+  @Test
+  public void getPostEngagement_shouldNotFound_whenPostNotExists() throws Exception {
+    //given
+    /*로그인*/
+    String accessToken = getAccessToken(VERIFIED_USER_EMAILS.getFirst());
+    String postId = "post_not_exists";
+
+    long likeCount = POST_LIKES.get("post10");
+
+    //when
+    //then
+    /*조회 요청*/
+    CommonResponse<PostEngagementApiResponse> postEngagementResponse = sendGetPostEngagementRequest(
+        accessToken, postId, status().isNotFound()
+    );
+    assertThat(postEngagementResponse.isSuccess()).isFalse();
+    assertThat(postEngagementResponse.getCode()).isEqualTo(ErrorCode.POST_NOT_FOUND.getCode());
+  }
+
+  /*[Case #3] getPostEngagement - 좋아요가 없는 게시글 조회 시 likeCount가 0이어야 한다*/
+  @DisplayName("게시글 좋아요 요약 조회 - 좋아요가 없는 게시글이면 likeCount는 0이다")
+  @Test
+  public void getPostEngagement_shouldReturnZeroLikes_whenPostHasNoLikes() throws Exception {
+    //given
+    /*로그인*/
+    String accessToken = getAccessToken(VERIFIED_USER_EMAILS.getFirst());
+    String postId = POST_ID_WITH_NO_LIKES.getFirst();
+
+    //when
+    //then
+    /*조회 요청*/
+    CommonResponse<PostEngagementApiResponse> postEngagementResponse = sendGetPostEngagementRequest(
+        accessToken, postId, status().isOk()
+    );
+    assertThat(postEngagementResponse.getData().likeCount()).isEqualTo(0);
+  }
 }

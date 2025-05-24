@@ -1,9 +1,7 @@
 package com.threadly.post;
 
-import com.threadly.post.command.CreatePostCommand;
 import com.threadly.post.command.DeletePostCommand;
 import com.threadly.post.command.UpdatePostCommand;
-import com.threadly.post.response.CreatePostApiResponse;
 import com.threadly.post.response.UpdatePostApiResponse;
 
 /**

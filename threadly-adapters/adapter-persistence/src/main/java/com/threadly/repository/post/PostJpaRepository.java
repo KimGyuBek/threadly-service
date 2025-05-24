@@ -1,7 +1,8 @@
 package com.threadly.repository.post;
 
 import com.threadly.entity.post.PostEntity;
-import com.threadly.post.response.PostDetailResponse;
+import com.threadly.post.projection.PostDetailProjection;
+import com.threadly.post.projection.PostEngagementProjection;
 import com.threadly.posts.PostStatusType;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -70,7 +71,7 @@ public interface PostJpaRepository extends JpaRepository<PostEntity, String> {
                           group by post_id) pc on p.post_id = pc.post_id
       where p.post_id = :postId
       """, nativeQuery = true)
-  Optional<PostDetailResponse> getPostDetailsByPostIdAndUserId(@Param("postId") String postId,
+  Optional<PostDetailProjection> getPostDetailsByPostIdAndUserId(@Param("postId") String postId,
       @Param("userId") String userId);
 
 
@@ -112,7 +113,7 @@ public interface PostJpaRepository extends JpaRepository<PostEntity, String> {
       where p.status = 'ACTIVE'
       order by p.modified_at desc
       """, nativeQuery = true)
-  List<PostDetailResponse> getUserVisiblePostListByUserId(@Param("userId") String userId);
+  List<PostDetailProjection> getUserVisiblePostListByUserId(@Param("userId") String userId);
 
   /**
    * 사용자에게 노출되는 게시글 목록을 커서 기반으로 조회
@@ -166,7 +167,7 @@ public interface PostJpaRepository extends JpaRepository<PostEntity, String> {
         )            order by p.modified_at DESC, p.post_id desc
                         limit :limit
       """, nativeQuery = true)
-  List<PostDetailResponse> getUserVisiblePostsBeforeModifiedAt(@Param("userId") String userId,
+  List<PostDetailProjection> getUserVisiblePostsBeforeModifiedAt(@Param("userId") String userId,
       @Param("cursorPostedAt") LocalDateTime cursorPostedAt,
       @Param("cursorPostId") String cursorPostId,
       @Param("limit") int limit);
@@ -192,6 +193,47 @@ public interface PostJpaRepository extends JpaRepository<PostEntity, String> {
       where p.postId = :postId
       """)
   Optional<PostStatusType> findPostStatusByPostId(@Param(("postId")) String postId);
+
+  /**
+   * 게시글 좋아요 정보 조회
+   *
+   * @param postId
+   * @param userId
+   * @return
+   */
+  @Query(value = """
+      select p.post_id                    as postId,
+             u.user_id                    as authorId,
+             up.nickname                  as authorNickname,
+             up.profile_image_url         as authorProfileImageUrl,
+             p.content                    as content,
+             coalesce(pl.like_count, 0)   as likeCount,
+             coalesce(pl.is_liked, false) as liked
+      from posts p
+               join users u on p.user_id = u.user_id
+               join user_profile up on u.user_profile_id = up.user_profile_id
+               left join(select post_id,
+                                count(*) as like_count,
+                                max(case
+                                        when user_id = :userId
+                                            then true
+                                        else false
+                                    end) as is_liked
+                         from post_likes
+                         where post_id = :postId
+                         group by post_id) pl on p.post_id = pl.post_id
+      where p.post_id = :postId and p.status = 'ACTIVE'
+      """, nativeQuery = true)
+  Optional<PostEngagementProjection> findPostEngagementByPostIdAndUserId(
+      @Param("postId") String postId, @Param("userId") String userId);
+
+
+  @Query(value = """
+      select count(*) > 0
+      from posts
+      where post_id = :postId;
+      """, nativeQuery = true)
+  boolean existsByPostId(@Param("postId") String postId);
 
 
 }

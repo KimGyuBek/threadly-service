@@ -1,6 +1,9 @@
 package com.threadly.repository.post;
 
 import com.threadly.entity.post.PostLikeEntity;
+import com.threadly.post.like.projection.PostLikerProjection;
+import java.time.LocalDateTime;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -41,6 +44,7 @@ public interface PostLikeJpaRepository extends JpaRepository<PostLikeEntity, Str
 
   /**
    * postId, userId와 일치하는 데이터 삭제
+   *
    * @param postId
    * @param userId
    * @return
@@ -52,5 +56,38 @@ public interface PostLikeJpaRepository extends JpaRepository<PostLikeEntity, Str
       and p.id.userId=:userId
       """)
   int deleteByPostIdAndUserId(@Param("postId") String postId, @Param("userId") String userId);
+
+  /**
+   * 특정 게시글에 좋아요를 누른 사람 목록을 커서 기반으로 조회
+   * <p>
+   * 가장 최근 좋아요 부터 생성일(created_at)을 기준으로 내림차순 정렬되며, 커서 값 보다 이전에 생성된 좋아요를 누른 사용자들을 조회
+   *
+   * @param postId
+   * @param cursorLikedAt
+   * @param cursorLikerId
+   * @param limit
+   * @return
+   */
+  @Query(value = """
+      select pl.user_id           as likerId,
+             up.nickname          as likerNickname,
+             up.profile_image_url as likerProfileImageUrl,
+             up.bio               as likerBio,
+             pl.created_at        as likedAt
+      from post_likes pl
+               join users u on pl.user_id = u.user_id
+               join user_profile up on u.user_profile_id = up.user_profile_id
+      where pl.post_id = :postId
+        and (:cursorLikedAt is null
+          or (pl.created_at < :cursorLikedAt
+              or (pl.created_at = :cursorLikedAt and pl.user_id < :cursorLikerId)))
+      order by pl.created_at desc, pl.user_id desc
+      limit :limit;
+      
+      """, nativeQuery = true)
+  List<PostLikerProjection> getPostLikersBeforeCreatedAt(@Param("postId") String postId,
+      @Param("cursorLikedAt")
+      LocalDateTime cursorLikedAt, @Param("cursorLikerId") String cursorLikerId,
+      @Param("limit") int limit);
 
 }

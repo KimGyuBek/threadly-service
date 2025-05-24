@@ -6,7 +6,7 @@ import com.threadly.post.comment.like.response.LikePostCommentApiResponse;
 /**
  * 게시글 댓글 좋아요 취소 관련 UseCase
  */
-public interface CancelPostCommentLikeUseCase {
+public interface UnlikePostCommentUseCase {
 
   /**
    * 좋아요 취소

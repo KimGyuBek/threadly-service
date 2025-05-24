@@ -5,7 +5,8 @@ import com.threadly.mapper.post.PostMapper;
 import com.threadly.post.FetchPostPort;
 import com.threadly.post.SavePostPort;
 import com.threadly.post.UpdatePostPort;
-import com.threadly.post.response.PostDetailResponse;
+import com.threadly.post.projection.PostDetailProjection;
+import com.threadly.post.projection.PostEngagementProjection;
 import com.threadly.posts.Post;
 import com.threadly.posts.PostStatusType;
 import com.threadly.repository.post.PostJpaRepository;
@@ -49,23 +50,24 @@ public class PostAdapter implements SavePostPort, FetchPostPort, UpdatePostPort 
   }
 
   @Override
-  public Optional<PostDetailResponse> findPostDetailsByPostIdAndUserId(String postId,
+  public Optional<PostDetailProjection> findPostDetailsByPostIdAndUserId(String postId,
       String userId) {
     return
         postJpaRepository.getPostDetailsByPostIdAndUserId(postId, userId);
   }
 
   @Override
-  public List<PostDetailResponse> findUserVisiblePostList(String userId) {
+  public List<PostDetailProjection> findUserVisiblePostList(String userId) {
     return
         postJpaRepository.getUserVisiblePostListByUserId(userId);
   }
 
   @Override
-  public List<PostDetailResponse> findUserVisiblePostListByCursor(String userId,
+  public List<PostDetailProjection> findUserVisiblePostListByCursor(String userId,
       LocalDateTime cursorPostedAt, String cursorPostId,
       int limit) {
-    return postJpaRepository.getUserVisiblePostsBeforeModifiedAt(userId, cursorPostedAt, cursorPostId, limit);
+    return postJpaRepository.getUserVisiblePostsBeforeModifiedAt(userId, cursorPostedAt,
+        cursorPostId, limit);
   }
 
   @Override
@@ -77,5 +79,16 @@ public class PostAdapter implements SavePostPort, FetchPostPort, UpdatePostPort 
   public Optional<PostStatusType> findPostStatusByPostId(String postId) {
     return
         postJpaRepository.findPostStatusByPostId(postId);
+  }
+
+  @Override
+  public Optional<PostEngagementProjection> findPostEngagementByPostIdAndUserId(String postId,
+      String userId) {
+    return postJpaRepository.findPostEngagementByPostIdAndUserId(postId, userId);
+  }
+
+  @Override
+  public boolean existsById(String postId) {
+    return postJpaRepository.existsById(postId);
   }
 }

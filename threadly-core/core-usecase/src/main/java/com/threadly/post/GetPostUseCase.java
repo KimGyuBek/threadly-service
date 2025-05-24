@@ -8,7 +8,7 @@ import com.threadly.post.response.PostDetailListApiResponse;
 /**
  * 게시글 조회 관련 UseCase
  */
-public interface FetchPostUseCase {
+public interface GetPostUseCase {
 
   /**
    * postId로 게시글 조회

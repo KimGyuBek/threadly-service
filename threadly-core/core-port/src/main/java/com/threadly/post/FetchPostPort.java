@@ -1,6 +1,7 @@
 package com.threadly.post;
 
-import com.threadly.post.response.PostDetailResponse;
+import com.threadly.post.projection.PostDetailProjection;
+import com.threadly.post.projection.PostEngagementProjection;
 import com.threadly.posts.Post;
 import com.threadly.posts.PostStatusType;
 import java.time.LocalDateTime;
@@ -28,7 +29,7 @@ public interface FetchPostPort {
    * @return
    *
    */
-  Optional<PostDetailResponse> findPostDetailsByPostIdAndUserId(String postId, String userId);
+  Optional<PostDetailProjection> findPostDetailsByPostIdAndUserId(String postId, String userId);
 
   /**
    * 사용자가 조회 가능한 게시글 목록 조회
@@ -36,7 +37,7 @@ public interface FetchPostPort {
    * @param userId
    * @return
    */
-  List<PostDetailResponse> findUserVisiblePostList(String userId);
+  List<PostDetailProjection> findUserVisiblePostList(String userId);
 
   /**
    * 사용자 조회 가능한 커서기반 게시글 목록 조회
@@ -45,7 +46,7 @@ public interface FetchPostPort {
    * @param limit
    * @return
    */
-  List<PostDetailResponse> findUserVisiblePostListByCursor(String userId, LocalDateTime cursorPostedAt, String cursorPostId, int limit);
+  List<PostDetailProjection> findUserVisiblePostListByCursor(String userId, LocalDateTime cursorPostedAt, String cursorPostId, int limit);
 
 
   /**
@@ -54,5 +55,21 @@ public interface FetchPostPort {
    * @return
    */
   Optional<PostStatusType> findPostStatusByPostId(String postId);
+
+  /**
+   * 게시글 좋아요 정보 조회
+   * @param postId
+   * @param userId
+   * @return
+   */
+  Optional<PostEngagementProjection> findPostEngagementByPostIdAndUserId(String postId,
+      String userId);
+
+  /**
+   * postId로 게시글 유효성 검증
+   * @param postId
+   * @return
+   */
+  boolean existsById(String postId);
 
 }

@@ -12,9 +12,11 @@ import com.threadly.controller.post.request.UpdatePostRequest;
 import com.threadly.post.comment.like.response.LikePostCommentApiResponse;
 import com.threadly.post.comment.response.CreatePostCommentApiResponse;
 import com.threadly.post.like.response.LikePostApiResponse;
+import com.threadly.post.like.response.PostLikersApiResponse;
 import com.threadly.post.response.CreatePostApiResponse;
 import com.threadly.post.response.PostDetailApiResponse;
 import com.threadly.post.response.PostDetailListApiResponse;
+import com.threadly.post.response.PostEngagementApiResponse;
 import com.threadly.post.response.UpdatePostApiResponse;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -98,12 +100,55 @@ public abstract class BasePostApiTest extends BaseApiTest {
    */
   public CommonResponse<PostDetailApiResponse> sendGetPostRequest(String accessToken,
       String postId, ResultMatcher expectedStatus) throws Exception {
-    CommonResponse<PostDetailApiResponse> postDetailResponse = sendGetRequest(
-        accessToken, "/api/posts/" + postId, expectedStatus,
+    return
+        sendGetRequest(
+            accessToken, "/api/posts/" + postId, expectedStatus,
+            new TypeReference<>() {
+            });
+  }
+
+  /**
+   * 게시글 좋아요 요약 조회 요청 전송
+   *
+   * @param accessToken
+   * @param postId
+   * @param expectedStatus
+   * @return
+   */
+  public CommonResponse<PostEngagementApiResponse> sendGetPostEngagementRequest(String accessToken,
+      String postId, ResultMatcher expectedStatus) throws Exception {
+    return
+        sendGetRequest(
+            accessToken, "/api/posts/" + postId + "/engagement", expectedStatus,
+            new TypeReference<>() {
+            });
+
+  }
+
+  /**
+   * 게시글 좋아요 목록 조회 요청 전송
+   *
+   * @param accessToken
+   * @param postId
+   * @param expectedStatus
+   * @return
+   */
+  public CommonResponse<PostLikersApiResponse> sendGetPostLikersRequest(String accessToken,
+      String postId, LocalDateTime cursorLikedAt, String cursorLikerId, int limit,
+      ResultMatcher expectedStatus) throws Exception {
+    String path = "/api/posts/" + postId + "/engagement/likes";
+
+    if (cursorLikedAt != null && cursorLikerId != null && cursorLikedAt != null) {
+      path += "?cursor_liked_at=" + cursorLikedAt + "&cursor_liker_id=" + cursorLikerId + "&limit="
+          + limit;
+
+    }
+    CommonResponse<PostLikersApiResponse> response = sendGetRequest(
+        accessToken, path, expectedStatus,
         new TypeReference<>() {
         });
 
-    return postDetailResponse;
+    return response;
   }
 
   /**
@@ -335,7 +380,6 @@ public abstract class BasePostApiTest extends BaseApiTest {
       Map.of("userId", "usr2", "userEmail", "user_email_verified2@test.com", "postId", "post40")
   );
 
-
   /*댓글*/
 // ACTIVE 상태의 댓글
   public static final List<Map<String, String>> ACTIVE_COMMENTS = List.of(
@@ -426,5 +470,22 @@ public abstract class BasePostApiTest extends BaseApiTest {
       Map.of("commentId", "cmt14", "postId", "post6", "userEmail", "noodle@test.com"),
       Map.of("commentId", "cmt16", "postId", "post6", "userEmail", "user_email_verified1@test.com")
   );
+  public static final List<String> POST_ID_WITH_NO_LIKES = List.of(
+      "post1", "post2", "post3", "post4", "post5",
+      "post6", "post7", "post8", "post9", "post10"
+  );
 
+  public static final Map<String, Long> POST_LIKES = Map.ofEntries(
+      Map.entry("post10", 34L),
+      Map.entry("post11", 11L),
+      Map.entry("post12", 10L),
+      Map.entry("post13", 10L),
+      Map.entry("post14", 10L),
+      Map.entry("post15", 11L),
+      Map.entry("post16", 10L),
+      Map.entry("post17", 10L),
+      Map.entry("post18", 10L),
+      Map.entry("post19", 10L),
+      Map.entry("post20", 11L)
+  );
 }

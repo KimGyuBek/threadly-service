@@ -1,4 +1,4 @@
-package com.threadly.post.response;
+package com.threadly.post.projection;
 
 import com.threadly.posts.PostStatusType;
 import java.time.LocalDateTime;
@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 /**
  * 게시글 상세 정보 DTO
  */
-public interface PostDetailResponse {
+public interface PostDetailProjection {
 
   String getPostId();
 

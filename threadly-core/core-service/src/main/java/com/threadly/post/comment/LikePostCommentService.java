@@ -2,7 +2,7 @@ package com.threadly.post.comment;
 
 import com.threadly.ErrorCode;
 import com.threadly.exception.post.PostCommentException;
-import com.threadly.post.comment.like.CancelPostCommentLikeUseCase;
+import com.threadly.post.comment.like.UnlikePostCommentUseCase;
 import com.threadly.post.comment.like.CreatePostCommentLikePort;
 import com.threadly.post.comment.like.DeletePostCommentLikePort;
 import com.threadly.post.comment.like.FetchPostCommentLikePort;
@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class LikePostCommentService implements LikePostCommentUseCase,
-    CancelPostCommentLikeUseCase {
+    UnlikePostCommentUseCase {
 
   private final FetchPostCommentPort fetchPostCommentPort;
 

@@ -4,8 +4,11 @@ import com.threadly.mapper.post.PostLikeMapper;
 import com.threadly.post.like.CreatePostLikePort;
 import com.threadly.post.like.DeletePostLikePort;
 import com.threadly.post.like.FetchPostLikePort;
+import com.threadly.post.like.projection.PostLikerProjection;
 import com.threadly.posts.PostLike;
 import com.threadly.repository.post.PostLikeJpaRepository;
+import java.time.LocalDateTime;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -37,5 +40,12 @@ public class PostLikeAdapter implements FetchPostLikePort, CreatePostLikePort, D
   @Override
   public int deleteByPostIdAndUserId(String postId, String userId) {
     return postLikeJpaRepository.deleteByPostIdAndUserId(postId, userId);
+  }
+
+  @Override
+  public List<PostLikerProjection> getPostLikersBeforeCreatedAt(String postId,
+      LocalDateTime cursorLikedAt, String cursorLikerId, int limit) {
+    return postLikeJpaRepository.getPostLikersBeforeCreatedAt(postId, cursorLikedAt, cursorLikerId,
+        limit);
   }
 }

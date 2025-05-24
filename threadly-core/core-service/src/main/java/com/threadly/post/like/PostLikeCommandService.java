@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @RequiredArgsConstructor
-public class PostLikeCommandService implements LikePostUseCase, CancelPostLikeUseCase {
+public class PostLikeCommandService implements LikePostUseCase, UnlikePostLikeUseCase {
 
   private final FetchPostPort fetchPostPort;
 

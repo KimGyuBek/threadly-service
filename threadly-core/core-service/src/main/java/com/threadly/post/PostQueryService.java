@@ -6,12 +6,15 @@ import static com.threadly.posts.PostStatusType.DELETED;
 
 import com.threadly.ErrorCode;
 import com.threadly.exception.post.PostException;
+import com.threadly.post.like.FetchPostLikePort;
+import com.threadly.post.projection.PostDetailProjection;
+import com.threadly.post.query.GetPostEngagementQuery;
 import com.threadly.post.query.GetPostListQuery;
 import com.threadly.post.query.GetPostQuery;
 import com.threadly.post.response.PostDetailApiResponse;
 import com.threadly.post.response.PostDetailListApiResponse;
 import com.threadly.post.response.PostDetailListApiResponse.NextCursor;
-import com.threadly.post.response.PostDetailResponse;
+import com.threadly.post.response.PostEngagementApiResponse;
 import com.threadly.posts.PostStatusType;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,10 +27,9 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @RequiredArgsConstructor
-public class PostQueryService implements FetchPostUseCase {
+public class PostQueryService implements GetPostUseCase, GetPostEngagementUseCase {
 
   private final FetchPostPort fetchPostPort;
-
 
   @Override
   public PostDetailListApiResponse getUserVisiblePostListByCursor(GetPostListQuery query) {
@@ -35,28 +37,29 @@ public class PostQueryService implements FetchPostUseCase {
     List<PostDetailApiResponse> allPostList = fetchPostPort.findUserVisiblePostListByCursor(
             query.getUserId(), query.getCursorPostedAt(), query.getCursorPostId(), query.getLimit() + 1)
         .stream().map(
-            postDetails -> new PostDetailApiResponse(
-                postDetails.getPostId(),
-                postDetails.getUserId(),
-                postDetails.getUserProfileImageUrl(),
-                postDetails.getUserNickname(),
-                postDetails.getContent(),
-                postDetails.getViewCount(),
-                postDetails.getPostedAt(),
-                postDetails.getLikeCount(),
-                postDetails.getCommentCount(),
-                postDetails.isLiked())).toList();
+            projection -> new PostDetailApiResponse(
+                projection.getPostId(),
+                projection.getUserId(),
+                projection.getUserProfileImageUrl(),
+                projection.getUserNickname(),
+                projection.getContent(),
+                projection.getViewCount(),
+                projection.getPostedAt(),
+                projection.getLikeCount(),
+                projection.getCommentCount(),
+                projection.isLiked())).toList();
 
-    if (allPostList.isEmpty()) {
-      throw new PostException(ErrorCode.POST_NOT_FOUND);
-    }
 
+    /*다음 페이지가 있는지 검증*/
     boolean hasNext = allPostList.size() > query.getLimit();
+
+    /*리스트 분할*/
     List<PostDetailApiResponse> pagedPostList =
         hasNext
             ? allPostList.subList(0, query.getLimit())
             : allPostList;
 
+    /*커서 지정*/
     LocalDateTime cursorPostedAt =
         hasNext ? pagedPostList.getLast().postedAt() : null;
     String cursorPostId = hasNext ? pagedPostList.getLast().postId() : null;
@@ -69,13 +72,13 @@ public class PostQueryService implements FetchPostUseCase {
   @Transactional(readOnly = true)
   @Override
   public PostDetailApiResponse getPost(GetPostQuery query) {
-    PostDetailResponse postDetailResponse = fetchPostPort.findPostDetailsByPostIdAndUserId(
+    PostDetailProjection postDetailProjection = fetchPostPort.findPostDetailsByPostIdAndUserId(
             query.getPostId(), query.getUserId())
         .orElseThrow(() -> new PostException(ErrorCode.POST_NOT_FOUND));
 
 
     /*TODO 도메인 로직으로 변경*/
-    PostStatusType status = postDetailResponse.getPostStatus();
+    PostStatusType status = postDetailProjection.getPostStatus();
     if (status == DELETED) {
       throw new PostException(ErrorCode.POST_ALREADY_DELETED);
     } else if (status == ARCHIVE) {
@@ -84,10 +87,28 @@ public class PostQueryService implements FetchPostUseCase {
       throw new PostException(ErrorCode.POST_BLOCKED);
     }
 
-    return new PostDetailApiResponse(postDetailResponse.getPostId(), postDetailResponse.getUserId(),
-        postDetailResponse.getUserProfileImageUrl(), postDetailResponse.getUserNickname(),
-        postDetailResponse.getContent(), postDetailResponse.getViewCount(),
-        postDetailResponse.getPostedAt(), postDetailResponse.getLikeCount(),
-        postDetailResponse.getCommentCount(), postDetailResponse.isLiked());
+    return new PostDetailApiResponse(postDetailProjection.getPostId(),
+        postDetailProjection.getUserId(),
+        postDetailProjection.getUserProfileImageUrl(), postDetailProjection.getUserNickname(),
+        postDetailProjection.getContent(), postDetailProjection.getViewCount(),
+        postDetailProjection.getPostedAt(), postDetailProjection.getLikeCount(),
+        postDetailProjection.getCommentCount(), postDetailProjection.isLiked());
+  }
+
+  @Transactional(readOnly = true)
+  @Override
+  public PostEngagementApiResponse getPostEngagement(GetPostEngagementQuery query) {
+    return
+        fetchPostPort.findPostEngagementByPostIdAndUserId(
+            query.getPostId(), query.getUserId()
+        ).map(projection -> new PostEngagementApiResponse(
+            projection.getPostId(),
+            projection.getAuthorId(),
+            projection.getAuthorNickname(),
+            projection.getAuthorProfileImageUrl(),
+            projection.getContent(),
+            projection.getLikeCount(),
+            projection.isLiked()
+        )).orElseThrow(() -> new PostException(ErrorCode.POST_NOT_FOUND));
   }
 }

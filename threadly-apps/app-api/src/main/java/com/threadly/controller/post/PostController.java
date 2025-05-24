@@ -4,7 +4,8 @@ import com.threadly.controller.post.request.CreatePostCommentRequest;
 import com.threadly.controller.post.request.CreatePostRequest;
 import com.threadly.controller.post.request.UpdatePostRequest;
 import com.threadly.post.CreatePostUseCase;
-import com.threadly.post.FetchPostUseCase;
+import com.threadly.post.GetPostEngagementUseCase;
+import com.threadly.post.GetPostUseCase;
 import com.threadly.post.UpdatePostUseCase;
 import com.threadly.post.command.CreatePostCommand;
 import com.threadly.post.command.DeletePostCommand;
@@ -13,20 +14,25 @@ import com.threadly.post.comment.CreatePostCommentUseCase;
 import com.threadly.post.comment.UpdatePostCommentUseCase;
 import com.threadly.post.comment.command.CreatePostCommentCommand;
 import com.threadly.post.comment.command.DeletePostCommentCommand;
-import com.threadly.post.comment.like.CancelPostCommentLikeUseCase;
 import com.threadly.post.comment.like.LikePostCommentUseCase;
+import com.threadly.post.comment.like.UnlikePostCommentUseCase;
 import com.threadly.post.comment.like.command.LikePostCommentCommand;
 import com.threadly.post.comment.like.response.LikePostCommentApiResponse;
 import com.threadly.post.comment.response.CreatePostCommentApiResponse;
-import com.threadly.post.like.CancelPostLikeUseCase;
+import com.threadly.post.like.GetPostLikersUseCase;
 import com.threadly.post.like.LikePostUseCase;
+import com.threadly.post.like.UnlikePostLikeUseCase;
 import com.threadly.post.like.command.LikePostCommand;
+import com.threadly.post.like.query.GetPostLikersQuery;
 import com.threadly.post.like.response.LikePostApiResponse;
+import com.threadly.post.like.response.PostLikersApiResponse;
+import com.threadly.post.query.GetPostEngagementQuery;
 import com.threadly.post.query.GetPostListQuery;
 import com.threadly.post.query.GetPostQuery;
 import com.threadly.post.response.CreatePostApiResponse;
 import com.threadly.post.response.PostDetailApiResponse;
 import com.threadly.post.response.PostDetailListApiResponse;
+import com.threadly.post.response.PostEngagementApiResponse;
 import com.threadly.post.response.PostStatusApiResponse;
 import com.threadly.post.response.UpdatePostApiResponse;
 import jakarta.validation.Valid;
@@ -57,15 +63,17 @@ public class PostController {
 
   private final CreatePostUseCase createPostUseCase;
   private final UpdatePostUseCase updatePostUseCase;
-  private final FetchPostUseCase fetchPostUseCase;
+  private final GetPostUseCase getPostUseCase;
   private final LikePostUseCase likePostUseCase;
-  private final CancelPostLikeUseCase cancelPostLikeUseCase;
+  private final UnlikePostLikeUseCase unlikePostLikeUseCase;
+  private final GetPostEngagementUseCase getPostEngagementUsecase;
+  private final GetPostLikersUseCase getPostLikersUseCase;
 
   private final CreatePostCommentUseCase createPostCommentUseCase;
   private final UpdatePostCommentUseCase updatePostCommentUseCase;
 
   private final LikePostCommentUseCase likePostCommentUseCase;
-  private final CancelPostCommentLikeUseCase cancelPostCommentLikeUseCase;
+  private final UnlikePostCommentUseCase unlikePostCommentUseCase;
 
   /*
    * 게시글 저장 - POST /api/posts
@@ -75,7 +83,8 @@ public class PostController {
    * 게시글 수정 - PATCH /api/posts/{postId}
    * 게시글 통계 - GET /api/posts/{postId}/stats
    * 게시글 좋아요 - POST /api/posts/{postId}/likes
-   * 게시글 좋아요 목록 조회 - GET /api/posts/{postId}/likes
+   * 게시글 활동 요약 조회 - GET /api/posts/{postId}/engagement
+   * 게시글 활동 좋아요 목록조회 - GET /api/posts/{postId}/engagement/likes
    * 게시글 댓글 생성 - POST /api/posts/{postId}/comments
    * 게시글 댓글 삭제 - DELETE /api/posts/{postId}/comments
    * 게시글 댓글 목록 조회 - GET /api/posts/{postId}/comments
@@ -96,7 +105,7 @@ public class PostController {
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     String userId = (String) auth.getCredentials();
 
-    return ResponseEntity.status(200).body(fetchPostUseCase.getPost(
+    return ResponseEntity.status(200).body(getPostUseCase.getPost(
         new GetPostQuery(postId, userId)
     ));
   }
@@ -119,7 +128,7 @@ public class PostController {
     String userId = (String) auth.getCredentials();
 
     return ResponseEntity.status(200).body(
-        fetchPostUseCase.getUserVisiblePostListByCursor(
+        getPostUseCase.getUserVisiblePostListByCursor(
             new GetPostListQuery(
                 userId, cursorPostedAt, cursorPostId, limit
             )
@@ -127,6 +136,45 @@ public class PostController {
     );
   }
 
+  /**
+   * 게시글 좋아요 요약 조회
+   *
+   * @param postId
+   * @return
+   */
+  @GetMapping("/{postId}/engagement")
+  public ResponseEntity<PostEngagementApiResponse> getPostEngagement(
+      @PathVariable("postId") String postId) {
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    String userId = (String) auth.getCredentials();
+
+    return ResponseEntity.status(200).body(getPostEngagementUsecase.getPostEngagement(
+        new GetPostEngagementQuery(
+            postId, userId
+        )
+    ));
+  }
+
+
+  /**
+   * 특정 게시글 좋아요 누른 사용자 커서기반 조회
+   *
+   * @return
+   */
+  @GetMapping("/{postId}/engagement/likes")
+  public ResponseEntity<PostLikersApiResponse> getPostLikers(
+      @RequestParam(value = "cursor_liked_at", required = false) LocalDateTime cursorLikedAt,
+      @RequestParam(value = "cursor_liker_id", required = false) String cursorLikerId,
+      @RequestParam(value = "limit", defaultValue = "10") int limit,
+      @PathVariable("postId") String postId
+  ) {
+
+    return ResponseEntity.status(200).body(getPostLikersUseCase.getPostLikers(
+        new GetPostLikersQuery(
+            postId, cursorLikedAt, cursorLikerId, limit
+        )
+    ));
+  }
 
   /**
    * 게시글 생성
@@ -221,7 +269,7 @@ public class PostController {
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     String userId = (String) auth.getCredentials();
 
-    return ResponseEntity.status(204).body(cancelPostLikeUseCase.cancelLikePost(
+    return ResponseEntity.status(204).body(unlikePostLikeUseCase.cancelLikePost(
         new LikePostCommand(
             postId,
             userId
@@ -325,7 +373,7 @@ public class PostController {
     String userId = (String) auth.getCredentials();
 
     return ResponseEntity.status(204).body(
-        cancelPostCommentLikeUseCase.cancelPostCommentLike(
+        unlikePostCommentUseCase.cancelPostCommentLike(
             new LikePostCommentCommand(
                 commentId,
                 userId
