@@ -1,0 +1,12 @@
+package com.threadly.post.like.post;
+
+/**
+ * 게시글 좋아요 요청 API 응답
+ */
+public record LikePostApiResponse(
+    String postId,
+    long likeCount
+) {
+
+
+}

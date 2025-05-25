@@ -5,11 +5,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.threadly.CommonResponse;
 import com.threadly.ErrorCode;
-import com.threadly.post.response.CreatePostApiResponse;
-import com.threadly.post.response.PostDetailApiResponse;
-import com.threadly.post.response.PostDetailListApiResponse;
-import com.threadly.post.response.PostEngagementApiResponse;
-import com.threadly.post.response.UpdatePostApiResponse;
+import com.threadly.post.create.CreatePostApiResponse;
+import com.threadly.post.get.GetPostDetailApiResponse;
+import com.threadly.post.get.GetPostDetailListApiResponse;
+import com.threadly.post.engagement.GetPostEngagementApiResponse;
+import com.threadly.post.update.UpdatePostApiResponse;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -35,7 +35,7 @@ class GetPostApiTest extends BasePostApiTest {
     //then
     /*게시글 조회*/
     String postId = "post1";
-    CommonResponse<PostDetailApiResponse> postDetailResponse = sendGetPostRequest(
+    CommonResponse<GetPostDetailApiResponse> postDetailResponse = sendGetPostRequest(
         accessToken, postId, status().isOk());
 
     assertThat(postDetailResponse.getData().postId()).isEqualTo(postId);
@@ -53,7 +53,7 @@ class GetPostApiTest extends BasePostApiTest {
     //then
     /*게시글 조회*/
     String postId = "post12300";
-    CommonResponse<PostDetailApiResponse> postDetailResponse = sendGetPostRequest(
+    CommonResponse<GetPostDetailApiResponse> postDetailResponse = sendGetPostRequest(
         accessToken, postId, status().isNotFound());
 
     assertThat(postDetailResponse.isSuccess()).isFalse();
@@ -77,7 +77,7 @@ class GetPostApiTest extends BasePostApiTest {
     //when
     /*게시글 조회*/
     String postId = createPostResponse.getData().postId();
-    CommonResponse<PostDetailApiResponse> postDetailResponse = sendGetPostRequest(
+    CommonResponse<GetPostDetailApiResponse> postDetailResponse = sendGetPostRequest(
         accessToken, postId, status().isOk());
 
     //then
@@ -108,7 +108,7 @@ class GetPostApiTest extends BasePostApiTest {
 
     //when
     /*게시글 조회*/
-    CommonResponse<PostDetailApiResponse> postDetailResponse = sendGetPostRequest(
+    CommonResponse<GetPostDetailApiResponse> postDetailResponse = sendGetPostRequest(
         accessToken, postId, status().isOk());
 
     //then
@@ -134,13 +134,13 @@ class GetPostApiTest extends BasePostApiTest {
     LocalDateTime cursorPostedAt = null;
     String cursorPostId = null;
 
-    CommonResponse<PostDetailListApiResponse> postListResponse1 = sendGetPostListRequest(
+    CommonResponse<GetPostDetailListApiResponse> postListResponse1 = sendGetPostListRequest(
         accessToken, cursorPostedAt, cursorPostId, 10, status().isOk());
 
     cursorPostedAt = postListResponse1.getData().nextCursor().postedAt();
     cursorPostId = postListResponse1.getData().nextCursor().postId();
 
-    CommonResponse<PostDetailListApiResponse> postListResponse2 = sendGetPostListRequest(
+    CommonResponse<GetPostDetailListApiResponse> postListResponse2 = sendGetPostListRequest(
         accessToken, cursorPostedAt, cursorPostId, 10, status().isOk());
 
     assertThat(postListResponse1.getData().posts()).hasSize(10);
@@ -170,7 +170,7 @@ class GetPostApiTest extends BasePostApiTest {
     int size = 0;
 
     while (true) {
-      CommonResponse<PostDetailListApiResponse> getPostListResponse = sendGetPostListRequest(
+      CommonResponse<GetPostDetailListApiResponse> getPostListResponse = sendGetPostListRequest(
           accessToken, cursorPostedAt, cursorPostId, limit, status().isOk());
       size += getPostListResponse.getData().posts().size();
 
@@ -203,7 +203,7 @@ class GetPostApiTest extends BasePostApiTest {
     //when
     //then
     /*조회 요청*/
-    CommonResponse<PostEngagementApiResponse> postEngagementResponse = sendGetPostEngagementRequest(
+    CommonResponse<GetPostEngagementApiResponse> postEngagementResponse = sendGetPostEngagementRequest(
         accessToken, "post10", status().isOk()
     );
     assertThat(postEngagementResponse.getData().likeCount()).isEqualTo(likeCount);
@@ -223,7 +223,7 @@ class GetPostApiTest extends BasePostApiTest {
     //when
     //then
     /*조회 요청*/
-    CommonResponse<PostEngagementApiResponse> postEngagementResponse = sendGetPostEngagementRequest(
+    CommonResponse<GetPostEngagementApiResponse> postEngagementResponse = sendGetPostEngagementRequest(
         accessToken, postId, status().isNotFound()
     );
     assertThat(postEngagementResponse.isSuccess()).isFalse();
@@ -242,7 +242,7 @@ class GetPostApiTest extends BasePostApiTest {
     //when
     //then
     /*조회 요청*/
-    CommonResponse<PostEngagementApiResponse> postEngagementResponse = sendGetPostEngagementRequest(
+    CommonResponse<GetPostEngagementApiResponse> postEngagementResponse = sendGetPostEngagementRequest(
         accessToken, postId, status().isOk()
     );
     assertThat(postEngagementResponse.getData().likeCount()).isEqualTo(0);

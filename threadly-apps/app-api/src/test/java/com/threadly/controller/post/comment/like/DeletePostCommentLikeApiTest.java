@@ -5,7 +5,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.threadly.CommonResponse;
 import com.threadly.controller.post.BasePostApiTest;
-import com.threadly.post.comment.like.response.LikePostCommentApiResponse;
+import com.threadly.post.like.comment.LikePostCommentApiResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

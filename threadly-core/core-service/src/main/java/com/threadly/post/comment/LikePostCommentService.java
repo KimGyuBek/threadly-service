@@ -2,13 +2,13 @@ package com.threadly.post.comment;
 
 import com.threadly.ErrorCode;
 import com.threadly.exception.post.PostCommentException;
-import com.threadly.post.comment.like.UnlikePostCommentUseCase;
+import com.threadly.post.like.comment.UnlikePostCommentUseCase;
 import com.threadly.post.comment.like.CreatePostCommentLikePort;
 import com.threadly.post.comment.like.DeletePostCommentLikePort;
 import com.threadly.post.comment.like.FetchPostCommentLikePort;
-import com.threadly.post.comment.like.LikePostCommentUseCase;
-import com.threadly.post.comment.like.command.LikePostCommentCommand;
-import com.threadly.post.comment.like.response.LikePostCommentApiResponse;
+import com.threadly.post.like.comment.LikePostCommentUseCase;
+import com.threadly.post.like.comment.LikePostCommentCommand;
+import com.threadly.post.like.comment.LikePostCommentApiResponse;
 import com.threadly.posts.comment.CannotLikePostCommentException;
 import com.threadly.posts.comment.PostComment;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +32,7 @@ public class LikePostCommentService implements LikePostCommentUseCase,
   @Transactional
   @Override
   public LikePostCommentApiResponse likePostComment(LikePostCommentCommand command) {
+
 
     /*게시글 댓글 조회*/
     PostComment postComment = getPostComment(command);

@@ -9,15 +9,15 @@ import com.threadly.auth.token.response.LoginTokenResponse;
 import com.threadly.controller.post.request.CreatePostCommentRequest;
 import com.threadly.controller.post.request.CreatePostRequest;
 import com.threadly.controller.post.request.UpdatePostRequest;
-import com.threadly.post.comment.like.response.LikePostCommentApiResponse;
-import com.threadly.post.comment.response.CreatePostCommentApiResponse;
-import com.threadly.post.like.response.LikePostApiResponse;
-import com.threadly.post.like.response.PostLikersApiResponse;
-import com.threadly.post.response.CreatePostApiResponse;
-import com.threadly.post.response.PostDetailApiResponse;
-import com.threadly.post.response.PostDetailListApiResponse;
-import com.threadly.post.response.PostEngagementApiResponse;
-import com.threadly.post.response.UpdatePostApiResponse;
+import com.threadly.post.like.comment.LikePostCommentApiResponse;
+import com.threadly.post.comment.create.CreatePostCommentApiResponse;
+import com.threadly.post.like.post.LikePostApiResponse;
+import com.threadly.post.like.post.PostLikersApiResponse;
+import com.threadly.post.create.CreatePostApiResponse;
+import com.threadly.post.get.GetPostDetailApiResponse;
+import com.threadly.post.get.GetPostDetailListApiResponse;
+import com.threadly.post.engagement.GetPostEngagementApiResponse;
+import com.threadly.post.update.UpdatePostApiResponse;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -98,7 +98,7 @@ public abstract class BasePostApiTest extends BaseApiTest {
    * @param expectedStatus
    * @return
    */
-  public CommonResponse<PostDetailApiResponse> sendGetPostRequest(String accessToken,
+  public CommonResponse<GetPostDetailApiResponse> sendGetPostRequest(String accessToken,
       String postId, ResultMatcher expectedStatus) throws Exception {
     return
         sendGetRequest(
@@ -115,7 +115,7 @@ public abstract class BasePostApiTest extends BaseApiTest {
    * @param expectedStatus
    * @return
    */
-  public CommonResponse<PostEngagementApiResponse> sendGetPostEngagementRequest(String accessToken,
+  public CommonResponse<GetPostEngagementApiResponse> sendGetPostEngagementRequest(String accessToken,
       String postId, ResultMatcher expectedStatus) throws Exception {
     return
         sendGetRequest(
@@ -158,7 +158,7 @@ public abstract class BasePostApiTest extends BaseApiTest {
    * @param expectedStatus
    * @return
    */
-  public CommonResponse<PostDetailListApiResponse> sendGetPostListRequest(String accessToken,
+  public CommonResponse<GetPostDetailListApiResponse> sendGetPostListRequest(String accessToken,
       LocalDateTime cursorPostedAt, String cursorPostId, int limit,
       ResultMatcher expectedStatus) throws Exception {
     String path =

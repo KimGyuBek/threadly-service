@@ -6,15 +6,16 @@ import static com.threadly.posts.PostStatusType.DELETED;
 
 import com.threadly.ErrorCode;
 import com.threadly.exception.post.PostException;
-import com.threadly.post.like.FetchPostLikePort;
+import com.threadly.post.engagement.GetPostEngagementUseCase;
+import com.threadly.post.get.GetPostUseCase;
 import com.threadly.post.projection.PostDetailProjection;
-import com.threadly.post.query.GetPostEngagementQuery;
-import com.threadly.post.query.GetPostListQuery;
-import com.threadly.post.query.GetPostQuery;
-import com.threadly.post.response.PostDetailApiResponse;
-import com.threadly.post.response.PostDetailListApiResponse;
-import com.threadly.post.response.PostDetailListApiResponse.NextCursor;
-import com.threadly.post.response.PostEngagementApiResponse;
+import com.threadly.post.engagement.GetPostEngagementQuery;
+import com.threadly.post.get.GetPostListQuery;
+import com.threadly.post.get.GetPostQuery;
+import com.threadly.post.get.GetPostDetailApiResponse;
+import com.threadly.post.get.GetPostDetailListApiResponse;
+import com.threadly.post.get.GetPostDetailListApiResponse.NextCursor;
+import com.threadly.post.engagement.GetPostEngagementApiResponse;
 import com.threadly.posts.PostStatusType;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -32,12 +33,12 @@ public class PostQueryService implements GetPostUseCase, GetPostEngagementUseCas
   private final FetchPostPort fetchPostPort;
 
   @Override
-  public PostDetailListApiResponse getUserVisiblePostListByCursor(GetPostListQuery query) {
+  public GetPostDetailListApiResponse getUserVisiblePostListByCursor(GetPostListQuery query) {
 
-    List<PostDetailApiResponse> allPostList = fetchPostPort.findUserVisiblePostListByCursor(
+    List<GetPostDetailApiResponse> allPostList = fetchPostPort.findUserVisiblePostListByCursor(
             query.getUserId(), query.getCursorPostedAt(), query.getCursorPostId(), query.getLimit() + 1)
         .stream().map(
-            projection -> new PostDetailApiResponse(
+            projection -> new GetPostDetailApiResponse(
                 projection.getPostId(),
                 projection.getUserId(),
                 projection.getUserProfileImageUrl(),
@@ -54,7 +55,7 @@ public class PostQueryService implements GetPostUseCase, GetPostEngagementUseCas
     boolean hasNext = allPostList.size() > query.getLimit();
 
     /*리스트 분할*/
-    List<PostDetailApiResponse> pagedPostList =
+    List<GetPostDetailApiResponse> pagedPostList =
         hasNext
             ? allPostList.subList(0, query.getLimit())
             : allPostList;
@@ -64,14 +65,14 @@ public class PostQueryService implements GetPostUseCase, GetPostEngagementUseCas
         hasNext ? pagedPostList.getLast().postedAt() : null;
     String cursorPostId = hasNext ? pagedPostList.getLast().postId() : null;
 
-    return new PostDetailListApiResponse(pagedPostList,
+    return new GetPostDetailListApiResponse(pagedPostList,
         new NextCursor(cursorPostedAt, cursorPostId));
 
   }
 
   @Transactional(readOnly = true)
   @Override
-  public PostDetailApiResponse getPost(GetPostQuery query) {
+  public GetPostDetailApiResponse getPost(GetPostQuery query) {
     PostDetailProjection postDetailProjection = fetchPostPort.findPostDetailsByPostIdAndUserId(
             query.getPostId(), query.getUserId())
         .orElseThrow(() -> new PostException(ErrorCode.POST_NOT_FOUND));
@@ -87,7 +88,7 @@ public class PostQueryService implements GetPostUseCase, GetPostEngagementUseCas
       throw new PostException(ErrorCode.POST_BLOCKED);
     }
 
-    return new PostDetailApiResponse(postDetailProjection.getPostId(),
+    return new GetPostDetailApiResponse(postDetailProjection.getPostId(),
         postDetailProjection.getUserId(),
         postDetailProjection.getUserProfileImageUrl(), postDetailProjection.getUserNickname(),
         postDetailProjection.getContent(), postDetailProjection.getViewCount(),
@@ -97,11 +98,11 @@ public class PostQueryService implements GetPostUseCase, GetPostEngagementUseCas
 
   @Transactional(readOnly = true)
   @Override
-  public PostEngagementApiResponse getPostEngagement(GetPostEngagementQuery query) {
+  public GetPostEngagementApiResponse getPostEngagement(GetPostEngagementQuery query) {
     return
         fetchPostPort.findPostEngagementByPostIdAndUserId(
             query.getPostId(), query.getUserId()
-        ).map(projection -> new PostEngagementApiResponse(
+        ).map(projection -> new GetPostEngagementApiResponse(
             projection.getPostId(),
             projection.getAuthorId(),
             projection.getAuthorNickname(),

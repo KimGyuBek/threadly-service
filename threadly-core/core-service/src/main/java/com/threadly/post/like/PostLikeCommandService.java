@@ -3,8 +3,10 @@ package com.threadly.post.like;
 import com.threadly.ErrorCode;
 import com.threadly.exception.post.PostException;
 import com.threadly.post.FetchPostPort;
-import com.threadly.post.like.command.LikePostCommand;
-import com.threadly.post.like.response.LikePostApiResponse;
+import com.threadly.post.like.post.LikePostApiResponse;
+import com.threadly.post.like.post.LikePostCommand;
+import com.threadly.post.like.post.LikePostUseCase;
+import com.threadly.post.like.post.UnlikePostUseCase;
 import com.threadly.posts.CannotLikePostException;
 import com.threadly.posts.Post;
 import com.threadly.posts.PostLike;
@@ -17,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @RequiredArgsConstructor
-public class PostLikeCommandService implements LikePostUseCase, UnlikePostLikeUseCase {
+public class PostLikeCommandService implements LikePostUseCase, UnlikePostUseCase {
 
   private final FetchPostPort fetchPostPort;
 

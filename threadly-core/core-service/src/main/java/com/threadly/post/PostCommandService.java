@@ -6,11 +6,14 @@ import static com.threadly.posts.PostStatusType.DELETED;
 import com.threadly.ErrorCode;
 import com.threadly.exception.post.PostException;
 import com.threadly.exception.user.UserException;
-import com.threadly.post.command.CreatePostCommand;
-import com.threadly.post.command.DeletePostCommand;
-import com.threadly.post.command.UpdatePostCommand;
-import com.threadly.post.response.CreatePostApiResponse;
-import com.threadly.post.response.UpdatePostApiResponse;
+import com.threadly.post.create.CreatePostCommand;
+import com.threadly.post.delete.DeletePostCommand;
+import com.threadly.post.update.UpdatePostCommand;
+import com.threadly.post.create.CreatePostUseCase;
+import com.threadly.post.create.CreatePostApiResponse;
+import com.threadly.post.delete.DeletePostUseCase;
+import com.threadly.post.update.UpdatePostApiResponse;
+import com.threadly.post.update.UpdatePostUseCase;
 import com.threadly.posts.Post;
 import com.threadly.user.FetchUserPort;
 import com.threadly.user.UserProfile;
@@ -24,7 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @RequiredArgsConstructor
-public class PostCommandService implements CreatePostUseCase, UpdatePostUseCase {
+public class PostCommandService implements CreatePostUseCase, UpdatePostUseCase, DeletePostUseCase {
 
   private final SavePostPort savePostPort;
   private final FetchPostPort fetchPostPort;
@@ -88,7 +91,7 @@ public class PostCommandService implements CreatePostUseCase, UpdatePostUseCase 
 
   @Transactional
   @Override
-  public void deletePost(DeletePostCommand command) {
+  public void softDeletePost(DeletePostCommand command) {
     /*게시글 조회*/
     Post post = getPost(command.getPostId());
 
