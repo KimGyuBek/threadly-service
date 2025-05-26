@@ -39,7 +39,7 @@ public class DeletePostCommentLikeApiTest extends BasePostApiTest {
         accessToken,
         postId,
         commentId,
-        status().isCreated()
+        status().isOk()
     );
 
     //when
@@ -71,7 +71,7 @@ public class DeletePostCommentLikeApiTest extends BasePostApiTest {
         accessToken,
         postId,
         commentId,
-        status().isCreated()
+        status().isOk()
     );
 
     //when

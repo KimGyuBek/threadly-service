@@ -10,7 +10,7 @@ public interface GetPostLikersUseCase {
    * @param query
    * @return
    */
-  PostLikersApiResponse getPostLikers(GetPostLikersQuery query);
+  GetPostLikersApiResponse getPostLikers(GetPostLikersQuery query);
 
 
 

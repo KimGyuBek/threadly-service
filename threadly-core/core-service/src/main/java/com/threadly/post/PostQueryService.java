@@ -7,8 +7,9 @@ import static com.threadly.posts.PostStatusType.DELETED;
 import com.threadly.ErrorCode;
 import com.threadly.exception.post.PostException;
 import com.threadly.post.engagement.GetPostEngagementUseCase;
+import com.threadly.post.fetch.FetchPostPort;
+import com.threadly.post.fetch.PostDetailProjection;
 import com.threadly.post.get.GetPostUseCase;
-import com.threadly.post.projection.PostDetailProjection;
 import com.threadly.post.engagement.GetPostEngagementQuery;
 import com.threadly.post.get.GetPostListQuery;
 import com.threadly.post.get.GetPostQuery;
@@ -35,7 +36,7 @@ public class PostQueryService implements GetPostUseCase, GetPostEngagementUseCas
   @Override
   public GetPostDetailListApiResponse getUserVisiblePostListByCursor(GetPostListQuery query) {
 
-    List<GetPostDetailApiResponse> allPostList = fetchPostPort.findUserVisiblePostListByCursor(
+    List<GetPostDetailApiResponse> allPostList = fetchPostPort.fetchUserVisiblePostListByCursor(
             query.getUserId(), query.getCursorPostedAt(), query.getCursorPostId(), query.getLimit() + 1)
         .stream().map(
             projection -> new GetPostDetailApiResponse(
@@ -73,7 +74,7 @@ public class PostQueryService implements GetPostUseCase, GetPostEngagementUseCas
   @Transactional(readOnly = true)
   @Override
   public GetPostDetailApiResponse getPost(GetPostQuery query) {
-    PostDetailProjection postDetailProjection = fetchPostPort.findPostDetailsByPostIdAndUserId(
+    PostDetailProjection postDetailProjection = fetchPostPort.fetechPostDetailsByPostIdAndUserId(
             query.getPostId(), query.getUserId())
         .orElseThrow(() -> new PostException(ErrorCode.POST_NOT_FOUND));
 
@@ -100,7 +101,7 @@ public class PostQueryService implements GetPostUseCase, GetPostEngagementUseCas
   @Override
   public GetPostEngagementApiResponse getPostEngagement(GetPostEngagementQuery query) {
     return
-        fetchPostPort.findPostEngagementByPostIdAndUserId(
+        fetchPostPort.fetchPostEngagementByPostIdAndUserId(
             query.getPostId(), query.getUserId()
         ).map(projection -> new GetPostEngagementApiResponse(
             projection.getPostId(),

@@ -1,10 +1,10 @@
 package com.threadly.adapter.post;
 
 import com.threadly.mapper.post.PostLikeMapper;
-import com.threadly.post.like.CreatePostLikePort;
-import com.threadly.post.like.DeletePostLikePort;
-import com.threadly.post.like.FetchPostLikePort;
-import com.threadly.post.like.projection.PostLikerProjection;
+import com.threadly.post.like.post.CreatePostLikePort;
+import com.threadly.post.like.post.DeletePostLikePort;
+import com.threadly.post.like.post.FetchPostLikePort;
+import com.threadly.post.like.post.PostLikerProjection;
 import com.threadly.posts.PostLike;
 import com.threadly.repository.post.PostLikeJpaRepository;
 import java.time.LocalDateTime;
@@ -25,7 +25,7 @@ public class PostLikeAdapter implements FetchPostLikePort, CreatePostLikePort, D
   }
 
   @Override
-  public long getLikeCountByPostId(String postId) {
+  public long fetchLikeCountByPostId(String postId) {
     return
         postLikeJpaRepository.countByPostId(postId);
   }
@@ -43,7 +43,7 @@ public class PostLikeAdapter implements FetchPostLikePort, CreatePostLikePort, D
   }
 
   @Override
-  public List<PostLikerProjection> getPostLikersBeforeCreatedAt(String postId,
+  public List<PostLikerProjection> fetchPostLikersBeforeCreatedAt(String postId,
       LocalDateTime cursorLikedAt, String cursorLikerId, int limit) {
     return postLikeJpaRepository.getPostLikersBeforeCreatedAt(postId, cursorLikedAt, cursorLikerId,
         limit);

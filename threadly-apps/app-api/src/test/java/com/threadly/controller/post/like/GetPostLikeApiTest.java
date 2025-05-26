@@ -6,7 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.threadly.CommonResponse;
 import com.threadly.ErrorCode;
 import com.threadly.controller.post.BasePostApiTest;
-import com.threadly.post.like.post.PostLikersApiResponse;
+import com.threadly.post.like.post.GetPostLikersApiResponse;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -40,7 +40,7 @@ public class GetPostLikeApiTest extends BasePostApiTest {
     //then
     /*조회 요청*/
     while (true) {
-      CommonResponse<PostLikersApiResponse> getPostLikersResponse = sendGetPostLikersRequest(
+      CommonResponse<GetPostLikersApiResponse> getPostLikersResponse = sendGetPostLikersRequest(
           accessToken, postId, cursorLikedAt, cursorLikerId, limit, status().isOk()
       );
       size += getPostLikersResponse.getData().postLikers().size();
@@ -72,7 +72,7 @@ public class GetPostLikeApiTest extends BasePostApiTest {
     LocalDateTime cursorLikedAt = null;
     String cursorLikerId = null;
     int limit = 10;
-    CommonResponse<PostLikersApiResponse> getPostLikersResponse = sendGetPostLikersRequest(
+    CommonResponse<GetPostLikersApiResponse> getPostLikersResponse = sendGetPostLikersRequest(
         accessToken, postId, cursorLikedAt, cursorLikerId, limit, status().isNotFound()
     );
     assertThat(getPostLikersResponse.getCode()).isEqualTo(ErrorCode.POST_NOT_FOUND.getCode());
@@ -100,7 +100,7 @@ public class GetPostLikeApiTest extends BasePostApiTest {
     //then
     /*조회 요청*/
     while (true) {
-      CommonResponse<PostLikersApiResponse> getPostLikersResponse = sendGetPostLikersRequest(
+      CommonResponse<GetPostLikersApiResponse> getPostLikersResponse = sendGetPostLikersRequest(
           accessToken, postId, cursorLikedAt, cursorLikerId, limit, status().isOk()
       );
       size += getPostLikersResponse.getData().postLikers().size();

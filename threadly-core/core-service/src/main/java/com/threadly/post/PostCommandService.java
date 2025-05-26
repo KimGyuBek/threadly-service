@@ -8,11 +8,14 @@ import com.threadly.exception.post.PostException;
 import com.threadly.exception.user.UserException;
 import com.threadly.post.create.CreatePostCommand;
 import com.threadly.post.delete.DeletePostCommand;
+import com.threadly.post.fetch.FetchPostPort;
+import com.threadly.post.save.SavePostPort;
 import com.threadly.post.update.UpdatePostCommand;
 import com.threadly.post.create.CreatePostUseCase;
 import com.threadly.post.create.CreatePostApiResponse;
 import com.threadly.post.delete.DeletePostUseCase;
 import com.threadly.post.update.UpdatePostApiResponse;
+import com.threadly.post.update.UpdatePostPort;
 import com.threadly.post.update.UpdatePostUseCase;
 import com.threadly.posts.Post;
 import com.threadly.user.FetchUserPort;
@@ -121,7 +124,7 @@ public class PostCommandService implements CreatePostUseCase, UpdatePostUseCase,
    */
   private Post getPost(String command) {
     return
-        fetchPostPort.findById(command).orElseThrow(
+        fetchPostPort.fetchById(command).orElseThrow(
             () -> new PostException(ErrorCode.POST_NOT_FOUND)
         );
   }

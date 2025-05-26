@@ -37,7 +37,7 @@ public class LikePostApiTest extends BasePostApiTest {
     CommonResponse<LikePostApiResponse> likePostResponse = sendLikePostRequest(
         accessToken,
         postId,
-        status().isCreated()
+        status().isOk()
     );
     assertThat(likePostResponse.getData().likeCount()).isEqualTo(1);
   }
@@ -58,12 +58,12 @@ public class LikePostApiTest extends BasePostApiTest {
     /*게시글 좋아요 요청 전송*/
     for (int i = 0; i < 3; i++) {
       assertThat(
-          sendLikePostRequest(accessToken, postId, status().isCreated()).isSuccess()).isTrue();
+          sendLikePostRequest(accessToken, postId, status().isOk()).isSuccess()).isTrue();
     }
     CommonResponse<LikePostApiResponse> likePostResponse = sendLikePostRequest(
         accessToken,
         postId,
-        status().isCreated()
+        status().isOk()
     );
     assertThat(likePostResponse.getData().likeCount()).isEqualTo(1);
   }
@@ -102,13 +102,13 @@ public class LikePostApiTest extends BasePostApiTest {
     /*게시글 좋아요 요청 전송*/
     for (int i = 1; i < VERIFIED_USER_EMAILS.size(); i++) {
       assertThat(sendLikePostRequest(
-          getAccessToken(VERIFIED_USER_EMAILS.get(i)), postId, status().isCreated()
+          getAccessToken(VERIFIED_USER_EMAILS.get(i)), postId, status().isOk()
       ).isSuccess()).isTrue();
     }
     CommonResponse<LikePostApiResponse> likePostResponse = sendLikePostRequest(
         getAccessToken(VERIFIED_USER_EMAILS.getFirst()),
         postId,
-        status().isCreated()
+        status().isOk()
     );
     assertThat(likePostResponse.getData().likeCount()).isEqualTo(VERIFIED_USER_EMAILS.size());
   }

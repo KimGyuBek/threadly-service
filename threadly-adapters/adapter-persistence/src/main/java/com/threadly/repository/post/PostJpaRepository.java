@@ -1,8 +1,8 @@
 package com.threadly.repository.post;
 
 import com.threadly.entity.post.PostEntity;
-import com.threadly.post.projection.PostDetailProjection;
-import com.threadly.post.projection.PostEngagementProjection;
+import com.threadly.post.fetch.PostDetailProjection;
+import com.threadly.post.fetch.PostEngagementProjection;
 import com.threadly.posts.PostStatusType;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -76,46 +76,6 @@ public interface PostJpaRepository extends JpaRepository<PostEntity, String> {
 
 
   /**
-   * 사용자에게 보이는 게시글 리스트 조회
-   *
-   * @param userId
-   * @return
-   */
-  @Query(value = """
-      select p.post_id                     as postId,
-             u.user_id                     as userId,
-             up.profile_image_url          as userProfileImageUrl,
-             up.nickname                   as userNickname,
-             p.content                     as content,
-             p.view_count                  as viewCount,
-             p.modified_at                 as postedAt,
-             coalesce(pl.like_count, 0)    as likeCount,
-             coalesce(pc.comment_count, 0) as commentCount,
-             coalesce(pl.is_liked, false)  as liked
-      from posts p
-               join users u on p.user_id = u.user_id
-               join user_profile up on u.user_profile_id = up.user_profile_id
-               left join(select post_id,
-                                count(*) as like_count,
-                                max(
-                                        case
-                                            when user_id = :userId
-                                                then true
-                                            else false
-                                            end
-                                )        as is_liked
-                         from post_likes
-                         group by post_id) pl on p.post_id = pl.post_id
-               left join(select post_id,
-                                count(*) as comment_count
-                         from post_comments
-                         group by post_id) pc on p.post_id = pc.post_id
-      where p.status = 'ACTIVE'
-      order by p.modified_at desc
-      """, nativeQuery = true)
-  List<PostDetailProjection> getUserVisiblePostListByUserId(@Param("userId") String userId);
-
-  /**
    * 사용자에게 노출되는 게시글 목록을 커서 기반으로 조회
    * <p>
    * 최신 게시글 부터 수정일(modified_at) 기준으로 내림차순 정렬되며, 커서 값보다 이전에 수정된 게시글들을 조회
@@ -127,47 +87,42 @@ public interface PostJpaRepository extends JpaRepository<PostEntity, String> {
    * @return
    */
   @Query(value = """
-                  select p.post_id                     as postId,
-                         u.user_id                     as userId,
-                         up.profile_image_url          as userProfileImageUrl,
-                         up.nickname                   as userNickname,
-                         p.content                     as content,
-                         p.view_count                  as viewCount,
-                         p.modified_at                 as postedAt,
-                         coalesce(pl.like_count, 0)    as likeCount,
-                         coalesce(pc.comment_count, 0) as commentCount,
-                         coalesce(pl.is_liked, false)  as liked
-                  from posts p
-                           join users u on p.user_id = u.user_id
-                           join user_profile up on u.user_profile_id = up.user_profile_id
-                           left join(select post_id,
-                                            count(*) as like_count,
-                                            max(
-                                                    case
-                                                        when user_id = :userId
-                                                            then true
-                                                        else false
-                                                        end
-                                            )        as is_liked
-                                     from post_likes
-                                     group by post_id) pl on p.post_id = pl.post_id
-                           left join(select post_id,
-                                            count(*) as comment_count
-                                     from post_comments
-                                     group by post_id) pc on p.post_id = pc.post_id
+      select p.post_id                           as postId,
+             u.user_id                           as userId,
+             up.profile_image_url                as userProfileImageUrl,
+             up.nickname                         as userNickname,
+             p.content                           as content,
+             p.view_count                        as viewCount,
+             p.modified_at                       as postedAt,
+             coalesce(pl_count.like_count, 0)    as likeCount,
+             coalesce(pc_count.comment_count, 0) as commentCount,
+             coalesce(pl_liked.liked, false)     as liked
+      from posts p
+               join users u on p.user_id = u.user_id
+               join user_profile up on u.user_profile_id = up.user_profile_id
+               left join(select post_id, count(*) as like_count
+                         from post_likes
+                         group by post_id) pl_count on p.post_id = pl_count.post_id
+               left join(select post_id, count(*) as comment_count
+                         from post_comments
+                         group by post_id) pc_count on p.post_id = pc_count.post_id
+               left join(select post_id,
+                                true as liked
+                         from post_likes
+                         where user_id = :userId) pl_liked on p.post_id = pl_liked.post_id
       where p.status = 'ACTIVE'
         and (
           :cursorPostedAt is null
-          or (
-            p.modified_at < :cursorPostedAt
-            or (
+              or
+          p.modified_at < :cursorPostedAt
+              or (
               p.modified_at = :cursorPostedAt and p.post_id < :cursorPostId
-            )
+              )
           )
-        )            order by p.modified_at DESC, p.post_id desc
-                        limit :limit
+      order by p.modified_at DESC, p.post_id desc
+      limit :limit
       """, nativeQuery = true)
-  List<PostDetailProjection> getUserVisiblePostsBeforeModifiedAt(@Param("userId") String userId,
+  List<PostDetailProjection> findUserVisiblePostsBeforeModifiedAt(@Param("userId") String userId,
       @Param("cursorPostedAt") LocalDateTime cursorPostedAt,
       @Param("cursorPostId") String cursorPostId,
       @Param("limit") int limit);

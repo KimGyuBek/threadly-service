@@ -3,39 +3,41 @@ package com.threadly.controller.post;
 import com.threadly.controller.post.request.CreatePostCommentRequest;
 import com.threadly.controller.post.request.CreatePostRequest;
 import com.threadly.controller.post.request.UpdatePostRequest;
-import com.threadly.post.create.CreatePostUseCase;
-import com.threadly.post.delete.DeletePostUseCase;
-import com.threadly.post.engagement.GetPostEngagementUseCase;
-import com.threadly.post.get.GetPostUseCase;
-import com.threadly.post.update.UpdatePostUseCase;
-import com.threadly.post.create.CreatePostCommand;
-import com.threadly.post.delete.DeletePostCommand;
-import com.threadly.post.update.UpdatePostCommand;
-import com.threadly.post.comment.create.CreatePostCommentUseCase;
-import com.threadly.post.comment.delete.DeletePostCommentUseCase;
-import com.threadly.post.comment.create.CreatePostCommentCommand;
-import com.threadly.post.comment.delete.DeletePostCommentCommand;
-import com.threadly.post.like.comment.LikePostCommentUseCase;
-import com.threadly.post.like.comment.UnlikePostCommentUseCase;
-import com.threadly.post.like.comment.LikePostCommentCommand;
-import com.threadly.post.like.comment.LikePostCommentApiResponse;
 import com.threadly.post.comment.create.CreatePostCommentApiResponse;
-import com.threadly.post.like.post.GetPostLikersUseCase;
-import com.threadly.post.like.post.LikePostUseCase;
-import com.threadly.post.like.post.UnlikePostUseCase;
-import com.threadly.post.like.post.LikePostCommand;
-import com.threadly.post.like.post.GetPostLikersQuery;
-import com.threadly.post.like.post.LikePostApiResponse;
-import com.threadly.post.like.post.PostLikersApiResponse;
-import com.threadly.post.engagement.GetPostEngagementQuery;
-import com.threadly.post.get.GetPostListQuery;
-import com.threadly.post.get.GetPostQuery;
+import com.threadly.post.comment.create.CreatePostCommentCommand;
+import com.threadly.post.comment.create.CreatePostCommentUseCase;
+import com.threadly.post.comment.delete.DeletePostCommentCommand;
+import com.threadly.post.comment.delete.DeletePostCommentUseCase;
+import com.threadly.post.comment.get.GetPostCommentListApiResponse;
+import com.threadly.post.comment.get.GetPostCommentListQuery;
+import com.threadly.post.comment.get.GetPostCommentUseCase;
 import com.threadly.post.create.CreatePostApiResponse;
+import com.threadly.post.create.CreatePostCommand;
+import com.threadly.post.create.CreatePostUseCase;
+import com.threadly.post.delete.DeletePostCommand;
+import com.threadly.post.delete.DeletePostUseCase;
+import com.threadly.post.engagement.GetPostEngagementApiResponse;
+import com.threadly.post.engagement.GetPostEngagementQuery;
+import com.threadly.post.engagement.GetPostEngagementUseCase;
 import com.threadly.post.get.GetPostDetailApiResponse;
 import com.threadly.post.get.GetPostDetailListApiResponse;
-import com.threadly.post.engagement.GetPostEngagementApiResponse;
-import com.threadly.post.status.GetPostStatusApiResponse;
+import com.threadly.post.get.GetPostListQuery;
+import com.threadly.post.get.GetPostQuery;
+import com.threadly.post.get.GetPostUseCase;
+import com.threadly.post.like.comment.LikePostCommentApiResponse;
+import com.threadly.post.like.comment.LikePostCommentCommand;
+import com.threadly.post.like.comment.LikePostCommentUseCase;
+import com.threadly.post.like.comment.UnlikePostCommentUseCase;
+import com.threadly.post.like.post.GetPostLikersApiResponse;
+import com.threadly.post.like.post.GetPostLikersQuery;
+import com.threadly.post.like.post.GetPostLikersUseCase;
+import com.threadly.post.like.post.LikePostApiResponse;
+import com.threadly.post.like.post.LikePostCommand;
+import com.threadly.post.like.post.LikePostUseCase;
+import com.threadly.post.like.post.UnlikePostUseCase;
 import com.threadly.post.update.UpdatePostApiResponse;
+import com.threadly.post.update.UpdatePostCommand;
+import com.threadly.post.update.UpdatePostUseCase;
 import jakarta.validation.Valid;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
@@ -73,6 +75,8 @@ public class PostController {
 
   private final CreatePostCommentUseCase createPostCommentUseCase;
   private final DeletePostCommentUseCase deletePostCommentUseCase;
+  private final GetPostCommentUseCase getPostCommentUseCase;
+
 
   private final LikePostCommentUseCase likePostCommentUseCase;
   private final UnlikePostCommentUseCase unlikePostCommentUseCase;
@@ -164,7 +168,7 @@ public class PostController {
    * @return
    */
   @GetMapping("/{postId}/engagement/likes")
-  public ResponseEntity<PostLikersApiResponse> getPostLikers(
+  public ResponseEntity<GetPostLikersApiResponse> getPostLikers(
       @RequestParam(value = "cursor_liked_at", required = false) LocalDateTime cursorLikedAt,
       @RequestParam(value = "cursor_liker_id", required = false) String cursorLikerId,
       @RequestParam(value = "limit", defaultValue = "10") int limit,
@@ -250,7 +254,7 @@ public class PostController {
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     String userId = (String) auth.getCredentials();
 
-    return ResponseEntity.status(201).body(
+    return ResponseEntity.status(200).body(
         likePostUseCase.likePost(
             new LikePostCommand(
                 postId,
@@ -281,17 +285,36 @@ public class PostController {
   }
 
   /**
-   * 게시글 좋아요/댓글 수 통계 조회
+   * 게시글 댓글 목록 커서 기반 조회
    *
    * @param postId
+   * @param cursorCommentedAt
+   * @param cursorCommentId
+   * @param limit
    * @return
    */
-  @GetMapping("/{postId}/stats")
-  public ResponseEntity<GetPostStatusApiResponse> getPostStatus(
-      @PathVariable("postId") String postId) {
+  @GetMapping("/{postId}/comments")
+  public ResponseEntity<GetPostCommentListApiResponse> getPostComments(@PathVariable String postId,
+      @RequestParam(value = "cursor_commented_at", required = false) LocalDateTime cursorCommentedAt,
+      @RequestParam(value = "cursor_comment_id", required = false) String cursorCommentId,
+      @RequestParam(value = "limit", defaultValue = "10") int limit
+  ) {
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    String userId = (String) auth.getCredentials();
 
-    return ResponseEntity.status(200).body(null);
+    return ResponseEntity.status(200).body(
+        getPostCommentUseCase.getPostCommentDetailListForUser(
+            new GetPostCommentListQuery(
+                postId,
+                userId,
+                cursorCommentedAt,
+                cursorCommentId,
+                limit
+            )
+        )
+    );
   }
+
 
   /**
    * 게시글 댓글 생성
@@ -360,7 +383,7 @@ public class PostController {
         )
     );
 
-    return ResponseEntity.status(201).body(likePostCommentApiResponse);
+    return ResponseEntity.status(200).body(likePostCommentApiResponse);
   }
 
   /**

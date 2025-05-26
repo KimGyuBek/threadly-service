@@ -2,11 +2,11 @@ package com.threadly.adapter.post;
 
 import com.threadly.entity.post.PostEntity;
 import com.threadly.mapper.post.PostMapper;
-import com.threadly.post.FetchPostPort;
-import com.threadly.post.SavePostPort;
-import com.threadly.post.UpdatePostPort;
-import com.threadly.post.projection.PostDetailProjection;
-import com.threadly.post.projection.PostEngagementProjection;
+import com.threadly.post.fetch.FetchPostPort;
+import com.threadly.post.fetch.PostDetailProjection;
+import com.threadly.post.save.SavePostPort;
+import com.threadly.post.update.UpdatePostPort;
+import com.threadly.post.fetch.PostEngagementProjection;
 import com.threadly.posts.Post;
 import com.threadly.posts.PostStatusType;
 import com.threadly.repository.post.PostJpaRepository;
@@ -37,7 +37,7 @@ public class PostAdapter implements SavePostPort, FetchPostPort, UpdatePostPort 
   }
 
   @Override
-  public Optional<Post> findById(String postId) {
+  public Optional<Post> fetchById(String postId) {
     return
         postJpaRepository.findById(postId).map(
             PostMapper::toDomain
@@ -50,23 +50,19 @@ public class PostAdapter implements SavePostPort, FetchPostPort, UpdatePostPort 
   }
 
   @Override
-  public Optional<PostDetailProjection> findPostDetailsByPostIdAndUserId(String postId,
+  public Optional<PostDetailProjection> fetechPostDetailsByPostIdAndUserId(String postId,
       String userId) {
     return
         postJpaRepository.getPostDetailsByPostIdAndUserId(postId, userId);
   }
 
-  @Override
-  public List<PostDetailProjection> findUserVisiblePostList(String userId) {
-    return
-        postJpaRepository.getUserVisiblePostListByUserId(userId);
-  }
+
 
   @Override
-  public List<PostDetailProjection> findUserVisiblePostListByCursor(String userId,
+  public List<PostDetailProjection> fetchUserVisiblePostListByCursor(String userId,
       LocalDateTime cursorPostedAt, String cursorPostId,
       int limit) {
-    return postJpaRepository.getUserVisiblePostsBeforeModifiedAt(userId, cursorPostedAt,
+    return postJpaRepository.findUserVisiblePostsBeforeModifiedAt(userId, cursorPostedAt,
         cursorPostId, limit);
   }
 
@@ -76,13 +72,13 @@ public class PostAdapter implements SavePostPort, FetchPostPort, UpdatePostPort 
   }
 
   @Override
-  public Optional<PostStatusType> findPostStatusByPostId(String postId) {
+  public Optional<PostStatusType> fetchPostStatusByPostId(String postId) {
     return
         postJpaRepository.findPostStatusByPostId(postId);
   }
 
   @Override
-  public Optional<PostEngagementProjection> findPostEngagementByPostIdAndUserId(String postId,
+  public Optional<PostEngagementProjection> fetchPostEngagementByPostIdAndUserId(String postId,
       String userId) {
     return postJpaRepository.findPostEngagementByPostIdAndUserId(postId, userId);
   }

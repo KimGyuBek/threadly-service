@@ -33,7 +33,7 @@ public class DeletePostListApiTest extends BasePostApiTest {
     CommonResponse<LikePostApiResponse> likePostResponse = sendLikePostRequest(
         accessToken,
         postId,
-        status().isCreated()
+        status().isOk()
     );
 
     //when
@@ -63,7 +63,7 @@ public class DeletePostListApiTest extends BasePostApiTest {
 
     /*게시글 좋아요 요청*/
     CommonResponse<LikePostApiResponse> likePostRequest = sendLikePostRequest(
-        accessToken, postId, status().isCreated());
+        accessToken, postId, status().isOk());
 
     //when
     //then

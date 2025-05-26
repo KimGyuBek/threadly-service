@@ -1,7 +1,7 @@
 package com.threadly.repository.post;
 
 import com.threadly.entity.post.PostLikeEntity;
-import com.threadly.post.like.projection.PostLikerProjection;
+import com.threadly.post.like.post.PostLikerProjection;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -51,7 +51,7 @@ public interface PostLikeJpaRepository extends JpaRepository<PostLikeEntity, Str
    */
   @Modifying(clearAutomatically = true, flushAutomatically = true)
   @Query(value = """
-      delete from PostLikeEntity p 
+      delete from PostLikeEntity p
       where p.id.postId=:postId
       and p.id.userId=:userId
       """)
@@ -78,9 +78,9 @@ public interface PostLikeJpaRepository extends JpaRepository<PostLikeEntity, Str
                join users u on pl.user_id = u.user_id
                join user_profile up on u.user_profile_id = up.user_profile_id
       where pl.post_id = :postId
-        and (:cursorLikedAt is null
-          or (pl.created_at < :cursorLikedAt
-              or (pl.created_at = :cursorLikedAt and pl.user_id < :cursorLikerId)))
+       and (:cursorLikedAt is null 
+       or pl.created_at < :cursorLikedAt 
+       or (pl.created_at = :cursorLikedAt and pl.user_id < :cursorLikerId))
       order by pl.created_at desc, pl.user_id desc
       limit :limit;
       

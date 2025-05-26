@@ -14,7 +14,7 @@ public record GetPostDetailListApiResponse(
 ) {
 
   /**
-   * 다음 페이지 조회를 위한 커서 정보
+   * 다음 페이지 조회를 위한 커서 정보 객체
    * @param postedAt
    * @param postId
    */

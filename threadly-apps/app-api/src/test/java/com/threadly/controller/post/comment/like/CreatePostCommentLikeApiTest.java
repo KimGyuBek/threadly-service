@@ -34,7 +34,7 @@ public class CreatePostCommentLikeApiTest extends BasePostApiTest {
     //when
     //then
     CommonResponse<LikePostCommentApiResponse> likePostCommentResponse = sendLikePostCommentRequest(
-        accessToken, postId, commentId, status().isCreated());
+        accessToken, postId, commentId, status().isOk());
 
     assertThat(likePostCommentResponse.getData().commentId()).isEqualTo(commentId);
     assertThat(likePostCommentResponse.getData().likeCount()).isEqualTo(1);
@@ -76,10 +76,10 @@ public class CreatePostCommentLikeApiTest extends BasePostApiTest {
     for (int i = 1; i < VERIFIED_USER_EMAILS.size(); i++) {
       assertThat(
           sendLikePostCommentRequest(
-              getAccessToken(VERIFIED_USER_EMAILS.get(i)), postId, commentId, status().isCreated()).isSuccess()).isTrue();
+              getAccessToken(VERIFIED_USER_EMAILS.get(i)), postId, commentId, status().isOk()).isSuccess()).isTrue();
     }
     CommonResponse<LikePostCommentApiResponse> likePostCommentResponse = sendLikePostCommentRequest(
-        getAccessToken(VERIFIED_USER_EMAILS.getFirst()), postId, commentId, status().isCreated());
+        getAccessToken(VERIFIED_USER_EMAILS.getFirst()), postId, commentId, status().isOk());
 
     assertThat(likePostCommentResponse.getData().commentId()).isEqualTo(commentId);
     assertThat(likePostCommentResponse.getData().likeCount()).isEqualTo(VERIFIED_USER_EMAILS.size());
@@ -101,10 +101,10 @@ public class CreatePostCommentLikeApiTest extends BasePostApiTest {
     for (int i = 0; i < 2; i++) {
       assertThat(
       sendLikePostCommentRequest(
-          accessToken, postId, commentId, status().isCreated()).isSuccess()).isTrue();
+          accessToken, postId, commentId, status().isOk()).isSuccess()).isTrue();
     }
     CommonResponse<LikePostCommentApiResponse> likePostCommentResponse = sendLikePostCommentRequest(
-        accessToken, postId, commentId, status().isCreated());
+        accessToken, postId, commentId, status().isOk());
 
     assertThat(likePostCommentResponse.getData().commentId()).isEqualTo(commentId);
     assertThat(likePostCommentResponse.getData().likeCount()).isEqualTo(1);

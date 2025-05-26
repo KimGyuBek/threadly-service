@@ -9,10 +9,11 @@ import com.threadly.auth.token.response.LoginTokenResponse;
 import com.threadly.controller.post.request.CreatePostCommentRequest;
 import com.threadly.controller.post.request.CreatePostRequest;
 import com.threadly.controller.post.request.UpdatePostRequest;
-import com.threadly.post.like.comment.LikePostCommentApiResponse;
 import com.threadly.post.comment.create.CreatePostCommentApiResponse;
+import com.threadly.post.comment.get.GetPostCommentListApiResponse;
+import com.threadly.post.like.comment.LikePostCommentApiResponse;
 import com.threadly.post.like.post.LikePostApiResponse;
-import com.threadly.post.like.post.PostLikersApiResponse;
+import com.threadly.post.like.post.GetPostLikersApiResponse;
 import com.threadly.post.create.CreatePostApiResponse;
 import com.threadly.post.get.GetPostDetailApiResponse;
 import com.threadly.post.get.GetPostDetailListApiResponse;
@@ -133,7 +134,7 @@ public abstract class BasePostApiTest extends BaseApiTest {
    * @param expectedStatus
    * @return
    */
-  public CommonResponse<PostLikersApiResponse> sendGetPostLikersRequest(String accessToken,
+  public CommonResponse<GetPostLikersApiResponse> sendGetPostLikersRequest(String accessToken,
       String postId, LocalDateTime cursorLikedAt, String cursorLikerId, int limit,
       ResultMatcher expectedStatus) throws Exception {
     String path = "/api/posts/" + postId + "/engagement/likes";
@@ -143,7 +144,7 @@ public abstract class BasePostApiTest extends BaseApiTest {
           + limit;
 
     }
-    CommonResponse<PostLikersApiResponse> response = sendGetRequest(
+    CommonResponse<GetPostLikersApiResponse> response = sendGetRequest(
         accessToken, path, expectedStatus,
         new TypeReference<>() {
         });
@@ -231,6 +232,32 @@ public abstract class BasePostApiTest extends BaseApiTest {
   }
 
   /**
+   * 게시글 댓글 목록 커서 기반 조회 요청 전송
+   *
+   * @param accessToken
+   * @param postId
+   * @param expectedStatus
+   * @return
+   */
+  public CommonResponse<GetPostCommentListApiResponse> sendGetPostCommentListRequest(String accessToken,
+      String postId, LocalDateTime cursorLikedAt, String cursorLikerId, int limit,
+      ResultMatcher expectedStatus) throws Exception {
+    String path = "/api/posts/" + postId + "/comments";
+
+    if (cursorLikedAt != null && cursorLikerId != null && cursorLikedAt != null) {
+      path += "?cursor_commented_at=" + cursorLikedAt + "&cursor_comment_id=" + cursorLikerId + "&limit="
+          + limit;
+
+    }
+    CommonResponse<GetPostCommentListApiResponse> response = sendGetRequest(
+        accessToken, path, expectedStatus,
+        new TypeReference<>() {
+        });
+
+    return response;
+  }
+
+  /**
    * 게시글 댓글 작성 요청 전송
    */
   public CommonResponse<CreatePostCommentApiResponse> sendCreatePostCommentRequest(
@@ -309,7 +336,7 @@ public abstract class BasePostApiTest extends BaseApiTest {
             }, headers);
   }
 
-  public static final int ACTIVE_POST_COUNT = 142;
+  public static final int ACTIVE_POST_COUNT = 143;
   public static final int DELETED_POST_COUNT = 38;
   public static final int BLOCKED_POST_COUNT = 15;
   public static final int ARCHIVED_POST_COUNT = 5;
@@ -488,4 +515,5 @@ public abstract class BasePostApiTest extends BaseApiTest {
       Map.entry("post19", 10L),
       Map.entry("post20", 11L)
   );
+  public static final int POST_WITH_COMMENTS = 35;
 }
