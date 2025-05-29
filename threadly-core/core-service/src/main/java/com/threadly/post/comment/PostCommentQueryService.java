@@ -28,7 +28,7 @@ public class PostCommentQueryService implements GetPostCommentUseCase {
 
   private final FetchPostPort fetchPostPort;
 
-  @Transactional
+  @Transactional(readOnly = true)
   @Override
   public GetPostCommentListApiResponse getPostCommentDetailListForUser(
       GetPostCommentListQuery query
@@ -62,16 +62,6 @@ public class PostCommentQueryService implements GetPostCommentUseCase {
             projection.isLiked()
         )
     ).toList();
-
-    /*리스트가 비어있는 경우 빈 리스트 반환*/
-    if (allCommentList.isEmpty()) {
-      return new GetPostCommentListApiResponse(
-          List.of(),
-          new NextCursor(
-              null, null
-          )
-      );
-    }
 
     /*다음 페이지가 있는지 검증*/
     boolean hasNext = allCommentList.size() > query.limit();

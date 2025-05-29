@@ -1,9 +1,11 @@
 package com.threadly.post.comment.fetch;
 
+import com.threadly.posts.PostCommentStatusType;
 import com.threadly.posts.comment.PostComment;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import javax.swing.text.html.Option;
 
 /**
  * 게시글 댓글 조회 관련 Port
@@ -47,4 +49,13 @@ public interface FetchPostCommentPort {
   List<PostCommentDetailForUserProjection> fetchCommentListByPostIdWithCursor(String postId,
       String userId,
       LocalDateTime cursorCommentedAt, String cursorCommenterId, int limit);
+
+  /**
+   * 게시글 댓글 상태 조회
+   * @param commentId
+   * @return
+   */
+  Optional<PostCommentStatusType> fetchCommentStatus(String commentId);
+
+
 }

@@ -99,4 +99,16 @@ public interface PostCommentJpaRepository extends JpaRepository<PostCommentEntit
       LocalDateTime cursorCommentedAt, @Param("cursorCommentId") String cursorCommentId,
       @Param("limit") int limit);
 
+  /**
+   * 게시그 댓글 상태 조회
+   * @param commentId
+   * @return
+   */
+  @Query(value = """
+      select pc.status
+      from post_comments pc
+      where pc.comment_id = :commentId;
+      
+      """, nativeQuery = true)
+  Optional<PostCommentStatusType> findPostCommentStatus(@Param("commentId") String commentId);
 }

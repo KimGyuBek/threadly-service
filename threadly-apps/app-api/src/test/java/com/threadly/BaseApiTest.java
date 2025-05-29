@@ -35,7 +35,7 @@ import org.springframework.test.web.servlet.ResultMatcher;
     "/testdata/user_data.sql",
     "/testdata/post_data.sql",
     "/testdata/post_comment_data.sql",
-//    "/testdata/post_comment_like_data.sql",
+    "/testdata/post_comment_like_data_2.sql",
     "/testdata/post_like_data.sql",
 })
 public abstract class BaseApiTest {

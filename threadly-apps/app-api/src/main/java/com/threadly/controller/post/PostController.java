@@ -24,6 +24,9 @@ import com.threadly.post.get.GetPostDetailListApiResponse;
 import com.threadly.post.get.GetPostListQuery;
 import com.threadly.post.get.GetPostQuery;
 import com.threadly.post.get.GetPostUseCase;
+import com.threadly.post.like.comment.GetPostCommentLikersApiResponse;
+import com.threadly.post.like.comment.GetPostCommentLikersQuery;
+import com.threadly.post.like.comment.GetPostCommentLikersUseCase;
 import com.threadly.post.like.comment.LikePostCommentApiResponse;
 import com.threadly.post.like.comment.LikePostCommentCommand;
 import com.threadly.post.like.comment.LikePostCommentUseCase;
@@ -76,6 +79,8 @@ public class PostController {
   private final CreatePostCommentUseCase createPostCommentUseCase;
   private final DeletePostCommentUseCase deletePostCommentUseCase;
   private final GetPostCommentUseCase getPostCommentUseCase;
+  private final GetPostCommentLikersUseCase getPostCommentLikersUseCase;
+//  private final GetPostCommentEngagementUseCase getPostCommentEngagementUseCase;
 
 
   private final LikePostCommentUseCase likePostCommentUseCase;
@@ -281,8 +286,13 @@ public class PostController {
             userId
         )
     ));
-
   }
+
+//  @GetMapping("/{postId}/comments/{commentId}/engagement")
+//  public ResponseEntity<GetPostCommentEngagementApiResponse> getPostCommentEngagement() {
+//
+//    return null;
+//  }
 
   /**
    * 게시글 댓글 목록 커서 기반 조회
@@ -361,6 +371,32 @@ public class PostController {
 
     return ResponseEntity.status(204).build();
   }
+
+
+  /**
+   * 게시글 댓글 좋아요 목록 조회
+   *
+   * @param postId
+   * @param commentId
+   * @param cursorLikedAt
+   * @param cursorLikerId
+   * @return
+   */
+  @GetMapping("/{postId}/comments/{commentId}/likes")
+  public ResponseEntity<GetPostCommentLikersApiResponse> getPostCommentLikers(
+      @PathVariable("postId") String postId, @PathVariable("commentId") String commentId,
+      @RequestParam(value = "cursor_liked_at", required = false) LocalDateTime cursorLikedAt,
+      @RequestParam(value = "cursor_liker_id", required = false) String cursorLikerId,
+      @RequestParam(value = "limit", defaultValue = "10") int limit
+  ) {
+
+    return ResponseEntity.status(200).body(getPostCommentLikersUseCase.getPostCommentLikers(
+            new GetPostCommentLikersQuery(
+                postId, commentId, cursorLikedAt, cursorLikerId, limit)
+        )
+    );
+  }
+
 
   /**
    * 게시글 댓글 좋아요

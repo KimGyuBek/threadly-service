@@ -69,4 +69,10 @@ public class PostCommentAdapter implements CreatePostCommentPort, FetchPostComme
         postId, userId, cursorCommentedAt, cursorCommenterId, limit
     );
   }
+
+  @Override
+  public Optional<PostCommentStatusType> fetchCommentStatus(String commentId) {
+    return
+        postCommentJpaRepository.findPostCommentStatus(commentId);
+  }
 }

@@ -80,6 +80,8 @@ public enum ErrorCode {
   POST_COMMENT_BLOCKED("TLY5110", "차단된 댓글입니다.",
       HttpStatus.BAD_REQUEST),
   POST_COMMENT_DELETED("TLY5111", "삭제된 댓글입니다.",
+      HttpStatus.BAD_REQUEST),
+  POST_COMMENT_NOT_ACCESSIBLE("TLY5112", "이 댓글은 볼 수 없습니다.",
       HttpStatus.BAD_REQUEST);
 
 

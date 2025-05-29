@@ -781,3 +781,6 @@ VALUES ('cmt2271', 'post_with_comments', 'usr5', '요즘 저도 이런 기분이
 INSERT INTO post_comments (comment_id, post_id, user_id, content, status, created_at, modified_at)
 VALUES ('cmt2270', 'post_with_comments', 'usr3', '저도 오늘 같은 일이 있었어요.', 'ACTIVE',
         '2025-05-20 11:16:00', '2025-05-20 11:16:00');
+INSERT INTO post_comments (comment_id, post_id, user_id, content, status, created_at, modified_at)
+VALUES ('post_comment_without_likers', 'post_with_comments', 'usr3', '아무도 좋아요를 눌러주지 않네요ㅜ', 'ACTIVE',
+        '2025-05-20 11:16:00', '2025-05-20 11:16:00');

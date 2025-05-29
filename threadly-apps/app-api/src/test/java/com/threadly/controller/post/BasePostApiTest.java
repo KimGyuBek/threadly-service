@@ -11,13 +11,14 @@ import com.threadly.controller.post.request.CreatePostRequest;
 import com.threadly.controller.post.request.UpdatePostRequest;
 import com.threadly.post.comment.create.CreatePostCommentApiResponse;
 import com.threadly.post.comment.get.GetPostCommentListApiResponse;
-import com.threadly.post.like.comment.LikePostCommentApiResponse;
-import com.threadly.post.like.post.LikePostApiResponse;
-import com.threadly.post.like.post.GetPostLikersApiResponse;
 import com.threadly.post.create.CreatePostApiResponse;
+import com.threadly.post.engagement.GetPostEngagementApiResponse;
 import com.threadly.post.get.GetPostDetailApiResponse;
 import com.threadly.post.get.GetPostDetailListApiResponse;
-import com.threadly.post.engagement.GetPostEngagementApiResponse;
+import com.threadly.post.like.comment.GetPostCommentLikersApiResponse;
+import com.threadly.post.like.comment.LikePostCommentApiResponse;
+import com.threadly.post.like.post.GetPostLikersApiResponse;
+import com.threadly.post.like.post.LikePostApiResponse;
 import com.threadly.post.update.UpdatePostApiResponse;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -116,7 +117,8 @@ public abstract class BasePostApiTest extends BaseApiTest {
    * @param expectedStatus
    * @return
    */
-  public CommonResponse<GetPostEngagementApiResponse> sendGetPostEngagementRequest(String accessToken,
+  public CommonResponse<GetPostEngagementApiResponse> sendGetPostEngagementRequest(
+      String accessToken,
       String postId, ResultMatcher expectedStatus) throws Exception {
     return
         sendGetRequest(
@@ -239,13 +241,15 @@ public abstract class BasePostApiTest extends BaseApiTest {
    * @param expectedStatus
    * @return
    */
-  public CommonResponse<GetPostCommentListApiResponse> sendGetPostCommentListRequest(String accessToken,
+  public CommonResponse<GetPostCommentListApiResponse> sendGetPostCommentListRequest(
+      String accessToken,
       String postId, LocalDateTime cursorLikedAt, String cursorLikerId, int limit,
       ResultMatcher expectedStatus) throws Exception {
     String path = "/api/posts/" + postId + "/comments";
 
     if (cursorLikedAt != null && cursorLikerId != null && cursorLikedAt != null) {
-      path += "?cursor_commented_at=" + cursorLikedAt + "&cursor_comment_id=" + cursorLikerId + "&limit="
+      path += "?cursor_commented_at=" + cursorLikedAt + "&cursor_comment_id=" + cursorLikerId
+          + "&limit="
           + limit;
 
     }
@@ -295,6 +299,33 @@ public abstract class BasePostApiTest extends BaseApiTest {
             "/api/posts/" + postId + "/comments/" + commentId,
             expectedStatus, new TypeReference<>() {
             }, headers);
+  }
+
+  /**
+   * 게시글 댓글 좋아요 목록 커서 기반 조회 요청 전송
+   *
+   * @param accessToken
+   * @param postId
+   * @param expectedStatus
+   * @return
+   */
+  public CommonResponse<GetPostCommentLikersApiResponse> sendGetPostCommentLikersRequest(
+      String accessToken,
+      String postId, String commentId, LocalDateTime cursorLikedAt, String cursorLikerId, int limit,
+      ResultMatcher expectedStatus) throws Exception {
+    String path = "/api/posts/" + postId + "/comments/" + commentId + "/likes";
+
+    if (cursorLikedAt != null && cursorLikerId != null && cursorLikedAt != null) {
+      path += "?cursor_liked_at=" + cursorLikedAt + "&cursor_liker_id=" + cursorLikerId + "&limit="
+          + limit;
+
+    }
+    CommonResponse<GetPostCommentLikersApiResponse> response = sendGetRequest(
+        accessToken, path, expectedStatus,
+        new TypeReference<>() {
+        });
+
+    return response;
   }
 
   /**
@@ -370,7 +401,7 @@ public abstract class BasePostApiTest extends BaseApiTest {
       Map.of("userId", "usr2", "userEmail", "user_email_verified2@test.com", "postId", "post45"),
       Map.of("userId", "usr2", "userEmail", "user_email_verified2@test.com", "postId", "post46"),
       Map.of("userId", "usr4", "userEmail", "sunny@test.com", "postId", "post47"),
-      Map.of("userId", "usr5", "userEmail", "noodle@test.com", "postId", "post48"),
+      Map.of("userId", "usr5", "userEmail", "noode@test.com", "postId", "post48"),
       Map.of("userId", "usr1", "userEmail", "user_email_verified1@test.com", "postId", "post49"),
       Map.of("userId", "usr2", "userEmail", "user_email_verified2@test.com", "postId", "post50")
   );

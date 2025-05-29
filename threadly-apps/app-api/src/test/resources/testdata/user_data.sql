@@ -13,7 +13,6 @@ values ('up1',
         'USER',
         '/');
 
--- email 인증 사용자
 insert into users (user_id,
                    user_name,
                    password,
