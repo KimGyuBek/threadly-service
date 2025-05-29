@@ -33,6 +33,7 @@ public class PostQueryService implements GetPostUseCase, GetPostEngagementUseCas
 
   private final FetchPostPort fetchPostPort;
 
+  @Transactional(readOnly = true)
   @Override
   public GetPostDetailListApiResponse getUserVisiblePostListByCursor(GetPostListQuery query) {
 
@@ -50,7 +51,6 @@ public class PostQueryService implements GetPostUseCase, GetPostEngagementUseCas
                 projection.getLikeCount(),
                 projection.getCommentCount(),
                 projection.isLiked())).toList();
-
 
     /*다음 페이지가 있는지 검증*/
     boolean hasNext = allPostList.size() > query.getLimit();

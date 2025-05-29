@@ -112,7 +112,7 @@ public class GetPostCommentApiTest extends BasePostApiTest {
         accessToken, postId, cursorCommentedAt, cursorCommentId, limit, status().isOk()
     );
 
-    String commentId = getPostCommentListResponse1.getData().comments().getFirst().commentId();
+    String commentId = getPostCommentListResponse1.getData().comments().get(3).commentId();
 
     /*좋아요 요청*/
     sendLikePostCommentRequest(
