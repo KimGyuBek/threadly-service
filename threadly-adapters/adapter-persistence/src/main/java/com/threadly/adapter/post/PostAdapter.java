@@ -1,18 +1,16 @@
 package com.threadly.adapter.post;
 
-import com.threadly.ErrorCode;
 import com.threadly.entity.post.PostEntity;
-import com.threadly.entity.user.UserEntity;
-import com.threadly.exception.user.UserException;
 import com.threadly.mapper.post.PostMapper;
-import com.threadly.post.FetchPostPort;
-import com.threadly.post.SavePostPort;
-import com.threadly.post.UpdatePostPort;
-import com.threadly.post.response.PostDetailResponse;
+import com.threadly.post.fetch.FetchPostPort;
+import com.threadly.post.fetch.PostDetailProjection;
+import com.threadly.post.save.SavePostPort;
+import com.threadly.post.update.UpdatePostPort;
+import com.threadly.post.fetch.PostEngagementProjection;
 import com.threadly.posts.Post;
 import com.threadly.posts.PostStatusType;
 import com.threadly.repository.post.PostJpaRepository;
-import com.threadly.repository.user.UserJpaRepository;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -26,25 +24,20 @@ import org.springframework.stereotype.Repository;
 public class PostAdapter implements SavePostPort, FetchPostPort, UpdatePostPort {
 
   private final PostJpaRepository postJpaRepository;
-  private final UserJpaRepository userJpaRepository;
 
 
   @Override
   public Post savePost(Post post) {
-    /*사용자 조회*/
-    UserEntity userEntity = userJpaRepository.findById(post.getUserId())
-        .orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
-
     /*게시글 조회*/
     PostEntity saved = postJpaRepository.save(
-        PostMapper.toEntity(post, userEntity)
+        PostMapper.toEntity(post)
     );
 
     return PostMapper.toDomain(saved);
   }
 
   @Override
-  public Optional<Post> findById(String postId) {
+  public Optional<Post> fetchById(String postId) {
     return
         postJpaRepository.findById(postId).map(
             PostMapper::toDomain
@@ -57,15 +50,20 @@ public class PostAdapter implements SavePostPort, FetchPostPort, UpdatePostPort 
   }
 
   @Override
-  public Optional<PostDetailResponse> findPostDetailsByPostId(String postId) {
+  public Optional<PostDetailProjection> fetechPostDetailsByPostIdAndUserId(String postId,
+      String userId) {
     return
-        postJpaRepository.getPostDetailsByPostId(postId);
+        postJpaRepository.getPostDetailsByPostIdAndUserId(postId, userId);
   }
 
+
+
   @Override
-  public List<PostDetailResponse> findUserVisiblePostList() {
-    return
-        postJpaRepository.getUserVisiblePostList();
+  public List<PostDetailProjection> fetchUserVisiblePostListByCursor(String userId,
+      LocalDateTime cursorPostedAt, String cursorPostId,
+      int limit) {
+    return postJpaRepository.findUserVisiblePostsBeforeModifiedAt(userId, cursorPostedAt,
+        cursorPostId, limit);
   }
 
   @Override
@@ -74,8 +72,19 @@ public class PostAdapter implements SavePostPort, FetchPostPort, UpdatePostPort 
   }
 
   @Override
-  public Optional<PostStatusType> findPostStatusByPostId(String postId) {
+  public Optional<PostStatusType> fetchPostStatusByPostId(String postId) {
     return
         postJpaRepository.findPostStatusByPostId(postId);
+  }
+
+  @Override
+  public Optional<PostEngagementProjection> fetchPostEngagementByPostIdAndUserId(String postId,
+      String userId) {
+    return postJpaRepository.findPostEngagementByPostIdAndUserId(postId, userId);
+  }
+
+  @Override
+  public boolean existsById(String postId) {
+    return postJpaRepository.existsById(postId);
   }
 }

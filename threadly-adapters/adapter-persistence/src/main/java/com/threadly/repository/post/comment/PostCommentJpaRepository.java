@@ -1,7 +1,11 @@
 package com.threadly.repository.post.comment;
 
 import com.threadly.entity.post.PostCommentEntity;
+import com.threadly.post.comment.fetch.PostCommentDetailForUserProjection;
 import com.threadly.posts.PostCommentStatusType;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -11,21 +15,6 @@ import org.springframework.data.repository.query.Param;
  * PostCommentEntity Jpa Repository
  */
 public interface PostCommentJpaRepository extends JpaRepository<PostCommentEntity, String> {
-
-//  @Query(value = """
-//      select
-//       pc.commentId as commentId,
-//       pc.post.postId as postId,
-//       pc.user.userId as userId,
-//       pc.content as content,
-//       pc.status as commentStatus,
-//       p.status as postStatus
-//       from PostCommentEntity pc
-//       join pc.post p
-//       where pc.commentId = :commentId
-//      """)
-//  Optional<PostCommentWithPostStatusResponse> findByCommentIdWithPostStatus(
-//      @Param("commentId") String commentId);
 
   /**
    * 댓글 상태 변경
@@ -44,4 +33,82 @@ public interface PostCommentJpaRepository extends JpaRepository<PostCommentEntit
       @Param("status") PostCommentStatusType status);
 
 
+  @Query(value = """
+      select pc.post_id           as PostId,
+             pc.comment_id        as comment_id,
+             pc.user_id           as commenterId,
+             up.nickname          as commenterNickname,
+             up.profile_image_url as commenterProfileImageUrl,
+            coalesce(cl.like_count, 0)  as likeCount,
+             pc.created_at        as commentedAt,
+             pc.content           as content,
+             coalesce(cl.liked, false) as liked,
+             pc.status            as status
+      from post_comments pc
+               join users u on pc.user_id = u.user_id
+               join user_profile up on u.user_profile_id = up.user_profile_id
+               left join(select comment_id,
+                                count(*) like_count,
+                                max(
+                                        case
+                                            when user_id = :userId
+                                                then true
+                                            else false
+                                            end
+                                ) as     liked
+                         from comment_likes
+                         where comment_id in
+                               (select comment_id from post_comments where post_id = :postId)
+                         group by comment_id) cl on pc.comment_id = cl.comment_id
+      where pc.post_id = :postId;
+      """, nativeQuery = true)
+  Optional<PostCommentDetailForUserProjection> findPostCommentDetailForUserByPostId(
+      @Param("postId") String postId, @Param("userId") String userId);
+
+  @Query(value = """
+      select pc.post_id                         as postId,
+             pc.comment_id                      as commentId,
+             pc.user_id                         as commenterId,
+             up.nickname                        as commenterNickname,
+             up.profile_image_url               as commenterProfileImageUrl,
+             coalesce(like_count.like_count, 0) as likeCount,
+             pc.created_at                      as commentedAt,
+             pc.content                         as content,
+             coalesce(user_liked.liked, false)  as liked
+      from post_comments pc
+               join users u on pc.user_id = u.user_id
+               join user_profile up on u.user_profile_id = up.user_profile_id
+               left join(select comment_id,
+                                count(*) as like_count
+                         from comment_likes
+                         group by comment_id) like_count on pc.comment_id = like_count.comment_id
+               left join(select distinct comment_id,
+                                true as liked
+                         from comment_likes
+                         where user_id = :userId
+                         ) user_liked on pc.comment_id = user_liked.comment_id
+      where pc.status = 'ACTIVE' and pc.post_id = :postId
+        and (:cursorCommentedAt is null
+          or pc.created_at < :cursorCommentedAt
+          or (pc.created_at = :cursorCommentedAt and pc.comment_id < :cursorCommentId))
+      order by pc.created_at desc, pc.comment_id desc
+      limit :limit
+      """, nativeQuery = true)
+  List<PostCommentDetailForUserProjection> findPostCommentListForUserByPostId(
+      @Param("postId") String postId, @Param("userId") String userId, @Param("cursorCommentedAt")
+      LocalDateTime cursorCommentedAt, @Param("cursorCommentId") String cursorCommentId,
+      @Param("limit") int limit);
+
+  /**
+   * 게시그 댓글 상태 조회
+   * @param commentId
+   * @return
+   */
+  @Query(value = """
+      select pc.status
+      from post_comments pc
+      where pc.comment_id = :commentId;
+      
+      """, nativeQuery = true)
+  Optional<PostCommentStatusType> findPostCommentStatus(@Param("commentId") String commentId);
 }

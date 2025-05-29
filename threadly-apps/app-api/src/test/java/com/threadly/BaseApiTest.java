@@ -1,6 +1,9 @@
 package com.threadly;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -32,7 +35,8 @@ import org.springframework.test.web.servlet.ResultMatcher;
     "/testdata/user_data.sql",
     "/testdata/post_data.sql",
     "/testdata/post_comment_data.sql",
-//    "/testdata/post_comment_like_data.sql",
+    "/testdata/post_comment_like_data_2.sql",
+    "/testdata/post_like_data.sql",
 })
 public abstract class BaseApiTest {
 

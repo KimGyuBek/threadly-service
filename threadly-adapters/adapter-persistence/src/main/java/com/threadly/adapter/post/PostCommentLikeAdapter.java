@@ -1,11 +1,14 @@
 package com.threadly.adapter.post;
 
 import com.threadly.mapper.post.CommentLikeMapper;
-import com.threadly.post.comment.like.CreatePostCommentLikePort;
-import com.threadly.post.comment.like.DeletePostCommentLikePort;
-import com.threadly.post.comment.like.FetchPostCommentLikePort;
+import com.threadly.post.like.comment.CreatePostCommentLikePort;
+import com.threadly.post.like.comment.DeletePostCommentLikePort;
+import com.threadly.post.like.comment.FetchPostCommentLikePort;
+import com.threadly.post.like.comment.PostCommentLikerProjection;
 import com.threadly.posts.comment.CommentLike;
 import com.threadly.repository.post.comment.CommentLikeJpaRepository;
+import java.time.LocalDateTime;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -31,7 +34,7 @@ public class PostCommentLikeAdapter implements FetchPostCommentLikePort, CreateP
   }
 
   @Override
-  public long getLikeCountByCommentId(String commentId) {
+  public long fetchLikeCountByCommentId(String commentId) {
     return
         commentLikeJpaRepository.countByCommentId(commentId);
   }
@@ -39,5 +42,13 @@ public class PostCommentLikeAdapter implements FetchPostCommentLikePort, CreateP
   @Override
   public void deletePostCommentLike(String commentId, String userId) {
     commentLikeJpaRepository.deleteByCommentIdAndUserId(commentId, userId);
+  }
+
+  @Override
+  public List<PostCommentLikerProjection> fetchCommentLikerListByCommentIdWithCursor(
+      String commentId, LocalDateTime cursorLikedAt, String likerId, int limit) {
+    return commentLikeJpaRepository.findPostLikersByCommentIdWithCursor(
+        commentId, cursorLikedAt, likerId, limit
+    );
   }
 }

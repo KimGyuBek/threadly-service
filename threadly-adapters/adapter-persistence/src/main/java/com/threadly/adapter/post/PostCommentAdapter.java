@@ -1,21 +1,19 @@
 package com.threadly.adapter.post;
 
 import com.threadly.entity.post.PostCommentEntity;
-import com.threadly.entity.post.PostEntity;
-import com.threadly.entity.user.UserEntity;
 import com.threadly.mapper.post.PostCommentMapper;
-import com.threadly.mapper.post.PostMapper;
-import com.threadly.mapper.user.UserMapper;
-import com.threadly.post.comment.CreatePostCommentPort;
-import com.threadly.post.comment.FetchPostCommentPort;
-import com.threadly.post.comment.UpdatePostCommentPort;
-import com.threadly.post.comment.response.CreatePostCommentResponse;
+import com.threadly.post.comment.create.CreatePostCommentPort;
+import com.threadly.post.comment.create.CreatePostCommentResponse;
+import com.threadly.post.comment.fetch.FetchPostCommentPort;
+import com.threadly.post.comment.fetch.PostCommentDetailForUserProjection;
+import com.threadly.post.comment.update.UpdatePostCommentPort;
 import com.threadly.posts.Post;
 import com.threadly.posts.PostCommentStatusType;
 import com.threadly.posts.comment.PostComment;
 import com.threadly.repository.post.comment.PostCommentJpaRepository;
 import com.threadly.user.User;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -32,13 +30,7 @@ public class PostCommentAdapter implements CreatePostCommentPort, FetchPostComme
 
   @Override
   public CreatePostCommentResponse savePostComment(Post post, PostComment postComment, User user) {
-
-    UserEntity userEntity = UserMapper.toEntity(user);
-    PostEntity postEntity = PostMapper.toEntity(post, userEntity);
-
-    PostCommentEntity postCommentEntity = PostCommentEntity.newComment(
-        postEntity, userEntity, postComment
-    );
+    PostCommentEntity postCommentEntity = PostCommentEntity.newComment(postComment);
 
     postCommentJpaRepository.save(postCommentEntity);
 
@@ -52,7 +44,7 @@ public class PostCommentAdapter implements CreatePostCommentPort, FetchPostComme
   }
 
   @Override
-  public Optional<PostComment> findById(String commentId) {
+  public Optional<PostComment> fetchById(String commentId) {
     return
         postCommentJpaRepository.findById(commentId).map(PostCommentMapper::toDomain);
   }
@@ -60,5 +52,27 @@ public class PostCommentAdapter implements CreatePostCommentPort, FetchPostComme
   @Override
   public void updatePostCommentStatus(String commentId, PostCommentStatusType status) {
     postCommentJpaRepository.updatePostCommentStatus(commentId, status);
+  }
+
+  @Override
+  public Optional<PostCommentDetailForUserProjection> fetchCommentDetail(String commentId,
+      String userId) {
+    return
+        postCommentJpaRepository.findPostCommentDetailForUserByPostId(commentId, userId);
+  }
+
+  @Override
+  public List<PostCommentDetailForUserProjection> fetchCommentListByPostIdWithCursor(String postId,
+      String userId,
+      LocalDateTime cursorCommentedAt, String cursorCommenterId, int limit) {
+    return postCommentJpaRepository.findPostCommentListForUserByPostId(
+        postId, userId, cursorCommentedAt, cursorCommenterId, limit
+    );
+  }
+
+  @Override
+  public Optional<PostCommentStatusType> fetchCommentStatus(String commentId) {
+    return
+        postCommentJpaRepository.findPostCommentStatus(commentId);
   }
 }

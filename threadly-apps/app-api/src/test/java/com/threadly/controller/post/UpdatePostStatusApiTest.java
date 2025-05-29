@@ -5,8 +5,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.threadly.CommonResponse;
 import com.threadly.ErrorCode;
-import com.threadly.post.response.PostDetailApiResponse;
-import com.threadly.post.response.PostDetailListApiResponse;
+import com.threadly.post.get.GetPostDetailApiResponse;
+import com.threadly.post.get.GetPostDetailListApiResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -33,20 +33,20 @@ class UpdatePostStatusApiTest extends BasePostApiTest {
     //then
     /*삭제 요청 전송*/
     CommonResponse<Void> deletePostResponse = sendDeletePostRequest(
-        accessToken,postId, status().isOk());
+        accessToken, postId, status().isOk());
 
     /*게시글 조회 요청 전송*/
-    CommonResponse<PostDetailApiResponse> getPostResponse = sendGetPostRequest(
+    CommonResponse<GetPostDetailApiResponse> getPostResponse = sendGetPostRequest(
         accessToken, postId, status().isBadRequest());
 
     /*게시글 목록 조회 요청 전송*/
-    CommonResponse<PostDetailListApiResponse> getPostListResponse = sendGetPostListRequest(
-        accessToken, status().isOk());
+    CommonResponse<GetPostDetailListApiResponse> getPostListResponse = sendGetPostListRequest(
+        accessToken, null, null, 10, status().isOk());
 
     assertThat(getPostResponse.isSuccess()).isFalse();
     assertThat(getPostResponse.getCode()).isEqualTo(ErrorCode.POST_ALREADY_DELETED.getCode());
 
-    assertThat(getPostListResponse.getData().posts()).extracting(PostDetailApiResponse::postId)
+    assertThat(getPostListResponse.getData().posts()).extracting(GetPostDetailApiResponse::postId)
         .doesNotContain(postId);
   }
 
@@ -61,14 +61,14 @@ class UpdatePostStatusApiTest extends BasePostApiTest {
     /*로그인*/
     String accessToken = getAccessToken(email);
 
-
     //when
     //then
     CommonResponse<Void> deletePostResponse = sendDeletePostRequest(accessToken,
         postId, status().isBadRequest());
 
     assertThat(deletePostResponse.isSuccess()).isFalse();
-    assertThat(deletePostResponse.getCode()).isEqualTo(ErrorCode.POST_ALREADY_DELETED_ACTION.getCode());
+    assertThat(deletePostResponse.getCode()).isEqualTo(
+        ErrorCode.POST_ALREADY_DELETED_ACTION.getCode());
   }
 
 

@@ -2,11 +2,13 @@ package com.threadly.entity.post;
 
 
 import jakarta.persistence.Embeddable;
+import lombok.Getter;
 
 /**
  * post_likes 복합키
  */
 @Embeddable
+@Getter
 public class PostIdAndUserId {
 
   private String postId;

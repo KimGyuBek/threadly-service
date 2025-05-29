@@ -6,7 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.threadly.CommonResponse;
 import com.threadly.ErrorCode;
 import com.threadly.controller.post.BasePostApiTest;
-import com.threadly.post.comment.like.response.LikePostCommentApiResponse;
+import com.threadly.post.like.comment.LikePostCommentApiResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -21,7 +21,7 @@ public class CreatePostCommentLikeApiTest extends BasePostApiTest {
    * @throws Exception
    */
   /*[Case #1] likePostComment - 이메일 인증된 사용자가 ACTIVE 상태의 댓글에 좋아요를 누를경우 성공해야한다*/
-  @DisplayName("게시글 댓글 좋아요 생성 - 정상 요청 시 201 Created, 좋아요 수 = 1 반환해야 한다")
+  @DisplayName("게시글 댓글 좋아요 생성 - 정상 요청 시 201 Created, likeCount = 1을 반환해야 한다")
   @Test
   public void likePostComment_shouldReturnCreated_whenUserLikesActiveComment() throws Exception {
     //given
@@ -34,7 +34,7 @@ public class CreatePostCommentLikeApiTest extends BasePostApiTest {
     //when
     //then
     CommonResponse<LikePostCommentApiResponse> likePostCommentResponse = sendLikePostCommentRequest(
-        accessToken, postId, commentId, status().isCreated());
+        accessToken, postId, commentId, status().isOk());
 
     assertThat(likePostCommentResponse.getData().commentId()).isEqualTo(commentId);
     assertThat(likePostCommentResponse.getData().likeCount()).isEqualTo(1);
@@ -76,10 +76,10 @@ public class CreatePostCommentLikeApiTest extends BasePostApiTest {
     for (int i = 1; i < VERIFIED_USER_EMAILS.size(); i++) {
       assertThat(
           sendLikePostCommentRequest(
-              getAccessToken(VERIFIED_USER_EMAILS.get(i)), postId, commentId, status().isCreated()).isSuccess()).isTrue();
+              getAccessToken(VERIFIED_USER_EMAILS.get(i)), postId, commentId, status().isOk()).isSuccess()).isTrue();
     }
     CommonResponse<LikePostCommentApiResponse> likePostCommentResponse = sendLikePostCommentRequest(
-        getAccessToken(VERIFIED_USER_EMAILS.getFirst()), postId, commentId, status().isCreated());
+        getAccessToken(VERIFIED_USER_EMAILS.getFirst()), postId, commentId, status().isOk());
 
     assertThat(likePostCommentResponse.getData().commentId()).isEqualTo(commentId);
     assertThat(likePostCommentResponse.getData().likeCount()).isEqualTo(VERIFIED_USER_EMAILS.size());
@@ -101,10 +101,10 @@ public class CreatePostCommentLikeApiTest extends BasePostApiTest {
     for (int i = 0; i < 2; i++) {
       assertThat(
       sendLikePostCommentRequest(
-          accessToken, postId, commentId, status().isCreated()).isSuccess()).isTrue();
+          accessToken, postId, commentId, status().isOk()).isSuccess()).isTrue();
     }
     CommonResponse<LikePostCommentApiResponse> likePostCommentResponse = sendLikePostCommentRequest(
-        accessToken, postId, commentId, status().isCreated());
+        accessToken, postId, commentId, status().isOk());
 
     assertThat(likePostCommentResponse.getData().commentId()).isEqualTo(commentId);
     assertThat(likePostCommentResponse.getData().likeCount()).isEqualTo(1);

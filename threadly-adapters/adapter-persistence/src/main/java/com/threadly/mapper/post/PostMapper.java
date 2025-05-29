@@ -36,10 +36,10 @@ public class PostMapper {
    * @param post
    * @return
    */
-  public static PostEntity toEntity(Post post, UserEntity userEntity) {
+  public static PostEntity toEntity(Post post) {
     return new PostEntity(
         post.getPostId(),
-        userEntity,
+        UserEntity.fromId(post.getUserId()),
         post.getContent(),
         post.getViewCount(),
         post.getStatus()

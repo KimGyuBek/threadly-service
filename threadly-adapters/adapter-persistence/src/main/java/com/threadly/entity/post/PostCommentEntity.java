@@ -48,18 +48,15 @@ public class PostCommentEntity extends BaseEntity {
   /**
    * 새 댓글 생성
    *
-   * @param post
-   * @param user
    * @param postComment
    * @return
    */
-  public static PostCommentEntity newComment(PostEntity post, UserEntity user,
-      PostComment postComment
+  public static PostCommentEntity newComment(PostComment postComment
   ) {
     return new PostCommentEntity(
         postComment.getCommentId(),
-        post,
-        user,
+        PostEntity.fromId(postComment.getPostId()),
+        UserEntity.fromId(postComment.getUserId()),
         postComment.getContent(),
         postComment.getStatus()
     );
@@ -67,6 +64,7 @@ public class PostCommentEntity extends BaseEntity {
 
   /**
    * 프록시 객체 생성
+   *
    * @param commentId
    * @return
    */

@@ -1,6 +1,9 @@
 package com.threadly.repository.post.comment;
 
 import com.threadly.entity.post.CommentLikeEntity;
+import com.threadly.post.like.comment.PostCommentLikerProjection;
+import java.time.LocalDateTime;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -54,4 +57,38 @@ public interface CommentLikeJpaRepository extends JpaRepository<CommentLikeEntit
       """)
   void deleteByCommentIdAndUserId(@Param("commentId") String commentId,
       @Param("userId") String userId);
+
+  /**
+   * 특정 게시글에 좋아요를 누른 사람 목록을 커서 기반으로 조회
+   * <p>
+   * 가장 최근 좋아요 부터 생성일(created_at)을 기준으로 내림차순 정렬되며, 커서 값 보다 이전에 생성된 좋아여를 누른 사용자들을 조회
+   *
+   * @param commentId
+   * @param userId
+   * @param cursorLikedAt
+   * @param cursorLikerId
+   * @return
+   */
+  @Query(value = """
+      select cl.user_id           as likerId,
+             up.nickname          as likerNickname,
+             up.profile_image_url as likerProfileImageUrl,
+             up.bio               as likerBio,
+             cl.created_at        as likedAt
+      from comment_likes cl
+               join users u on cl.user_id = u.user_id
+               join user_profile up on u.user_profile_id = up.user_profile_id
+               join post_comments pc on cl.comment_id = pc.comment_id
+      where pc.status = 'ACTIVE'
+        and pc.comment_id = :commentId
+        and (:cursorLikedAt is null
+          or cl.created_at < :cursorLikedAt
+          or (cl.created_at = :cursorLikedAt and cl.user_id < :cursorLikerId))
+      order by cl.created_at desc, cl.user_id desc
+      limit :limit;
+      """, nativeQuery = true)
+  List<PostCommentLikerProjection> findPostLikersByCommentIdWithCursor(@Param("commentId")
+      String commentId, @Param("cursorLikedAt")
+      LocalDateTime cursorLikedAt, @Param("cursorLikerId") String cursorLikerId,
+      @Param("limit") int limit);
 }
