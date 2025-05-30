@@ -1,5 +1,7 @@
 package com.threadly.controller.auth;
 
+import static com.threadly.utils.TestConstants.EMAIL_VERIFIED_USER;
+import static com.threadly.utils.TestConstants.USER_EMAIL_NOT_VERIFIED;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,20 +17,49 @@ import com.threadly.ErrorCode;
 import com.threadly.auth.token.response.LoginTokenResponse;
 import com.threadly.auth.verification.response.PasswordVerificationToken;
 import com.threadly.controller.auth.request.PasswordVerificationRequest;
+import com.threadly.testsupport.fixture.UserFixtureLoader;
+import com.threadly.utils.TestConstants;
 import java.util.HashMap;
 import java.util.Map;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Auth Controller 테스트
  */
 class AuthControllerTest extends BaseApiTest {
 
+  @Autowired
+  private UserFixtureLoader userFixtureLoader;
+
   /**
-   * 로그인 테스트
+   * 사용자 데이터 저장
    */
-  /* [Case #1] 로그인 성공  */
+  @BeforeEach
+  void setUp() {
+    userFixtureLoader.load("/users/user-fixture.json", 1);
+  }
+
+  /**
+   * login() 테스트
+   */
+  /* [Case #1] login - 사용자와 비밀번호가 일치하는 경우 로그인 성공해야한다  */
+  @DisplayName("로그인 테스트 -  사용자가 존재하고 비밀번호가 일치하는 경우 로그인에 성공해야한다")
+  @Test
+  public void login_shouldSucceed_whenUserExistsAndCorrectPassword() throws Exception {
+    //given
+    //when
+    //then
+    CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(EMAIL_VERIFIED_USER,
+        TestConstants.PASSWORD,
+        new TypeReference<CommonResponse<LoginTokenResponse>>() {
+        }, status().isOk());
+    assertThat(loginResponse.getData().accessToken()).isNotNull();
+    assertThat(loginResponse.getData().refreshToken()).isNotNull();
+  }
+
   /* [Case #2] 로그인 실패 - 사용자가 없는 경우  */
   @DisplayName("로그인 실패 - 사용자가 없는 경우")
   @Test
@@ -76,6 +107,9 @@ class AuthControllerTest extends BaseApiTest {
   @Test
   public void login_shouldFail_whenEmailNotVerified() throws Exception {
 //    given
+    /*데이터 로드*/
+    userFixtureLoader.load("/users/user-email-not-verified.json");
+
 //    when
     CommonResponse<Object> loginResponse = sendLoginRequest(USER_EMAIL_NOT_VERIFIED, PASSWORD,
         new TypeReference<CommonResponse<Object>>() {
@@ -98,7 +132,8 @@ class AuthControllerTest extends BaseApiTest {
 
     /*로그인 요청*/
     CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(
-        VERIFIED_USER_EMAILS.getFirst(), PASSWORD, new TypeReference<CommonResponse<LoginTokenResponse>>() {
+        EMAIL_VERIFIED_USER, PASSWORD,
+        new TypeReference<CommonResponse<LoginTokenResponse>>() {
         }, status().isOk()
     );
 
@@ -138,7 +173,8 @@ class AuthControllerTest extends BaseApiTest {
 
     /*로그인 요청*/
     CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(
-        VERIFIED_USER_EMAILS.getFirst(), PASSWORD, new TypeReference<CommonResponse<LoginTokenResponse>>() {
+        EMAIL_VERIFIED_USER, PASSWORD,
+        new TypeReference<CommonResponse<LoginTokenResponse>>() {
         }, status().isOk()
     );
 
@@ -182,7 +218,8 @@ class AuthControllerTest extends BaseApiTest {
 
     /*로그인 요청*/
     CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(
-        VERIFIED_USER_EMAILS.getFirst(), PASSWORD, new TypeReference<CommonResponse<LoginTokenResponse>>() {
+        EMAIL_VERIFIED_USER, PASSWORD,
+        new TypeReference<CommonResponse<LoginTokenResponse>>() {
         }, status().isOk()
     );
 
@@ -230,7 +267,7 @@ class AuthControllerTest extends BaseApiTest {
 
     /*로그인 요청*/
     CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(
-        VERIFIED_USER_EMAILS.getFirst(),
+        EMAIL_VERIFIED_USER,
         PASSWORD,
         new TypeReference<>() {
         },
@@ -278,7 +315,7 @@ class AuthControllerTest extends BaseApiTest {
 
     /*로그인 요청*/
     CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(
-        VERIFIED_USER_EMAILS.getFirst(),
+        EMAIL_VERIFIED_USER,
         PASSWORD,
         new TypeReference<>() {
         },

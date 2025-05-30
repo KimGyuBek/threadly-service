@@ -1,5 +1,6 @@
 package com.threadly.controller.user;
 
+import static com.threadly.utils.TestConstants.EMAIL_VERIFIED_USER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -26,7 +27,7 @@ class UserControllerTest extends BaseApiTest {
     //given
     /*로그인 요청 전송*/
     CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(
-        VERIFIED_USER_EMAILS.getFirst(), PASSWORD, new TypeReference<CommonResponse<LoginTokenResponse>>() {
+        EMAIL_VERIFIED_USER, PASSWORD, new TypeReference<CommonResponse<LoginTokenResponse>>() {
         }, status().isOk()
     );
 

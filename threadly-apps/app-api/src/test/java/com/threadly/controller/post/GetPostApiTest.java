@@ -1,5 +1,6 @@
 package com.threadly.controller.post;
 
+import static com.threadly.utils.TestConstants.EMAIL_VERIFIED_USER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -29,7 +30,7 @@ class GetPostApiTest extends BasePostApiTest {
   public void getPost_shouldReturnOk_whenGetExistingPost() throws Exception {
     //given
     /*로그인*/
-    String accessToken = getAccessToken(VERIFIED_USER_EMAILS.getFirst());
+    String accessToken = getAccessToken(EMAIL_VERIFIED_USER);
 
     //when
     //then
@@ -47,7 +48,7 @@ class GetPostApiTest extends BasePostApiTest {
   public void getPost_shouldReturnNotFound_whenGetNotExistingPost() throws Exception {
     //given
     /*로그인*/
-    String accessToken = getAccessToken(VERIFIED_USER_EMAILS.getFirst());
+    String accessToken = getAccessToken(EMAIL_VERIFIED_USER);
 
     //when
     //then
@@ -66,7 +67,7 @@ class GetPostApiTest extends BasePostApiTest {
   public void getPost_shouldReturnSameContentAndId_whenGetPostAfterCreation() throws Exception {
     //given
     /*로그인*/
-    String accessToken = getAccessToken(VERIFIED_USER_EMAILS.getFirst());
+    String accessToken = getAccessToken(EMAIL_VERIFIED_USER);
 
     /*게시글 작성*/
     String content = "content";
@@ -91,7 +92,7 @@ class GetPostApiTest extends BasePostApiTest {
   public void getPost_shouldReturnSameContentAndId_whenGetPostAfterUpdate() throws Exception {
     //given
     /*로그인*/
-    String accessToken = getAccessToken(VERIFIED_USER_EMAILS.getFirst());
+    String accessToken = getAccessToken(EMAIL_VERIFIED_USER);
 
     /*게시글 작성*/
     String content = "content";
@@ -126,7 +127,7 @@ class GetPostApiTest extends BasePostApiTest {
   public void getPostList_shouldReturnOk_whenGetExistingPost() throws Exception {
     //given
     /*로그인*/
-    String accessToken = getAccessToken(VERIFIED_USER_EMAILS.getFirst());
+    String accessToken = getAccessToken(EMAIL_VERIFIED_USER);
 
     //when
     //then
@@ -159,7 +160,7 @@ class GetPostApiTest extends BasePostApiTest {
   public void getPostList_shouldIterateAllPages_usingCursorPagination() throws Exception {
     //given
     /*로그인 요청*/
-    String accessToken = getAccessToken(VERIFIED_USER_EMAILS.getFirst());
+    String accessToken = getAccessToken(EMAIL_VERIFIED_USER);
 
     //when
     //then
@@ -195,7 +196,7 @@ class GetPostApiTest extends BasePostApiTest {
   public void getPostEngagement_shouldReturnCorrectLikeCount_whenPostHasLikes() throws Exception {
     //given
     /*로그인*/
-    String accessToken = getAccessToken(VERIFIED_USER_EMAILS.getFirst());
+    String accessToken = getAccessToken(EMAIL_VERIFIED_USER);
     String postId = "post10";
 
     long likeCount = POST_LIKES.get(postId);
@@ -215,7 +216,7 @@ class GetPostApiTest extends BasePostApiTest {
   public void getPostEngagement_shouldNotFound_whenPostNotExists() throws Exception {
     //given
     /*로그인*/
-    String accessToken = getAccessToken(VERIFIED_USER_EMAILS.getFirst());
+    String accessToken = getAccessToken(EMAIL_VERIFIED_USER);
     String postId = "post_not_exists";
 
     long likeCount = POST_LIKES.get("post10");
@@ -236,7 +237,7 @@ class GetPostApiTest extends BasePostApiTest {
   public void getPostEngagement_shouldReturnZeroLikes_whenPostHasNoLikes() throws Exception {
     //given
     /*로그인*/
-    String accessToken = getAccessToken(VERIFIED_USER_EMAILS.getFirst());
+    String accessToken = getAccessToken(EMAIL_VERIFIED_USER);
     String postId = POST_ID_WITH_NO_LIKES.getFirst();
 
     //when

@@ -30,30 +30,15 @@ public class UserProfileMapper {
    * @return
    */
   public static UserProfileEntity toEntity(UserProfile domain) {
-    UserProfileEntity userProfileEntity;
-
-    /*새로 생성하는 경우*/
-    if (domain.getUserProfileId() == null) {
-      userProfileEntity = UserProfileEntity.newUserProfile(
-          domain.getNickname(),
-          domain.getStatusMessage(),
-          domain.getBio(),
-          domain.getGender(),
-          domain.getProfileType(),
-          domain.getProfileImageUrl());
-
-      /*이미 존재하는 경우*/
-    } else {
-      userProfileEntity = new UserProfileEntity(
-          domain.getUserProfileId(),
-          domain.getNickname(),
-          domain.getStatusMessage(),
-          domain.getBio(),
-          domain.getGender(),
-          domain.getProfileType(),
-          domain.getProfileImageUrl());
-    }
-    return userProfileEntity;
+    return
+        UserProfileEntity.newUserProfile(
+            domain.getUserProfileId(),
+            domain.getNickname(),
+            domain.getStatusMessage(),
+            domain.getBio(),
+            domain.getGender(),
+            domain.getProfileType(),
+            domain.getProfileImageUrl());
   }
 
 }

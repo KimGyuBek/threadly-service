@@ -1,5 +1,6 @@
 package com.threadly.controller.post.comment.like;
 
+import static com.threadly.utils.TestConstants.EMAIL_VERIFIED_USER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -79,7 +80,7 @@ public class CreatePostCommentLikeApiTest extends BasePostApiTest {
               getAccessToken(VERIFIED_USER_EMAILS.get(i)), postId, commentId, status().isOk()).isSuccess()).isTrue();
     }
     CommonResponse<LikePostCommentApiResponse> likePostCommentResponse = sendLikePostCommentRequest(
-        getAccessToken(VERIFIED_USER_EMAILS.getFirst()), postId, commentId, status().isOk());
+        getAccessToken(EMAIL_VERIFIED_USER), postId, commentId, status().isOk());
 
     assertThat(likePostCommentResponse.getData().commentId()).isEqualTo(commentId);
     assertThat(likePostCommentResponse.getData().likeCount()).isEqualTo(VERIFIED_USER_EMAILS.size());

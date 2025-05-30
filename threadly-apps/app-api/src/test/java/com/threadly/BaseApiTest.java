@@ -31,13 +31,13 @@ import org.springframework.test.web.servlet.ResultMatcher;
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
-@Sql({
-    "/testdata/user_data.sql",
-    "/testdata/post_data.sql",
-    "/testdata/post_comment_data.sql",
-    "/testdata/post_comment_like_data_2.sql",
-    "/testdata/post_like_data.sql",
-})
+//@Sql({
+//    "/testdata/user_data.sql",
+//    "/testdata/post_data.sql",
+//    "/testdata/post_comment_data.sql",
+//    "/testdata/post_comment_like_data_2.sql",
+//    "/testdata/post_like_data.sql",
+//})
 public abstract class BaseApiTest {
 
   @Autowired
@@ -54,7 +54,7 @@ public abstract class BaseApiTest {
       "noodle@test.com"
   );
 
-  public static final String USER_EMAIL_NOT_VERIFIED = "user_email_not_verified@test.com";
+//  public static final String USER_EMAIL_NOT_VERIFIED = "user_email_not_verified@test.com";
   public static final String PASSWORD = "1234";
 
   /**

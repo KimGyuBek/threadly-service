@@ -1,5 +1,6 @@
 package com.threadly.scenario.auth;
 
+import static com.threadly.utils.TestConstants.EMAIL_VERIFIED_USER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -54,7 +55,7 @@ public class LoginScenarioTest extends BaseApiTest {
     /*로그인 요청 body*/
     String loginRequestBody = generateRequestBody(
         UserLoginRequest.builder()
-            .email(VERIFIED_USER_EMAILS.getFirst())
+            .email(EMAIL_VERIFIED_USER)
             .password(PASSWORD)
             .build()
 
@@ -91,7 +92,7 @@ public class LoginScenarioTest extends BaseApiTest {
     //when
     /*로그인*/
     CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(
-        VERIFIED_USER_EMAILS.getFirst(),
+        EMAIL_VERIFIED_USER,
         PASSWORD,
         new TypeReference<>() {
         },
@@ -132,7 +133,7 @@ public class LoginScenarioTest extends BaseApiTest {
 
     /*로그인*/
     CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(
-        VERIFIED_USER_EMAILS.getFirst(), PASSWORD, new TypeReference<CommonResponse<LoginTokenResponse>>() {
+        EMAIL_VERIFIED_USER, PASSWORD, new TypeReference<CommonResponse<LoginTokenResponse>>() {
         }, status().isOk()
     );
 
@@ -197,7 +198,7 @@ public class LoginScenarioTest extends BaseApiTest {
 
     for (int i = 0; i < 50; i++) {
       loginResponse = sendLoginRequest(
-          VERIFIED_USER_EMAILS.getFirst(), PASSWORD, new TypeReference<>() {
+          EMAIL_VERIFIED_USER, PASSWORD, new TypeReference<>() {
           }, status().isOk()
       );
       accessTokenList.add(loginResponse.getData().accessToken());
@@ -224,10 +225,10 @@ public class LoginScenarioTest extends BaseApiTest {
 
     /*로그인 5회 시도*/
     for (int i = 0; i < MAX_LOGIN_ATTEMPTS; i++) {
-      sendLoginRequest(VERIFIED_USER_EMAILS.getFirst(), invalidPassword, new TypeReference<>() {
+      sendLoginRequest(EMAIL_VERIFIED_USER, invalidPassword, new TypeReference<>() {
       }, status().isUnauthorized());
     }
-    CommonResponse<Object> response = sendLoginRequest(VERIFIED_USER_EMAILS.getFirst(), invalidPassword,
+    CommonResponse<Object> response = sendLoginRequest(EMAIL_VERIFIED_USER, invalidPassword,
         new TypeReference<>() {
         }, status().isTooManyRequests());
 
@@ -247,21 +248,21 @@ public class LoginScenarioTest extends BaseApiTest {
 
     /*잘못된 로그인 3회 시도*/
     for (int i = 0; i < 3; i++) {
-      sendLoginRequest(VERIFIED_USER_EMAILS.getFirst(), invalidPassword, new TypeReference<>() {
+      sendLoginRequest(EMAIL_VERIFIED_USER, invalidPassword, new TypeReference<>() {
       }, status().isUnauthorized());
     }
 
     /*정상 로그인 시도*/
-    CommonResponse<LoginTokenResponse> response1 = sendLoginRequest(VERIFIED_USER_EMAILS.getFirst(), PASSWORD,
+    CommonResponse<LoginTokenResponse> response1 = sendLoginRequest(EMAIL_VERIFIED_USER, PASSWORD,
         new TypeReference<>() {
         }, status().isOk());
 
     /*잘봇된 로그인 5회 시도*/
     for (int i = 0; i < MAX_LOGIN_ATTEMPTS; i++) {
-      sendLoginRequest(VERIFIED_USER_EMAILS.getFirst(), invalidPassword, new TypeReference<>() {
+      sendLoginRequest(EMAIL_VERIFIED_USER, invalidPassword, new TypeReference<>() {
       }, status().isUnauthorized());
     }
-    CommonResponse<Object> response2 = sendLoginRequest(VERIFIED_USER_EMAILS.getFirst(), invalidPassword,
+    CommonResponse<Object> response2 = sendLoginRequest(EMAIL_VERIFIED_USER, invalidPassword,
         new TypeReference<>() {
         }, status().isTooManyRequests());
 
@@ -288,10 +289,10 @@ public class LoginScenarioTest extends BaseApiTest {
 
     /*잘봇된 로그인 5회 시도*/
     for (int i = 0; i < MAX_LOGIN_ATTEMPTS; i++) {
-      sendLoginRequest(VERIFIED_USER_EMAILS.getFirst(), invalidPassword, new TypeReference<>() {
+      sendLoginRequest(EMAIL_VERIFIED_USER, invalidPassword, new TypeReference<>() {
       }, status().isUnauthorized());
     }
-    CommonResponse<Object> response1 = sendLoginRequest(VERIFIED_USER_EMAILS.getFirst(), invalidPassword,
+    CommonResponse<Object> response1 = sendLoginRequest(EMAIL_VERIFIED_USER, invalidPassword,
         new TypeReference<>() {
         }, status().isTooManyRequests());
 
@@ -299,7 +300,7 @@ public class LoginScenarioTest extends BaseApiTest {
     Thread.sleep(5200);
 
     /*정상 로그인 시도*/
-    CommonResponse<LoginTokenResponse> response2 = sendLoginRequest(VERIFIED_USER_EMAILS.getFirst(), PASSWORD,
+    CommonResponse<LoginTokenResponse> response2 = sendLoginRequest(EMAIL_VERIFIED_USER, PASSWORD,
         new TypeReference<>() {
         }, status().isOk());
 

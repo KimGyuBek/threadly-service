@@ -1,5 +1,8 @@
 package com.threadly.user;
 
+import com.google.common.annotations.VisibleForTesting;
+import com.threadly.util.RandomUtils;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -8,6 +11,7 @@ import lombok.Getter;
  */
 @Getter
 @Builder
+@AllArgsConstructor
 public class UserProfile {
 
   private String userProfileId;
@@ -28,7 +32,7 @@ public class UserProfile {
     this.profileImageUrl = profileImageUrl;
   }
 
-  public static UserProfile create(
+  public static UserProfile newProfile(
       String nickname,
       String statusMessage,
       String bio,
@@ -38,7 +42,7 @@ public class UserProfile {
   ) {
     return
         UserProfile.builder()
-            .userProfileId(null)
+            .userProfileId(RandomUtils.generateNanoId())
             .nickname(nickname)
             .statusMessage(statusMessage != null ? statusMessage : "")
             .bio(bio != null ? bio : "")
@@ -48,4 +52,26 @@ public class UserProfile {
             .build();
   }
 
+  /*테스트용*/
+  @VisibleForTesting
+  public static UserProfile newTestProfile(
+      String userProfileId,
+      String nickname,
+      String statusMessage,
+      String bio,
+      UserGenderType gender,
+      UserProfileType profileType,
+      String profileImageUrl
+  ) {
+    return
+        UserProfile.builder()
+            .userProfileId(userProfileId)
+            .nickname(nickname)
+            .statusMessage(statusMessage != null ? statusMessage : "")
+            .bio(bio != null ? bio : "")
+            .gender(gender)
+            .profileType(profileType)
+            .profileImageUrl(profileImageUrl != null ? profileImageUrl : "/")
+            .build();
+  }
 }

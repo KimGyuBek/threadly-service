@@ -1,5 +1,6 @@
 package com.threadly.scenario.auth;
 
+import static com.threadly.utils.TestConstants.EMAIL_VERIFIED_USER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -38,7 +39,7 @@ public class PasswordVerificationScenarioTest extends BaseApiTest {
 
     /*1. 로그인 요청 전송*/
     CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(
-        VERIFIED_USER_EMAILS.getFirst(), PASSWORD, new TypeReference<>() {
+        EMAIL_VERIFIED_USER, PASSWORD, new TypeReference<>() {
         }, status().isOk());
 
     String accessToken = loginResponse.getData().accessToken();
@@ -113,7 +114,7 @@ public class PasswordVerificationScenarioTest extends BaseApiTest {
 
     /*1. 로그인 요청 전송*/
     CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(
-        VERIFIED_USER_EMAILS.getFirst(), PASSWORD, new TypeReference<>() {
+        EMAIL_VERIFIED_USER, PASSWORD, new TypeReference<>() {
         }, status().isOk());
 
     String accessToken = loginResponse.getData().accessToken();

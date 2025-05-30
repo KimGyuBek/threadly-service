@@ -1,5 +1,6 @@
 package com.threadly.controller.post;
 
+import static com.threadly.utils.TestConstants.EMAIL_VERIFIED_USER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -24,7 +25,7 @@ class UpdatePostApiTest extends BasePostApiTest {
   public void updatePost_shouldUpdatePostSuccessfully_whenWriterRequestsUpdate() throws Exception {
     //given
     /*로그인*/
-    String accessToken = getAccessToken(VERIFIED_USER_EMAILS.getFirst());
+    String accessToken = getAccessToken(EMAIL_VERIFIED_USER);
 
     String content = "content";
     String modifiedContent = "modifiedContent";
@@ -50,7 +51,7 @@ class UpdatePostApiTest extends BasePostApiTest {
   public void updatePost_shouldReturnForbidden_whenNonWriterTriesToUpdatePost() throws Exception {
     //given
     /*로그인*/
-    String accessToken1 = getAccessToken(VERIFIED_USER_EMAILS.getFirst());
+    String accessToken1 = getAccessToken(EMAIL_VERIFIED_USER);
     String accessToken2 = getAccessToken(VERIFIED_USER_EMAILS.getLast());
 
     String content = "content";
@@ -77,7 +78,7 @@ class UpdatePostApiTest extends BasePostApiTest {
   public void updatePost_shouldReturnNotFound_whenRequestNotExistsPostId() throws Exception {
     //given
     /*로그인*/
-    String accessToken = getAccessToken(VERIFIED_USER_EMAILS.getFirst());
+    String accessToken = getAccessToken(EMAIL_VERIFIED_USER);
 
     String content = "content";
     String modifiedContent = "modifiedContent";
@@ -102,7 +103,7 @@ class UpdatePostApiTest extends BasePostApiTest {
   public void updatePost_shouldReturnBadRequest_whenContentIsBlank() throws Exception {
     //given
     /*로그인*/
-    String accessToken = getAccessToken(VERIFIED_USER_EMAILS.getFirst());
+    String accessToken = getAccessToken(EMAIL_VERIFIED_USER);
 
     String content = "content";
     String modifiedContent = "";

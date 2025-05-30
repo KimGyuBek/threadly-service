@@ -1,5 +1,6 @@
 package com.threadly.controller.post.like;
 
+import static com.threadly.utils.TestConstants.EMAIL_VERIFIED_USER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -106,7 +107,7 @@ public class LikePostApiTest extends BasePostApiTest {
       ).isSuccess()).isTrue();
     }
     CommonResponse<LikePostApiResponse> likePostResponse = sendLikePostRequest(
-        getAccessToken(VERIFIED_USER_EMAILS.getFirst()),
+        getAccessToken(EMAIL_VERIFIED_USER),
         postId,
         status().isOk()
     );

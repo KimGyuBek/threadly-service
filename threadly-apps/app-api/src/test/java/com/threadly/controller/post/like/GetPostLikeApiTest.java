@@ -1,5 +1,6 @@
 package com.threadly.controller.post.like;
 
+import static com.threadly.utils.TestConstants.EMAIL_VERIFIED_USER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -27,7 +28,7 @@ public class GetPostLikeApiTest extends BasePostApiTest {
   public void getPostLikers_shouldReturnLikers_whenPostHasLikers() throws Exception {
     //given
     /*로그인 요청*/
-    String accessToken = getAccessToken(VERIFIED_USER_EMAILS.getFirst());
+    String accessToken = getAccessToken(EMAIL_VERIFIED_USER);
 
     String postId = "post10";
     Long likeCount = POST_LIKES.get(postId);
@@ -64,7 +65,7 @@ public class GetPostLikeApiTest extends BasePostApiTest {
     //given
 
     /*로그인 요청*/
-    String accessToken = getAccessToken(VERIFIED_USER_EMAILS.getFirst());
+    String accessToken = getAccessToken(EMAIL_VERIFIED_USER);
 
     //when
     //then
@@ -85,7 +86,7 @@ public class GetPostLikeApiTest extends BasePostApiTest {
     //given
 
     /*로그인 요청*/
-    String accessToken = getAccessToken(VERIFIED_USER_EMAILS.getFirst());
+    String accessToken = getAccessToken(EMAIL_VERIFIED_USER);
 
     //when
     //then

@@ -32,7 +32,7 @@ public class UpdatePostCommentApiTest extends BasePostApiTest {
     //when
     //then
     /*삭제 요청*/
-    CommonResponse<Void> voidCommonResponse = sendDeletePostCommentRequest(accessToken, postId,
+    sendDeletePostCommentRequest(accessToken, postId,
         postCommentId, status().isNoContent());
   }
 

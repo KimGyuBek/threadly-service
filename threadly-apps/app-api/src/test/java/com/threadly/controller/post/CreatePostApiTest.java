@@ -1,5 +1,6 @@
 package com.threadly.controller.post;
 
+import static com.threadly.utils.TestConstants.EMAIL_VERIFIED_USER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -20,7 +21,7 @@ class CreatePostApiTest extends BasePostApiTest {
   public void createPost_shouldCreatedContent_whenCreatePostWithValidInput() throws Exception {
     //given
     /*로그인*/
-    String accessToken = getAccessToken(VERIFIED_USER_EMAILS.getFirst());
+    String accessToken = getAccessToken(EMAIL_VERIFIED_USER);
 
     //when
     /*게시글 생성*/
@@ -39,7 +40,7 @@ class CreatePostApiTest extends BasePostApiTest {
   public void createPost_shouldReturnBadRequest_whenContentIsBlank() throws Exception {
     //given
     /*로그인*/
-    String accessToken = getAccessToken(VERIFIED_USER_EMAILS.getFirst());
+    String accessToken = getAccessToken(EMAIL_VERIFIED_USER);
 
     //when
     /*게시글 생성*/
