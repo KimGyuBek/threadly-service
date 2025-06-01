@@ -1,6 +1,6 @@
 package com.threadly.controller.post.comment.like;
 
-import static com.threadly.utils.TestConstants.EMAIL_VERIFIED_USER;
+import static com.threadly.utils.TestConstants.EMAIL_VERIFIED_USER_1;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -26,7 +26,7 @@ public class CreatePostCommentLikeApiTest extends BasePostApiTest {
   @Test
   public void likePostComment_shouldReturnCreated_whenUserLikesActiveComment() throws Exception {
     //given
-    String email = VERIFIED_USER_EMAILS.get(0);
+    String email = EMAIL_VERIFIED_USER_1;
     String accessToken = getAccessToken(email);
 
     String postId = ACTIVE_COMMENTS.getFirst().get("postId");
@@ -46,7 +46,7 @@ public class CreatePostCommentLikeApiTest extends BasePostApiTest {
   @Test
   public void likePostComment_shouldReturnBadRequest_whenCommentNotActive() throws Exception {
     //given
-    String email = VERIFIED_USER_EMAILS.get(0);
+    String email = EMAIL_VERIFIED_USER_1;
     String accessToken = getAccessToken(email);
 
     String postId = DELETED_COMMENTS.getFirst().get("postId");
@@ -80,7 +80,7 @@ public class CreatePostCommentLikeApiTest extends BasePostApiTest {
               getAccessToken(VERIFIED_USER_EMAILS.get(i)), postId, commentId, status().isOk()).isSuccess()).isTrue();
     }
     CommonResponse<LikePostCommentApiResponse> likePostCommentResponse = sendLikePostCommentRequest(
-        getAccessToken(EMAIL_VERIFIED_USER), postId, commentId, status().isOk());
+        getAccessToken(EMAIL_VERIFIED_USER_1), postId, commentId, status().isOk());
 
     assertThat(likePostCommentResponse.getData().commentId()).isEqualTo(commentId);
     assertThat(likePostCommentResponse.getData().likeCount()).isEqualTo(VERIFIED_USER_EMAILS.size());
@@ -91,7 +91,7 @@ public class CreatePostCommentLikeApiTest extends BasePostApiTest {
   @Test
   public void likePostComment_shouldBeIdempotent_whenUserLikesSameCommentMultipleTimes() throws Exception {
     //given
-    String email = VERIFIED_USER_EMAILS.get(0);
+    String email = EMAIL_VERIFIED_USER_1;
     String accessToken = getAccessToken(email);
 
     String postId = ACTIVE_COMMENTS.getFirst().get("postId");

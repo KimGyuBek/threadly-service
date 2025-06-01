@@ -1,6 +1,6 @@
 package com.threadly.controller.post.comment;
 
-import static com.threadly.utils.TestConstants.EMAIL_VERIFIED_USER;
+import static com.threadly.utils.TestConstants.EMAIL_VERIFIED_USER_1;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -26,7 +26,7 @@ public class CreatePostCommentApiTest extends BasePostApiTest {
     //given
 
     /*로그인*/
-    String accessToken = getAccessToken(EMAIL_VERIFIED_USER);
+    String accessToken = getAccessToken(EMAIL_VERIFIED_USER_1);
 
     //when
     //then
@@ -48,7 +48,7 @@ public class CreatePostCommentApiTest extends BasePostApiTest {
     //given
 
     /*로그인*/
-    String accessToken = getAccessToken(EMAIL_VERIFIED_USER);
+    String accessToken = getAccessToken(EMAIL_VERIFIED_USER_1);
 
     //when
     //then
@@ -72,7 +72,7 @@ public class CreatePostCommentApiTest extends BasePostApiTest {
     //given
 
     /*로그인*/
-    String accessToken = getAccessToken(EMAIL_VERIFIED_USER);
+    String accessToken = getAccessToken(EMAIL_VERIFIED_USER_1);
 
     //when
     //then
@@ -96,7 +96,7 @@ public class CreatePostCommentApiTest extends BasePostApiTest {
     //given
 
     /*로그인*/
-    String accessToken = getAccessToken(EMAIL_VERIFIED_USER);
+    String accessToken = getAccessToken(EMAIL_VERIFIED_USER_1);
 
     //when
     //then

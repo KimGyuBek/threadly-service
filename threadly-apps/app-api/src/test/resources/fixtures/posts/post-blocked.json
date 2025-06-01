@@ -1,0 +1,16 @@
+[
+  {
+    "postId": "post24",
+    "userId": "usr8",
+    "content": "바람이 차가워졌다. 가을이 오는구나",
+    "status": "BLOCKED",
+    "viewCount": 2732
+  },
+  {
+    "postId": "post41",
+    "userId": "usr61",
+    "content": "오늘도 별일 없던 하루, 그게 제일 좋다",
+    "status": "BLOCKED",
+    "viewCount": 1504
+  }
+]

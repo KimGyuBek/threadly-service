@@ -1,4 +1,4 @@
-package com.threadly.testsupport.dto;
+package com.threadly.testsupport.dto.users;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.threadly.user.UserGenderType;

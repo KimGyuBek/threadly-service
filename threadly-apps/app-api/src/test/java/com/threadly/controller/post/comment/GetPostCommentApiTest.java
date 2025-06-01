@@ -1,5 +1,6 @@
 package com.threadly.controller.post.comment;
 
+import static com.threadly.utils.TestConstants.EMAIL_VERIFIED_USER_1;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -30,7 +31,7 @@ public class GetPostCommentApiTest extends BasePostApiTest {
   public void getPostCommentList_shouldReturnNextCursor_whenFirstPageRequested() throws Exception {
     //given
     /*로그인 요청*/
-    String accessToken = getAccessToken(VERIFIED_USER_EMAILS.get(0));
+    String accessToken = getAccessToken(EMAIL_VERIFIED_USER_1);
 
 
     //when
@@ -54,7 +55,7 @@ public class GetPostCommentApiTest extends BasePostApiTest {
   public void getPostCommentList_shouldReturnAllComments() throws Exception {
     //given
     /*로그인 요청*/
-    String accessToken = getAccessToken(VERIFIED_USER_EMAILS.get(0));
+    String accessToken = getAccessToken(EMAIL_VERIFIED_USER_1);
 
     String postId = POST_WITH_COMMENT_ID;
 
@@ -98,7 +99,7 @@ public class GetPostCommentApiTest extends BasePostApiTest {
   public void getPostCommentList_shouldReflectLikedField_whenLikeRequest() throws Exception {
     //given
     /*로그인 요청*/
-    String accessToken = getAccessToken(VERIFIED_USER_EMAILS.get(0));
+    String accessToken = getAccessToken(EMAIL_VERIFIED_USER_1);
 
     String postId = POST_WITH_COMMENT_ID;
 
@@ -134,7 +135,7 @@ public class GetPostCommentApiTest extends BasePostApiTest {
   public void getPostCommentList_shouldReturnBadRequest_whenPostNotActive() throws Exception {
     //given
     /*로그인 요청*/
-    String accessToken = getAccessToken(VERIFIED_USER_EMAILS.get(0));
+    String accessToken = getAccessToken(EMAIL_VERIFIED_USER_1);
 
     String postId = DELETED_POSTS.getFirst().get("postId");
 
@@ -159,7 +160,7 @@ public class GetPostCommentApiTest extends BasePostApiTest {
   public void getPostCommentList_shouldReturnBadRequest_whenPostNotExists() throws Exception {
     //given
     /*로그인 요청*/
-    String accessToken = getAccessToken(VERIFIED_USER_EMAILS.get(0));
+    String accessToken = getAccessToken(EMAIL_VERIFIED_USER_1);
 
     String postId = "post_not_exists_id";
 

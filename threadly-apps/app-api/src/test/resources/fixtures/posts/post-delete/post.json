@@ -1,0 +1,30 @@
+[
+  {
+    "postId": "post_ACTIVE",
+    "userId": "usr1",
+    "content": "활성화 상태의 게시글 입니다.",
+    "viewCount": 123,
+    "status": "ACTIVE"
+  },
+  {
+    "postId": "post_DELETED",
+    "userId": "usr1",
+    "content": "삭제 상태의 게시글 입니다.",
+    "viewCount": 3939,
+    "status": "DELETED"
+  },
+  {
+    "postId": "post_BLOCKED",
+    "userId": "usr1",
+    "content": "차단된 게시글 입니다.",
+    "viewCount": 42342,
+    "status": "BLOCKED"
+  },
+  {
+    "postId": "post_ARCHIVE",
+    "userId": "usr1",
+    "content": "아카이브 상태의 게시글 입니다.",
+    "viewCount": 12,
+    "status": "ARCHIVE"
+  }
+]

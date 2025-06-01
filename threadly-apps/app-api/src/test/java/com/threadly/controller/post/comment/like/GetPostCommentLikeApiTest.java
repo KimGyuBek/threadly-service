@@ -1,6 +1,6 @@
 package com.threadly.controller.post.comment.like;
 
-import static com.threadly.utils.TestConstants.EMAIL_VERIFIED_USER;
+import static com.threadly.utils.TestConstants.EMAIL_VERIFIED_USER_1;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -29,7 +29,7 @@ public class GetPostCommentLikeApiTest extends BasePostApiTest {
   public void getPostCommentLikers_shouldReturnFirstPage() throws Exception {
     //given
     /*로그인*/
-    String accessToken = getAccessToken(EMAIL_VERIFIED_USER);
+    String accessToken = getAccessToken(EMAIL_VERIFIED_USER_1);
 
     String postId = "post_with_comments";
 
@@ -69,7 +69,7 @@ public class GetPostCommentLikeApiTest extends BasePostApiTest {
     //given
 
     /*로그인 요청*/
-    String accessToken = getAccessToken(EMAIL_VERIFIED_USER);
+    String accessToken = getAccessToken(EMAIL_VERIFIED_USER_1);
 
     String commentId = "comment-without-likers";
     String postId = "post_with_comments";
@@ -92,7 +92,7 @@ public class GetPostCommentLikeApiTest extends BasePostApiTest {
     //given
 
     /*로그인 요청*/
-    String accessToken = getAccessToken(EMAIL_VERIFIED_USER);
+    String accessToken = getAccessToken(EMAIL_VERIFIED_USER_1);
 
     String postId = DELETED_COMMENTS.getFirst().get("postId");
     String commentId = DELETED_COMMENTS.getFirst().get("commentId");
@@ -116,7 +116,7 @@ public class GetPostCommentLikeApiTest extends BasePostApiTest {
     //given
 
     /*로그인 요청*/
-    String accessToken = getAccessToken(EMAIL_VERIFIED_USER);
+    String accessToken = getAccessToken(EMAIL_VERIFIED_USER_1);
 
     String postId = "post_with_comments";
     CommonResponse<GetPostCommentListApiResponse> getPostCommentListRequest = sendGetPostCommentListRequest(
@@ -141,7 +141,7 @@ public class GetPostCommentLikeApiTest extends BasePostApiTest {
     //given
 
     /*로그인 요청*/
-    String accessToken = getAccessToken(EMAIL_VERIFIED_USER);
+    String accessToken = getAccessToken(EMAIL_VERIFIED_USER_1);
 
     String postId = "post_with_comments";
     CommonResponse<GetPostCommentListApiResponse> getPostCommentListResponse = sendGetPostCommentListRequest(

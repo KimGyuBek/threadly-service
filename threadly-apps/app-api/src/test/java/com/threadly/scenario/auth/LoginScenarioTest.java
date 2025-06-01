@@ -1,6 +1,6 @@
 package com.threadly.scenario.auth;
 
-import static com.threadly.utils.TestConstants.EMAIL_VERIFIED_USER;
+import static com.threadly.utils.TestConstants.EMAIL_VERIFIED_USER_1;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -21,14 +21,21 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.ClassOrderer;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestClassOrder;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * auth - login 시나리오 테스트
  */
+@TestClassOrder(ClassOrderer.OrderAnnotation.class)
 public class LoginScenarioTest extends BaseApiTest {
 
   private static final int MAX_LOGIN_ATTEMPTS = 5;
@@ -39,278 +46,297 @@ public class LoginScenarioTest extends BaseApiTest {
   @BeforeEach
   public void setUp() throws Exception {
     loginAttemptHelper.clearRedis();
+    super.setUpDefaultUser();
   }
 
   /* 로그인 시나리오 테스트*/
-  /*
-   * [Case #1]
-   * 로그인 성공 -> "/" 접속 -> 요청 성공 (정상 동작)
-   * */
-  @DisplayName("로그인 후 '/' 접속 -> 성공")
-  @Test
-  @Transactional
-  public void accessProtectedResource_shouldSucceed_whenLoggedIn() throws Exception {
-    //given
+  @Order(1)
+  @Nested
+  @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+  @DisplayName("로그인 시나리오 테스트")
+  class loginTest {
 
-    /*로그인 요청 body*/
-    String loginRequestBody = generateRequestBody(
-        UserLoginRequest.builder()
-            .email(EMAIL_VERIFIED_USER)
-            .password(PASSWORD)
-            .build()
+    /*
+     * [Case #1]
+     * 로그인 성공 -> "/" 접속 -> 요청 성공 (정상 동작)
+     * */
+    @Order(1)
+    @DisplayName("성공-1. 로그인 후 '/' 접속")
+    @Test
+    @Transactional
+    public void accessProtectedResource_shouldSucceed_whenLoggedIn() throws Exception {
+      //given
 
-    );
+      /*로그인 요청 body*/
+      String loginRequestBody = generateRequestBody(
+          UserLoginRequest.builder()
+              .email(EMAIL_VERIFIED_USER_1)
+              .password(PASSWORD)
+              .build()
 
-    //when
-    /*1. 로그인 요청 전송*/
-    CommonResponse<LoginTokenResponse> loginResponse = sendPostRequest(loginRequestBody,
-        "/api/auth/login",
-        status().isOk(), new TypeReference<CommonResponse<LoginTokenResponse>>() {
-        }, Map.of());
-    String accessToken = loginResponse.getData().accessToken();
+      );
 
-    /*2. "/" 접속*/
-    CommonResponse response = sendGetRequest(accessToken, "/", status().isNotFound()
-    );
+      //when
+      /*1. 로그인 요청 전송*/
+      CommonResponse<LoginTokenResponse> loginResponse = sendPostRequest(loginRequestBody,
+          "/api/auth/login",
+          status().isOk(), new TypeReference<CommonResponse<LoginTokenResponse>>() {
+          }, Map.of());
+      String accessToken = loginResponse.getData().accessToken();
 
-    //then
-    assertAll(
-        () -> assertTrue(loginResponse.isSuccess()),
-        () -> assertTrue(response.isSuccess())
-    );
-  }
+      /*2. "/" 접속*/
+      CommonResponse response = sendGetRequest(accessToken, "/", status().isNotFound()
+      );
 
-  /*
-   * [Case #2]
-   * 로그인 성공 -> accessToken 없이 "/" 접속 -> 401 Unauthorized
-   * */
-  @DisplayName("로그인 후 만료된 accessToken으로  접속'/' -> TLY3000 -> 재접속 -> 성공")
-  @Test
-  public void accessProtectedResource_sholudReturnUnAuthorized_whenAccessTokenNotExists()
-      throws Exception {
-    //given
-    //when
-    /*로그인*/
-    CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(
-        EMAIL_VERIFIED_USER,
-        PASSWORD,
-        new TypeReference<>() {
-        },
-        status().isOk()
-    );
+      //then
+      assertAll(
+          () -> assertTrue(loginResponse.isSuccess()),
+          () -> assertTrue(response.isSuccess())
+      );
+    }
 
-    Thread.sleep(3500);
+    /*
+     * [Case #2]
+     * 로그인 성공 -> accessToken 없이 "/" 접속 -> 401 Unauthorized
+     * */
+    @Order(2)
+    @DisplayName("성공-2. 로그인 후 만료된 accessToken으로  접속'/' -> TLY3000 -> 재접속")
+    @Test
+    public void accessProtectedResource_sholudReturnUnAuthorized_whenAccessTokenNotExists()
+        throws Exception {
+      //given
+      //when
+      /*로그인*/
+      CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(
+          EMAIL_VERIFIED_USER_1,
+          PASSWORD,
+          new TypeReference<>() {
+          },
+          status().isOk()
+      );
 
-    /* accessToken 만료 후 '/' 접속*/
-    CommonResponse tokenExpiredResponse = sendGetRequest(
-        loginResponse.getData().accessToken(), "/", status().isUnauthorized());
+      Thread.sleep(3500);
 
-    //then
-    /*로그인 응답 검증*/
-    assertAll(
-        () -> assertTrue(loginResponse.isSuccess()),
-        () -> assertNotNull(loginResponse.getData().accessToken())
-    );
+      /* accessToken 만료 후 '/' 접속*/
+      CommonResponse tokenExpiredResponse = sendGetRequest(
+          loginResponse.getData().accessToken(), "/", status().isUnauthorized());
 
-    /*토큰 만료 응답 검증*/
-    assertAll(
-        () -> assertFalse(tokenExpiredResponse.isSuccess()),
-        () -> assertThat(tokenExpiredResponse.getCode()).isEqualTo(
-            ErrorCode.TOKEN_EXPIRED.getCode())
-    );
-  }
+      //then
+      /*로그인 응답 검증*/
+      assertAll(
+          () -> assertTrue(loginResponse.isSuccess()),
+          () -> assertNotNull(loginResponse.getData().accessToken())
+      );
 
-  /*
-   * [Case #3]
-   * 로그인 성공 -> accessToken 만료 후 "/" 접속 -> 401 -> accessToken 재발급 후 재 접속 -> 성공
-   * */
-  @DisplayName("로그인 후 만료된 accessToken으로  접속'/' -> TLY3000")
-  @Test
-  public void accessProtectedResource_shouldSucceed_afterAccessTokenExpired_whenReissueAccessToken()
-      throws Exception {
-    //given
-    //when
+      /*토큰 만료 응답 검증*/
+      assertAll(
+          () -> assertFalse(tokenExpiredResponse.isSuccess()),
+          () -> assertThat(tokenExpiredResponse.getCode()).isEqualTo(
+              ErrorCode.TOKEN_EXPIRED.getCode())
+      );
+    }
 
-    /*로그인*/
-    CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(
-        EMAIL_VERIFIED_USER, PASSWORD, new TypeReference<CommonResponse<LoginTokenResponse>>() {
-        }, status().isOk()
-    );
+    /*
+     * [Case #3]
+     * 로그인 성공 -> accessToken 만료 후 "/" 접속 -> 401 -> accessToken 재발급 후 재 접속 -> 성공
+     * */
+    @Order(3)
+    @DisplayName("성공-3. 로그인 후 만료된 accessToken으로  접속'/' -> TLY3000 -> 재발급 후 재 접속")
+    @Test
+    public void accessProtectedResource_shouldSucceed_afterAccessTokenExpired_whenReissueAccessToken()
+        throws Exception {
+      //given
+      //when
 
-    String accessToken = loginResponse.getData().accessToken();
-    String refreshToken = loginResponse.getData().refreshToken();
-
-    /*토큰 만료까지 대기*/
-    Thread.sleep(3500);
-
-    /*accessToken 만료 후 '/' 접속*/
-    CommonResponse tokenExpiredResponse = sendGetRequest(
-        accessToken, "/", status().isUnauthorized());
-
-    /*accessToken 재발급*/
-    CommonResponse<TokenReissueResponse> tokenReissueResponse = sendPostRequest(
-        "", "/api/auth/reissue", status().isOk(),
-        new TypeReference<CommonResponse<TokenReissueResponse>>() {
-        }, Map.of("X-refresh-token", "Bearer " + refreshToken)
-    );
-    String reIssueAccessToken = tokenReissueResponse.getData().getAccessToken();
-
-
-    /*accessToken 재발급 후 '/' 재접속*/
-    CommonResponse response = sendGetRequest(
-        reIssueAccessToken, "/", status().isNotFound());
-
-    //then
-    /*로그인 응답 검증*/
-    assertAll(
-        () -> assertTrue(loginResponse.isSuccess()),
-        () -> assertNotNull(loginResponse.getData().accessToken())
-    );
-
-    /*토큰 만료 응답 검증*/
-    assertAll(
-        () -> assertFalse(tokenExpiredResponse.isSuccess()),
-        () -> assertThat(tokenExpiredResponse.getCode()).isEqualTo(
-            ErrorCode.TOKEN_EXPIRED.getCode())
-    );
-
-    /*토큰 재발급 응답 검증*/
-    assertAll(
-        () -> assertNotNull(tokenReissueResponse.getData().getRefreshToken()),
-        () -> assertNotNull(tokenReissueResponse.getData().getAccessToken()),
-        () -> assertTrue(tokenReissueResponse.isSuccess())
-    );
-
-    /*재발급 후 재접속 응답 검증*/
-    assertAll(() -> assertTrue(response.isSuccess()));
-  }
-
-  /* [case #4] 로그인시 재발급되는 토큰 비교 검증*/
-  @DisplayName("여러 번 로그인 시 매번 새로운 accessToken, refreshToken이 발급되어야 한다")
-  @Test
-  public void verifyLoginTokens_shouldBeUnique_whenForEachLogin() throws Exception {
-    //given
-
-    List<String> accessTokenList = new ArrayList<>();
-    List<String> refreshTokenList = new ArrayList<>();
-
-    CommonResponse<LoginTokenResponse> loginResponse;
-
-    for (int i = 0; i < 50; i++) {
-      loginResponse = sendLoginRequest(
-          EMAIL_VERIFIED_USER, PASSWORD, new TypeReference<>() {
+      /*로그인*/
+      CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(
+          EMAIL_VERIFIED_USER_1, PASSWORD, new TypeReference<CommonResponse<LoginTokenResponse>>() {
           }, status().isOk()
       );
-      accessTokenList.add(loginResponse.getData().accessToken());
-      refreshTokenList.add(loginResponse.getData().refreshToken());
+
+      String accessToken = loginResponse.getData().accessToken();
+      String refreshToken = loginResponse.getData().refreshToken();
+
+      /*토큰 만료까지 대기*/
+      Thread.sleep(3500);
+
+      /*accessToken 만료 후 '/' 접속*/
+      CommonResponse tokenExpiredResponse = sendGetRequest(
+          accessToken, "/", status().isUnauthorized());
+
+      /*accessToken 재발급*/
+      CommonResponse<TokenReissueResponse> tokenReissueResponse = sendPostRequest(
+          "", "/api/auth/reissue", status().isOk(),
+          new TypeReference<CommonResponse<TokenReissueResponse>>() {
+          }, Map.of("X-refresh-token", "Bearer " + refreshToken)
+      );
+      String reIssueAccessToken = tokenReissueResponse.getData().getAccessToken();
+
+
+      /*accessToken 재발급 후 '/' 재접속*/
+      CommonResponse response = sendGetRequest(
+          reIssueAccessToken, "/", status().isNotFound());
+
+      //then
+      /*로그인 응답 검증*/
+      assertAll(
+          () -> assertTrue(loginResponse.isSuccess()),
+          () -> assertNotNull(loginResponse.getData().accessToken())
+      );
+
+      /*토큰 만료 응답 검증*/
+      assertAll(
+          () -> assertFalse(tokenExpiredResponse.isSuccess()),
+          () -> assertThat(tokenExpiredResponse.getCode()).isEqualTo(
+              ErrorCode.TOKEN_EXPIRED.getCode())
+      );
+
+      /*토큰 재발급 응답 검증*/
+      assertAll(
+          () -> assertNotNull(tokenReissueResponse.getData().getRefreshToken()),
+          () -> assertNotNull(tokenReissueResponse.getData().getAccessToken()),
+          () -> assertTrue(tokenReissueResponse.isSuccess())
+      );
+
+      /*재발급 후 재접속 응답 검증*/
+      assertAll(() -> assertTrue(response.isSuccess()));
     }
 
-    //when
-    HashSet<String> accessTokenSet = new HashSet<>(accessTokenList);
-    HashSet<String> refreshTokenSet = new HashSet<>(refreshTokenList);
+    @Order(4)
+    /* [case #4] 로그인시 재발급되는 토큰 비교 검증*/
+    @DisplayName("성공-4. 여러 번 로그인 시 매번 새로운 accessToken, refreshToken 발급")
+    @Test
+    public void verifyLoginTokens_shouldBeUnique_whenForEachLogin() throws Exception {
+      //given
 
-    //then
-    assertAll(
-        () -> assertThat(accessTokenSet.size()).isEqualTo(accessTokenList.size()),
-        () -> assertThat(refreshTokenSet.size()).isEqualTo(refreshTokenSet.size())
-    );
-  }
+      List<String> accessTokenList = new ArrayList<>();
+      List<String> refreshTokenList = new ArrayList<>();
 
-  /*[Case #5] 잘못된 비밀번호로 로그인 5회이상 시도할경우 - 로그인 제한*/
-  @Test
-  public void checkLoginAttempt_shouldFail_whenExceededMaxAttempts() throws Exception {
-    //given
-    String invalidPassword = "invalid_password";
-    //when
+      CommonResponse<LoginTokenResponse> loginResponse;
 
-    /*로그인 5회 시도*/
-    for (int i = 0; i < MAX_LOGIN_ATTEMPTS; i++) {
-      sendLoginRequest(EMAIL_VERIFIED_USER, invalidPassword, new TypeReference<>() {
-      }, status().isUnauthorized());
-    }
-    CommonResponse<Object> response = sendLoginRequest(EMAIL_VERIFIED_USER, invalidPassword,
-        new TypeReference<>() {
-        }, status().isTooManyRequests());
-
-    //then
-    assertFalse(response.isSuccess());
-    assertThat(response.getCode()).isEqualTo(ErrorCode.LOGIN_ATTEMPT_EXCEEDED.getCode());
-
-  }
-
-  /*[Case #6] 정상 로그인시 시도 횟수가 초기화되고 이후 잘못된 비밀번호로 5회 초과시 로그인 제한이 걸린다*/
-  @DisplayName("정상 로그인시 시도 횟수가 초기화되고 이후 잘못된 비밀번호로 5회 초과시 로그인 제한이 걸린다")
-  @Test
-  public void checkLoginAttempt_shouldResetAndBlock_whenSuccessAndExceeded() throws Exception {
-    //given
-    String invalidPassword = "invalid_password";
-    //when
-
-    /*잘못된 로그인 3회 시도*/
-    for (int i = 0; i < 3; i++) {
-      sendLoginRequest(EMAIL_VERIFIED_USER, invalidPassword, new TypeReference<>() {
-      }, status().isUnauthorized());
-    }
-
-    /*정상 로그인 시도*/
-    CommonResponse<LoginTokenResponse> response1 = sendLoginRequest(EMAIL_VERIFIED_USER, PASSWORD,
-        new TypeReference<>() {
-        }, status().isOk());
-
-    /*잘봇된 로그인 5회 시도*/
-    for (int i = 0; i < MAX_LOGIN_ATTEMPTS; i++) {
-      sendLoginRequest(EMAIL_VERIFIED_USER, invalidPassword, new TypeReference<>() {
-      }, status().isUnauthorized());
-    }
-    CommonResponse<Object> response2 = sendLoginRequest(EMAIL_VERIFIED_USER, invalidPassword,
-        new TypeReference<>() {
-        }, status().isTooManyRequests());
-
-    //then
-    assertAll(
-        () -> assertTrue(response1.isSuccess()),
-        () -> assertNotNull(response1.getData().accessToken())
-    );
-
-    assertAll(
-        () -> assertFalse(response2.isSuccess()),
-        () -> assertThat(response2.getCode()).isEqualTo(ErrorCode.LOGIN_ATTEMPT_EXCEEDED.getCode())
-    );
-
-  }
-
-  /*[Case #7] 로그인 제한 후 시간이 지나면 초기화 되어야 한다.*/
-  @DisplayName("로그인 제한 후 시간이 지나면 초기화 되어야 한다.")
-  @Test
-  public void checkLoginAttempt_shouldAllowLogin_whenTtlExpires() throws Exception {
-    //given
-    String invalidPassword = "invalid_password";
-    //when
-
-    /*잘봇된 로그인 5회 시도*/
-    for (int i = 0; i < MAX_LOGIN_ATTEMPTS; i++) {
-      sendLoginRequest(EMAIL_VERIFIED_USER, invalidPassword, new TypeReference<>() {
-      }, status().isUnauthorized());
-    }
-    CommonResponse<Object> response1 = sendLoginRequest(EMAIL_VERIFIED_USER, invalidPassword,
-        new TypeReference<>() {
-        }, status().isTooManyRequests());
-
-    /*ttl 만료까지 대기*/
-    Thread.sleep(5200);
-
-    /*정상 로그인 시도*/
-    CommonResponse<LoginTokenResponse> response2 = sendLoginRequest(EMAIL_VERIFIED_USER, PASSWORD,
-        new TypeReference<>() {
-        }, status().isOk());
-
-    //then
-    assertAll(
-        () -> assertFalse(response1.isSuccess()),
-        () -> assertThat(response1.getCode()).isEqualTo(ErrorCode.LOGIN_ATTEMPT_EXCEEDED.getCode())
+      for (int i = 0; i < 50; i++) {
+        loginResponse = sendLoginRequest(
+            EMAIL_VERIFIED_USER_1, PASSWORD, new TypeReference<>() {
+            }, status().isOk()
         );
+        accessTokenList.add(loginResponse.getData().accessToken());
+        refreshTokenList.add(loginResponse.getData().refreshToken());
+      }
 
-    assertTrue(response2.isSuccess());
+      //when
+      HashSet<String> accessTokenSet = new HashSet<>(accessTokenList);
+      HashSet<String> refreshTokenSet = new HashSet<>(refreshTokenList);
 
+      //then
+      assertAll(
+          () -> assertThat(accessTokenSet.size()).isEqualTo(accessTokenList.size()),
+          () -> assertThat(refreshTokenSet.size()).isEqualTo(refreshTokenSet.size())
+      );
+    }
+
+    /*[Case #5] 로그인 제한 후 시간이 지나면 초기화 되어야 한다.*/
+    @Order(5)
+    @DisplayName("성공-5. 로그인 제한 후 시간이 지나면 초기화, 이후 로그인 시도")
+    @Test
+    public void checkLoginAttempt_shouldAllowLogin_whenTtlExpires() throws Exception {
+      //given
+      String invalidPassword = "invalid_password";
+      //when
+
+      /*잘봇된 로그인 5회 시도*/
+      for (int i = 0; i < MAX_LOGIN_ATTEMPTS; i++) {
+        sendLoginRequest(EMAIL_VERIFIED_USER_1, invalidPassword, new TypeReference<>() {
+        }, status().isUnauthorized());
+      }
+      CommonResponse<Object> response1 = sendLoginRequest(EMAIL_VERIFIED_USER_1, invalidPassword,
+          new TypeReference<>() {
+          }, status().isTooManyRequests());
+
+      /*ttl 만료까지 대기*/
+      Thread.sleep(5200);
+
+      /*정상 로그인 시도*/
+      CommonResponse<LoginTokenResponse> response2 = sendLoginRequest(EMAIL_VERIFIED_USER_1,
+          PASSWORD,
+          new TypeReference<>() {
+          }, status().isOk());
+
+      //then
+      assertAll(
+          () -> assertFalse(response1.isSuccess()),
+          () -> assertThat(response1.getCode()).isEqualTo(
+              ErrorCode.LOGIN_ATTEMPT_EXCEEDED.getCode())
+      );
+
+      assertTrue(response2.isSuccess());
+
+    }
+
+    @Order(6)
+    /*[Case #6] 잘못된 비밀번호로 로그인 5회이상 시도할경우 - 로그인 제한*/
+    @DisplayName("실패-1. 잘못된 비밀번호로 5회 이상 로그인 시도 할 경우")
+    @Test
+    public void checkLoginAttempt_shouldFail_whenExceededMaxAttempts() throws Exception {
+      //given
+      String invalidPassword = "invalid_password";
+      //when
+
+      /*로그인 5회 시도*/
+      for (int i = 0; i < MAX_LOGIN_ATTEMPTS; i++) {
+        sendLoginRequest(EMAIL_VERIFIED_USER_1, invalidPassword, new TypeReference<>() {
+        }, status().isUnauthorized());
+      }
+      CommonResponse<Object> response = sendLoginRequest(EMAIL_VERIFIED_USER_1, invalidPassword,
+          new TypeReference<>() {
+          }, status().isTooManyRequests());
+
+      //then
+      assertFalse(response.isSuccess());
+      assertThat(response.getCode()).isEqualTo(ErrorCode.LOGIN_ATTEMPT_EXCEEDED.getCode());
+
+    }
+
+    /*[Case #7] 정상 로그인시 시도 횟수가 초기화되고 이후 잘못된 비밀번호로 5회 초과시 로그인 제한이 걸린다*/
+    @Order(7)
+    @DisplayName("실패-2. 정상 로그인시 시도 횟수가 초기화되고 이후 잘못된 비밀번호로 5회 초과시 로그인 제한")
+    @Test
+    public void checkLoginAttempt_shouldResetAndBlock_whenSuccessAndExceeded() throws Exception {
+      //given
+      String invalidPassword = "invalid_password";
+      //when
+
+      /*잘못된 로그인 3회 시도*/
+      for (int i = 0; i < 3; i++) {
+        sendLoginRequest(EMAIL_VERIFIED_USER_1, invalidPassword, new TypeReference<>() {
+        }, status().isUnauthorized());
+      }
+
+      /*정상 로그인 시도*/
+      CommonResponse<LoginTokenResponse> response1 = sendLoginRequest(EMAIL_VERIFIED_USER_1,
+          PASSWORD,
+          new TypeReference<>() {
+          }, status().isOk());
+
+      /*잘봇된 로그인 5회 시도*/
+      for (int i = 0; i < MAX_LOGIN_ATTEMPTS; i++) {
+        sendLoginRequest(EMAIL_VERIFIED_USER_1, invalidPassword, new TypeReference<>() {
+        }, status().isUnauthorized());
+      }
+      CommonResponse<Object> response2 = sendLoginRequest(EMAIL_VERIFIED_USER_1, invalidPassword,
+          new TypeReference<>() {
+          }, status().isTooManyRequests());
+
+      //then
+      assertAll(
+          () -> assertTrue(response1.isSuccess()),
+          () -> assertNotNull(response1.getData().accessToken())
+      );
+
+      assertAll(
+          () -> assertFalse(response2.isSuccess()),
+          () -> assertThat(response2.getCode()).isEqualTo(
+              ErrorCode.LOGIN_ATTEMPT_EXCEEDED.getCode())
+      );
+    }
   }
 }

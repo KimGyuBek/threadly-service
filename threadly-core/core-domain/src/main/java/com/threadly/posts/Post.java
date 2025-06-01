@@ -4,8 +4,6 @@ import com.google.common.annotations.VisibleForTesting;
 import com.threadly.posts.comment.PostComment;
 import com.threadly.util.RandomUtils;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.Getter;
 
 /**
@@ -17,9 +15,6 @@ public class Post {
   private String postId;
   private String userId;
   private String content;
-
-  private List<PostLike> postLikes = new ArrayList<>();
-  private List<PostComment> postComments = new ArrayList<>();
 
   private int viewCount;
 
@@ -74,18 +69,10 @@ public class Post {
     this.viewCount++;
   }
 
-  /**
-   * 좋아요 수 조회
-   *
-   * @return
-   */
-  public int getLikesCount() {
-    return postLikes != null ? postLikes.size() : 0;
-  }
-
 
   /**
    * 게시글이 좋아요 가능한 상태인지 검증
+   *
    * @return
    */
   public void validateLikable() {
@@ -93,6 +80,7 @@ public class Post {
       throw new CannotLikePostException();
     }
   }
+
   /**
    * 좋아요 생성
    *
@@ -104,21 +92,6 @@ public class Post {
         PostLike.newLike(this.postId, userId);
   }
 
-//  /**
-//   * 좋아요 취소
-//   *
-//   * @param userId
-//   */
-//  public void unlike(String userId) {
-////    postLikes.removeIf(postLike -> postLike.getUserId().equals(userId));
-//  }
-
-  /**
-   * 좋아요 목록 조회
-   */
-  public List<PostLike> getLikesList() {
-    return new ArrayList<>(postLikes);
-  }
 
   /**
    * 게시글 삭제 상태로 변경
@@ -148,14 +121,6 @@ public class Post {
     this.status = PostStatusType.ARCHIVE;
   }
 
-  /**
-   * 댓글 수 조회
-   *
-   * @return
-   */
-  public int getCommentsCount() {
-    return postComments != null ? postComments.size() : 0;
-  }
 
   /**
    * 새로운 댓글 생성
@@ -164,35 +129,8 @@ public class Post {
    * @param comment
    */
   public PostComment addComment(String userId, String comment) {
-    PostComment newComment = PostComment.newComment(this.postId, userId, comment);
-    postComments.add(newComment);
-
-    return newComment;
-  }
-
-  /**
-   * 특정 댓글 조회
-   *
-   * @param commentId
-   * @return postComment
-   */
-  public PostComment findComment(String commentId) {
-    return postComments.stream().filter(
-        comment -> comment.getPostId().equals(commentId)
-    ).findFirst().orElse(null);
-  }
-
-  /**
-   * commentId로 comment 조회
-   *
-   * @param commentId
-   * @return
-   */
-  private PostComment findCommentById(String commentId) {
-    PostComment postComment = postComments.stream().filter(
-        comment -> comment.getCommentId().equals(commentId)
-    ).findFirst().orElse(null);
-    return postComment;
+    return
+        PostComment.newComment(this.postId, userId, comment);
   }
 
   /*Test*/
@@ -201,4 +139,16 @@ public class Post {
     this.postId = postId;
   }
 
+  public static Post newTestPost(String postId, String userId, String content,
+      int viewCount, PostStatusType status
+  ) {
+    return new Post(
+        postId,
+        userId,
+        content,
+        viewCount,
+        status,
+        null
+    );
+  }
 }

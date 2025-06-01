@@ -6,15 +6,15 @@ import static com.threadly.posts.PostStatusType.DELETED;
 import com.threadly.ErrorCode;
 import com.threadly.exception.post.PostException;
 import com.threadly.exception.user.UserException;
+import com.threadly.post.create.CreatePostApiResponse;
 import com.threadly.post.create.CreatePostCommand;
+import com.threadly.post.create.CreatePostUseCase;
 import com.threadly.post.delete.DeletePostCommand;
+import com.threadly.post.delete.DeletePostUseCase;
 import com.threadly.post.fetch.FetchPostPort;
 import com.threadly.post.save.SavePostPort;
-import com.threadly.post.update.UpdatePostCommand;
-import com.threadly.post.create.CreatePostUseCase;
-import com.threadly.post.create.CreatePostApiResponse;
-import com.threadly.post.delete.DeletePostUseCase;
 import com.threadly.post.update.UpdatePostApiResponse;
+import com.threadly.post.update.UpdatePostCommand;
 import com.threadly.post.update.UpdatePostPort;
 import com.threadly.post.update.UpdatePostUseCase;
 import com.threadly.posts.Post;
@@ -56,8 +56,8 @@ public class PostCommandService implements CreatePostUseCase, UpdatePostUseCase,
         userProfile.getNickname(),
         savedPost.getUserId(),
         savedPost.getContent(),
-        savedPost.getLikesCount(),
-        savedPost.getCommentsCount(),
+        0,
+        0,
         savedPost.getPostedAt()
     );
   }
@@ -80,14 +80,15 @@ public class PostCommandService implements CreatePostUseCase, UpdatePostUseCase,
     post.updateContent(command.getContent());
     updatePostPort.updatePost(post);
 
+    /*TODO 게시글 조회수 조회 로직 추가*/
+
     return new UpdatePostApiResponse(
         post.getPostId(),
         userProfile.getProfileImageUrl(),
         userProfile.getNickname(),
         post.getUserId(),
         post.getContent(),
-        post.getLikesCount(),
-        post.getCommentsCount(),
+        0, 0,
         post.getPostedAt()
     );
   }

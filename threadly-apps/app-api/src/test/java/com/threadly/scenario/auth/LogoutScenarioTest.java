@@ -1,6 +1,6 @@
 package com.threadly.scenario.auth;
 
-import static com.threadly.utils.TestConstants.EMAIL_VERIFIED_USER;
+import static com.threadly.utils.TestConstants.EMAIL_VERIFIED_USER_1;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -15,7 +15,9 @@ import com.threadly.ErrorCode;
 import com.threadly.auth.token.response.LoginTokenResponse;
 import java.util.HashMap;
 import java.util.Map;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,55 +27,65 @@ import org.springframework.transaction.annotation.Transactional;
 public class LogoutScenarioTest extends BaseApiTest {
 
 
-  /*로그아웃 시나리오 테스트*/
-  /*[Case #1] 로그인 -> 로그아웃 -> '/'접속시 불가 */
-  @DisplayName("로그인 후 '/' 접속 -> 성공")
-  @Test
-  @Transactional
-  public void accessProtectedResource_shouldFail_afterLogout() throws Exception {
-    //given
+  @BeforeEach
+  void setUp() {
+    super.setUpDefaultUser();
+  }
 
-    /*1. 로그인 요청 전송*/
-    CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(
-        EMAIL_VERIFIED_USER, PASSWORD, new TypeReference<CommonResponse<LoginTokenResponse>>() {
-        }, status().isOk());
+  @Nested
+  @DisplayName("로그아웃 시나리오 테스트")
+  class logoutTest {
 
-    String accessToken = loginResponse.getData().accessToken();
 
-    /*2. 로그아웃 요청 전송*/
-    Map<String, String> headers = new HashMap<>();
-    headers.put("Authorization", "Bearer " + accessToken);
+    /*로그아웃 시나리오 테스트*/
+    /*[Case #1] 로그인 -> 로그아웃 -> '/'접속시 접속 불가 */
+    @DisplayName("실패-1. 로그인 후 '/' 접속")
+    @Test
+    @Transactional
+    public void accessProtectedResource_shouldFail_afterLogout() throws Exception {
+      //given
 
-    CommonResponse<Object> logoutResponse = sendLogoutRequest(
-        new TypeReference<CommonResponse<Object>>() {
-        },
-        status().isOk(),
-        headers
-    );
+      /*1. 로그인 요청 전송*/
+      CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(
+          EMAIL_VERIFIED_USER_1, PASSWORD, new TypeReference<CommonResponse<LoginTokenResponse>>() {
+          }, status().isOk());
 
-    /* '/' 경로로 접속*/
-    CommonResponse response = sendGetRequest(
-        accessToken,
-        "/",
-        status().isBadRequest()
-    );
+      String accessToken = loginResponse.getData().accessToken();
 
-    //then
-    /*login response 검증*/
-    assertAll(
-        () -> assertTrue(loginResponse.isSuccess()),
-        () -> assertNotNull(loginResponse.getData().accessToken())
-    );
+      /*2. 로그아웃 요청 전송*/
+      Map<String, String> headers = new HashMap<>();
+      headers.put("Authorization", "Bearer " + accessToken);
 
-    /*logout response 검증*/
-    assertTrue(logoutResponse.isSuccess());
+      CommonResponse<Object> logoutResponse = sendLogoutRequest(
+          new TypeReference<CommonResponse<Object>>() {
+          },
+          status().isOk(),
+          headers
+      );
 
-    /* '/' 접속 검증*/
-    assertAll(
-        () -> assertFalse(response.isSuccess()),
-        () -> assertThat(response.getCode()).isEqualTo(ErrorCode.TOKEN_INVALID.getCode())
-    );
+      /* '/' 경로로 접속*/
+      CommonResponse response = sendGetRequest(
+          accessToken,
+          "/",
+          status().isBadRequest()
+      );
 
+      //then
+      /*login response 검증*/
+      assertAll(
+          () -> assertTrue(loginResponse.isSuccess()),
+          () -> assertNotNull(loginResponse.getData().accessToken())
+      );
+
+      /*logout response 검증*/
+      assertTrue(logoutResponse.isSuccess());
+
+      /* '/' 접속 검증*/
+      assertAll(
+          () -> assertFalse(response.isSuccess()),
+          () -> assertThat(response.getCode()).isEqualTo(ErrorCode.TOKEN_INVALID.getCode())
+      );
+    }
   }
 
 

@@ -1,5 +1,6 @@
 package com.threadly.controller.post.comment.like;
 
+import static com.threadly.utils.TestConstants.EMAIL_VERIFIED_USER_1;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -26,7 +27,7 @@ public class DeletePostCommentLikeApiTest extends BasePostApiTest {
   public void cancelPostCommentLike_shouldCancelLikeAndDecreaseLikeCountWhenAlreadyLiked()
       throws Exception {
     //given
-    String email = VERIFIED_USER_EMAILS.get(0);
+    String email = EMAIL_VERIFIED_USER_1;
 
     /*로그인 요청*/
     String accessToken = getAccessToken(email);
@@ -58,7 +59,7 @@ public class DeletePostCommentLikeApiTest extends BasePostApiTest {
   @Test
   public void cancelPostCommentLike_shouldBeIdempotentWhenCancelLikeMultipleTimes() throws Exception {
     //given
-    String email = VERIFIED_USER_EMAILS.get(0);
+    String email = EMAIL_VERIFIED_USER_1;
 
     /*로그인 요청*/
     String accessToken = getAccessToken(email);
@@ -96,7 +97,7 @@ public class DeletePostCommentLikeApiTest extends BasePostApiTest {
 @Test
 public void cancelPostCommentLike_shouldNotFailWhenUserDidNotLikeBefore() throws Exception {
   //given
-  String email = VERIFIED_USER_EMAILS.get(0);
+  String email = EMAIL_VERIFIED_USER_1;
 
   /*로그인 요청*/
   String accessToken = getAccessToken(email);

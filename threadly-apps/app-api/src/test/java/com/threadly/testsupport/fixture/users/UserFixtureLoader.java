@@ -1,8 +1,10 @@
-package com.threadly.testsupport.fixture;
+package com.threadly.testsupport.fixture.users;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.threadly.adapter.user.UserPersistenceAdapter;
-import com.threadly.testsupport.dto.UserFixtureDto;
+import com.threadly.testsupport.dto.users.UserFixtureDto;
+import com.threadly.testsupport.fixture.FixtureLoader;
+import com.threadly.testsupport.mapper.users.UserFixtureMapper;
 import com.threadly.user.User;
 import com.threadly.user.UserProfile;
 import com.threadly.utils.TestLogUtils;
@@ -25,20 +27,36 @@ public class UserFixtureLoader {
   @PersistenceContext
   private final EntityManager entityManager;
 
-  /*전체 사용자 데이터 생성*/
+  /**
+   * 전체 사용자 데이터 삽입
+   *
+   * @param path
+   */
   @Transactional
   public void load(String path) {
     List<UserFixtureDto> userData = getUserData(path);
     generateUser(userData, userData.size());
   }
 
-  /*특정 범위 사용자 데이터 생성*/
+
+  /**
+   * count 만큼 사용자 데이터 삽입
+   *
+   * @param path
+   * @param count
+   */
   @Transactional
   public void load(String path, int count) {
     List<UserFixtureDto> userData = getUserData(path);
     generateUser(userData, count);
   }
 
+  /**
+   * 사용자 생성
+   *
+   * @param userFixtureDtoList
+   * @param count
+   */
   private void generateUser(List<UserFixtureDto> userFixtureDtoList, int count) {
     List<UserFixtureDto> fixtures = userFixtureDtoList;
 
@@ -57,9 +75,9 @@ public class UserFixtureLoader {
       if (dto.getUserProfile() != null) {
         UserProfile userProfile = UserFixtureMapper.toProfile(dto);
         userPersistenceAdapter.saveUserProfile(user, userProfile);
+      } else {
+        userPersistenceAdapter.save(user);
       }
-
-      userPersistenceAdapter.save(user);
     }
 
     /*트랜잭션 커밋 전에 insert 쿼리 강제 실행*/

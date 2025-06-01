@@ -1,6 +1,6 @@
-package com.threadly.testsupport.fixture;
+package com.threadly.testsupport.mapper.users;
 
-import com.threadly.testsupport.dto.UserFixtureDto;
+import com.threadly.testsupport.dto.users.UserFixtureDto;
 import com.threadly.user.User;
 import com.threadly.user.UserProfile;
 

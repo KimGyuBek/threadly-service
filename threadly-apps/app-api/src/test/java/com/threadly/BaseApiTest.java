@@ -9,11 +9,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.threadly.controller.auth.request.UserLoginRequest;
+import com.threadly.testsupport.fixture.users.UserFixtureLoader;
 import com.threadly.utils.TestLogUtils;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -39,6 +41,14 @@ import org.springframework.test.web.servlet.ResultMatcher;
 //    "/testdata/post_like_data.sql",
 //})
 public abstract class BaseApiTest {
+
+  @Autowired
+  private UserFixtureLoader userFixtureLoader;
+
+  @BeforeEach
+  public void setUpDefaultUser() {
+    userFixtureLoader.load("/users/user-email-verified.json");
+  }
 
   @Autowired
   private MockMvc mockMvc;
