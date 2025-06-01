@@ -40,7 +40,7 @@ class UpdatePostApiTest extends BasePostApiTest {
     class success {
 
       /*[Case #1] 작성자가 수정 요청 시 정상적으로 수정되어야 한다 */
-      @DisplayName("1. 작성자가 수정 요청 시 정상적으로 수정")
+      @DisplayName("1. 작성자가 수정 요청 시 정상적으로 수정되는지 검증")
       @Test
       public void updatePost_shouldUpdatePostSuccessfully_whenWriterRequestsUpdate()
           throws Exception {

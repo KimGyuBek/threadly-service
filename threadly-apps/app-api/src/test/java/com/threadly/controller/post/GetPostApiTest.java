@@ -26,6 +26,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * 게시글 조회 관련 API 테스트
+ * <p>
+ * 테스트 데이터 {/test/resources/fixtures/users/user-fixture.json,
+ * /test/resources/fixtures/posts/post-fixture.json/}
  */
 @TestClassOrder(ClassOrderer.OrderAnnotation.class)
 class GetPostApiTest extends BasePostApiTest {

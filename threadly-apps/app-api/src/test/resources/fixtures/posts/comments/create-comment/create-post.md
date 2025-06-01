@@ -1,6 +1,6 @@
-# /post-like 설명
+# /create-comment 설명
 
-> 이 파일은 게시글 좋아요 API 테스트를 위한 데이터 설명 문서입니다.
+> 이 파일은 게시글 댓글 API 테스트를 위한 데이터 설명 문서입니다.
 
 ---
 
@@ -20,7 +20,7 @@
 
 ## 실행 순서
 
-1. `users.json` → users, user_profiles 삽입
+1. `user.json` → users, user_profiles 삽입
 2. `post.json` → 게시글 삽입
 3. 좋아요 API 테스트 실행 (users, posts 선행 필요)
 
@@ -57,7 +57,7 @@ public static final String DELETED_POST_ID = "deleted_post_id";
 // 게시글 작성자 이메일
 public static final String POST_WRITER_EMAIL = "writer@threadly.com";
 
-// 좋아요를 누를 사용자 이메일 목록
+// 댓글 작성 할 사용자 이메일 목록
 public static final List<String> POST_LIKE_USER_EMAILS = List.of(
     "sunset_gazer1@threadly.com",
     "sky_gazer2@threadly.com",

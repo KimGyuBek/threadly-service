@@ -1,0 +1,772 @@
+[
+  {
+    "commentId": "cmt_active_001",
+    "postId": "active_post_id",
+    "userId": "usr_writer",
+    "content": "__writer__의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_002",
+    "postId": "active_post_id",
+    "userId": "usr1",
+    "content": "sunset_gazer의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_003",
+    "postId": "active_post_id",
+    "userId": "usr2",
+    "content": "sky_gazer의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_004",
+    "postId": "active_post_id",
+    "userId": "usr3",
+    "content": "book_worm의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_005",
+    "postId": "active_post_id",
+    "userId": "usr4",
+    "content": "beach_bum의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_006",
+    "postId": "active_post_id",
+    "userId": "usr5",
+    "content": "early_bird의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_007",
+    "postId": "active_post_id",
+    "userId": "usr6",
+    "content": "mountain_hiker의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_008",
+    "postId": "active_post_id",
+    "userId": "usr7",
+    "content": "dream_chaser의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_009",
+    "postId": "active_post_id",
+    "userId": "usr8",
+    "content": "night_owl의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_010",
+    "postId": "active_post_id",
+    "userId": "usr9",
+    "content": "mountain_hiker의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_011",
+    "postId": "active_post_id",
+    "userId": "usr10",
+    "content": "mountain_hiker의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_012",
+    "postId": "active_post_id",
+    "userId": "usr11",
+    "content": "dream_chaser의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_013",
+    "postId": "active_post_id",
+    "userId": "usr12",
+    "content": "breeze_seeker의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_014",
+    "postId": "active_post_id",
+    "userId": "usr13",
+    "content": "early_bird의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_015",
+    "postId": "active_post_id",
+    "userId": "usr14",
+    "content": "silent_walker의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_016",
+    "postId": "active_post_id",
+    "userId": "usr15",
+    "content": "beach_bum의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_017",
+    "postId": "active_post_id",
+    "userId": "usr16",
+    "content": "sky_gazer의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_018",
+    "postId": "active_post_id",
+    "userId": "usr17",
+    "content": "city_runner의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_019",
+    "postId": "active_post_id",
+    "userId": "usr18",
+    "content": "beach_bum의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_020",
+    "postId": "active_post_id",
+    "userId": "usr19",
+    "content": "wave_rider의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_021",
+    "postId": "active_post_id",
+    "userId": "usr20",
+    "content": "tea_addict의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_022",
+    "postId": "active_post_id",
+    "userId": "usr21",
+    "content": "sunset_gazer의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_023",
+    "postId": "active_post_id",
+    "userId": "usr22",
+    "content": "night_owl의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_024",
+    "postId": "active_post_id",
+    "userId": "usr23",
+    "content": "lazy_sunday의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_025",
+    "postId": "active_post_id",
+    "userId": "usr24",
+    "content": "tea_addict의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_026",
+    "postId": "active_post_id",
+    "userId": "usr25",
+    "content": "coffee_lover의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_027",
+    "postId": "active_post_id",
+    "userId": "usr26",
+    "content": "sky_gazer의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_028",
+    "postId": "active_post_id",
+    "userId": "usr27",
+    "content": "rainy_day의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_029",
+    "postId": "active_post_id",
+    "userId": "usr28",
+    "content": "breeze_seeker의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_030",
+    "postId": "active_post_id",
+    "userId": "usr29",
+    "content": "sunset_gazer의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_031",
+    "postId": "active_post_id",
+    "userId": "usr30",
+    "content": "silent_walker의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_032",
+    "postId": "active_post_id",
+    "userId": "usr31",
+    "content": "lazy_sunday의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_033",
+    "postId": "active_post_id",
+    "userId": "usr32",
+    "content": "tea_addict의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_034",
+    "postId": "active_post_id",
+    "userId": "usr33",
+    "content": "lazy_sunday의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_035",
+    "postId": "active_post_id",
+    "userId": "usr34",
+    "content": "rainy_day의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_036",
+    "postId": "active_post_id",
+    "userId": "usr35",
+    "content": "book_worm의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_037",
+    "postId": "active_post_id",
+    "userId": "usr36",
+    "content": "bike_rider의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_038",
+    "postId": "active_post_id",
+    "userId": "usr37",
+    "content": "sunset_gazer의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_039",
+    "postId": "active_post_id",
+    "userId": "usr38",
+    "content": "art_junkie의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_040",
+    "postId": "active_post_id",
+    "userId": "usr39",
+    "content": "mountain_hiker의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_041",
+    "postId": "active_post_id",
+    "userId": "usr40",
+    "content": "beach_bum의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_042",
+    "postId": "active_post_id",
+    "userId": "usr41",
+    "content": "silent_walker의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_043",
+    "postId": "active_post_id",
+    "userId": "usr42",
+    "content": "wave_rider의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_044",
+    "postId": "active_post_id",
+    "userId": "usr43",
+    "content": "coffee_lover의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_045",
+    "postId": "active_post_id",
+    "userId": "usr44",
+    "content": "coffee_lover의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_046",
+    "postId": "active_post_id",
+    "userId": "usr45",
+    "content": "dream_chaser의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_047",
+    "postId": "active_post_id",
+    "userId": "usr46",
+    "content": "dream_chaser의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_048",
+    "postId": "active_post_id",
+    "userId": "usr47",
+    "content": "book_worm의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_049",
+    "postId": "active_post_id",
+    "userId": "usr48",
+    "content": "dream_chaser의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_050",
+    "postId": "active_post_id",
+    "userId": "usr49",
+    "content": "art_junkie의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_051",
+    "postId": "active_post_id",
+    "userId": "usr50",
+    "content": "lazy_sunday의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_052",
+    "postId": "active_post_id",
+    "userId": "usr51",
+    "content": "tea_addict의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_053",
+    "postId": "active_post_id",
+    "userId": "usr52",
+    "content": "dream_chaser의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_054",
+    "postId": "active_post_id",
+    "userId": "usr53",
+    "content": "art_junkie의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_055",
+    "postId": "active_post_id",
+    "userId": "usr54",
+    "content": "night_owl의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_056",
+    "postId": "active_post_id",
+    "userId": "usr55",
+    "content": "night_owl의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_057",
+    "postId": "active_post_id",
+    "userId": "usr56",
+    "content": "coffee_lover의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_058",
+    "postId": "active_post_id",
+    "userId": "usr57",
+    "content": "forest_soul의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_059",
+    "postId": "active_post_id",
+    "userId": "usr58",
+    "content": "rainy_day의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_060",
+    "postId": "active_post_id",
+    "userId": "usr59",
+    "content": "gallery_goer의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_061",
+    "postId": "active_post_id",
+    "userId": "usr60",
+    "content": "rainy_day의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_062",
+    "postId": "active_post_id",
+    "userId": "usr61",
+    "content": "early_bird의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_063",
+    "postId": "active_post_id",
+    "userId": "usr62",
+    "content": "rainy_day의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_064",
+    "postId": "active_post_id",
+    "userId": "usr63",
+    "content": "dream_chaser의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_065",
+    "postId": "active_post_id",
+    "userId": "usr64",
+    "content": "breeze_seeker의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_066",
+    "postId": "active_post_id",
+    "userId": "usr65",
+    "content": "forest_soul의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_067",
+    "postId": "active_post_id",
+    "userId": "usr66",
+    "content": "city_runner의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_068",
+    "postId": "active_post_id",
+    "userId": "usr67",
+    "content": "city_runner의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_069",
+    "postId": "active_post_id",
+    "userId": "usr68",
+    "content": "dream_chaser의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_070",
+    "postId": "active_post_id",
+    "userId": "usr69",
+    "content": "city_runner의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_071",
+    "postId": "active_post_id",
+    "userId": "usr70",
+    "content": "early_bird의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_072",
+    "postId": "active_post_id",
+    "userId": "usr71",
+    "content": "coffee_lover의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_073",
+    "postId": "active_post_id",
+    "userId": "usr72",
+    "content": "gallery_goer의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_074",
+    "postId": "active_post_id",
+    "userId": "usr73",
+    "content": "breeze_seeker의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_075",
+    "postId": "active_post_id",
+    "userId": "usr74",
+    "content": "forest_soul의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_076",
+    "postId": "active_post_id",
+    "userId": "usr75",
+    "content": "breeze_seeker의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_077",
+    "postId": "active_post_id",
+    "userId": "usr76",
+    "content": "city_runner의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_078",
+    "postId": "active_post_id",
+    "userId": "usr77",
+    "content": "wave_rider의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_079",
+    "postId": "active_post_id",
+    "userId": "usr78",
+    "content": "dream_chaser의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_080",
+    "postId": "active_post_id",
+    "userId": "usr79",
+    "content": "early_bird의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_081",
+    "postId": "active_post_id",
+    "userId": "usr80",
+    "content": "night_owl의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_082",
+    "postId": "active_post_id",
+    "userId": "usr81",
+    "content": "sunset_gazer의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_083",
+    "postId": "active_post_id",
+    "userId": "usr82",
+    "content": "dream_chaser의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_084",
+    "postId": "active_post_id",
+    "userId": "usr83",
+    "content": "silent_walker의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_085",
+    "postId": "active_post_id",
+    "userId": "usr84",
+    "content": "forest_soul의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_086",
+    "postId": "active_post_id",
+    "userId": "usr85",
+    "content": "gallery_goer의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_087",
+    "postId": "active_post_id",
+    "userId": "usr86",
+    "content": "forest_soul의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_088",
+    "postId": "active_post_id",
+    "userId": "usr87",
+    "content": "night_owl의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_089",
+    "postId": "active_post_id",
+    "userId": "usr88",
+    "content": "beach_bum의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_090",
+    "postId": "active_post_id",
+    "userId": "usr89",
+    "content": "art_junkie의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_091",
+    "postId": "active_post_id",
+    "userId": "usr90",
+    "content": "city_runner의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_092",
+    "postId": "active_post_id",
+    "userId": "usr91",
+    "content": "lazy_sunday의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_093",
+    "postId": "active_post_id",
+    "userId": "usr92",
+    "content": "bike_rider의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_094",
+    "postId": "active_post_id",
+    "userId": "usr93",
+    "content": "coffee_lover의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_095",
+    "postId": "active_post_id",
+    "userId": "usr94",
+    "content": "early_bird의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_096",
+    "postId": "active_post_id",
+    "userId": "usr95",
+    "content": "lazy_sunday의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_097",
+    "postId": "active_post_id",
+    "userId": "usr96",
+    "content": "mountain_hiker의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_098",
+    "postId": "active_post_id",
+    "userId": "usr97",
+    "content": "rainy_day의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_099",
+    "postId": "active_post_id",
+    "userId": "usr98",
+    "content": "tea_addict의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_100",
+    "postId": "active_post_id",
+    "userId": "usr99",
+    "content": "early_bird의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_101",
+    "postId": "active_post_id",
+    "userId": "usr100",
+    "content": "breeze_seeker의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_archived_post_id_001",
+    "postId": "archived_post_id",
+    "userId": "usr_writer",
+    "content": "__writer__의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_archived_post_id_002",
+    "postId": "archived_post_id",
+    "userId": "usr1",
+    "content": "sunset_gazer의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_archived_post_id_003",
+    "postId": "archived_post_id",
+    "userId": "usr2",
+    "content": "sky_gazer의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_blocked_post_id_001",
+    "postId": "blocked_post_id",
+    "userId": "usr_writer",
+    "content": "__writer__의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_blocked_post_id_002",
+    "postId": "blocked_post_id",
+    "userId": "usr1",
+    "content": "sunset_gazer의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_blocked_post_id_003",
+    "postId": "blocked_post_id",
+    "userId": "usr2",
+    "content": "sky_gazer의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_deleted_post_id_001",
+    "postId": "deleted_post_id",
+    "userId": "usr_writer",
+    "content": "__writer__의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_deleted_post_id_002",
+    "postId": "deleted_post_id",
+    "userId": "usr1",
+    "content": "sunset_gazer의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_deleted_post_id_003",
+    "postId": "deleted_post_id",
+    "userId": "usr2",
+    "content": "sky_gazer의 댓글입니다.",
+    "status": "ACTIVE"
+  }
+]

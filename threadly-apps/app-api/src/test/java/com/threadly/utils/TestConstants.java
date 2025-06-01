@@ -17,7 +17,7 @@ public class TestConstants {
    * 이메일 인증 받은 사용자 이메일
    * <p>
    *
-   * @see /users/user-fixture.json
+   * @see /users/user.json
    */
   public static final String EMAIL_VERIFIED_USER_1 = "sunset_gazer1@threadly.com";
   public static final String EMAIL_VERIFIED_USER_2 = "sky_gazer2@threadly.com";

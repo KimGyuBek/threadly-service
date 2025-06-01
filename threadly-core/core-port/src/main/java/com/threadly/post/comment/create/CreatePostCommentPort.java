@@ -14,8 +14,8 @@ public interface CreatePostCommentPort {
    * @param postComment
    * @return
    */
-  CreatePostCommentResponse savePostComment(Post post,
-      PostComment postComment, User user);
+  CreatePostCommentResponse savePostComment(
+      PostComment postComment);
 
 
 }

@@ -26,9 +26,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * 게시글 좋아요 조회 관련 API 테스트
+ * <p>
+ * 테스트 데이터 = {/posts/likes/post-like-list/}
  */
 @TestClassOrder(ClassOrderer.OrderAnnotation.class)
 public class GetPostLikeApiTest extends BasePostApiTest {
+
+  @Autowired
+  private PostLikeFixtureLoader postLikeFixtureLoader;
+
+  @BeforeEach
+  void setUp() throws Exception {
+    super.setUpDefaultUser();
+
+    postLikeFixtureLoader.load(
+        "/posts/likes/post-like-list/post-like-user.json",
+        "/posts/likes/post-like-list/post.json",
+        "/posts/likes/post-like-list/post-likes.json"
+    );
+  }
 
   /**
    * 좋아요가 있는 게시글 ID
@@ -57,19 +73,6 @@ public class GetPostLikeApiTest extends BasePostApiTest {
       "usr116", "usr117", "usr118", "usr119", "usr120",
       "usr121", "usr122", "usr123", "usr124", "usr125"
   );
-  @Autowired
-  private PostLikeFixtureLoader postLikeFixtureLoader;
-
-  @BeforeEach
-  void setUp() throws Exception {
-    super.setUpDefaultUser();
-
-    postLikeFixtureLoader.load(
-        "/posts/likes/post-like-list/post-like-user.json",
-        "/posts/likes/post-like-list/post.json",
-        "/posts/likes/post-like-list/post-likes.json"
-    );
-  }
 
   /**
    * getPostLikers - 테스트

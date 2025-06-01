@@ -21,6 +21,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * 게시글 상태 수정 관련 API 테스트
+ *
+ * 테스트 데이터 {/test/resources/fixtures/posts/post-delete//}
  */
 @TestClassOrder(ClassOrderer.OrderAnnotation.class)
 class UpdatePostStatusApiTest extends BasePostApiTest {
@@ -38,7 +40,7 @@ class UpdatePostStatusApiTest extends BasePostApiTest {
 
   @BeforeEach
   void setUp() throws Exception {
-    postFixtureLoader.load("/posts/post-delete/post-user.json", "/posts/post-delete/post.json");
+    postFixtureLoader.load("/posts/post-delete/user.json", "/posts/post-delete/post.json");
   }
 
   /**

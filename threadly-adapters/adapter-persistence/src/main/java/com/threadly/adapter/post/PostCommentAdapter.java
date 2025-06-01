@@ -29,7 +29,7 @@ public class PostCommentAdapter implements CreatePostCommentPort, FetchPostComme
   private final PostCommentJpaRepository postCommentJpaRepository;
 
   @Override
-  public CreatePostCommentResponse savePostComment(Post post, PostComment postComment, User user) {
+  public CreatePostCommentResponse savePostComment( PostComment postComment) {
     PostCommentEntity postCommentEntity = PostCommentEntity.newComment(postComment);
 
     postCommentJpaRepository.save(postCommentEntity);
@@ -40,7 +40,6 @@ public class PostCommentAdapter implements CreatePostCommentPort, FetchPostComme
         postComment.getContent(),
         LocalDateTime.now()
     );
-
   }
 
   @Override

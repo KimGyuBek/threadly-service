@@ -2,6 +2,7 @@ package com.threadly;
 
 
 import com.threadly.controller.post.BasePostApiTest;
+import com.threadly.testsupport.fixture.posts.PostCommentFixtureLoader;
 import com.threadly.testsupport.fixture.posts.PostLikeFixtureLoader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,14 +18,22 @@ public class SampleTest extends BasePostApiTest {
 //  private PostFixtureLoader postFixtureLoader;
 
   @Autowired
+  private PostCommentFixtureLoader postCommentFixtureLoader;
+
+  @Autowired
   private PostLikeFixtureLoader postLikeFixtureLoader;
 
   @BeforeEach
   void setUp() {
-//    userFixtureLoader.load("/users/user-fixture.json");
+//    userFixtureLoader.load("/users/user.json");
 //    postFixtureLoader.load("/posts/post-fixture.json");
-    postLikeFixtureLoader.load("post-like-list/post-like-user.json", "post-like-list/post.json",
-        "post-like-list/post-likes.json");
+//    postLikeFixtureLoader.load("post-like-list/post-like-user.json", "post-like-list/post.json",
+//        "post-like-list/post-likes.json");
+    postCommentFixtureLoader.load(
+        "/posts/comments/get-comment/user.json",
+        "/posts/comments/get-comment/post.json",
+        "/posts/comments/get-comment/post-comment.json"
+    );
   }
 
   @Test

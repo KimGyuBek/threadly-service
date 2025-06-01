@@ -17,6 +17,7 @@ import org.junit.jupiter.api.TestClassOrder;
 
 /**
  * 게시글 생성 관련 API 테스트
+ *
  */
 @TestClassOrder(ClassOrderer.OrderAnnotation.class)
 class CreatePostApiTest extends BasePostApiTest {
