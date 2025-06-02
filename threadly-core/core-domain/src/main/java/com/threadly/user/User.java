@@ -1,5 +1,6 @@
 package com.threadly.user;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.threadly.util.RandomUtils;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -97,7 +98,7 @@ public class User {
       String profileImageUrl,
       UserProfileType profileType
   ) {
-    this.userProfile = UserProfile.create(
+    this.userProfile = UserProfile.newProfile(
         nickname,
         statusMessage,
         bio,
@@ -109,6 +110,7 @@ public class User {
 
   /**
    * userProfile 업데이트
+   *
    * @param nickname
    * @param statusMessage
    * @param bio
@@ -148,4 +150,37 @@ public class User {
     return userProfile.getProfileImageUrl();
   }
 
+  /*테스트용 메서드*/
+
+  /**
+   * 테스트용 User 도메인 생성
+   * @param userId
+   * @param userName
+   * @param password
+   * @param email
+   * @param phone
+   * @return
+   */
+  @VisibleForTesting
+  public static User newTestUser(String userId, String userName, String password, String email,
+      String phone) {
+    return
+        User.builder()
+            .userId(userId)
+            .userName(userName)
+            .password(password)
+            .email(email)
+            .phone(phone)
+            .userType(UserType.USER)
+            .build();
+  }
+
+  /**
+   * 테스트용
+   * 이메일 인증 상태로 변경
+   */
+  @VisibleForTesting
+  public void setEmailVerified() {
+    isEmailVerified = true;
+  }
 }

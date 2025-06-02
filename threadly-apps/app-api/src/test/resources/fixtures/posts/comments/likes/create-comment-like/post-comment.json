@@ -1,0 +1,23 @@
+[
+  {
+    "commentId": "cmt_active_001",
+    "postId": "active_post_id",
+    "userId": "usr_writer",
+    "content": "ACTIVE 상태의 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_deleted_001",
+    "postId": "active_post_id",
+    "userId": "usr_writer",
+    "content": "DELETED 상태의 댓글입니다.",
+    "status": "DELETED"
+  },
+  {
+    "commentId": "cmt_blocked_001",
+    "postId": "active_post_id",
+    "userId": "usr_writer",
+    "content": "BLOCKED 상태의 댓글입니다.",
+    "status": "BLOCKED"
+  }
+]

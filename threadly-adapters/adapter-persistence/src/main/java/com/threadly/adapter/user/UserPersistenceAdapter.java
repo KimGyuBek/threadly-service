@@ -94,9 +94,7 @@ public class UserPersistenceAdapter implements FetchUserPort, SaveUserPort,
 
   @Override
   public void saveUserProfile(User user, UserProfile userProfile) {
-
     UserProfileEntity userProfileEntity = UserProfileMapper.toEntity(userProfile);
-    userProfileJpaRepository.save(userProfileEntity);
 
     UserEntity userEntity = UserMapper.toEntity(user);
     userEntity.setUserProfile(userProfileEntity);
@@ -125,4 +123,5 @@ public class UserPersistenceAdapter implements FetchUserPort, SaveUserPort,
             UserProfileMapper::toDomain
         );
   }
+
 }

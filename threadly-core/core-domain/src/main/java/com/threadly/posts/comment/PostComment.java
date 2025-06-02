@@ -62,15 +62,16 @@ public class PostComment {
 
   /**
    * 게시글 댓글이 삭제 가능 상태인지 검증
+   *
    * @param userId
    * @param postStatus
    */
-  public void validateDeletableBy(String userId, PostStatusType postStatus ) {
+  public void validateDeletableBy(String userId, PostStatusType postStatus) {
     if (!this.userId.equals(userId)) {
       throw new WriteMismatchException();
-    } else if(this.status == PostCommentStatusType.DELETED) {
+    } else if (this.status == PostCommentStatusType.DELETED) {
       throw new AlreadyDeletedException();
-    } else if(this.status == PostCommentStatusType.BLOCKED) {
+    } else if (this.status == PostCommentStatusType.BLOCKED) {
       throw new BlockedException();
     } else if (postStatus != PostStatusType.ACTIVE) {
       throw new ParentPostInactiveException();
@@ -100,7 +101,7 @@ public class PostComment {
    * 댓글 좋아요 가능한지 검증
    */
   public void validateLikeable() {
-    if(this.status != PostCommentStatusType.ACTIVE) {
+    if (this.status != PostCommentStatusType.ACTIVE) {
       throw new CannotLikePostCommentException();
     }
   }
@@ -112,21 +113,12 @@ public class PostComment {
    */
   public CommentLike like(String userId) {
     return
-     CommentLike.newLike(this.commentId, userId);
+        CommentLike.newLike(this.commentId, userId);
   }
-
-//  /**
-//   * 댓글 좋아요 취소
-//   *
-//   * @param userId
-//   */
-//  public void unlike(String userId) {
-//    commentLikes.remove(new CommentLike(this.commentId, userId));
-//  }
-
 
   /**
    * 매핑 전용 생성자
+   *
    * @param commentId
    * @param postId
    * @param userId
@@ -146,6 +138,28 @@ public class PostComment {
   @VisibleForTesting
   void setCommentId(String commentId) {
     this.commentId = commentId;
+  }
+
+  /**
+   * 테스트용
+   * @param commentId
+   * @param postId
+   * @param userId
+   * @param content
+   * @param status
+   * @return
+   */
+  @VisibleForTesting
+  public static PostComment newTestComment(String commentId, String postId, String userId,
+      String content,
+      PostCommentStatusType status) {
+    return new PostComment(
+        commentId,
+        postId,
+        userId,
+        content,
+        status
+    );
   }
 }
 

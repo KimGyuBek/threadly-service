@@ -1,5 +1,6 @@
 package com.threadly.posts.comment;
 
+import com.google.common.annotations.VisibleForTesting;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,6 +29,21 @@ public class CommentLike {
         .commentId(commentId)
         .userId(userId)
         .build();
+  }
+
+  /*Test*/
+
+  /**
+   * 테스트용
+   * @param commentId
+   * @param userId
+   * @return
+   */
+  @VisibleForTesting
+  public static CommentLike newTestCommentLike(String commentId, String userId) {
+    return new CommentLike(
+        commentId, userId
+    );
   }
 
 }

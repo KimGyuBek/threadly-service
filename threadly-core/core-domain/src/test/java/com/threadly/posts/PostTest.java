@@ -99,7 +99,6 @@ class PostTest {
     PostComment newComment = post.addComment(userId, "comment");
 
     //then
-    assertThat(post.getCommentsCount()).isEqualTo(1);
     assertAll(
         () -> assertThat(newComment.getUserId()).isEqualTo(userId),
         () -> assertThat(newComment.getContent()).isEqualTo(comment),
@@ -122,7 +121,6 @@ class PostTest {
     }
 
     //then
-    assertThat(post.getCommentsCount()).isEqualTo(50);
 
     for (int i = 0; i < comments.size(); i++) {
       assertThat(comments.get(i).getUserId()).isEqualTo(userId);

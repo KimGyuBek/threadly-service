@@ -1,0 +1,30 @@
+[
+  {
+    "postId": "active_post_id",
+    "userId": "usr_writer",
+    "content": "좋아요 테스트용 게시글입니다.",
+    "viewCount": 123,
+    "status": "ACTIVE"
+  },
+  {
+    "postId": "archived_post_id",
+    "userId": "usr_writer",
+    "content": "카페 창가에 앉아 멍하니 바깥을 봄",
+    "status": "ARCHIVE",
+    "viewCount": 2654
+  },
+  {
+    "postId": "blocked_post_id",
+    "userId": "usr_writer",
+    "content": "바람이 차가워졌다. 가을이 오는구나",
+    "status": "BLOCKED",
+    "viewCount": 2732
+  },
+  {
+    "postId": "deleted_post_id",
+    "userId": "usr_writer",
+    "content": "소소한 행복이 참 큰 위로가 되는 요즘",
+    "status": "DELETED",
+    "viewCount": 285
+  }
+]

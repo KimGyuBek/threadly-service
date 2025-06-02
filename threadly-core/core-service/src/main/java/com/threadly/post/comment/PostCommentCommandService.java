@@ -4,16 +4,16 @@ import com.threadly.ErrorCode;
 import com.threadly.exception.post.PostCommentException;
 import com.threadly.exception.post.PostException;
 import com.threadly.exception.user.UserException;
-import com.threadly.post.comment.create.CreatePostCommentPort;
-import com.threadly.post.comment.create.CreatePostCommentResponse;
-import com.threadly.post.comment.fetch.FetchPostCommentPort;
-import com.threadly.post.comment.update.UpdatePostCommentPort;
-import com.threadly.post.fetch.FetchPostPort;
 import com.threadly.post.comment.create.CreatePostCommentApiResponse;
 import com.threadly.post.comment.create.CreatePostCommentCommand;
+import com.threadly.post.comment.create.CreatePostCommentPort;
+import com.threadly.post.comment.create.CreatePostCommentResponse;
 import com.threadly.post.comment.create.CreatePostCommentUseCase;
 import com.threadly.post.comment.delete.DeletePostCommentCommand;
 import com.threadly.post.comment.delete.DeletePostCommentUseCase;
+import com.threadly.post.comment.fetch.FetchPostCommentPort;
+import com.threadly.post.comment.update.UpdatePostCommentPort;
+import com.threadly.post.fetch.FetchPostPort;
 import com.threadly.posts.Post;
 import com.threadly.posts.PostStatusType;
 import com.threadly.posts.comment.CannotDeleteCommentException.AlreadyDeletedException;
@@ -68,8 +68,7 @@ public class PostCommentCommandService implements CreatePostCommentUseCase,
     /*저장*/
     /*TODO DTO로 묶기*/
     CreatePostCommentResponse createPostCommentResponse = createPostCommentPort.savePostComment(
-        post,
-        newComment, user);
+        newComment);
 
     return new CreatePostCommentApiResponse(
         createPostCommentResponse.commentId(),

@@ -55,11 +55,11 @@ public class UserProfileEntity extends BaseEntity {
   @Column(name = "profile_image_url")
   private String profileImageUrl;
 
-  public static UserProfileEntity newUserProfile(String nickname, String statusMessage, String bio, UserGenderType gender,
+  public static UserProfileEntity newUserProfile(String userProfileId,String nickname, String statusMessage, String bio, UserGenderType gender,
       UserProfileType profileType, String profileImageUrl) {
 
     return new UserProfileEntity(
-        RandomUtils.generateNanoId(),
+        userProfileId,
         nickname,
         statusMessage,
         bio,

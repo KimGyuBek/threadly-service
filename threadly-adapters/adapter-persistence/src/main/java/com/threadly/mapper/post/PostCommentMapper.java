@@ -20,7 +20,7 @@ public class PostCommentMapper {
     if (entity == null) {
       throw new IllegalArgumentException("PostCommentEntity cannot be null");
     }
-    return  new PostComment(
+    return new PostComment(
         entity.getCommentId(),
         entity.getPost().getPostId(),
         entity.getUser().getUserId(),
@@ -33,16 +33,13 @@ public class PostCommentMapper {
    * PostCommentDomain -> PostCommentEntity
    *
    * @param postComment
-   * @param postEntity
-   * @param userEntity
    * @return
    */
-  public static PostCommentEntity toEntity(PostComment postComment, PostEntity postEntity,
-      UserEntity userEntity) {
+  public static PostCommentEntity toEntity(PostComment postComment) {
     return new PostCommentEntity(
         postComment.getCommentId(),
-        postEntity,
-        userEntity,
+        PostEntity.fromId(postComment.getPostId()),
+        UserEntity.fromId(postComment.getUserId()),
         postComment.getContent(),
         postComment.getStatus()
     );
