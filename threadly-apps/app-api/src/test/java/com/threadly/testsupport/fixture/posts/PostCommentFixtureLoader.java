@@ -41,7 +41,7 @@ public class PostCommentFixtureLoader {
     loadPostFixture(userDataPath, postDataPath);
 
     List<PostCommentFixtureDto> postData = getPostCommentData(postCommentDataPath);
-    generatePostLike(postData, postData.size());
+    generatePostComment(postData, postData.size());
   }
 
   /**
@@ -50,7 +50,7 @@ public class PostCommentFixtureLoader {
    * @param postFixtureDtoList
    * @param count
    */
-  private void generatePostLike(List<PostCommentFixtureDto> postFixtureDtoList, int count) {
+  private void generatePostComment(List<PostCommentFixtureDto> postFixtureDtoList, int count) {
     List<PostCommentFixtureDto> fixtures = postFixtureDtoList;
 
     if (count > fixtures.size() || count < 1) {

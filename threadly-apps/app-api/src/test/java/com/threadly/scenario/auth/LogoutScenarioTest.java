@@ -43,6 +43,7 @@ public class LogoutScenarioTest extends BaseApiTest {
     @Test
     @Transactional
     public void accessProtectedResource_shouldFail_afterLogout() throws Exception {
+      Thread.sleep(5000);
       //given
 
       /*1. 로그인 요청 전송*/

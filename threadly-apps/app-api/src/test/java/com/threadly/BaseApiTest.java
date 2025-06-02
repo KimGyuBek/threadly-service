@@ -13,7 +13,6 @@ import com.threadly.testsupport.fixture.users.UserFixtureLoader;
 import com.threadly.utils.TestLogUtils;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultMatcher;
@@ -33,13 +31,6 @@ import org.springframework.test.web.servlet.ResultMatcher;
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
-//@Sql({
-//    "/testdata/user_data.sql",
-//    "/testdata/post_data.sql",
-//    "/testdata/post_comment_data.sql",
-//    "/testdata/post_comment_like_data_2.sql",
-//    "/testdata/post_like_data.sql",
-//})
 public abstract class BaseApiTest {
 
   @Autowired
@@ -56,15 +47,6 @@ public abstract class BaseApiTest {
   @Autowired
   private ObjectMapper objectMapper;
 
-  /*이메일 인증 받은 사용자 id*/
-  protected static final List<String> VERIFIED_USER_EMAILS = List.of(
-      "user_email_verified1@test.com",
-      "user_email_verified2@test.com",
-      "sunny@test.com",
-      "noodle@test.com"
-  );
-
-//  public static final String USER_EMAIL_NOT_VERIFIED = "user_email_not_verified@test.com";
   public static final String PASSWORD = "1234";
 
   /**

@@ -265,8 +265,6 @@ class GetPostApiTest extends BasePostApiTest {
         String accessToken = getAccessToken(EMAIL_VERIFIED_USER_1);
         String postId = "post_not_exists";
 
-        long likeCount = POST_LIKES.get("post10");
-
         //when
         //then
         /*조회 요청*/

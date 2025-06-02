@@ -1,0 +1,59 @@
+[
+  {
+    "userId": "usr_writer",
+    "userName": "writer",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "writer@threadly.com",
+    "phone": "010-3148-6830",
+    "userType": "USER",
+    "isActive": true,
+    "isEmailVerified": true,
+    "userProfile": {
+      "userProfileId": "up0",
+      "nickname": "__writer__",
+      "statusMessage": "나는 작성자",
+      "bio": "작성자다",
+      "gender": "MALE",
+      "profileType": "USER",
+      "profileImageUrl": "/images/profile/writer_1.png"
+    }
+  },
+  {
+    "userId": "comment_liker",
+    "userName": "commentLiker",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "commentliker@threadly.com",
+    "phone": "010-3178-6830",
+    "userType": "USER",
+    "isActive": true,
+    "isEmailVerified": true,
+    "userProfile": {
+      "userProfileId": "up1",
+      "nickname": "__comment_liker__",
+      "statusMessage": "좋아요를 누르는",
+      "bio": "아침형 인간",
+      "gender": "MALE",
+      "profileType": "USER",
+      "profileImageUrl": "/images/profile/sunset_gazer_1.png"
+    }
+  },
+  {
+    "userId": "comment_not_liker",
+    "userName": "commentnotliker",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "commentNotLiker@threadly.com",
+    "phone": "010-3014-5653",
+    "userType": "USER",
+    "isActive": true,
+    "isEmailVerified": true,
+    "userProfile": {
+      "userProfileId": "up2",
+      "nickname": "__comment_not_liker__",
+      "statusMessage": "좋아요를 누르지 않는",
+      "bio": "고양이 집사",
+      "gender": "MALE",
+      "profileType": "USER",
+      "profileImageUrl": "/images/profile/sky_gazer_2.png"
+    }
+  }
+]
