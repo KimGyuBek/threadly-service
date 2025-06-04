@@ -98,9 +98,9 @@ public class UserService implements RegisterUserUseCase, FetchUserUseCase, Updat
 
   @Transactional
   @Override
-  public UserProfileApiResponse upsertUserProfile(String userId, UserSetProfileCommand command) {
+  public UserProfileApiResponse upsertUserProfile(UserSetProfileCommand command) {
     /*userId로 user 조회*/
-    User user = fetchUserPort.findByUserIdWithUserProfile(userId)
+    User user = fetchUserPort.findByUserIdWithUserProfile(command.getUserId())
         .orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
 
     /*조회한 user의 profile이 있는지 검증*/

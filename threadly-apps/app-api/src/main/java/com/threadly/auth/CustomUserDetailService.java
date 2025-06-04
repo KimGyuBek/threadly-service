@@ -22,7 +22,7 @@ public class CustomUserDetailService implements UserDetailsService {
 
 
     return
-        new AuthUser(
+        new AuthenticationUser(
             result.getUserId(),
             result.getPassword(),
             List.of(
