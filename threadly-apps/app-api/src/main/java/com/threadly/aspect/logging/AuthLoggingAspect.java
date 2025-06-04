@@ -5,7 +5,7 @@ import static com.threadly.util.LogFormatUtils.logFailure;
 import static com.threadly.util.LogFormatUtils.logSuccess;
 
 import com.threadly.ErrorCode;
-import com.threadly.auth.exception.UserAuthenticationException;
+import com.threadly.global.exception.UserAuthenticationException;
 import com.threadly.auth.token.response.LoginTokenResponse;
 import com.threadly.auth.token.response.TokenReissueResponse;
 import com.threadly.auth.verification.response.PasswordVerificationToken;
@@ -34,7 +34,7 @@ public class AuthLoggingAspect {
   /*
    * login()
    * */
-  @Pointcut("execution(* com.threadly.auth.AuthService.login(..))")
+  @Pointcut("execution(* com.threadly.auth.AuthManager.login(..))")
   public void login() {
   }
 
@@ -80,7 +80,7 @@ public class AuthLoggingAspect {
 
   /*
    * */
-  @Pointcut("execution(* com.threadly.auth.AuthService.logout(..))")
+  @Pointcut("execution(* com.threadly.auth.AuthManager.logout(..))")
   public void logout() {
   }
 
@@ -102,7 +102,7 @@ public class AuthLoggingAspect {
   /*
    * getPasswordVerificationToken()
    */
-  @Pointcut("execution(* com.threadly.auth.AuthService.getPasswordVerificationToken(..))")
+  @Pointcut("execution(* com.threadly.auth.AuthManager.getPasswordVerificationToken(..))")
   public void getPasswordVerification() {
   }
 
@@ -146,7 +146,7 @@ public class AuthLoggingAspect {
   /*
    * reissueLoginToken()
    */
-  @Pointcut("execution(* com.threadly.auth.AuthService.reissueLoginToken(..))")
+  @Pointcut("execution(* com.threadly.auth.AuthManager.reissueLoginToken(..))")
   public void reissueLoginToken() {
   }
 

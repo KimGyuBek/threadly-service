@@ -11,7 +11,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.threadly.BaseApiTest;
 import com.threadly.CommonResponse;
 import com.threadly.auth.token.response.LoginTokenResponse;
-import com.threadly.controller.user.request.UserProfileRequest;
+import com.threadly.user.request.CreateUserProfileRequest;
 import com.threadly.user.UserGenderType;
 import com.threadly.user.response.UserProfileApiResponse;
 import java.util.Map;
@@ -69,7 +69,7 @@ class UserControllerTest extends BaseApiTest {
       UserGenderType gender = UserGenderType.MALE;
       String profileImageUrl = "";
       String requestBody = generateRequestBody(
-          new UserProfileRequest(
+          new CreateUserProfileRequest(
               nickname,
               statusMessage,
               bio,

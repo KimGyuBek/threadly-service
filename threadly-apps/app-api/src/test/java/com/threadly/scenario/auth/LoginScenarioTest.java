@@ -14,7 +14,7 @@ import com.threadly.CommonResponse;
 import com.threadly.ErrorCode;
 import com.threadly.auth.token.response.LoginTokenResponse;
 import com.threadly.auth.token.response.TokenReissueResponse;
-import com.threadly.controller.auth.request.UserLoginRequest;
+import com.threadly.auth.request.UserLoginRequest;
 import com.threadly.repository.auth.TestRedisHelper;
 import java.util.ArrayList;
 import java.util.HashSet;

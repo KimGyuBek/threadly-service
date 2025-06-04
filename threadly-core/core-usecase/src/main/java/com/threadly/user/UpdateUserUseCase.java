@@ -5,7 +5,7 @@ import com.threadly.user.response.UserProfileApiResponse;
 
 public interface UpdateUserUseCase {
 
-  UserProfileApiResponse upsertUserProfile(String userId, UserSetProfileCommand userSetProfileCommand);
+  UserProfileApiResponse upsertUserProfile(UserSetProfileCommand userSetProfileCommand);
 
 
 }

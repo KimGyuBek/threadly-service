@@ -1,0 +1,96 @@
+package com.threadly.auth.controller;
+
+import com.threadly.auth.AuthManager;
+import com.threadly.auth.token.response.LoginTokenResponse;
+import com.threadly.auth.token.response.TokenReissueResponse;
+import com.threadly.auth.verification.EmailVerificationUseCase;
+import com.threadly.auth.verification.PasswordVerificationUseCase;
+import com.threadly.auth.verification.response.PasswordVerificationToken;
+import com.threadly.auth.request.PasswordVerificationRequest;
+import com.threadly.auth.request.UserLoginRequest;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api/auth")
+@RequiredArgsConstructor
+public class AuthController {
+
+
+  private final EmailVerificationUseCase emailVerificationUseCase;
+  private final PasswordVerificationUseCase passwordVerificationUseCase;
+  private final AuthManager authManager;
+
+
+  /**
+   * 로그인
+   *
+   * @param userLoginRequest
+   * @return
+   */
+  @PostMapping("/login")
+  public LoginTokenResponse login(@RequestBody UserLoginRequest userLoginRequest) {
+    return authManager.login(userLoginRequest.getEmail(), userLoginRequest.getPassword());
+  }
+
+  /**
+   * 로그아웃
+   * @param accessToken
+   */
+  @PostMapping("/logout")
+  public void logout(@RequestHeader("Authorization") String accessToken) {
+    authManager.logout(accessToken);
+  }
+
+  /**
+   * refreshToken으로 login Token 재발급
+   *
+   * @param refreshToken
+   * @return
+   */
+  @PostMapping("/reissue")
+  public TokenReissueResponse reissueAccessToken(
+      @RequestHeader(value = "X-refresh-token") String refreshToken) {
+    return
+        authManager.reissueLoginToken(refreshToken);
+  }
+
+  /**
+   * email 인증 'https://threadly.com/api/auth/verify?code={code}'
+   *
+   * @param code
+   */
+  @GetMapping("/verify-email")
+  public void verifyMail(@RequestParam String code) {
+    emailVerificationUseCase.verificationEmail(code);
+  }
+
+  /**
+   * 사용자 정보 수정을 위한 비밀번호 재인증
+   *
+   * @param request
+   * @return
+   */
+  @PostMapping("/verify-password")
+  public PasswordVerificationToken verifyPassword(
+      @RequestBody PasswordVerificationRequest request) {
+
+    /*userId 추출*/
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    String userId = (String) auth.getCredentials();
+
+    return
+        passwordVerificationUseCase.getPasswordVerificationToken(userId, request.getPassword());
+
+  }
+
+
+}

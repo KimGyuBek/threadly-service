@@ -14,7 +14,7 @@ import com.threadly.CommonResponse;
 import com.threadly.ErrorCode;
 import com.threadly.auth.token.response.LoginTokenResponse;
 import com.threadly.auth.verification.response.PasswordVerificationToken;
-import com.threadly.controller.auth.request.PasswordVerificationRequest;
+import com.threadly.auth.request.PasswordVerificationRequest;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
