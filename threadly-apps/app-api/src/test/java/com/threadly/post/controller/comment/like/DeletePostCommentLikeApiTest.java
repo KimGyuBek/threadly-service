@@ -1,10 +1,10 @@
-package com.threadly.controller.post.comment.like;
+package com.threadly.post.controller.comment.like;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.threadly.CommonResponse;
-import com.threadly.controller.post.BasePostApiTest;
+import com.threadly.post.controller.BasePostApiTest;
 import com.threadly.post.like.comment.LikePostCommentApiResponse;
 import com.threadly.testsupport.fixture.posts.PostCommentLikeFixtureLoader;
 import org.junit.jupiter.api.BeforeEach;

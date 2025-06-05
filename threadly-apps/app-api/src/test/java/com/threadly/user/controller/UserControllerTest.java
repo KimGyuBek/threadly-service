@@ -1,4 +1,4 @@
-package com.threadly.controller.user;
+package com.threadly.user.controller;
 
 import static com.threadly.utils.TestConstants.EMAIL_VERIFIED_USER_1;
 import static org.assertj.core.api.Assertions.assertThat;

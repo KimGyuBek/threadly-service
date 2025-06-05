@@ -1,4 +1,4 @@
-package com.threadly.controller.auth;
+package com.threadly.auth.controller;
 
 import static com.threadly.utils.TestConstants.EMAIL_VERIFIED_USER_1;
 import static com.threadly.utils.TestConstants.USER_EMAIL_NOT_VERIFIED;

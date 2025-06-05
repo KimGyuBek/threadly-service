@@ -1,4 +1,4 @@
-package com.threadly.controller.post.comment;
+package com.threadly.post.controller.comment;
 
 import static com.threadly.utils.TestConstants.EMAIL_VERIFIED_USER_1;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -6,7 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.threadly.CommonResponse;
 import com.threadly.ErrorCode;
-import com.threadly.controller.post.BasePostApiTest;
+import com.threadly.post.controller.BasePostApiTest;
 import com.threadly.post.comment.create.CreatePostCommentApiResponse;
 import com.threadly.testsupport.fixture.posts.PostFixtureLoader;
 import org.junit.jupiter.api.BeforeEach;

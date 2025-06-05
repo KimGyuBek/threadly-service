@@ -1,4 +1,4 @@
-package com.threadly.controller.post;
+package com.threadly.post.controller;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
