@@ -1,11 +1,11 @@
-package com.threadly.controller.post.comment;
+package com.threadly.post.controller.comment;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.threadly.CommonResponse;
 import com.threadly.ErrorCode;
-import com.threadly.controller.post.BasePostApiTest;
+import com.threadly.post.controller.BasePostApiTest;
 import com.threadly.testsupport.fixture.posts.PostCommentFixtureLoader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.ClassOrderer;
