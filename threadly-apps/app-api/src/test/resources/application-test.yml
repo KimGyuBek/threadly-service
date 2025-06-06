@@ -22,3 +22,4 @@ properties:
     email-verification: 5
     password-verification: 5
     login-attempt: 5
+    post-view: 2

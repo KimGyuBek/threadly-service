@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties(prefix = "properties.ttl")
 @Setter
-@Getter
 public class TtlProperties {
 
   private long accessToken;
@@ -21,6 +20,7 @@ public class TtlProperties {
   private long emailVerification;
   private long passwordVerification;
   private long loginAttempt;
+  private long postView;
 
   public Duration getAccessToken() {
     return Duration.ofSeconds(accessToken);
@@ -43,5 +43,8 @@ public class TtlProperties {
   }
   public Duration getLoginAttempt() {
     return Duration.ofSeconds(loginAttempt);
+  }
+  public Duration getPostViewSeconds() {
+    return Duration.ofSeconds(postView);
   }
 }

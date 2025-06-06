@@ -74,7 +74,7 @@ public class PostQueryService implements GetPostUseCase, GetPostEngagementUseCas
   @Transactional(readOnly = true)
   @Override
   public GetPostDetailApiResponse getPost(GetPostQuery query) {
-    PostDetailProjection postDetailProjection = fetchPostPort.fetechPostDetailsByPostIdAndUserId(
+    PostDetailProjection postDetailProjection = fetchPostPort.fetchPostDetailsByPostIdAndUserId(
             query.getPostId(), query.getUserId())
         .orElseThrow(() -> new PostException(ErrorCode.POST_NOT_FOUND));
 

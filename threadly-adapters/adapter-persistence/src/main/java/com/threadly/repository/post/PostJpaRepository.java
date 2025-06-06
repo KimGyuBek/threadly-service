@@ -190,5 +190,12 @@ public interface PostJpaRepository extends JpaRepository<PostEntity, String> {
       """, nativeQuery = true)
   boolean existsByPostId(@Param("postId") String postId);
 
+  @Modifying()
+  @Query("""
+      update PostEntity p
+      set p.viewCount = p.viewCount + 1
+      where p.postId = :postId
+      """)
+  void increaseViewCount(@Param("postId") String postId);
 
 }

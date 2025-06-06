@@ -26,7 +26,7 @@ public interface FetchPostPort {
    * @param userId
    * @return
    */
-  Optional<PostDetailProjection> fetechPostDetailsByPostIdAndUserId(String postId, String userId);
+  Optional<PostDetailProjection> fetchPostDetailsByPostIdAndUserId(String postId, String userId);
 
 
   /**
