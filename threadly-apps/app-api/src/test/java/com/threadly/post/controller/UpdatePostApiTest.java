@@ -155,6 +155,34 @@ class UpdatePostApiTest extends BasePostApiTest {
         assertThat(updatedPostResponse.isSuccess()).isFalse();
         assertThat(updatedPostResponse.getCode()).isEqualTo(ErrorCode.INVALID_REQUEST.getCode());
       }
+
+      /*[Case #4] 게시글 수정 내용이 최대 길이를 초과할 경우 400 BadRequest*/
+      @Order(4)
+      @DisplayName("4. 게시글 수정 내용이 최대 길이를 초과할 경우 400 BadRequest")
+      @Test
+      public void updatePost_shouldReturnBadRequest_whenContentExceedsMaxLength() throws Exception {
+        //given
+        /*로그인*/
+        String accessToken = getAccessToken(EMAIL_VERIFIED_USER_1);
+
+        String content = "content";
+        String modifiedContent = "a".repeat(1001);
+
+        /*게시글 생성*/
+        CommonResponse<CreatePostApiResponse> response = sendCreatePostRequest(accessToken, content,
+            status().isCreated());
+        String postId = response.getData().postId();
+
+        //when
+        /*게시글 수정 요청 전송*/
+        CommonResponse<UpdatePostApiResponse> updatedPostResponse = sendUpdatePostRequest(
+            accessToken, modifiedContent, postId, status().isBadRequest());
+
+        //then
+        assertThat(updatedPostResponse.isSuccess()).isFalse();
+        assertThat(updatedPostResponse.getCode()).isEqualTo(ErrorCode.INVALID_REQUEST.getCode());
+      }
+
     }
   }
 }

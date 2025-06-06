@@ -6,8 +6,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.threadly.CommonResponse;
 import com.threadly.ErrorCode;
-import com.threadly.post.controller.BasePostApiTest;
 import com.threadly.post.comment.create.CreatePostCommentApiResponse;
+import com.threadly.post.controller.BasePostApiTest;
 import com.threadly.testsupport.fixture.posts.PostFixtureLoader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.ClassOrderer;
@@ -160,6 +160,55 @@ public class CreatePostCommentApiTest extends BasePostApiTest {
         assertThat(createPostCommentResponse.isSuccess()).isFalse();
         assertThat(createPostCommentResponse.getCode()).isEqualTo(
             ErrorCode.POST_ARCHIVED.getCode());
+      }
+
+      /*[Case #4]  createPostComment() - content가 비어있는 경우 400 Bad Request*/
+      @Order(4)
+      @DisplayName("4. 비어있는 content로 요청을 보낼 경우 400 Bad Request")
+      @Test
+      public void createPostComment_shouldReturnBadRequest_whenContentIsEmpty() throws Exception {
+        //given
+
+        /*로그인*/
+        String accessToken = getAccessToken(EMAIL_VERIFIED_USER_1);
+
+        //when
+        //then
+        String content = "";
+
+        /*댓글 추가 요청 전송*/
+        CommonResponse<CreatePostCommentApiResponse> createPostCommentResponse = sendCreatePostCommentRequest(
+            accessToken, ARCHIVED_POST_ID, content, status().isBadRequest()
+        );
+
+        assertThat(createPostCommentResponse.isSuccess()).isFalse();
+        assertThat(createPostCommentResponse.getCode()).isEqualTo(
+            ErrorCode.INVALID_REQUEST.getCode());
+      }
+
+      /*[Case #5]  createPostComment() - 댓글이 최대 길이를 초과할 경우 400 BadRequest*/
+      @Order(5)
+      @DisplayName("5. 댓글이 최대 길이를 초과할 경우 400 Bad Request")
+      @Test
+      public void createPostComment_shouldReturnBadRequest_whenContentExceedsMaxLength()
+          throws Exception {
+        //given
+
+        /*로그인*/
+        String accessToken = getAccessToken(EMAIL_VERIFIED_USER_1);
+
+        //when
+        //then
+        String content = "a".repeat(256);
+
+        /*댓글 추가 요청 전송*/
+        CommonResponse<CreatePostCommentApiResponse> createPostCommentResponse = sendCreatePostCommentRequest(
+            accessToken, ARCHIVED_POST_ID, content, status().isBadRequest()
+        );
+
+        assertThat(createPostCommentResponse.isSuccess()).isFalse();
+        assertThat(createPostCommentResponse.getCode()).isEqualTo(
+            ErrorCode.INVALID_REQUEST.getCode());
       }
     }
   }

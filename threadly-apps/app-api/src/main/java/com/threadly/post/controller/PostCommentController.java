@@ -10,6 +10,7 @@ import com.threadly.post.comment.get.GetPostCommentListApiResponse;
 import com.threadly.post.comment.get.GetPostCommentListQuery;
 import com.threadly.post.comment.get.GetPostCommentUseCase;
 import com.threadly.post.request.CreatePostCommentRequest;
+import jakarta.validation.Valid;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -88,7 +89,7 @@ public class PostCommentController {
   @PostMapping("/{postId}/comments")
   public ResponseEntity<CreatePostCommentApiResponse> createPostComment(
       @AuthenticationPrincipal AuthenticationUser user,
-      @PathVariable("postId") String postId, @RequestBody CreatePostCommentRequest request) {
+      @PathVariable("postId") String postId, @RequestBody @Valid CreatePostCommentRequest request) {
 
     return ResponseEntity.status(201).body(
         createPostCommentUseCase.createPostComment(

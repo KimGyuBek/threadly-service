@@ -17,7 +17,6 @@ import org.junit.jupiter.api.TestClassOrder;
 
 /**
  * 게시글 생성 관련 API 테스트
- *
  */
 @TestClassOrder(ClassOrderer.OrderAnnotation.class)
 class CreatePostApiTest extends BasePostApiTest {
@@ -63,7 +62,7 @@ class CreatePostApiTest extends BasePostApiTest {
     @DisplayName("실패")
     class fail {
 
-      /*[Case #2] 게시글 작성 요청 시 content가 비어있을 경우 실패한다*/
+      /*[Case #1] 게시글 작성 요청 시 content가 비어있을 경우 실패한다*/
       @DisplayName("1.게시글 작성 요청 시 content가 비어있을 경우")
       @Test
       public void createPost_shouldReturnBadRequest_whenContentIsBlank() throws Exception {
@@ -74,6 +73,25 @@ class CreatePostApiTest extends BasePostApiTest {
         //when
         /*게시글 생성*/
         String content = "";
+
+        CommonResponse<CreatePostApiResponse> response = sendCreatePostRequest(
+            accessToken, content, status().isBadRequest());
+
+        //then
+        assertThat(response.getCode()).isEqualTo(ErrorCode.INVALID_REQUEST.getCode());
+      }
+
+      /*[Case #2] 게시글 내용이 최대 길이를 초과할 경우 400 BadRequest*/
+      @DisplayName("2. 게시글 내용이 최대 길이를 초과할 경우 400 BadRequest")
+      @Test
+      public void createPost_shouldReturnBadRequest_whenContentExceedsMaxLength() throws Exception {
+        //given
+        /*로그인*/
+        String accessToken = getAccessToken(EMAIL_VERIFIED_USER_1);
+
+        //when
+        /*게시글 생성*/
+        String content = "a".repeat(1001);
 
         CommonResponse<CreatePostApiResponse> response = sendCreatePostRequest(
             accessToken, content, status().isBadRequest());
