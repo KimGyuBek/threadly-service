@@ -19,6 +19,7 @@ public record CreatePostApiResponse(
     String userNickName,
     String userId,
     String content,
+    long viewCount,
     int likesCount,
     int commentsCount,
     LocalDateTime createdAt

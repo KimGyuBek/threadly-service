@@ -12,6 +12,7 @@ import com.threadly.post.create.CreatePostUseCase;
 import com.threadly.post.delete.DeletePostCommand;
 import com.threadly.post.delete.DeletePostUseCase;
 import com.threadly.post.fetch.FetchPostPort;
+import com.threadly.post.fetch.PostDetailProjection;
 import com.threadly.post.save.SavePostPort;
 import com.threadly.post.update.UpdatePostApiResponse;
 import com.threadly.post.update.UpdatePostCommand;
@@ -66,6 +67,7 @@ public class PostCommandService implements CreatePostUseCase, UpdatePostUseCase,
         savedPost.getContent(),
         0,
         0,
+        0,
         savedPost.getPostedAt()
     );
   }
@@ -81,23 +83,25 @@ public class PostCommandService implements CreatePostUseCase, UpdatePostUseCase,
       throw new PostException(ErrorCode.POST_UPDATE_FORBIDDEN);
     }
 
-    /*Post updatedPost = 사용자 조회*/
-    UserProfile userProfile = getUserProfile(command.getUserId());
-
     /*게시글 수정*/
     post.updateContent(command.getContent());
     updatePostPort.updatePost(post);
 
-    /*TODO 게시글 조회수 조회 로직 추가*/
+    PostDetailProjection updatePost = fetchPostPort.fetchPostDetailsByPostIdAndUserId(
+            command.getPostId(), command.getUserId())
+        .orElseThrow(() -> new PostException(ErrorCode.POST_NOT_FOUND));
 
     return new UpdatePostApiResponse(
-        post.getPostId(),
-        userProfile.getProfileImageUrl(),
-        userProfile.getNickname(),
-        post.getUserId(),
-        post.getContent(),
-        0, 0,
-        post.getPostedAt()
+        updatePost.getPostId(),
+        updatePost.getUserId(),
+        updatePost.getUserProfileImageUrl(),
+        updatePost.getUserNickname(),
+        updatePost.getContent(),
+        updatePost.getViewCount(),
+        updatePost.getPostedAt(),
+        updatePost.getLikeCount(),
+        updatePost.getCommentCount(),
+        updatePost.isLiked()
     );
   }
 
