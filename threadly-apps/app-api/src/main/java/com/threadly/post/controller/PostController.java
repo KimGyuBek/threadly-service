@@ -16,6 +16,7 @@ import com.threadly.post.request.UpdatePostRequest;
 import com.threadly.post.update.UpdatePostApiResponse;
 import com.threadly.post.update.UpdatePostCommand;
 import com.threadly.post.update.UpdatePostUseCase;
+import com.threadly.post.update.view.IncreaseViewCountUseCase;
 import jakarta.validation.Valid;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
@@ -47,6 +48,8 @@ public class PostController {
   private final GetPostUseCase getPostUseCase;
   private final DeletePostUseCase deletePostUseCase;
 
+  private final IncreaseViewCountUseCase increaseViewCountUseCase;
+
   /*
    * 게시글 저장 - POST /api/posts
    * 게시글 삭제 - DELETE /api/posts/{postId}
@@ -66,9 +69,17 @@ public class PostController {
       @AuthenticationPrincipal AuthenticationUser user,
       @PathVariable String postId) {
 
-    return ResponseEntity.status(200).body(getPostUseCase.getPost(
-        new GetPostQuery(postId, user.getUsername())
-    ));
+    /*게시글 조회*/
+    GetPostDetailApiResponse body = getPostUseCase.getPost(
+        new GetPostQuery(
+            postId, user.getUserId()
+        )
+    );
+
+    /*조회수 증가 처리 */
+    increaseViewCountUseCase.increaseViewCount(postId, user.getUserId());
+
+    return ResponseEntity.status(200).body(body);
   }
 
 

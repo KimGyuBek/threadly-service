@@ -20,3 +20,4 @@ properties:
     email-verification: 600
     password-verification: 600
     login-attempt: 300
+    post-view: 3600

@@ -17,7 +17,10 @@ import com.threadly.post.update.UpdatePostApiResponse;
 import com.threadly.post.update.UpdatePostCommand;
 import com.threadly.post.update.UpdatePostPort;
 import com.threadly.post.update.UpdatePostUseCase;
+import com.threadly.post.update.view.IncreaseViewCountUseCase;
+import com.threadly.post.view.RecordPostViewPort;
 import com.threadly.posts.Post;
+import com.threadly.properties.TtlProperties;
 import com.threadly.user.FetchUserPort;
 import com.threadly.user.UserProfile;
 import lombok.RequiredArgsConstructor;
@@ -30,13 +33,18 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @RequiredArgsConstructor
-public class PostCommandService implements CreatePostUseCase, UpdatePostUseCase, DeletePostUseCase {
+public class PostCommandService implements CreatePostUseCase, UpdatePostUseCase, DeletePostUseCase,
+    IncreaseViewCountUseCase {
 
   private final SavePostPort savePostPort;
   private final FetchPostPort fetchPostPort;
   private final UpdatePostPort updatePostPort;
 
   private final FetchUserPort fetchUserPort;
+
+  private final RecordPostViewPort recordPostViewPort;
+
+  private final TtlProperties ttlProperties;
 
   @Override
   public CreatePostApiResponse createPost(CreatePostCommand command) {
@@ -115,6 +123,20 @@ public class PostCommandService implements CreatePostUseCase, UpdatePostUseCase,
     /*삭제 상태 변경 수행*/
     post.markAsDeleted();
     updatePostPort.changeStatus(post);
+  }
+
+  @Transactional
+  @Override
+  public void increaseViewCount(String postId, String userId) {
+    /*Redis에서 사용자의 조회 기록 조회*/
+    /*기록이 없을 경우*/
+    if (!recordPostViewPort.existsPostView(postId, userId)) {
+      /*조회수 업데이트 */
+      updatePostPort.increaseViewCount(postId);
+    }
+
+    /*기록 저장*/
+    recordPostViewPort.recordPostView(postId, userId, ttlProperties.getPostViewSeconds());
   }
 
   /**

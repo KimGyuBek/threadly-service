@@ -20,5 +20,11 @@ public interface UpdatePostPort {
    */
   void changeStatus(Post post);
 
+  /**
+   * 게시글 조회 수 증가
+   * @param postId
+   */
+  void increaseViewCount(String postId);
+
 
 }
