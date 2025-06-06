@@ -1,6 +1,7 @@
 package com.threadly.auth.controller;
 
 import com.threadly.auth.AuthManager;
+import com.threadly.auth.AuthenticationUser;
 import com.threadly.auth.token.response.LoginTokenResponse;
 import com.threadly.auth.token.response.TokenReissueResponse;
 import com.threadly.auth.verification.EmailVerificationUseCase;
@@ -10,6 +11,7 @@ import com.threadly.auth.request.PasswordVerificationRequest;
 import com.threadly.auth.request.UserLoginRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -81,14 +83,11 @@ public class AuthController {
    */
   @PostMapping("/verify-password")
   public PasswordVerificationToken verifyPassword(
+      @AuthenticationPrincipal AuthenticationUser user,
       @RequestBody PasswordVerificationRequest request) {
 
-    /*userId 추출*/
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    String userId = (String) auth.getCredentials();
-
     return
-        passwordVerificationUseCase.getPasswordVerificationToken(userId, request.getPassword());
+        passwordVerificationUseCase.getPasswordVerificationToken(user.getUserId(), request.getPassword());
 
   }
 

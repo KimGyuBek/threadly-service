@@ -1,5 +1,6 @@
 package com.threadly.post.controller;
 
+import com.threadly.auth.AuthenticationUser;
 import com.threadly.post.create.CreatePostApiResponse;
 import com.threadly.post.create.CreatePostCommand;
 import com.threadly.post.create.CreatePostUseCase;
@@ -20,6 +21,7 @@ import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -60,13 +62,12 @@ public class PostController {
    * @return
    */
   @GetMapping("/{postId}")
-  public ResponseEntity<GetPostDetailApiResponse> getPost(@PathVariable String postId) {
-
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    String userId = (String) auth.getCredentials();
+  public ResponseEntity<GetPostDetailApiResponse> getPost(
+      @AuthenticationPrincipal AuthenticationUser user,
+      @PathVariable String postId) {
 
     return ResponseEntity.status(200).body(getPostUseCase.getPost(
-        new GetPostQuery(postId, userId)
+        new GetPostQuery(postId, user.getUsername())
     ));
   }
 
@@ -80,17 +81,15 @@ public class PostController {
    */
   @GetMapping("")
   public ResponseEntity<GetPostDetailListApiResponse> getPostList(
+      @AuthenticationPrincipal AuthenticationUser user,
       @RequestParam(value = "cursor_posted_at", required = false) LocalDateTime cursorPostedAt,
       @RequestParam(value = "cursor_post_id", required = false) String cursorPostId,
       @RequestParam(value = "limit", defaultValue = "10") int limit
   ) {
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    String userId = (String) auth.getCredentials();
-
     return ResponseEntity.status(200).body(
         getPostUseCase.getUserVisiblePostListByCursor(
             new GetPostListQuery(
-                userId, cursorPostedAt, cursorPostId, limit
+                user.getUserId(), cursorPostedAt, cursorPostId, limit
             )
         )
     );
@@ -104,14 +103,13 @@ public class PostController {
    */
   @PostMapping("")
   public ResponseEntity<CreatePostApiResponse> createPost(
+      @AuthenticationPrincipal AuthenticationUser user,
       @Valid @RequestBody CreatePostRequest request) {
     /*userId 추출*/
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    String userId = (String) auth.getCredentials();
 
     return ResponseEntity.status(201).body(
         createPostUseCase.createPost(
-            new CreatePostCommand(userId, request.content())
+            new CreatePostCommand(user.getUserId(), request.content())
         )
     );
   }
@@ -125,16 +123,14 @@ public class PostController {
    */
   @PatchMapping("/{postId}")
   public ResponseEntity<UpdatePostApiResponse> updatePost(
+      @AuthenticationPrincipal AuthenticationUser user,
       @Valid @RequestBody UpdatePostRequest request,
       @PathVariable("postId") String postId) {
 
-    /*userId 추출*/
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    String userId = (String) auth.getCredentials();
 
     return ResponseEntity.status(200).body(
         updatePostUseCase.updatePost(
-            new UpdatePostCommand(postId, userId, request.content())
+            new UpdatePostCommand(postId, user.getUserId(), request.content())
         )
     );
   }
@@ -146,13 +142,13 @@ public class PostController {
    * @return
    */
   @DeleteMapping("/{postId}")
-  public ResponseEntity<Void> deletePost(@PathVariable("postId") String postId) {
+  public ResponseEntity<Void> deletePost(
+      @AuthenticationPrincipal AuthenticationUser user,
+      @PathVariable("postId") String postId) {
 
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    String userId = (String) auth.getCredentials();
 
     deletePostUseCase.softDeletePost(
-        new DeletePostCommand(postId, userId)
+        new DeletePostCommand(postId, user.getUserId())
     );
 
     return ResponseEntity.status(200).build();
