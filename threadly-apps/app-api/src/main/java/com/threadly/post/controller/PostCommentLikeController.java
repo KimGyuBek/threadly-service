@@ -1,5 +1,6 @@
 package com.threadly.post.controller;
 
+import com.threadly.auth.AuthenticationUser;
 import com.threadly.post.like.comment.GetPostCommentLikersApiResponse;
 import com.threadly.post.like.comment.GetPostCommentLikersQuery;
 import com.threadly.post.like.comment.GetPostCommentLikersUseCase;
@@ -10,8 +11,7 @@ import com.threadly.post.like.comment.UnlikePostCommentUseCase;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -73,15 +73,14 @@ public class PostCommentLikeController {
    */
   @PostMapping("/{postId}/comments/{commentId}/likes")
   public ResponseEntity<LikePostCommentApiResponse> likePostComment(
+      @AuthenticationPrincipal AuthenticationUser user,
       @PathVariable("postId") String postId, @PathVariable("commentId") String commentId
   ) {
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    String userId = (String) auth.getCredentials();
 
     LikePostCommentApiResponse likePostCommentApiResponse = likePostCommentUseCase.likePostComment(
         new LikePostCommentCommand(
             commentId,
-            userId
+            user.getUserId()
         )
     );
 
@@ -95,19 +94,13 @@ public class PostCommentLikeController {
    */
   @DeleteMapping("/{postId}/comments/{commentId}/likes")
   public ResponseEntity<LikePostCommentApiResponse> cancelPostCommentLike(
+      @AuthenticationPrincipal AuthenticationUser user,
       @PathVariable("postId") String postId, @PathVariable("commentId") String commentId) {
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    String userId = (String) auth.getCredentials();
 
     return ResponseEntity.status(204).body(
         unlikePostCommentUseCase.cancelPostCommentLike(
             new LikePostCommentCommand(
                 commentId,
-                userId
-            )
-        )
-    );
+                user.getUserId())));
   }
-
-
 }

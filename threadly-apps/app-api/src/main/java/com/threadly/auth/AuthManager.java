@@ -1,13 +1,13 @@
 package com.threadly.auth;
 
 import com.threadly.ErrorCode;
-import com.threadly.global.exception.UserAuthenticationException;
 import com.threadly.auth.token.response.LoginTokenResponse;
 import com.threadly.auth.token.response.TokenReissueResponse;
 import com.threadly.auth.verification.LoginUserUseCase;
 import com.threadly.auth.verification.PasswordVerificationUseCase;
 import com.threadly.auth.verification.response.PasswordVerificationToken;
 import com.threadly.exception.token.TokenException;
+import com.threadly.global.exception.UserAuthenticationException;
 import com.threadly.properties.TtlProperties;
 import com.threadly.token.DeleteTokenPort;
 import com.threadly.token.FetchTokenPort;
@@ -88,6 +88,10 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
     /*TODO user 상태 검증*/
 
     /*인증용 토큰 생성*/
+    /*
+     * userId는 email로 조회된 사용자 식별자임
+     * spring security의 username에 userId를 넣는 구조임
+     */
     UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
         userId, password);
 
@@ -97,30 +101,30 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
           .authenticate(authenticationToken);
 
 
-    /*email 인증이 되어있는지 검증*/
-    if (!findUser.isEmailVerified()) {
-      throw new UserAuthenticationException(ErrorCode.EMAIL_NOT_VERIFIED);
-    }
+      /*email 인증이 되어있는지 검증*/
+      if (!findUser.isEmailVerified()) {
+        throw new UserAuthenticationException(ErrorCode.EMAIL_NOT_VERIFIED);
+      }
 
-    /*토큰 생성*/
-    LoginTokenResponse tokenResponse = jwtTokenProvider.generateLoginToken(userId);
+      /*토큰 생성*/
+      LoginTokenResponse tokenResponse = jwtTokenProvider.generateLoginToken(userId);
 
-    /*토큰 저장*/
-    upsertTokenPort.upsertRefreshToken(UpsertRefreshToken.builder()
-        .userId(userId)
-        .refreshToken(tokenResponse.refreshToken())
-        .duration(ttlProperties.getRefreshToken())
-        .build());
+      /*토큰 저장*/
+      upsertTokenPort.upsertRefreshToken(UpsertRefreshToken.builder()
+          .userId(userId)
+          .refreshToken(tokenResponse.refreshToken())
+          .duration(ttlProperties.getRefreshToken())
+          .build());
 
-    /*SecurityContextHolder에 인증 정보 저장*/
-    SecurityContextHolder.getContext().setAuthentication(authenticate);
+      /*SecurityContextHolder에 인증 정보 저장*/
+      SecurityContextHolder.getContext().setAuthentication(authenticate);
 
-    /*login attempt 삭제*/
-    loginAttemptLimiter.removeLoginAttempt(userId);
+      /*login attempt 삭제*/
+      loginAttemptLimiter.removeLoginAttempt(userId);
 
-    return tokenResponse;
+      return tokenResponse;
 
-    /*비밀번호가 일치하지 않는 경우*/
+      /*비밀번호가 일치하지 않는 경우*/
     } catch (BadCredentialsException e) {
       loginAttemptLimiter.upsertLoginAttempt(userId);
       throw e;

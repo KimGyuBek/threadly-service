@@ -1,5 +1,6 @@
 package com.threadly.post.controller;
 
+import com.threadly.auth.AuthenticationUser;
 import com.threadly.post.engagement.GetPostEngagementApiResponse;
 import com.threadly.post.engagement.GetPostEngagementQuery;
 import com.threadly.post.engagement.GetPostEngagementUseCase;
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,13 +54,12 @@ public class PostLikeController {
    */
   @GetMapping("/{postId}/engagement")
   public ResponseEntity<GetPostEngagementApiResponse> getPostEngagement(
+      @AuthenticationPrincipal AuthenticationUser user,
       @PathVariable("postId") String postId) {
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    String userId = (String) auth.getCredentials();
 
     return ResponseEntity.status(200).body(getPostEngagementUsecase.getPostEngagement(
         new GetPostEngagementQuery(
-            postId, userId
+            postId, user.getUserId()
         )
     ));
   }
@@ -92,15 +93,15 @@ public class PostLikeController {
    * @return
    */
   @PostMapping("/{postId}/likes")
-  public ResponseEntity<LikePostApiResponse> likePost(@PathVariable("postId") String postId) {
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    String userId = (String) auth.getCredentials();
+  public ResponseEntity<LikePostApiResponse> likePost(
+      @AuthenticationPrincipal AuthenticationUser user,
+      @PathVariable("postId") String postId) {
 
     return ResponseEntity.status(200).body(
         likePostUseCase.likePost(
             new LikePostCommand(
                 postId,
-                userId
+                user.getUserId()
             )
         )
     );
@@ -113,14 +114,14 @@ public class PostLikeController {
    * @return
    */
   @DeleteMapping("/{postId}/likes")
-  public ResponseEntity<LikePostApiResponse> cancelPostLike(@PathVariable("postId") String postId) {
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    String userId = (String) auth.getCredentials();
+  public ResponseEntity<LikePostApiResponse> cancelPostLike(
+      @AuthenticationPrincipal AuthenticationUser user,
+      @PathVariable("postId") String postId) {
 
     return ResponseEntity.status(204).body(unlikePostUseCase.cancelLikePost(
         new LikePostCommand(
             postId,
-            userId
+            user.getUserId()
         )
     ));
   }

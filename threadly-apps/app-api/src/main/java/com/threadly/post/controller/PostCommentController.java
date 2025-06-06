@@ -1,5 +1,6 @@
 package com.threadly.post.controller;
 
+import com.threadly.auth.AuthenticationUser;
 import com.threadly.post.comment.create.CreatePostCommentApiResponse;
 import com.threadly.post.comment.create.CreatePostCommentCommand;
 import com.threadly.post.comment.create.CreatePostCommentUseCase;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -54,19 +56,19 @@ public class PostCommentController {
    * @return
    */
   @GetMapping("/{postId}/comments")
-  public ResponseEntity<GetPostCommentListApiResponse> getPostComments(@PathVariable String postId,
+  public ResponseEntity<GetPostCommentListApiResponse> getPostComments(
+      @AuthenticationPrincipal AuthenticationUser user,
+      @PathVariable String postId,
       @RequestParam(value = "cursor_commented_at", required = false) LocalDateTime cursorCommentedAt,
       @RequestParam(value = "cursor_comment_id", required = false) String cursorCommentId,
       @RequestParam(value = "limit", defaultValue = "10") int limit
   ) {
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    String userId = (String) auth.getCredentials();
 
     return ResponseEntity.status(200).body(
         getPostCommentUseCase.getPostCommentDetailListForUser(
             new GetPostCommentListQuery(
                 postId,
-                userId,
+                user.getUserId(),
                 cursorCommentedAt,
                 cursorCommentId,
                 limit
@@ -85,15 +87,14 @@ public class PostCommentController {
    */
   @PostMapping("/{postId}/comments")
   public ResponseEntity<CreatePostCommentApiResponse> createPostComment(
+      @AuthenticationPrincipal AuthenticationUser user,
       @PathVariable("postId") String postId, @RequestBody CreatePostCommentRequest request) {
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    String userId = (String) auth.getCredentials();
 
     return ResponseEntity.status(201).body(
         createPostCommentUseCase.createPostComment(
             new CreatePostCommentCommand(
                 postId,
-                userId,
+                user.getUserId(),
                 request.content()
             )
         )
@@ -107,14 +108,14 @@ public class PostCommentController {
    * @return
    */
   @DeleteMapping("/{postId}/comments/{commentId}")
-  public ResponseEntity<Void> deletePostComment(@PathVariable("postId") String postId,
+  public ResponseEntity<Void> deletePostComment(
+      @AuthenticationPrincipal AuthenticationUser user,
+      @PathVariable("postId") String postId,
       @PathVariable("commentId") String commentId) {
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    String userId = (String) auth.getCredentials();
 
     deletePostCommentUseCase.softDeletePostComment(
         new DeletePostCommentCommand(
-            userId,
+            user.getUserId(),
             postId,
             commentId)
     );

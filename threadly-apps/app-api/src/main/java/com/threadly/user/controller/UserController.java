@@ -1,5 +1,6 @@
 package com.threadly.user.controller;
 
+import com.threadly.auth.AuthenticationUser;
 import com.threadly.auth.verification.EmailVerificationUseCase;
 import com.threadly.user.RegisterUserUseCase;
 import com.threadly.user.UpdateUserUseCase;
@@ -14,6 +15,7 @@ import java.net.URI;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -59,17 +61,14 @@ public class UserController {
 
   @PostMapping("/profile")
   public ResponseEntity<UserProfileApiResponse> setUserProfile(
+      @AuthenticationPrincipal AuthenticationUser user,
       @RequestBody CreateUserProfileRequest request) {
-    /*userId 추출*/
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    String userId = (String) auth.getCredentials();
 
-    URI location = URI.create("/api/users/" + userId);
+    URI location = URI.create("/api/users/" + user.getUserId());
 
     return ResponseEntity.created(location)
-//        .body(updateUserUseCase.upsertUserProfile(userId, userProfileRequestMapper.toCommand(request)));
         .body(updateUserUseCase.upsertUserProfile(new UserSetProfileCommand(
-                userId,
+                user.getUserId(),
                 request.getNickname(),
                 request.getStatusMessage(),
                 request.getBio(),
