@@ -18,7 +18,7 @@ public interface PostDetailProjection {
 
   String getContent();
 
-  int getViewCount();
+  long getViewCount();
 
   LocalDateTime getPostedAt();
 

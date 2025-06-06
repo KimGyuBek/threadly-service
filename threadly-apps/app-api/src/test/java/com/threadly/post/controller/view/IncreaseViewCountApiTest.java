@@ -91,8 +91,8 @@ public class IncreaseViewCountApiTest extends BasePostApiTest {
 
         CommonResponse<GetPostDetailApiResponse> getPostResponse2 = sendGetPostRequest(accessToken,
             VIEW_COUNT_ZERO_POST_ID, status().isOk());
-        int viewCount1 = getPostResponse1.getData().viewCount();
-        int viewCount2 = getPostResponse2.getData().viewCount();
+        long viewCount1 = getPostResponse1.getData().viewCount();
+        long viewCount2 = getPostResponse2.getData().viewCount();
 
         assertThat(viewCount1).isNotEqualTo(viewCount2);
         assertThat(viewCount2).isEqualTo(viewCount1 + 1);
@@ -145,8 +145,8 @@ public class IncreaseViewCountApiTest extends BasePostApiTest {
         CommonResponse<GetPostDetailApiResponse> getPostResponse2 = sendGetPostRequest(accessToken,
             VIEW_COUNT_ZERO_POST_ID, status().isOk());
 
-        int viewCount1 = getPostResponse1.getData().viewCount();
-        int viewCount2 = getPostResponse2.getData().viewCount();
+        long viewCount1 = getPostResponse1.getData().viewCount();
+        long viewCount2 = getPostResponse2.getData().viewCount();
 
         assertThat(viewCount1).isNotEqualTo(viewCount2);
         assertThat(viewCount2).isEqualTo(viewCount1 + 1);

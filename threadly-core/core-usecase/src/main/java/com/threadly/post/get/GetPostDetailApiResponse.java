@@ -11,7 +11,7 @@ public record GetPostDetailApiResponse(
     String userProfileImageUrl,
     String userNickname,
     String content,
-    int viewCount,
+    long viewCount,
     LocalDateTime postedAt,
     long likeCount,
     long commentCount,

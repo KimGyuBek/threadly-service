@@ -21,9 +21,7 @@ import jakarta.validation.Valid;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -138,7 +136,6 @@ public class PostController {
       @Valid @RequestBody UpdatePostRequest request,
       @PathVariable("postId") String postId) {
 
-
     return ResponseEntity.status(200).body(
         updatePostUseCase.updatePost(
             new UpdatePostCommand(postId, user.getUserId(), request.content())
@@ -156,7 +153,6 @@ public class PostController {
   public ResponseEntity<Void> deletePost(
       @AuthenticationPrincipal AuthenticationUser user,
       @PathVariable("postId") String postId) {
-
 
     deletePostUseCase.softDeletePost(
         new DeletePostCommand(postId, user.getUserId())
