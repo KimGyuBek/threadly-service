@@ -185,6 +185,31 @@ public class CreatePostCommentApiTest extends BasePostApiTest {
         assertThat(createPostCommentResponse.getCode()).isEqualTo(
             ErrorCode.INVALID_REQUEST.getCode());
       }
+
+      /*[Case #5]  createPostComment() - 댓글이 최대 길이를 초과할 경우 400 BadRequest*/
+      @Order(5)
+      @DisplayName("5. 댓글이 최대 길이를 초과할 경우 400 Bad Request")
+      @Test
+      public void createPostComment_shouldReturnBadRequest_whenContentExceedsMaxLength()
+          throws Exception {
+        //given
+
+        /*로그인*/
+        String accessToken = getAccessToken(EMAIL_VERIFIED_USER_1);
+
+        //when
+        //then
+        String content = "a".repeat(256);
+
+        /*댓글 추가 요청 전송*/
+        CommonResponse<CreatePostCommentApiResponse> createPostCommentResponse = sendCreatePostCommentRequest(
+            accessToken, ARCHIVED_POST_ID, content, status().isBadRequest()
+        );
+
+        assertThat(createPostCommentResponse.isSuccess()).isFalse();
+        assertThat(createPostCommentResponse.getCode()).isEqualTo(
+            ErrorCode.INVALID_REQUEST.getCode());
+      }
     }
   }
 
