@@ -2,9 +2,7 @@ package com.threadly.posts.comment;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.threadly.posts.Post;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import com.threadly.post.Post;
 
 /**
  * 게시글 댓글 도메인 테스트

@@ -1,8 +1,8 @@
 package com.threadly.post;
 
-import static com.threadly.posts.PostStatusType.ARCHIVE;
-import static com.threadly.posts.PostStatusType.BLOCKED;
-import static com.threadly.posts.PostStatusType.DELETED;
+import static com.threadly.post.PostStatusType.ARCHIVE;
+import static com.threadly.post.PostStatusType.BLOCKED;
+import static com.threadly.post.PostStatusType.DELETED;
 
 import com.threadly.ErrorCode;
 import com.threadly.exception.post.PostException;
@@ -17,7 +17,6 @@ import com.threadly.post.get.GetPostDetailApiResponse;
 import com.threadly.post.get.GetPostDetailListApiResponse;
 import com.threadly.post.get.GetPostDetailListApiResponse.NextCursor;
 import com.threadly.post.engagement.GetPostEngagementApiResponse;
-import com.threadly.posts.PostStatusType;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

@@ -3,7 +3,7 @@ package com.threadly.repository.post;
 import com.threadly.entity.post.PostEntity;
 import com.threadly.post.fetch.PostDetailProjection;
 import com.threadly.post.fetch.PostEngagementProjection;
-import com.threadly.posts.PostStatusType;
+import com.threadly.post.PostStatusType;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -197,5 +197,18 @@ public interface PostJpaRepository extends JpaRepository<PostEntity, String> {
       where p.postId = :postId
       """)
   void increaseViewCount(@Param("postId") String postId);
+
+  /**
+   * postId로 작성자 userId 조회
+   *
+   * @param postId
+   * @return
+   */
+  @Query(value = """
+      select p.user_id
+           from posts p
+           where p.post_id = :postId;
+      """, nativeQuery = true)
+  Optional<String> findUserIdByPostId(@Param("postId") String postId);
 
 }

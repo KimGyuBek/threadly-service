@@ -1,6 +1,6 @@
 package com.threadly.post.save;
 
-import com.threadly.posts.Post;
+import com.threadly.post.Post;
 
 /**
  * 게시글 저장 관련 port

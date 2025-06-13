@@ -1,6 +1,6 @@
 package com.threadly.post.fetch;
 
-import com.threadly.posts.PostStatusType;
+import com.threadly.post.PostStatusType;
 import java.time.LocalDateTime;
 
 /**

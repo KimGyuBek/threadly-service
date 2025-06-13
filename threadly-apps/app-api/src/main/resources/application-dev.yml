@@ -20,3 +20,8 @@ properties:
     password-verification: 300
     login-attempt: 300
     post-view: 3600
+  file:
+    upload:
+      location: ./local-storage/uploads/images
+      access-url: http://localhost:8080/images
+

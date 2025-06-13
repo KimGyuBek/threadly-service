@@ -34,7 +34,8 @@ public class SecurityConfig {
                 "/api/users",
                 "/api/auth/verify-email",
                 "/api/auth/login",
-                "/api/auth/reissue"
+                "/api/auth/reissue",
+                "/images/**"
             ).permitAll()
             .anyRequest().authenticated()
     );

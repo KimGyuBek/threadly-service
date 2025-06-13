@@ -1,14 +1,14 @@
-package com.threadly.posts.comment;
+package com.threadly.post.comment;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.threadly.ErrorCode;
 import com.threadly.exception.post.PostCommentException;
-import com.threadly.posts.PostCommentStatusType;
-import com.threadly.posts.PostStatusType;
-import com.threadly.posts.comment.CannotDeleteCommentException.AlreadyDeletedException;
-import com.threadly.posts.comment.CannotDeleteCommentException.BlockedException;
-import com.threadly.posts.comment.CannotDeleteCommentException.ParentPostInactiveException;
-import com.threadly.posts.comment.CannotDeleteCommentException.WriteMismatchException;
+import com.threadly.post.PostCommentStatusType;
+import com.threadly.post.PostStatusType;
+import com.threadly.post.comment.CannotDeleteCommentException.AlreadyDeletedException;
+import com.threadly.post.comment.CannotDeleteCommentException.BlockedException;
+import com.threadly.post.comment.CannotDeleteCommentException.ParentPostInactiveException;
+import com.threadly.post.comment.CannotDeleteCommentException.WriteMismatchException;
 import com.threadly.util.RandomUtils;
 import java.util.ArrayList;
 import java.util.List;

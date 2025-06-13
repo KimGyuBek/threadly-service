@@ -140,7 +140,7 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
   public TokenReissueResponse reissueLoginToken(String refreshToken) {
 
     /*refreshToken이 null일 경우*/
-    if (refreshToken == null) {
+    if (refreshToken == null || refreshToken.equals("null")) {
       throw new TokenException(ErrorCode.TOKEN_MISSING);
     }
 

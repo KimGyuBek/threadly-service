@@ -63,6 +63,7 @@ public enum ErrorCode {
       HttpStatus.BAD_REQUEST),
   POST_NOT_ACCESSIBLE("TLY5011", "이 게시글은 볼 수 없습니다.",
       HttpStatus.BAD_REQUEST),
+  POST_IMAGE_UPLOAD_FORBIDDEN("TLY5012", "게시글 이미지 업로드 권한이 없습니다.", HttpStatus.FORBIDDEN),
 
   /*PostComment*/
   POST_COMMENT_NOT_FOUND("TLY5100", "댓글을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),

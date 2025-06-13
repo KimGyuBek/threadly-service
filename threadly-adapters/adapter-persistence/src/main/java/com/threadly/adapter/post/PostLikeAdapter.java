@@ -5,7 +5,7 @@ import com.threadly.post.like.post.CreatePostLikePort;
 import com.threadly.post.like.post.DeletePostLikePort;
 import com.threadly.post.like.post.FetchPostLikePort;
 import com.threadly.post.like.post.PostLikerProjection;
-import com.threadly.posts.PostLike;
+import com.threadly.post.PostLike;
 import com.threadly.repository.post.PostLikeJpaRepository;
 import java.time.LocalDateTime;
 import java.util.List;

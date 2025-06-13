@@ -1,7 +1,7 @@
 package com.threadly.post;
 
-import static com.threadly.posts.PostStatusType.BLOCKED;
-import static com.threadly.posts.PostStatusType.DELETED;
+import static com.threadly.post.PostStatusType.BLOCKED;
+import static com.threadly.post.PostStatusType.DELETED;
 
 import com.threadly.ErrorCode;
 import com.threadly.exception.post.PostException;
@@ -20,7 +20,6 @@ import com.threadly.post.update.UpdatePostPort;
 import com.threadly.post.update.UpdatePostUseCase;
 import com.threadly.post.update.view.IncreaseViewCountUseCase;
 import com.threadly.post.view.RecordPostViewPort;
-import com.threadly.posts.Post;
 import com.threadly.properties.TtlProperties;
 import com.threadly.user.FetchUserPort;
 import com.threadly.user.UserProfile;

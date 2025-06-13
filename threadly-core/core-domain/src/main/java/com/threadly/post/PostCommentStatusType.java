@@ -1,4 +1,4 @@
-package com.threadly.posts;
+package com.threadly.post;
 
 /**
  * 게시글 댓글 상태 enum

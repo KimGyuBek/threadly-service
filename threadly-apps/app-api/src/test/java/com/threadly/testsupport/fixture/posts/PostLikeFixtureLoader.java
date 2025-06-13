@@ -3,7 +3,7 @@ package com.threadly.testsupport.fixture.posts;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.threadly.adapter.post.PostAdapter;
 import com.threadly.adapter.post.PostLikeAdapter;
-import com.threadly.posts.PostLike;
+import com.threadly.post.PostLike;
 import com.threadly.testsupport.dto.posts.PostLikeFixtureDto;
 import com.threadly.testsupport.fixture.FixtureLoader;
 import com.threadly.testsupport.fixture.users.UserFixtureLoader;

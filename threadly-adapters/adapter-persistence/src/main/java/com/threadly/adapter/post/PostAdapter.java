@@ -7,9 +7,8 @@ import com.threadly.post.fetch.PostDetailProjection;
 import com.threadly.post.fetch.PostEngagementProjection;
 import com.threadly.post.save.SavePostPort;
 import com.threadly.post.update.UpdatePostPort;
-import com.threadly.post.view.PostViewCountProjection;
-import com.threadly.posts.Post;
-import com.threadly.posts.PostStatusType;
+import com.threadly.post.Post;
+import com.threadly.post.PostStatusType;
 import com.threadly.repository.post.PostJpaRepository;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -92,5 +91,11 @@ public class PostAdapter implements SavePostPort, FetchPostPort, UpdatePostPort 
   @Override
   public void increaseViewCount(String postId) {
     postJpaRepository.increaseViewCount(postId);
+  }
+
+  @Override
+  public Optional<String> fetchUserIdByPostId(String postId) {
+    return
+        postJpaRepository.findUserIdByPostId(postId);
   }
 }

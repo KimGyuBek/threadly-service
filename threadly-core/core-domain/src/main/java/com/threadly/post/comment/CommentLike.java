@@ -1,7 +1,6 @@
-package com.threadly.posts.comment;
+package com.threadly.post.comment;
 
 import com.google.common.annotations.VisibleForTesting;
-import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

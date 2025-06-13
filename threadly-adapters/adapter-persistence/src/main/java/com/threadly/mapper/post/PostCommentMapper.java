@@ -3,7 +3,7 @@ package com.threadly.mapper.post;
 import com.threadly.entity.post.PostCommentEntity;
 import com.threadly.entity.post.PostEntity;
 import com.threadly.entity.user.UserEntity;
-import com.threadly.posts.comment.PostComment;
+import com.threadly.post.comment.PostComment;
 
 /**
  * Post Comment Mapper

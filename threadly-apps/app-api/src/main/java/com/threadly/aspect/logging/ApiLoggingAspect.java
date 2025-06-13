@@ -26,11 +26,11 @@ public class ApiLoggingAspect {
 
   private final ObjectMapper objectMapper = new ObjectMapper();
 
-  @Pointcut("execution(* com.threadly.controller..*(..))")
+  @Pointcut("execution(* com.threadly..controller..*(..))")
   public void controllerMethod() {
   }
 
-//  @Around("controllerMethod()")
+  @Around("controllerMethod()")
   public Object logRequestResponse(ProceedingJoinPoint pjp) throws Throwable {
     String className = pjp.getSignature().getDeclaringTypeName();
     String methodName = pjp.getSignature().getName();

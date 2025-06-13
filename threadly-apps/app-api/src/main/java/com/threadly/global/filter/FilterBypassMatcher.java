@@ -13,7 +13,8 @@ public class FilterBypassMatcher {
       "/api/users",
       "/api/auth/verify-email",
       "/api/auth/login",
-      "/api/auth/reissue"
+      "/api/auth/reissue",
+      "/images/**"
   );
 
   private static final AntPathMatcher PATH_MATCHER = new AntPathMatcher();

@@ -1,7 +1,7 @@
 package com.threadly.post.fetch;
 
-import com.threadly.posts.Post;
-import com.threadly.posts.PostStatusType;
+import com.threadly.post.Post;
+import com.threadly.post.PostStatusType;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -66,6 +66,13 @@ public interface FetchPostPort {
    * @return
    */
   boolean existsById(String postId);
+
+  /**
+   * postId로 작성자 userId 조회
+   * @param postId
+   * @return
+   */
+  Optional<String> fetchUserIdByPostId(String postId);
 
 
 }

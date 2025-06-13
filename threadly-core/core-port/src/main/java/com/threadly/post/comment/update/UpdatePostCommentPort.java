@@ -1,6 +1,6 @@
 package com.threadly.post.comment.update;
 
-import com.threadly.posts.PostCommentStatusType;
+import com.threadly.post.PostCommentStatusType;
 
 /**
  * 게시글 댓글 업데이트 관련 Port

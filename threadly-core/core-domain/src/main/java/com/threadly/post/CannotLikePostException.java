@@ -1,4 +1,4 @@
-package com.threadly.posts;
+package com.threadly.post;
 
 /**
  * 게시글 좋아요 불가 예외
