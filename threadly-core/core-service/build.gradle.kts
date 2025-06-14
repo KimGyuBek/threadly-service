@@ -20,4 +20,9 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-mail")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 
+    /*Tika*/
+    implementation("org.apache.tika:tika-core:3.2.0")
+
+    testImplementation("org.springframework.boot:spring-boot-starter-web")
+
 }

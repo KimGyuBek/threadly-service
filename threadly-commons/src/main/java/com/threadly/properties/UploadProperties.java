@@ -1,8 +1,12 @@
 package com.threadly.properties;
 
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
+import org.springframework.util.unit.DataSize;
 
 /**
  * 업로드 관련 properties
@@ -26,5 +30,24 @@ public class UploadProperties {
    * 최대 업로드 허용 이미지 수
    */
   private int maxImageCount;
+
+  private DataSize maxSize;
+
+  private Map<String, String> allowTypes;
+
+  private List<String> allowExtensions;
+
+  /**
+   * type에 일치하는 extension map
+   *
+   * @return
+   */
+  public Map<String, String> getMimeToExtensions() {
+    return
+        allowTypes.entrySet().stream().collect(
+            Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey,
+                (existing, replacement) -> existing)
+        );
+  }
 
 }

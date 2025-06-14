@@ -18,6 +18,6 @@ object Versions {
     const val querydsl = "5.0.0"
 
     const val junit = "5.8.1"
-    const val assertjCore = "3.6.1"
+    const val assertjCore = "3.25.1"
     const val mockitoCore = "5.1.1"
 }

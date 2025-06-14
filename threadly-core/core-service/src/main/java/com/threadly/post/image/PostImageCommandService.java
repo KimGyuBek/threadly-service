@@ -30,6 +30,8 @@ public class PostImageCommandService implements UploadPostImageUseCase {
 
   private final UploadProperties uploadProperties;
 
+  private final UploadImageValidator uploadImageValidator;
+
   @Override
   public UploadPostImagesApiResponse uploadPostImages(UploadPostImageCommand command) {
     /*1. 게시글 존재 검증*/
@@ -41,6 +43,9 @@ public class PostImageCommandService implements UploadPostImageUseCase {
     if (!writerId.equals(command.getUserId())) {
       throw new PostException(ErrorCode.POST_IMAGE_UPLOAD_FORBIDDEN);
     }
+
+    /*이미지 검증*/
+    uploadImageValidator.validate(command.getImages());
 
     /*3. 업로드 이미지 수 검증*/
     if (command.getImages().isEmpty()
