@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.threadly.CommonResponse;
 import com.threadly.post.controller.BasePostApiTest;
 import com.threadly.post.create.CreatePostApiResponse;
+import com.threadly.post.get.GetPostDetailApiResponse;
 import com.threadly.utils.TestConstants;
 import com.threadly.utils.TestLogUtils;
 import java.io.IOException;
@@ -85,7 +86,7 @@ public class UploadPostImageTest extends BasePostApiTest {
 
       //then
       CommonResponse<UploadPostImagesApiResponse> uploadImageResponse = sendUploadPostImage(
-          image1, postId, accessToken);
+          accessToken, postId, image1);
       assertThat(uploadImageResponse.getData().images().size()).isEqualTo(1);
     }
   }
@@ -93,19 +94,18 @@ public class UploadPostImageTest extends BasePostApiTest {
   /**
    * 이미지 업로드 요청
    *
-   * @param image1
+   * @param image
    * @param postId
    * @param accessToken
    * @return
    * @throws Exception
    */
-  private CommonResponse<UploadPostImagesApiResponse> sendUploadPostImage(MockMultipartFile image1,
-      String postId,
-      String accessToken)
+  private CommonResponse<UploadPostImagesApiResponse> sendUploadPostImage(String accessToken,
+      String postId, MockMultipartFile image)
       throws Exception {
     MvcResult response = mockMvc.perform(
         multipart("/api/post-images")
-            .file(image1)
+            .file(image)
             .param("postId", postId)
             .header("Authorization", "Bearer " + accessToken)
             .contentType(MediaType.MULTIPART_FORM_DATA)
@@ -115,6 +115,38 @@ public class UploadPostImageTest extends BasePostApiTest {
     return getResponse(response, new TypeReference<>() {
     });
 
+
+  }
+
+  @DisplayName("테스트")
+  @Test
+  public void test() throws Exception {
+    //given
+    String accessToken = getAccessToken(TestConstants.EMAIL_VERIFIED_USER_1);
+    CommonResponse<CreatePostApiResponse> createContentResponse = sendCreatePostRequest(
+        accessToken, "content", status().isCreated()
+    );
+    String postId = createContentResponse.getData().postId();
+    Path path = Paths.get("src/test/resources/images/sample/01.jpg");
+    MockMultipartFile image1 = new MockMultipartFile(
+        "images",
+        path.getFileName().toString(),
+        MediaType.IMAGE_JPEG.toString(),
+        Files.readAllBytes(path)
+    );
+    sendUploadPostImage(
+        accessToken, postId, image1
+    );
+
+    CommonResponse<GetPostDetailApiResponse> getPostRequest = sendGetPostRequest(
+        accessToken,
+        postId,
+        status().isOk()
+    );
+
+    //when
+
+    //then
   }
 
   @Order(2)

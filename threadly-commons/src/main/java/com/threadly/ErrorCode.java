@@ -63,7 +63,6 @@ public enum ErrorCode {
       HttpStatus.BAD_REQUEST),
   POST_NOT_ACCESSIBLE("TLY5011", "이 게시글은 볼 수 없습니다.",
       HttpStatus.BAD_REQUEST),
-  POST_IMAGE_UPLOAD_FORBIDDEN("TLY5012", "게시글 이미지 업로드 권한이 없습니다.", HttpStatus.FORBIDDEN),
 
   /*PostComment*/
   POST_COMMENT_NOT_FOUND("TLY5100", "댓글을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
@@ -83,7 +82,20 @@ public enum ErrorCode {
   POST_COMMENT_DELETED("TLY5111", "삭제된 댓글입니다.",
       HttpStatus.BAD_REQUEST),
   POST_COMMENT_NOT_ACCESSIBLE("TLY5112", "이 댓글은 볼 수 없습니다.",
-      HttpStatus.BAD_REQUEST);
+      HttpStatus.BAD_REQUEST),
+
+  /*PostImage*/
+  POST_IMAGE_NOT_FOUND("TLY5200", "이미지를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+  POST_IMAGE_UPLOAD_LIMIT_EXCEEDED("TLY5201", "최대 업로드 가능한 이미지 수를 초과했습니다.",
+      HttpStatus.BAD_REQUEST),
+  POST_IMAGE_INVALID_EXTENSION("TLY5202", "허용되지 않는 파일 확장자입니다.", HttpStatus.BAD_REQUEST),
+  POST_IMAGE_INVALID_MIME_TYPE("TLY5203", "유효하지 않은 이미지 MIME 타입입니다.", HttpStatus.BAD_REQUEST),
+  POST_IMAGE_TOO_LARGE("TLY5204", "이미지 파일 크기가 너무 큽니다.", HttpStatus.BAD_REQUEST),
+  POST_IMAGE_UPLOAD_FAILED("TLY5205", "이미지 업로드에 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
+  POST_IMAGE_OWNER_MISMATCH("TLY5206", "사용자에게 해당 게시글 이미지에 대한 권한이 없습니다.", HttpStatus.FORBIDDEN),
+  POST_IMAGE_ALREADY_ATTACHED("TLY5207", "이미 게시글에 첨부된 이미지입니다.", HttpStatus.BAD_REQUEST),
+  POST_IMAGE_TEMP_EXPIRED("TLY5208", "임시 업로드 이미지의 유효 시간이 만료되었습니다.", HttpStatus.GONE),
+  POST_IMAGE_UPLOAD_FORBIDDEN("TLY5209", "게시글 이미지 업로드 권한이 없습니다.", HttpStatus.FORBIDDEN);
 
 
   private final String code;
@@ -96,7 +108,4 @@ public enum ErrorCode {
     this.httpStatus = httpStatus;
   }
 
-  public HttpStatus getHttpStatus() {
-    return httpStatus;
-  }
 }
