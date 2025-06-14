@@ -1,4 +1,6 @@
-dependencies{
-    implementation(project(":threadly-commons") )
+dependencies {
+    implementation(project(":threadly-commons"))
     implementation(project(":threadly-core:core-domain"))
+
+
 }

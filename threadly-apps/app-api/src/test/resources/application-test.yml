@@ -23,3 +23,8 @@ properties:
     password-verification: 5
     login-attempt: 5
     post-view: 2
+  file:
+    upload:
+#      location: ./local-storage/uploads/images
+      location: src/test/resources/images/temp/
+      access-url: http://localhost:8080/images/

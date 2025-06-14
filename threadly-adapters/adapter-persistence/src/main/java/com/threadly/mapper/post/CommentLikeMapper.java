@@ -4,7 +4,7 @@ import com.threadly.entity.post.CommentLikeEntity;
 import com.threadly.entity.post.PostCommentEntity;
 import com.threadly.entity.post.UserIdAndCommentId;
 import com.threadly.entity.user.UserEntity;
-import com.threadly.posts.comment.CommentLike;
+import com.threadly.post.comment.CommentLike;
 
 /**
  * Post Comment Like Mapper

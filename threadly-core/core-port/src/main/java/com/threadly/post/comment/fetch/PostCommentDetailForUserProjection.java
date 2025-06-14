@@ -1,6 +1,5 @@
 package com.threadly.post.comment.fetch;
 
-import com.threadly.posts.PostCommentStatusType;
 import java.time.LocalDateTime;
 
 /**

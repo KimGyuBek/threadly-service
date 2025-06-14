@@ -2,7 +2,7 @@ package com.threadly.repository.post.comment;
 
 import com.threadly.entity.post.PostCommentEntity;
 import com.threadly.post.comment.fetch.PostCommentDetailForUserProjection;
-import com.threadly.posts.PostCommentStatusType;
+import com.threadly.post.PostCommentStatusType;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;

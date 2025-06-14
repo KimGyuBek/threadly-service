@@ -1,4 +1,4 @@
-package com.threadly.posts.comment;
+package com.threadly.post.comment;
 
 /**
  * 게시글 댓글 삭제 불가 예외

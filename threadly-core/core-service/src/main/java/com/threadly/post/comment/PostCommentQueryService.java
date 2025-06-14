@@ -10,7 +10,7 @@ import com.threadly.post.comment.get.GetPostCommentListApiResponse.NextCursor;
 import com.threadly.post.comment.get.GetPostCommentListQuery;
 import com.threadly.post.comment.get.GetPostCommentUseCase;
 import com.threadly.post.fetch.FetchPostPort;
-import com.threadly.posts.PostStatusType;
+import com.threadly.post.PostStatusType;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

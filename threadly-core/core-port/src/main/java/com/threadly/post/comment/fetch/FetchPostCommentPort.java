@@ -1,11 +1,10 @@
 package com.threadly.post.comment.fetch;
 
-import com.threadly.posts.PostCommentStatusType;
-import com.threadly.posts.comment.PostComment;
+import com.threadly.post.PostCommentStatusType;
+import com.threadly.post.comment.PostComment;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import javax.swing.text.html.Option;
 
 /**
  * 게시글 댓글 조회 관련 Port

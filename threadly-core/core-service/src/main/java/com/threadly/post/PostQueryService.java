@@ -1,23 +1,24 @@
 package com.threadly.post;
 
-import static com.threadly.posts.PostStatusType.ARCHIVE;
-import static com.threadly.posts.PostStatusType.BLOCKED;
-import static com.threadly.posts.PostStatusType.DELETED;
+import static com.threadly.post.PostStatusType.ARCHIVE;
+import static com.threadly.post.PostStatusType.BLOCKED;
+import static com.threadly.post.PostStatusType.DELETED;
 
 import com.threadly.ErrorCode;
 import com.threadly.exception.post.PostException;
+import com.threadly.post.engagement.GetPostEngagementApiResponse;
+import com.threadly.post.engagement.GetPostEngagementQuery;
 import com.threadly.post.engagement.GetPostEngagementUseCase;
 import com.threadly.post.fetch.FetchPostPort;
 import com.threadly.post.fetch.PostDetailProjection;
-import com.threadly.post.get.GetPostUseCase;
-import com.threadly.post.engagement.GetPostEngagementQuery;
-import com.threadly.post.get.GetPostListQuery;
-import com.threadly.post.get.GetPostQuery;
 import com.threadly.post.get.GetPostDetailApiResponse;
 import com.threadly.post.get.GetPostDetailListApiResponse;
 import com.threadly.post.get.GetPostDetailListApiResponse.NextCursor;
-import com.threadly.post.engagement.GetPostEngagementApiResponse;
-import com.threadly.posts.PostStatusType;
+import com.threadly.post.get.GetPostListQuery;
+import com.threadly.post.get.GetPostQuery;
+import com.threadly.post.get.GetPostUseCase;
+import com.threadly.post.image.fetch.FetchPostImagePort;
+import com.threadly.post.image.fetch.PostImageProjection;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -33,10 +34,13 @@ public class PostQueryService implements GetPostUseCase, GetPostEngagementUseCas
 
   private final FetchPostPort fetchPostPort;
 
+  private final FetchPostImagePort fetchPostImagePort;
+
   @Transactional(readOnly = true)
   @Override
   public GetPostDetailListApiResponse getUserVisiblePostListByCursor(GetPostListQuery query) {
 
+    /*게시글 상세 정보 조회*/
     List<GetPostDetailApiResponse> allPostList = fetchPostPort.fetchUserVisiblePostListByCursor(
             query.getUserId(), query.getCursorPostedAt(), query.getCursorPostId(), query.getLimit() + 1)
         .stream().map(
@@ -46,11 +50,19 @@ public class PostQueryService implements GetPostUseCase, GetPostEngagementUseCas
                 projection.getUserProfileImageUrl(),
                 projection.getUserNickname(),
                 projection.getContent(),
+                fetchPostImagePort.fetchPostImageByPostId(
+                    projection.getPostId()
+                ).stream().map(
+                    image -> new GetPostDetailApiResponse.PostImage(
+                        image.getImageUrl(),
+                        image.getImageOrder()
+                    )).toList(),
                 projection.getViewCount(),
                 projection.getPostedAt(),
                 projection.getLikeCount(),
                 projection.getCommentCount(),
                 projection.isLiked())).toList();
+
 
     /*다음 페이지가 있는지 검증*/
     boolean hasNext = allPostList.size() > query.getLimit();
@@ -68,16 +80,19 @@ public class PostQueryService implements GetPostUseCase, GetPostEngagementUseCas
 
     return new GetPostDetailListApiResponse(pagedPostList,
         new NextCursor(cursorPostedAt, cursorPostId));
-
   }
 
   @Transactional(readOnly = true)
   @Override
   public GetPostDetailApiResponse getPost(GetPostQuery query) {
+    /*게시글 상세 정보 조회*/
     PostDetailProjection postDetailProjection = fetchPostPort.fetchPostDetailsByPostIdAndUserId(
             query.getPostId(), query.getUserId())
         .orElseThrow(() -> new PostException(ErrorCode.POST_NOT_FOUND));
 
+    /*게시글 이미지 조회*/
+    List<PostImageProjection> postImageProjections = fetchPostImagePort.fetchPostImageByPostId(
+        query.getPostId());
 
     /*TODO 도메인 로직으로 변경*/
     PostStatusType status = postDetailProjection.getPostStatus();
@@ -91,10 +106,21 @@ public class PostQueryService implements GetPostUseCase, GetPostEngagementUseCas
 
     return new GetPostDetailApiResponse(postDetailProjection.getPostId(),
         postDetailProjection.getUserId(),
-        postDetailProjection.getUserProfileImageUrl(), postDetailProjection.getUserNickname(),
-        postDetailProjection.getContent(), postDetailProjection.getViewCount(),
-        postDetailProjection.getPostedAt(), postDetailProjection.getLikeCount(),
-        postDetailProjection.getCommentCount(), postDetailProjection.isLiked());
+        postDetailProjection.getUserProfileImageUrl(),
+        postDetailProjection.getUserNickname(),
+        postDetailProjection.getContent(),
+        postImageProjections.stream().map(
+            projection ->
+                new GetPostDetailApiResponse.PostImage(
+                    projection.getImageUrl(),
+                    projection.getImageOrder()
+                )
+        ).toList(),
+        postDetailProjection.getViewCount(),
+        postDetailProjection.getPostedAt(),
+        postDetailProjection.getLikeCount(),
+        postDetailProjection.getCommentCount(),
+        postDetailProjection.isLiked());
   }
 
   @Transactional(readOnly = true)

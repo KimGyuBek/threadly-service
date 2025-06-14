@@ -7,6 +7,7 @@ build/
 infra/data
 md/
 json/
+local-storage/
 
 ### STS ###
 .apt_generated

@@ -1,6 +1,5 @@
-package com.threadly.posts;
+package com.threadly.post;
 
-import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

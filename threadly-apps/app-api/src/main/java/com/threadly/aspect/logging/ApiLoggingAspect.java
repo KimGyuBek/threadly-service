@@ -1,6 +1,5 @@
 package com.threadly.aspect.logging;
 
-import static com.threadly.util.LogFormatUtils.debugErrorLog;
 import static com.threadly.util.LogFormatUtils.debugLog;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,11 +25,11 @@ public class ApiLoggingAspect {
 
   private final ObjectMapper objectMapper = new ObjectMapper();
 
-  @Pointcut("execution(* com.threadly.controller..*(..))")
+  @Pointcut("execution(* com.threadly..controller..*(..))")
   public void controllerMethod() {
   }
 
-//  @Around("controllerMethod()")
+  @Around("controllerMethod()")
   public Object logRequestResponse(ProceedingJoinPoint pjp) throws Throwable {
     String className = pjp.getSignature().getDeclaringTypeName();
     String methodName = pjp.getSignature().getName();
@@ -52,8 +51,9 @@ public class ApiLoggingAspect {
 
     } catch (Exception e) {
       long duration = System.currentTimeMillis() - start;
-      debugErrorLog(pjp, getRequest(), toJson(
-          new ErrorLog(className, methodName, args, duration, e)));
+//      debugErrorLog(pjp, getRequest(), toJson(
+//          new ErrorLog(className, methodName, args, duration, e)));
+      log.debug(e.getMessage(), e);
       throw e;
 
 

@@ -2,7 +2,7 @@ package com.threadly.mapper.post;
 
 import com.threadly.entity.post.PostEntity;
 import com.threadly.entity.user.UserEntity;
-import com.threadly.posts.Post;
+import com.threadly.post.Post;
 
 /**
  * Post Mapper

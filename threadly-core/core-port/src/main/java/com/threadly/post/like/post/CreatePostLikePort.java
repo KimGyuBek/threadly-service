@@ -1,6 +1,6 @@
 package com.threadly.post.like.post;
 
-import com.threadly.posts.PostLike;
+import com.threadly.post.PostLike;
 
 /**
  * 게시글 좋아요 저장 관련 Port

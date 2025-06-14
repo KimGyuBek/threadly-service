@@ -5,7 +5,7 @@ import com.threadly.exception.post.PostCommentException;
 import com.threadly.post.comment.fetch.FetchPostCommentPort;
 import com.threadly.post.like.comment.GetPostCommentLikersApiResponse.NextCursor;
 import com.threadly.post.like.comment.GetPostCommentLikersApiResponse.PostCommentLiker;
-import com.threadly.posts.PostCommentStatusType;
+import com.threadly.post.PostCommentStatusType;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

@@ -1,7 +1,8 @@
 package com.threadly.post.fetch;
 
-import com.threadly.posts.PostStatusType;
+import com.threadly.post.PostStatusType;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * 게시글 상세 정보 DTO

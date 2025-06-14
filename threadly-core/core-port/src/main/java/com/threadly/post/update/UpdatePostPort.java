@@ -1,6 +1,6 @@
 package com.threadly.post.update;
 
-import com.threadly.posts.Post;
+import com.threadly.post.Post;
 
 /**
  * 게시글 수정 관련 port

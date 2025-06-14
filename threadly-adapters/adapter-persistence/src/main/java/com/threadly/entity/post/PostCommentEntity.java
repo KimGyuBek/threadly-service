@@ -3,8 +3,8 @@ package com.threadly.entity.post;
 
 import com.threadly.entity.BaseEntity;
 import com.threadly.entity.user.UserEntity;
-import com.threadly.posts.PostCommentStatusType;
-import com.threadly.posts.comment.PostComment;
+import com.threadly.post.PostCommentStatusType;
+import com.threadly.post.comment.PostComment;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

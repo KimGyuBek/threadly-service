@@ -1,14 +1,10 @@
 package com.threadly.mapper.post;
 
-import com.threadly.entity.post.CommentLikeEntity;
-import com.threadly.entity.post.PostCommentEntity;
 import com.threadly.entity.post.PostEntity;
 import com.threadly.entity.post.PostIdAndUserId;
 import com.threadly.entity.post.PostLikeEntity;
-import com.threadly.entity.post.UserIdAndCommentId;
 import com.threadly.entity.user.UserEntity;
-import com.threadly.posts.PostLike;
-import com.threadly.posts.comment.CommentLike;
+import com.threadly.post.PostLike;
 
 /**
  * Post Like Mapper

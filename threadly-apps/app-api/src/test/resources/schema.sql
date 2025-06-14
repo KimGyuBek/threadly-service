@@ -4,6 +4,7 @@ drop table if exists post_likes;
 drop table if exists posts;
 drop table if exists users;
 drop table if exists user_profile;
+drop table if exists post_images;
 
 --user_profile
 create table user_profile
@@ -84,6 +85,20 @@ create table comment_likes
     primary key (comment_id, user_id),
     foreign key (comment_id) references post_comments (comment_id) on delete cascade,
     foreign key (user_id) references users (user_id) on delete cascade
+);
+
+--post_images
+create table post_images
+(
+    post_image_id    varchar(255) not null,
+    post_id          varchar(255) not null,
+    stored_file_name varchar(255) not null,
+    image_order      int          not null default 0,
+    image_url        varchar(255) not null default '/',
+    created_at       timestamp    not null default current_timestamp,
+    deleted_at       timestamp null,
+    primary key (post_image_id),
+    foreign key (post_id) references posts (post_id)
 );
 
 
