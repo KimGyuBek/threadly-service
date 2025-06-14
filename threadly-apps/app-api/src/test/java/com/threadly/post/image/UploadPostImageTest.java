@@ -87,10 +87,40 @@ public class UploadPostImageTest extends BasePostImageApiTest {
       assertThat(uploadImageResponse.getData().images().size()).isEqualTo(1);
     }
 
-
-    /*[Case #2] 게시글 정상 생성 및 이미지 업로드 후 해당 게시글 조회 시 업로드된 이미지가 정상 조회 되는지 검증*/
+    /*[Case #2] 이미지 업로드 - IMAGE_MAX_COUNT 만큼 이미지 업로드시 응답 검증*/
     @Order(2)
-    @DisplayName("2. 게시글 생성 및 이미지 업로드 후 해당 게시글 조회 시 응답 검증")
+    @DisplayName("2. 최대 업로드 가능 수 만큼 이미지 업로드 시 응답 검증")
+    @Test
+    public void uploadImage_shouldSucceed_whenUploadToMaxCount()
+        throws Exception {
+      //given
+      /*로그인 요청*/
+      String accessToken = getAccessToken(EMAIL_VERIFIED_USER_1);
+
+      /*게시글 생성*/
+      CommonResponse<CreatePostApiResponse> createPostResponse = sendCreatePostRequest(
+          accessToken,
+          "content",
+          status().isCreated()
+      );
+
+      String postId = createPostResponse.getData().postId();
+
+      //when
+      List<MockMultipartFile> images = generateMultipartFiles(
+          UploadPostImageTest.this.uploadProperties.getMaxImageCount(), "01.jpg");
+      //then
+      /*업로드 요청 전송*/
+      CommonResponse<UploadPostImagesApiResponse> uploadResponse = sendUploadPostImage(
+          accessToken, postId, images, status().isCreated());
+
+      assertThat(uploadResponse.getData().images().size()).isEqualTo(
+          uploadProperties.getMaxImageCount());
+    }
+
+    /*[Case #3] 게시글 정상 생성 및 이미지 업로드 후 해당 게시글 조회 시 업로드된 이미지가 정상 조회 되는지 검증*/
+    @Order(3)
+    @DisplayName("3. 게시글 생성 및 이미지 업로드 후 해당 게시글 조회 시 응답 검증")
     @Test
     public void uploadImage_shouldReturnUploadImageData_whenRequestGetPost() throws Exception {
       //given
@@ -110,16 +140,14 @@ public class UploadPostImageTest extends BasePostImageApiTest {
           accessToken, postId, List.of(image), status().isCreated()
       );
 
+      //when
+      //then
       CommonResponse<GetPostDetailApiResponse> getPostRequest = sendGetPostRequest(
           accessToken,
           postId,
           status().isOk()
       );
     }
-
-    //when
-
-    //then
   }
 
   @Order(2)
@@ -204,7 +232,7 @@ public class UploadPostImageTest extends BasePostImageApiTest {
       //then
 
       List<MockMultipartFile> images = generateMultipartFiles(
-          UploadPostImageTest.this.uploadProperties.getMaxImageCount(), "01.jpg");
+          UploadPostImageTest.this.uploadProperties.getMaxImageCount() + 1, "01.jpg");
 
       CommonResponse<UploadPostImagesApiResponse> uploadResponse = sendUploadPostImage(
           accessToken, postId, images, status().isBadRequest());

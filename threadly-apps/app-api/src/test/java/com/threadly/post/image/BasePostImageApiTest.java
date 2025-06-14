@@ -44,7 +44,7 @@ public abstract class BasePostImageApiTest extends BasePostApiTest {
       throws IOException {
     List<MockMultipartFile> images = new ArrayList<>();
 
-    for (int i = 0; i <= imageCount; i++) {
+    for (int i = 0; i < imageCount; i++) {
       Path path = Paths.get("src/test/resources/images/sample/" + fileName);
       images.add(new MockMultipartFile(
           "images",
