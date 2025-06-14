@@ -27,4 +27,4 @@ properties:
     upload:
       location: src/test/resources/images/temp/
       access-url: http://localhost:8080/images/
-      max-image-count: 20
+      max-image-count: 5

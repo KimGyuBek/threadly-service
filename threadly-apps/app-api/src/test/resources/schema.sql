@@ -1,7 +1,8 @@
 drop table if exists comment_likes;
 drop table if exists post_comments;
 drop table if exists post_likes;
-drop table if exists posts;
+drop table if exists posts cascade;
+
 drop table if exists users;
 drop table if exists user_profile;
 drop table if exists post_images;

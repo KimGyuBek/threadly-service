@@ -42,7 +42,7 @@ public class PostImageUploadController {
 
   ) {
 
-    return ResponseEntity.status(200).body(
+    return ResponseEntity.status(201).body(
         uploadPostImageUseCase.uploadPostImages(
             new UploadPostImageCommand(
                 user.getUserId(), postId, files.stream().map(
