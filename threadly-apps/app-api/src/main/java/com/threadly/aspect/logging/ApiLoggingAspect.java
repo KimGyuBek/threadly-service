@@ -1,6 +1,5 @@
 package com.threadly.aspect.logging;
 
-import static com.threadly.util.LogFormatUtils.debugErrorLog;
 import static com.threadly.util.LogFormatUtils.debugLog;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -52,8 +51,9 @@ public class ApiLoggingAspect {
 
     } catch (Exception e) {
       long duration = System.currentTimeMillis() - start;
-      debugErrorLog(pjp, getRequest(), toJson(
-          new ErrorLog(className, methodName, args, duration, e)));
+//      debugErrorLog(pjp, getRequest(), toJson(
+//          new ErrorLog(className, methodName, args, duration, e)));
+      log.debug(e.getMessage(), e);
       throw e;
 
 

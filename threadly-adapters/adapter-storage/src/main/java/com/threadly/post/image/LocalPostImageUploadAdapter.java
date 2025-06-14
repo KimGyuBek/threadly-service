@@ -2,6 +2,8 @@ package com.threadly.post.image;
 
 
 import com.threadly.file.UploadImage;
+import com.threadly.post.image.upload.UploadImageResponse;
+import com.threadly.post.image.upload.UploadPostImagePort;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -55,7 +57,7 @@ public class LocalPostImageUploadAdapter implements UploadPostImagePort {
     try {
       Files.write(fullPath, uploadImage.getContent());
 
-      return new UploadImageResponse(storedFileName, accessUrlPrefix + "/" + storedFileName,
+      return new UploadImageResponse(storedFileName, accessUrlPrefix + storedFileName,
           imageOrder);
     } catch (Exception e) {
       log.error(e.getMessage(), e);

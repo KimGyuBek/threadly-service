@@ -1,4 +1,4 @@
-package com.threadly.post.image;
+package com.threadly.post.image.save;
 
 import com.threadly.post.PostImage;
 

@@ -1,4 +1,4 @@
-package com.threadly.post.image;
+package com.threadly.post.image.upload;
 
 import com.threadly.file.UploadImage;
 import java.util.List;

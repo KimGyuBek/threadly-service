@@ -22,6 +22,6 @@ properties:
     post-view: 3600
   file:
     upload:
-      location: ./local-storage/uploads/images
-      access-url: http://localhost:8080/images
+      location: ./local-storage/uploads/images/
+      access-url: http://localhost:8080/images/
 
