@@ -2,12 +2,14 @@ package com.threadly.post.image;
 
 import com.threadly.ErrorCode;
 import com.threadly.exception.post.PostException;
+import com.threadly.exception.post.PostImageException;
 import com.threadly.post.PostImage;
 import com.threadly.post.fetch.FetchPostPort;
 import com.threadly.post.image.UploadPostImagesApiResponse.PostImageResponse;
 import com.threadly.post.image.save.SavePostImagePort;
 import com.threadly.post.image.upload.UploadImageResponse;
 import com.threadly.post.image.upload.UploadPostImagePort;
+import com.threadly.properties.UploadProperties;
 import com.threadly.util.RandomUtils;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -27,9 +29,16 @@ public class PostImageCommandService implements UploadPostImageUseCase {
   private final SavePostImagePort savePostImagePort;
   private final UploadPostImagePort uploadPostImagePort;
 
+  private final UploadProperties uploadProperties;
+
   @Override
   public UploadPostImagesApiResponse uploadPostImages(UploadPostImageCommand command) {
-    /*1. 게시글 존재 및 게시글 작성자 검증*/
+    /*1. 업로드 이미지 수 검증*/
+    if (command.getImages().size() > uploadProperties.getMaxImageCount()) {
+      throw new PostImageException(ErrorCode.POST_IMAGE_UPLOAD_LIMIT_EXCEEDED);
+    }
+
+    /*2. 게시글 존재 및 게시글 작성자 검증*/
     String writerId = fetchPostPort.fetchUserIdByPostId(command.getPostId()).orElseThrow(
         () -> new PostException(ErrorCode.POST_NOT_FOUND)
     );
@@ -39,7 +48,7 @@ public class PostImageCommandService implements UploadPostImageUseCase {
       throw new PostException(ErrorCode.POST_IMAGE_UPLOAD_FORBIDDEN);
     }
 
-    /*2. 이미지 파일 저장*/
+    /*3. 이미지 파일 저장*/
     List<UploadImageResponse> uploadImageResponses = uploadPostImagePort.uploadPostImage(
         command.getImages().stream().map(
             uploadImage -> uploadImage.withStoredFileName(RandomUtils.generateNanoId())
@@ -47,7 +56,7 @@ public class PostImageCommandService implements UploadPostImageUseCase {
     );
     log.info("이미지 업로드 완료: {}", uploadImageResponses.toString());
 
-    /*3. 이미지 메타 데이터 db 저장*/
+    /*4. 이미지 메타 데이터 db 저장*/
     uploadImageResponses.forEach(response -> {
       PostImage postImage = PostImage.newPostImage(
           command.getPostId(),

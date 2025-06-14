@@ -24,4 +24,5 @@ properties:
     upload:
       location: ./local-storage/uploads/images/
       access-url: http://localhost:8080/images/
+      max-image-count: 20
 
