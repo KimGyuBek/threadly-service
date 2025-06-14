@@ -10,7 +10,6 @@ import com.threadly.post.image.save.SavePostImagePort;
 import com.threadly.post.image.upload.UploadImageResponse;
 import com.threadly.post.image.upload.UploadPostImagePort;
 import com.threadly.properties.UploadProperties;
-import com.threadly.util.RandomUtils;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,30 +32,28 @@ public class PostImageCommandService implements UploadPostImageUseCase {
 
   @Override
   public UploadPostImagesApiResponse uploadPostImages(UploadPostImageCommand command) {
-    /*1. 업로드 이미지 수 검증*/
-    if (command.getImages().size() > uploadProperties.getMaxImageCount()) {
-      throw new PostImageException(ErrorCode.POST_IMAGE_UPLOAD_LIMIT_EXCEEDED);
-    }
-
-    /*2. 게시글 존재 및 게시글 작성자 검증*/
+    /*1. 게시글 존재 검증*/
     String writerId = fetchPostPort.fetchUserIdByPostId(command.getPostId()).orElseThrow(
         () -> new PostException(ErrorCode.POST_NOT_FOUND)
     );
 
-    /*게시글 작성자 id와 요청 userId가 일치하지 않는 경우*/
+    /*2. 게시글 작성자 id와 요청 userId가 일치하는지 검증*/
     if (!writerId.equals(command.getUserId())) {
       throw new PostException(ErrorCode.POST_IMAGE_UPLOAD_FORBIDDEN);
     }
 
-    /*3. 이미지 파일 저장*/
+    /*3. 업로드 이미지 수 검증*/
+    if (command.getImages().isEmpty()
+        || command.getImages().size() > uploadProperties.getMaxImageCount()) {
+      throw new PostImageException(ErrorCode.POST_IMAGE_UPLOAD_LIMIT_EXCEEDED);
+    }
+
+    /*4. 이미지 파일 저장*/
     List<UploadImageResponse> uploadImageResponses = uploadPostImagePort.uploadPostImage(
-        command.getImages().stream().map(
-            uploadImage -> uploadImage.withStoredFileName(RandomUtils.generateNanoId())
-        ).toList()
-    );
+        command.getImages());
     log.info("이미지 업로드 완료: {}", uploadImageResponses.toString());
 
-    /*4. 이미지 메타 데이터 db 저장*/
+    /*5. 이미지 메타 데이터 db 저장*/
     uploadImageResponses.forEach(response -> {
       PostImage postImage = PostImage.newPostImage(
           command.getPostId(),

@@ -1,5 +1,6 @@
 package com.threadly.file;
 
+import com.threadly.util.RandomUtils;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,20 +18,10 @@ public class UploadImage {
 
 
   public UploadImage(String originalFileName, byte[] content, String contentType, long size) {
+    this.storedFileName = RandomUtils.generateNanoId();
     this.originalFileName = originalFileName;
     this.content = content;
     this.contentType = contentType;
     this.size = size;
-  }
-
-  /**
-   * storedFileName을 포함한 새로운 객체 생성
-   *
-   * @param storedFileName
-   * @return
-   */
-  public UploadImage withStoredFileName(String storedFileName) {
-    return new UploadImage(this.originalFileName, storedFileName, this.content, this.contentType,
-        this.size);
   }
 }
