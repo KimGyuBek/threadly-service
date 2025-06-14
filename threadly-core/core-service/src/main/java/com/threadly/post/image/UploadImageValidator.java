@@ -98,11 +98,6 @@ public class UploadImageValidator {
       if (!uploadProperties.getAllowExtensions().contains(extension)) {
         throw new PostImageException(ErrorCode.POST_IMAGE_INVALID_EXTENSION);
       }
-
-      /*extension과 mime이 일치하는지 검증*/
-      if (!isExtensionMatchingMime(extension, value)) {
-        throw new PostImageException(ErrorCode.POST_IMAGE_INVALID_IMAGE);
-      }
     });
   }
 
@@ -120,16 +115,6 @@ public class UploadImageValidator {
     return fileName.substring(lastDot + 1).toLowerCase();
   }
 
-  /**
-   * extension과 mime이 일치하는지 검증
-   *
-   * @param extension
-   * @param mime
-   * @return
-   */
-  private boolean isExtensionMatchingMime(String extension, String mime) {
-    return uploadProperties.getAllowTypes().getOrDefault(extension, "").equalsIgnoreCase(mime);
-  }
 
   /**
    * mime 추출
