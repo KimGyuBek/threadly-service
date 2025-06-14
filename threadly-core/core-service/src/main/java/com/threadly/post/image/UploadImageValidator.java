@@ -37,8 +37,8 @@ public class UploadImageValidator {
     for (UploadImage file : files) {
       mimeCache.put(file, getMimeType(file));
     }
-    validateMime(mimeCache);
     validateExtensionAndMimeMatch(mimeCache);
+    validateMime(mimeCache);
   }
 
   /**
