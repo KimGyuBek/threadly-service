@@ -15,13 +15,13 @@ import org.springframework.stereotype.Component;
  * 업로드 이미지 검증
  */
 @Component
-public class UploadImageValidator {
+public class ImageUploadValidator {
 
   private final UploadProperties uploadProperties;
 
   private final Tika tika = new Tika();
 
-  public UploadImageValidator(UploadProperties uploadProperties) {
+  public ImageUploadValidator(UploadProperties uploadProperties) {
     this.uploadProperties = uploadProperties;
   }
 

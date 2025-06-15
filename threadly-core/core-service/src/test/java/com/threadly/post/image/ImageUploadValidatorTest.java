@@ -26,23 +26,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 
 @SpringBootTest(classes = {
-    UploadImageValidator.class,
-    UploadImageValidatorTest.TestConfig.class
+    ImageUploadValidator.class,
+    ImageUploadValidatorTest.TestConfig.class
 })
 @TestPropertySource("classpath:application-test.yml")
 @ActiveProfiles("test")
 @DisplayName("게시글 이미지 업로드 검증")
 @TestClassOrder(ClassOrderer.OrderAnnotation.class)
-class UploadImageValidatorTest {
+class ImageUploadValidatorTest {
 
   @Autowired
-  private UploadImageValidator validator;
+  private ImageUploadValidator validator;
 
   @Autowired
   private UploadProperties uploadProperties;

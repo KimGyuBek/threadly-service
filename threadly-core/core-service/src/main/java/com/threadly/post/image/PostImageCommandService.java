@@ -30,7 +30,7 @@ public class PostImageCommandService implements UploadPostImageUseCase {
 
   private final UploadProperties uploadProperties;
 
-  private final UploadImageValidator uploadImageValidator;
+  private final ImageUploadValidator imageUploadValidator;
 
   @Override
   public UploadPostImagesApiResponse uploadPostImages(UploadPostImageCommand command) {
@@ -50,7 +50,7 @@ public class PostImageCommandService implements UploadPostImageUseCase {
     }
 
     /*이미지 검증*/
-    uploadImageValidator.validate(command.getImages());
+    imageUploadValidator.validate(command.getImages());
 
     /*3. 업로드 이미지 수 검증*/
     if (command.getImages().isEmpty()
