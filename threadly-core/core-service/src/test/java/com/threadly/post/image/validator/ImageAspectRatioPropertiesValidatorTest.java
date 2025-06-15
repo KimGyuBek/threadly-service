@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.threadly.file.UploadImage;
 import com.threadly.properties.UploadProperties;
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.ClassOrderer;
 import org.junit.jupiter.api.DisplayName;
@@ -37,6 +38,9 @@ class ImageAspectRatioPropertiesValidatorTest {
   @Autowired
   private ImageAspectRatioValidator imageAspectRatioValidator;
 
+  @Autowired
+  private UploadProperties uploadProperties;
+
   @TestConfiguration
   @EnableConfigurationProperties(UploadProperties.class)
   static class TestConfig {
@@ -65,6 +69,29 @@ class ImageAspectRatioPropertiesValidatorTest {
       //then
       assertThat(
           imageAspectRatioValidator.isValid(List.of(uploadImage))
+      ).isTrue();
+    }
+
+    @Order(2)
+    @DisplayName("2. 최대 허용 수 만큼의 일치하는 비율의 이미지 요청 시")
+    @Test
+    public void isValidAspectRatio_shouldReturnTrue_whenImageRatioIsValidAndMaxImageCount()
+        throws Exception {
+      //given
+      List<UploadImage> images = new ArrayList<>();
+      for (int i = 0; i < uploadProperties.getMaxImageCount(); i++) {
+        images.add(generateImageWithRatio(
+            "sample_0" + (i + 1) + ".jpg",
+            "jpeg",
+            300,
+            400
+        ));
+      }
+
+      //when
+      //then
+      assertThat(
+          imageAspectRatioValidator.isValid(images)
       ).isTrue();
     }
 

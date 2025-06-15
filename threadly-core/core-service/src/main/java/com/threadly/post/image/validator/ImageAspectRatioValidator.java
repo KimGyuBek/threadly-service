@@ -7,12 +7,14 @@ import java.awt.image.BufferedImage;
 import java.io.InputStream;
 import java.util.List;
 import javax.imageio.ImageIO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 /**
  * 업로드 이미지 비율 검증
  */
 @Component
+@Slf4j
 public class ImageAspectRatioValidator {
 
   private final UploadProperties uploadProperties;
@@ -31,8 +33,10 @@ public class ImageAspectRatioValidator {
   public boolean isValid(List<UploadImage> images) {
     for (UploadImage image : images) {
       if (!isValidAspectRatio(image)) {
+        log.warn("이미지 비율 검증 실패 - 파일명: {}", image.getOriginalFileName());
         return false;
       }
+      log.debug("이미지 비율 검증 성공 - 파일명: {}", image.getOriginalFileName());
     }
     return true;
   }
@@ -65,6 +69,7 @@ public class ImageAspectRatioValidator {
       return
           target.isValid(actualRatio, tolerance);
     } catch (Exception e) {
+      log.error("이미지 비율 검증 오류 {}", e.getMessage());
       return false;
     }
 

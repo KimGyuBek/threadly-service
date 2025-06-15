@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
- * 게시글 이미지 관련 command 서비스
+ * 게시글 이미지 업로드 service
  */
 @Service
 @RequiredArgsConstructor
@@ -53,26 +53,26 @@ public class PostImageUploadService implements UploadPostImageUseCase {
       throw new PostException(ErrorCode.POST_IMAGE_UPLOAD_FORBIDDEN);
     }
 
-    /*이미지 검증*/
+    /* 3. 이미지 파일 검증*/
     imageUploadValidator.validate(command.getImages());
 
-    /*이미지 비율 검증*/
+    /*4. 이미지 비율 검증*/
     if (!imageAspectRatioValidator.isValid(command.getImages())) {
       /*TODO 이미지 비율 재조정 로직*/
     }
 
-    /*3. 업로드 이미지 수 검증*/
+    /* 5. 업로드 이미지 수 검증*/
     if (command.getImages().isEmpty()
         || command.getImages().size() > uploadProperties.getMaxImageCount()) {
       throw new PostImageException(ErrorCode.POST_IMAGE_UPLOAD_LIMIT_EXCEEDED);
     }
 
-    /*4. 이미지 파일 저장*/
+    /*6. 이미지 파일 저장*/
     List<UploadImageResponse> uploadImageResponses = uploadPostImagePort.uploadPostImage(
         command.getImages());
     log.info("이미지 업로드 완료: {}", uploadImageResponses.toString());
 
-    /*5. 이미지 메타 데이터 db 저장*/
+    /*7. 이미지 메타 데이터 db 저장*/
     uploadImageResponses.forEach(response -> {
       PostImage postImage = PostImage.newPostImage(
           command.getPostId(),
