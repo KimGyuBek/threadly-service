@@ -1,6 +1,6 @@
 package com.threadly.post.image;
 
-import com.threadly.ErrorCode;
+import com.threadly.exception.ErrorCode;
 import com.threadly.exception.post.PostException;
 import com.threadly.exception.post.PostImageException;
 import com.threadly.post.PostImage;
@@ -9,6 +9,8 @@ import com.threadly.post.image.UploadPostImagesApiResponse.PostImageResponse;
 import com.threadly.post.image.save.SavePostImagePort;
 import com.threadly.post.image.upload.UploadImageResponse;
 import com.threadly.post.image.upload.UploadPostImagePort;
+import com.threadly.post.image.validator.ImageAspectRatioValidator;
+import com.threadly.post.image.validator.ImageUploadValidator;
 import com.threadly.properties.UploadProperties;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +23,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class PostImageCommandService implements UploadPostImageUseCase {
+public class PostImageUploadService implements UploadPostImageUseCase {
 
   private final FetchPostPort fetchPostPort;
 
@@ -31,6 +33,8 @@ public class PostImageCommandService implements UploadPostImageUseCase {
   private final UploadProperties uploadProperties;
 
   private final ImageUploadValidator imageUploadValidator;
+
+  private final ImageAspectRatioValidator imageAspectRatioValidator;
 
   @Override
   public UploadPostImagesApiResponse uploadPostImages(UploadPostImageCommand command) {
@@ -51,6 +55,11 @@ public class PostImageCommandService implements UploadPostImageUseCase {
 
     /*이미지 검증*/
     imageUploadValidator.validate(command.getImages());
+
+    /*이미지 비율 검증*/
+    if (!imageAspectRatioValidator.isValid(command.getImages())) {
+      /*TODO 이미지 비율 재조정 로직*/
+    }
 
     /*3. 업로드 이미지 수 검증*/
     if (command.getImages().isEmpty()
