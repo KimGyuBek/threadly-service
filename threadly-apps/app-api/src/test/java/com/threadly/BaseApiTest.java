@@ -42,7 +42,7 @@ public abstract class BaseApiTest {
   }
 
   @Autowired
-  private MockMvc mockMvc;
+  public MockMvc mockMvc;
 
   @Autowired
   private ObjectMapper objectMapper;

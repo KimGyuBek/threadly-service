@@ -24,4 +24,16 @@ properties:
     upload:
       location: ./local-storage/uploads/images/
       access-url: http://localhost:8080/images/
+      max-image-count: 20
+      max-size: 5MB
+      allow-types:
+        jpeg: image/jpeg
+        jpg: image/jpeg
+        png: image/png
+        webp: image/webp
+      allow-extensions:
+        - jpg
+        - jpeg
+        - png
+        - webp
 

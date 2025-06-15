@@ -42,10 +42,10 @@ public class ApiLoggingAspect {
 
     try {
       Object result = pjp.proceed();
-      long duration = System.currentTimeMillis() - start;
+//      long duration = System.currentTimeMillis() - start;
 
-      debugLog(pjp, getRequest(), "Response", toJson(
-          new ResponseLog(className, methodName, args, duration)));
+//      debugLog(pjp, getRequest(), "Response", toJson(
+//          new ResponseLog(className, methodName, args, duration)));
 
       return result;
 
@@ -70,6 +70,7 @@ public class ApiLoggingAspect {
     }
     return attributes.getRequest();
   }
+
 
   private String toJson(Object obj) {
     try {

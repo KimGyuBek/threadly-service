@@ -207,7 +207,7 @@ public interface PostJpaRepository extends JpaRepository<PostEntity, String> {
   @Query(value = """
       select p.user_id
            from posts p
-           where p.post_id = :postId;
+           where p.post_id = :postId and p.status = 'ACTIVE';
       """, nativeQuery = true)
   Optional<String> findUserIdByPostId(@Param("postId") String postId);
 

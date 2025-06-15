@@ -2,16 +2,13 @@ package com.threadly.post;
 
 import com.threadly.util.RandomUtils;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.ToString;
 
 /**
  * 게시글 이미지 도메인
  */
 @Getter
 @AllArgsConstructor
-@Builder
 public class PostImage {
 
   private String postImageId;

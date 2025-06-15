@@ -1,16 +1,12 @@
-package com.threadly.post.mapper;
+package com.threadly.helper;
 
 import com.threadly.file.UploadImage;
 import java.io.IOException;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.mock.web.MockMultipartFile;
 
-/**
- * MultipartFile -> UploadImage 매퍼
- */
-/*TODO 공동화*/
-public class ImageMapper {
+public class UploadImageTestFactory {
 
-  public static UploadImage toUploadImage(MultipartFile file) {
+  public static UploadImage fromMock(MockMultipartFile file) {
     try {
       return
           new UploadImage(
@@ -20,9 +16,9 @@ public class ImageMapper {
               file.getSize(),
               file.getInputStream()
           );
+
     } catch (IOException e) {
-      throw new RuntimeException("파일 읽기 실패", e);
+      throw new RuntimeException("파일 변환 실패 ", e);
     }
   }
-
 }

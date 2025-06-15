@@ -1,11 +1,12 @@
-package com.threadly.verification;
+package com.threadly;
 
-import com.threadly.ServiceModule;
+
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication(
     scanBasePackageClasses = ServiceModule.class
 )
 public class ServiceTestApplication {
+
 
 }
