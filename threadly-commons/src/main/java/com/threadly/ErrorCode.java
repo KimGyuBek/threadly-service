@@ -95,7 +95,7 @@ public enum ErrorCode {
   POST_IMAGE_OWNER_MISMATCH("TLY5206", "사용자에게 해당 게시글 이미지에 대한 권한이 없습니다.", HttpStatus.FORBIDDEN),
   POST_IMAGE_ALREADY_ATTACHED("TLY5207", "이미 게시글에 첨부된 이미지입니다.", HttpStatus.BAD_REQUEST),
   POST_IMAGE_TEMP_EXPIRED("TLY5208", "임시 업로드 이미지의 유효 시간이 만료되었습니다.", HttpStatus.GONE),
-  POST_IMAGE_EMPTY("TLY5209", "업로드 된 이미지가 없습니다.", HttpStatus.BAD_REQUEST),
+  POST_IMAGE_EMPTY("TLY5209", "게시글에는 최소 한 장의 이미지를 첨부해야 합니다.", HttpStatus.BAD_REQUEST),
   POST_IMAGE_UPLOAD_FORBIDDEN("TLY5210", "게시글 이미지 업로드 권한이 없습니다.", HttpStatus.FORBIDDEN),
   POST_IMAGE_INVALID_IMAGE("TLY5211", "잘못된 이미지 파일 입니다.", HttpStatus.FORBIDDEN),
   POST_IMAGE_EXTENSION_MISMATCH("TLY5212", "확장자가 일치하지 않습니다.", HttpStatus.BAD_REQUEST);
