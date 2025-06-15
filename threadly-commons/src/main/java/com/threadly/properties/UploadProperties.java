@@ -31,11 +31,17 @@ public class UploadProperties {
    */
   private int maxImageCount;
 
+  /**
+   * 최대 허용 크기
+   */
   private DataSize maxSize;
+
 
   private Map<String, String> allowTypes;
 
   private List<String> allowExtensions;
+
+  private AspectRatio aspectRatio;
 
   /**
    * type에 일치하는 extension map
@@ -50,4 +56,10 @@ public class UploadProperties {
         );
   }
 
+
+  @Data
+  public static class AspectRatio {
+    private double target;
+    private double tolerance;
+  }
 }
