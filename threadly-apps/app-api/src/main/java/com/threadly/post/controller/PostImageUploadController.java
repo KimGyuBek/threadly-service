@@ -38,8 +38,8 @@ public class PostImageUploadController {
   @PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   public ResponseEntity<UploadPostImagesApiResponse> uploadImage(
       @AuthenticationPrincipal AuthenticationUser user,
-      @RequestParam("postId") String postId,
-      @RequestParam("images") List<MultipartFile> images
+      @RequestParam(value = "postId", required = false) String postId,
+      @RequestParam(value = "images", required = false) List<MultipartFile> images
   ) {
     /*업로드 이미지가 null인 경우*/
     if (images == null) {

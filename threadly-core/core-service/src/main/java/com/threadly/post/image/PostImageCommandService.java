@@ -34,7 +34,12 @@ public class PostImageCommandService implements UploadPostImageUseCase {
 
   @Override
   public UploadPostImagesApiResponse uploadPostImages(UploadPostImageCommand command) {
+
     /*1. 게시글 존재 검증*/
+    /*postId가 null일 경우*/
+    if (command.getPostId() == null) {
+      throw new PostException(ErrorCode.POST_NOT_FOUND);
+    }
     String writerId = fetchPostPort.fetchUserIdByPostId(command.getPostId()).orElseThrow(
         () -> new PostException(ErrorCode.POST_NOT_FOUND)
     );
