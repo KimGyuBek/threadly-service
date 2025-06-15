@@ -2,6 +2,7 @@ package com.threadly.post.image;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.springframework.http.MediaType.IMAGE_JPEG_VALUE;
 
 import com.threadly.ErrorCode;
 import com.threadly.exception.post.PostImageException;
@@ -25,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
@@ -64,7 +66,7 @@ class UploadImageValidatorTest {
     @Test
     void validate_shouldPass_whenValidImageProvided() throws IOException {
       UploadImage image = UploadImageTestFactory.fromMock(
-          new MockMultipartFile("file", "sample.jpg", "image/jpeg",
+          new MockMultipartFile("file", "sample.jpg", IMAGE_JPEG_VALUE,
               Files.readAllBytes(Paths.get("src/test/resources/images/sample/sample.jpg"))
           ));
 
@@ -104,7 +106,7 @@ class UploadImageValidatorTest {
 
       for (int i = 0; i < uploadProperties.getMaxImageCount() + 1; i++) {
         images.add(UploadImageTestFactory.fromMock(
-            new MockMultipartFile("file", "sample.jpg", "image/jpeg",
+            new MockMultipartFile("file", "sample.jpg", IMAGE_JPEG_VALUE,
                 Files.readAllBytes(Paths.get("src/test/resources/images/sample/sample.jpg"))
             )));
       }
@@ -118,11 +120,11 @@ class UploadImageValidatorTest {
     }
 
     @Order(3)
-    @DisplayName("3. 이미지의 용량이 설정값보다 큰 경우 예외가 발생하는지 검증")
+    @DisplayName("3. 이미지의 용량이 최대 허용 값 보다 큰 경우 예외가 발생하는지 검증")
     @Test
     void validate_shouldThrow_whenSizeTooLarge() {
       UploadImage image = UploadImageTestFactory.fromMock(
-          new MockMultipartFile("file", "sample.jpg", "image/jpeg",
+          new MockMultipartFile("file", "sample.jpg", IMAGE_JPEG_VALUE,
               new byte[6 * 1024 * 1024]) // 6MB
       );
 
@@ -137,7 +139,7 @@ class UploadImageValidatorTest {
     public void validate_shouldThrow_whenExtensionNotSupported() throws Exception {
       //given
       UploadImage image = UploadImageTestFactory.fromMock(
-          new MockMultipartFile("file", "sample.mp4", "image/jpeg",
+          new MockMultipartFile("file", "sample.mp4", IMAGE_JPEG_VALUE,
               Files.readAllBytes(Paths.get("src/test/resources/images/sample/sample.jpg"))
           ));
 
