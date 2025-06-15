@@ -1,5 +1,7 @@
 package com.threadly.post.image.validator;
 
+import com.threadly.exception.ErrorCode;
+import com.threadly.exception.post.PostImageException;
 import com.threadly.file.AspectRatio;
 import com.threadly.file.UploadImage;
 import com.threadly.properties.UploadProperties;
@@ -28,17 +30,15 @@ public class ImageAspectRatioValidator {
   /**
    * 검증
    * @param images
-   * @return
    */
-  public boolean isValid(List<UploadImage> images) {
+  public void validate(List<UploadImage> images) {
     for (UploadImage image : images) {
       if (!isValidAspectRatio(image)) {
         log.warn("이미지 비율 검증 실패 - 파일명: {}", image.getOriginalFileName());
-        return false;
+        throw new PostImageException(ErrorCode.POST_IMAGE_ASPECT_RATIO_INVALID);
       }
       log.debug("이미지 비율 검증 성공 - 파일명: {}", image.getOriginalFileName());
     }
-    return true;
   }
 
   /**

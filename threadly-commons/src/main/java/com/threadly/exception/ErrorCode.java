@@ -98,7 +98,8 @@ public enum ErrorCode {
   POST_IMAGE_EMPTY("TLY5209", "게시글에는 최소 한 장의 이미지를 첨부해야 합니다.", HttpStatus.BAD_REQUEST),
   POST_IMAGE_UPLOAD_FORBIDDEN("TLY5210", "게시글 이미지 업로드 권한이 없습니다.", HttpStatus.FORBIDDEN),
   POST_IMAGE_INVALID_IMAGE("TLY5211", "잘못된 이미지 파일 입니다.", HttpStatus.FORBIDDEN),
-  POST_IMAGE_EXTENSION_MISMATCH("TLY5212", "확장자가 일치하지 않습니다.", HttpStatus.BAD_REQUEST);
+  POST_IMAGE_EXTENSION_MISMATCH("TLY5212", "확장자가 일치하지 않습니다.", HttpStatus.BAD_REQUEST),
+  POST_IMAGE_ASPECT_RATIO_INVALID("TLY5213", "허용되지 않는 이미지 비율입니다.", HttpStatus.BAD_REQUEST);
 
 
   private final String code;

@@ -2,8 +2,10 @@ package com.threadly.post.image.helper.image;
 
 import com.threadly.file.UploadImage;
 import java.awt.image.BufferedImage;
+import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import javax.imageio.ImageIO;
 import org.springframework.mock.web.MockMultipartFile;
 
@@ -57,5 +59,20 @@ public class UploadImageFactory {
                 "image/" + format,
                 boas.toByteArray()
             ));
+  }
+
+
+  public void test(UploadImage uploadImage) {
+    try (
+        InputStream inputStream = uploadImage.getInputStream();
+        ){
+      BufferedImage image = ImageIO.read(inputStream);
+      /*image 비율 조정*/
+
+
+    } catch (Exception e) {
+
+    }
+
   }
 }

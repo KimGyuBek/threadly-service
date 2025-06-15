@@ -1,8 +1,11 @@
 package com.threadly.post.image.validator;
 
 import static com.threadly.post.image.helper.image.UploadImageFactory.generateImageWithRatio;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.threadly.exception.ErrorCode;
+import com.threadly.exception.post.PostImageException;
 import com.threadly.file.UploadImage;
 import com.threadly.properties.UploadProperties;
 import java.util.ArrayList;
@@ -67,9 +70,8 @@ class ImageAspectRatioPropertiesValidatorTest {
 
       //when
       //then
-      assertThat(
-          imageAspectRatioValidator.isValid(List.of(uploadImage))
-      ).isTrue();
+      assertThatCode(() -> imageAspectRatioValidator.validate(
+          List.of(uploadImage))).doesNotThrowAnyException();
     }
 
     @Order(2)
@@ -90,9 +92,7 @@ class ImageAspectRatioPropertiesValidatorTest {
 
       //when
       //then
-      assertThat(
-          imageAspectRatioValidator.isValid(images)
-      ).isTrue();
+      assertThatCode(() -> imageAspectRatioValidator.validate(images)).doesNotThrowAnyException();
     }
 
     @Order(2)
@@ -101,9 +101,9 @@ class ImageAspectRatioPropertiesValidatorTest {
     @DisplayName("실패")
     class fail {
 
-      @DisplayName("1. 설정값과 다른 비율의 이미지 요청 시 false")
+      @DisplayName("1. 설정값과 다른 비율의 이미지 요청 시 예외 발생")
       @Test
-      public void isValidAspectRatio_shouldReturnFalse_whenInvalidRatioImage() throws Exception {
+      public void isValidAspectRatio_shouldThrow_whenInvalidRatioImage() throws Exception {
         //given
         UploadImage uploadImage = generateImageWithRatio(
             "sample.jpg",
@@ -114,7 +114,10 @@ class ImageAspectRatioPropertiesValidatorTest {
 
         //when
         //then
-        assertThat(imageAspectRatioValidator.isValid(List.of(uploadImage))).isFalse();
+        assertThatThrownBy(
+            () -> imageAspectRatioValidator.validate(List.of(uploadImage))).isInstanceOf(
+                PostImageException.class)
+            .hasMessageContaining(ErrorCode.POST_IMAGE_ASPECT_RATIO_INVALID.getDesc());
 
       }
 
