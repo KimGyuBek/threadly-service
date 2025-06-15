@@ -1,6 +1,6 @@
 package com.threadly.post.like.post;
 
-import com.threadly.ErrorCode;
+import com.threadly.exception.ErrorCode;
 import com.threadly.exception.post.PostException;
 import com.threadly.post.fetch.FetchPostPort;
 import com.threadly.post.CannotLikePostException;

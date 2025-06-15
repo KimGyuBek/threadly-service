@@ -1,6 +1,6 @@
 package com.threadly.file;
 
-import com.threadly.util.RandomUtils;
+import com.threadly.utils.RandomUtils;
 import java.io.InputStream;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

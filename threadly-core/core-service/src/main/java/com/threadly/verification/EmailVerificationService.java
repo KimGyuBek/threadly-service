@@ -1,6 +1,6 @@
 package com.threadly.verification;
 
-import com.threadly.ErrorCode;
+import com.threadly.exception.ErrorCode;
 import com.threadly.auth.verification.EmailVerificationUseCase;
 import com.threadly.exception.mail.EmailVerificationException;
 import com.threadly.exception.user.UserException;
@@ -9,7 +9,6 @@ import com.threadly.properties.TtlProperties;
 import com.threadly.user.FetchUserPort;
 import com.threadly.user.User;
 import com.threadly.user.UserEmailVerificationPort;
-import com.threadly.util.LogFormatUtils;
 import java.time.Duration;
 import java.util.Optional;
 import java.util.UUID;

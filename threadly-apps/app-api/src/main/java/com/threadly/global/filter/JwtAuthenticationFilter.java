@@ -1,6 +1,6 @@
 package com.threadly.global.filter;
 
-import com.threadly.ErrorCode;
+import com.threadly.exception.ErrorCode;
 import com.threadly.auth.AuthManager;
 import com.threadly.auth.JwtTokenProvider;
 import com.threadly.global.exception.TokenAuthenticationException;

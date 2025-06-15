@@ -2,7 +2,7 @@ package com.threadly.post;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.threadly.post.comment.PostComment;
-import com.threadly.util.RandomUtils;
+import com.threadly.utils.RandomUtils;
 import java.time.LocalDateTime;
 import lombok.Getter;
 

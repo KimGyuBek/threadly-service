@@ -4,7 +4,7 @@ import static com.threadly.post.PostStatusType.ARCHIVE;
 import static com.threadly.post.PostStatusType.BLOCKED;
 import static com.threadly.post.PostStatusType.DELETED;
 
-import com.threadly.ErrorCode;
+import com.threadly.exception.ErrorCode;
 import com.threadly.exception.post.PostException;
 import com.threadly.post.engagement.GetPostEngagementApiResponse;
 import com.threadly.post.engagement.GetPostEngagementQuery;

@@ -1,6 +1,6 @@
 package com.threadly.post.comment;
 
-import com.threadly.ErrorCode;
+import com.threadly.exception.ErrorCode;
 import com.threadly.exception.post.PostException;
 import com.threadly.post.comment.fetch.FetchPostCommentPort;
 import com.threadly.post.comment.get.GetPostCommentApiResponse;

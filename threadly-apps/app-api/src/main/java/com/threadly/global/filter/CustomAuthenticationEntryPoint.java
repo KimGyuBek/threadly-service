@@ -2,7 +2,7 @@ package com.threadly.global.filter;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.threadly.ErrorCode;
+import com.threadly.exception.ErrorCode;
 import com.threadly.global.exception.TokenAuthenticationException;
 import com.threadly.global.exception.UserAuthenticationException;
 import com.threadly.response.ApiResponse;

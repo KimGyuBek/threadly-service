@@ -3,7 +3,7 @@ package com.threadly.post;
 import static com.threadly.post.PostStatusType.BLOCKED;
 import static com.threadly.post.PostStatusType.DELETED;
 
-import com.threadly.ErrorCode;
+import com.threadly.exception.ErrorCode;
 import com.threadly.exception.post.PostException;
 import com.threadly.exception.user.UserException;
 import com.threadly.post.create.CreatePostApiResponse;

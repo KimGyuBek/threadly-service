@@ -1,6 +1,6 @@
-package com.threadly.post.image;
+package com.threadly.post.image.validator;
 
-import com.threadly.ErrorCode;
+import com.threadly.exception.ErrorCode;
 import com.threadly.exception.post.PostImageException;
 import com.threadly.file.UploadImage;
 import com.threadly.properties.UploadProperties;

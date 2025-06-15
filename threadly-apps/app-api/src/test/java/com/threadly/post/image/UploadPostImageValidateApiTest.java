@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.threadly.CommonResponse;
-import com.threadly.ErrorCode;
+import com.threadly.exception.ErrorCode;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;

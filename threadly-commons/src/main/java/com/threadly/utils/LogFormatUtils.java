@@ -1,4 +1,4 @@
-package com.threadly.util;
+package com.threadly.utils;
 
 
 import jakarta.servlet.http.HttpServletRequest;

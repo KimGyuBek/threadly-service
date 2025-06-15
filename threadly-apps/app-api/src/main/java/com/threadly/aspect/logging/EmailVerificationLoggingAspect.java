@@ -1,8 +1,8 @@
 package com.threadly.aspect.logging;
 
-import static com.threadly.util.LogFormatUtils.debugLog;
-import static com.threadly.util.LogFormatUtils.logFailure;
-import static com.threadly.util.LogFormatUtils.logSuccess;
+import static com.threadly.utils.LogFormatUtils.debugLog;
+import static com.threadly.utils.LogFormatUtils.logFailure;
+import static com.threadly.utils.LogFormatUtils.logSuccess;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;

@@ -1,6 +1,6 @@
 package com.threadly.post;
 
-import com.threadly.util.RandomUtils;
+import com.threadly.utils.RandomUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

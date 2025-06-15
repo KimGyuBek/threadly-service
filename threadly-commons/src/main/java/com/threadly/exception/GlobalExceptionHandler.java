@@ -1,6 +1,5 @@
 package com.threadly.exception;
 
-import com.threadly.ErrorCode;
 import com.threadly.exception.mail.EmailVerificationException;
 import com.threadly.exception.post.PostCommentException;
 import com.threadly.exception.post.PostException;

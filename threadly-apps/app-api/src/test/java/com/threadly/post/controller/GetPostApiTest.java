@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.threadly.CommonResponse;
-import com.threadly.ErrorCode;
+import com.threadly.exception.ErrorCode;
 import com.threadly.post.create.CreatePostApiResponse;
 import com.threadly.post.engagement.GetPostEngagementApiResponse;
 import com.threadly.post.get.GetPostDetailApiResponse;

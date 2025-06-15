@@ -1,4 +1,4 @@
-package com.threadly;
+package com.threadly.exception;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;

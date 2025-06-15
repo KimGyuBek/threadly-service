@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.threadly.CommonResponse;
-import com.threadly.ErrorCode;
+import com.threadly.exception.ErrorCode;
 import com.threadly.post.controller.BasePostApiTest;
 import com.threadly.testsupport.fixture.posts.PostCommentFixtureLoader;
 import org.junit.jupiter.api.BeforeEach;

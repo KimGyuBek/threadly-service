@@ -1,7 +1,7 @@
 package com.threadly.post.comment;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.threadly.ErrorCode;
+import com.threadly.exception.ErrorCode;
 import com.threadly.exception.post.PostCommentException;
 import com.threadly.post.PostCommentStatusType;
 import com.threadly.post.PostStatusType;
@@ -9,7 +9,7 @@ import com.threadly.post.comment.CannotDeleteCommentException.AlreadyDeletedExce
 import com.threadly.post.comment.CannotDeleteCommentException.BlockedException;
 import com.threadly.post.comment.CannotDeleteCommentException.ParentPostInactiveException;
 import com.threadly.post.comment.CannotDeleteCommentException.WriteMismatchException;
-import com.threadly.util.RandomUtils;
+import com.threadly.utils.RandomUtils;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
