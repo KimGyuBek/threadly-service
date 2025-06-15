@@ -5,6 +5,7 @@ import com.threadly.post.image.UploadPostImageCommand;
 import com.threadly.post.image.UploadPostImageUseCase;
 import com.threadly.post.image.UploadPostImagesApiResponse;
 import com.threadly.post.mapper.ImageMapper;
+import java.util.Collections;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -38,19 +39,20 @@ public class PostImageUploadController {
   public ResponseEntity<UploadPostImagesApiResponse> uploadImage(
       @AuthenticationPrincipal AuthenticationUser user,
       @RequestParam("postId") String postId,
-      @RequestParam("images") List<MultipartFile> files
-
+      @RequestParam("images") List<MultipartFile> images
   ) {
+    /*업로드 이미지가 null인 경우*/
+    if (images == null) {
+      images = Collections.emptyList();
+    }
 
     return ResponseEntity.status(201).body(
         uploadPostImageUseCase.uploadPostImages(
             new UploadPostImageCommand(
-                user.getUserId(), postId, files.stream().map(
+                user.getUserId(), postId, images.stream().map(
                 ImageMapper::toUploadImage
             ).toList()
-            )
-        )
-    );
+            )));
   }
 
 }

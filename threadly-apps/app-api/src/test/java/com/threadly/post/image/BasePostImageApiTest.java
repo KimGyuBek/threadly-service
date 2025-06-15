@@ -1,10 +1,12 @@
 package com.threadly.post.image;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.threadly.CommonResponse;
 import com.threadly.post.controller.BasePostApiTest;
+import com.threadly.post.create.CreatePostApiResponse;
 import com.threadly.properties.UploadProperties;
 import com.threadly.utils.TestLogUtils;
 import java.io.IOException;
@@ -37,19 +39,22 @@ public abstract class BasePostImageApiTest extends BasePostApiTest {
    *
    * @param imageCount
    * @param fileName
+   * @param name
+   * @param mediaType
    * @return
    * @throws IOException
    */
-  public List<MockMultipartFile> generateMultipartFiles(int imageCount, String fileName)
+  public List<MockMultipartFile> generateMultipartFiles(int imageCount, String fileName,
+      String name, String mediaType)
       throws IOException {
     List<MockMultipartFile> images = new ArrayList<>();
 
     for (int i = 0; i < imageCount; i++) {
       Path path = Paths.get("src/test/resources/images/sample/" + fileName);
       images.add(new MockMultipartFile(
-          "images",
+          name,
           path.getFileName().toString(),
-          MediaType.IMAGE_JPEG.toString(),
+          mediaType,
           Files.readAllBytes(path)
       ));
     }
@@ -75,7 +80,9 @@ public abstract class BasePostImageApiTest extends BasePostApiTest {
         .header("Authorization", "Bearer " + accessToken)
         .contentType(MediaType.MULTIPART_FORM_DATA);
 
-    images.forEach(builder::file);
+    if (images != null) {
+      images.forEach(builder::file);
+    }
 
     MvcResult result = mockMvc.perform(builder).andExpect(expected).andReturn();
 
@@ -105,5 +112,21 @@ public abstract class BasePostImageApiTest extends BasePostApiTest {
     }
   }
 
+  /**
+   * 게시글 생성 후 postId 리턴
+   *
+   * @throws Exception
+   */
+  public String getPostId(String accessToken) throws Exception {
+
+    /*2. 게시글 생성 요청*/
+    String content = "content1";
+    CommonResponse<CreatePostApiResponse> createPostResponse = sendCreatePostRequest(
+        accessToken,
+        content,
+        status().isCreated()
+    );
+    return createPostResponse.getData().postId();
+  }
 }
 
