@@ -162,7 +162,7 @@ public class UploadPostImageValidateApiTest extends BasePostImageApiTest {
       CommonResponse<UploadPostImagesApiResponse> uploadResponse = sendUploadPostImage(
           accessToken, postId, List.of(image), status().isBadRequest());
       assertThat(uploadResponse.getCode()).isEqualTo(
-          ErrorCode.POST_IMAGE_TOO_LARGE.getCode());
+          ErrorCode.IMAGE_TOO_LARGE.getCode());
     }
 
     /*[Case #5] 이미지 업로드 검증 - 지원하지 않는 확장자의 파일 요청 시 400 Bad Request*/
@@ -182,7 +182,7 @@ public class UploadPostImageValidateApiTest extends BasePostImageApiTest {
       CommonResponse<UploadPostImagesApiResponse> uploadResponse = sendUploadPostImage(
           accessToken, postId, List.of(image), status().isBadRequest());
       assertThat(uploadResponse.getCode()).isEqualTo(
-          ErrorCode.POST_IMAGE_INVALID_EXTENSION.getCode());
+          ErrorCode.IMAGE_INVALID_EXTENSION.getCode());
     }
 
     /*[Case #6] 이미지 업로드 검증 - postId가 null인 상태에서 요청 시 404 Not Found*/

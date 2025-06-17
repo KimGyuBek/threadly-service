@@ -52,7 +52,7 @@ public class ImageUploadValidator {
     for (UploadImage file : files) {
       if (file.getSize() > uploadProperties.getMaxSize().toBytes()) {
         log.warn("이미지 사이즈 초과 = 파일명: {}", file.getOriginalFileName());
-        throw new PostImageException(ErrorCode.POST_IMAGE_TOO_LARGE);
+        throw new PostImageException(ErrorCode.IMAGE_TOO_LARGE);
       }
     }
   }
@@ -87,7 +87,7 @@ public class ImageUploadValidator {
     mimeCache.forEach((key, value) -> {
       if (!mimeToExt.containsKey(value)) {
         log.warn("지원하지 않는 MIME Type - 파일명: {}, MIME: {}", key.getOriginalFileName(), value);
-        throw new PostImageException(ErrorCode.POST_IMAGE_INVALID_MIME_TYPE);
+        throw new PostImageException(ErrorCode.IMAGE_INVALID_MIME_TYPE);
       }
     });
   }
@@ -104,7 +104,7 @@ public class ImageUploadValidator {
       /*허용되는 확장자인지 검증*/
       if (!uploadProperties.getAllowExtensions().contains(extension)) {
         log.warn("지원하지 않는 확장자 - 파일명: {}", key.getOriginalFileName());
-        throw new PostImageException(ErrorCode.POST_IMAGE_INVALID_EXTENSION);
+        throw new PostImageException(ErrorCode.IMAGE_INVALID_EXTENSION);
       }
     });
   }
@@ -118,7 +118,7 @@ public class ImageUploadValidator {
   private static String extractExtension(String fileName) {
     int lastDot = fileName.lastIndexOf('.');
     if (lastDot == -1 || lastDot == fileName.length() - 1) {
-      throw new PostImageException(ErrorCode.POST_IMAGE_INVALID_EXTENSION);
+      throw new PostImageException(ErrorCode.IMAGE_INVALID_EXTENSION);
     }
     return fileName.substring(lastDot + 1).toLowerCase();
   }
@@ -134,7 +134,7 @@ public class ImageUploadValidator {
     try {
       return tika.detect(file.getInputStream());
     } catch (IOException e) {
-      throw new PostImageException(ErrorCode.POST_IMAGE_INVALID_IMAGE);
+      throw new PostImageException(ErrorCode.IMAGE_INVALID_IMAGE);
     }
   }
 }

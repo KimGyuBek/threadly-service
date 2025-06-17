@@ -117,7 +117,7 @@ class ImageAspectRatioPropertiesValidatorTest {
         assertThatThrownBy(
             () -> imageAspectRatioValidator.validate(List.of(uploadImage))).isInstanceOf(
                 PostImageException.class)
-            .hasMessageContaining(ErrorCode.POST_IMAGE_ASPECT_RATIO_INVALID.getDesc());
+            .hasMessageContaining(ErrorCode.IMAGE_ASPECT_RATIO_INVALID.getDesc());
 
       }
 

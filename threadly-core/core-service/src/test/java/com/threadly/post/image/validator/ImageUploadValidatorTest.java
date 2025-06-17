@@ -129,7 +129,7 @@ class ImageUploadValidatorTest {
 
       assertThatThrownBy(() -> validator.validate(List.of(image)))
           .isInstanceOf(PostImageException.class)
-          .hasMessageContaining(ErrorCode.POST_IMAGE_TOO_LARGE.getDesc());
+          .hasMessageContaining(ErrorCode.IMAGE_TOO_LARGE.getDesc());
     }
 
     @Order(4)
@@ -147,7 +147,7 @@ class ImageUploadValidatorTest {
       assertThatThrownBy(
           () -> validator.validate(List.of(image))
       ).isInstanceOf(PostImageException.class)
-          .hasMessageContaining(ErrorCode.POST_IMAGE_INVALID_EXTENSION.getDesc());
+          .hasMessageContaining(ErrorCode.IMAGE_INVALID_EXTENSION.getDesc());
 
     }
 

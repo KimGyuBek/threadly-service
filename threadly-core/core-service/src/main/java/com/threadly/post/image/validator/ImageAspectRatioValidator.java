@@ -35,7 +35,7 @@ public class ImageAspectRatioValidator {
     for (UploadImage image : images) {
       if (!isValidAspectRatio(image)) {
         log.warn("이미지 비율 검증 실패 - 파일명: {}", image.getOriginalFileName());
-        throw new PostImageException(ErrorCode.POST_IMAGE_ASPECT_RATIO_INVALID);
+        throw new PostImageException(ErrorCode.IMAGE_ASPECT_RATIO_INVALID);
       }
       log.debug("이미지 비율 검증 성공 - 파일명: {}", image.getOriginalFileName());
     }
