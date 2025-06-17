@@ -9,6 +9,8 @@ import com.threadly.post.controller.BasePostApiTest;
 import com.threadly.post.create.CreatePostApiResponse;
 import com.threadly.properties.UploadProperties;
 import com.threadly.utils.TestLogUtils;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -16,6 +18,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
+import javax.imageio.ImageIO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
@@ -33,6 +36,30 @@ public abstract class BasePostImageApiTest extends BasePostApiTest {
   @Autowired
   public UploadProperties uploadProperties;
 
+
+  /**
+   * 특정 비율에 맞는 이미지 생성
+   *
+   * @param imageName
+   * @param format
+   * @param width
+   * @param height
+   * @return
+   */
+  public MockMultipartFile generateImageWithRatio(String imageName, String format, int width,
+      int height)
+      throws IOException {
+    BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+    ByteArrayOutputStream boas = new ByteArrayOutputStream();
+    ImageIO.write(image, format, boas);
+
+    return new MockMultipartFile(
+        "images",
+        imageName,
+        "image/" + format,
+        boas.toByteArray()
+    );
+  }
 
   /**
    * 이미지 파일 목록 생성

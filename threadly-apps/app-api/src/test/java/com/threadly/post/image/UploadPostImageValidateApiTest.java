@@ -10,6 +10,7 @@ import com.threadly.exception.ErrorCode;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.ClassOrderer;
@@ -64,14 +65,14 @@ public class UploadPostImageValidateApiTest extends BasePostImageApiTest {
       //given
       //when
       /*이미지 파일 생성*/
-      List<MockMultipartFile> images = generateMultipartFiles(
-          1, "01.jpg", "images", MediaType.IMAGE_JPEG_VALUE
+      MockMultipartFile image = generateImageWithRatio(
+          "01.jpg", "jpeg", 300, 400
       );
 
       //then
       /* 게시글 이미지 업로드 요청*/
       CommonResponse<UploadPostImagesApiResponse> uploadImageResponse = sendUploadPostImage(
-          accessToken, postId, images, status().isCreated());
+          accessToken, postId, List.of(image), status().isCreated());
 
       assertThat(uploadImageResponse.getData().images().size()).isEqualTo(1);
     }
@@ -84,8 +85,13 @@ public class UploadPostImageValidateApiTest extends BasePostImageApiTest {
       //given
       //when
       /*이미지 파일 생성*/
-      List<MockMultipartFile> images = generateMultipartFiles(uploadProperties.getMaxImageCount(),
-          "01.jpg", "images", MediaType.IMAGE_JPEG_VALUE);
+      List<MockMultipartFile> images = new ArrayList<>();
+      for (int i = 0; i < uploadProperties.getMaxImageCount(); i++) {
+        images.add(
+            generateImageWithRatio(
+                "01.jpg", "jpeg", 300, 400
+            ));
+      }
 
       //then
       /* 게시글 이미지 업로드 요청*/
@@ -225,7 +231,8 @@ public class UploadPostImageValidateApiTest extends BasePostImageApiTest {
     @Order(8)
     @DisplayName("8. 게시글 작성자와 요청자가 일치하지 않는 경우")
     @Test
-    public void uploadImage_shouldReturnBadRequest_whenPostWriterNotEqualsRequester() throws Exception {
+    public void uploadImage_shouldReturnBadRequest_whenPostWriterNotEqualsRequester()
+        throws Exception {
       //given
       //when
       String accessToken2 = getAccessToken(EMAIL_VERIFIED_USER_2);
