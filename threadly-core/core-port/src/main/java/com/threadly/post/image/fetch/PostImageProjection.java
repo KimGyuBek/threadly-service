@@ -5,6 +5,7 @@ package com.threadly.post.image.fetch;
  */
 public interface PostImageProjection {
 
+  String getImageId();
   String getImageUrl();
   int getImageOrder();
 

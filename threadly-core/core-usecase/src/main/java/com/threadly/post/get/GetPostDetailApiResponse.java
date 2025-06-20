@@ -28,6 +28,7 @@ public record GetPostDetailApiResponse(
    * @param imageOrder
    */
   public record PostImage(
+      String imageId,
       String imageUrl,
       int imageOrder
   ) {

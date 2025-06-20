@@ -13,5 +13,6 @@ public record UploadPostImagesApiResponse(
       String imageUrl,
       int imageOrder
   ) {
+
   }
 }

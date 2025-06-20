@@ -19,8 +19,9 @@ public interface PostImageJpaRepository extends JpaRepository<PostImageEntity, S
    */
   @Query(
       value = """
-          select pi.image_url   as imageUrl,
-                 pi.image_order as imageOrder
+          select pi.post_image_id as imageId,
+                 pi.image_url     as imageUrl,
+                 pi.image_order   as imageOrder
           from post_images pi
           where pi.post_id = :postId
           order by image_order;

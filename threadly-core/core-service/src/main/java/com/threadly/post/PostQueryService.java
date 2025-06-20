@@ -54,6 +54,7 @@ public class PostQueryService implements GetPostUseCase, GetPostEngagementUseCas
                     projection.getPostId()
                 ).stream().map(
                     image -> new GetPostDetailApiResponse.PostImage(
+                        image.getImageId(),
                         image.getImageUrl(),
                         image.getImageOrder()
                     )).toList(),
@@ -112,6 +113,7 @@ public class PostQueryService implements GetPostUseCase, GetPostEngagementUseCas
         postImageProjections.stream().map(
             projection ->
                 new GetPostDetailApiResponse.PostImage(
+                    projection.getImageId(),
                     projection.getImageUrl(),
                     projection.getImageOrder()
                 )
