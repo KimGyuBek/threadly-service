@@ -13,6 +13,8 @@ import com.threadly.post.delete.DeletePostCommand;
 import com.threadly.post.delete.DeletePostUseCase;
 import com.threadly.post.fetch.FetchPostPort;
 import com.threadly.post.fetch.PostDetailProjection;
+import com.threadly.post.image.fetch.FetchPostImagePort;
+import com.threadly.post.image.update.UpdatePostImagePort;
 import com.threadly.post.save.SavePostPort;
 import com.threadly.post.update.UpdatePostApiResponse;
 import com.threadly.post.update.UpdatePostCommand;
@@ -23,6 +25,7 @@ import com.threadly.post.view.RecordPostViewPort;
 import com.threadly.properties.TtlProperties;
 import com.threadly.user.FetchUserPort;
 import com.threadly.user.UserProfile;
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,6 +46,9 @@ public class PostCommandService implements CreatePostUseCase, UpdatePostUseCase,
   private final FetchUserPort fetchUserPort;
 
   private final RecordPostViewPort recordPostViewPort;
+
+  private final UpdatePostImagePort updatePostImagePort;
+
 
   private final TtlProperties ttlProperties;
 
@@ -126,6 +132,10 @@ public class PostCommandService implements CreatePostUseCase, UpdatePostUseCase,
     /*삭제 상태 변경 수행*/
     post.markAsDeleted();
     updatePostPort.changeStatus(post);
+
+    /*게시글 이미지 삭제 상태로 변경*/
+    updatePostImagePort.markAsDeleted(post.getPostId(), LocalDateTime.now());
+
   }
 
   @Transactional

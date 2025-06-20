@@ -58,10 +58,10 @@ public interface PostJpaRepository extends JpaRepository<PostEntity, String> {
                                 max(
                                         case
                                             when user_id = :userId
-                                                then true
-                                            else false
+                                                then 1
+                                            else 0
                                             end
-                                )        as is_liked
+                                )   > 0     as is_liked
                          from post_likes
                          where post_id = :postId
                          group by post_id) pl on p.post_id = pl.post_id
@@ -171,9 +171,9 @@ public interface PostJpaRepository extends JpaRepository<PostEntity, String> {
                                 count(*) as like_count,
                                 max(case
                                         when user_id = :userId
-                                            then true
-                                        else false
-                                    end) as is_liked
+                                            then 1
+                                        else 0
+                                    end) > 0 as is_liked
                          from post_likes
                          where post_id = :postId
                          group by post_id) pl on p.post_id = pl.post_id

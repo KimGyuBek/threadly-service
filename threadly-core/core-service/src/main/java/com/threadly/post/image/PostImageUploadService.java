@@ -57,7 +57,7 @@ public class PostImageUploadService implements UploadPostImageUseCase {
     imageUploadValidator.validate(command.getImages());
 
     /*4. 이미지 비율 검증*/
-    imageAspectRatioValidator.validate(command.getImages());
+//    imageAspectRatioValidator.validate(command.getImages());
 
     /* 5. 업로드 이미지 수 검증*/
     if (command.getImages().isEmpty()

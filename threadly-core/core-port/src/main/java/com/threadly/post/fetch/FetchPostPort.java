@@ -69,6 +69,7 @@ public interface FetchPostPort {
 
   /**
    * postId로 작성자 userId 조회
+   *
    * @param postId
    * @return
    */

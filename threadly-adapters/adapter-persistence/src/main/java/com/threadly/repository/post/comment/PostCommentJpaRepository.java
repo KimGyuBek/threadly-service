@@ -52,10 +52,10 @@ public interface PostCommentJpaRepository extends JpaRepository<PostCommentEntit
                                 max(
                                         case
                                             when user_id = :userId
-                                                then true
-                                            else false
+                                                then 1
+                                            else 0
                                             end
-                                ) as     liked
+                                ) > 0 as     liked
                          from comment_likes
                          where comment_id in
                                (select comment_id from post_comments where post_id = :postId)
