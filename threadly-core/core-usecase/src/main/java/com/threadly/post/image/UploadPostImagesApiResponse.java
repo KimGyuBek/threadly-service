@@ -10,8 +10,8 @@ public record UploadPostImagesApiResponse(
 ) {
 
   public record PostImageResponse(
-      String imageUrl,
-      int imageOrder
+      String imageId,
+      String imageUrl
   ) {
 
   }

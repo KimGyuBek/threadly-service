@@ -23,17 +23,16 @@ public class PostImage {
    *
    * @param storedName
    * @param imageUrl
-   * @param imageOrder
    * @return
    */
   public static PostImage newPostImage(String postId, String storedName,
-      String imageUrl, int imageOrder) {
+      String imageUrl) {
     return new PostImage(
         RandomUtils.generateNanoId(),
         postId,
         storedName,
         imageUrl,
-        imageOrder,
+        -1,
         PostImageStatus.TEMPORARY
     );
   }

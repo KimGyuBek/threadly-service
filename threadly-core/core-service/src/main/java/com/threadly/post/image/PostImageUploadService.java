@@ -12,6 +12,7 @@ import com.threadly.post.image.upload.UploadPostImagePort;
 import com.threadly.post.image.validator.ImageAspectRatioValidator;
 import com.threadly.post.image.validator.ImageUploadValidator;
 import com.threadly.properties.UploadProperties;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -71,23 +72,26 @@ public class PostImageUploadService implements UploadPostImageUseCase {
     log.info("이미지 업로드 완료: {}", uploadImageResponses.toString());
 
     /*7. 이미지 메타 데이터 db 저장*/
+    List<PostImage> postImages = new ArrayList<>();
     uploadImageResponses.forEach(response -> {
       PostImage postImage = PostImage.newPostImage(
           command.getPostId(),
           response.getStoredName(),
-          response.getImageUrl(),
-          response.getImageOrder()
+          response.getImageUrl()
       );
+      postImages.add(postImage);
 
       savePostImagePort.savePostImage(postImage);
       log.debug("이미지 메타 데이터 저장 완료: {}", postImage.toString());
     });
 
     return new UploadPostImagesApiResponse(
-        uploadImageResponses.stream().map(
-            response -> new PostImageResponse(
-                response.getImageUrl(),
-                response.getImageOrder())).toList()
+        postImages.stream().map(
+            domain -> new PostImageResponse(
+                domain.getPostImageId(),
+                domain.getImageUrl()
+            )
+        ).toList()
     );
   }
 }
