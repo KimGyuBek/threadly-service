@@ -1,7 +1,6 @@
 package com.threadly.post.image;
 
 import static com.threadly.utils.TestConstants.EMAIL_VERIFIED_USER_1;
-import static com.threadly.utils.TestConstants.EMAIL_VERIFIED_USER_2;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -47,7 +46,7 @@ public class UploadPostImageValidateApiTest extends BasePostImageApiTest {
 
   @BeforeEach
   void tearDown() throws IOException {
-    cleanUpDirectoryContents();
+    super.clearFiles();
   }
 
 
@@ -132,7 +131,7 @@ public class UploadPostImageValidateApiTest extends BasePostImageApiTest {
       //when
       //then
       CommonResponse<UploadPostImagesApiResponse> uploadResponse = sendUploadPostImage(
-          accessToken,  null, status().isBadRequest());
+          accessToken, null, status().isBadRequest());
       assertThat(uploadResponse.getCode()).isEqualTo(ErrorCode.POST_IMAGE_EMPTY.getCode());
     }
 
@@ -191,61 +190,6 @@ public class UploadPostImageValidateApiTest extends BasePostImageApiTest {
           ErrorCode.IMAGE_INVALID_EXTENSION.getCode());
     }
 
-    /*[Case #6] 이미지 업로드 검증 - postId가 null인 상태에서 요청 시 404 Not Found*/
-    @Order(6)
-    @DisplayName("6. postId가 null인 경우")
-    @Test
-    public void uploadImage_shouldReturnBadRequest_whenPostIdIsNull() throws Exception {
-      //given
-      //when
-      List<MockMultipartFile> images = generateMultipartFiles(
-          1, "01.jpg", "images", MediaType.IMAGE_JPEG_VALUE
-      );
-
-      //then
-      CommonResponse<UploadPostImagesApiResponse> uploadResponse = sendUploadPostImage(
-          accessToken, images, status().isNotFound());
-      assertThat(uploadResponse.getCode()).isEqualTo(
-          ErrorCode.POST_NOT_FOUND.getCode());
-    }
-
-    /*[Case #7] 이미지 업로드 검증 - 존재하지 않는 postId인 경우*/
-    @Order(7)
-    @DisplayName("7. postId가 일치하지 않는 경우")
-    @Test
-    public void uploadImage_shouldReturnBadRequest_whenPostIdNotExists() throws Exception {
-      //given
-      //when
-      List<MockMultipartFile> images = generateMultipartFiles(
-          1, "01.jpg", "images", MediaType.IMAGE_JPEG_VALUE
-      );
-
-      //then
-      CommonResponse<UploadPostImagesApiResponse> uploadResponse = sendUploadPostImage(
-          accessToken,  images, status().isNotFound());
-      assertThat(uploadResponse.getCode()).isEqualTo(
-          ErrorCode.POST_NOT_FOUND.getCode());
-    }
-
-    /*[Case #8] 이미지 업로드 검증 - 게시글 작성자와 요청자가 일치하지 않는 경우*/
-    @Order(8)
-    @DisplayName("8. 게시글 작성자와 요청자가 일치하지 않는 경우")
-    @Test
-    public void uploadImage_shouldReturnBadRequest_whenPostWriterNotEqualsRequester()
-        throws Exception {
-      //given
-      //when
-      String accessToken2 = getAccessToken(EMAIL_VERIFIED_USER_2);
-      List<MockMultipartFile> images = generateMultipartFiles(
-          1, "01.jpg", "images", MediaType.IMAGE_JPEG_VALUE
-      );
-
-      //then
-      CommonResponse<UploadPostImagesApiResponse> uploadResponse = sendUploadPostImage(
-          accessToken2, images, status().isForbidden());
-      assertThat(uploadResponse.getCode()).isEqualTo(
-          ErrorCode.POST_IMAGE_UPLOAD_FORBIDDEN.getCode());
-    }
   }
 }
 

@@ -40,7 +40,8 @@ public class CreatePostWithImageTest extends BasePostImageApiTest {
   private PostImageJpaRepository postImageJpaRepository;
 
   @BeforeEach
-  void setUp() {
+  void setUp() throws IOException {
+    super.clearFiles();
     super.setUpDefaultUser();
   }
 

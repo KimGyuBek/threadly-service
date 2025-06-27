@@ -36,6 +36,14 @@ public abstract class BasePostImageApiTest extends BasePostApiTest {
   @Autowired
   public UploadProperties uploadProperties;
 
+  /**
+   * 테스트 파일 삭제
+   * @throws IOException
+   */
+  public void clearFiles() throws IOException {
+    cleanUpDirectoryContents();
+  }
+
 
   /**
    * 특정 비율에 맞는 이미지 생성
