@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.threadly.CommonResponse;
 import com.threadly.exception.ErrorCode;
 import com.threadly.post.create.CreatePostApiResponse;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.ClassOrderer;
 import org.junit.jupiter.api.DisplayName;
@@ -50,7 +51,7 @@ class CreatePostApiTest extends BasePostApiTest {
         String content = "content";
 
         CommonResponse<CreatePostApiResponse> response = sendCreatePostRequest(
-            accessToken, "content", status().isCreated());
+            accessToken, "content", List.of(), status().isCreated());
 
         //then
         assertThat(response.getData().content()).isEqualTo(content);
@@ -75,7 +76,7 @@ class CreatePostApiTest extends BasePostApiTest {
         String content = "";
 
         CommonResponse<CreatePostApiResponse> response = sendCreatePostRequest(
-            accessToken, content, status().isBadRequest());
+            accessToken, content, List.of(), status().isBadRequest());
 
         //then
         assertThat(response.getCode()).isEqualTo(ErrorCode.INVALID_REQUEST.getCode());
@@ -94,7 +95,7 @@ class CreatePostApiTest extends BasePostApiTest {
         String content = "a".repeat(1001);
 
         CommonResponse<CreatePostApiResponse> response = sendCreatePostRequest(
-            accessToken, content, status().isBadRequest());
+            accessToken, content, List.of(), status().isBadRequest());
 
         //then
         assertThat(response.getCode()).isEqualTo(ErrorCode.INVALID_REQUEST.getCode());

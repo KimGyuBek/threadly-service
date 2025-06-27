@@ -13,6 +13,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -24,13 +25,14 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
 public class PostImageEntity extends BaseEntity {
 
   @Id
   @Column(name = "post_image_id")
   private String postImageId;
 
-  @JoinColumn(name = "post_id", nullable = false)
+  @JoinColumn(name = "post_id")
   @ManyToOne(fetch = FetchType.LAZY)
   private PostEntity post;
 

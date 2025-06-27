@@ -72,7 +72,7 @@ public class UploadPostImageValidateApiTest extends BasePostImageApiTest {
       //then
       /* 게시글 이미지 업로드 요청*/
       CommonResponse<UploadPostImagesApiResponse> uploadImageResponse = sendUploadPostImage(
-          accessToken, postId, List.of(image), status().isCreated());
+          accessToken, List.of(image), status().isCreated());
 
       assertThat(uploadImageResponse.getData().images().size()).isEqualTo(1);
     }
@@ -96,7 +96,7 @@ public class UploadPostImageValidateApiTest extends BasePostImageApiTest {
       //then
       /* 게시글 이미지 업로드 요청*/
       CommonResponse<UploadPostImagesApiResponse> uploadImageResponse = sendUploadPostImage(
-          accessToken, postId, images, status().isCreated());
+          accessToken, images, status().isCreated());
 
       assertThat(uploadImageResponse.getData().images().size()).isEqualTo(
           uploadProperties.getMaxImageCount());
@@ -119,7 +119,7 @@ public class UploadPostImageValidateApiTest extends BasePostImageApiTest {
       //when
       //then
       CommonResponse<UploadPostImagesApiResponse> uploadResponse = sendUploadPostImage(
-          accessToken, postId, List.of(), status().isBadRequest());
+          accessToken, List.of(), status().isBadRequest());
       assertThat(uploadResponse.getCode()).isEqualTo(ErrorCode.POST_IMAGE_EMPTY.getCode());
     }
 
@@ -132,7 +132,7 @@ public class UploadPostImageValidateApiTest extends BasePostImageApiTest {
       //when
       //then
       CommonResponse<UploadPostImagesApiResponse> uploadResponse = sendUploadPostImage(
-          accessToken, postId, null, status().isBadRequest());
+          accessToken,  null, status().isBadRequest());
       assertThat(uploadResponse.getCode()).isEqualTo(ErrorCode.POST_IMAGE_EMPTY.getCode());
     }
 
@@ -148,7 +148,7 @@ public class UploadPostImageValidateApiTest extends BasePostImageApiTest {
           MediaType.IMAGE_JPEG_VALUE);
       //then
       CommonResponse<UploadPostImagesApiResponse> uploadResponse = sendUploadPostImage(
-          accessToken, postId, images, status().isBadRequest());
+          accessToken, images, status().isBadRequest());
       assertThat(uploadResponse.getCode()).isEqualTo(
           ErrorCode.POST_IMAGE_UPLOAD_LIMIT_EXCEEDED.getCode());
     }
@@ -166,7 +166,7 @@ public class UploadPostImageValidateApiTest extends BasePostImageApiTest {
 
       //then
       CommonResponse<UploadPostImagesApiResponse> uploadResponse = sendUploadPostImage(
-          accessToken, postId, List.of(image), status().isBadRequest());
+          accessToken, List.of(image), status().isBadRequest());
       assertThat(uploadResponse.getCode()).isEqualTo(
           ErrorCode.IMAGE_TOO_LARGE.getCode());
     }
@@ -186,7 +186,7 @@ public class UploadPostImageValidateApiTest extends BasePostImageApiTest {
 
       //then
       CommonResponse<UploadPostImagesApiResponse> uploadResponse = sendUploadPostImage(
-          accessToken, postId, List.of(image), status().isBadRequest());
+          accessToken, List.of(image), status().isBadRequest());
       assertThat(uploadResponse.getCode()).isEqualTo(
           ErrorCode.IMAGE_INVALID_EXTENSION.getCode());
     }
@@ -204,7 +204,7 @@ public class UploadPostImageValidateApiTest extends BasePostImageApiTest {
 
       //then
       CommonResponse<UploadPostImagesApiResponse> uploadResponse = sendUploadPostImage(
-          accessToken, null, images, status().isNotFound());
+          accessToken, images, status().isNotFound());
       assertThat(uploadResponse.getCode()).isEqualTo(
           ErrorCode.POST_NOT_FOUND.getCode());
     }
@@ -222,7 +222,7 @@ public class UploadPostImageValidateApiTest extends BasePostImageApiTest {
 
       //then
       CommonResponse<UploadPostImagesApiResponse> uploadResponse = sendUploadPostImage(
-          accessToken, "포스트아이디", images, status().isNotFound());
+          accessToken,  images, status().isNotFound());
       assertThat(uploadResponse.getCode()).isEqualTo(
           ErrorCode.POST_NOT_FOUND.getCode());
     }
@@ -242,7 +242,7 @@ public class UploadPostImageValidateApiTest extends BasePostImageApiTest {
 
       //then
       CommonResponse<UploadPostImagesApiResponse> uploadResponse = sendUploadPostImage(
-          accessToken2, postId, images, status().isForbidden());
+          accessToken2, images, status().isForbidden());
       assertThat(uploadResponse.getCode()).isEqualTo(
           ErrorCode.POST_IMAGE_UPLOAD_FORBIDDEN.getCode());
     }

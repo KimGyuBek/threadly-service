@@ -1,6 +1,7 @@
 package com.threadly.post.create;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * 게시글 생성 API 응답 DTO
@@ -9,9 +10,7 @@ import java.time.LocalDateTime;
  * @param userNickName
  * @param userId
  * @param content
- * @param likesCount
- * @param commentsCount
- * @param createdAt
+ * @param postedAt
  */
 public record CreatePostApiResponse(
     String postId,
@@ -19,11 +18,21 @@ public record CreatePostApiResponse(
     String userNickName,
     String userId,
     String content,
-    long viewCount,
-    int likesCount,
-    int commentsCount,
-    LocalDateTime createdAt
+    List<PostImageApiResponse> images,
+    LocalDateTime postedAt
 
 ) {
+
+  /**
+   * 게시글 이미지 정보 API 응답
+   */
+  public record PostImageApiResponse(
+      String imageId,
+      String imageUrl,
+      int imageOrder
+  ) {
+
+
+  }
 
 }

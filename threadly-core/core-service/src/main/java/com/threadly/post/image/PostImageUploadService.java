@@ -41,18 +41,18 @@ public class PostImageUploadService implements UploadPostImageUseCase {
   public UploadPostImagesApiResponse uploadPostImages(UploadPostImageCommand command) {
 
     /*1. 게시글 존재 검증*/
-    /*postId가 null일 경우*/
-    if (command.getPostId() == null) {
-      throw new PostException(ErrorCode.POST_NOT_FOUND);
-    }
-    String writerId = fetchPostPort.fetchUserIdByPostId(command.getPostId()).orElseThrow(
-        () -> new PostException(ErrorCode.POST_NOT_FOUND)
-    );
+//    /*postId가 null일 경우*/
+//    if (command.getPostId() == null) {
+//      throw new PostException(ErrorCode.POST_NOT_FOUND);
+//    }
+//    String writerId = fetchPostPort.fetchUserIdByPostId(command.getPostId()).orElseThrow(
+//        () -> new PostException(ErrorCode.POST_NOT_FOUND)
+//    );
 
     /*2. 게시글 작성자 id와 요청 userId가 일치하는지 검증*/
-    if (!writerId.equals(command.getUserId())) {
-      throw new PostException(ErrorCode.POST_IMAGE_UPLOAD_FORBIDDEN);
-    }
+//    if (!writerId.equals(command.getUserId())) {
+//      throw new PostException(ErrorCode.POST_IMAGE_UPLOAD_FORBIDDEN);
+//    }
 
     /* 3. 이미지 파일 검증*/
     imageUploadValidator.validate(command.getImages());
@@ -75,7 +75,7 @@ public class PostImageUploadService implements UploadPostImageUseCase {
     List<PostImage> postImages = new ArrayList<>();
     uploadImageResponses.forEach(response -> {
       PostImage postImage = PostImage.newPostImage(
-          command.getPostId(),
+//          command.getPostId(
           response.getStoredName(),
           response.getImageUrl()
       );

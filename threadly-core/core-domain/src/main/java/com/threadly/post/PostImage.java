@@ -12,7 +12,6 @@ import lombok.Getter;
 public class PostImage {
 
   private String postImageId;
-  private String postId;
   private String storedName;
   private String imageUrl;
   private int imageOrder = 0;
@@ -25,11 +24,10 @@ public class PostImage {
    * @param imageUrl
    * @return
    */
-  public static PostImage newPostImage(String postId, String storedName,
+  public static PostImage newPostImage(String storedName,
       String imageUrl) {
     return new PostImage(
         RandomUtils.generateNanoId(),
-        postId,
         storedName,
         imageUrl,
         -1,
@@ -42,8 +40,8 @@ public class PostImage {
   public String toString() {
     return "PostImage{" +
         "postImageId='" + postImageId + '\'' +
-        ", postId='" + postId + '\'' +
-        ", storedName='" + storedName + '\'' +
+//        ", postId='" + postId + '\'' +
+        ", storedName='" + storedName +'\'' +
         ", imageUrl='" + imageUrl + '\'' +
         ", imageOrder=" + imageOrder +
         '}';

@@ -6,9 +6,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.threadly.BaseApiTest;
 import com.threadly.CommonResponse;
 import com.threadly.auth.token.response.LoginTokenResponse;
-import com.threadly.post.request.CreatePostCommentRequest;
-import com.threadly.post.request.CreatePostRequest;
-import com.threadly.post.request.UpdatePostRequest;
 import com.threadly.post.comment.create.CreatePostCommentApiResponse;
 import com.threadly.post.comment.get.GetPostCommentListApiResponse;
 import com.threadly.post.create.CreatePostApiResponse;
@@ -19,9 +16,13 @@ import com.threadly.post.like.comment.GetPostCommentLikersApiResponse;
 import com.threadly.post.like.comment.LikePostCommentApiResponse;
 import com.threadly.post.like.post.GetPostLikersApiResponse;
 import com.threadly.post.like.post.LikePostApiResponse;
+import com.threadly.post.request.CreatePostCommentRequest;
+import com.threadly.post.request.CreatePostRequest;
+import com.threadly.post.request.UpdatePostRequest;
 import com.threadly.post.update.UpdatePostApiResponse;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.springframework.test.web.servlet.ResultMatcher;
 
@@ -54,9 +55,10 @@ public abstract class BasePostApiTest extends BaseApiTest {
    * @return
    */
   public CommonResponse<CreatePostApiResponse> sendCreatePostRequest(String accessToken,
-      String content, ResultMatcher expectedStatus) throws Exception {
+      String content, List<CreatePostRequest.ImageRequest> images,
+      ResultMatcher expectedStatus) throws Exception {
 
-    String requestBody = generateRequestBody(new CreatePostRequest(content));
+    String requestBody = generateRequestBody(new CreatePostRequest(content, images));
     Map<String, String> headers = new HashMap<>();
     headers.put("Authorization", "Bearer " + accessToken);
 

@@ -7,6 +7,7 @@ import com.threadly.exception.ErrorCode;
 import com.threadly.exception.post.PostException;
 import com.threadly.exception.user.UserException;
 import com.threadly.post.create.CreatePostApiResponse;
+import com.threadly.post.create.CreatePostApiResponse.PostImageApiResponse;
 import com.threadly.post.create.CreatePostCommand;
 import com.threadly.post.create.CreatePostUseCase;
 import com.threadly.post.delete.DeletePostCommand;
@@ -25,7 +26,8 @@ import com.threadly.post.view.RecordPostViewPort;
 import com.threadly.properties.TtlProperties;
 import com.threadly.user.FetchUserPort;
 import com.threadly.user.UserProfile;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,10 +50,11 @@ public class PostCommandService implements CreatePostUseCase, UpdatePostUseCase,
   private final RecordPostViewPort recordPostViewPort;
 
   private final UpdatePostImagePort updatePostImagePort;
-
+  private final FetchPostImagePort fetchPostImagePort;
 
   private final TtlProperties ttlProperties;
 
+  @Transactional
   @Override
   public CreatePostApiResponse createPost(CreatePostCommand command) {
 
@@ -64,15 +67,36 @@ public class PostCommandService implements CreatePostUseCase, UpdatePostUseCase,
     /*post 저장*/
     Post savedPost = savePostPort.savePost(newPost);
 
+    /*TODO 굳이 재 조회 해야할까?*/
+    List<PostImageApiResponse> postImageApiResponse = new ArrayList<>();
+
+    /*이미지가 존재할 경우*/
+    if (!command.getImages().isEmpty()) {
+      /*게시글 이미지 상태 변경*/
+      command.getImages().forEach(it -> {
+        updatePostImagePort.finalizeImage(it.getImageId(), savedPost.getPostId(),
+            it.getImageOrder());
+      });
+
+      /*게시글 이미지 조회*/
+      postImageApiResponse = fetchPostImagePort.findAllByPostIdAndStatus(
+          savedPost.getPostId(),
+          PostImageStatus.CONFIRMED).stream().map(
+          projection -> new PostImageApiResponse(
+              projection.getImageId(),
+              projection.getImageUrl(),
+              projection.getImageOrder()
+          )
+      ).toList();
+    }
+
     return new CreatePostApiResponse(
         savedPost.getPostId(),
         userProfile.getProfileImageUrl(),
         userProfile.getNickname(),
         savedPost.getUserId(),
         savedPost.getContent(),
-        0,
-        0,
-        0,
+        postImageApiResponse,
         savedPost.getPostedAt()
     );
   }
@@ -134,7 +158,7 @@ public class PostCommandService implements CreatePostUseCase, UpdatePostUseCase,
     updatePostPort.changeStatus(post);
 
     /*게시글 이미지 삭제 상태로 변경*/
-    updatePostImagePort.markAsDeleted(post.getPostId(), LocalDateTime.now());
+    updatePostImagePort.updateStatus(post.getPostId(), PostImageStatus.DELETED);
 
   }
 

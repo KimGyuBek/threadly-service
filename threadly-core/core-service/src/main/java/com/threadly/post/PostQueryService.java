@@ -50,8 +50,9 @@ public class PostQueryService implements GetPostUseCase, GetPostEngagementUseCas
                 projection.getUserProfileImageUrl(),
                 projection.getUserNickname(),
                 projection.getContent(),
-                fetchPostImagePort.fetchPostImageByPostId(
-                    projection.getPostId()
+                fetchPostImagePort.findAllByPostIdAndStatus(
+                    projection.getPostId(),
+                    PostImageStatus.CONFIRMED
                 ).stream().map(
                     image -> new GetPostDetailApiResponse.PostImage(
                         image.getImageId(),
@@ -92,8 +93,8 @@ public class PostQueryService implements GetPostUseCase, GetPostEngagementUseCas
         .orElseThrow(() -> new PostException(ErrorCode.POST_NOT_FOUND));
 
     /*게시글 이미지 조회*/
-    List<PostImageProjection> postImageProjections = fetchPostImagePort.fetchPostImageByPostId(
-        query.getPostId());
+    List<PostImageProjection> postImageProjections = fetchPostImagePort.findAllByPostIdAndStatus(
+        query.getPostId(), PostImageStatus.CONFIRMED);
 
     /*TODO 도메인 로직으로 변경*/
     PostStatusType status = postDetailProjection.getPostStatus();

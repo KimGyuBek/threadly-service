@@ -99,11 +99,10 @@ public abstract class BasePostImageApiTest extends BasePostApiTest {
    * @throws Exception
    */
   public CommonResponse<UploadPostImagesApiResponse> sendUploadPostImage(String accessToken,
-      String postId, List<MockMultipartFile> images, ResultMatcher expected)
+      List<MockMultipartFile> images, ResultMatcher expected)
       throws Exception {
     MockMultipartHttpServletRequestBuilder builder = (MockMultipartHttpServletRequestBuilder) multipart(
         "/api/post-images")
-        .param("postId", postId)
         .header("Authorization", "Bearer " + accessToken)
         .contentType(MediaType.MULTIPART_FORM_DATA);
 
@@ -117,7 +116,6 @@ public abstract class BasePostImageApiTest extends BasePostApiTest {
     return
         getResponse(result, new TypeReference<>() {
         });
-
   }
 
 
@@ -151,6 +149,7 @@ public abstract class BasePostImageApiTest extends BasePostApiTest {
     CommonResponse<CreatePostApiResponse> createPostResponse = sendCreatePostRequest(
         accessToken,
         content,
+        List.of(),
         status().isCreated()
     );
     return createPostResponse.getData().postId();
