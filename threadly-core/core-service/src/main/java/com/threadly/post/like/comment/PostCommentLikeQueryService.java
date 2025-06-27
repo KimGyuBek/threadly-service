@@ -5,7 +5,7 @@ import com.threadly.exception.post.PostCommentException;
 import com.threadly.post.comment.fetch.FetchPostCommentPort;
 import com.threadly.post.like.comment.GetPostCommentLikersApiResponse.NextCursor;
 import com.threadly.post.like.comment.GetPostCommentLikersApiResponse.PostCommentLiker;
-import com.threadly.post.PostCommentStatusType;
+import com.threadly.post.PostCommentStatus;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -23,11 +23,11 @@ public class PostCommentLikeQueryService implements GetPostCommentLikersUseCase 
   public GetPostCommentLikersApiResponse getPostCommentLikers(GetPostCommentLikersQuery query) {
 
     /*댓글 상태 검증*/
-    PostCommentStatusType commentStatus = fetchPostCommentPort.fetchCommentStatus(
+    PostCommentStatus commentStatus = fetchPostCommentPort.fetchCommentStatus(
         query.commentId()).orElseThrow(() -> new PostCommentException(
         ErrorCode.POST_COMMENT_NOT_FOUND));
 
-    if (!commentStatus.equals(PostCommentStatusType.ACTIVE)) {
+    if (!commentStatus.equals(PostCommentStatus.ACTIVE)) {
       throw new PostCommentException(ErrorCode.POST_COMMENT_NOT_ACCESSIBLE);
     }
 

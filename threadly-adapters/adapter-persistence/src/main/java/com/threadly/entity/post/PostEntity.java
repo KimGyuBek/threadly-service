@@ -2,7 +2,7 @@ package com.threadly.entity.post;
 
 import com.threadly.entity.BaseEntity;
 import com.threadly.entity.user.UserEntity;
-import com.threadly.post.PostStatusType;
+import com.threadly.post.PostStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -41,7 +41,7 @@ public class PostEntity extends BaseEntity {
 
   @Column(name = "status")
   @Enumerated(EnumType.STRING)
-  private PostStatusType status;
+  private PostStatus status;
 
   /*수정 시간 조회*/
   public LocalDateTime getModifiedAt() {

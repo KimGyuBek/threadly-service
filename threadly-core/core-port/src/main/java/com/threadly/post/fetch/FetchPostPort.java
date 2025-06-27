@@ -1,7 +1,7 @@
 package com.threadly.post.fetch;
 
 import com.threadly.post.Post;
-import com.threadly.post.PostStatusType;
+import com.threadly.post.PostStatus;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -47,7 +47,7 @@ public interface FetchPostPort {
    * @param postId
    * @return
    */
-  Optional<PostStatusType> fetchPostStatusByPostId(String postId);
+  Optional<PostStatus> fetchPostStatusByPostId(String postId);
 
   /**
    * 게시글 좋아요 정보 조회

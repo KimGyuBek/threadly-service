@@ -69,16 +69,16 @@ public interface PostImageJpaRepository extends JpaRepository<PostImageEntity, S
   /**
    * status 변경
    *
-   * @param imageId
+   * @param postId
    * @param status
    */
   @Modifying(clearAutomatically = true, flushAutomatically = true)
-  @Query(value = """
-      update post_images
-      set status = :status
-      where post_image_id = :imageId;
-      """, nativeQuery = true)
-  void updateStatus(@Param("imageId") String imageId, @Param("status") PostImageStatus status);
+  @Query("""
+      update PostImageEntity pi
+      set pi.status = :status
+      where pi.post.postId = :postId
+      """)
+  void updateStatus(@Param("postId") String postId, @Param("status") PostImageStatus status);
 
 
   /**

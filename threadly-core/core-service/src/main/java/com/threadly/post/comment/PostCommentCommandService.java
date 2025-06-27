@@ -4,6 +4,7 @@ import com.threadly.exception.ErrorCode;
 import com.threadly.exception.post.PostCommentException;
 import com.threadly.exception.post.PostException;
 import com.threadly.exception.user.UserException;
+import com.threadly.post.PostStatus;
 import com.threadly.post.comment.create.CreatePostCommentApiResponse;
 import com.threadly.post.comment.create.CreatePostCommentCommand;
 import com.threadly.post.comment.create.CreatePostCommentPort;
@@ -15,7 +16,6 @@ import com.threadly.post.comment.fetch.FetchPostCommentPort;
 import com.threadly.post.comment.update.UpdatePostCommentPort;
 import com.threadly.post.fetch.FetchPostPort;
 import com.threadly.post.Post;
-import com.threadly.post.PostStatusType;
 import com.threadly.post.comment.CannotDeleteCommentException.AlreadyDeletedException;
 import com.threadly.post.comment.CannotDeleteCommentException.BlockedException;
 import com.threadly.post.comment.CannotDeleteCommentException.ParentPostInactiveException;
@@ -49,11 +49,11 @@ public class PostCommentCommandService implements CreatePostCommentUseCase,
         ErrorCode.POST_NOT_FOUND));
 
     /*게시글 상태 검증*/
-    if (post.getStatus() == PostStatusType.DELETED) {
+    if (post.getStatus() == PostStatus.DELETED) {
       throw new PostException(ErrorCode.POST_ALREADY_DELETED);
-    } else if (post.getStatus() == PostStatusType.BLOCKED) {
+    } else if (post.getStatus() == PostStatus.BLOCKED) {
       throw new PostException(ErrorCode.POST_BLOCKED);
-    } else if (post.getStatus() == PostStatusType.ARCHIVE) {
+    } else if (post.getStatus() == PostStatus.ARCHIVE) {
       throw new PostException(ErrorCode.POST_ARCHIVED);
     }
 
@@ -88,7 +88,7 @@ public class PostCommentCommandService implements CreatePostCommentUseCase,
             ErrorCode.POST_COMMENT_NOT_FOUND)));
 
     /*게시글 상태 조회*/
-    PostStatusType postStatus = fetchPostPort.fetchPostStatusByPostId(
+    PostStatus postStatus = fetchPostPort.fetchPostStatusByPostId(
         command.getPostId()).orElseThrow(() -> new PostException(ErrorCode.POST_NOT_FOUND));
 
     /*게시글 댓글 삭제 가능한지 검증*/

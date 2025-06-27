@@ -1,8 +1,8 @@
 package com.threadly.post;
 
-import static com.threadly.post.PostStatusType.ARCHIVE;
-import static com.threadly.post.PostStatusType.BLOCKED;
-import static com.threadly.post.PostStatusType.DELETED;
+import static com.threadly.post.PostStatus.ARCHIVE;
+import static com.threadly.post.PostStatus.BLOCKED;
+import static com.threadly.post.PostStatus.DELETED;
 
 import com.threadly.exception.ErrorCode;
 import com.threadly.exception.post.PostException;
@@ -97,7 +97,7 @@ public class PostQueryService implements GetPostUseCase, GetPostEngagementUseCas
         query.getPostId(), PostImageStatus.CONFIRMED);
 
     /*TODO 도메인 로직으로 변경*/
-    PostStatusType status = postDetailProjection.getPostStatus();
+    PostStatus status = postDetailProjection.getPostStatus();
     if (status == DELETED) {
       throw new PostException(ErrorCode.POST_ALREADY_DELETED);
     } else if (status == ARCHIVE) {

@@ -1,7 +1,7 @@
 package com.threadly.post;
 
-import static com.threadly.post.PostStatusType.BLOCKED;
-import static com.threadly.post.PostStatusType.DELETED;
+import static com.threadly.post.PostStatus.BLOCKED;
+import static com.threadly.post.PostStatus.DELETED;
 
 import com.threadly.exception.ErrorCode;
 import com.threadly.exception.post.PostException;
@@ -158,6 +158,7 @@ public class PostCommandService implements CreatePostUseCase, UpdatePostUseCase,
     updatePostPort.changeStatus(post);
 
     /*게시글 이미지 삭제 상태로 변경*/
+
     updatePostImagePort.updateStatus(post.getPostId(), PostImageStatus.DELETED);
 
   }

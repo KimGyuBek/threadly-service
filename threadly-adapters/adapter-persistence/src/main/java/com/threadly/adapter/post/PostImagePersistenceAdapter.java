@@ -41,8 +41,8 @@ public class PostImagePersistenceAdapter implements SavePostImagePort, FetchPost
 
 
   @Override
-  public void updateStatus(String imageId, PostImageStatus status) {
-    postImageJpaRepository.updateStatus(imageId, status);
+  public void updateStatus(String postId, PostImageStatus status) {
+    postImageJpaRepository.updateStatus(postId, status);
   }
 
   @Override

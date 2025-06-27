@@ -2,7 +2,7 @@ package com.threadly.repository.post.comment;
 
 import com.threadly.entity.post.PostCommentEntity;
 import com.threadly.post.comment.fetch.PostCommentDetailForUserProjection;
-import com.threadly.post.PostCommentStatusType;
+import com.threadly.post.PostCommentStatus;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -30,7 +30,7 @@ public interface PostCommentJpaRepository extends JpaRepository<PostCommentEntit
       """)
   void updatePostCommentStatus(
       @Param("commentId") String commentId,
-      @Param("status") PostCommentStatusType status);
+      @Param("status") PostCommentStatus status);
 
 
   @Query(value = """
@@ -110,5 +110,5 @@ public interface PostCommentJpaRepository extends JpaRepository<PostCommentEntit
       where pc.comment_id = :commentId;
       
       """, nativeQuery = true)
-  Optional<PostCommentStatusType> findPostCommentStatus(@Param("commentId") String commentId);
+  Optional<PostCommentStatus> findPostCommentStatus(@Param("commentId") String commentId);
 }

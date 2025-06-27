@@ -3,8 +3,8 @@ package com.threadly.post.comment;
 import com.google.common.annotations.VisibleForTesting;
 import com.threadly.exception.ErrorCode;
 import com.threadly.exception.post.PostCommentException;
-import com.threadly.post.PostCommentStatusType;
-import com.threadly.post.PostStatusType;
+import com.threadly.post.PostCommentStatus;
+import com.threadly.post.PostStatus;
 import com.threadly.post.comment.CannotDeleteCommentException.AlreadyDeletedException;
 import com.threadly.post.comment.CannotDeleteCommentException.BlockedException;
 import com.threadly.post.comment.CannotDeleteCommentException.ParentPostInactiveException;
@@ -24,7 +24,7 @@ public class PostComment {
   private String postId;
   private String userId;
   private String content;
-  private PostCommentStatusType status;
+  private PostCommentStatus status;
 
   private List<CommentLike> commentLikes = new ArrayList<>();
 
@@ -42,7 +42,7 @@ public class PostComment {
         postId,
         userId,
         (content != null) ? content : "",
-        PostCommentStatusType.ACTIVE
+        PostCommentStatus.ACTIVE
     );
   }
 
@@ -51,13 +51,13 @@ public class PostComment {
    */
   public void markAsDeleted() {
     /*상태 검증*/
-    if (status == PostCommentStatusType.DELETED) {
+    if (status == PostCommentStatus.DELETED) {
       throw new PostCommentException(ErrorCode.POST_COMMENT_ALREADY_DELETED);
-    } else if (status == PostCommentStatusType.BLOCKED) {
+    } else if (status == PostCommentStatus.BLOCKED) {
       throw new PostCommentException(ErrorCode.POST_COMMENT_DELETE_BLOCKED);
     }
 
-    this.status = PostCommentStatusType.DELETED;
+    this.status = PostCommentStatus.DELETED;
   }
 
   /**
@@ -66,14 +66,14 @@ public class PostComment {
    * @param userId
    * @param postStatus
    */
-  public void validateDeletableBy(String userId, PostStatusType postStatus) {
+  public void validateDeletableBy(String userId, PostStatus postStatus) {
     if (!this.userId.equals(userId)) {
       throw new WriteMismatchException();
-    } else if (this.status == PostCommentStatusType.DELETED) {
+    } else if (this.status == PostCommentStatus.DELETED) {
       throw new AlreadyDeletedException();
-    } else if (this.status == PostCommentStatusType.BLOCKED) {
+    } else if (this.status == PostCommentStatus.BLOCKED) {
       throw new BlockedException();
-    } else if (postStatus != PostStatusType.ACTIVE) {
+    } else if (postStatus != PostStatus.ACTIVE) {
       throw new ParentPostInactiveException();
     }
   }
@@ -101,7 +101,7 @@ public class PostComment {
    * 댓글 좋아요 가능한지 검증
    */
   public void validateLikeable() {
-    if (this.status != PostCommentStatusType.ACTIVE) {
+    if (this.status != PostCommentStatus.ACTIVE) {
       throw new CannotLikePostCommentException();
     }
   }
@@ -126,7 +126,7 @@ public class PostComment {
    * @param status
    */
   public PostComment(String commentId, String postId, String userId, String content,
-      PostCommentStatusType status) {
+      PostCommentStatus status) {
     this.commentId = commentId;
     this.postId = postId;
     this.userId = userId;
@@ -152,7 +152,7 @@ public class PostComment {
   @VisibleForTesting
   public static PostComment newTestComment(String commentId, String postId, String userId,
       String content,
-      PostCommentStatusType status) {
+      PostCommentStatus status) {
     return new PostComment(
         commentId,
         postId,
