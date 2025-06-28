@@ -15,4 +15,11 @@ public interface UpdatePostCommentPort {
    */
   void updatePostCommentStatus(String commentId, PostCommentStatus status);
 
+  /**
+   * postId에 해당하는 댓글들 상태 변경
+   * @param postId
+   * @param status
+   */
+  void updateAllCommentStatusByPostId(String postId, PostCommentStatus status);
+
 }

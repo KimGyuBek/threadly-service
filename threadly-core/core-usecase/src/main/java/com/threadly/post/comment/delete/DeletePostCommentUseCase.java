@@ -12,4 +12,11 @@ public interface DeletePostCommentUseCase {
    */
   void softDeletePostComment(DeletePostCommentCommand command);
 
+  /**
+   * postId에 해당하는 댓글 및 좋아요 목록 삭제
+   *
+   * @param postId
+   */
+  void deleteAllCommentsAndLikesByPostId(String postId);
+
 }

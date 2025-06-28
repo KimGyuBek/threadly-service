@@ -91,4 +91,30 @@ public interface CommentLikeJpaRepository extends JpaRepository<CommentLikeEntit
       String commentId, @Param("cursorLikedAt")
       LocalDateTime cursorLikedAt, @Param("cursorLikerId") String cursorLikerId,
       @Param("limit") int limit);
+
+  /**
+   * postId에 해당하는 댓글 목록의 좋아요 전체 삭제
+   *
+   * @param postId
+   */
+  @Modifying()
+  @Query(value = """
+      delete
+      from comment_likes cl
+      where cl.comment_id in (select pc.comment_id
+                              from post_comments pc
+                              where pc.post_id = :postId)
+      """, nativeQuery = true)
+  void deleteAllByPostId(@Param("postId") String postId);
+
+  /**
+   * posId에 해당하는 데이터 수 조회
+   * @param postId
+   * @return
+   */
+  @Query("""
+      select count(c) from CommentLikeEntity c
+       where c.comment.post.postId = :postId
+      """)
+  long countByComment_Post_PostId(@Param("postId") String postId);
 }

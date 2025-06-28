@@ -13,4 +13,11 @@ public interface DeletePostCommentLikePort {
    */
   void deletePostCommentLike(String commentId, String userId);
 
+
+  /**
+   * postId에 해당하는 댓글들의 좋아요 목록 전체 삭제
+   * @param postId
+   */
+  void deleteAllByPostId(String postId);
+
 }

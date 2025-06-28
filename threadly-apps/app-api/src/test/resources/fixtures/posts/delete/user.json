@@ -1,0 +1,200 @@
+[
+  {
+    "userId": "usr_1",
+    "userName": "user_1",
+    "password": "$2a$10$3hdshqNxZqoIm3/XAN12aeg4.DMxw8.2vHe0WTDDo52nv57XNBLu6",
+    "email": "user_1@threadly.com",
+    "phone": "010-0000-0000",
+    "userType": "USER",
+    "isActive": true,
+    "isEmailVerified": true,
+    "userProfile": {
+      "userProfileId": "up1",
+      "nickname": "nick0",
+      "statusMessage": "status0",
+      "bio": "bio0",
+      "gender": "MALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "usr_2",
+    "userName": "user_2",
+    "password": "$2a$10$3hdshqNxZqoIm3/XAN12aeg4.DMxw8.2vHe0WTDDo52nv57XNBLu6",
+    "email": "user_2@threadly.com",
+    "phone": "010-0000-0001",
+    "userType": "USER",
+    "isActive": true,
+    "isEmailVerified": true,
+    "userProfile": {
+      "userProfileId": "up2",
+      "nickname": "nick1",
+      "statusMessage": "status1",
+      "bio": "bio1",
+      "gender": "MALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "usr_3",
+    "userName": "user_3",
+    "password": "$2a$10$3hdshqNxZqoIm3/XAN12aeg4.DMxw8.2vHe0WTDDo52nv57XNBLu6",
+    "email": "user_3@threadly.com",
+    "phone": "010-0000-0002",
+    "userType": "USER",
+    "isActive": true,
+    "isEmailVerified": true,
+    "userProfile": {
+      "userProfileId": "up3",
+      "nickname": "nick2",
+      "statusMessage": "status2",
+      "bio": "bio2",
+      "gender": "MALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "usr_4",
+    "userName": "user_4",
+    "password": "$2a$10$3hdshqNxZqoIm3/XAN12aeg4.DMxw8.2vHe0WTDDo52nv57XNBLu6",
+    "email": "user_4@threadly.com",
+    "phone": "010-0000-0003",
+    "userType": "USER",
+    "isActive": true,
+    "isEmailVerified": true,
+    "userProfile": {
+      "userProfileId": "up4",
+      "nickname": "nick3",
+      "statusMessage": "status3",
+      "bio": "bio3",
+      "gender": "MALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "usr_5",
+    "userName": "user_5",
+    "password": "$2a$10$3hdshqNxZqoIm3/XAN12aeg4.DMxw8.2vHe0WTDDo52nv57XNBLu6",
+    "email": "user5@threadly.com",
+    "phone": "010-0000-0004",
+    "userType": "USER",
+    "isActive": true,
+    "isEmailVerified": true,
+    "userProfile": {
+      "userProfileId": "up5",
+      "nickname": "nick4",
+      "statusMessage": "status4",
+      "bio": "bio4",
+      "gender": "MALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "usr_6",
+    "userName": "user_6",
+    "password": "$2a$10$3hdshqNxZqoIm3/XAN12aeg4.DMxw8.2vHe0WTDDo52nv57XNBLu6",
+    "email": "user6@threadly.com",
+    "phone": "010-0000-0005",
+    "userType": "USER",
+    "isActive": true,
+    "isEmailVerified": true,
+    "userProfile": {
+      "userProfileId": "up6",
+      "nickname": "nick5",
+      "statusMessage": "status5",
+      "bio": "bio5",
+      "gender": "MALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "usr_7",
+    "userName": "user_7",
+    "password": "$2a$10$3hdshqNxZqoIm3/XAN12aeg4.DMxw8.2vHe0WTDDo52nv57XNBLu6",
+    "email": "user7@threadly.com",
+    "phone": "010-0000-0006",
+    "userType": "USER",
+    "isActive": true,
+    "isEmailVerified": true,
+    "userProfile": {
+      "userProfileId": "up7",
+      "nickname": "nick6",
+      "statusMessage": "status6",
+      "bio": "bio6",
+      "gender": "MALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "usr_8",
+    "userName": "user_8",
+    "password": "$2a$10$3hdshqNxZqoIm3/XAN12aeg4.DMxw8.2vHe0WTDDo52nv57XNBLu6",
+    "email": "user8@threadly.com",
+    "phone": "010-0000-0007",
+    "userType": "USER",
+    "isActive": true,
+    "isEmailVerified": true,
+    "userProfile": {
+      "userProfileId": "up8",
+      "nickname": "nick7",
+      "statusMessage": "status7",
+      "bio": "bio7",
+      "gender": "MALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "usr_9",
+    "userName": "user_9",
+    "password": "$2a$10$3hdshqNxZqoIm3/XAN12aeg4.DMxw8.2vHe0WTDDo52nv57XNBLu6",
+    "email": "user9@threadly.com",
+    "phone": "010-0000-0008",
+    "userType": "USER",
+    "isActive": true,
+    "isEmailVerified": true,
+    "userProfile": {
+      "userProfileId": "up9",
+      "nickname": "nick8",
+      "statusMessage": "status8",
+      "bio": "bio8",
+      "gender": "MALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "usr_10",
+    "userName": "user_10",
+    "password": "$2a$10$3hdshqNxZqoIm3/XAN12aeg4.DMxw8.2vHe0WTDDo52nv57XNBLu6",
+    "email": "user10@threadly.com",
+    "phone": "010-0000-0009",
+    "userType": "USER",
+    "isActive": true,
+    "isEmailVerified": true,
+    "userProfile": {
+      "userProfileId": "up10",
+      "nickname": "nick9",
+      "statusMessage": "status9",
+      "bio": "bio9",
+      "gender": "MALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "usr_author",
+    "userName": "user_author",
+    "password": "$2a$10$3hdshqNxZqoIm3/XAN12aeg4.DMxw8.2vHe0WTDDo52nv57XNBLu6",
+    "email": "author@threadly.com",
+    "phone": "010-0000-00010",
+    "userType": "USER",
+    "isActive": true,
+    "isEmailVerified": true,
+    "userProfile": {
+      "userProfileId": "up_author",
+      "nickname": "nick10",
+      "statusMessage": "status10",
+      "bio": "bio10",
+      "gender": "MALE",
+      "profileType": "USER"
+    }
+  }
+]

@@ -1,8 +1,8 @@
 package com.threadly.repository.post.comment;
 
 import com.threadly.entity.post.PostCommentEntity;
-import com.threadly.post.comment.fetch.PostCommentDetailForUserProjection;
 import com.threadly.post.PostCommentStatus;
+import com.threadly.post.comment.fetch.PostCommentDetailForUserProjection;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -101,6 +101,7 @@ public interface PostCommentJpaRepository extends JpaRepository<PostCommentEntit
 
   /**
    * 게시그 댓글 상태 조회
+   *
    * @param commentId
    * @return
    */
@@ -111,4 +112,32 @@ public interface PostCommentJpaRepository extends JpaRepository<PostCommentEntit
       
       """, nativeQuery = true)
   Optional<PostCommentStatus> findPostCommentStatus(@Param("commentId") String commentId);
+
+  /**
+   * postId에 해당하는 댓글 상태 변경
+   *
+   * @param postId
+   * @param status
+   */
+  @Modifying
+  @Query("""
+      update PostCommentEntity pc 
+      set pc.status = :status
+      where pc.post.postId = :postId
+      """)
+  void updateCommentStatusByPostId(@Param("postId") String postId,
+      @Param("status") PostCommentStatus status);
+
+  /**
+   * postId와 status에 부합하는 데이터 수 반환
+   *
+   * @param status
+   * @param postId
+   * @return
+   */
+  @Query("""
+      select count(*) from PostCommentEntity pc
+      where pc.post.postId = :postId and pc.status = :status
+      """)
+  long countByStatusAndPostId(@Param("status") PostCommentStatus status,@Param("postId") String postId);
 }

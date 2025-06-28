@@ -6,6 +6,7 @@ import static com.threadly.post.PostStatus.DELETED;
 import com.threadly.exception.ErrorCode;
 import com.threadly.exception.post.PostException;
 import com.threadly.exception.user.UserException;
+import com.threadly.post.comment.delete.DeletePostCommentUseCase;
 import com.threadly.post.create.CreatePostApiResponse;
 import com.threadly.post.create.CreatePostApiResponse.PostImageApiResponse;
 import com.threadly.post.create.CreatePostCommand;
@@ -54,6 +55,8 @@ public class PostCommandService implements CreatePostUseCase, UpdatePostUseCase,
 
   private final UpdatePostImagePort updatePostImagePort;
   private final FetchPostImagePort fetchPostImagePort;
+
+  private final DeletePostCommentUseCase deletePostCommentUseCase;
 
   private final TtlProperties ttlProperties;
 
@@ -156,7 +159,7 @@ public class PostCommandService implements CreatePostUseCase, UpdatePostUseCase,
       throw new PostException(ErrorCode.POST_DELETE_BLOCKED);
     }
 
-    /*삭제 상태 변경 수행*/
+    /*게시글 삭제 처리*/
     post.markAsDeleted();
     updatePostPort.changeStatus(post);
 
@@ -166,11 +169,8 @@ public class PostCommandService implements CreatePostUseCase, UpdatePostUseCase,
     /*게시글 좋아요 삭제 처리*/
     deletePostLikePort.deleteAllByPostId(post.getPostId());
 
-    /*게시글 댓글 삭제 처리*/
-
-
-
-
+    /*댓글 및 댓글 좋아요 삭제 처리*/
+    deletePostCommentUseCase.deleteAllCommentsAndLikesByPostId(post.getPostId());
   }
 
   @Transactional

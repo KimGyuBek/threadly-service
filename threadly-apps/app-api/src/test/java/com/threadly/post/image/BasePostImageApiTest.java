@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.threadly.CommonResponse;
 import com.threadly.entity.post.PostImageEntity;
+import com.threadly.post.PostCommentStatus;
 import com.threadly.post.PostImageStatus;
 import com.threadly.post.controller.BasePostApiTest;
 import com.threadly.post.create.CreatePostApiResponse;
@@ -16,6 +17,8 @@ import com.threadly.post.request.CreatePostRequest.ImageRequest;
 import com.threadly.properties.UploadProperties;
 import com.threadly.repository.post.PostImageJpaRepository;
 import com.threadly.repository.post.PostLikeJpaRepository;
+import com.threadly.repository.post.comment.CommentLikeJpaRepository;
+import com.threadly.repository.post.comment.PostCommentJpaRepository;
 import com.threadly.utils.TestLogUtils;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -48,6 +51,12 @@ public abstract class BasePostImageApiTest extends BasePostApiTest {
 
   @Autowired
   private PostLikeJpaRepository postLikeJpaRepository;
+
+  @Autowired
+  private PostCommentJpaRepository postCommentJpaRepository;
+
+  @Autowired
+  private CommentLikeJpaRepository commentLikeJpaRepository;
 
   @Autowired
   public UploadProperties uploadProperties;
@@ -276,6 +285,29 @@ public abstract class BasePostImageApiTest extends BasePostApiTest {
    */
   public void validatePostLike(String postId, int expectedLikeCount) {
     assertThat(postLikeJpaRepository.findAllByPostId(postId)).isEqualTo(expectedLikeCount);
+  }
+
+  /**
+   * status, postId에 해당하는 데이터 수 검증
+   *
+   * @param postId
+   * @param expectedStatus
+   * @param expectedCount
+   */
+  public void validateCommentCountByStatusAndPostId(String postId,
+      PostCommentStatus expectedStatus, long expectedCount) {
+    long result = postCommentJpaRepository.countByStatusAndPostId(expectedStatus, postId);
+    assertThat(result).isEqualTo(expectedCount);
+  }
+
+  /**
+   * postId에 해당하는 댓글 좋아요 수 검증
+   *
+   * @param postId
+   */
+  public void validateCommentLikeCountByPostId(String postId, int expectedLikeCount) {
+    long result = commentLikeJpaRepository.countByComment_Post_PostId(postId);
+    assertThat(result).isEqualTo(expectedLikeCount);
   }
 
 }
