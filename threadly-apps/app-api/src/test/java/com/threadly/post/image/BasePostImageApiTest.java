@@ -15,6 +15,7 @@ import com.threadly.post.image.UploadPostImagesApiResponse.PostImageResponse;
 import com.threadly.post.request.CreatePostRequest.ImageRequest;
 import com.threadly.properties.UploadProperties;
 import com.threadly.repository.post.PostImageJpaRepository;
+import com.threadly.repository.post.PostLikeJpaRepository;
 import com.threadly.utils.TestLogUtils;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -44,6 +45,9 @@ public abstract class BasePostImageApiTest extends BasePostApiTest {
 
   @Autowired
   private PostImageJpaRepository postImageJpaRepository;
+
+  @Autowired
+  private PostLikeJpaRepository postLikeJpaRepository;
 
   @Autowired
   public UploadProperties uploadProperties;
@@ -206,13 +210,15 @@ public abstract class BasePostImageApiTest extends BasePostApiTest {
 
   /**
    * uploadImage 목록 생성
+   *
    * @param SIZE
    * @param width
    * @param height
    * @return
    * @throws IOException
    */
-  public List<MockMultipartFile> generateUploadImagesWithRatio(int SIZE, int width, int height) throws IOException {
+  public List<MockMultipartFile> generateUploadImagesWithRatio(int SIZE, int width, int height)
+      throws IOException {
     List<MockMultipartFile> images = new ArrayList<>();
     for (int i = 0; i < SIZE; i++) {
       images.add(
@@ -224,6 +230,7 @@ public abstract class BasePostImageApiTest extends BasePostApiTest {
     return images;
   }
 
+  /*JPA 검증 로직*/
 
   /**
    * 게시글 생성 응답과 db 데이터 검증
@@ -234,7 +241,7 @@ public abstract class BasePostImageApiTest extends BasePostApiTest {
    */
   public void validateImageResponse(CommonResponse<CreatePostApiResponse> createPostResponse,
       String postId, PostImageStatus expectedStatus) {
-    if(createPostResponse.getData().images().isEmpty()) {
+    if (createPostResponse.getData().images().isEmpty()) {
       return;
     }
 
@@ -259,6 +266,16 @@ public abstract class BasePostImageApiTest extends BasePostApiTest {
           assertThat(postImageEntity.getStatus()).isEqualTo(expectedStatus);
         }
     );
+  }
+
+  /**
+   * 게시글 좋아요 삭제 검증
+   *
+   * @param postId
+   * @param expectedLikeCount
+   */
+  public void validatePostLike(String postId, int expectedLikeCount) {
+    assertThat(postLikeJpaRepository.findAllByPostId(postId)).isEqualTo(expectedLikeCount);
   }
 
 }

@@ -16,6 +16,7 @@ import com.threadly.post.fetch.FetchPostPort;
 import com.threadly.post.fetch.PostDetailProjection;
 import com.threadly.post.image.fetch.FetchPostImagePort;
 import com.threadly.post.image.update.UpdatePostImagePort;
+import com.threadly.post.like.post.DeletePostLikePort;
 import com.threadly.post.save.SavePostPort;
 import com.threadly.post.update.UpdatePostApiResponse;
 import com.threadly.post.update.UpdatePostCommand;
@@ -44,6 +45,8 @@ public class PostCommandService implements CreatePostUseCase, UpdatePostUseCase,
   private final SavePostPort savePostPort;
   private final FetchPostPort fetchPostPort;
   private final UpdatePostPort updatePostPort;
+
+  private final DeletePostLikePort deletePostLikePort;
 
   private final FetchUserPort fetchUserPort;
 
@@ -157,9 +160,16 @@ public class PostCommandService implements CreatePostUseCase, UpdatePostUseCase,
     post.markAsDeleted();
     updatePostPort.changeStatus(post);
 
-    /*게시글 이미지 삭제 상태로 변경*/
-
+    /*게시글 이미지 삭제 처리*/
     updatePostImagePort.updateStatus(post.getPostId(), PostImageStatus.DELETED);
+
+    /*게시글 좋아요 삭제 처리*/
+    deletePostLikePort.deleteAllByPostId(post.getPostId());
+
+    /*게시글 댓글 삭제 처리*/
+
+
+
 
   }
 

@@ -11,6 +11,7 @@ import com.threadly.post.create.CreatePostApiResponse;
 import com.threadly.post.image.BasePostImageApiTest;
 import com.threadly.post.image.UploadPostImagesApiResponse;
 import com.threadly.testsupport.fixture.posts.PostFixtureLoader;
+import com.threadly.testsupport.fixture.posts.PostLikeFixtureLoader;
 import com.threadly.utils.TestConstants;
 import java.io.IOException;
 import java.util.List;
@@ -33,16 +34,27 @@ import org.springframework.mock.web.MockMultipartFile;
 @TestClassOrder(ClassOrderer.OrderAnnotation.class)
 public class DeletePostApiTest extends BasePostImageApiTest {
 
+  @Autowired
+  private PostLikeFixtureLoader postLikeFixtureLoader;
+
+  @Autowired
+  private PostFixtureLoader postFixtureLoader;
+
+
   @BeforeEach
   void setUp() throws IOException {
     super.setUpDefaultUser();
     super.clearFiles();
 
+    /*게시글 테스트 데이터 */
     postFixtureLoader.load("/posts/post-delete/user.json", "/posts/post-delete/post.json");
+
+    /*게시글 좋아요 테스트 데이터*/
+    postLikeFixtureLoader.load("/posts/likes/post-like-list/post-like-user.json",
+        "/posts/likes/post-like-list/post.json",
+        "/posts/likes/post-like-list/post-likes.json");
   }
 
-  @Autowired
-  private PostFixtureLoader postFixtureLoader;
 
   public static final String POST_OWNER_EMAIL = "sunset_gazer1@threadly.com";
   public static final String POST_NON_OWNER_EMAIL = "sky_gazer2@threadly.com";
@@ -52,12 +64,13 @@ public class DeletePostApiTest extends BasePostImageApiTest {
   public static final String POST_BLOCKED_ID = "post_BLOCKED";
   public static final String POST_ARCHIVE_ID = "post_ARCHIVE";
 
-  public static final List<String> POST_IDS = List.of(
-      POST_ACTIVE_ID,
-      POST_DELETED_ID,
-      POST_BLOCKED_ID,
-      POST_ARCHIVE_ID
-  );
+
+  /*좋아요가 있는 postId*/
+  public static final String POST_LIKE_TARGET_ID = "post_like_target";
+
+  /*좋아요가 있는 게시글을 작성한 사용자의 email*/
+  public static final String POST_LIKE_OWNER_EMAIL = "user100@threadly.com";
+
 
   @Order(1)
   @Nested
@@ -114,7 +127,29 @@ public class DeletePostApiTest extends BasePostImageApiTest {
       /*검증*/
       validatePostStatus(POST_ACTIVE_ID, PostStatus.DELETED);
     }
+
+    /*[Case #3] 게시글 삭제 검증 - 좋아요가 있는 게시글 삭제 요청시 데이터 삭제 검증*/
+    @Order(3)
+    @DisplayName("3. 좋아요가 있는 게시글 삭제 요청 시 데이터 삭제 검증")
+    @Test
+    public void deletePostWithImage_shouldSucceed_whenPostLikeExists() throws Exception {
+      //given
+      /*로그인*/
+      String accessToken = getAccessToken(POST_LIKE_OWNER_EMAIL);
+
+      //when
+      /*게시글 삭제 */
+      sendDeletePostRequest(accessToken, POST_LIKE_TARGET_ID, status().isOk());
+
+      //then
+      /*검증*/
+      validatePostStatus(POST_LIKE_TARGET_ID, PostStatus.DELETED);
+
+      validatePostLike(POST_LIKE_TARGET_ID, 0);
+
+    }
   }
+
 
   @Order(2)
   @Nested

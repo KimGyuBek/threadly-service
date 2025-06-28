@@ -55,14 +55,19 @@
 ## 테스트용 상수 정의
 
 ```java
+/*좋아요가 있는 postId*/
 public static final String POST_LIKE_TARGET_ID = "post_like_target";
 
+/*좋아요가 없는 postId*/
 public static final String POST_NO_LIKE_TARGET_ID = "post_no_like_target";
 
-public static final String POST_LIKE_OWNER_ID = "usr100";
+/*좋아요가 있는 게시글을 작성한 사용자의 email*/
+public static final String POST_LIKE_OWNER_EMAIL = "user100@threadly.com";
 
+/*전체 좋아요 수 */
 public static final int POST_LIKE_COUNT = 25;
 
+/*좋아요를 누른 userId 목록*/
 public static final List<String> POST_LIKE_USER_IDS = List.of(
     "usr101", "usr102", "usr103", "usr104", "usr105",
     "usr106", "usr107", "usr108", "usr109", "usr110",
