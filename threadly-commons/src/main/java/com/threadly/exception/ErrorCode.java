@@ -1,4 +1,4 @@
-package com.threadly;
+package com.threadly.exception;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
@@ -84,21 +84,24 @@ public enum ErrorCode {
   POST_COMMENT_NOT_ACCESSIBLE("TLY5112", "이 댓글은 볼 수 없습니다.",
       HttpStatus.BAD_REQUEST),
 
-  /*PostImage*/
-  POST_IMAGE_NOT_FOUND("TLY5200", "이미지를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
-  POST_IMAGE_UPLOAD_LIMIT_EXCEEDED("TLY5201", "최대 업로드 가능한 이미지 수를 초과했습니다.",
+  /*Image*/
+  IMAGE_NOT_FOUND("TLY6001", "이미지를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+  IMAGE_INVALID_EXTENSION("TLY6002", "허용되지 않는 파일 확장자입니다.", HttpStatus.BAD_REQUEST),
+  IMAGE_INVALID_MIME_TYPE("TLY6003", "유효하지 않은 이미지 MIME 타입입니다.", HttpStatus.BAD_REQUEST),
+  IMAGE_TOO_LARGE("TLY6004", "이미지 파일 크기가 너무 큽니다.", HttpStatus.BAD_REQUEST),
+  IMAGE_UPLOAD_FAILED("TLY6005", "이미지 업로드에 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
+  IMAGE_INVALID_IMAGE("TLY6006", "잘못된 이미지 파일 입니다.", HttpStatus.FORBIDDEN),
+  IMAGE_EXTENSION_MISMATCH("TLY6007", "확장자가 일치하지 않습니다.", HttpStatus.BAD_REQUEST),
+  IMAGE_ASPECT_RATIO_INVALID("TLY6008", "허용되지 않는 이미지 비율입니다.", HttpStatus.BAD_REQUEST),
+
+  /*Post Image*/
+  POST_IMAGE_UPLOAD_LIMIT_EXCEEDED("TLY6101", "최대 업로드 가능한 이미지 수를 초과했습니다.",
       HttpStatus.BAD_REQUEST),
-  POST_IMAGE_INVALID_EXTENSION("TLY5202", "허용되지 않는 파일 확장자입니다.", HttpStatus.BAD_REQUEST),
-  POST_IMAGE_INVALID_MIME_TYPE("TLY5203", "유효하지 않은 이미지 MIME 타입입니다.", HttpStatus.BAD_REQUEST),
-  POST_IMAGE_TOO_LARGE("TLY5204", "이미지 파일 크기가 너무 큽니다.", HttpStatus.BAD_REQUEST),
-  POST_IMAGE_UPLOAD_FAILED("TLY5205", "이미지 업로드에 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
-  POST_IMAGE_OWNER_MISMATCH("TLY5206", "사용자에게 해당 게시글 이미지에 대한 권한이 없습니다.", HttpStatus.FORBIDDEN),
-  POST_IMAGE_ALREADY_ATTACHED("TLY5207", "이미 게시글에 첨부된 이미지입니다.", HttpStatus.BAD_REQUEST),
-  POST_IMAGE_TEMP_EXPIRED("TLY5208", "임시 업로드 이미지의 유효 시간이 만료되었습니다.", HttpStatus.GONE),
-  POST_IMAGE_EMPTY("TLY5209", "게시글에는 최소 한 장의 이미지를 첨부해야 합니다.", HttpStatus.BAD_REQUEST),
-  POST_IMAGE_UPLOAD_FORBIDDEN("TLY5210", "게시글 이미지 업로드 권한이 없습니다.", HttpStatus.FORBIDDEN),
-  POST_IMAGE_INVALID_IMAGE("TLY5211", "잘못된 이미지 파일 입니다.", HttpStatus.FORBIDDEN),
-  POST_IMAGE_EXTENSION_MISMATCH("TLY5212", "확장자가 일치하지 않습니다.", HttpStatus.BAD_REQUEST);
+  POST_IMAGE_OWNER_MISMATCH("TLY6102", "사용자에게 해당 게시글 이미지에 대한 권한이 없습니다.", HttpStatus.FORBIDDEN),
+  POST_IMAGE_ALREADY_ATTACHED("TLY6103", "이미 게시글에 첨부된 이미지입니다.", HttpStatus.BAD_REQUEST),
+  POST_IMAGE_TEMP_EXPIRED("TLY6104", "임시 업로드 이미지의 유효 시간이 만료되었습니다.", HttpStatus.GONE),
+  POST_IMAGE_EMPTY("TLY6105", "게시글에는 최소 한 장의 이미지를 첨부해야 합니다.", HttpStatus.BAD_REQUEST),
+  POST_IMAGE_UPLOAD_FORBIDDEN("TLY6106", "게시글 이미지 업로드 권한이 없습니다.", HttpStatus.FORBIDDEN);
 
 
   private final String code;

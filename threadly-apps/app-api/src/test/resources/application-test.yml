@@ -39,3 +39,6 @@ properties:
         - jpeg
         - png
         - webp
+      aspect-ratio:
+        target: RATIO_3_4
+        tolerance: 0.05 # 허용 오차 비율

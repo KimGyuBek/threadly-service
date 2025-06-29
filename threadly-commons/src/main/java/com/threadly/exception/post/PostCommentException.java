@@ -1,6 +1,6 @@
 package com.threadly.exception.post;
 
-import com.threadly.ErrorCode;
+import com.threadly.exception.ErrorCode;
 
 /**
  * 게시글 댓글 관련 예외

@@ -48,19 +48,17 @@ public class PostLikeFixtureLoader {
     generatePostLike(postData, postData.size());
   }
 
-
   /**
-   * count 만큼 게시글 데이터 삽입
-   *
-   * @param path
-   * @param count
+   * 게시글 좋아요 데이터 삽입
+   * @param postLikeDataFixture
    */
-  @Deprecated
   @Transactional
-  public void load(String userDataPath, String postDataPath, String postLikeData, int count) {
-    List<PostLikeFixtureDto> postData = getPostLikeData(postLikeData);
-    generatePostLike(postData, count);
+  public void load(String postLikeDataFixture) {
+    List<PostLikeFixtureDto> postData = getPostLikeData(postLikeDataFixture);
+    generatePostLike(postData, postData.size());
+
   }
+
 
   /**
    * 게시글 좋아요 저장

@@ -2,7 +2,7 @@ package com.threadly.post;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.threadly.post.comment.PostComment;
-import com.threadly.util.RandomUtils;
+import com.threadly.utils.RandomUtils;
 import java.time.LocalDateTime;
 import lombok.Getter;
 
@@ -18,11 +18,11 @@ public class Post {
 
   private int viewCount;
 
-  private PostStatusType status;
+  private PostStatus status;
 
   private LocalDateTime postedAt;
 
-  public Post(String postId, String userId, String content, int viewCount, PostStatusType status,
+  public Post(String postId, String userId, String content, int viewCount, PostStatus status,
       LocalDateTime postedAt) {
     this.postId = postId;
     this.content = content;
@@ -45,7 +45,7 @@ public class Post {
         userId,
         (content != null) ? content : "",
         0,
-        PostStatusType.ACTIVE,
+        PostStatus.ACTIVE,
         LocalDateTime.now()
     );
   }
@@ -76,7 +76,7 @@ public class Post {
    * @return
    */
   public void validateLikable() {
-    if (status != PostStatusType.ACTIVE) {
+    if (status != PostStatus.ACTIVE) {
       throw new CannotLikePostException();
     }
   }
@@ -97,28 +97,28 @@ public class Post {
    * 게시글 삭제 상태로 변경
    */
   public void markAsDeleted() {
-    this.status = PostStatusType.DELETED;
+    this.status = PostStatus.DELETED;
   }
 
   /**
    * 게시글 블라인드 상태로 변경
    */
   public void markAsBlocked() {
-    this.status = PostStatusType.BLOCKED;
+    this.status = PostStatus.BLOCKED;
   }
 
   /**
    * 게시글 블라인드 해제 상태로 변경
    */
   public void markAsUnblocked() {
-    this.status = PostStatusType.ACTIVE;
+    this.status = PostStatus.ACTIVE;
   }
 
   /**
    * 게시글 아카이브 상태로 변경
    */
   public void markAsArchived() {
-    this.status = PostStatusType.ARCHIVE;
+    this.status = PostStatus.ARCHIVE;
   }
 
 
@@ -140,7 +140,7 @@ public class Post {
   }
 
   public static Post newTestPost(String postId, String userId, String content,
-      int viewCount, PostStatusType status
+      int viewCount, PostStatus status
   ) {
     return new Post(
         postId,

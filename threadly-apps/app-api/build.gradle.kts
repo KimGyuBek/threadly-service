@@ -36,6 +36,7 @@ dependencies {
     /*jakarta*/
     implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
 
+    testImplementation("org.springframework.boot:spring-boot-starter-data-jpa")
 
 }
 

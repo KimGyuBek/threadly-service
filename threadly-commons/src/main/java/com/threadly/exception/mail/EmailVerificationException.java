@@ -1,6 +1,6 @@
 package com.threadly.exception.mail;
 
-import com.threadly.ErrorCode;
+import com.threadly.exception.ErrorCode;
 
 /**
  * 메일 전송 관련 예외

@@ -1,6 +1,6 @@
 package com.threadly.user;
 
-import com.threadly.ErrorCode;
+import com.threadly.exception.ErrorCode;
 import com.threadly.exception.user.UserException;
 import com.threadly.user.command.UserRegistrationCommand;
 import com.threadly.user.command.UserSetProfileCommand;

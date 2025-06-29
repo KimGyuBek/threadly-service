@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.threadly.CommonResponse;
-import com.threadly.ErrorCode;
+import com.threadly.exception.ErrorCode;
 import com.threadly.post.create.CreatePostApiResponse;
 import com.threadly.post.engagement.GetPostEngagementApiResponse;
 import com.threadly.post.get.GetPostDetailApiResponse;
@@ -13,6 +13,7 @@ import com.threadly.post.get.GetPostDetailListApiResponse;
 import com.threadly.post.update.UpdatePostApiResponse;
 import com.threadly.testsupport.fixture.posts.PostFixtureLoader;
 import java.time.LocalDateTime;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.ClassOrderer;
 import org.junit.jupiter.api.DisplayName;
@@ -91,6 +92,7 @@ class GetPostApiTest extends BasePostApiTest {
         CommonResponse<CreatePostApiResponse> createPostResponse = sendCreatePostRequest(
             accessToken,
             content,
+            List.of(),
             status().isCreated());
 
         //when
@@ -118,6 +120,7 @@ class GetPostApiTest extends BasePostApiTest {
         CommonResponse<CreatePostApiResponse> createPostResponse = sendCreatePostRequest(
             accessToken,
             content,
+            List.of(),
             status().isCreated());
 
         /*게시글 수정*/

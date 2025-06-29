@@ -92,12 +92,13 @@ create table comment_likes
 create table post_images
 (
     post_image_id    varchar(255) not null,
-    post_id          varchar(255) not null,
+    post_id          varchar(255),
     stored_file_name varchar(255) not null,
     image_order      int          not null default 0,
     image_url        varchar(255) not null default '/',
+    status           varchar(50)  not null,
     created_at       timestamp    not null default current_timestamp,
-    deleted_at       timestamp null,
+    modified_at      timestamp    not null default current_timestamp,
     primary key (post_image_id),
     foreign key (post_id) references posts (post_id)
 );

@@ -48,4 +48,9 @@ public class PostLikeAdapter implements FetchPostLikePort, CreatePostLikePort, D
     return postLikeJpaRepository.getPostLikersBeforeCreatedAt(postId, cursorLikedAt, cursorLikerId,
         limit);
   }
+
+  @Override
+  public void deleteAllByPostId(String postId) {
+    postLikeJpaRepository.deleteAllByPostId(postId);
+  }
 }

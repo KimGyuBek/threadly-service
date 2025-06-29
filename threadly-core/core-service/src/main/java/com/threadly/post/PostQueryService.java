@@ -1,10 +1,10 @@
 package com.threadly.post;
 
-import static com.threadly.post.PostStatusType.ARCHIVE;
-import static com.threadly.post.PostStatusType.BLOCKED;
-import static com.threadly.post.PostStatusType.DELETED;
+import static com.threadly.post.PostStatus.ARCHIVE;
+import static com.threadly.post.PostStatus.BLOCKED;
+import static com.threadly.post.PostStatus.DELETED;
 
-import com.threadly.ErrorCode;
+import com.threadly.exception.ErrorCode;
 import com.threadly.exception.post.PostException;
 import com.threadly.post.engagement.GetPostEngagementApiResponse;
 import com.threadly.post.engagement.GetPostEngagementQuery;
@@ -50,10 +50,12 @@ public class PostQueryService implements GetPostUseCase, GetPostEngagementUseCas
                 projection.getUserProfileImageUrl(),
                 projection.getUserNickname(),
                 projection.getContent(),
-                fetchPostImagePort.fetchPostImageByPostId(
-                    projection.getPostId()
+                fetchPostImagePort.findAllByPostIdAndStatus(
+                    projection.getPostId(),
+                    PostImageStatus.CONFIRMED
                 ).stream().map(
                     image -> new GetPostDetailApiResponse.PostImage(
+                        image.getImageId(),
                         image.getImageUrl(),
                         image.getImageOrder()
                     )).toList(),
@@ -91,11 +93,11 @@ public class PostQueryService implements GetPostUseCase, GetPostEngagementUseCas
         .orElseThrow(() -> new PostException(ErrorCode.POST_NOT_FOUND));
 
     /*게시글 이미지 조회*/
-    List<PostImageProjection> postImageProjections = fetchPostImagePort.fetchPostImageByPostId(
-        query.getPostId());
+    List<PostImageProjection> postImageProjections = fetchPostImagePort.findAllByPostIdAndStatus(
+        query.getPostId(), PostImageStatus.CONFIRMED);
 
     /*TODO 도메인 로직으로 변경*/
-    PostStatusType status = postDetailProjection.getPostStatus();
+    PostStatus status = postDetailProjection.getPostStatus();
     if (status == DELETED) {
       throw new PostException(ErrorCode.POST_ALREADY_DELETED);
     } else if (status == ARCHIVE) {
@@ -112,6 +114,7 @@ public class PostQueryService implements GetPostUseCase, GetPostEngagementUseCas
         postImageProjections.stream().map(
             projection ->
                 new GetPostDetailApiResponse.PostImage(
+                    projection.getImageId(),
                     projection.getImageUrl(),
                     projection.getImageOrder()
                 )

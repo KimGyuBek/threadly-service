@@ -2,13 +2,13 @@ package com.threadly.adapter.post;
 
 import com.threadly.entity.post.PostEntity;
 import com.threadly.mapper.post.PostMapper;
+import com.threadly.post.PostStatus;
 import com.threadly.post.fetch.FetchPostPort;
 import com.threadly.post.fetch.PostDetailProjection;
 import com.threadly.post.fetch.PostEngagementProjection;
 import com.threadly.post.save.SavePostPort;
 import com.threadly.post.update.UpdatePostPort;
 import com.threadly.post.Post;
-import com.threadly.post.PostStatusType;
 import com.threadly.repository.post.PostJpaRepository;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -71,7 +71,7 @@ public class PostAdapter implements SavePostPort, FetchPostPort, UpdatePostPort 
   }
 
   @Override
-  public Optional<PostStatusType> fetchPostStatusByPostId(String postId) {
+  public Optional<PostStatus> fetchPostStatusByPostId(String postId) {
     return
         postJpaRepository.findPostStatusByPostId(postId);
   }

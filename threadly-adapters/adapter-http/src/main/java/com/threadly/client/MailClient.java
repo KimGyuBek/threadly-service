@@ -1,6 +1,6 @@
 package com.threadly.client;
 
-import com.threadly.ErrorCode;
+import com.threadly.exception.ErrorCode;
 import com.threadly.exception.mail.EmailVerificationException;
 import com.threadly.mail.SendMailPort;
 import jakarta.mail.MessagingException;

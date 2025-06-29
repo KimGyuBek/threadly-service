@@ -1,0 +1,9 @@
+[
+  {
+    "postId": "post1",
+    "userId": "usr_author",
+    "content": "테스트 게시글입니다.",
+    "viewCount": 10,
+    "status": "ACTIVE"
+  }
+]

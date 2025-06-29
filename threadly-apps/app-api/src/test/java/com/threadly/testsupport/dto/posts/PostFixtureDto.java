@@ -1,6 +1,6 @@
 package com.threadly.testsupport.dto.posts;
 
-import com.threadly.post.PostStatusType;
+import com.threadly.post.PostStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,7 +17,7 @@ public class PostFixtureDto {
   private String userId;
   private String content;
   private int viewCount;
-  private PostStatusType status;
+  private PostStatus status;
 
 
 

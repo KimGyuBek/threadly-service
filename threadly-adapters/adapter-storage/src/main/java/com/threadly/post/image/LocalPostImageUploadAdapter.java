@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.support.PropertiesLoaderSupport;
 import org.springframework.stereotype.Component;
 
 /**
@@ -54,8 +53,7 @@ public class LocalPostImageUploadAdapter implements UploadPostImagePort {
     try {
       Files.write(fullPath, uploadImage.getContent());
       return new UploadImageResponse(storedFileName,
-          uploadProperties.getAccessUrl() + storedFileName,
-          imageOrder);
+          uploadProperties.getAccessUrl() + storedFileName);
     } catch (Exception e) {
       log.error(e.getMessage(), e);
       throw new RuntimeException(e);

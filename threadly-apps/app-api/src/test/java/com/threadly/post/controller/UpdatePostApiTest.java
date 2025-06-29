@@ -6,9 +6,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.threadly.CommonResponse;
-import com.threadly.ErrorCode;
+import com.threadly.exception.ErrorCode;
 import com.threadly.post.create.CreatePostApiResponse;
 import com.threadly.post.update.UpdatePostApiResponse;
+import java.util.List;
 import org.junit.jupiter.api.ClassOrderer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
@@ -52,7 +53,10 @@ class UpdatePostApiTest extends BasePostApiTest {
         String modifiedContent = "modifiedContent";
 
         /*게시글 생성*/
-        CommonResponse<CreatePostApiResponse> response = sendCreatePostRequest(accessToken, content,
+        CommonResponse<CreatePostApiResponse> response = sendCreatePostRequest(
+            accessToken,
+            content,
+            List.of(),
             status().isCreated());
         String postId = response.getData().postId();
 
@@ -89,6 +93,7 @@ class UpdatePostApiTest extends BasePostApiTest {
         /*게시글 생성*/
         CommonResponse<CreatePostApiResponse> response = sendCreatePostRequest(accessToken1,
             content,
+            List.of(),
             status().isCreated());
         String postId = response.getData().postId();
 
@@ -116,7 +121,9 @@ class UpdatePostApiTest extends BasePostApiTest {
         String modifiedContent = "modifiedContent";
 
         /*게시글 생성*/
-        CommonResponse<CreatePostApiResponse> response = sendCreatePostRequest(accessToken, content,
+        CommonResponse<CreatePostApiResponse> response = sendCreatePostRequest(accessToken,
+            content,
+            List.of(),
             status().isCreated());
 
         //when
@@ -142,7 +149,9 @@ class UpdatePostApiTest extends BasePostApiTest {
         String modifiedContent = "";
 
         /*게시글 생성*/
-        CommonResponse<CreatePostApiResponse> response = sendCreatePostRequest(accessToken, content,
+        CommonResponse<CreatePostApiResponse> response = sendCreatePostRequest(accessToken,
+            content,
+            List.of(),
             status().isCreated());
         String postId = response.getData().postId();
 
@@ -169,7 +178,9 @@ class UpdatePostApiTest extends BasePostApiTest {
         String modifiedContent = "a".repeat(1001);
 
         /*게시글 생성*/
-        CommonResponse<CreatePostApiResponse> response = sendCreatePostRequest(accessToken, content,
+        CommonResponse<CreatePostApiResponse> response = sendCreatePostRequest(accessToken,
+            content,
+            List.of(),
             status().isCreated());
         String postId = response.getData().postId();
 

@@ -1,9 +1,9 @@
 package com.threadly.repository.post;
 
 import com.threadly.entity.post.PostEntity;
+import com.threadly.post.PostStatus;
 import com.threadly.post.fetch.PostDetailProjection;
 import com.threadly.post.fetch.PostEngagementProjection;
-import com.threadly.post.PostStatusType;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -58,10 +58,10 @@ public interface PostJpaRepository extends JpaRepository<PostEntity, String> {
                                 max(
                                         case
                                             when user_id = :userId
-                                                then true
-                                            else false
+                                                then 1
+                                            else 0
                                             end
-                                )        as is_liked
+                                )   > 0     as is_liked
                          from post_likes
                          where post_id = :postId
                          group by post_id) pl on p.post_id = pl.post_id
@@ -139,7 +139,7 @@ public interface PostJpaRepository extends JpaRepository<PostEntity, String> {
       set p.status = :status
       where p.postId = :postId
       """)
-  void updateStatus(@Param("postId") String postId, @Param("status") PostStatusType status);
+  void updateStatus(@Param("postId") String postId, @Param("status") PostStatus status);
 
   @Query(value = """
       select 
@@ -147,7 +147,7 @@ public interface PostJpaRepository extends JpaRepository<PostEntity, String> {
       from PostEntity p 
       where p.postId = :postId
       """)
-  Optional<PostStatusType> findPostStatusByPostId(@Param(("postId")) String postId);
+  Optional<PostStatus> findPostStatusByPostId(@Param(("postId")) String postId);
 
   /**
    * 게시글 좋아요 정보 조회
@@ -171,9 +171,9 @@ public interface PostJpaRepository extends JpaRepository<PostEntity, String> {
                                 count(*) as like_count,
                                 max(case
                                         when user_id = :userId
-                                            then true
-                                        else false
-                                    end) as is_liked
+                                            then 1
+                                        else 0
+                                    end) > 0 as is_liked
                          from post_likes
                          where post_id = :postId
                          group by post_id) pl on p.post_id = pl.post_id

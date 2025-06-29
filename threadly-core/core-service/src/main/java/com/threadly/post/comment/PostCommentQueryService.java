@@ -1,7 +1,8 @@
 package com.threadly.post.comment;
 
-import com.threadly.ErrorCode;
+import com.threadly.exception.ErrorCode;
 import com.threadly.exception.post.PostException;
+import com.threadly.post.PostStatus;
 import com.threadly.post.comment.fetch.FetchPostCommentPort;
 import com.threadly.post.comment.get.GetPostCommentApiResponse;
 import com.threadly.post.comment.get.GetPostCommentDetailQuery;
@@ -10,7 +11,6 @@ import com.threadly.post.comment.get.GetPostCommentListApiResponse.NextCursor;
 import com.threadly.post.comment.get.GetPostCommentListQuery;
 import com.threadly.post.comment.get.GetPostCommentUseCase;
 import com.threadly.post.fetch.FetchPostPort;
-import com.threadly.post.PostStatusType;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -35,10 +35,10 @@ public class PostCommentQueryService implements GetPostCommentUseCase {
   ) {
 
     /*게시글 유효성 검증*/
-    PostStatusType posStatus = fetchPostPort.fetchPostStatusByPostId(query.postId())
+    PostStatus posStatus = fetchPostPort.fetchPostStatusByPostId(query.postId())
         .orElseThrow(() -> new PostException(
             ErrorCode.POST_NOT_FOUND));
-    if (!posStatus.equals(PostStatusType.ACTIVE)) {
+    if (!posStatus.equals(PostStatus.ACTIVE)) {
       throw new PostException(ErrorCode.POST_NOT_ACCESSIBLE);
     }
 

@@ -1,5 +1,6 @@
 package com.threadly.properties;
 
+import com.threadly.file.AspectRatio;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -31,11 +32,16 @@ public class UploadProperties {
    */
   private int maxImageCount;
 
+  /**
+   * 최대 허용 크기
+   */
   private DataSize maxSize;
 
   private Map<String, String> allowTypes;
 
   private List<String> allowExtensions;
+
+  private AspectRatioProperties aspectRatio;
 
   /**
    * type에 일치하는 extension map
@@ -50,4 +56,11 @@ public class UploadProperties {
         );
   }
 
+  @Data
+  public static class AspectRatioProperties {
+
+    private AspectRatio target;
+
+    private double tolerance;
+  }
 }

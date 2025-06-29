@@ -12,14 +12,12 @@ public class UploadImageResponse {
 
   private String storedName;
   private String imageUrl;
-  private int imageOrder;
 
   @Override
   public String toString() {
     return "UploadImageResponse{" +
         "storedName='" + storedName + '\'' +
         ", imageUrl='" + imageUrl + '\'' +
-        ", imageOrder=" + imageOrder +
         '}';
   }
 }

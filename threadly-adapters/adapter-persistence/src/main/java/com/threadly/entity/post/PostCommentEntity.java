@@ -3,7 +3,7 @@ package com.threadly.entity.post;
 
 import com.threadly.entity.BaseEntity;
 import com.threadly.entity.user.UserEntity;
-import com.threadly.post.PostCommentStatusType;
+import com.threadly.post.PostCommentStatus;
 import com.threadly.post.comment.PostComment;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -43,7 +43,7 @@ public class PostCommentEntity extends BaseEntity {
 
   @Enumerated(EnumType.STRING)
   @Column(name = "status")
-  private PostCommentStatusType status;
+  private PostCommentStatus status;
 
   /**
    * 새 댓글 생성

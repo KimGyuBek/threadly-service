@@ -90,4 +90,25 @@ public interface PostLikeJpaRepository extends JpaRepository<PostLikeEntity, Str
       LocalDateTime cursorLikedAt, @Param("cursorLikerId") String cursorLikerId,
       @Param("limit") int limit);
 
+  /**
+   * 특정 게시글의 좋아요 전체 삭제
+   *
+   * @param postId
+   */
+  @Modifying
+  @Query("""
+      delete from PostLikeEntity pl
+      where pl.id.postId=:postId
+      """)
+  void deleteAllByPostId(@Param("postId") String postId);
+
+  /**
+   * postId에 해당하는 좋아요 수 조회
+   *
+   * @param postId
+   */
+  @Query(value = """
+      select count(p) from PostLikeEntity p where p.id.postId=:postId
+      """)
+  int findAllByPostId(@Param("postId") String postId);
 }

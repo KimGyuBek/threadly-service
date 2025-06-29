@@ -2,12 +2,12 @@ package com.threadly.adapter.post;
 
 import com.threadly.entity.post.PostCommentEntity;
 import com.threadly.mapper.post.PostCommentMapper;
+import com.threadly.post.PostCommentStatus;
 import com.threadly.post.comment.create.CreatePostCommentPort;
 import com.threadly.post.comment.create.CreatePostCommentResponse;
 import com.threadly.post.comment.fetch.FetchPostCommentPort;
 import com.threadly.post.comment.fetch.PostCommentDetailForUserProjection;
 import com.threadly.post.comment.update.UpdatePostCommentPort;
-import com.threadly.post.PostCommentStatusType;
 import com.threadly.post.comment.PostComment;
 import com.threadly.repository.post.comment.PostCommentJpaRepository;
 import java.time.LocalDateTime;
@@ -47,7 +47,7 @@ public class PostCommentAdapter implements CreatePostCommentPort, FetchPostComme
   }
 
   @Override
-  public void updatePostCommentStatus(String commentId, PostCommentStatusType status) {
+  public void updatePostCommentStatus(String commentId, PostCommentStatus status) {
     postCommentJpaRepository.updatePostCommentStatus(commentId, status);
   }
 
@@ -68,8 +68,14 @@ public class PostCommentAdapter implements CreatePostCommentPort, FetchPostComme
   }
 
   @Override
-  public Optional<PostCommentStatusType> fetchCommentStatus(String commentId) {
+  public Optional<PostCommentStatus> fetchCommentStatus(String commentId) {
     return
         postCommentJpaRepository.findPostCommentStatus(commentId);
+  }
+
+  @Override
+  public void updateAllCommentStatusByPostId(String postId, PostCommentStatus status) {
+    postCommentJpaRepository.updateCommentStatusByPostId(postId, status);
+
   }
 }

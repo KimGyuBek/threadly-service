@@ -1,6 +1,6 @@
 package com.threadly.post;
 
-import com.threadly.util.RandomUtils;
+import com.threadly.utils.RandomUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -12,38 +12,40 @@ import lombok.Getter;
 public class PostImage {
 
   private String postImageId;
-  private String postId;
   private String storedName;
   private String imageUrl;
   private int imageOrder = 0;
+  private PostImageStatus status;
 
   /**
    * 새로운 postimage 도메인 생성
    *
    * @param storedName
    * @param imageUrl
-   * @param imageOrder
    * @return
    */
-  public static PostImage newPostImage(String postId, String storedName,
-      String imageUrl, int imageOrder) {
+  public static PostImage newPostImage(String storedName,
+      String imageUrl) {
     return new PostImage(
         RandomUtils.generateNanoId(),
-        postId,
         storedName,
         imageUrl,
-        imageOrder
+        -1,
+        PostImageStatus.TEMPORARY
     );
   }
+
 
   @Override
   public String toString() {
     return "PostImage{" +
         "postImageId='" + postImageId + '\'' +
-        ", postId='" + postId + '\'' +
-        ", storedName='" + storedName + '\'' +
+//        ", postId='" + postId + '\'' +
+        ", storedName='" + storedName +'\'' +
         ", imageUrl='" + imageUrl + '\'' +
         ", imageOrder=" + imageOrder +
         '}';
   }
+
+
 }

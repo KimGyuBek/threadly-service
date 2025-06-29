@@ -1,6 +1,6 @@
 package com.threadly.post.comment.fetch;
 
-import com.threadly.post.PostCommentStatusType;
+import com.threadly.post.PostCommentStatus;
 import com.threadly.post.comment.PostComment;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -54,7 +54,7 @@ public interface FetchPostCommentPort {
    * @param commentId
    * @return
    */
-  Optional<PostCommentStatusType> fetchCommentStatus(String commentId);
+  Optional<PostCommentStatus> fetchCommentStatus(String commentId);
 
 
 }

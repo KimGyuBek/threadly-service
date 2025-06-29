@@ -13,7 +13,7 @@ import lombok.Getter;
 public class UploadPostImageCommand {
 
   private String userId;
-  private String postId;
+//  private String postId;
   private List<UploadImage> images;
 
 

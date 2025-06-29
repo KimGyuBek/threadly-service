@@ -1,14 +1,14 @@
 package com.threadly.post.controller;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.threadly.BaseApiTest;
 import com.threadly.CommonResponse;
 import com.threadly.auth.token.response.LoginTokenResponse;
-import com.threadly.post.request.CreatePostCommentRequest;
-import com.threadly.post.request.CreatePostRequest;
-import com.threadly.post.request.UpdatePostRequest;
+import com.threadly.entity.post.PostEntity;
+import com.threadly.post.PostStatus;
 import com.threadly.post.comment.create.CreatePostCommentApiResponse;
 import com.threadly.post.comment.get.GetPostCommentListApiResponse;
 import com.threadly.post.create.CreatePostApiResponse;
@@ -19,10 +19,16 @@ import com.threadly.post.like.comment.GetPostCommentLikersApiResponse;
 import com.threadly.post.like.comment.LikePostCommentApiResponse;
 import com.threadly.post.like.post.GetPostLikersApiResponse;
 import com.threadly.post.like.post.LikePostApiResponse;
+import com.threadly.post.request.CreatePostCommentRequest;
+import com.threadly.post.request.CreatePostRequest;
+import com.threadly.post.request.UpdatePostRequest;
 import com.threadly.post.update.UpdatePostApiResponse;
+import com.threadly.repository.post.PostJpaRepository;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.ResultMatcher;
 
 /**
@@ -30,6 +36,8 @@ import org.springframework.test.web.servlet.ResultMatcher;
  */
 public abstract class BasePostApiTest extends BaseApiTest {
 
+  @Autowired
+  private PostJpaRepository postJpaRepository;
   /**
    * 로그인 후 accessToken 추출
    *
@@ -54,9 +62,10 @@ public abstract class BasePostApiTest extends BaseApiTest {
    * @return
    */
   public CommonResponse<CreatePostApiResponse> sendCreatePostRequest(String accessToken,
-      String content, ResultMatcher expectedStatus) throws Exception {
+      String content, List<CreatePostRequest.ImageRequest> images,
+      ResultMatcher expectedStatus) throws Exception {
 
-    String requestBody = generateRequestBody(new CreatePostRequest(content));
+    String requestBody = generateRequestBody(new CreatePostRequest(content, images));
     Map<String, String> headers = new HashMap<>();
     headers.put("Authorization", "Bearer " + accessToken);
 
@@ -364,5 +373,15 @@ public abstract class BasePostApiTest extends BaseApiTest {
             "/api/posts/" + postId + "/comments/" + commentId + "/likes",
             expectedStatus, new TypeReference<CommonResponse<LikePostCommentApiResponse>>() {
             }, headers);
+  }
+
+  /**
+   * 게시글 이미지 상태 검증
+   * @param postId
+   * @param expectedStatus
+   */
+  public void validatePostStatus(String postId, PostStatus expectedStatus) {
+    PostEntity postEntity = postJpaRepository.findById(postId).get();
+    assertThat(postEntity.getStatus()).isEqualTo(expectedStatus);
   }
 }

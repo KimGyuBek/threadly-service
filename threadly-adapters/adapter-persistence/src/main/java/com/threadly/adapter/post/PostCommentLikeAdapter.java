@@ -51,4 +51,9 @@ public class PostCommentLikeAdapter implements FetchPostCommentLikePort, CreateP
         commentId, cursorLikedAt, likerId, limit
     );
   }
+
+  @Override
+  public void deleteAllByPostId(String postId) {
+    commentLikeJpaRepository.deleteAllByPostId(postId);
+  }
 }

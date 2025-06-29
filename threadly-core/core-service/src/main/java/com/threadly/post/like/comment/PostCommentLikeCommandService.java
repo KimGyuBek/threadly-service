@@ -1,6 +1,6 @@
 package com.threadly.post.like.comment;
 
-import com.threadly.ErrorCode;
+import com.threadly.exception.ErrorCode;
 import com.threadly.exception.post.PostCommentException;
 import com.threadly.post.comment.fetch.FetchPostCommentPort;
 import com.threadly.post.comment.CannotLikePostCommentException;

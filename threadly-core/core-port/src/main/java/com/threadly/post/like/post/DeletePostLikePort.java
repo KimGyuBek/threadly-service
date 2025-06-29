@@ -13,4 +13,10 @@ public interface DeletePostLikePort {
    */
   int deleteByPostIdAndUserId(String postId, String userId);
 
+  /**
+   * 특정 게시글의 좋아요 전체 삭제
+   * @param postId
+   */
+  void deleteAllByPostId(String postId);
+
 }

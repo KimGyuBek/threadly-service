@@ -1,0 +1,22 @@
+[
+  {
+    "commentId": "comment1",
+    "userId": "usr_5"
+  },
+  {
+    "commentId": "comment1",
+    "userId": "usr_8"
+  },
+  {
+    "commentId": "comment2",
+    "userId": "usr_6"
+  },
+  {
+    "commentId": "comment2",
+    "userId": "usr_9"
+  },
+  {
+    "commentId": "comment2",
+    "userId": "usr_10"
+  }
+]

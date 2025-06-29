@@ -38,7 +38,7 @@ public class PostImageUploadController {
   @PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   public ResponseEntity<UploadPostImagesApiResponse> uploadImage(
       @AuthenticationPrincipal AuthenticationUser user,
-      @RequestParam(value = "postId", required = false) String postId,
+//      @RequestParam(value = "postId", required = false) String postId,
       @RequestParam(value = "images", required = false) List<MultipartFile> images
   ) {
     /*업로드 이미지가 null인 경우*/
@@ -49,7 +49,9 @@ public class PostImageUploadController {
     return ResponseEntity.status(201).body(
         uploadPostImageUseCase.uploadPostImages(
             new UploadPostImageCommand(
-                user.getUserId(), postId, images.stream().map(
+                user.getUserId(),
+//                postId,
+                images.stream().map(
                 ImageMapper::toUploadImage
             ).toList()
             )));

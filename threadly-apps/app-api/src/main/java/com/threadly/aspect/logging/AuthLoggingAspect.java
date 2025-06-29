@@ -1,10 +1,10 @@
 package com.threadly.aspect.logging;
 
-import static com.threadly.util.LogFormatUtils.debugLog;
-import static com.threadly.util.LogFormatUtils.logFailure;
-import static com.threadly.util.LogFormatUtils.logSuccess;
+import static com.threadly.utils.LogFormatUtils.debugLog;
+import static com.threadly.utils.LogFormatUtils.logFailure;
+import static com.threadly.utils.LogFormatUtils.logSuccess;
 
-import com.threadly.ErrorCode;
+import com.threadly.exception.ErrorCode;
 import com.threadly.global.exception.UserAuthenticationException;
 import com.threadly.auth.token.response.LoginTokenResponse;
 import com.threadly.auth.token.response.TokenReissueResponse;

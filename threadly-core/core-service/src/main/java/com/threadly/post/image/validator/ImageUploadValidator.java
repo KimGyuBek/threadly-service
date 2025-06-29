@@ -1,6 +1,6 @@
-package com.threadly.post.image;
+package com.threadly.post.image.validator;
 
-import com.threadly.ErrorCode;
+import com.threadly.exception.ErrorCode;
 import com.threadly.exception.post.PostImageException;
 import com.threadly.file.UploadImage;
 import com.threadly.properties.UploadProperties;
@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.tika.Tika;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
  * 업로드 이미지 검증
  */
 @Component
+@Slf4j
 public class ImageUploadValidator {
 
   private final UploadProperties uploadProperties;
@@ -49,7 +51,8 @@ public class ImageUploadValidator {
   private void validateImageSize(List<UploadImage> files) {
     for (UploadImage file : files) {
       if (file.getSize() > uploadProperties.getMaxSize().toBytes()) {
-        throw new PostImageException(ErrorCode.POST_IMAGE_TOO_LARGE);
+        log.warn("이미지 사이즈 초과 = 파일명: {}", file.getOriginalFileName());
+        throw new PostImageException(ErrorCode.IMAGE_TOO_LARGE);
       }
     }
   }
@@ -62,11 +65,14 @@ public class ImageUploadValidator {
   private void validateImageCount(List<UploadImage> files) {
     /*이미지 수 초과 시*/
     if (files.size() > uploadProperties.getMaxImageCount()) {
+      log.warn("허용 가능 이미지 수 초과 - size: {}", files.size());
+
       throw new PostImageException(ErrorCode.POST_IMAGE_UPLOAD_LIMIT_EXCEEDED);
     }
 
     /*파일이 없을 경우*/
     if (files.isEmpty()) {
+      log.warn("이미지 없음");
       throw new PostImageException(ErrorCode.POST_IMAGE_EMPTY);
     }
   }
@@ -80,7 +86,8 @@ public class ImageUploadValidator {
     Map<String, String> mimeToExt = uploadProperties.getMimeToExtensions();
     mimeCache.forEach((key, value) -> {
       if (!mimeToExt.containsKey(value)) {
-        throw new PostImageException(ErrorCode.POST_IMAGE_INVALID_MIME_TYPE);
+        log.warn("지원하지 않는 MIME Type - 파일명: {}, MIME: {}", key.getOriginalFileName(), value);
+        throw new PostImageException(ErrorCode.IMAGE_INVALID_MIME_TYPE);
       }
     });
   }
@@ -96,7 +103,8 @@ public class ImageUploadValidator {
 
       /*허용되는 확장자인지 검증*/
       if (!uploadProperties.getAllowExtensions().contains(extension)) {
-        throw new PostImageException(ErrorCode.POST_IMAGE_INVALID_EXTENSION);
+        log.warn("지원하지 않는 확장자 - 파일명: {}", key.getOriginalFileName());
+        throw new PostImageException(ErrorCode.IMAGE_INVALID_EXTENSION);
       }
     });
   }
@@ -110,7 +118,7 @@ public class ImageUploadValidator {
   private static String extractExtension(String fileName) {
     int lastDot = fileName.lastIndexOf('.');
     if (lastDot == -1 || lastDot == fileName.length() - 1) {
-      throw new PostImageException(ErrorCode.POST_IMAGE_INVALID_EXTENSION);
+      throw new PostImageException(ErrorCode.IMAGE_INVALID_EXTENSION);
     }
     return fileName.substring(lastDot + 1).toLowerCase();
   }
@@ -126,7 +134,7 @@ public class ImageUploadValidator {
     try {
       return tika.detect(file.getInputStream());
     } catch (IOException e) {
-      throw new PostImageException(ErrorCode.POST_IMAGE_INVALID_IMAGE);
+      throw new PostImageException(ErrorCode.IMAGE_INVALID_IMAGE);
     }
   }
 }

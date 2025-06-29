@@ -1,6 +1,6 @@
 package com.threadly.response;
 
-import com.threadly.ErrorCode;
+import com.threadly.exception.ErrorCode;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;

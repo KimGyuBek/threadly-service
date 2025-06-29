@@ -1,9 +1,16 @@
 package com.threadly.post.comment;
 
-import com.threadly.ErrorCode;
+import com.threadly.exception.ErrorCode;
 import com.threadly.exception.post.PostCommentException;
 import com.threadly.exception.post.PostException;
 import com.threadly.exception.user.UserException;
+import com.threadly.post.Post;
+import com.threadly.post.PostCommentStatus;
+import com.threadly.post.PostStatus;
+import com.threadly.post.comment.CannotDeleteCommentException.AlreadyDeletedException;
+import com.threadly.post.comment.CannotDeleteCommentException.BlockedException;
+import com.threadly.post.comment.CannotDeleteCommentException.ParentPostInactiveException;
+import com.threadly.post.comment.CannotDeleteCommentException.WriteMismatchException;
 import com.threadly.post.comment.create.CreatePostCommentApiResponse;
 import com.threadly.post.comment.create.CreatePostCommentCommand;
 import com.threadly.post.comment.create.CreatePostCommentPort;
@@ -14,12 +21,7 @@ import com.threadly.post.comment.delete.DeletePostCommentUseCase;
 import com.threadly.post.comment.fetch.FetchPostCommentPort;
 import com.threadly.post.comment.update.UpdatePostCommentPort;
 import com.threadly.post.fetch.FetchPostPort;
-import com.threadly.post.Post;
-import com.threadly.post.PostStatusType;
-import com.threadly.post.comment.CannotDeleteCommentException.AlreadyDeletedException;
-import com.threadly.post.comment.CannotDeleteCommentException.BlockedException;
-import com.threadly.post.comment.CannotDeleteCommentException.ParentPostInactiveException;
-import com.threadly.post.comment.CannotDeleteCommentException.WriteMismatchException;
+import com.threadly.post.like.comment.DeletePostCommentLikePort;
 import com.threadly.user.FetchUserPort;
 import com.threadly.user.User;
 import lombok.RequiredArgsConstructor;
@@ -40,6 +42,8 @@ public class PostCommentCommandService implements CreatePostCommentUseCase,
   private final FetchPostCommentPort fetchPostCommentPort;
   private final UpdatePostCommentPort updatePostCommentPort;
 
+  private final DeletePostCommentLikePort deletePostCommentLikePort;
+
   private final FetchUserPort fetchUserPort;
 
   @Override
@@ -49,15 +53,16 @@ public class PostCommentCommandService implements CreatePostCommentUseCase,
         ErrorCode.POST_NOT_FOUND));
 
     /*게시글 상태 검증*/
-    if (post.getStatus() == PostStatusType.DELETED) {
+    if (post.getStatus() == PostStatus.DELETED) {
       throw new PostException(ErrorCode.POST_ALREADY_DELETED);
-    } else if (post.getStatus() == PostStatusType.BLOCKED) {
+    } else if (post.getStatus() == PostStatus.BLOCKED) {
       throw new PostException(ErrorCode.POST_BLOCKED);
-    } else if (post.getStatus() == PostStatusType.ARCHIVE) {
+    } else if (post.getStatus() == PostStatus.ARCHIVE) {
       throw new PostException(ErrorCode.POST_ARCHIVED);
     }
 
     /*사용자 조회*/
+    /*TODO 중복 검증?*/
     User user = fetchUserPort.findByUserIdWithUserProfile(command.getUserId())
         .orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
 
@@ -88,7 +93,7 @@ public class PostCommentCommandService implements CreatePostCommentUseCase,
             ErrorCode.POST_COMMENT_NOT_FOUND)));
 
     /*게시글 상태 조회*/
-    PostStatusType postStatus = fetchPostPort.fetchPostStatusByPostId(
+    PostStatus postStatus = fetchPostPort.fetchPostStatusByPostId(
         command.getPostId()).orElseThrow(() -> new PostException(ErrorCode.POST_NOT_FOUND));
 
     /*게시글 댓글 삭제 가능한지 검증*/
@@ -105,9 +110,20 @@ public class PostCommentCommandService implements CreatePostCommentUseCase,
       throw new PostCommentException(ErrorCode.POST_COMMENT_PARENT_POST_INACTIVE);
     }
 
-    /*삭제 상태로 변경*/
+    /*댓글 삭제 상태로 변경*/
     postComment.markAsDeleted();
     updatePostCommentPort.updatePostCommentStatus(postComment.getCommentId(),
         postComment.getStatus());
+
+  }
+
+  @Transactional
+  @Override
+  public void deleteAllCommentsAndLikesByPostId(String postId) {
+    /*댓글 삭제 상태로 변경*/
+    updatePostCommentPort.updateAllCommentStatusByPostId(postId, PostCommentStatus.DELETED);
+
+    /*좋아요 목록 전체 삭제*/
+    deletePostCommentLikePort.deleteAllByPostId(postId);
   }
 }

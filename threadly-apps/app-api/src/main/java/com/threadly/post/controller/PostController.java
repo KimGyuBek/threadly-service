@@ -3,6 +3,7 @@ package com.threadly.post.controller;
 import com.threadly.auth.AuthenticationUser;
 import com.threadly.post.create.CreatePostApiResponse;
 import com.threadly.post.create.CreatePostCommand;
+import com.threadly.post.create.CreatePostCommand.ImageCommand;
 import com.threadly.post.create.CreatePostUseCase;
 import com.threadly.post.delete.DeletePostCommand;
 import com.threadly.post.delete.DeletePostUseCase;
@@ -114,12 +115,18 @@ public class PostController {
   public ResponseEntity<CreatePostApiResponse> createPost(
       @AuthenticationPrincipal AuthenticationUser user,
       @Valid @RequestBody CreatePostRequest request) {
-    /*userId 추출*/
 
     return ResponseEntity.status(201).body(
         createPostUseCase.createPost(
-            new CreatePostCommand(user.getUserId(), request.content())
-        )
+            new CreatePostCommand(
+                user.getUserId(),
+                request.content(),
+                request.images().stream().map(
+                    imageRequest -> new ImageCommand(
+                        imageRequest.imageId(),
+                        imageRequest.imageOrder()
+                    )
+                ).toList()))
     );
   }
 

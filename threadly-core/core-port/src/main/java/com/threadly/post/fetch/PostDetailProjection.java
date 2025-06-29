@@ -1,8 +1,7 @@
 package com.threadly.post.fetch;
 
-import com.threadly.post.PostStatusType;
+import com.threadly.post.PostStatus;
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * 게시글 상세 정보 DTO
@@ -23,7 +22,7 @@ public interface PostDetailProjection {
 
   LocalDateTime getPostedAt();
 
-  PostStatusType getPostStatus();
+  PostStatus getPostStatus();
 
   long getLikeCount();
 

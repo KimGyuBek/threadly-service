@@ -1,6 +1,6 @@
 package com.threadly.repository.email;
 
-import com.threadly.ErrorCode;
+import com.threadly.exception.ErrorCode;
 import com.threadly.exception.mail.EmailVerificationException;
 import com.threadly.verification.EmailVerificationPort;
 import java.time.Duration;

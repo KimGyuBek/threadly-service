@@ -1,8 +1,8 @@
 package com.threadly.global.filter;
 
-import static com.threadly.util.LogFormatUtils.*;
+import static com.threadly.utils.LogFormatUtils.*;
 
-import com.threadly.ErrorCode;
+import com.threadly.exception.ErrorCode;
 import com.threadly.auth.JwtTokenProvider;
 import com.threadly.global.exception.UserAuthenticationException;
 import com.threadly.exception.token.TokenException;

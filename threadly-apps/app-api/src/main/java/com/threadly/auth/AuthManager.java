@@ -1,6 +1,6 @@
 package com.threadly.auth;
 
-import com.threadly.ErrorCode;
+import com.threadly.exception.ErrorCode;
 import com.threadly.auth.token.response.LoginTokenResponse;
 import com.threadly.auth.token.response.TokenReissueResponse;
 import com.threadly.auth.verification.LoginUserUseCase;

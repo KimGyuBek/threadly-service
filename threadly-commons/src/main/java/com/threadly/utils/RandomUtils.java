@@ -1,4 +1,4 @@
-package com.threadly.util;
+package com.threadly.utils;
 
 import com.aventrix.jnanoid.jnanoid.NanoIdUtils;
 import java.util.UUID;
