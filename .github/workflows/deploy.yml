@@ -42,6 +42,16 @@ jobs:
           target: "~/threadly"
           tar_dereference: false
 
+      - name: Copy compose file to EC2
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: ${{ secrets.EC2_PORT }}
+          source: "./infra/docker-compose.prod.yml"
+          target: "/home/ubuntu/threadly"
+
       - name: SSH into EC2 and load + run image
         uses: appleboy/ssh-action@v1.0.0
         with:
