@@ -7,8 +7,6 @@ services:
     depends_on:
       - postgresql
       - redis
-#    volumes:
-#      - ./threadly.jar:/app/threadly.jar
     working_dir: /app
     command: [ "java", "-jar", "threadly.jar" ]
     ports:
