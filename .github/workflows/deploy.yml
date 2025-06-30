@@ -59,7 +59,6 @@ jobs:
           port: ${{ secrets.EC2_PORT }}
           script: |
             cd ~/threadly
-#            git pull origin master
             docker load -i threadly-app.tar
             docker compose -f infra/docker-compose.prod.yml down
             docker compose -f infra/docker-compose.prod.yml up -d
