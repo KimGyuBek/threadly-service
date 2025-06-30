@@ -45,19 +45,5 @@ jobs:
           script: |
             cd ~/threadly
             docker load < threadly-app-prod.tar
-            docker compose -f infra/docker-compose-prod.yml down
-            docker compose -f infra/docker-compose-prod.yml up -d
-#    steps:
-#      - name: SSH into EC2 and deploy
-#        uses: appleboy/ssh-action@v1.0.0
-#        with:
-#          host: ${{ secrets.EC2_HOST }}
-#          username: ${{ secrets.EC2_USERNAME }}
-#          key: ${{ secrets.EC2_SSH_KEY }}
-#          port: ${{ secrets.EC2_PORT }}
-#          script: |
-#            cd ~/threadly
-#            git pull origin master
-#            ./gradlew build
-#            docker compose -f infra/docker-compose-prod.yml down
-#            docker compose -f infra/docker-compose.prod.yml up -d
+            docker compose -f infra/docker-compose.prod.yml down
+            docker compose -f infra/docker-compose.prod.yml up -d
