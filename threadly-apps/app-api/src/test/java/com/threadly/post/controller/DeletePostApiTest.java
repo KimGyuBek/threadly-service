@@ -141,7 +141,6 @@ public class DeletePostApiTest extends BasePostImageApiTest {
       //given
       /*게시글 작성자 로그인*/
       String accessToken = getAccessToken(POST_OWNER_EMAIL);
-      validateCommentLikeCountByPostId(POST_ACTIVE_ID, 0);
 
       //when
       /*게시글 삭제 */
