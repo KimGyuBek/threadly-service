@@ -35,7 +35,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: ${{ secrets.EC2_PORT }}
           source: |
-            threadly-app.tar
+            ./threadly-app.tar
             ./infra/docker-compose.prod.yml
           target: "~/threadly"
           tar_dereference: false
