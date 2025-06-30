@@ -22,5 +22,5 @@ jobs:
             cd ~/threadly
             git pull origin main
             ./gradlew build
-            docker compose down
-            docker compose up -d
+            docker compose -f infra/docker-compose-prod.yml down
+            docker compose -f infra/docker-compose.prod.yml up -d
