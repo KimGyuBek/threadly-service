@@ -25,7 +25,10 @@ jobs:
           chmod 644 threadly-app.tar
 
       - name: Debug file list
-        run: ls -al && ls -al infra
+        run: |
+          pwd
+          ls -al
+          ls -al ./infra
 
       - name: Copy Docker image and compose file to EC2
         uses: appleboy/scp-action@v0.1.7
