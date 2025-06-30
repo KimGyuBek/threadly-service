@@ -2,40 +2,36 @@ name: Deploy to EC2
 
 on:
   push:
-    branches:
-      - master
+    branches: [ master ]
 
 jobs:
   deploy:
-    name: Deploy to EC2
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
       - name: Build Docker image
         run: |
-          docker build -t threadly-app-prod -f Dockerfile .
+          docker build -t threadly-app-prod -f ./Dockerfile .
 
-      - name: Save Docker image to tar file
-        run: |
-          docker save threadly-app-prod > threadly-app-prod.tar
+      - name: Save Docker image to tar
+        run: docker save threadly-app-prod -o threadly-app.tar
 
-      - name: Copy image to EC2
+      - name: Copy Docker image to EC2
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           port: ${{ secrets.EC2_PORT }}
-          source: "threadly-app-prod.tar"
-          target: "~/threadly/threadly-app-prod.tar"
+          source: "threadly-app.tar"
+          target: "~/threadly"
 
-      - name: SSH and deploy on EC2
+      - name: SSH into EC2 and load + run image
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.EC2_HOST }}
@@ -44,6 +40,6 @@ jobs:
           port: ${{ secrets.EC2_PORT }}
           script: |
             cd ~/threadly
-            docker load < threadly-app-prod.tar
-            docker compose -f infra/docker-compose.prod.yml down
-            docker compose -f infra/docker-compose.prod.yml up -d
+            docker load -i threadly-app.tar
+            docker compose -f infra/docker-compose-prod.yml down
+            docker compose -f infra/docker-compose-prod.yml up -d
