@@ -2,13 +2,13 @@ version: "3.8"
 
 services:
   app:
-    image: openjdk:17-jdk
+    image: threadly-app-prod
     container_name: threadly-app
     depends_on:
       - postgresql
       - redis
-    volumes:
-      - ./threadly.jar:/app/threadly.jar
+#    volumes:
+#      - ./threadly.jar:/app/threadly.jar
     working_dir: /app
     command: [ "java", "-jar", "threadly.jar" ]
     ports:
