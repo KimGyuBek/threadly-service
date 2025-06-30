@@ -27,6 +27,9 @@ public class PasswordEncryptionAspect {
   }
 
   private void fieldEncryption(Object obj) {
+    if(obj == null) {
+      return;
+    }
 
     FieldUtils.getAllFieldsList(obj.getClass()).stream()
         .filter(

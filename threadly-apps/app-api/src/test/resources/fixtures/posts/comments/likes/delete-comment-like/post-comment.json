@@ -1,0 +1,16 @@
+[
+  {
+    "commentId": "cmt_active_001",
+    "postId": "active_post_id",
+    "userId": "usr_writer",
+    "content": "좋아요 목록이 있는 댓글입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "cmt_active_002",
+    "postId": "active_post_id",
+    "userId": "usr_writer",
+    "content": "좋아요 목록이 없는 댓글입니다.",
+    "status": "ACTIVE"
+  }
+]

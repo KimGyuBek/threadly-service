@@ -1,7 +1,6 @@
 package com.threadly.aspect.logging;
 
-import static com.threadly.util.LogFormatUtils.debugErrorLog;
-import static com.threadly.util.LogFormatUtils.debugLog;
+import static com.threadly.utils.LogFormatUtils.debugLog;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,7 +25,7 @@ public class ApiLoggingAspect {
 
   private final ObjectMapper objectMapper = new ObjectMapper();
 
-  @Pointcut("execution(* com.threadly.controller..*(..))")
+  @Pointcut("execution(* com.threadly..controller..*(..))")
   public void controllerMethod() {
   }
 
@@ -43,17 +42,18 @@ public class ApiLoggingAspect {
 
     try {
       Object result = pjp.proceed();
-      long duration = System.currentTimeMillis() - start;
+//      long duration = System.currentTimeMillis() - start;
 
-      debugLog(pjp, getRequest(), "Response", toJson(
-          new ResponseLog(className, methodName, args, duration)));
+//      debugLog(pjp, getRequest(), "Response", toJson(
+//          new ResponseLog(className, methodName, args, duration)));
 
       return result;
 
     } catch (Exception e) {
       long duration = System.currentTimeMillis() - start;
-      debugErrorLog(pjp, getRequest(), toJson(
-          new ErrorLog(className, methodName, args, duration, e)));
+//      debugErrorLog(pjp, getRequest(), toJson(
+//          new ErrorLog(className, methodName, args, duration, e)));
+      log.debug(e.getMessage(), e);
       throw e;
 
 
@@ -70,6 +70,7 @@ public class ApiLoggingAspect {
     }
     return attributes.getRequest();
   }
+
 
   private String toJson(Object obj) {
     try {

@@ -1,0 +1,16 @@
+[
+  {
+    "postId": "post21",
+    "userId": "usr50",
+    "content": "소소한 행복이 참 큰 위로가 되는 요즘",
+    "status": "DELETED",
+    "viewCount": 285
+  },
+  {
+    "postId": "post48",
+    "userId": "usr99",
+    "content": "하늘색이 물든 저녁, 그냥 좋았다",
+    "status": "DELETED",
+    "viewCount": 1154
+  }
+]

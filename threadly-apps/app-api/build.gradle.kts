@@ -8,6 +8,7 @@ dependencies {
     implementation(project(":threadly-adapters:adapter-http"))
     implementation(project(":threadly-adapters:adapter-persistence"))
     implementation(project(":threadly-adapters:adapter-redis"))
+    implementation(project(":threadly-adapters:adapter-storage"))
     implementation(project(":threadly-core:core-domain:"))
 
 
@@ -32,6 +33,11 @@ dependencies {
     implementation("io.jsonwebtoken:jjwt-impl:0.11.5")
     implementation("io.jsonwebtoken:jjwt-jackson:0.11.5")
 
+    /*jakarta*/
+    implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
+
+    testImplementation("org.springframework.boot:spring-boot-starter-data-jpa")
+
 }
 
 val appMainClassName = "com.threadly.ThreadlyApplication"
@@ -43,4 +49,8 @@ tasks.getByName<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar
 tasks.withType<Test> {
     systemProperty("spring.profiles.active", "test")
     systemProperty("file.encoding", "UTF-8")
+    maxParallelForks = 1
+
+
 }
+

@@ -1,0 +1,40 @@
+[
+  {
+    "userId": "usr1",
+    "userName": "sunset_gazer_1",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "sunset_gazer1@threadly.com",
+    "phone": "010-3178-6830",
+    "userType": "USER",
+    "isActive": true,
+    "isEmailVerified": true,
+    "userProfile": {
+      "userProfileId": "up1",
+      "nickname": "sunset_gazer",
+      "statusMessage": "혼자가 좋은",
+      "bio": "아침형 인간",
+      "gender": "MALE",
+      "profileType": "USER",
+      "profileImageUrl": "/images/profile/sunset_gazer_1.png"
+    }
+  },
+  {
+    "userId": "usr2",
+    "userName": "sky_gazer_2",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "sky_gazer2@threadly.com",
+    "phone": "010-3014-5653",
+    "userType": "USER",
+    "isActive": true,
+    "isEmailVerified": true,
+    "userProfile": {
+      "userProfileId": "up2",
+      "nickname": "sky_gazer",
+      "statusMessage": "기록하는 삶",
+      "bio": "고양이 집사",
+      "gender": "MALE",
+      "profileType": "USER",
+      "profileImageUrl": "/images/profile/sky_gazer_2.png"
+    }
+  }
+]

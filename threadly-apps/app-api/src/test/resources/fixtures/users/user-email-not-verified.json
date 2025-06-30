@@ -1,0 +1,15 @@
+[
+  {
+    "userId": "user_email_not_verified",
+    "userName": "email_not_verified",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "email_not_verified@threadly.com",
+    "phone": "010-3178-1233",
+    "userType": "USER",
+    "isActive": true,
+    "isEmailVerified": false,
+    "userProfile": null
+  }
+]
+
+

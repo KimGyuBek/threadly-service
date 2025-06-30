@@ -1,15 +1,14 @@
 package com.threadly.auth;
 
-import static com.threadly.util.LogFormatUtils.*;
+import static com.threadly.utils.LogFormatUtils.logFailure;
+import static com.threadly.utils.LogFormatUtils.logSuccess;
 
-import com.threadly.ErrorCode;
+import com.threadly.exception.ErrorCode;
 import com.threadly.auth.token.response.LoginTokenResponse;
 import com.threadly.exception.token.TokenException;
 import com.threadly.properties.TtlProperties;
-import com.threadly.token.InsertTokenPort;
 import com.threadly.user.FetchUserUseCase;
 import com.threadly.user.response.UserResponse;
-import com.threadly.util.LogFormatUtils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -23,14 +22,10 @@ import java.util.List;
 import java.util.UUID;
 import javax.crypto.SecretKey;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -59,17 +54,16 @@ public class JwtTokenProvider {
         new SimpleGrantedAuthority(user.getUserType())
     );
 
-    /*UserDetails 생성*/
-    UserDetails principal = new User(
+    AuthenticationUser authenticationUser = new AuthenticationUser(
         user.getUserId(),
-        StringUtils.isEmpty(
-            user.getPassword()) ? "password" : user.getPassword(),
-        authorities
+        user.getEmail(),
+        user.getPhone(),
+        user.getPassword()
     );
 
     return new UsernamePasswordAuthenticationToken(
-        principal,
-        user.getUserId(),
+        authenticationUser,
+        "",
         authorities
     );
 
@@ -182,6 +176,7 @@ public class JwtTokenProvider {
 
   /**
    * accessToken에서 남은 ttl 추출
+   *
    * @return
    */
   public Duration getAccessTokenTtl(String accessToken) {

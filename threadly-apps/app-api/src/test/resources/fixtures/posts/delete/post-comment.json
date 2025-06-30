@@ -1,0 +1,37 @@
+[
+  {
+    "commentId": "comment1",
+    "postId": "post1",
+    "userId": "usr_4",
+    "content": "comment1의 내용입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "comment2",
+    "postId": "post1",
+    "userId": "usr_8",
+    "content": "comment2의 내용입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "comment3",
+    "postId": "post1",
+    "userId": "usr_8",
+    "content": "comment3의 내용입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "comment4",
+    "postId": "post1",
+    "userId": "usr_8",
+    "content": "comment4의 내용입니다.",
+    "status": "ACTIVE"
+  },
+  {
+    "commentId": "comment5",
+    "postId": "post1",
+    "userId": "usr_1",
+    "content": "comment5의 내용입니다.",
+    "status": "ACTIVE"
+  }
+]

@@ -1,6 +1,6 @@
 package com.threadly.exception.user;
 
-import com.threadly.ErrorCode;
+import com.threadly.exception.ErrorCode;
 
 /**
  * 사용자 관련 예외

@@ -1,0 +1,667 @@
+[
+  {
+    "postId": "post1",
+    "userId": "usr69",
+    "content": "퇴근 후 걷는 이 길이 요즘 내 힐링 루트",
+    "status": "ACTIVE",
+    "viewCount": 1175
+  },
+  {
+    "postId": "post2",
+    "userId": "usr98",
+    "content": "비 오는 날엔 감성 플레이리스트가 최고다",
+    "status": "ACTIVE",
+    "viewCount": 1655
+  },
+  {
+    "postId": "post3",
+    "userId": "usr95",
+    "content": "아침 공기 너무 상쾌하다. 하루가 기대돼",
+    "status": "ACTIVE",
+    "viewCount": 151
+  },
+  {
+    "postId": "post4",
+    "userId": "usr51",
+    "content": "친구랑 밤새 수다 떨다가 잠들어버림 😂",
+    "status": "ACTIVE",
+    "viewCount": 3253
+  },
+  {
+    "postId": "post5",
+    "userId": "usr72",
+    "content": "요즘 나를 설레게 하는 건 저녁 노을 🌇",
+    "status": "ACTIVE",
+    "viewCount": 2820
+  },
+  {
+    "postId": "post6",
+    "userId": "usr63",
+    "content": "계절 바뀔 때 나는 향기가 참 좋다",
+    "status": "ACTIVE",
+    "viewCount": 2753
+  },
+  {
+    "postId": "post7",
+    "userId": "usr36",
+    "content": "아무 이유 없이 기분 좋은 날이 있다",
+    "status": "ACTIVE",
+    "viewCount": 290
+  },
+  {
+    "postId": "post8",
+    "userId": "usr20",
+    "content": "따뜻한 국밥 한 그릇에 위로 받는 느낌",
+    "status": "ACTIVE",
+    "viewCount": 2068
+  },
+  {
+    "postId": "post9",
+    "userId": "usr35",
+    "content": "지하철 창밖 풍경 보며 생각에 잠긴다",
+    "status": "ACTIVE",
+    "viewCount": 3905
+  },
+  {
+    "postId": "post10",
+    "userId": "usr21",
+    "content": "모든 게 완벽하진 않아도 괜찮아",
+    "status": "ACTIVE",
+    "viewCount": 3319
+  },
+  {
+    "postId": "post11",
+    "userId": "usr83",
+    "content": "벚꽃 잎이 흩날리는 거리 너무 예뻤다",
+    "status": "ACTIVE",
+    "viewCount": 3824
+  },
+  {
+    "postId": "post12",
+    "userId": "usr49",
+    "content": "요즘 일상이 조금은 느긋해진 느낌",
+    "status": "ACTIVE",
+    "viewCount": 1143
+  },
+  {
+    "postId": "post13",
+    "userId": "usr8",
+    "content": "햇살 좋은 날엔 걷고 싶어지는 거리",
+    "status": "ACTIVE",
+    "viewCount": 4439
+  },
+  {
+    "postId": "post14",
+    "userId": "usr67",
+    "content": "기분 전환 겸 머리색 바꿨는데 맘에 든다",
+    "status": "ACTIVE",
+    "viewCount": 2183
+  },
+  {
+    "postId": "post15",
+    "userId": "usr54",
+    "content": "혼자 영화 보는 것도 나쁘지 않네 🎬",
+    "status": "ACTIVE",
+    "viewCount": 3438
+  },
+  {
+    "postId": "post16",
+    "userId": "usr40",
+    "content": "새벽 공기가 차가워서 정신이 번쩍",
+    "status": "ACTIVE",
+    "viewCount": 1616
+  },
+  {
+    "postId": "post17",
+    "userId": "usr51",
+    "content": "잊고 지냈던 노래를 듣고 울컥했다",
+    "status": "ACTIVE",
+    "viewCount": 2318
+  },
+  {
+    "postId": "post18",
+    "userId": "usr50",
+    "content": "카페 창가에 앉아 멍하니 바깥을 봄",
+    "status": "ACTIVE",
+    "viewCount": 4065
+  },
+  {
+    "postId": "post19",
+    "userId": "usr54",
+    "content": "요즘 따라 옛 생각이 자주 난다",
+    "status": "ACTIVE",
+    "viewCount": 1369
+  },
+  {
+    "postId": "post20",
+    "userId": "usr29",
+    "content": "길가에 핀 작은 꽃들이 예쁘게 웃는다",
+    "status": "ACTIVE",
+    "viewCount": 2111
+  },
+  {
+    "postId": "post22",
+    "userId": "usr32",
+    "content": "마음이 몽글몽글해지는 하루였다",
+    "status": "ACTIVE",
+    "viewCount": 421
+  },
+  {
+    "postId": "post23",
+    "userId": "usr3",
+    "content": "아무 일 없어도 괜히 웃음 나는 날 😊",
+    "status": "ACTIVE",
+    "viewCount": 3553
+  },
+  {
+    "postId": "post25",
+    "userId": "usr51",
+    "content": "손편지를 받았는데 감동 그 자체였다",
+    "status": "ACTIVE",
+    "viewCount": 2779
+  },
+  {
+    "postId": "post26",
+    "userId": "usr62",
+    "content": "오랜만에 엄마 목소리 들으니 마음이 놓여",
+    "status": "ACTIVE",
+    "viewCount": 4716
+  },
+  {
+    "postId": "post27",
+    "userId": "usr55",
+    "content": "하늘이 너무 맑아서 기분까지 맑아짐",
+    "status": "ACTIVE",
+    "viewCount": 3654
+  },
+  {
+    "postId": "post28",
+    "userId": "usr39",
+    "content": "강아지가 날 보고 꼬리치는 모습에 심쿵",
+    "status": "ACTIVE",
+    "viewCount": 1421
+  },
+  {
+    "postId": "post29",
+    "userId": "usr29",
+    "content": "복잡한 하루였지만 잘 버텼다. 나 잘했어",
+    "status": "ACTIVE",
+    "viewCount": 828
+  },
+  {
+    "postId": "post30",
+    "userId": "usr9",
+    "content": "오늘은 나를 위한 시간을 보내기로 했다",
+    "status": "ACTIVE",
+    "viewCount": 285
+  },
+  {
+    "postId": "post31",
+    "userId": "usr63",
+    "content": "좋아하는 향기 나는 방에 누워있기 💐",
+    "status": "ACTIVE",
+    "viewCount": 705
+  },
+  {
+    "postId": "post32",
+    "userId": "usr31",
+    "content": "계획 없이 걷다가 발견한 예쁜 골목길",
+    "status": "ACTIVE",
+    "viewCount": 2950
+  },
+  {
+    "postId": "post33",
+    "userId": "usr79",
+    "content": "아이스크림 하나에 웃을 수 있는 하루",
+    "status": "ACTIVE",
+    "viewCount": 87
+  },
+  {
+    "postId": "post34",
+    "userId": "usr36",
+    "content": "어제보다 나은 오늘이길 바라며 잠든다",
+    "status": "ACTIVE",
+    "viewCount": 2687
+  },
+  {
+    "postId": "post35",
+    "userId": "usr84",
+    "content": "가만히 누워 천장 보며 생각 정리 중",
+    "status": "ACTIVE",
+    "viewCount": 4752
+  },
+  {
+    "postId": "post36",
+    "userId": "usr6",
+    "content": "새벽 감성에 괜히 옛 추억 꺼내봄",
+    "status": "ACTIVE",
+    "viewCount": 3323
+  },
+  {
+    "postId": "post37",
+    "userId": "usr39",
+    "content": "길에서 마주친 고양이와 눈 마주침 🐱",
+    "status": "ACTIVE",
+    "viewCount": 813
+  },
+  {
+    "postId": "post38",
+    "userId": "usr22",
+    "content": "내일은 좀 더 따뜻한 하루가 되길",
+    "status": "ACTIVE",
+    "viewCount": 4220
+  },
+  {
+    "postId": "post39",
+    "userId": "usr46",
+    "content": "조용한 밤, 창밖 바람 소리만 들린다",
+    "status": "ACTIVE",
+    "viewCount": 4919
+  },
+  {
+    "postId": "post40",
+    "userId": "usr58",
+    "content": "책 읽다 잠드는 순간이 참 평온하다",
+    "status": "ACTIVE",
+    "viewCount": 2506
+  },
+  {
+    "postId": "post42",
+    "userId": "usr44",
+    "content": "햇살이 좋으니 괜히 기분도 업되네",
+    "status": "ACTIVE",
+    "viewCount": 4333
+  },
+  {
+    "postId": "post43",
+    "userId": "usr31",
+    "content": "하루쯤은 아무것도 안 해도 괜찮아",
+    "status": "ACTIVE",
+    "viewCount": 4731
+  },
+  {
+    "postId": "post44",
+    "userId": "usr60",
+    "content": "노을빛으로 물든 하늘이 너무 아름다워",
+    "status": "ACTIVE",
+    "viewCount": 4761
+  },
+  {
+    "postId": "post45",
+    "userId": "usr48",
+    "content": "우산 없이 비 맞은 하루였지만 나쁘지 않다",
+    "status": "ACTIVE",
+    "viewCount": 3262
+  },
+  {
+    "postId": "post46",
+    "userId": "usr52",
+    "content": "좋아하는 음악 틀고 창밖 바라보기",
+    "status": "ACTIVE",
+    "viewCount": 4212
+  },
+  {
+    "postId": "post47",
+    "userId": "usr14",
+    "content": "요즘 작은 것에도 감사하게 된다",
+    "status": "ACTIVE",
+    "viewCount": 2090
+  },
+  {
+    "postId": "post49",
+    "userId": "usr18",
+    "content": "고요한 새벽이 주는 위로가 있다",
+    "status": "ACTIVE",
+    "viewCount": 3474
+  },
+  {
+    "postId": "post50",
+    "userId": "usr21",
+    "content": "오늘도 스스로에게 수고했다고 말해줌",
+    "status": "ACTIVE",
+    "viewCount": 562
+  },
+  {
+    "postId": "post51",
+    "userId": "usr8",
+    "content": "오늘도 커피 두 잔째 ☕ 혼자만의 여유 좋아",
+    "status": "ACTIVE",
+    "viewCount": 529
+  },
+  {
+    "postId": "post52",
+    "userId": "usr5",
+    "content": "퇴근 후 걷는 이 길이 요즘 내 힐링 루트",
+    "status": "ACTIVE",
+    "viewCount": 4953
+  },
+  {
+    "postId": "post53",
+    "userId": "usr14",
+    "content": "비 오는 날엔 감성 플레이리스트가 최고다",
+    "status": "ACTIVE",
+    "viewCount": 4878
+  },
+  {
+    "postId": "post54",
+    "userId": "usr40",
+    "content": "아침 공기 너무 상쾌하다. 하루가 기대돼",
+    "status": "ACTIVE",
+    "viewCount": 1232
+  },
+  {
+    "postId": "post55",
+    "userId": "usr12",
+    "content": "친구랑 밤새 수다 떨다가 잠들어버림 😂",
+    "status": "ACTIVE",
+    "viewCount": 1441
+  },
+  {
+    "postId": "post56",
+    "userId": "usr61",
+    "content": "요즘 나를 설레게 하는 건 저녁 노을 🌇",
+    "status": "ACTIVE",
+    "viewCount": 2238
+  },
+  {
+    "postId": "post57",
+    "userId": "usr34",
+    "content": "계절 바뀔 때 나는 향기가 참 좋다",
+    "status": "ACTIVE",
+    "viewCount": 2981
+  },
+  {
+    "postId": "post58",
+    "userId": "usr41",
+    "content": "아무 이유 없이 기분 좋은 날이 있다",
+    "status": "ACTIVE",
+    "viewCount": 1454
+  },
+  {
+    "postId": "post59",
+    "userId": "usr93",
+    "content": "따뜻한 국밥 한 그릇에 위로 받는 느낌",
+    "status": "ACTIVE",
+    "viewCount": 2090
+  },
+  {
+    "postId": "post60",
+    "userId": "usr95",
+    "content": "지하철 창밖 풍경 보며 생각에 잠긴다",
+    "status": "ACTIVE",
+    "viewCount": 4294
+  },
+  {
+    "postId": "post61",
+    "userId": "usr73",
+    "content": "모든 게 완벽하진 않아도 괜찮아",
+    "status": "ACTIVE",
+    "viewCount": 1958
+  },
+  {
+    "postId": "post62",
+    "userId": "usr73",
+    "content": "벚꽃 잎이 흩날리는 거리 너무 예뻤다",
+    "status": "ACTIVE",
+    "viewCount": 11
+  },
+  {
+    "postId": "post63",
+    "userId": "usr3",
+    "content": "요즘 일상이 조금은 느긋해진 느낌",
+    "status": "ACTIVE",
+    "viewCount": 4653
+  },
+  {
+    "postId": "post64",
+    "userId": "usr46",
+    "content": "햇살 좋은 날엔 걷고 싶어지는 거리",
+    "status": "ACTIVE",
+    "viewCount": 3484
+  },
+  {
+    "postId": "post65",
+    "userId": "usr56",
+    "content": "기분 전환 겸 머리색 바꿨는데 맘에 든다",
+    "status": "ACTIVE",
+    "viewCount": 3006
+  },
+  {
+    "postId": "post66",
+    "userId": "usr75",
+    "content": "혼자 영화 보는 것도 나쁘지 않네 🎬",
+    "status": "ACTIVE",
+    "viewCount": 1517
+  },
+  {
+    "postId": "post67",
+    "userId": "usr41",
+    "content": "새벽 공기가 차가워서 정신이 번쩍",
+    "status": "ACTIVE",
+    "viewCount": 1430
+  },
+  {
+    "postId": "post68",
+    "userId": "usr44",
+    "content": "잊고 지냈던 노래를 듣고 울컥했다",
+    "status": "ACTIVE",
+    "viewCount": 2189
+  },
+  {
+    "postId": "post70",
+    "userId": "usr64",
+    "content": "요즘 따라 옛 생각이 자주 난다",
+    "status": "ACTIVE",
+    "viewCount": 1630
+  },
+  {
+    "postId": "post71",
+    "userId": "usr39",
+    "content": "길가에 핀 작은 꽃들이 예쁘게 웃는다",
+    "status": "ACTIVE",
+    "viewCount": 1287
+  },
+  {
+    "postId": "post72",
+    "userId": "usr10",
+    "content": "소소한 행복이 참 큰 위로가 되는 요즘",
+    "status": "ACTIVE",
+    "viewCount": 3280
+  },
+  {
+    "postId": "post73",
+    "userId": "usr95",
+    "content": "마음이 몽글몽글해지는 하루였다",
+    "status": "ACTIVE",
+    "viewCount": 3590
+  },
+  {
+    "postId": "post74",
+    "userId": "usr20",
+    "content": "아무 일 없어도 괜히 웃음 나는 날 😊",
+    "status": "ACTIVE",
+    "viewCount": 4653
+  },
+  {
+    "postId": "post75",
+    "userId": "usr70",
+    "content": "바람이 차가워졌다. 가을이 오는구나",
+    "status": "ACTIVE",
+    "viewCount": 4467
+  },
+  {
+    "postId": "post76",
+    "userId": "usr56",
+    "content": "손편지를 받았는데 감동 그 자체였다",
+    "status": "ACTIVE",
+    "viewCount": 2407
+  },
+  {
+    "postId": "post77",
+    "userId": "usr33",
+    "content": "오랜만에 엄마 목소리 들으니 마음이 놓여",
+    "status": "ACTIVE",
+    "viewCount": 1254
+  },
+  {
+    "postId": "post78",
+    "userId": "usr54",
+    "content": "하늘이 너무 맑아서 기분까지 맑아짐",
+    "status": "ACTIVE",
+    "viewCount": 3810
+  },
+  {
+    "postId": "post79",
+    "userId": "usr12",
+    "content": "강아지가 날 보고 꼬리치는 모습에 심쿵",
+    "status": "ACTIVE",
+    "viewCount": 4163
+  },
+  {
+    "postId": "post80",
+    "userId": "usr96",
+    "content": "복잡한 하루였지만 잘 버텼다. 나 잘했어",
+    "status": "ACTIVE",
+    "viewCount": 2769
+  },
+  {
+    "postId": "post81",
+    "userId": "usr57",
+    "content": "오늘은 나를 위한 시간을 보내기로 했다",
+    "status": "ACTIVE",
+    "viewCount": 4062
+  },
+  {
+    "postId": "post83",
+    "userId": "usr21",
+    "content": "계획 없이 걷다가 발견한 예쁜 골목길",
+    "status": "ACTIVE",
+    "viewCount": 1486
+  },
+  {
+    "postId": "post84",
+    "userId": "usr49",
+    "content": "아이스크림 하나에 웃을 수 있는 하루",
+    "status": "ACTIVE",
+    "viewCount": 2818
+  },
+  {
+    "postId": "post85",
+    "userId": "usr96",
+    "content": "어제보다 나은 오늘이길 바라며 잠든다",
+    "status": "ACTIVE",
+    "viewCount": 658
+  },
+  {
+    "postId": "post86",
+    "userId": "usr34",
+    "content": "가만히 누워 천장 보며 생각 정리 중",
+    "status": "ACTIVE",
+    "viewCount": 1780
+  },
+  {
+    "postId": "post87",
+    "userId": "usr76",
+    "content": "새벽 감성에 괜히 옛 추억 꺼내봄",
+    "status": "ACTIVE",
+    "viewCount": 1787
+  },
+  {
+    "postId": "post88",
+    "userId": "usr6",
+    "content": "길에서 마주친 고양이와 눈 마주침 🐱",
+    "status": "ACTIVE",
+    "viewCount": 3803
+  },
+  {
+    "postId": "post89",
+    "userId": "usr70",
+    "content": "내일은 좀 더 따뜻한 하루가 되길",
+    "status": "ACTIVE",
+    "viewCount": 843
+  },
+  {
+    "postId": "post90",
+    "userId": "usr33",
+    "content": "조용한 밤, 창밖 바람 소리만 들린다",
+    "status": "ACTIVE",
+    "viewCount": 3824
+  },
+  {
+    "postId": "post91",
+    "userId": "usr78",
+    "content": "책 읽다 잠드는 순간이 참 평온하다",
+    "status": "ACTIVE",
+    "viewCount": 1841
+  },
+  {
+    "postId": "post92",
+    "userId": "usr56",
+    "content": "오늘도 별일 없던 하루, 그게 제일 좋다",
+    "status": "ACTIVE",
+    "viewCount": 2280
+  },
+  {
+    "postId": "post93",
+    "userId": "usr95",
+    "content": "햇살이 좋으니 괜히 기분도 업되네",
+    "status": "ACTIVE",
+    "viewCount": 4563
+  },
+  {
+    "postId": "post94",
+    "userId": "usr88",
+    "content": "하루쯤은 아무것도 안 해도 괜찮아",
+    "status": "ACTIVE",
+    "viewCount": 4525
+  },
+  {
+    "postId": "post95",
+    "userId": "usr26",
+    "content": "노을빛으로 물든 하늘이 너무 아름다워",
+    "status": "ACTIVE",
+    "viewCount": 977
+  },
+  {
+    "postId": "post96",
+    "userId": "usr85",
+    "content": "우산 없이 비 맞은 하루였지만 나쁘지 않다",
+    "status": "ACTIVE",
+    "viewCount": 3208
+  },
+  {
+    "postId": "post97",
+    "userId": "usr49",
+    "content": "좋아하는 음악 틀고 창밖 바라보기",
+    "status": "ACTIVE",
+    "viewCount": 3286
+  },
+  {
+    "postId": "post98",
+    "userId": "usr1",
+    "content": "요즘 작은 것에도 감사하게 된다",
+    "status": "ACTIVE",
+    "viewCount": 4499
+  },
+  {
+    "postId": "post99",
+    "userId": "usr38",
+    "content": "하늘색이 물든 저녁, 그냥 좋았다",
+    "status": "ACTIVE",
+    "viewCount": 4131
+  },
+  {
+    "postId": "post100",
+    "userId": "usr67",
+    "content": "고요한 새벽이 주는 위로가 있다",
+    "status": "ACTIVE",
+    "viewCount": 4490
+  },
+  {
+    "postId": "post101",
+    "userId": "usr63",
+    "content": "오늘도 스스로에게 수고했다고 말해줌",
+    "status": "ACTIVE",
+    "viewCount": 4631
+  }
+]

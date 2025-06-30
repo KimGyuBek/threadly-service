@@ -1,6 +1,6 @@
 package com.threadly.exception.token;
 
-import com.threadly.ErrorCode;
+import com.threadly.exception.ErrorCode;
 
 /**
  * Token 관련 예외

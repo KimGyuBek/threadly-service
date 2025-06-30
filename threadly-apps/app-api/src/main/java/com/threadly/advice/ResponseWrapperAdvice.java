@@ -1,6 +1,5 @@
 package com.threadly.advice;
 
-import com.threadly.ErrorCode;
 import com.threadly.exception.ErrorResponse;
 import com.threadly.response.ApiResponse;
 import org.springframework.core.MethodParameter;

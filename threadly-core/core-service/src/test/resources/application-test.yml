@@ -1,0 +1,29 @@
+logging:
+  level:
+    root: info
+    com.threadly: debug
+    org.hibernate.SQL: debug
+    org.hibernate.type.descriptor.sql: trace
+    org.hibernate.orm.jdbc.bind: trace
+    org.springframework.jdbc.datasource.init.ScriptUtils: DEBUG
+
+properties:
+  file:
+    upload:
+      location: src/test/resources/images/temp/
+      access-url: http://localhost:8080/images/
+      max-image-count: 5
+      max-size: 5MB
+      allow-types:
+        jpeg: image/jpeg
+        jpg: image/jpeg
+        png: image/png
+        webp: image/webp
+      allow-extensions:
+        - jpg
+        - jpeg
+        - png
+        - webp
+      aspect-ratio:
+        target: RATIO_3_4
+        tolerance: 0.05 # 허용 오차 비율

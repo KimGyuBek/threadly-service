@@ -1,8 +1,8 @@
 package com.threadly.config;
 
-import com.threadly.filter.CustomAuthenticationEntryPoint;
-import com.threadly.filter.JwtAuthenticationFilter;
-import com.threadly.filter.VerificationFilter;
+import com.threadly.global.filter.CustomAuthenticationEntryPoint;
+import com.threadly.global.filter.JwtAuthenticationFilter;
+import com.threadly.global.filter.VerificationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,7 +34,8 @@ public class SecurityConfig {
                 "/api/users",
                 "/api/auth/verify-email",
                 "/api/auth/login",
-                "/api/auth/reissue"
+                "/api/auth/reissue",
+                "/images/**"
             ).permitAll()
             .anyRequest().authenticated()
     );

@@ -1,0 +1,16 @@
+[
+  {
+    "postId": "post_like_target",
+    "userId": "usr100",
+    "content": "좋아요 테스트용 게시글입니다.",
+    "viewCount": 123,
+    "status": "ACTIVE"
+  },
+  {
+    "postId": "post_no_like_target",
+    "userId": "usr100",
+    "content": "좋아요가 없는 게시글 입니다.",
+    "viewCount": 23234,
+    "status": "ACTIVE"
+  }
+]

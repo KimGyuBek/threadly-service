@@ -1,0 +1,9 @@
+[
+  {
+    "postId": "active_post_id",
+    "userId": "usr_writer",
+    "content": "게시글 댓글 좋아요 테스트용 게시글입니다.",
+    "viewCount": 123,
+    "status": "ACTIVE"
+  }
+]

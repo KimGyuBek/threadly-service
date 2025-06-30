@@ -1,0 +1,44 @@
+package com.threadly.mapper.user;
+
+import com.threadly.entity.user.UserProfileEntity;
+import com.threadly.user.UserProfile;
+
+public class UserProfileMapper {
+
+  /**
+   * entity -> domain
+   *
+   * @param entity
+   * @return
+   */
+  public static UserProfile toDomain(UserProfileEntity entity) {
+    return UserProfile.builder()
+        .userProfileId(entity.getUserProfileId())
+        .nickname(entity.getNickname())
+        .statusMessage(entity.getStatusMessage())
+        .bio(entity.getBio())
+        .gender(entity.getGender())
+        .profileType(entity.getProfileType())
+        .profileImageUrl(entity.getProfileImageUrl())
+        .build();
+  }
+
+  /**
+   * domain -> entity
+   *
+   * @param domain
+   * @return
+   */
+  public static UserProfileEntity toEntity(UserProfile domain) {
+    return
+        UserProfileEntity.newUserProfile(
+            domain.getUserProfileId(),
+            domain.getNickname(),
+            domain.getStatusMessage(),
+            domain.getBio(),
+            domain.getGender(),
+            domain.getProfileType(),
+            domain.getProfileImageUrl());
+  }
+
+}
