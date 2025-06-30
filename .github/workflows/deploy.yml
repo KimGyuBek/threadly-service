@@ -18,11 +18,16 @@ jobs:
         run: |
           docker build -t threadly-app-prod -f ./Dockerfile .
 
-#      - name: Save Docker image to tar
-#        run: docker save threadly-app-prod -o threadly-app.tar
+      #      - name: Save Docker image to tar
+      #        run: docker save threadly-app-prod -o threadly-app.tar
+      #      - name: Save Docker image to tar
+      #        run: |
+      #          docker save threadly-app-prod -o ${{ github.workspace }}/threadly-app.tar
       - name: Save Docker image to tar
         run: |
-          docker save threadly-app-prod -o ${{ github.workspace }}/threadly-app.tar
+          rm -f threadly-app.tar
+          docker save threadly-app-prod -o threadly-app.tar
+          chmod 644 threadly-app.tar
 
       - name: Copy Docker image to EC2
         uses: appleboy/scp-action@v0.1.7
@@ -33,6 +38,7 @@ jobs:
           port: ${{ secrets.EC2_PORT }}
           source: "threadly-app.tar"
           target: "~/threadly"
+          tar_dereference: false
 
       - name: SSH into EC2 and load + run image
         uses: appleboy/ssh-action@v1.0.0
