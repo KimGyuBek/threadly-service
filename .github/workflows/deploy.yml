@@ -27,10 +27,10 @@ jobs:
       - name: Copy Docker image and compose file to EC2
         uses: appleboy/scp-action@v0.1.7
         with:
-          host: ${{secrets.EC2_HOST}}
-          username: ${{secrets.EC2_USERNAME}}
-          key: ${{secrets.EC2_SSH_KEY}}
-          port: ${{secrets.EC2_PORT}}
+          host: ${{  secrets.EC2_HOST  }}
+          username: ${{  secrets.EC2_USERNAME  }}
+          key: ${{  secrets.EC2_SSH_KEY  }}
+          port: ${{  secrets.EC2_PORT  }}
           source: |
             threadly-app.tar
             infra/docker-compose.prod.yml
