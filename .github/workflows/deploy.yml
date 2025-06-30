@@ -24,18 +24,8 @@ jobs:
           docker save threadly-app-prod -o threadly-app.tar
           chmod 644 threadly-app.tar
 
-#      - name: Copy Docker image and compose file to EC2
-#        uses: appleboy/scp-action@v0.1.7
-#        with:
-#          host: ${{ secrets.EC2_HOST }}
-#          username: ${{ secrets.EC2_USERNAME }}
-#          key: ${{ secrets.EC2_SSH_KEY }}
-#          port: ${{ secrets.EC2_PORT }}
-#          source: |
-#            threadly-app.tar
-#            infra/docker-compose.prod.yml
-#          target: "~/threadly"
-#          tar_dereference: false
+      - name: Debug file list
+        run: ls -al && ls -al infra
 
       - name: Copy Docker image and compose file to EC2
         uses: appleboy/scp-action@v0.1.7
@@ -44,9 +34,9 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           port: ${{ secrets.EC2_PORT }}
-          source: | 
+          source: |
             threadly-app.tar
-            infra/docker-compose.prod.yml
+            ./infra/docker-compose.prod.yml
           target: "~/threadly"
           tar_dereference: false
 
