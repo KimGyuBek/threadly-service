@@ -31,6 +31,14 @@ jobs:
           cp ./threadly-app.tar ./deploy_temp
           cp ./infra/docker-compose.prod.yml ./deploy_temp
 
+      - name: 파일 존재 여부 확인
+        run: |
+          echo " 현재 작업 디렉토리: $(pwd)"
+          echo " deploy_temp 디렉토리 내용:"
+          ls -al ./deploy_temp
+        
+      
+
       - name: EC2로 DockerComposeFile, .tar 전송
         uses: appleboy/scp-action@v0.1.7
         with:
