@@ -44,11 +44,10 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: ${{ secrets.EC2_PORT }}
           source: |
-            threadly-app.tar
-            docker-compose.prod.yml
+            ./deploy_tmp/threadly-app.tar
+            ./deploy_tmp/docker-compose.prod.yml
           target: "/home/ubuntu/threadly"
           tar_dereference: false
-          working-directory: ./deploy_tmp
 
       - name: SSH into EC2 and load + run image
         uses: appleboy/ssh-action@v1.0.0
