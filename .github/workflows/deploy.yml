@@ -27,9 +27,9 @@ jobs:
 
       - name: 파일 전송 준비
         run: |
-          mkdir -p deploy_tmp
-          cp ./threadly-app.tar ./deploy_tmp
-          cp ./infra/docker-compose.prod.yml ./deploy_tmp
+          mkdir -p deploy
+          cp ./threadly-app.tar ./deploy
+          cp ./infra/docker-compose.prod.yml ./deploy
 
       - name: Debug file list
         run: |
@@ -44,8 +44,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: ${{ secrets.EC2_PORT }}
           source: |
-            ./deploy_tmp/threadly-app.tar
-            ./deploy_tmp/docker-compose.prod.yml
+            ./deploy
           target: "/home/ubuntu/threadly"
           tar_dereference: false
 
