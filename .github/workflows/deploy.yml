@@ -30,7 +30,13 @@ jobs:
           ls -al
           ls -al ./infra
 
-      - name: Copy Docker image and compose file to EC2
+      - name: 파일 전송 준비
+        run: |
+          mkdir -p deploy_tmp
+          cp ./threadly-app.tar ./deploy_tmp
+          cp ./infra/docker-compose.prod.yml ./deploy_tmp
+
+      - name: EC2로 DockerComposeFile, .tar 전송
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.EC2_HOST }}
@@ -38,19 +44,10 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: ${{ secrets.EC2_PORT }}
           source: |
-            ./threadly-app.tar
-          target: "~/threadly"
-          tar_dereference: false
-
-      - name: Copy compose file to EC2
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          port: ${{ secrets.EC2_PORT }}
-          source: "./infra/docker-compose.prod.yml"
+            ./deploy_tmp/threadly-app.tar
+            ./deploy_tmp/docker-compose.prod.yml
           target: "/home/ubuntu/threadly"
+          tar_dereference: false
 
       - name: SSH into EC2 and load + run image
         uses: appleboy/ssh-action@v1.0.0
