@@ -24,17 +24,17 @@ jobs:
           docker save threadly-app-prod -o threadly-app.tar
           chmod 644 threadly-app.tar
 
-      - name: Debug file list
-        run: |
-          pwd
-          ls -al
-          ls -al ./infra
 
       - name: 파일 전송 준비
         run: |
           mkdir -p deploy_tmp
           cp ./threadly-app.tar ./deploy_tmp
           cp ./infra/docker-compose.prod.yml ./deploy_tmp
+
+      - name: Debug file list
+        run: |
+          cd deploy_tmp
+          ls -al
 
       - name: EC2로 DockerComposeFile, .tar 전송
         uses: appleboy/scp-action@v0.1.7
