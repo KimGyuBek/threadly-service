@@ -27,9 +27,9 @@ jobs:
 
       - name: 파일 전송 준비
         run: |
-          mkdir -p deploy
-          cp ./threadly-app.tar ./deploy
-          cp ./infra/docker-compose.prod.yml ./deploy
+          mkdir -p deploy_temp
+          cp ./threadly-app.tar ./deploy_temp
+          cp ./infra/docker-compose.prod.yml ./deploy_temp
 
       - name: EC2로 DockerComposeFile, .tar 전송
         uses: appleboy/scp-action@v0.1.7
@@ -39,7 +39,8 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: ${{ secrets.EC2_PORT }}
           source: |
-            ./deploy
+            ./deploy_temp/threadly-app.tar
+            ./deploy_temp/docker-compose.prod.yml
           target: "/home/ubuntu/threadly"
           tar_dereference: false
 
@@ -53,5 +54,5 @@ jobs:
           script: |
             cd ~/threadly
             docker load -i threadly-app.tar
-            docker compose -f ./infra/docker-compose.prod.yml down
-            docker compose -f ./infra/docker-compose.prod.yml up -d
+            docker compose -f ./docker-compose.prod.yml down
+            docker compose -f ./docker-compose.prod.yml up -d
