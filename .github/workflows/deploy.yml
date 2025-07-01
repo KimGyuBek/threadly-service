@@ -31,11 +31,6 @@ jobs:
           cp ./threadly-app.tar ./deploy
           cp ./infra/docker-compose.prod.yml ./deploy
 
-      - name: Debug file list
-        run: |
-          cd deploy_tmp
-          ls -al
-
       - name: EC2로 DockerComposeFile, .tar 전송
         uses: appleboy/scp-action@v0.1.7
         with:
