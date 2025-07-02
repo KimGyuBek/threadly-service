@@ -67,7 +67,7 @@ jobs:
           port: ${{secrets.EC2_PORT }}
           source: |
             ./infra
-          target: "/home/ubuntu/threadly/infra"
+          target: "/home/ubuntu/threadly"
 
       - name: 배포
         uses: appleboy/ssh-action@v1.0.0
