@@ -1,14 +1,10 @@
 name: CI/CD Failure Notification
 
 on:
-  push:
-    branches: [ feature/TLY-83-CI-CD ]
-
-
-#  workflow_run:
-#    workflows: [ "CD" ]
-#    types:
-#      - completed
+  workflow_run:
+    workflows: [ CD ]
+    types:
+      - completed
 
 jobs:
   notify:
