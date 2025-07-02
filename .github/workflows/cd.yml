@@ -31,11 +31,17 @@ jobs:
         run: |
           docker push ${{ secrets.DOCKER_IMAGE_NAME }}
 
+
+      - name: Docker compose file 업로드 준비
+        run: |
+          mkdir -p deploy
+          cp ./infra/docker-compose.pord.yml ./deploy
+
       - name: Artifact 업로드
         uses: actions/upload-artifact@v4
         with:
           name: infra
-          path: ./infra
+          path: ./deploy
 
   deploy:
     needs: build
