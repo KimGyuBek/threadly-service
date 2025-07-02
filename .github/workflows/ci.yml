@@ -26,7 +26,7 @@ jobs:
 
       - name: deploy 생성
         run: |
-          mkdir deploy
+          mkdir p deploy
           cp ./threadly-app.tar ./deploy
           cp ./infra/docker-compose.prod.yml ./deploy
 
@@ -44,6 +44,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: deploy
+          path: .
 
       - name: SCP 전송
         uses: appleboy/scp-action@v1.0.0
