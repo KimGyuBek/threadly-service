@@ -4,17 +4,18 @@ on:
   workflow_run:
     workflows: [ "CD" ]
     types:
-      - completed
+      - in_progress
 
 jobs:
   notify:
+    if: ${{ github.event.workflow_run.conclusion != 'success' }}
     runs-on: ubuntu-latest
 
     steps:
       - name: 변수 추출
         run: |
           SLACK_WEBHOOK_URL=${{ secrets.SLACK_CICD_FAIL_WEBHOOK_URL }}
-          SLACK_IDS=${{ secrets.SLACK_IDS}}
+          SLACK_IDS=${{ secrets.SLACK_IDS }}
           echo "SLACK_WEBHOOK_URL=$SLACK_WEBHOOK_URL" >> $GITHUB_ENV
           echo "SLACK_IDS=$SLACK_IDS" >> $GITHUB_ENV
 
