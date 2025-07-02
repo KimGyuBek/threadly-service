@@ -2,7 +2,7 @@ name: CI/CD Failure Notification
 
 on:
   workflow_run:
-    workflows: [ CD ]
+    workflows: ["CD"]
     types:
       - completed
 
