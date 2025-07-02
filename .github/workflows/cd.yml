@@ -35,7 +35,7 @@ jobs:
       - name: Docker compose file 업로드 준비
         run: |
           mkdir -p deploy
-          cp ./infra/docker-compose.pord.yml ./deploy
+          cp ./infra/docker-compose.prod.yml ./deploy
 
       - name: Artifact 업로드
         uses: actions/upload-artifact@v4
