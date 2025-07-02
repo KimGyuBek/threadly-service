@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - feature/TLY-83-CI-CD
+      - develop
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 체크아웃
+        uses: actions/checkout@v4
+
+      - name: Gradle 환경 세팅 및 캐싱
+        uses: gradle/actions/setup-gradle
+
+      - name: Docker compose 실행
+        run: |
+          docker compose -f ./infra/docker-compose.dev.yml up -d
+
+      - name: 테스트 실행
+        run: |
+          ./gradlew test --no-daemon
+
+      - name: 테스트 리포트 업로드
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-report
+          path: ./build/reports/tests/test
+
+      - name: Docker compose 종료
+        if: always()
+        run: |
+          docker compose -f ./infra/docker-compose.dev.yml down
+
+
+
