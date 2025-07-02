@@ -46,6 +46,14 @@ jobs:
           name: deploy
           path: .
 
+      - name: 디버깅
+        run: |
+          echo "현재 디렉토리: $(pwd)"
+          echo "deploy 디렉토리 내용: 
+          ls -al ./deploy
+    
+
+
       - name: SCP 전송
         uses: appleboy/scp-action@v1.0.0
         with:
