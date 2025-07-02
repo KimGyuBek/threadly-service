@@ -26,7 +26,7 @@ jobs:
           
           message="⚠️ 워크 플로우 실패: $WORKFLOW_NAME\n <$WORKFLOW_URL|확인하러 가기>"
           
-          curl -X POST -H 'ContentType: application/json' \
+          curl -X POST -H 'Content-type: application/json' \
           --data "{\"text\":\"$message\"}" \
           "$SLACK_WEBHOOK_URL"
           
