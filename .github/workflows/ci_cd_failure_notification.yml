@@ -4,7 +4,7 @@ on:
   workflow_run:
     workflows: [ "CD" ]
     types:
-      - in_progress
+      - completed
 
 jobs:
   notify:

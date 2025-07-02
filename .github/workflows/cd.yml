@@ -11,7 +11,8 @@ jobs:
     steps:
       - name: 오류 생성
         run: |
-          cd error
+          exit 1
+
       - name: 체크아웃
         uses: actions/checkout@v4
 
