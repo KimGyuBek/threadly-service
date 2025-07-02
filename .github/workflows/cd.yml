@@ -44,7 +44,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: deploy
-          path: .
+          path: ./threadly
 
       - name: 디버깅
         run: |
@@ -74,9 +74,9 @@ jobs:
           port: ${{ secrets.EC2_PORT }}
           script: |
             cd ~/threadly
-            docker load -i ./deploy/threadly-app.tar
-            docker compose -f ./deploy/docker-compose.prod.yml down
-            docker compose -f ./deploy/docker-compose.prod.yml up -d
+            docker load -i ./threadly-app.tar
+            docker compose -f ./docker-compose.prod.yml down
+            docker compose -f ./docker-compose.prod.yml up -d
           
 
 
