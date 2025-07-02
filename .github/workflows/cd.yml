@@ -63,6 +63,7 @@ jobs:
           echo "SPRING_REDIS_PORT=${{ secrets.REDIS_PORT }}" >> .env
           echo "MAIL_NAME=${{ secrets.MAIL_NAME }}" >> .env
           echo "MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }}" >> .env
+          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
           cp .env ./infra
           
       - name: SCP 전송
