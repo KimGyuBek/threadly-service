@@ -16,7 +16,7 @@ jobs:
 
       - name: 도커 이미지 빌드
         run: |
-          docker build -t threadly-app-prod ./Dockerfile .
+          docker build -t threadly-app-prod -f ./Dockerfile .
 
       - name: 도커 이미지 tar로 저장
         run: |
