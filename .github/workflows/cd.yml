@@ -44,7 +44,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: deploy
-          path: ./threadly
+          path: ./deploy
 
       - name: 디버깅
         run: |
