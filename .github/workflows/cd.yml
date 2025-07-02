@@ -53,11 +53,6 @@ jobs:
           name: infra
           path: ./infra
 
-      - name: 디버깅
-        run: |
-          echo "현재 디렉토리: $(pwd)"
-          ls -al
-
       - name: SCP 전송
         uses: appleboy/scp-action@v1.0.0
         with:
