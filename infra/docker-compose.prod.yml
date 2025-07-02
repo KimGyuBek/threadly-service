@@ -12,7 +12,7 @@ services:
     ports:
       - "8080:8080"
     env_file:
-      - ./infra/.env
+      - ./.env
     networks:
       - threadly-network
 
