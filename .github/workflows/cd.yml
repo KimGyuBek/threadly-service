@@ -2,7 +2,7 @@ name: CD
 
 on:
   push:
-    branches: [ feature/TLY-83-CI-CD ]
+    branches: [ master ]
 
 jobs:
   build:
