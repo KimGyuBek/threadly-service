@@ -1,0 +1,93 @@
+name: CD
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 체크아웃
+        uses: actions/checkout@v4
+
+      - name: Buildx 설정
+        uses: docker/setup-buildx-action@v3
+
+      - name: 캐싱
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: 도커 이미지 빌드
+        run: |
+          docker build -t ${{secrets.DOCKER_IMAGE_NAME }} -f ./Dockerfile .
+
+      - name: 도커 로그인
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: 도커 허브 푸시
+        run: |
+          docker push ${{ secrets.DOCKER_IMAGE_NAME }}
+
+
+      - name: Docker compose file 업로드 준비
+        run: |
+          mkdir -p deploy
+          cp ./infra/docker-compose.prod.yml ./deploy
+
+      - name: Artifact 업로드
+        uses: actions/upload-artifact@v4
+        with:
+          name: infra
+          path: ./deploy
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Artifact 다운로드
+        uses: actions/download-artifact@v4
+        with:
+          name: infra
+          path: ./infra
+
+      - name: 환경변수 생성 및 전송
+        run: |
+          echo "SPRING_PROFILES_ACTIVE=${{ secrets.SPRING_PROFILE_ACTIVE }}" >> .env
+          echo "SPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL }}" >> .env
+          echo "SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }}" >> .env
+          echo "SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }}" >> .env
+          echo "SPRING_REDIS_HOST=${{ secrets.SPRING_REDIS_HOST }}" >> .env
+          echo "SPRING_REDIS_PORT=${{ secrets.REDIS_PORT }}" >> .env
+          echo "MAIL_NAME=${{ secrets.MAIL_NAME }}" >> .env
+          echo "MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }}" >> .env
+          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
+          cp .env ./infra
+          
+      - name: SCP 전송
+        uses: appleboy/scp-action@v1.0.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: ${{secrets.EC2_PORT }}
+          source: |
+            ./infra
+          target: "/home/ubuntu/threadly"
+
+      - name: 환경 변수 주입 및 배포
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: ${{ secrets.EC2_PORT }}
+          script: |
+            set -e
+            cd ~/threadly
+            echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+            docker pull ${{ secrets.DOCKER_IMAGE_NAME }}
+            docker compose -f ./infra/docker-compose.prod.yml down
+            docker compose -f ./infra/docker-compose.prod.yml up -d

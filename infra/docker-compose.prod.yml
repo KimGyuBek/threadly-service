@@ -1,78 +1,43 @@
-#PROD
+version: "3.8"
+
 services:
   app:
     image: threadly-app-prod
-    build:
-      context: ../
-      dockerfile: Dockerfile
-    ports:
-      - "8080:8080"
+    container_name: threadly-app
     depends_on:
       - postgresql
       - redis
-    environment:
-      - mail.name=${MAIL_NAME}
-      - mail.password=${MAIL_PASSWORD}
-      - spring.profiles.active=${SPRING_PROFILES_ACTIVE}
-      - spring.data.redis.host=${SPRING_DATA_REDIS_HOST}
-      - spring.data.redis.port=${SPRING_DATA_REDIS_PORT}
+    working_dir: /app
+    command: [ "java", "-jar", "threadly.jar" ]
+    ports:
+      - "8080:8080"
+    env_file:
+      - ./.env
     networks:
       - threadly-network
 
   postgresql:
+    image: postgres:16
     container_name: postgresql
-    image:
-      postgres:16
     restart: always
-    volumes:
-      - ./data/threadly-db:/var/lib/postgresql/data
-    ports:
-      - "5433:5432"
     environment:
+      POSTGRES_DB: threadly
+      POSTGRES_USER: threadly
       POSTGRES_PASSWORD: localpwd
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
     networks:
       - threadly-network
-
 
   redis:
-    container_name: redis
     image: redis:latest
-    ports:
-      - "6379:6379"
+    container_name: redis
+    restart: always
     volumes:
-      - ./data/threadly-redis:/data
+      - ./data/redis:/data
     networks:
       - threadly-network
 
-#  redis-test:
-#    image: redis:latest
-#    container_name: threadly-redis-test
-#    ports:
-#      - "6380:6379"
-#
-
-
-#  prometheus:
-#    image: prom/prometheus:v2.29.1
-#    platform: linux/arm64
-#    restart: always
-#    volumes:
-#      - ./prometheus.yml:/etc/prometheus/prometheus.yml
-#    ports:
-#      - '9090:9090'
-#
-#  pushgateway:
-#    image: prom/pushgateway:latest
-#    platform: linux/arm64
-#    restart: always
-#    ports:
-#      - '9091:9091'
-#
-#  grafana:
-#    image: grafana/grafana:6.0.2
-#    restart: always
-#    ports:
-#      - '3000:3000'
 networks:
   threadly-network:
     driver: bridge

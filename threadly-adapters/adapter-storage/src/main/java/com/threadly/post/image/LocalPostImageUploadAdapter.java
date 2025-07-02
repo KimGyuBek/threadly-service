@@ -51,6 +51,8 @@ public class LocalPostImageUploadAdapter implements UploadPostImagePort {
     log.debug("fullPath {}", fullPath);
 
     try {
+
+      Files.createDirectories(fullPath.getParent());
       Files.write(fullPath, uploadImage.getContent());
       return new UploadImageResponse(storedFileName,
           uploadProperties.getAccessUrl() + storedFileName);

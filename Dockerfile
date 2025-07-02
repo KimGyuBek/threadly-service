@@ -1,7 +1,11 @@
-FROM openjdk:21-jdk-slim
+FROM gradle:8.4.0-jdk21 AS builder
 
-COPY threadly-apps/app-api/build/libs/*.jar app.jar
+WORKDIR /app
+COPY . .
+RUN ./gradlew :threadly-apps:app-api:bootJar -x test --no-daemon
 
-EXPOSE 8080
+FROM eclipse-temurin:21-jdk
+WORKDIR /app
+COPY --from=builder /app/threadly-apps/app-api/build/libs/app-api-1.0-SNAPSHOT-boot.jar /app/threadly.jar
+ENTRYPOINT ["java", "-jar", "/app/threadly.jar"]
 
-ENTRYPOINT ["java", "-jar", "/app.jar"]
