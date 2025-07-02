@@ -38,7 +38,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: test-report
-          path: ./threadly-apps/app-api/build/reports/tests/test/index.html
+          path: ./threadly-apps/app-api/build/reports/tests/test
 
       - name: Docker compose 종료
         if: always()
