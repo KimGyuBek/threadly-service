@@ -11,13 +11,8 @@ services:
     command: [ "java", "-jar", "threadly.jar" ]
     ports:
       - "8080:8080"
-    environment:
-      SPRING_PROFILES_ACTIVE: prod
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgresql:5432/threadly
-      SPRING_DATASOURCE_USERNAME: threadly
-      SPRING_DATASOURCE_PASSWORD: localpwd
-      SPRING_REDIS_HOST: redis
-      SPRING_REDIS_PORT: 6379
+    env_file:
+      - ./infra/.env
     networks:
       - threadly-network
 

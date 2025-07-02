@@ -53,6 +53,18 @@ jobs:
           name: infra
           path: ./infra
 
+      - name: 환경변수 생성 및 전송
+        run: |
+          echo "SPRING_PROFILES_ACTIVE=${{ secrets.SPRING_PROFILE_ACTIVE }}" >> .env
+          echo "SPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL }}" >> .env
+          echo "SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }}" >> .env
+          echo "SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }}" >> .env
+          echo "SPRING_REDIS_HOST=${{ secrets.SPRING_REDIS_HOST }}" >> .env
+          echo "SPRING_REDIS_PORT=${{ secrets.REDIS_PORT }}" >> .env
+          echo "MAIL_NAME=${{ MAIL_NAME }}" >> .env
+          echo "MAIL_PASSWORD=${{ MAIL_PASSWORD }}" >> .env
+          cp .env ./infra
+          
       - name: SCP 전송
         uses: appleboy/scp-action@v1.0.0
         with:
@@ -64,7 +76,7 @@ jobs:
             ./infra
           target: "/home/ubuntu/threadly"
 
-      - name: 배포
+      - name: 환경 변수 주입 및 배포
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.EC2_HOST }}

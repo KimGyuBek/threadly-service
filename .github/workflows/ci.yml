@@ -6,7 +6,6 @@ on:
 
 #  pull_request:
 #    branches:
-#      - feature/TLY-83-CI-CD
 #      - develop
 
 jobs:
