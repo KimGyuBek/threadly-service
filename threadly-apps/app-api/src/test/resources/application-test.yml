@@ -42,3 +42,5 @@ properties:
       aspect-ratio:
         target: RATIO_3_4
         tolerance: 0.05 # 허용 오차 비율
+jwt:
+  secret: ZCOJpkiT85EciBeU9F3ontoX8YBMOViV7ZUn4TXTcf2zQhpjfl0egxNWm5hCjGKtKqCT6FnCBHlxbwjKQjl4WA==
