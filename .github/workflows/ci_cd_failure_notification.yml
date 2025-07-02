@@ -1,0 +1,33 @@
+name: CI/CD Failure Notification
+
+on:
+  workflow_run:
+    workflows: [ "CI", "CD" ]
+    types:
+      - completed
+
+jobs:
+  notify:
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 변수 추출
+        run: |
+          SLACK_WEBHOOK_URL=${{ secrets.SLACK_CICD_FAIL_WEBHOOK_URL }}
+          SLACK_IDS=${{ secrets.SLACK_IDS}}
+          echo "SLACK_WEBHOOK_URL=$SLACK_WEBHOOK_URL" >> $GITHUB_ENV
+          echo "SLACK_IDS=$SLACK_IDS" >> $GITHUB_ENV
+
+      - name: 실패 시 Slack 알림 전송
+        run: |
+          WORKFLOW_NAME=${{ github.event.workflow_run.name }}
+          WORKFLOW_URL=${{ github.event.workflow_run.html_url }}
+          
+          message="⚠️ 워크 플로우 실패: $WORKFLOW_NAME\n <$WORKFLOW_URL|확인하러 가기>"
+          
+          curl -X POST -H 'ContentType: application/json' \
+          --data "{\"text\":\"$message\"}" \
+          "$SLACK_WEBHOOK_URL"
+          
+          echo "Sent message: $message"

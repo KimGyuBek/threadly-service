@@ -2,12 +2,16 @@ name: CD
 
 on:
   push:
-    branches: [ master ]
+    branches: [ feature/TLY-83-CI-CD ]
+#    branches: [ master ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: 오류 생성
+        run: |
+          cd error
       - name: 체크아웃
         uses: actions/checkout@v4
 
