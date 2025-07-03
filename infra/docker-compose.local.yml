@@ -2,17 +2,19 @@ version: "3.8"
 
 services:
   app:
-    image: threadly-app-prod
+    build:
+      context: .
+      dockerfile: ../Dockerfile.local
     container_name: threadly-app
     depends_on:
       - postgresql
       - redis
-    working_dir: /app
+    working_dir: /runner
     command: [ "java", "-jar", "threadly.jar" ]
     ports:
       - "8080:8080"
     env_file:
-      - ./.env
+      - ./.env.local
     networks:
       - threadly-network
     logging:

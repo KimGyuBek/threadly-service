@@ -9,7 +9,9 @@ md/
 json/
 local-storage/
 threadly-apps/app-api/src/test/resources/images/temp/
-./infra/.env
+infra/.env.*
+runner/
+Dockerfile_local
 
 
 ### STS ###
