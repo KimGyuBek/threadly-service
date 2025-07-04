@@ -40,7 +40,7 @@ jobs:
 
       - name: config 업로드 준비
         run: |
-          cp ./infra/loki-stack ./deploy/loki-stack
+          cp -r ./infra/loki-stack ./deploy/loki-stack
 
       - name: Artifact 업로드
         uses: actions/upload-artifact@v4
