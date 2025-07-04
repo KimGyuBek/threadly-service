@@ -2,11 +2,10 @@ version: "3.8"
 
 services:
   app:
-    image: threadly-app
-#    build:
-#      dockerfile: ./infra/Dockerfile
-#      context: ../
-    container_name: threadly-app
+    image: kimgyubek/threadly-app:latest
+    build:
+      dockerfile: Dockerfile
+      context: ../
     depends_on:
       - postgresql
       - redis
