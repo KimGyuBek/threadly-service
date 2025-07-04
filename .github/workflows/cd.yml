@@ -57,7 +57,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: infra
-          path: /home/ubuntu/threadly/infra
+          path: ./infra
 
 
 
