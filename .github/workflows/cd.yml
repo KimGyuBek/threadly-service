@@ -93,6 +93,7 @@ jobs:
           script: |
             set -e
             cd ~/threadly
+            rm -rf ./infra
             echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
             docker pull ${{ secrets.DOCKER_IMAGE_NAME }}
             docker compose -f ./infra/docker-compose.prod.yml down
