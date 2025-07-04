@@ -30,7 +30,7 @@ services:
       POSTGRES_USER: threadly
       POSTGRES_PASSWORD: localpwd
     volumes:
-      - ./data/db:/var/lib/postgresql/data
+      - /home/ubuntu/docker-volumes/postgres:/var/lib/postgresql/data
     networks:
       - threadly-network
 
@@ -39,7 +39,7 @@ services:
     container_name: redis
     restart: always
     volumes:
-      - ./data/redis:/data
+      - /home/ubuntu/docker-volumes/redis:/data
     networks:
       - threadly-network
 
@@ -49,19 +49,19 @@ services:
     ports:
       - "3100:3100"
     volumes:
-      - ./loki-stack/loki/config.yml:/etc/loki/config.yml
-      - ./loki-stack/loki/data:/tmp/loki
-      - ./loki-stack/loki/wal:/wal
+      - ./infra/loki-stack/loki/config.yml:/etc/loki/config.yml
+      - /home/ubuntu/docker-volumes/loki/data:/tmp/loki
+      - /home/ubuntu/docker-volumes/loki/wal:/wal
     command: -config.file=/etc/loki/config.yml
 
   promtail:
     image: grafana/promtail:2.9.0
     container_name: promtail
     volumes:
-      - /var/log:/var/log
+      - /var/log:/var/log:ro
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
-      - /etc/hostname:/etc/hostname
-      - ./loki-stack/promtail/config.yml:/etc/promtail/config.yml
+      - /etc/hostname:/etc/hostname:ro
+      - ./infra/loki-stack/promtail/config.yml:/etc/promtail/config.yml:ro
     command: -config.file=/etc/promtail/config.yml
 
   grafana:
@@ -76,7 +76,7 @@ services:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_PASSWORD=admin
     volumes:
-      - grafana-storage:/var/lib/grafana
+      - /home/ubuntu/docker-volumes/grafana:/var/lib/grafana
 
 volumes:
   grafana-storage:
