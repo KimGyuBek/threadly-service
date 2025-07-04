@@ -38,6 +38,10 @@ jobs:
           mkdir -p deploy
           cp ./infra/docker-compose.prod.yml ./deploy
 
+      - name: config 업로드 준비
+        run: |
+          cp ./infra/loki-stack ./deploy/loki-stack
+
       - name: Artifact 업로드
         uses: actions/upload-artifact@v4
         with:
