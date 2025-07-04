@@ -26,7 +26,7 @@ public class MailClient implements SendMailPort {
 
   private final static String FROM = "rlarbqor00@naver.com";
 
-  @Value("${properties.email-verification-url}")
+  @Value("${properties.email.verification-url}")
   private String emailVerificationUrl;
 
   @Override

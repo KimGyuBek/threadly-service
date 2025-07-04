@@ -43,4 +43,5 @@ properties:
       aspect-ratio:
         target: RATIO_3_4
         tolerance: 0.05 # 허용 오차 비율
-  email-verification-url: http://localhost:8080
+  email:
+    verification-url: https://api.threadly.kr
