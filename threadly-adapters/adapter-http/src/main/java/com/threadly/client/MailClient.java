@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
@@ -25,10 +26,13 @@ public class MailClient implements SendMailPort {
 
   private final static String FROM = "rlarbqor00@naver.com";
 
+  @Value("${properties.email-verification-url}")
+  private String emailVerificationUrl;
+
   @Override
   public void sendVerificationMail(String to, String code) {
 
-    String verifyUrl = "http://localhost:8080/api/auth/verify-email?code=" + code;
+    String verifyUrl = emailVerificationUrl + "/api/auth/verify-email?code=" + code;
 
     Map<String, Object> values = new HashMap<>();
     values.put("verifyUrl", verifyUrl);
