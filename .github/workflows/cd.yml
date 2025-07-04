@@ -38,6 +38,7 @@ jobs:
           mkdir -p deploy
           cp ./infra/docker-compose.prod.yml ./deploy
 
+
       - name: config 업로드 준비
         run: |
           cp -r ./infra/loki-stack ./deploy/loki-stack
