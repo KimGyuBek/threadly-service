@@ -11,7 +11,8 @@ local-storage/
 threadly-apps/app-api/src/test/resources/images/temp/
 infra/.env.*
 runner/
-Dockerfile_local
+infra/Dockerfile_local
+infra/loki-stack
 
 
 ### STS ###
