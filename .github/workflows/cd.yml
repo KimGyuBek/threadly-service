@@ -15,6 +15,16 @@ jobs:
       - name: Buildx 설정
         uses: docker/setup-buildx-action@v3
 
+#      - name: jdk 설치
+#        uses: actions/setup-java@v4
+#        with:
+#          java-version: 21
+#          distribution: temurin
+#
+#      - name: 빌드
+#        run: |
+#          ./gradlew clean :threadly-apps:app-api:bootJar -x test --no-daemon
+#
 #      - name: 캐싱
 #        uses: gradle/actions/setup-gradle@v4
 
