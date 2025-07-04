@@ -74,17 +74,6 @@ jobs:
           echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
           cp .env ./infra
 
-      #      - name: clean
-      #        uses: appleboy/ssh-action@v1.0.0
-      #        with:
-      #          host: ${{ secrets.EC2_HOST }}
-      #          username: ${{ secrets.EC2_USERNAME }}
-      #          key: ${{ secrets.EC2_SSH_KEY }}
-      #          port: ${{ secrets.EC2_PORT }}
-      #          script: |
-      #            set -e
-      #            sudo rm -rf /home/ubuntu/threadly/infra/loki-stack
-
       - name: SCP 전송
         uses: appleboy/scp-action@v1.0.0
         with:

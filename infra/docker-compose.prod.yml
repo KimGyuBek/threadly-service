@@ -61,7 +61,7 @@ services:
       - /var/log:/var/log:ro
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
       - /etc/hostname:/etc/hostname:ro
-      - ./infra/loki-stack/promtail/config.yml:/etc/promtail/config.yml:ro
+      - ./loki-stack/promtail/config.yml:/etc/promtail/config.yml:ro
     command: -config.file=/etc/promtail/config.yml
 
   grafana:
