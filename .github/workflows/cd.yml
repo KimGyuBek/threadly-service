@@ -2,7 +2,8 @@ name: CD
 
 on:
   push:
-    branches: [ master ]
+    branches: [ feature/TLY-84-logging]
+#    branches: [ master ]
 
 jobs:
   build:
