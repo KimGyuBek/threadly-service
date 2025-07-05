@@ -2,10 +2,12 @@ version: "3.8"
 
 services:
   app:
-    image: threadly-app-local
+    image: threadly-app-local:latest
     build:
       context: ..
       dockerfile: infra/Dockerfile
+      args:
+        CACHE_BREAKER: 1
     depends_on:
       - postgresql
       - redis
