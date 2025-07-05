@@ -35,7 +35,7 @@ jobs:
       - name: debug
         run: |
           cat image_tag.txt
-          echo "image_tag= $IMAGE_TAG"
+          echo "image_tag=$IMAGE_TAG"
           
 
 
