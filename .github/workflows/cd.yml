@@ -5,9 +5,11 @@ on:
     branches: [ feature/TLY-84-logging ]
 #    branches: [ master ]
 
+
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: 체크아웃
         uses: actions/checkout@v4
@@ -17,6 +19,15 @@ jobs:
 #
 #      - name: 캐싱
 #        uses: gradle/actions/setup-gradle@v4
+
+      - name: Run build-deploy.sh
+        run: |
+          chmod +x ./infra/build-deploy.sh
+
+      - name: Read image tag
+        id: read_tag
+        run: echo "IMAGE_TAG=$(cat image_tag.txt)" >> $GITHUB_ENV
+
 
       - name: 도커 이미지 빌드
         run: |
@@ -30,7 +41,7 @@ jobs:
 
       - name: 도커 허브 푸시
         run: |
-          docker push ${{ secrets.DOCKER_IMAGE_NAME }}
+          docker push ${{ secrets.DOCKER_IMAGE_NAME }}:$IMAGE_TAG
 
 
       - name: Docker compose file 업로드 준비
@@ -98,4 +109,4 @@ jobs:
             echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
             docker pull ${{ secrets.DOCKER_IMAGE_NAME }}
             docker compose -f ./infra/docker-compose.prod.yml down
-            docker compose -f ./infra/docker-compose.prod.yml up --build -d
+            IMAGE_TAG=$IMAGE_TAG docker compose -f ./infra/docker-compose.prod.yml up --build -d
