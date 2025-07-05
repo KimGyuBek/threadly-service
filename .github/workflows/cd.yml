@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     outputs:
-      image_tag: ${{ steps.read_tag.outputs.IMAGE_TAG}}
+      image_tag: ${{ steps.read_tag.outputs.IMAGE_TAG }}
 
     steps:
       - name: 체크아웃
@@ -31,7 +31,10 @@ jobs:
         id: read_tag
         run: |
           echo "IMAGE_TAG=$(cat image_tag.txt)" >> $GITHUB_OUTPUT
+      - name: debug
+        run: |
           echo "image_tag= ${{ needs.build.outputs.image_tag }}"
+          
 
 
       - name: 도커 이미지 빌드
