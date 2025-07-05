@@ -31,6 +31,7 @@ jobs:
         id: read_tag
         run: |
           echo "IMAGE_TAG=$(cat image_tag.txt)" >> $GITHUB_OUTPUT
+          echo "image_tag= ${{ needs.build.outputs.image_tag }}"
 
 
       - name: 도커 이미지 빌드
