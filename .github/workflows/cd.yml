@@ -33,6 +33,7 @@ jobs:
           echo "IMAGE_TAG=$(cat image_tag.txt)" >> $GITHUB_OUTPUT
       - name: debug
         run: |
+          cat image_tag.txt
           echo "image_tag= ${{ needs.build.outputs.image_tag }}"
           
 
