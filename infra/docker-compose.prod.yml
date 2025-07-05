@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   app:
-    image: kimgyubek/threadly-app:latest
+    image: threadly-app-prod
     container_name: threadly-app
     depends_on:
       - postgresql
