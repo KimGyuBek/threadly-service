@@ -7,5 +7,3 @@ IMAGE_TAG="${DATE}-${COMMIT}"
 
 echo "IMAGE_TAG=$IMAGE_TAG"
 echo "$IMAGE_TAG" > image_tag.txt
-
-echo "Pushing to Docker hub.."
