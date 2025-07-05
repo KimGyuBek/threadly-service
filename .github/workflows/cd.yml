@@ -23,10 +23,12 @@ jobs:
       - name: Run build-deploy.sh
         run: |
           chmod +x ./infra/build-deploy.sh
+          ./infra/build-deploy.sh
 
       - name: Read image tag
         id: read_tag
-        run: echo "IMAGE_TAG=$(cat image_tag.txt)" >> $GITHUB_ENV
+        run: |
+          echo "IMAGE_TAG=$(cat image_tag.txt)" >> $GITHUB_ENV
 
 
       - name: 도커 이미지 빌드
