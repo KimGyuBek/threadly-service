@@ -121,6 +121,5 @@ jobs:
             docker pull ${{ secrets.DOCKER_IMAGE_NAME }}
             docker compose -f ./infra/docker-compose.prod.yml down
             IMAGE_TAG=${{ needs.build.outputs.image_tag }} docker compose -f ./infra/docker-compose.prod.yml up --build -d
-            bash ./clean-old-images ${{ secrets.DOCKER_IMAGE_NAME }} ${{ needs.build.outputs.image_tag }}
             chmod +x ./infra/clean-old-images.sh
             ./infra/clean-old-images.sh ${{secrets.DOCKER_IMAGE_NAME}} ${{ needs.build.outputs.image_tag}}
