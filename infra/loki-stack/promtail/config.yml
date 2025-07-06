@@ -15,7 +15,7 @@ scrape_configs:
           - localhost
         labels:
           job: clean-old-images
-          __path__: /var/log/threadly/*.log
+          __path__: /var/log/threadly/logs/*.log
 
   - job_name: container-logs
     docker_sd_configs:
