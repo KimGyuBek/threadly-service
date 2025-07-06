@@ -2,8 +2,8 @@
 
 set -e
 
-LOG_FILE="./clean_old_images.log"
-exec > >(tee -a "LOG_FILE") 2>&1
+LOG_FILE="/var/log/threadly/clean-old-images.log"
+exec > >(tee -a "$LOG_FILE") 2>&1
 
 IMAGE_NAME=$1
 IMAGE_TAG=$2
@@ -13,14 +13,15 @@ log() {
 }
 
 log "======Cleaning old Docker images start======"
-log "Target Repository=${IMAGE_NAME}"
-log "Target Tag=${IMAGE_TAG}"
+log "-Target Repository=${IMAGE_NAME}"
+log "-Target Tag=${IMAGE_TAG}"
 
 DELETE_TARGETS=$(docker images $IMAGE_NAME --format '{{.Repository}}:{{.Tag}}' | grep -v -e "${IMAGE_NAME}:${IMAGE_TAG}" || true)
 
 if [[ -z "$DELETE_TARGETS" ]]; then
-  log "No old images to delete."
+  log "-No old images to delete."
 else
   echo "$DELETE_TARGETS" | xargs -r docker rmi
-  log "$DELETE_TARGETS Deleted!"
+  log "-Deleted Images:"
+  log "$DELETE_TARGETS"
 fi

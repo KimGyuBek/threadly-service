@@ -1,9 +1,10 @@
 spring:
   config:
     import:
-      - application-redis-dev.yml
+      - application-redis-test.yml
       - application-persistence-test.yml
-      - application-port.yml
+      - application-port-test.yml
+
 
 logging:
   level:
@@ -22,7 +23,7 @@ properties:
     email-verification: 5
     password-verification: 5
     login-attempt: 5
-    post-view: 2
+    post-view: 1
   file:
     upload:
       location: src/test/resources/images/temp/
@@ -42,5 +43,11 @@ properties:
       aspect-ratio:
         target: RATIO_3_4
         tolerance: 0.05 # 허용 오차 비율
+
+  email:
+    verification-url: http://localhost:8080
+
 jwt:
-  secret: ZCOJpkiT85EciBeU9F3ontoX8YBMOViV7ZUn4TXTcf2zQhpjfl0egxNWm5hCjGKtKqCT6FnCBHlxbwjKQjl4WA==
+  secret: ZNHd8l6lUl7cG122AmjtaHNgjQFP2NHK0ZRQrpuB4nlZlYtgju7dk7U/5op7U7OnFnXIB/r2Gx4WdtNGbwyuiQ==
+
+
