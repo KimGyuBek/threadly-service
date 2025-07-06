@@ -27,6 +27,6 @@ else
   log "-Deleted Images:"
   while IFS= read -r line; do
     log "  - $line"
-  done <<< $DELETE_TARGETS
+  done <<< $"DELETE_TARGET"
 fi
 log "======Cleaning finished======"
