@@ -1,9 +1,14 @@
 jwt:
   secret: ${JWT.SECRET}
 spring:
-  data:
-    redis:
-      host: redis
-      port: 6379
+#  mvc:
+#    contentnegotiation:
+#      favor-path-extension: false
+#      favor-paramter: false
+#      deault-content-type: application/json
+#  data:
+#    redis:
+#      host: redis
+#      port: 6379
 server:
   port: 8080

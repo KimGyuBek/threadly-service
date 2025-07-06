@@ -9,11 +9,13 @@ import com.threadly.properties.TtlProperties;
 import com.threadly.user.FetchUserPort;
 import com.threadly.user.User;
 import com.threadly.user.UserEmailVerificationPort;
+import jakarta.annotation.PostConstruct;
 import java.time.Duration;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,8 +34,7 @@ public class EmailVerificationService implements EmailVerificationUseCase {
 
   private final TtlProperties ttlProperties;
 
-  /*만료 시간*/
-  private static final Duration EXPIRATION = Duration.ofMinutes(5);
+
 
   @Transactional
   @Override
@@ -41,6 +42,7 @@ public class EmailVerificationService implements EmailVerificationUseCase {
 
     /*code로 userId 조회*/
     String userId = emailVerificationPort.getUserId(code);
+
 
     /*인증되지 않은 사용자인지 찾아서 검증 */
     Optional<User> findByUserId = fetchUserPort.findByUserId(userId);
@@ -69,6 +71,7 @@ public class EmailVerificationService implements EmailVerificationUseCase {
 
   @Override
   public void sendVerificationEmail(String userId) {
+
     /*인증 코드 생성*/
     String code = UUID.randomUUID().toString().substring(0, 6);
 

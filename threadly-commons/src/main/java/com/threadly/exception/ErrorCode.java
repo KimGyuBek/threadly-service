@@ -36,7 +36,7 @@ public enum ErrorCode {
   /*Token*/
   TOKEN_EXPIRED("TLY3000", "토큰이 만료되었습니다.", HttpStatus.UNAUTHORIZED),
   TOKEN_INVALID("TLY3001", "유효하지 않은 토큰입니다.", HttpStatus.BAD_REQUEST),
-  TOKEN_MISSING("TLY3002", "토큰이 존재하지 않습니다.", HttpStatus.BAD_REQUEST),
+  TOKEN_MISSING("TLY3002", "토큰이 존재하지 않습니다.1111", HttpStatus.BAD_REQUEST),
 
   /*Email*/
   EMAIL_SENDING_FAILED("TLY4000", "메일 전송중 오류 발생", HttpStatus.BAD_GATEWAY),

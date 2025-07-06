@@ -1,16 +1,22 @@
+version: "3.8"
+
 services:
   app:
-    image: kimgyubek/threadly-app:${IMAGE_TAG}
-    container_name: threadly-app
+    image: threadly-app-local:latest
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile
+      args:
+        CACHE_BREAKER: 1
     depends_on:
       - postgresql
       - redis
     working_dir: /app
-    command: [ "java", "-jar", "threadly.jar" ]
+    command: [ "java", "-jar", "/app/threadly.jar" ]
     ports:
       - "8080:8080"
     env_file:
-      - ./.env
+      - .env.local
     networks:
       - threadly-network
     logging:
@@ -18,6 +24,8 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
+    tty: true
+    stdin_open: true
 
   postgresql:
     image: postgres:16
@@ -28,18 +36,22 @@ services:
       POSTGRES_USER: threadly
       POSTGRES_PASSWORD: localpwd
     volumes:
-      - /home/ubuntu/docker-volumes/postgres:/var/lib/postgresql/data
+      - ./data/db_local:/var/lib/postgresql/data
     networks:
       - threadly-network
+    ports:
+      - "5432:5432"
 
   redis:
     image: redis:latest
     container_name: redis
     restart: always
     volumes:
-      - /home/ubuntu/docker-volumes/redis:/data
+      - ./data/redis:/data
     networks:
       - threadly-network
+    ports:
+      - "6379:6379"
 
   loki:
     image: grafana/loki:2.9.0
@@ -48,19 +60,18 @@ services:
       - "3100:3100"
     volumes:
       - ./loki-stack/loki/config.yml:/etc/loki/config.yml
-      - /home/ubuntu/docker-volumes/loki/data:/tmp/loki
-      - /home/ubuntu/docker-volumes/loki/wal:/wal
+      - ./loki-stack/loki/data:/tmp/loki
+      - ./loki-stack/loki/wal:/wal
     command: -config.file=/etc/loki/config.yml
 
   promtail:
     image: grafana/promtail:2.9.0
     container_name: promtail
     volumes:
+      - /var/log:/var/log
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
-      - /home/ubuntu/threadly/logs:/home/ubuntu/threadly/logs
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /etc/hostname:/etc/hostname:ro
-      - ./loki-stack/promtail/config.yml:/etc/promtail/config.yml:ro
+      - /etc/hostname:/etc/hostname
+      - ./loki-stack/promtail/config.yml:/etc/promtail/config.yml
     command: -config.file=/etc/promtail/config.yml
 
   grafana:
@@ -75,7 +86,7 @@ services:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_PASSWORD=admin
     volumes:
-      - /home/ubuntu/docker-volumes/grafana:/var/lib/grafana
+      - grafana-storage:/var/lib/grafana
 
 volumes:
   grafana-storage:

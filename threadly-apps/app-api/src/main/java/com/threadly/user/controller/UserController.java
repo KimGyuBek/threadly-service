@@ -31,7 +31,6 @@ public class UserController {
   private final EmailVerificationUseCase emailVerificationUseCase;
   private final UpdateUserUseCase updateUserUseCase;
 
-
   /**
    * 회원 가입
    *
