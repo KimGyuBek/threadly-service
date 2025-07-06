@@ -2,11 +2,12 @@ name: CD
 
 on:
   push:
-    branches: [ feature/TLY-84-logging ]
-#    branches: [ master ]
-
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
 jobs:
+  if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true)
   build:
     runs-on: ubuntu-latest
     outputs:
@@ -18,9 +19,6 @@ jobs:
 
       - name: Buildx 설정
         uses: docker/setup-buildx-action@v3
-#
-#      - name: 캐싱
-#        uses: gradle/actions/setup-gradle@v4
 
       - name: Run build-deploy.sh
         run: |
