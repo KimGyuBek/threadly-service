@@ -44,6 +44,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     try {
       String token = resolveToken(request);
 
+
       /*blacklist token 조회 후 있을경우 예외 처리*/
       if (authManager.isBlacklisted(token)) {
         throw new TokenException(ErrorCode.TOKEN_INVALID);

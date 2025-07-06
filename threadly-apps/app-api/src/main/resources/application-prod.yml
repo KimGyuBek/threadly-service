@@ -7,13 +7,20 @@ spring:
       - "classpath:application-persistence-prod.yml"
       - "classpath:application-redis-prod.yml"
       - "classpath:application-port.yml"
+#logging:
+#  level:
+#    root: warn
+#    com.threadly: info
+#    org.springframework: warn
+#    org.hibernate.SQL: warn
+#    org.hibernate.type.descriptor.sql.BasicBinder: warn
+
 logging:
   level:
-    root: warn
-    com.threadly: info
-    org.springframework: warn
-    org.hibernate.SQL: warn
-    org.hibernate.type.descriptor.sql.BasicBinder: warn
+    root: info
+    com.threadly: debug
+    org.hibernate.SQL: debug
+    org.hibernate.orm.jdbc.bind: trace
 
 properties:
   ttl:
@@ -43,3 +50,5 @@ properties:
       aspect-ratio:
         target: RATIO_3_4
         tolerance: 0.05 # 허용 오차 비율
+  email:
+    verification-url: https://api.threadly.kr

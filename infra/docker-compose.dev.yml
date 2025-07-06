@@ -8,6 +8,8 @@ services:
     ports:
       - "5433:5432"
     environment:
+      POSTGRES_DB: threadly
+      POSTGRES_USER: threadly
       POSTGRES_PASSWORD: localpwd
     networks:
       - threadly-network

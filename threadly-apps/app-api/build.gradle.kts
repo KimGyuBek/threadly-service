@@ -50,7 +50,6 @@ tasks.withType<Test> {
     systemProperty("spring.profiles.active", "test")
     systemProperty("file.encoding", "UTF-8")
     maxParallelForks = 1
-
-
 }
+
 

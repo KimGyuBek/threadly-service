@@ -29,7 +29,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
       AuthenticationException authException) throws IOException, ServletException {
 
     response.setCharacterEncoding("UTF-8");
-    response.setContentType("application/json");
+    response.setContentType("application/json; charset=utf-8");
 
     /*TokenAuthenticationException일 경우*/
     if (authException instanceof TokenAuthenticationException) {
