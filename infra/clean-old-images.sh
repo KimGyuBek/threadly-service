@@ -5,7 +5,7 @@ set -e
 LOG_FILE="../logs/clean-old-images.log"
 
 mkdir -p "$(dirname "$LOG_FILE")"
-exec > >(tee -a "$LOG_FILE") 2>&1
+exec > > "$LOG_FILE" 2>&1
 
 IMAGE_NAME=$1
 IMAGE_TAG=$2
@@ -27,6 +27,6 @@ else
   log "-Deleted Images:"
   while IFS= read -r line; do
     log "  - $line"
-  done <<< $"DELETE_TARGETS"
+  done <<< "$DELETE_TARGETS"
 fi
 log "======Cleaning finished======"
