@@ -63,7 +63,7 @@ jobs:
       - name: config 업로드 준비
         run: |
           cp -r ./infra/loki-stack ./deploy/
-          cp ./clean-old-images.sh ./deploy
+          cp ./infra/clean-old-images.sh ./deploy
 
       - name: Artifact 업로드
         uses: actions/upload-artifact@v4
@@ -122,3 +122,5 @@ jobs:
             docker compose -f ./infra/docker-compose.prod.yml down
             IMAGE_TAG=${{ needs.build.outputs.image_tag }} docker compose -f ./infra/docker-compose.prod.yml up --build -d
             bash ./clean-old-images ${{ secrets.DOCKER_IMAGE_NAME }} ${{ needs.build.outputs.image_tag }}
+            chmod +x ./infra/clean-old-images.sh
+            ./infra/build-deploy.sh ${{secrets.DOCKER_IMAGE_NAME}} ${{ needs.build.outputs.image_tag}}
