@@ -57,7 +57,7 @@ services:
     container_name: promtail
     volumes:
       - /var/lib/docker/containers:/var/log/threadly:ro
-      - /home/ubuntu/threadly/logs:/var/log/threadly/logs:ro
+      - /home/ubuntu/threadly/logs:/app/logs/threadly
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /etc/hostname:/etc/hostname:ro
       - ./loki-stack/promtail/config.yml:/etc/promtail/config.yml:ro
