@@ -56,8 +56,8 @@ services:
     image: grafana/promtail:2.9.0
     container_name: promtail
     volumes:
-      - /home/ubuntu/threadly/logs:/home/ubuntu/threadly/logs
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /home/ubuntu/threadly/logs:/home/ubuntu/threadly/logs
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /etc/hostname:/etc/hostname:ro
       - ./loki-stack/promtail/config.yml:/etc/promtail/config.yml:ro
