@@ -5,7 +5,7 @@ set -e
 LOG_FILE="../logs/clean-old-images.log"
 
 mkdir -p "$(dirname "$LOG_FILE")"
-exec > > "$LOG_FILE" 2>&1
+exec >> "$LOG_FILE" 2>&1
 
 IMAGE_NAME=$1
 IMAGE_TAG=$2
