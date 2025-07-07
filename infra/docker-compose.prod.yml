@@ -29,6 +29,8 @@ services:
       POSTGRES_PASSWORD: localpwd
     volumes:
       - /home/ubuntu/docker-volumes/postgres:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
     networks:
       - threadly-network
 
@@ -38,6 +40,8 @@ services:
     restart: always
     volumes:
       - /home/ubuntu/docker-volumes/redis:/data
+    ports:
+      - "6379:6379"
     networks:
       - threadly-network
 
@@ -51,6 +55,8 @@ services:
       - /home/ubuntu/docker-volumes/loki/data:/tmp/loki
       - /home/ubuntu/docker-volumes/loki/wal:/wal
     command: -config.file=/etc/loki/config.yml
+    networks:
+      - threadly-network
 
   promtail:
     image: grafana/promtail:2.9.0
@@ -62,6 +68,8 @@ services:
       - /etc/hostname:/etc/hostname:ro
       - ./loki-stack/promtail/config.yml:/etc/promtail/config.yml:ro
     command: -config.file=/etc/promtail/config.yml
+    networks:
+      - threadly-network
 
   grafana:
     image: grafana/grafana:10.0.3
@@ -76,6 +84,8 @@ services:
       - GF_SECURITY_PASSWORD=admin
     volumes:
       - /home/ubuntu/docker-volumes/grafana:/var/lib/grafana
+    networks:
+      - threadly-network
 
 volumes:
   grafana-storage:
