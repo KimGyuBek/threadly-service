@@ -32,6 +32,7 @@ services:
     volumes:
       - /home/ubuntu/docker-volumes/postgres:/var/lib/postgresql/data
       - /home/ubuntu/threadly/logs:/app/logs
+    user: "999:999"
     ports:
       - "5432:5432"
     networks:
@@ -44,6 +45,7 @@ services:
     volumes:
       - /home/ubuntu/docker-volumes/redis:/data
       - /home/ubuntu/threadly/logs:/app/logs
+    user: "999:999"
     ports:
       - "6379:6379"
     command: [ "redis-server", "--logfile", "/app/logs/redis.log" ]
