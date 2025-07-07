@@ -17,7 +17,7 @@ services:
         max-size: "10m"
         max-file: "3"
     volumes:
-      - /home/ubuntu/threadly/logs/services/app:/var/log
+      - /home/ubuntu/threadly/logs/services/app:/app/logs
     networks:
       - threadly-network
 
