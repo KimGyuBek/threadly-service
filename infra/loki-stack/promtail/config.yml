@@ -15,25 +15,25 @@ scrape_configs:
           - localhost
         labels:
           job: clean-old-images
-          __path__: /app/logs/clean-old-images.log
+          __path__: /app/logs/scripts/clean-old-images.log
 
   - job_name: app-log
     static_configs:
       - targets: [localhost]
         labels:
           job: app
-          __path__: /app/logs/app.log
+          __path__: /app/logs/services/app.log
 
   - job_name: postgres-log
     static_configs:
       - targets: [localhost]
         labels:
           job: postgresql
-          __path__: /app/logs/postgresql.log
+          __path__: /app/logs/services/postgres/postgresql.log
 
   - job_name: redis-log
     static_configs:
       - targets: [localhost]
         labels:
           job: redis
-          __path__: /app/logs/redis.log
+          __path__: /app/logs/services/redis/redis.log
