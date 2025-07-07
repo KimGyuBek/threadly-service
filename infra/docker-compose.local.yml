@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   app:
     image: threadly-app-local:latest
@@ -17,8 +15,8 @@ services:
       - "8080:8080"
     env_file:
       - .env.local
-    networks:
-      - threadly-network
+    volumes:
+      - ../logs:/app/logs
     logging:
       driver: json-file
       options:
@@ -26,6 +24,8 @@ services:
         max-file: "3"
     tty: true
     stdin_open: true
+    networks:
+      - threadly-network
 
   postgresql:
     image: postgres:16
@@ -36,22 +36,25 @@ services:
       POSTGRES_USER: threadly
       POSTGRES_PASSWORD: localpwd
     volumes:
-      - ./data/db_local:/var/lib/postgresql/data
-    networks:
-      - threadly-network
+      - ./data/db:/var/lib/postgresql/data
+      - ../logs:/var/log/postgresql
     ports:
       - "5432:5432"
+    networks:
+      - threadly-network
 
   redis:
     image: redis:latest
     container_name: redis
     restart: always
+    command: [ "redis-server", "--logfile", "/var/log/redis/redis.log" ]
     volumes:
       - ./data/redis:/data
-    networks:
-      - threadly-network
+      - ../logs:/var/log/redis
     ports:
       - "6379:6379"
+    networks:
+      - threadly-network
 
   loki:
     image: grafana/loki:2.9.0
@@ -63,16 +66,18 @@ services:
       - ./loki-stack/loki/data:/tmp/loki
       - ./loki-stack/loki/wal:/wal
     command: -config.file=/etc/loki/config.yml
+    networks:
+      - threadly-network
 
   promtail:
     image: grafana/promtail:2.9.0
     container_name: promtail
     volumes:
-      - /var/log:/var/log
-      - /var/lib/docker/containers:/var/lib/docker/containers:ro
-      - /etc/hostname:/etc/hostname
-      - ./loki-stack/promtail/config.yml:/etc/promtail/config.yml
+      - ../logs:/app/logs
+      - ./loki-stack/promtail/config_local.yml:/etc/promtail/config.yml
     command: -config.file=/etc/promtail/config.yml
+    networks:
+      - threadly-network
 
   grafana:
     image: grafana/grafana:10.0.3
@@ -87,6 +92,8 @@ services:
       - GF_SECURITY_PASSWORD=admin
     volumes:
       - grafana-storage:/var/lib/grafana
+    networks:
+      - threadly-network
 
 volumes:
   grafana-storage:

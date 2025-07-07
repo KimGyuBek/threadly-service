@@ -11,13 +11,15 @@ services:
       - "8080:8080"
     env_file:
       - ./.env
-    networks:
-      - threadly-network
     logging:
       driver: json-file
       options:
         max-size: "10m"
         max-file: "3"
+    volumes:
+      - ../logs:/app/logs
+    networks:
+      - threadly-network
 
   postgresql:
     image: postgres:16
@@ -29,6 +31,7 @@ services:
       POSTGRES_PASSWORD: localpwd
     volumes:
       - /home/ubuntu/docker-volumes/postgres:/var/lib/postgresql/data
+      - /home/ubuntu/threadly/logs:/var/log/postgresql
     ports:
       - "5432:5432"
     networks:
@@ -40,8 +43,10 @@ services:
     restart: always
     volumes:
       - /home/ubuntu/docker-volumes/redis:/data
+      - /home/ubuntu/threadly/logs:/var/log/redis
     ports:
       - "6379:6379"
+    command: [ "redis-server", "--logfile", "/var/log/redis/redis.log" ]
     networks:
       - threadly-network
 
@@ -62,11 +67,8 @@ services:
     image: grafana/promtail:2.9.0
     container_name: promtail
     volumes:
-      - /var/lib/docker/containers:/var/log/threadly:ro
-      - /home/ubuntu/threadly/logs:/app/logs/threadly
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /etc/hostname:/etc/hostname:ro
-      - ./loki-stack/promtail/config.yml:/etc/promtail/config.yml:ro
+      - /home/ubuntu/threadly/logs:/app/logs
+      - /home/ubuntu/threadly/infra/loki-stack/promtail/config.yml:/etc/promtail/config.yml:ro
     command: -config.file=/etc/promtail/config.yml
     networks:
       - threadly-network

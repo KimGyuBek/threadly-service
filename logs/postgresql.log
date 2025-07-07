@@ -1,0 +1,773 @@
+2025-07-07 14:48:41 UTC [1]: [3-1] user=, db=, app=, client= LOG:  starting PostgreSQL 16.9 (Debian 16.9-1.pgdg120+1) on aarch64-unknown-linux-gnu, compiled by gcc (Debian 12.2.0-14) 12.2.0, 64-bit
+2025-07-07 14:48:41 UTC [1]: [4-1] user=, db=, app=, client= LOG:  listening on IPv4 address "0.0.0.0", port 5432
+2025-07-07 14:48:41 UTC [1]: [5-1] user=, db=, app=, client= LOG:  listening on IPv6 address "::", port 5432
+2025-07-07 14:48:41 UTC [1]: [6-1] user=, db=, app=, client= LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2025-07-07 14:48:41 UTC [31]: [1-1] user=, db=, app=, client= LOG:  database system was shut down at 2025-07-07 14:48:41 UTC
+2025-07-07 14:48:41 UTC [1]: [7-1] user=, db=, app=, client= LOG:  database system is ready to accept connections
+2025-07-07 14:48:43 UTC [35]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.6 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 14:48:43 UTC [35]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.6 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 14:48:43 UTC [35]: [3-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SHOW TRANSACTION ISOLATION LEVEL
+2025-07-07 14:48:43 UTC [35]: [4-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SELECT version()
+2025-07-07 14:48:43 UTC [35]: [5-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SELECT version()
+2025-07-07 14:48:43 UTC [35]: [6-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SHOW search_path
+2025-07-07 14:48:43 UTC [35]: [7-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SELECT CURRENT_USER
+2025-07-07 14:48:43 UTC [35]: [8-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SELECT current_schema
+2025-07-07 14:48:43 UTC [35]: [9-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SHOW search_path
+2025-07-07 14:48:43 UTC [35]: [10-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SELECT current_schema
+2025-07-07 14:48:43 UTC [35]: [11-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SHOW search_path
+2025-07-07 14:48:43 UTC [35]: [12-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SELECT current_user
+2025-07-07 14:48:43 UTC [35]: [13-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SELECT COUNT(*) FROM pg_namespace WHERE nspname=$1
+2025-07-07 14:48:43 UTC [35]: [14-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 DETAIL:  parameters: $1 = 'public'
+2025-07-07 14:48:43 UTC [35]: [15-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: BEGIN
+2025-07-07 14:48:43 UTC [35]: [16-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SET ROLE 'threadly'
+2025-07-07 14:48:43 UTC [35]: [17-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SELECT EXISTS (
+	  SELECT 1
+	  FROM   pg_catalog.pg_class c
+	  JOIN   pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+	  WHERE  n.nspname = $1
+	  AND    c.relname = $2
+	  AND    c.relkind = 'r'
+	)
+2025-07-07 14:48:43 UTC [35]: [18-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 DETAIL:  parameters: $1 = 'public', $2 = 'flyway_schema_history'
+2025-07-07 14:48:43 UTC [35]: [19-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: /*NO LOAD BALANCE*/
+	SELECT "installed_rank","version","description","type","script","checksum","installed_on","installed_by","execution_time","success" FROM "public"."flyway_schema_history" WHERE "installed_rank" > $1 ORDER BY "installed_rank"
+2025-07-07 14:48:43 UTC [35]: [20-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 DETAIL:  parameters: $1 = '-1'
+2025-07-07 14:48:43 UTC [35]: [21-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute S_1: COMMIT
+2025-07-07 14:48:43 UTC [35]: [22-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: BEGIN
+2025-07-07 14:48:43 UTC [35]: [23-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SELECT COUNT(*) FROM pg_namespace WHERE nspname=$1
+2025-07-07 14:48:43 UTC [35]: [24-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 DETAIL:  parameters: $1 = 'public'
+2025-07-07 14:48:43 UTC [35]: [25-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute S_1: COMMIT
+2025-07-07 14:48:43 UTC [35]: [26-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SET ROLE 'threadly'
+2025-07-07 14:48:43 UTC [35]: [27-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SELECT EXISTS (
+	  SELECT 1
+	  FROM   pg_catalog.pg_class c
+	  JOIN   pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+	  WHERE  n.nspname = $1
+	  AND    c.relname = $2
+	  AND    c.relkind = 'r'
+	)
+2025-07-07 14:48:43 UTC [35]: [28-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 DETAIL:  parameters: $1 = 'public', $2 = 'flyway_schema_history'
+2025-07-07 14:48:43 UTC [36]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.6 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 14:48:43 UTC [36]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.6 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 14:48:43 UTC [36]: [3-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SHOW search_path
+2025-07-07 14:48:43 UTC [36]: [4-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SELECT CURRENT_USER
+2025-07-07 14:48:43 UTC [35]: [29-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SET ROLE 'threadly'
+2025-07-07 14:48:43 UTC [35]: [30-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: BEGIN
+2025-07-07 14:48:43 UTC [35]: [31-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SELECT pg_try_advisory_xact_lock(77433833903597)
+2025-07-07 14:48:43 UTC [35]: [32-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SET ROLE 'threadly'
+2025-07-07 14:48:43 UTC [35]: [33-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SELECT EXISTS (
+	  SELECT 1
+	  FROM   pg_catalog.pg_class c
+	  JOIN   pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+	  WHERE  n.nspname = $1
+	  AND    c.relname = $2
+	  AND    c.relkind = 'r'
+	)
+2025-07-07 14:48:43 UTC [35]: [34-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 DETAIL:  parameters: $1 = 'public', $2 = 'flyway_schema_history'
+2025-07-07 14:48:43 UTC [35]: [35-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: /*NO LOAD BALANCE*/
+	SELECT "installed_rank","version","description","type","script","checksum","installed_on","installed_by","execution_time","success" FROM "public"."flyway_schema_history" WHERE "installed_rank" > $1 ORDER BY "installed_rank"
+2025-07-07 14:48:43 UTC [35]: [36-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 DETAIL:  parameters: $1 = '12'
+2025-07-07 14:48:43 UTC [35]: [37-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute S_1: COMMIT
+2025-07-07 14:48:43 UTC [36]: [5-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SET ROLE 'threadly'
+2025-07-07 14:48:43 UTC [36]: [6-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: BEGIN
+2025-07-07 14:48:43 UTC [36]: [7-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SELECT set_config('search_path', $1, false)
+2025-07-07 14:48:43 UTC [36]: [8-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 DETAIL:  parameters: $1 = '"$user", public'
+2025-07-07 14:48:43 UTC [36]: [9-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute S_1: COMMIT
+2025-07-07 14:48:43 UTC [35]: [38-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute S_2: SET ROLE 'threadly'
+2025-07-07 14:48:43 UTC [35]: [39-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: BEGIN
+2025-07-07 14:48:43 UTC [35]: [40-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SELECT set_config('search_path', $1, false)
+2025-07-07 14:48:43 UTC [35]: [41-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 DETAIL:  parameters: $1 = '"$user", public'
+2025-07-07 14:48:43 UTC [35]: [42-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute S_1: COMMIT
+2025-07-07 14:48:43 UTC [37]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.6 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 14:48:43 UTC [37]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.6 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 14:48:43 UTC [38]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.6 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 14:48:43 UTC [38]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.6 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 14:48:43 UTC [39]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.6 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 14:48:43 UTC [39]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.6 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 14:48:43 UTC [40]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.6 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 14:48:43 UTC [40]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.6 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 14:48:43 UTC [41]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.6 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 14:48:43 UTC [41]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.6 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 14:48:43 UTC [42]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.6 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 14:48:43 UTC [42]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.6 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 14:48:43 UTC [35]: [43-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: select string_agg(word, ',') from pg_catalog.pg_get_keywords() where word <> ALL ('{a,abs,absolute,action,ada,add,admin,after,all,allocate,alter,always,and,any,are,array,as,asc,asensitive,assertion,assignment,asymmetric,at,atomic,attribute,attributes,authorization,avg,before,begin,bernoulli,between,bigint,binary,blob,boolean,both,breadth,by,c,call,called,cardinality,cascade,cascaded,case,cast,catalog,catalog_name,ceil,ceiling,chain,char,char_length,character,character_length,character_set_catalog,character_set_name,character_set_schema,characteristics,characters,check,checked,class_origin,clob,close,coalesce,cobol,code_units,collate,collation,collation_catalog,collation_name,collation_schema,collect,column,column_name,command_function,command_function_code,commit,committed,condition,condition_number,connect,connection_name,constraint,constraint_catalog,constraint_name,constraint_schema,constraints,constructors,contains,continue,convert,corr,corresponding,count,covar_pop,covar_samp,create,cross,cube,cume_dist,current,current_collation,current_date,current_default_transform_group,current_path,current_role,current_time,current_timestamp,current_transform_group_for_type,current_user,cursor,cursor_name,cycle,data,date,datetime_interval_code,datetime_interval_precision,day,deallocate,dec,decimal,declare,default,defaults,deferrable,deferred,defined,definer,degree,delete,dense_rank,depth,deref,derived,desc,describe,descriptor,deterministic,diagnostics,disconnect,dispatch,distinct,domain,double,drop,dynamic,dynamic_function,dynamic_function_code,each,element,else,end,end-exec,equals,escape,every,except,exception,exclude,excluding,exec,execute,exists,exp,external,extract,false,fetch,filter,final,first,float,floor,following,for,foreign,fortran,found,free,from,full,function,fusion,g,general,get,global,go,goto,grant,granted,group,grouping,having,hierarchy,hold,hour,identity,immediate,implementation,in,including,increment,indicator,initially,inner,inout,input,insensitive,insert,instance,instantiable,int,integer,intersect,intersection,interval,into,invoker,is,isolation,join,k,key,key_member,key_type,language,large,last,lateral,leading,left,length,level,like,ln,local,localtime,localtimestamp,locator,lower,m,map,match,matched,max,maxvalue,member,merge,message_length,message_octet_length,message_text,method,min,minute,minvalue,mod,modifies,module,month,more,multiset,mumps,name,names,national,natural,nchar,nclob,nesting,new,next,no,none,normalize,normalized,not,"null",nullable,nullif,nulls,number,numeric,object,octet_length,octets,of,old,on,only,open,option,options,or,order,ordering,ordinality,others,out,outer,output,over,overlaps,overlay,overriding,pad,parameter,parameter_mode,parameter_name,parameter_ordinal_position,parameter_specific_catalog,parameter_specific_name,parameter_specific_schema,partial,partition,pascal,path,percent_rank,percentile_cont,percentile_disc,placing,pli,position,power,preceding,precision,prepare,preserve,primary,prior,privileges,procedure,public,range,rank,read,reads,real,recursive,ref,references,referencing,regr_avgx,regr_avgy,regr_count,regr_intercept,regr_r2,regr_slope,regr_sxx,regr_sxy,regr_syy,relative,release,repeatable,restart,result,return,returned_cardinality,returned_length,returned_octet_length,returned_sqlstate,returns,revoke,right,role,rollback,rollup,routine,routine_catalog,routine_name,routine_schema,row,row_count,row_number,rows,savepoint,scale,schema,schema_name,scope_catalog,scope_name,scope_schema,scroll,search,second,section,security,select,self,sensitive,sequence,serializable,server_name,session,session_user,set,sets,similar,simple,size,smallint,some,source,space,specific,specific_name,specifictype,sql,sqlexception,sqlstate,sqlwarning,sqrt,start,state,statement,static,stddev_pop,stddev_samp,structure,style,subclass_origin,submultiset,substring,sum,symmetric,system,system_user,table,table_name,tablesample,temporary,then,ties,time,timestamp,timezone_hour,timezone_minute,to,top_level_count,trailing,transaction,transaction_active,transactions_committed,transactions_rolled_back,transform,transforms,translate,translation,treat,trigger,trigger_catalog,trigger_name,trigger_schema,trim,true,type,uescape,unbounded,uncommitted,under,union,unique,unknown,unnamed,unnest,update,upper,usage,user,user_defined_type_catalog,user_defined_type_code,user_defined_type_name,user_defined_type_schema,using,value,values,var_pop,var_samp,varchar,varying,view,when,whenever,where,width_bucket,window,with,within,without,work,write,year,zone}'::text[])
+2025-07-07 14:48:43 UTC [35]: [44-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: select version()
+2025-07-07 14:48:43 UTC [35]: [45-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: select current_schema()
+2025-07-07 14:48:43 UTC [35]: [46-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: select current_schema()
+2025-07-07 14:48:43 UTC [43]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.6 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 14:48:43 UTC [43]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.6 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 14:48:43 UTC [44]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.6 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 14:48:43 UTC [44]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.6 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 14:48:44 UTC [35]: [47-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: select * from information_schema.sequences
+2025-07-07 14:48:44 UTC [35]: [48-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SELECT NULL AS TABLE_CAT, n.nspname AS TABLE_SCHEM, c.relname AS TABLE_NAME,  CASE n.nspname ~ '^pg_' OR n.nspname = 'information_schema'  WHEN true THEN CASE  WHEN n.nspname = 'pg_catalog' OR n.nspname = 'information_schema' THEN CASE c.relkind   WHEN 'r' THEN 'SYSTEM TABLE'   WHEN 'v' THEN 'SYSTEM VIEW'   WHEN 'i' THEN 'SYSTEM INDEX'   ELSE NULL   END  WHEN n.nspname = 'pg_toast' THEN CASE c.relkind   WHEN 'r' THEN 'SYSTEM TOAST TABLE'   WHEN 'i' THEN 'SYSTEM TOAST INDEX'   ELSE NULL   END  ELSE CASE c.relkind   WHEN 'r' THEN 'TEMPORARY TABLE'   WHEN 'p' THEN 'TEMPORARY TABLE'   WHEN 'i' THEN 'TEMPORARY INDEX'   WHEN 'S' THEN 'TEMPORARY SEQUENCE'   WHEN 'v' THEN 'TEMPORARY VIEW'   ELSE NULL   END  END  WHEN false THEN CASE c.relkind  WHEN 'r' THEN 'TABLE'  WHEN 'p' THEN 'PARTITIONED TABLE'  WHEN 'i' THEN 'INDEX'  WHEN 'P' then 'PARTITIONED INDEX'  WHEN 'S' THEN 'SEQUENCE'  WHEN 'v' THEN 'VIEW'  WHEN 'c' THEN 'TYPE'  WHEN 'f' THEN 'FOREIGN TABLE'  WHEN 'm' THEN 'MATERIALIZED VIEW'  ELSE NULL  END  ELSE NULL  END  AS TABLE_TYPE, d.description AS REMARKS,  '' as TYPE_CAT, '' as TYPE_SCHEM, '' as TYPE_NAME, '' AS SELF_REFERENCING_COL_NAME, '' AS REF_GENERATION  FROM pg_catalog.pg_namespace n, pg_catalog.pg_class c  LEFT JOIN pg_catalog.pg_description d ON (c.oid = d.objoid AND d.objsubid = 0  and d.classoid = 'pg_class'::regclass)  WHERE c.relnamespace = n.oid  AND n.nspname LIKE 'public' AND c.relname LIKE '%' AND (false  OR ( c.relkind = 'r' AND n.nspname !~ '^pg_' AND n.nspname <> 'information_schema' )  OR ( c.relkind = 'v' AND n.nspname <> 'pg_catalog' AND n.nspname <> 'information_schema' )  OR ( c.relkind = 'm' )  OR ( c.relkind = 'p' AND n.nspname !~ '^pg_' AND n.nspname <> 'information_schema' ) )  ORDER BY TABLE_TYPE,TABLE_SCHEM,TABLE_NAME 
+2025-07-07 14:48:44 UTC [35]: [49-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SELECT * FROM (SELECT n.nspname,c.relname,a.attname,a.atttypid,a.attnotnull OR (t.typtype = 'd' AND t.typnotnull) AS attnotnull,a.atttypmod,a.attlen,t.typtypmod,row_number() OVER (PARTITION BY a.attrelid ORDER BY a.attnum) AS attnum, nullif(a.attidentity, '') as attidentity,nullif(a.attgenerated, '') as attgenerated,pg_catalog.pg_get_expr(def.adbin, def.adrelid) AS adsrc,dsc.description,t.typbasetype,t.typtype  FROM pg_catalog.pg_namespace n  JOIN pg_catalog.pg_class c ON (c.relnamespace = n.oid)  JOIN pg_catalog.pg_attribute a ON (a.attrelid=c.oid)  JOIN pg_catalog.pg_type t ON (a.atttypid = t.oid)  LEFT JOIN pg_catalog.pg_attrdef def ON (a.attrelid=def.adrelid AND a.attnum = def.adnum)  LEFT JOIN pg_catalog.pg_description dsc ON (c.oid=dsc.objoid AND a.attnum = dsc.objsubid)  LEFT JOIN pg_catalog.pg_class dc ON (dc.oid=dsc.classoid AND dc.relname='pg_class')  LEFT JOIN pg_catalog.pg_namespace dn ON (dc.relnamespace=dn.oid AND dn.nspname='pg_catalog')  WHERE c.relkind in ('r','p','v','f','m') and a.attnum > 0 AND NOT a.attisdropped  AND n.nspname LIKE 'public') c WHERE true  AND attname LIKE '%' ORDER BY nspname,c.relname,attnum 
+2025-07-07 14:53:41 UTC [29]: [1-1] user=, db=, app=, client= LOG:  checkpoint starting: time
+2025-07-07 14:53:41 UTC [29]: [2-1] user=, db=, app=, client= LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.006 s, sync=0.001 s, total=0.014 s; sync files=2, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=0 kB; lsn=0/19CD7B8, redo lsn=0/19CD780
+2025-07-07 14:54:02 UTC [61]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.6 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 14:54:02 UTC [61]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.6 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 14:54:02 UTC [61]: [3-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SHOW TRANSACTION ISOLATION LEVEL
+2025-07-07 14:54:02 UTC [61]: [4-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SELECT version()
+2025-07-07 14:54:02 UTC [61]: [5-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SELECT version()
+2025-07-07 14:54:02 UTC [61]: [6-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SHOW search_path
+2025-07-07 14:54:02 UTC [61]: [7-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SELECT CURRENT_USER
+2025-07-07 14:54:02 UTC [61]: [8-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SELECT current_schema
+2025-07-07 14:54:02 UTC [61]: [9-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SHOW search_path
+2025-07-07 14:54:02 UTC [61]: [10-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SELECT current_schema
+2025-07-07 14:54:02 UTC [61]: [11-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SHOW search_path
+2025-07-07 14:54:02 UTC [61]: [12-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SELECT current_user
+2025-07-07 14:54:02 UTC [61]: [13-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SELECT COUNT(*) FROM pg_namespace WHERE nspname=$1
+2025-07-07 14:54:02 UTC [61]: [14-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 DETAIL:  parameters: $1 = 'public'
+2025-07-07 14:54:02 UTC [61]: [15-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: BEGIN
+2025-07-07 14:54:02 UTC [61]: [16-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SET ROLE 'threadly'
+2025-07-07 14:54:02 UTC [61]: [17-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SELECT EXISTS (
+	  SELECT 1
+	  FROM   pg_catalog.pg_class c
+	  JOIN   pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+	  WHERE  n.nspname = $1
+	  AND    c.relname = $2
+	  AND    c.relkind = 'r'
+	)
+2025-07-07 14:54:02 UTC [61]: [18-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 DETAIL:  parameters: $1 = 'public', $2 = 'flyway_schema_history'
+2025-07-07 14:54:02 UTC [61]: [19-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: /*NO LOAD BALANCE*/
+	SELECT "installed_rank","version","description","type","script","checksum","installed_on","installed_by","execution_time","success" FROM "public"."flyway_schema_history" WHERE "installed_rank" > $1 ORDER BY "installed_rank"
+2025-07-07 14:54:02 UTC [61]: [20-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 DETAIL:  parameters: $1 = '-1'
+2025-07-07 14:54:02 UTC [61]: [21-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute S_1: COMMIT
+2025-07-07 14:54:02 UTC [61]: [22-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: BEGIN
+2025-07-07 14:54:02 UTC [61]: [23-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SELECT COUNT(*) FROM pg_namespace WHERE nspname=$1
+2025-07-07 14:54:02 UTC [61]: [24-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 DETAIL:  parameters: $1 = 'public'
+2025-07-07 14:54:02 UTC [61]: [25-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute S_1: COMMIT
+2025-07-07 14:54:02 UTC [61]: [26-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SET ROLE 'threadly'
+2025-07-07 14:54:02 UTC [61]: [27-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SELECT EXISTS (
+	  SELECT 1
+	  FROM   pg_catalog.pg_class c
+	  JOIN   pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+	  WHERE  n.nspname = $1
+	  AND    c.relname = $2
+	  AND    c.relkind = 'r'
+	)
+2025-07-07 14:54:02 UTC [61]: [28-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 DETAIL:  parameters: $1 = 'public', $2 = 'flyway_schema_history'
+2025-07-07 14:54:02 UTC [62]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.6 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 14:54:02 UTC [62]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.6 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 14:54:02 UTC [62]: [3-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SHOW search_path
+2025-07-07 14:54:02 UTC [62]: [4-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SELECT CURRENT_USER
+2025-07-07 14:54:02 UTC [61]: [29-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SET ROLE 'threadly'
+2025-07-07 14:54:02 UTC [61]: [30-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: BEGIN
+2025-07-07 14:54:02 UTC [61]: [31-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SELECT pg_try_advisory_xact_lock(77433833903597)
+2025-07-07 14:54:02 UTC [61]: [32-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SET ROLE 'threadly'
+2025-07-07 14:54:02 UTC [61]: [33-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SELECT EXISTS (
+	  SELECT 1
+	  FROM   pg_catalog.pg_class c
+	  JOIN   pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+	  WHERE  n.nspname = $1
+	  AND    c.relname = $2
+	  AND    c.relkind = 'r'
+	)
+2025-07-07 14:54:02 UTC [61]: [34-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 DETAIL:  parameters: $1 = 'public', $2 = 'flyway_schema_history'
+2025-07-07 14:54:02 UTC [61]: [35-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: /*NO LOAD BALANCE*/
+	SELECT "installed_rank","version","description","type","script","checksum","installed_on","installed_by","execution_time","success" FROM "public"."flyway_schema_history" WHERE "installed_rank" > $1 ORDER BY "installed_rank"
+2025-07-07 14:54:02 UTC [61]: [36-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 DETAIL:  parameters: $1 = '12'
+2025-07-07 14:54:02 UTC [61]: [37-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute S_1: COMMIT
+2025-07-07 14:54:02 UTC [62]: [5-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SET ROLE 'threadly'
+2025-07-07 14:54:02 UTC [62]: [6-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: BEGIN
+2025-07-07 14:54:02 UTC [62]: [7-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SELECT set_config('search_path', $1, false)
+2025-07-07 14:54:02 UTC [62]: [8-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 DETAIL:  parameters: $1 = '"$user", public'
+2025-07-07 14:54:02 UTC [62]: [9-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute S_1: COMMIT
+2025-07-07 14:54:02 UTC [61]: [38-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute S_2: SET ROLE 'threadly'
+2025-07-07 14:54:02 UTC [61]: [39-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: BEGIN
+2025-07-07 14:54:02 UTC [61]: [40-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SELECT set_config('search_path', $1, false)
+2025-07-07 14:54:02 UTC [61]: [41-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 DETAIL:  parameters: $1 = '"$user", public'
+2025-07-07 14:54:02 UTC [61]: [42-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute S_1: COMMIT
+2025-07-07 14:54:02 UTC [63]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.6 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 14:54:02 UTC [63]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.6 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 14:54:02 UTC [64]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.6 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 14:54:02 UTC [64]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.6 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 14:54:02 UTC [65]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.6 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 14:54:02 UTC [65]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.6 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 14:54:02 UTC [66]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.6 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 14:54:02 UTC [66]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.6 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 14:54:02 UTC [67]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.6 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 14:54:02 UTC [67]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.6 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 14:54:02 UTC [68]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.6 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 14:54:02 UTC [68]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.6 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 14:54:02 UTC [61]: [43-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: select string_agg(word, ',') from pg_catalog.pg_get_keywords() where word <> ALL ('{a,abs,absolute,action,ada,add,admin,after,all,allocate,alter,always,and,any,are,array,as,asc,asensitive,assertion,assignment,asymmetric,at,atomic,attribute,attributes,authorization,avg,before,begin,bernoulli,between,bigint,binary,blob,boolean,both,breadth,by,c,call,called,cardinality,cascade,cascaded,case,cast,catalog,catalog_name,ceil,ceiling,chain,char,char_length,character,character_length,character_set_catalog,character_set_name,character_set_schema,characteristics,characters,check,checked,class_origin,clob,close,coalesce,cobol,code_units,collate,collation,collation_catalog,collation_name,collation_schema,collect,column,column_name,command_function,command_function_code,commit,committed,condition,condition_number,connect,connection_name,constraint,constraint_catalog,constraint_name,constraint_schema,constraints,constructors,contains,continue,convert,corr,corresponding,count,covar_pop,covar_samp,create,cross,cube,cume_dist,current,current_collation,current_date,current_default_transform_group,current_path,current_role,current_time,current_timestamp,current_transform_group_for_type,current_user,cursor,cursor_name,cycle,data,date,datetime_interval_code,datetime_interval_precision,day,deallocate,dec,decimal,declare,default,defaults,deferrable,deferred,defined,definer,degree,delete,dense_rank,depth,deref,derived,desc,describe,descriptor,deterministic,diagnostics,disconnect,dispatch,distinct,domain,double,drop,dynamic,dynamic_function,dynamic_function_code,each,element,else,end,end-exec,equals,escape,every,except,exception,exclude,excluding,exec,execute,exists,exp,external,extract,false,fetch,filter,final,first,float,floor,following,for,foreign,fortran,found,free,from,full,function,fusion,g,general,get,global,go,goto,grant,granted,group,grouping,having,hierarchy,hold,hour,identity,immediate,implementation,in,including,increment,indicator,initially,inner,inout,input,insensitive,insert,instance,instantiable,int,integer,intersect,intersection,interval,into,invoker,is,isolation,join,k,key,key_member,key_type,language,large,last,lateral,leading,left,length,level,like,ln,local,localtime,localtimestamp,locator,lower,m,map,match,matched,max,maxvalue,member,merge,message_length,message_octet_length,message_text,method,min,minute,minvalue,mod,modifies,module,month,more,multiset,mumps,name,names,national,natural,nchar,nclob,nesting,new,next,no,none,normalize,normalized,not,"null",nullable,nullif,nulls,number,numeric,object,octet_length,octets,of,old,on,only,open,option,options,or,order,ordering,ordinality,others,out,outer,output,over,overlaps,overlay,overriding,pad,parameter,parameter_mode,parameter_name,parameter_ordinal_position,parameter_specific_catalog,parameter_specific_name,parameter_specific_schema,partial,partition,pascal,path,percent_rank,percentile_cont,percentile_disc,placing,pli,position,power,preceding,precision,prepare,preserve,primary,prior,privileges,procedure,public,range,rank,read,reads,real,recursive,ref,references,referencing,regr_avgx,regr_avgy,regr_count,regr_intercept,regr_r2,regr_slope,regr_sxx,regr_sxy,regr_syy,relative,release,repeatable,restart,result,return,returned_cardinality,returned_length,returned_octet_length,returned_sqlstate,returns,revoke,right,role,rollback,rollup,routine,routine_catalog,routine_name,routine_schema,row,row_count,row_number,rows,savepoint,scale,schema,schema_name,scope_catalog,scope_name,scope_schema,scroll,search,second,section,security,select,self,sensitive,sequence,serializable,server_name,session,session_user,set,sets,similar,simple,size,smallint,some,source,space,specific,specific_name,specifictype,sql,sqlexception,sqlstate,sqlwarning,sqrt,start,state,statement,static,stddev_pop,stddev_samp,structure,style,subclass_origin,submultiset,substring,sum,symmetric,system,system_user,table,table_name,tablesample,temporary,then,ties,time,timestamp,timezone_hour,timezone_minute,to,top_level_count,trailing,transaction,transaction_active,transactions_committed,transactions_rolled_back,transform,transforms,translate,translation,treat,trigger,trigger_catalog,trigger_name,trigger_schema,trim,true,type,uescape,unbounded,uncommitted,under,union,unique,unknown,unnamed,unnest,update,upper,usage,user,user_defined_type_catalog,user_defined_type_code,user_defined_type_name,user_defined_type_schema,using,value,values,var_pop,var_samp,varchar,varying,view,when,whenever,where,width_bucket,window,with,within,without,work,write,year,zone}'::text[])
+2025-07-07 14:54:02 UTC [61]: [44-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: select version()
+2025-07-07 14:54:02 UTC [61]: [45-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: select current_schema()
+2025-07-07 14:54:02 UTC [61]: [46-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: select current_schema()
+2025-07-07 14:54:02 UTC [69]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.6 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 14:54:02 UTC [69]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.6 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 14:54:02 UTC [70]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.6 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 14:54:02 UTC [70]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.6 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 14:54:02 UTC [61]: [47-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: select * from information_schema.sequences
+2025-07-07 14:54:02 UTC [61]: [48-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SELECT NULL AS TABLE_CAT, n.nspname AS TABLE_SCHEM, c.relname AS TABLE_NAME,  CASE n.nspname ~ '^pg_' OR n.nspname = 'information_schema'  WHEN true THEN CASE  WHEN n.nspname = 'pg_catalog' OR n.nspname = 'information_schema' THEN CASE c.relkind   WHEN 'r' THEN 'SYSTEM TABLE'   WHEN 'v' THEN 'SYSTEM VIEW'   WHEN 'i' THEN 'SYSTEM INDEX'   ELSE NULL   END  WHEN n.nspname = 'pg_toast' THEN CASE c.relkind   WHEN 'r' THEN 'SYSTEM TOAST TABLE'   WHEN 'i' THEN 'SYSTEM TOAST INDEX'   ELSE NULL   END  ELSE CASE c.relkind   WHEN 'r' THEN 'TEMPORARY TABLE'   WHEN 'p' THEN 'TEMPORARY TABLE'   WHEN 'i' THEN 'TEMPORARY INDEX'   WHEN 'S' THEN 'TEMPORARY SEQUENCE'   WHEN 'v' THEN 'TEMPORARY VIEW'   ELSE NULL   END  END  WHEN false THEN CASE c.relkind  WHEN 'r' THEN 'TABLE'  WHEN 'p' THEN 'PARTITIONED TABLE'  WHEN 'i' THEN 'INDEX'  WHEN 'P' then 'PARTITIONED INDEX'  WHEN 'S' THEN 'SEQUENCE'  WHEN 'v' THEN 'VIEW'  WHEN 'c' THEN 'TYPE'  WHEN 'f' THEN 'FOREIGN TABLE'  WHEN 'm' THEN 'MATERIALIZED VIEW'  ELSE NULL  END  ELSE NULL  END  AS TABLE_TYPE, d.description AS REMARKS,  '' as TYPE_CAT, '' as TYPE_SCHEM, '' as TYPE_NAME, '' AS SELF_REFERENCING_COL_NAME, '' AS REF_GENERATION  FROM pg_catalog.pg_namespace n, pg_catalog.pg_class c  LEFT JOIN pg_catalog.pg_description d ON (c.oid = d.objoid AND d.objsubid = 0  and d.classoid = 'pg_class'::regclass)  WHERE c.relnamespace = n.oid  AND n.nspname LIKE 'public' AND c.relname LIKE '%' AND (false  OR ( c.relkind = 'r' AND n.nspname !~ '^pg_' AND n.nspname <> 'information_schema' )  OR ( c.relkind = 'v' AND n.nspname <> 'pg_catalog' AND n.nspname <> 'information_schema' )  OR ( c.relkind = 'm' )  OR ( c.relkind = 'p' AND n.nspname !~ '^pg_' AND n.nspname <> 'information_schema' ) )  ORDER BY TABLE_TYPE,TABLE_SCHEM,TABLE_NAME 
+2025-07-07 14:54:02 UTC [61]: [49-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.6 LOG:  execute <unnamed>: SELECT * FROM (SELECT n.nspname,c.relname,a.attname,a.atttypid,a.attnotnull OR (t.typtype = 'd' AND t.typnotnull) AS attnotnull,a.atttypmod,a.attlen,t.typtypmod,row_number() OVER (PARTITION BY a.attrelid ORDER BY a.attnum) AS attnum, nullif(a.attidentity, '') as attidentity,nullif(a.attgenerated, '') as attgenerated,pg_catalog.pg_get_expr(def.adbin, def.adrelid) AS adsrc,dsc.description,t.typbasetype,t.typtype  FROM pg_catalog.pg_namespace n  JOIN pg_catalog.pg_class c ON (c.relnamespace = n.oid)  JOIN pg_catalog.pg_attribute a ON (a.attrelid=c.oid)  JOIN pg_catalog.pg_type t ON (a.atttypid = t.oid)  LEFT JOIN pg_catalog.pg_attrdef def ON (a.attrelid=def.adrelid AND a.attnum = def.adnum)  LEFT JOIN pg_catalog.pg_description dsc ON (c.oid=dsc.objoid AND a.attnum = dsc.objsubid)  LEFT JOIN pg_catalog.pg_class dc ON (dc.oid=dsc.classoid AND dc.relname='pg_class')  LEFT JOIN pg_catalog.pg_namespace dn ON (dc.relnamespace=dn.oid AND dn.nspname='pg_catalog')  WHERE c.relkind in ('r','p','v','f','m') and a.attnum > 0 AND NOT a.attisdropped  AND n.nspname LIKE 'public') c WHERE true  AND attname LIKE '%' ORDER BY nspname,c.relname,attnum 
+2025-07-07 14:59:41 UTC [1]: [8-1] user=, db=, app=, client= LOG:  received fast shutdown request
+2025-07-07 14:59:41 UTC [1]: [9-1] user=, db=, app=, client= LOG:  aborting any active transactions
+2025-07-07 14:59:41 UTC [1]: [10-1] user=, db=, app=, client= LOG:  background worker "logical replication launcher" (PID 34) exited with exit code 1
+2025-07-07 14:59:41 UTC [29]: [3-1] user=, db=, app=, client= LOG:  shutting down
+2025-07-07 14:59:41 UTC [29]: [4-1] user=, db=, app=, client= LOG:  checkpoint starting: shutdown immediate
+2025-07-07 14:59:41 UTC [29]: [5-1] user=, db=, app=, client= LOG:  checkpoint complete: wrote 0 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.002 s, sync=0.001 s, total=0.006 s; sync files=0, longest=0.000 s, average=0.000 s; distance=0 kB, estimate=0 kB; lsn=0/19CD868, redo lsn=0/19CD868
+2025-07-07 14:59:41 UTC [1]: [11-1] user=, db=, app=, client= LOG:  database system is shut down
+2025-07-07 14:59:43 UTC [1]: [3-1] user=, db=, app=, client= LOG:  starting PostgreSQL 16.9 (Debian 16.9-1.pgdg120+1) on aarch64-unknown-linux-gnu, compiled by gcc (Debian 12.2.0-14) 12.2.0, 64-bit
+2025-07-07 14:59:43 UTC [1]: [4-1] user=, db=, app=, client= LOG:  listening on IPv4 address "0.0.0.0", port 5432
+2025-07-07 14:59:43 UTC [1]: [5-1] user=, db=, app=, client= LOG:  listening on IPv6 address "::", port 5432
+2025-07-07 14:59:43 UTC [1]: [6-1] user=, db=, app=, client= LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2025-07-07 14:59:43 UTC [30]: [1-1] user=, db=, app=, client= LOG:  database system was shut down at 2025-07-07 14:59:41 UTC
+2025-07-07 14:59:43 UTC [1]: [7-1] user=, db=, app=, client= LOG:  database system is ready to accept connections
+2025-07-07 14:59:45 UTC [34]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 14:59:45 UTC [34]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 14:59:45 UTC [34]: [3-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SHOW TRANSACTION ISOLATION LEVEL
+2025-07-07 14:59:45 UTC [34]: [4-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT version()
+2025-07-07 14:59:45 UTC [34]: [5-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT version()
+2025-07-07 14:59:45 UTC [34]: [6-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SHOW search_path
+2025-07-07 14:59:45 UTC [34]: [7-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT CURRENT_USER
+2025-07-07 14:59:45 UTC [34]: [8-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT current_schema
+2025-07-07 14:59:45 UTC [34]: [9-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SHOW search_path
+2025-07-07 14:59:45 UTC [34]: [10-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT current_schema
+2025-07-07 14:59:45 UTC [34]: [11-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SHOW search_path
+2025-07-07 14:59:45 UTC [34]: [12-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT current_user
+2025-07-07 14:59:45 UTC [34]: [13-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT COUNT(*) FROM pg_namespace WHERE nspname=$1
+2025-07-07 14:59:45 UTC [34]: [14-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 DETAIL:  parameters: $1 = 'public'
+2025-07-07 14:59:45 UTC [34]: [15-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: BEGIN
+2025-07-07 14:59:45 UTC [34]: [16-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SET ROLE 'threadly'
+2025-07-07 14:59:45 UTC [34]: [17-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT EXISTS (
+	  SELECT 1
+	  FROM   pg_catalog.pg_class c
+	  JOIN   pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+	  WHERE  n.nspname = $1
+	  AND    c.relname = $2
+	  AND    c.relkind = 'r'
+	)
+2025-07-07 14:59:45 UTC [34]: [18-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 DETAIL:  parameters: $1 = 'public', $2 = 'flyway_schema_history'
+2025-07-07 14:59:45 UTC [34]: [19-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: /*NO LOAD BALANCE*/
+	SELECT "installed_rank","version","description","type","script","checksum","installed_on","installed_by","execution_time","success" FROM "public"."flyway_schema_history" WHERE "installed_rank" > $1 ORDER BY "installed_rank"
+2025-07-07 14:59:45 UTC [34]: [20-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 DETAIL:  parameters: $1 = '-1'
+2025-07-07 14:59:45 UTC [34]: [21-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute S_1: COMMIT
+2025-07-07 14:59:45 UTC [34]: [22-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: BEGIN
+2025-07-07 14:59:45 UTC [34]: [23-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT COUNT(*) FROM pg_namespace WHERE nspname=$1
+2025-07-07 14:59:45 UTC [34]: [24-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 DETAIL:  parameters: $1 = 'public'
+2025-07-07 14:59:45 UTC [34]: [25-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute S_1: COMMIT
+2025-07-07 14:59:45 UTC [34]: [26-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SET ROLE 'threadly'
+2025-07-07 14:59:45 UTC [34]: [27-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT EXISTS (
+	  SELECT 1
+	  FROM   pg_catalog.pg_class c
+	  JOIN   pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+	  WHERE  n.nspname = $1
+	  AND    c.relname = $2
+	  AND    c.relkind = 'r'
+	)
+2025-07-07 14:59:45 UTC [34]: [28-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 DETAIL:  parameters: $1 = 'public', $2 = 'flyway_schema_history'
+2025-07-07 14:59:45 UTC [35]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 14:59:45 UTC [35]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 14:59:45 UTC [35]: [3-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SHOW search_path
+2025-07-07 14:59:45 UTC [35]: [4-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT CURRENT_USER
+2025-07-07 14:59:45 UTC [34]: [29-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SET ROLE 'threadly'
+2025-07-07 14:59:45 UTC [34]: [30-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: BEGIN
+2025-07-07 14:59:45 UTC [34]: [31-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT pg_try_advisory_xact_lock(77433833903597)
+2025-07-07 14:59:45 UTC [34]: [32-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SET ROLE 'threadly'
+2025-07-07 14:59:45 UTC [34]: [33-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT EXISTS (
+	  SELECT 1
+	  FROM   pg_catalog.pg_class c
+	  JOIN   pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+	  WHERE  n.nspname = $1
+	  AND    c.relname = $2
+	  AND    c.relkind = 'r'
+	)
+2025-07-07 14:59:45 UTC [34]: [34-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 DETAIL:  parameters: $1 = 'public', $2 = 'flyway_schema_history'
+2025-07-07 14:59:45 UTC [34]: [35-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: /*NO LOAD BALANCE*/
+	SELECT "installed_rank","version","description","type","script","checksum","installed_on","installed_by","execution_time","success" FROM "public"."flyway_schema_history" WHERE "installed_rank" > $1 ORDER BY "installed_rank"
+2025-07-07 14:59:45 UTC [34]: [36-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 DETAIL:  parameters: $1 = '12'
+2025-07-07 14:59:45 UTC [34]: [37-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute S_1: COMMIT
+2025-07-07 14:59:45 UTC [35]: [5-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SET ROLE 'threadly'
+2025-07-07 14:59:45 UTC [35]: [6-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: BEGIN
+2025-07-07 14:59:45 UTC [35]: [7-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT set_config('search_path', $1, false)
+2025-07-07 14:59:45 UTC [35]: [8-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 DETAIL:  parameters: $1 = '"$user", public'
+2025-07-07 14:59:45 UTC [35]: [9-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute S_1: COMMIT
+2025-07-07 14:59:45 UTC [34]: [38-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute S_2: SET ROLE 'threadly'
+2025-07-07 14:59:45 UTC [34]: [39-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: BEGIN
+2025-07-07 14:59:45 UTC [34]: [40-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT set_config('search_path', $1, false)
+2025-07-07 14:59:45 UTC [34]: [41-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 DETAIL:  parameters: $1 = '"$user", public'
+2025-07-07 14:59:45 UTC [34]: [42-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute S_1: COMMIT
+2025-07-07 14:59:45 UTC [36]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 14:59:45 UTC [36]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 14:59:45 UTC [37]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 14:59:45 UTC [37]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 14:59:45 UTC [38]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 14:59:45 UTC [38]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 14:59:45 UTC [39]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 14:59:45 UTC [39]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 14:59:45 UTC [40]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 14:59:45 UTC [40]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 14:59:45 UTC [41]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 14:59:45 UTC [41]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 14:59:45 UTC [34]: [43-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: select string_agg(word, ',') from pg_catalog.pg_get_keywords() where word <> ALL ('{a,abs,absolute,action,ada,add,admin,after,all,allocate,alter,always,and,any,are,array,as,asc,asensitive,assertion,assignment,asymmetric,at,atomic,attribute,attributes,authorization,avg,before,begin,bernoulli,between,bigint,binary,blob,boolean,both,breadth,by,c,call,called,cardinality,cascade,cascaded,case,cast,catalog,catalog_name,ceil,ceiling,chain,char,char_length,character,character_length,character_set_catalog,character_set_name,character_set_schema,characteristics,characters,check,checked,class_origin,clob,close,coalesce,cobol,code_units,collate,collation,collation_catalog,collation_name,collation_schema,collect,column,column_name,command_function,command_function_code,commit,committed,condition,condition_number,connect,connection_name,constraint,constraint_catalog,constraint_name,constraint_schema,constraints,constructors,contains,continue,convert,corr,corresponding,count,covar_pop,covar_samp,create,cross,cube,cume_dist,current,current_collation,current_date,current_default_transform_group,current_path,current_role,current_time,current_timestamp,current_transform_group_for_type,current_user,cursor,cursor_name,cycle,data,date,datetime_interval_code,datetime_interval_precision,day,deallocate,dec,decimal,declare,default,defaults,deferrable,deferred,defined,definer,degree,delete,dense_rank,depth,deref,derived,desc,describe,descriptor,deterministic,diagnostics,disconnect,dispatch,distinct,domain,double,drop,dynamic,dynamic_function,dynamic_function_code,each,element,else,end,end-exec,equals,escape,every,except,exception,exclude,excluding,exec,execute,exists,exp,external,extract,false,fetch,filter,final,first,float,floor,following,for,foreign,fortran,found,free,from,full,function,fusion,g,general,get,global,go,goto,grant,granted,group,grouping,having,hierarchy,hold,hour,identity,immediate,implementation,in,including,increment,indicator,initially,inner,inout,input,insensitive,insert,instance,instantiable,int,integer,intersect,intersection,interval,into,invoker,is,isolation,join,k,key,key_member,key_type,language,large,last,lateral,leading,left,length,level,like,ln,local,localtime,localtimestamp,locator,lower,m,map,match,matched,max,maxvalue,member,merge,message_length,message_octet_length,message_text,method,min,minute,minvalue,mod,modifies,module,month,more,multiset,mumps,name,names,national,natural,nchar,nclob,nesting,new,next,no,none,normalize,normalized,not,"null",nullable,nullif,nulls,number,numeric,object,octet_length,octets,of,old,on,only,open,option,options,or,order,ordering,ordinality,others,out,outer,output,over,overlaps,overlay,overriding,pad,parameter,parameter_mode,parameter_name,parameter_ordinal_position,parameter_specific_catalog,parameter_specific_name,parameter_specific_schema,partial,partition,pascal,path,percent_rank,percentile_cont,percentile_disc,placing,pli,position,power,preceding,precision,prepare,preserve,primary,prior,privileges,procedure,public,range,rank,read,reads,real,recursive,ref,references,referencing,regr_avgx,regr_avgy,regr_count,regr_intercept,regr_r2,regr_slope,regr_sxx,regr_sxy,regr_syy,relative,release,repeatable,restart,result,return,returned_cardinality,returned_length,returned_octet_length,returned_sqlstate,returns,revoke,right,role,rollback,rollup,routine,routine_catalog,routine_name,routine_schema,row,row_count,row_number,rows,savepoint,scale,schema,schema_name,scope_catalog,scope_name,scope_schema,scroll,search,second,section,security,select,self,sensitive,sequence,serializable,server_name,session,session_user,set,sets,similar,simple,size,smallint,some,source,space,specific,specific_name,specifictype,sql,sqlexception,sqlstate,sqlwarning,sqrt,start,state,statement,static,stddev_pop,stddev_samp,structure,style,subclass_origin,submultiset,substring,sum,symmetric,system,system_user,table,table_name,tablesample,temporary,then,ties,time,timestamp,timezone_hour,timezone_minute,to,top_level_count,trailing,transaction,transaction_active,transactions_committed,transactions_rolled_back,transform,transforms,translate,translation,treat,trigger,trigger_catalog,trigger_name,trigger_schema,trim,true,type,uescape,unbounded,uncommitted,under,union,unique,unknown,unnamed,unnest,update,upper,usage,user,user_defined_type_catalog,user_defined_type_code,user_defined_type_name,user_defined_type_schema,using,value,values,var_pop,var_samp,varchar,varying,view,when,whenever,where,width_bucket,window,with,within,without,work,write,year,zone}'::text[])
+2025-07-07 14:59:45 UTC [34]: [44-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: select version()
+2025-07-07 14:59:45 UTC [34]: [45-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: select current_schema()
+2025-07-07 14:59:45 UTC [34]: [46-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: select current_schema()
+2025-07-07 14:59:45 UTC [42]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 14:59:45 UTC [42]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 14:59:45 UTC [43]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 14:59:45 UTC [43]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 14:59:46 UTC [34]: [47-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: select * from information_schema.sequences
+2025-07-07 14:59:46 UTC [34]: [48-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT NULL AS TABLE_CAT, n.nspname AS TABLE_SCHEM, c.relname AS TABLE_NAME,  CASE n.nspname ~ '^pg_' OR n.nspname = 'information_schema'  WHEN true THEN CASE  WHEN n.nspname = 'pg_catalog' OR n.nspname = 'information_schema' THEN CASE c.relkind   WHEN 'r' THEN 'SYSTEM TABLE'   WHEN 'v' THEN 'SYSTEM VIEW'   WHEN 'i' THEN 'SYSTEM INDEX'   ELSE NULL   END  WHEN n.nspname = 'pg_toast' THEN CASE c.relkind   WHEN 'r' THEN 'SYSTEM TOAST TABLE'   WHEN 'i' THEN 'SYSTEM TOAST INDEX'   ELSE NULL   END  ELSE CASE c.relkind   WHEN 'r' THEN 'TEMPORARY TABLE'   WHEN 'p' THEN 'TEMPORARY TABLE'   WHEN 'i' THEN 'TEMPORARY INDEX'   WHEN 'S' THEN 'TEMPORARY SEQUENCE'   WHEN 'v' THEN 'TEMPORARY VIEW'   ELSE NULL   END  END  WHEN false THEN CASE c.relkind  WHEN 'r' THEN 'TABLE'  WHEN 'p' THEN 'PARTITIONED TABLE'  WHEN 'i' THEN 'INDEX'  WHEN 'P' then 'PARTITIONED INDEX'  WHEN 'S' THEN 'SEQUENCE'  WHEN 'v' THEN 'VIEW'  WHEN 'c' THEN 'TYPE'  WHEN 'f' THEN 'FOREIGN TABLE'  WHEN 'm' THEN 'MATERIALIZED VIEW'  ELSE NULL  END  ELSE NULL  END  AS TABLE_TYPE, d.description AS REMARKS,  '' as TYPE_CAT, '' as TYPE_SCHEM, '' as TYPE_NAME, '' AS SELF_REFERENCING_COL_NAME, '' AS REF_GENERATION  FROM pg_catalog.pg_namespace n, pg_catalog.pg_class c  LEFT JOIN pg_catalog.pg_description d ON (c.oid = d.objoid AND d.objsubid = 0  and d.classoid = 'pg_class'::regclass)  WHERE c.relnamespace = n.oid  AND n.nspname LIKE 'public' AND c.relname LIKE '%' AND (false  OR ( c.relkind = 'r' AND n.nspname !~ '^pg_' AND n.nspname <> 'information_schema' )  OR ( c.relkind = 'v' AND n.nspname <> 'pg_catalog' AND n.nspname <> 'information_schema' )  OR ( c.relkind = 'm' )  OR ( c.relkind = 'p' AND n.nspname !~ '^pg_' AND n.nspname <> 'information_schema' ) )  ORDER BY TABLE_TYPE,TABLE_SCHEM,TABLE_NAME 
+2025-07-07 14:59:46 UTC [34]: [49-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT * FROM (SELECT n.nspname,c.relname,a.attname,a.atttypid,a.attnotnull OR (t.typtype = 'd' AND t.typnotnull) AS attnotnull,a.atttypmod,a.attlen,t.typtypmod,row_number() OVER (PARTITION BY a.attrelid ORDER BY a.attnum) AS attnum, nullif(a.attidentity, '') as attidentity,nullif(a.attgenerated, '') as attgenerated,pg_catalog.pg_get_expr(def.adbin, def.adrelid) AS adsrc,dsc.description,t.typbasetype,t.typtype  FROM pg_catalog.pg_namespace n  JOIN pg_catalog.pg_class c ON (c.relnamespace = n.oid)  JOIN pg_catalog.pg_attribute a ON (a.attrelid=c.oid)  JOIN pg_catalog.pg_type t ON (a.atttypid = t.oid)  LEFT JOIN pg_catalog.pg_attrdef def ON (a.attrelid=def.adrelid AND a.attnum = def.adnum)  LEFT JOIN pg_catalog.pg_description dsc ON (c.oid=dsc.objoid AND a.attnum = dsc.objsubid)  LEFT JOIN pg_catalog.pg_class dc ON (dc.oid=dsc.classoid AND dc.relname='pg_class')  LEFT JOIN pg_catalog.pg_namespace dn ON (dc.relnamespace=dn.oid AND dn.nspname='pg_catalog')  WHERE c.relkind in ('r','p','v','f','m') and a.attnum > 0 AND NOT a.attisdropped  AND n.nspname LIKE 'public') c WHERE true  AND attname LIKE '%' ORDER BY nspname,c.relname,attnum 
+2025-07-07 15:04:35 UTC [1]: [8-1] user=, db=, app=, client= LOG:  received fast shutdown request
+2025-07-07 15:04:35 UTC [1]: [9-1] user=, db=, app=, client= LOG:  aborting any active transactions
+2025-07-07 15:04:35 UTC [1]: [10-1] user=, db=, app=, client= LOG:  background worker "logical replication launcher" (PID 33) exited with exit code 1
+2025-07-07 15:04:35 UTC [28]: [1-1] user=, db=, app=, client= LOG:  shutting down
+2025-07-07 15:04:35 UTC [28]: [2-1] user=, db=, app=, client= LOG:  checkpoint starting: shutdown immediate
+2025-07-07 15:04:35 UTC [28]: [3-1] user=, db=, app=, client= LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.003 s, sync=0.001 s, total=0.007 s; sync files=2, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=0 kB; lsn=0/19CD918, redo lsn=0/19CD918
+2025-07-07 15:04:35 UTC [1]: [11-1] user=, db=, app=, client= LOG:  database system is shut down
+2025-07-07 15:04:38 UTC [1]: [3-1] user=, db=, app=, client= LOG:  starting PostgreSQL 16.9 (Debian 16.9-1.pgdg120+1) on aarch64-unknown-linux-gnu, compiled by gcc (Debian 12.2.0-14) 12.2.0, 64-bit
+2025-07-07 15:04:38 UTC [1]: [4-1] user=, db=, app=, client= LOG:  listening on IPv4 address "0.0.0.0", port 5432
+2025-07-07 15:04:38 UTC [1]: [5-1] user=, db=, app=, client= LOG:  listening on IPv6 address "::", port 5432
+2025-07-07 15:04:38 UTC [1]: [6-1] user=, db=, app=, client= LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2025-07-07 15:04:38 UTC [31]: [1-1] user=, db=, app=, client= LOG:  database system was shut down at 2025-07-07 15:04:35 UTC
+2025-07-07 15:04:38 UTC [1]: [7-1] user=, db=, app=, client= LOG:  database system is ready to accept connections
+2025-07-07 15:04:39 UTC [35]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 15:04:39 UTC [35]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 15:04:39 UTC [35]: [3-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SHOW TRANSACTION ISOLATION LEVEL
+2025-07-07 15:04:39 UTC [35]: [4-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT version()
+2025-07-07 15:04:39 UTC [35]: [5-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT version()
+2025-07-07 15:04:39 UTC [35]: [6-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SHOW search_path
+2025-07-07 15:04:39 UTC [35]: [7-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT CURRENT_USER
+2025-07-07 15:04:39 UTC [35]: [8-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT current_schema
+2025-07-07 15:04:39 UTC [35]: [9-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SHOW search_path
+2025-07-07 15:04:39 UTC [35]: [10-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT current_schema
+2025-07-07 15:04:39 UTC [35]: [11-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SHOW search_path
+2025-07-07 15:04:39 UTC [35]: [12-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT current_user
+2025-07-07 15:04:39 UTC [35]: [13-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT COUNT(*) FROM pg_namespace WHERE nspname=$1
+2025-07-07 15:04:39 UTC [35]: [14-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 DETAIL:  parameters: $1 = 'public'
+2025-07-07 15:04:39 UTC [35]: [15-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: BEGIN
+2025-07-07 15:04:39 UTC [35]: [16-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SET ROLE 'threadly'
+2025-07-07 15:04:39 UTC [35]: [17-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT EXISTS (
+	  SELECT 1
+	  FROM   pg_catalog.pg_class c
+	  JOIN   pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+	  WHERE  n.nspname = $1
+	  AND    c.relname = $2
+	  AND    c.relkind = 'r'
+	)
+2025-07-07 15:04:39 UTC [35]: [18-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 DETAIL:  parameters: $1 = 'public', $2 = 'flyway_schema_history'
+2025-07-07 15:04:39 UTC [35]: [19-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: /*NO LOAD BALANCE*/
+	SELECT "installed_rank","version","description","type","script","checksum","installed_on","installed_by","execution_time","success" FROM "public"."flyway_schema_history" WHERE "installed_rank" > $1 ORDER BY "installed_rank"
+2025-07-07 15:04:39 UTC [35]: [20-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 DETAIL:  parameters: $1 = '-1'
+2025-07-07 15:04:39 UTC [35]: [21-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute S_1: COMMIT
+2025-07-07 15:04:39 UTC [35]: [22-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: BEGIN
+2025-07-07 15:04:39 UTC [35]: [23-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT COUNT(*) FROM pg_namespace WHERE nspname=$1
+2025-07-07 15:04:39 UTC [35]: [24-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 DETAIL:  parameters: $1 = 'public'
+2025-07-07 15:04:39 UTC [35]: [25-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute S_1: COMMIT
+2025-07-07 15:04:39 UTC [35]: [26-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SET ROLE 'threadly'
+2025-07-07 15:04:39 UTC [35]: [27-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT EXISTS (
+	  SELECT 1
+	  FROM   pg_catalog.pg_class c
+	  JOIN   pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+	  WHERE  n.nspname = $1
+	  AND    c.relname = $2
+	  AND    c.relkind = 'r'
+	)
+2025-07-07 15:04:39 UTC [35]: [28-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 DETAIL:  parameters: $1 = 'public', $2 = 'flyway_schema_history'
+2025-07-07 15:04:39 UTC [36]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 15:04:39 UTC [36]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 15:04:39 UTC [36]: [3-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SHOW search_path
+2025-07-07 15:04:39 UTC [36]: [4-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT CURRENT_USER
+2025-07-07 15:04:39 UTC [35]: [29-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SET ROLE 'threadly'
+2025-07-07 15:04:39 UTC [35]: [30-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: BEGIN
+2025-07-07 15:04:39 UTC [35]: [31-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT pg_try_advisory_xact_lock(77433833903597)
+2025-07-07 15:04:39 UTC [35]: [32-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SET ROLE 'threadly'
+2025-07-07 15:04:39 UTC [35]: [33-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT EXISTS (
+	  SELECT 1
+	  FROM   pg_catalog.pg_class c
+	  JOIN   pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+	  WHERE  n.nspname = $1
+	  AND    c.relname = $2
+	  AND    c.relkind = 'r'
+	)
+2025-07-07 15:04:39 UTC [35]: [34-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 DETAIL:  parameters: $1 = 'public', $2 = 'flyway_schema_history'
+2025-07-07 15:04:39 UTC [35]: [35-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: /*NO LOAD BALANCE*/
+	SELECT "installed_rank","version","description","type","script","checksum","installed_on","installed_by","execution_time","success" FROM "public"."flyway_schema_history" WHERE "installed_rank" > $1 ORDER BY "installed_rank"
+2025-07-07 15:04:39 UTC [35]: [36-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 DETAIL:  parameters: $1 = '12'
+2025-07-07 15:04:39 UTC [35]: [37-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute S_1: COMMIT
+2025-07-07 15:04:39 UTC [36]: [5-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SET ROLE 'threadly'
+2025-07-07 15:04:39 UTC [36]: [6-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: BEGIN
+2025-07-07 15:04:39 UTC [36]: [7-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT set_config('search_path', $1, false)
+2025-07-07 15:04:39 UTC [36]: [8-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 DETAIL:  parameters: $1 = '"$user", public'
+2025-07-07 15:04:39 UTC [36]: [9-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute S_1: COMMIT
+2025-07-07 15:04:39 UTC [35]: [38-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute S_2: SET ROLE 'threadly'
+2025-07-07 15:04:39 UTC [35]: [39-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: BEGIN
+2025-07-07 15:04:39 UTC [35]: [40-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT set_config('search_path', $1, false)
+2025-07-07 15:04:39 UTC [35]: [41-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 DETAIL:  parameters: $1 = '"$user", public'
+2025-07-07 15:04:39 UTC [35]: [42-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute S_1: COMMIT
+2025-07-07 15:04:40 UTC [37]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 15:04:40 UTC [37]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 15:04:40 UTC [38]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 15:04:40 UTC [38]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 15:04:40 UTC [39]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 15:04:40 UTC [39]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 15:04:40 UTC [40]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 15:04:40 UTC [40]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 15:04:40 UTC [41]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 15:04:40 UTC [41]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 15:04:40 UTC [42]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 15:04:40 UTC [42]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 15:04:40 UTC [35]: [43-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: select string_agg(word, ',') from pg_catalog.pg_get_keywords() where word <> ALL ('{a,abs,absolute,action,ada,add,admin,after,all,allocate,alter,always,and,any,are,array,as,asc,asensitive,assertion,assignment,asymmetric,at,atomic,attribute,attributes,authorization,avg,before,begin,bernoulli,between,bigint,binary,blob,boolean,both,breadth,by,c,call,called,cardinality,cascade,cascaded,case,cast,catalog,catalog_name,ceil,ceiling,chain,char,char_length,character,character_length,character_set_catalog,character_set_name,character_set_schema,characteristics,characters,check,checked,class_origin,clob,close,coalesce,cobol,code_units,collate,collation,collation_catalog,collation_name,collation_schema,collect,column,column_name,command_function,command_function_code,commit,committed,condition,condition_number,connect,connection_name,constraint,constraint_catalog,constraint_name,constraint_schema,constraints,constructors,contains,continue,convert,corr,corresponding,count,covar_pop,covar_samp,create,cross,cube,cume_dist,current,current_collation,current_date,current_default_transform_group,current_path,current_role,current_time,current_timestamp,current_transform_group_for_type,current_user,cursor,cursor_name,cycle,data,date,datetime_interval_code,datetime_interval_precision,day,deallocate,dec,decimal,declare,default,defaults,deferrable,deferred,defined,definer,degree,delete,dense_rank,depth,deref,derived,desc,describe,descriptor,deterministic,diagnostics,disconnect,dispatch,distinct,domain,double,drop,dynamic,dynamic_function,dynamic_function_code,each,element,else,end,end-exec,equals,escape,every,except,exception,exclude,excluding,exec,execute,exists,exp,external,extract,false,fetch,filter,final,first,float,floor,following,for,foreign,fortran,found,free,from,full,function,fusion,g,general,get,global,go,goto,grant,granted,group,grouping,having,hierarchy,hold,hour,identity,immediate,implementation,in,including,increment,indicator,initially,inner,inout,input,insensitive,insert,instance,instantiable,int,integer,intersect,intersection,interval,into,invoker,is,isolation,join,k,key,key_member,key_type,language,large,last,lateral,leading,left,length,level,like,ln,local,localtime,localtimestamp,locator,lower,m,map,match,matched,max,maxvalue,member,merge,message_length,message_octet_length,message_text,method,min,minute,minvalue,mod,modifies,module,month,more,multiset,mumps,name,names,national,natural,nchar,nclob,nesting,new,next,no,none,normalize,normalized,not,"null",nullable,nullif,nulls,number,numeric,object,octet_length,octets,of,old,on,only,open,option,options,or,order,ordering,ordinality,others,out,outer,output,over,overlaps,overlay,overriding,pad,parameter,parameter_mode,parameter_name,parameter_ordinal_position,parameter_specific_catalog,parameter_specific_name,parameter_specific_schema,partial,partition,pascal,path,percent_rank,percentile_cont,percentile_disc,placing,pli,position,power,preceding,precision,prepare,preserve,primary,prior,privileges,procedure,public,range,rank,read,reads,real,recursive,ref,references,referencing,regr_avgx,regr_avgy,regr_count,regr_intercept,regr_r2,regr_slope,regr_sxx,regr_sxy,regr_syy,relative,release,repeatable,restart,result,return,returned_cardinality,returned_length,returned_octet_length,returned_sqlstate,returns,revoke,right,role,rollback,rollup,routine,routine_catalog,routine_name,routine_schema,row,row_count,row_number,rows,savepoint,scale,schema,schema_name,scope_catalog,scope_name,scope_schema,scroll,search,second,section,security,select,self,sensitive,sequence,serializable,server_name,session,session_user,set,sets,similar,simple,size,smallint,some,source,space,specific,specific_name,specifictype,sql,sqlexception,sqlstate,sqlwarning,sqrt,start,state,statement,static,stddev_pop,stddev_samp,structure,style,subclass_origin,submultiset,substring,sum,symmetric,system,system_user,table,table_name,tablesample,temporary,then,ties,time,timestamp,timezone_hour,timezone_minute,to,top_level_count,trailing,transaction,transaction_active,transactions_committed,transactions_rolled_back,transform,transforms,translate,translation,treat,trigger,trigger_catalog,trigger_name,trigger_schema,trim,true,type,uescape,unbounded,uncommitted,under,union,unique,unknown,unnamed,unnest,update,upper,usage,user,user_defined_type_catalog,user_defined_type_code,user_defined_type_name,user_defined_type_schema,using,value,values,var_pop,var_samp,varchar,varying,view,when,whenever,where,width_bucket,window,with,within,without,work,write,year,zone}'::text[])
+2025-07-07 15:04:40 UTC [35]: [44-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: select version()
+2025-07-07 15:04:40 UTC [43]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 15:04:40 UTC [43]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 15:04:40 UTC [35]: [45-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: select current_schema()
+2025-07-07 15:04:40 UTC [35]: [46-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: select current_schema()
+2025-07-07 15:04:40 UTC [44]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 15:04:40 UTC [44]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 15:04:40 UTC [35]: [47-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: select * from information_schema.sequences
+2025-07-07 15:04:40 UTC [35]: [48-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT NULL AS TABLE_CAT, n.nspname AS TABLE_SCHEM, c.relname AS TABLE_NAME,  CASE n.nspname ~ '^pg_' OR n.nspname = 'information_schema'  WHEN true THEN CASE  WHEN n.nspname = 'pg_catalog' OR n.nspname = 'information_schema' THEN CASE c.relkind   WHEN 'r' THEN 'SYSTEM TABLE'   WHEN 'v' THEN 'SYSTEM VIEW'   WHEN 'i' THEN 'SYSTEM INDEX'   ELSE NULL   END  WHEN n.nspname = 'pg_toast' THEN CASE c.relkind   WHEN 'r' THEN 'SYSTEM TOAST TABLE'   WHEN 'i' THEN 'SYSTEM TOAST INDEX'   ELSE NULL   END  ELSE CASE c.relkind   WHEN 'r' THEN 'TEMPORARY TABLE'   WHEN 'p' THEN 'TEMPORARY TABLE'   WHEN 'i' THEN 'TEMPORARY INDEX'   WHEN 'S' THEN 'TEMPORARY SEQUENCE'   WHEN 'v' THEN 'TEMPORARY VIEW'   ELSE NULL   END  END  WHEN false THEN CASE c.relkind  WHEN 'r' THEN 'TABLE'  WHEN 'p' THEN 'PARTITIONED TABLE'  WHEN 'i' THEN 'INDEX'  WHEN 'P' then 'PARTITIONED INDEX'  WHEN 'S' THEN 'SEQUENCE'  WHEN 'v' THEN 'VIEW'  WHEN 'c' THEN 'TYPE'  WHEN 'f' THEN 'FOREIGN TABLE'  WHEN 'm' THEN 'MATERIALIZED VIEW'  ELSE NULL  END  ELSE NULL  END  AS TABLE_TYPE, d.description AS REMARKS,  '' as TYPE_CAT, '' as TYPE_SCHEM, '' as TYPE_NAME, '' AS SELF_REFERENCING_COL_NAME, '' AS REF_GENERATION  FROM pg_catalog.pg_namespace n, pg_catalog.pg_class c  LEFT JOIN pg_catalog.pg_description d ON (c.oid = d.objoid AND d.objsubid = 0  and d.classoid = 'pg_class'::regclass)  WHERE c.relnamespace = n.oid  AND n.nspname LIKE 'public' AND c.relname LIKE '%' AND (false  OR ( c.relkind = 'r' AND n.nspname !~ '^pg_' AND n.nspname <> 'information_schema' )  OR ( c.relkind = 'v' AND n.nspname <> 'pg_catalog' AND n.nspname <> 'information_schema' )  OR ( c.relkind = 'm' )  OR ( c.relkind = 'p' AND n.nspname !~ '^pg_' AND n.nspname <> 'information_schema' ) )  ORDER BY TABLE_TYPE,TABLE_SCHEM,TABLE_NAME 
+2025-07-07 15:04:40 UTC [35]: [49-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT * FROM (SELECT n.nspname,c.relname,a.attname,a.atttypid,a.attnotnull OR (t.typtype = 'd' AND t.typnotnull) AS attnotnull,a.atttypmod,a.attlen,t.typtypmod,row_number() OVER (PARTITION BY a.attrelid ORDER BY a.attnum) AS attnum, nullif(a.attidentity, '') as attidentity,nullif(a.attgenerated, '') as attgenerated,pg_catalog.pg_get_expr(def.adbin, def.adrelid) AS adsrc,dsc.description,t.typbasetype,t.typtype  FROM pg_catalog.pg_namespace n  JOIN pg_catalog.pg_class c ON (c.relnamespace = n.oid)  JOIN pg_catalog.pg_attribute a ON (a.attrelid=c.oid)  JOIN pg_catalog.pg_type t ON (a.atttypid = t.oid)  LEFT JOIN pg_catalog.pg_attrdef def ON (a.attrelid=def.adrelid AND a.attnum = def.adnum)  LEFT JOIN pg_catalog.pg_description dsc ON (c.oid=dsc.objoid AND a.attnum = dsc.objsubid)  LEFT JOIN pg_catalog.pg_class dc ON (dc.oid=dsc.classoid AND dc.relname='pg_class')  LEFT JOIN pg_catalog.pg_namespace dn ON (dc.relnamespace=dn.oid AND dn.nspname='pg_catalog')  WHERE c.relkind in ('r','p','v','f','m') and a.attnum > 0 AND NOT a.attisdropped  AND n.nspname LIKE 'public') c WHERE true  AND attname LIKE '%' ORDER BY nspname,c.relname,attnum 
+2025-07-07 15:06:20 UTC [1]: [8-1] user=, db=, app=, client= LOG:  received fast shutdown request
+2025-07-07 15:06:20 UTC [1]: [9-1] user=, db=, app=, client= LOG:  aborting any active transactions
+2025-07-07 15:06:20 UTC [1]: [10-1] user=, db=, app=, client= LOG:  background worker "logical replication launcher" (PID 34) exited with exit code 1
+2025-07-07 15:06:20 UTC [29]: [1-1] user=, db=, app=, client= LOG:  shutting down
+2025-07-07 15:06:20 UTC [29]: [2-1] user=, db=, app=, client= LOG:  checkpoint starting: shutdown immediate
+2025-07-07 15:06:20 UTC [29]: [3-1] user=, db=, app=, client= LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.002 s, sync=0.001 s, total=0.006 s; sync files=2, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=0 kB; lsn=0/19CD9C8, redo lsn=0/19CD9C8
+2025-07-07 15:06:20 UTC [1]: [11-1] user=, db=, app=, client= LOG:  database system is shut down
+2025-07-07 15:06:23 UTC [1]: [3-1] user=, db=, app=, client= LOG:  starting PostgreSQL 16.9 (Debian 16.9-1.pgdg120+1) on aarch64-unknown-linux-gnu, compiled by gcc (Debian 12.2.0-14) 12.2.0, 64-bit
+2025-07-07 15:06:23 UTC [1]: [4-1] user=, db=, app=, client= LOG:  listening on IPv4 address "0.0.0.0", port 5432
+2025-07-07 15:06:23 UTC [1]: [5-1] user=, db=, app=, client= LOG:  listening on IPv6 address "::", port 5432
+2025-07-07 15:06:23 UTC [1]: [6-1] user=, db=, app=, client= LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2025-07-07 15:06:23 UTC [32]: [1-1] user=, db=, app=, client= LOG:  database system was shut down at 2025-07-07 15:06:20 UTC
+2025-07-07 15:06:23 UTC [1]: [7-1] user=, db=, app=, client= LOG:  database system is ready to accept connections
+2025-07-07 15:06:24 UTC [36]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 15:06:24 UTC [36]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 15:06:24 UTC [36]: [3-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SHOW TRANSACTION ISOLATION LEVEL
+2025-07-07 15:06:24 UTC [36]: [4-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT version()
+2025-07-07 15:06:24 UTC [36]: [5-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT version()
+2025-07-07 15:06:24 UTC [36]: [6-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SHOW search_path
+2025-07-07 15:06:24 UTC [36]: [7-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT CURRENT_USER
+2025-07-07 15:06:24 UTC [36]: [8-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT current_schema
+2025-07-07 15:06:24 UTC [36]: [9-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SHOW search_path
+2025-07-07 15:06:24 UTC [36]: [10-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT current_schema
+2025-07-07 15:06:24 UTC [36]: [11-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SHOW search_path
+2025-07-07 15:06:24 UTC [36]: [12-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT current_user
+2025-07-07 15:06:24 UTC [36]: [13-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT COUNT(*) FROM pg_namespace WHERE nspname=$1
+2025-07-07 15:06:24 UTC [36]: [14-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 DETAIL:  parameters: $1 = 'public'
+2025-07-07 15:06:24 UTC [36]: [15-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: BEGIN
+2025-07-07 15:06:24 UTC [36]: [16-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SET ROLE 'threadly'
+2025-07-07 15:06:24 UTC [36]: [17-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT EXISTS (
+	  SELECT 1
+	  FROM   pg_catalog.pg_class c
+	  JOIN   pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+	  WHERE  n.nspname = $1
+	  AND    c.relname = $2
+	  AND    c.relkind = 'r'
+	)
+2025-07-07 15:06:24 UTC [36]: [18-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 DETAIL:  parameters: $1 = 'public', $2 = 'flyway_schema_history'
+2025-07-07 15:06:24 UTC [36]: [19-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: /*NO LOAD BALANCE*/
+	SELECT "installed_rank","version","description","type","script","checksum","installed_on","installed_by","execution_time","success" FROM "public"."flyway_schema_history" WHERE "installed_rank" > $1 ORDER BY "installed_rank"
+2025-07-07 15:06:24 UTC [36]: [20-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 DETAIL:  parameters: $1 = '-1'
+2025-07-07 15:06:24 UTC [36]: [21-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute S_1: COMMIT
+2025-07-07 15:06:24 UTC [36]: [22-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: BEGIN
+2025-07-07 15:06:24 UTC [36]: [23-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT COUNT(*) FROM pg_namespace WHERE nspname=$1
+2025-07-07 15:06:24 UTC [36]: [24-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 DETAIL:  parameters: $1 = 'public'
+2025-07-07 15:06:24 UTC [36]: [25-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute S_1: COMMIT
+2025-07-07 15:06:24 UTC [36]: [26-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SET ROLE 'threadly'
+2025-07-07 15:06:24 UTC [36]: [27-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT EXISTS (
+	  SELECT 1
+	  FROM   pg_catalog.pg_class c
+	  JOIN   pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+	  WHERE  n.nspname = $1
+	  AND    c.relname = $2
+	  AND    c.relkind = 'r'
+	)
+2025-07-07 15:06:24 UTC [36]: [28-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 DETAIL:  parameters: $1 = 'public', $2 = 'flyway_schema_history'
+2025-07-07 15:06:24 UTC [37]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 15:06:24 UTC [37]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 15:06:24 UTC [37]: [3-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SHOW search_path
+2025-07-07 15:06:24 UTC [37]: [4-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT CURRENT_USER
+2025-07-07 15:06:24 UTC [36]: [29-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SET ROLE 'threadly'
+2025-07-07 15:06:24 UTC [36]: [30-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: BEGIN
+2025-07-07 15:06:24 UTC [36]: [31-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT pg_try_advisory_xact_lock(77433833903597)
+2025-07-07 15:06:24 UTC [36]: [32-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SET ROLE 'threadly'
+2025-07-07 15:06:24 UTC [36]: [33-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT EXISTS (
+	  SELECT 1
+	  FROM   pg_catalog.pg_class c
+	  JOIN   pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+	  WHERE  n.nspname = $1
+	  AND    c.relname = $2
+	  AND    c.relkind = 'r'
+	)
+2025-07-07 15:06:24 UTC [36]: [34-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 DETAIL:  parameters: $1 = 'public', $2 = 'flyway_schema_history'
+2025-07-07 15:06:24 UTC [36]: [35-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: /*NO LOAD BALANCE*/
+	SELECT "installed_rank","version","description","type","script","checksum","installed_on","installed_by","execution_time","success" FROM "public"."flyway_schema_history" WHERE "installed_rank" > $1 ORDER BY "installed_rank"
+2025-07-07 15:06:24 UTC [36]: [36-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 DETAIL:  parameters: $1 = '12'
+2025-07-07 15:06:24 UTC [36]: [37-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute S_1: COMMIT
+2025-07-07 15:06:24 UTC [37]: [5-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SET ROLE 'threadly'
+2025-07-07 15:06:24 UTC [37]: [6-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: BEGIN
+2025-07-07 15:06:24 UTC [37]: [7-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT set_config('search_path', $1, false)
+2025-07-07 15:06:24 UTC [37]: [8-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 DETAIL:  parameters: $1 = '"$user", public'
+2025-07-07 15:06:24 UTC [37]: [9-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute S_1: COMMIT
+2025-07-07 15:06:24 UTC [36]: [38-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute S_2: SET ROLE 'threadly'
+2025-07-07 15:06:24 UTC [36]: [39-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: BEGIN
+2025-07-07 15:06:24 UTC [36]: [40-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT set_config('search_path', $1, false)
+2025-07-07 15:06:24 UTC [36]: [41-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 DETAIL:  parameters: $1 = '"$user", public'
+2025-07-07 15:06:24 UTC [36]: [42-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute S_1: COMMIT
+2025-07-07 15:06:24 UTC [38]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 15:06:24 UTC [38]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 15:06:24 UTC [39]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 15:06:24 UTC [39]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 15:06:24 UTC [40]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 15:06:24 UTC [40]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 15:06:25 UTC [41]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 15:06:25 UTC [41]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 15:06:25 UTC [42]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 15:06:25 UTC [42]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 15:06:25 UTC [36]: [43-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: select string_agg(word, ',') from pg_catalog.pg_get_keywords() where word <> ALL ('{a,abs,absolute,action,ada,add,admin,after,all,allocate,alter,always,and,any,are,array,as,asc,asensitive,assertion,assignment,asymmetric,at,atomic,attribute,attributes,authorization,avg,before,begin,bernoulli,between,bigint,binary,blob,boolean,both,breadth,by,c,call,called,cardinality,cascade,cascaded,case,cast,catalog,catalog_name,ceil,ceiling,chain,char,char_length,character,character_length,character_set_catalog,character_set_name,character_set_schema,characteristics,characters,check,checked,class_origin,clob,close,coalesce,cobol,code_units,collate,collation,collation_catalog,collation_name,collation_schema,collect,column,column_name,command_function,command_function_code,commit,committed,condition,condition_number,connect,connection_name,constraint,constraint_catalog,constraint_name,constraint_schema,constraints,constructors,contains,continue,convert,corr,corresponding,count,covar_pop,covar_samp,create,cross,cube,cume_dist,current,current_collation,current_date,current_default_transform_group,current_path,current_role,current_time,current_timestamp,current_transform_group_for_type,current_user,cursor,cursor_name,cycle,data,date,datetime_interval_code,datetime_interval_precision,day,deallocate,dec,decimal,declare,default,defaults,deferrable,deferred,defined,definer,degree,delete,dense_rank,depth,deref,derived,desc,describe,descriptor,deterministic,diagnostics,disconnect,dispatch,distinct,domain,double,drop,dynamic,dynamic_function,dynamic_function_code,each,element,else,end,end-exec,equals,escape,every,except,exception,exclude,excluding,exec,execute,exists,exp,external,extract,false,fetch,filter,final,first,float,floor,following,for,foreign,fortran,found,free,from,full,function,fusion,g,general,get,global,go,goto,grant,granted,group,grouping,having,hierarchy,hold,hour,identity,immediate,implementation,in,including,increment,indicator,initially,inner,inout,input,insensitive,insert,instance,instantiable,int,integer,intersect,intersection,interval,into,invoker,is,isolation,join,k,key,key_member,key_type,language,large,last,lateral,leading,left,length,level,like,ln,local,localtime,localtimestamp,locator,lower,m,map,match,matched,max,maxvalue,member,merge,message_length,message_octet_length,message_text,method,min,minute,minvalue,mod,modifies,module,month,more,multiset,mumps,name,names,national,natural,nchar,nclob,nesting,new,next,no,none,normalize,normalized,not,"null",nullable,nullif,nulls,number,numeric,object,octet_length,octets,of,old,on,only,open,option,options,or,order,ordering,ordinality,others,out,outer,output,over,overlaps,overlay,overriding,pad,parameter,parameter_mode,parameter_name,parameter_ordinal_position,parameter_specific_catalog,parameter_specific_name,parameter_specific_schema,partial,partition,pascal,path,percent_rank,percentile_cont,percentile_disc,placing,pli,position,power,preceding,precision,prepare,preserve,primary,prior,privileges,procedure,public,range,rank,read,reads,real,recursive,ref,references,referencing,regr_avgx,regr_avgy,regr_count,regr_intercept,regr_r2,regr_slope,regr_sxx,regr_sxy,regr_syy,relative,release,repeatable,restart,result,return,returned_cardinality,returned_length,returned_octet_length,returned_sqlstate,returns,revoke,right,role,rollback,rollup,routine,routine_catalog,routine_name,routine_schema,row,row_count,row_number,rows,savepoint,scale,schema,schema_name,scope_catalog,scope_name,scope_schema,scroll,search,second,section,security,select,self,sensitive,sequence,serializable,server_name,session,session_user,set,sets,similar,simple,size,smallint,some,source,space,specific,specific_name,specifictype,sql,sqlexception,sqlstate,sqlwarning,sqrt,start,state,statement,static,stddev_pop,stddev_samp,structure,style,subclass_origin,submultiset,substring,sum,symmetric,system,system_user,table,table_name,tablesample,temporary,then,ties,time,timestamp,timezone_hour,timezone_minute,to,top_level_count,trailing,transaction,transaction_active,transactions_committed,transactions_rolled_back,transform,transforms,translate,translation,treat,trigger,trigger_catalog,trigger_name,trigger_schema,trim,true,type,uescape,unbounded,uncommitted,under,union,unique,unknown,unnamed,unnest,update,upper,usage,user,user_defined_type_catalog,user_defined_type_code,user_defined_type_name,user_defined_type_schema,using,value,values,var_pop,var_samp,varchar,varying,view,when,whenever,where,width_bucket,window,with,within,without,work,write,year,zone}'::text[])
+2025-07-07 15:06:25 UTC [43]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 15:06:25 UTC [43]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 15:06:25 UTC [36]: [44-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: select version()
+2025-07-07 15:06:25 UTC [36]: [45-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: select current_schema()
+2025-07-07 15:06:25 UTC [36]: [46-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: select current_schema()
+2025-07-07 15:06:25 UTC [44]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 15:06:25 UTC [44]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 15:06:25 UTC [45]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 15:06:25 UTC [45]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 15:06:25 UTC [36]: [47-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: select * from information_schema.sequences
+2025-07-07 15:06:25 UTC [36]: [48-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT NULL AS TABLE_CAT, n.nspname AS TABLE_SCHEM, c.relname AS TABLE_NAME,  CASE n.nspname ~ '^pg_' OR n.nspname = 'information_schema'  WHEN true THEN CASE  WHEN n.nspname = 'pg_catalog' OR n.nspname = 'information_schema' THEN CASE c.relkind   WHEN 'r' THEN 'SYSTEM TABLE'   WHEN 'v' THEN 'SYSTEM VIEW'   WHEN 'i' THEN 'SYSTEM INDEX'   ELSE NULL   END  WHEN n.nspname = 'pg_toast' THEN CASE c.relkind   WHEN 'r' THEN 'SYSTEM TOAST TABLE'   WHEN 'i' THEN 'SYSTEM TOAST INDEX'   ELSE NULL   END  ELSE CASE c.relkind   WHEN 'r' THEN 'TEMPORARY TABLE'   WHEN 'p' THEN 'TEMPORARY TABLE'   WHEN 'i' THEN 'TEMPORARY INDEX'   WHEN 'S' THEN 'TEMPORARY SEQUENCE'   WHEN 'v' THEN 'TEMPORARY VIEW'   ELSE NULL   END  END  WHEN false THEN CASE c.relkind  WHEN 'r' THEN 'TABLE'  WHEN 'p' THEN 'PARTITIONED TABLE'  WHEN 'i' THEN 'INDEX'  WHEN 'P' then 'PARTITIONED INDEX'  WHEN 'S' THEN 'SEQUENCE'  WHEN 'v' THEN 'VIEW'  WHEN 'c' THEN 'TYPE'  WHEN 'f' THEN 'FOREIGN TABLE'  WHEN 'm' THEN 'MATERIALIZED VIEW'  ELSE NULL  END  ELSE NULL  END  AS TABLE_TYPE, d.description AS REMARKS,  '' as TYPE_CAT, '' as TYPE_SCHEM, '' as TYPE_NAME, '' AS SELF_REFERENCING_COL_NAME, '' AS REF_GENERATION  FROM pg_catalog.pg_namespace n, pg_catalog.pg_class c  LEFT JOIN pg_catalog.pg_description d ON (c.oid = d.objoid AND d.objsubid = 0  and d.classoid = 'pg_class'::regclass)  WHERE c.relnamespace = n.oid  AND n.nspname LIKE 'public' AND c.relname LIKE '%' AND (false  OR ( c.relkind = 'r' AND n.nspname !~ '^pg_' AND n.nspname <> 'information_schema' )  OR ( c.relkind = 'v' AND n.nspname <> 'pg_catalog' AND n.nspname <> 'information_schema' )  OR ( c.relkind = 'm' )  OR ( c.relkind = 'p' AND n.nspname !~ '^pg_' AND n.nspname <> 'information_schema' ) )  ORDER BY TABLE_TYPE,TABLE_SCHEM,TABLE_NAME 
+2025-07-07 15:06:25 UTC [36]: [49-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT * FROM (SELECT n.nspname,c.relname,a.attname,a.atttypid,a.attnotnull OR (t.typtype = 'd' AND t.typnotnull) AS attnotnull,a.atttypmod,a.attlen,t.typtypmod,row_number() OVER (PARTITION BY a.attrelid ORDER BY a.attnum) AS attnum, nullif(a.attidentity, '') as attidentity,nullif(a.attgenerated, '') as attgenerated,pg_catalog.pg_get_expr(def.adbin, def.adrelid) AS adsrc,dsc.description,t.typbasetype,t.typtype  FROM pg_catalog.pg_namespace n  JOIN pg_catalog.pg_class c ON (c.relnamespace = n.oid)  JOIN pg_catalog.pg_attribute a ON (a.attrelid=c.oid)  JOIN pg_catalog.pg_type t ON (a.atttypid = t.oid)  LEFT JOIN pg_catalog.pg_attrdef def ON (a.attrelid=def.adrelid AND a.attnum = def.adnum)  LEFT JOIN pg_catalog.pg_description dsc ON (c.oid=dsc.objoid AND a.attnum = dsc.objsubid)  LEFT JOIN pg_catalog.pg_class dc ON (dc.oid=dsc.classoid AND dc.relname='pg_class')  LEFT JOIN pg_catalog.pg_namespace dn ON (dc.relnamespace=dn.oid AND dn.nspname='pg_catalog')  WHERE c.relkind in ('r','p','v','f','m') and a.attnum > 0 AND NOT a.attisdropped  AND n.nspname LIKE 'public') c WHERE true  AND attname LIKE '%' ORDER BY nspname,c.relname,attnum 
+2025-07-07 15:06:51 UTC [1]: [8-1] user=, db=, app=, client= LOG:  received fast shutdown request
+2025-07-07 15:06:51 UTC [1]: [9-1] user=, db=, app=, client= LOG:  aborting any active transactions
+2025-07-07 15:06:51 UTC [1]: [10-1] user=, db=, app=, client= LOG:  background worker "logical replication launcher" (PID 35) exited with exit code 1
+2025-07-07 15:06:51 UTC [30]: [1-1] user=, db=, app=, client= LOG:  shutting down
+2025-07-07 15:06:51 UTC [30]: [2-1] user=, db=, app=, client= LOG:  checkpoint starting: shutdown immediate
+2025-07-07 15:06:51 UTC [30]: [3-1] user=, db=, app=, client= LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.004 s, sync=0.001 s, total=0.009 s; sync files=2, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=0 kB; lsn=0/19CDA78, redo lsn=0/19CDA78
+2025-07-07 15:06:51 UTC [1]: [11-1] user=, db=, app=, client= LOG:  database system is shut down
+2025-07-07 15:07:03 UTC [1]: [3-1] user=, db=, app=, client= LOG:  starting PostgreSQL 16.9 (Debian 16.9-1.pgdg120+1) on aarch64-unknown-linux-gnu, compiled by gcc (Debian 12.2.0-14) 12.2.0, 64-bit
+2025-07-07 15:07:03 UTC [1]: [4-1] user=, db=, app=, client= LOG:  listening on IPv4 address "0.0.0.0", port 5432
+2025-07-07 15:07:03 UTC [1]: [5-1] user=, db=, app=, client= LOG:  listening on IPv6 address "::", port 5432
+2025-07-07 15:07:03 UTC [1]: [6-1] user=, db=, app=, client= LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2025-07-07 15:07:03 UTC [30]: [1-1] user=, db=, app=, client= LOG:  database system was shut down at 2025-07-07 15:06:51 UTC
+2025-07-07 15:07:03 UTC [1]: [7-1] user=, db=, app=, client= LOG:  database system is ready to accept connections
+2025-07-07 15:07:04 UTC [34]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 15:07:04 UTC [34]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 15:07:04 UTC [34]: [3-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SHOW TRANSACTION ISOLATION LEVEL
+2025-07-07 15:07:04 UTC [34]: [4-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT version()
+2025-07-07 15:07:04 UTC [34]: [5-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT version()
+2025-07-07 15:07:04 UTC [34]: [6-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SHOW search_path
+2025-07-07 15:07:04 UTC [34]: [7-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT CURRENT_USER
+2025-07-07 15:07:04 UTC [34]: [8-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT current_schema
+2025-07-07 15:07:04 UTC [34]: [9-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SHOW search_path
+2025-07-07 15:07:04 UTC [34]: [10-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT current_schema
+2025-07-07 15:07:04 UTC [34]: [11-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SHOW search_path
+2025-07-07 15:07:04 UTC [34]: [12-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT current_user
+2025-07-07 15:07:04 UTC [34]: [13-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT COUNT(*) FROM pg_namespace WHERE nspname=$1
+2025-07-07 15:07:04 UTC [34]: [14-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 DETAIL:  parameters: $1 = 'public'
+2025-07-07 15:07:04 UTC [34]: [15-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: BEGIN
+2025-07-07 15:07:04 UTC [34]: [16-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SET ROLE 'threadly'
+2025-07-07 15:07:04 UTC [34]: [17-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT EXISTS (
+	  SELECT 1
+	  FROM   pg_catalog.pg_class c
+	  JOIN   pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+	  WHERE  n.nspname = $1
+	  AND    c.relname = $2
+	  AND    c.relkind = 'r'
+	)
+2025-07-07 15:07:04 UTC [34]: [18-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 DETAIL:  parameters: $1 = 'public', $2 = 'flyway_schema_history'
+2025-07-07 15:07:04 UTC [34]: [19-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: /*NO LOAD BALANCE*/
+	SELECT "installed_rank","version","description","type","script","checksum","installed_on","installed_by","execution_time","success" FROM "public"."flyway_schema_history" WHERE "installed_rank" > $1 ORDER BY "installed_rank"
+2025-07-07 15:07:04 UTC [34]: [20-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 DETAIL:  parameters: $1 = '-1'
+2025-07-07 15:07:04 UTC [34]: [21-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute S_1: COMMIT
+2025-07-07 15:07:04 UTC [34]: [22-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: BEGIN
+2025-07-07 15:07:04 UTC [34]: [23-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT COUNT(*) FROM pg_namespace WHERE nspname=$1
+2025-07-07 15:07:04 UTC [34]: [24-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 DETAIL:  parameters: $1 = 'public'
+2025-07-07 15:07:04 UTC [34]: [25-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute S_1: COMMIT
+2025-07-07 15:07:04 UTC [34]: [26-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SET ROLE 'threadly'
+2025-07-07 15:07:04 UTC [34]: [27-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT EXISTS (
+	  SELECT 1
+	  FROM   pg_catalog.pg_class c
+	  JOIN   pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+	  WHERE  n.nspname = $1
+	  AND    c.relname = $2
+	  AND    c.relkind = 'r'
+	)
+2025-07-07 15:07:04 UTC [34]: [28-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 DETAIL:  parameters: $1 = 'public', $2 = 'flyway_schema_history'
+2025-07-07 15:07:04 UTC [35]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 15:07:04 UTC [35]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 15:07:04 UTC [35]: [3-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SHOW search_path
+2025-07-07 15:07:04 UTC [35]: [4-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT CURRENT_USER
+2025-07-07 15:07:04 UTC [34]: [29-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SET ROLE 'threadly'
+2025-07-07 15:07:04 UTC [34]: [30-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: BEGIN
+2025-07-07 15:07:04 UTC [34]: [31-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT pg_try_advisory_xact_lock(77433833903597)
+2025-07-07 15:07:04 UTC [34]: [32-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SET ROLE 'threadly'
+2025-07-07 15:07:04 UTC [34]: [33-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT EXISTS (
+	  SELECT 1
+	  FROM   pg_catalog.pg_class c
+	  JOIN   pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+	  WHERE  n.nspname = $1
+	  AND    c.relname = $2
+	  AND    c.relkind = 'r'
+	)
+2025-07-07 15:07:04 UTC [34]: [34-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 DETAIL:  parameters: $1 = 'public', $2 = 'flyway_schema_history'
+2025-07-07 15:07:04 UTC [34]: [35-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: /*NO LOAD BALANCE*/
+	SELECT "installed_rank","version","description","type","script","checksum","installed_on","installed_by","execution_time","success" FROM "public"."flyway_schema_history" WHERE "installed_rank" > $1 ORDER BY "installed_rank"
+2025-07-07 15:07:04 UTC [34]: [36-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 DETAIL:  parameters: $1 = '12'
+2025-07-07 15:07:04 UTC [34]: [37-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute S_1: COMMIT
+2025-07-07 15:07:04 UTC [35]: [5-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SET ROLE 'threadly'
+2025-07-07 15:07:04 UTC [35]: [6-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: BEGIN
+2025-07-07 15:07:04 UTC [35]: [7-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT set_config('search_path', $1, false)
+2025-07-07 15:07:04 UTC [35]: [8-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 DETAIL:  parameters: $1 = '"$user", public'
+2025-07-07 15:07:04 UTC [35]: [9-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute S_1: COMMIT
+2025-07-07 15:07:04 UTC [34]: [38-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute S_2: SET ROLE 'threadly'
+2025-07-07 15:07:04 UTC [34]: [39-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: BEGIN
+2025-07-07 15:07:04 UTC [34]: [40-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT set_config('search_path', $1, false)
+2025-07-07 15:07:04 UTC [34]: [41-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 DETAIL:  parameters: $1 = '"$user", public'
+2025-07-07 15:07:04 UTC [34]: [42-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute S_1: COMMIT
+2025-07-07 15:07:04 UTC [36]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 15:07:04 UTC [36]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 15:07:04 UTC [37]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 15:07:04 UTC [37]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 15:07:04 UTC [38]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 15:07:04 UTC [38]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 15:07:04 UTC [39]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 15:07:04 UTC [39]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 15:07:04 UTC [40]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 15:07:04 UTC [40]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 15:07:04 UTC [34]: [43-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: select string_agg(word, ',') from pg_catalog.pg_get_keywords() where word <> ALL ('{a,abs,absolute,action,ada,add,admin,after,all,allocate,alter,always,and,any,are,array,as,asc,asensitive,assertion,assignment,asymmetric,at,atomic,attribute,attributes,authorization,avg,before,begin,bernoulli,between,bigint,binary,blob,boolean,both,breadth,by,c,call,called,cardinality,cascade,cascaded,case,cast,catalog,catalog_name,ceil,ceiling,chain,char,char_length,character,character_length,character_set_catalog,character_set_name,character_set_schema,characteristics,characters,check,checked,class_origin,clob,close,coalesce,cobol,code_units,collate,collation,collation_catalog,collation_name,collation_schema,collect,column,column_name,command_function,command_function_code,commit,committed,condition,condition_number,connect,connection_name,constraint,constraint_catalog,constraint_name,constraint_schema,constraints,constructors,contains,continue,convert,corr,corresponding,count,covar_pop,covar_samp,create,cross,cube,cume_dist,current,current_collation,current_date,current_default_transform_group,current_path,current_role,current_time,current_timestamp,current_transform_group_for_type,current_user,cursor,cursor_name,cycle,data,date,datetime_interval_code,datetime_interval_precision,day,deallocate,dec,decimal,declare,default,defaults,deferrable,deferred,defined,definer,degree,delete,dense_rank,depth,deref,derived,desc,describe,descriptor,deterministic,diagnostics,disconnect,dispatch,distinct,domain,double,drop,dynamic,dynamic_function,dynamic_function_code,each,element,else,end,end-exec,equals,escape,every,except,exception,exclude,excluding,exec,execute,exists,exp,external,extract,false,fetch,filter,final,first,float,floor,following,for,foreign,fortran,found,free,from,full,function,fusion,g,general,get,global,go,goto,grant,granted,group,grouping,having,hierarchy,hold,hour,identity,immediate,implementation,in,including,increment,indicator,initially,inner,inout,input,insensitive,insert,instance,instantiable,int,integer,intersect,intersection,interval,into,invoker,is,isolation,join,k,key,key_member,key_type,language,large,last,lateral,leading,left,length,level,like,ln,local,localtime,localtimestamp,locator,lower,m,map,match,matched,max,maxvalue,member,merge,message_length,message_octet_length,message_text,method,min,minute,minvalue,mod,modifies,module,month,more,multiset,mumps,name,names,national,natural,nchar,nclob,nesting,new,next,no,none,normalize,normalized,not,"null",nullable,nullif,nulls,number,numeric,object,octet_length,octets,of,old,on,only,open,option,options,or,order,ordering,ordinality,others,out,outer,output,over,overlaps,overlay,overriding,pad,parameter,parameter_mode,parameter_name,parameter_ordinal_position,parameter_specific_catalog,parameter_specific_name,parameter_specific_schema,partial,partition,pascal,path,percent_rank,percentile_cont,percentile_disc,placing,pli,position,power,preceding,precision,prepare,preserve,primary,prior,privileges,procedure,public,range,rank,read,reads,real,recursive,ref,references,referencing,regr_avgx,regr_avgy,regr_count,regr_intercept,regr_r2,regr_slope,regr_sxx,regr_sxy,regr_syy,relative,release,repeatable,restart,result,return,returned_cardinality,returned_length,returned_octet_length,returned_sqlstate,returns,revoke,right,role,rollback,rollup,routine,routine_catalog,routine_name,routine_schema,row,row_count,row_number,rows,savepoint,scale,schema,schema_name,scope_catalog,scope_name,scope_schema,scroll,search,second,section,security,select,self,sensitive,sequence,serializable,server_name,session,session_user,set,sets,similar,simple,size,smallint,some,source,space,specific,specific_name,specifictype,sql,sqlexception,sqlstate,sqlwarning,sqrt,start,state,statement,static,stddev_pop,stddev_samp,structure,style,subclass_origin,submultiset,substring,sum,symmetric,system,system_user,table,table_name,tablesample,temporary,then,ties,time,timestamp,timezone_hour,timezone_minute,to,top_level_count,trailing,transaction,transaction_active,transactions_committed,transactions_rolled_back,transform,transforms,translate,translation,treat,trigger,trigger_catalog,trigger_name,trigger_schema,trim,true,type,uescape,unbounded,uncommitted,under,union,unique,unknown,unnamed,unnest,update,upper,usage,user,user_defined_type_catalog,user_defined_type_code,user_defined_type_name,user_defined_type_schema,using,value,values,var_pop,var_samp,varchar,varying,view,when,whenever,where,width_bucket,window,with,within,without,work,write,year,zone}'::text[])
+2025-07-07 15:07:04 UTC [34]: [44-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: select version()
+2025-07-07 15:07:04 UTC [34]: [45-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: select current_schema()
+2025-07-07 15:07:04 UTC [34]: [46-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: select current_schema()
+2025-07-07 15:07:04 UTC [41]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 15:07:04 UTC [41]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 15:07:04 UTC [42]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 15:07:04 UTC [42]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 15:07:04 UTC [43]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 15:07:04 UTC [43]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 15:07:05 UTC [34]: [47-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: select * from information_schema.sequences
+2025-07-07 15:07:05 UTC [34]: [48-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT NULL AS TABLE_CAT, n.nspname AS TABLE_SCHEM, c.relname AS TABLE_NAME,  CASE n.nspname ~ '^pg_' OR n.nspname = 'information_schema'  WHEN true THEN CASE  WHEN n.nspname = 'pg_catalog' OR n.nspname = 'information_schema' THEN CASE c.relkind   WHEN 'r' THEN 'SYSTEM TABLE'   WHEN 'v' THEN 'SYSTEM VIEW'   WHEN 'i' THEN 'SYSTEM INDEX'   ELSE NULL   END  WHEN n.nspname = 'pg_toast' THEN CASE c.relkind   WHEN 'r' THEN 'SYSTEM TOAST TABLE'   WHEN 'i' THEN 'SYSTEM TOAST INDEX'   ELSE NULL   END  ELSE CASE c.relkind   WHEN 'r' THEN 'TEMPORARY TABLE'   WHEN 'p' THEN 'TEMPORARY TABLE'   WHEN 'i' THEN 'TEMPORARY INDEX'   WHEN 'S' THEN 'TEMPORARY SEQUENCE'   WHEN 'v' THEN 'TEMPORARY VIEW'   ELSE NULL   END  END  WHEN false THEN CASE c.relkind  WHEN 'r' THEN 'TABLE'  WHEN 'p' THEN 'PARTITIONED TABLE'  WHEN 'i' THEN 'INDEX'  WHEN 'P' then 'PARTITIONED INDEX'  WHEN 'S' THEN 'SEQUENCE'  WHEN 'v' THEN 'VIEW'  WHEN 'c' THEN 'TYPE'  WHEN 'f' THEN 'FOREIGN TABLE'  WHEN 'm' THEN 'MATERIALIZED VIEW'  ELSE NULL  END  ELSE NULL  END  AS TABLE_TYPE, d.description AS REMARKS,  '' as TYPE_CAT, '' as TYPE_SCHEM, '' as TYPE_NAME, '' AS SELF_REFERENCING_COL_NAME, '' AS REF_GENERATION  FROM pg_catalog.pg_namespace n, pg_catalog.pg_class c  LEFT JOIN pg_catalog.pg_description d ON (c.oid = d.objoid AND d.objsubid = 0  and d.classoid = 'pg_class'::regclass)  WHERE c.relnamespace = n.oid  AND n.nspname LIKE 'public' AND c.relname LIKE '%' AND (false  OR ( c.relkind = 'r' AND n.nspname !~ '^pg_' AND n.nspname <> 'information_schema' )  OR ( c.relkind = 'v' AND n.nspname <> 'pg_catalog' AND n.nspname <> 'information_schema' )  OR ( c.relkind = 'm' )  OR ( c.relkind = 'p' AND n.nspname !~ '^pg_' AND n.nspname <> 'information_schema' ) )  ORDER BY TABLE_TYPE,TABLE_SCHEM,TABLE_NAME 
+2025-07-07 15:07:05 UTC [34]: [49-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT * FROM (SELECT n.nspname,c.relname,a.attname,a.atttypid,a.attnotnull OR (t.typtype = 'd' AND t.typnotnull) AS attnotnull,a.atttypmod,a.attlen,t.typtypmod,row_number() OVER (PARTITION BY a.attrelid ORDER BY a.attnum) AS attnum, nullif(a.attidentity, '') as attidentity,nullif(a.attgenerated, '') as attgenerated,pg_catalog.pg_get_expr(def.adbin, def.adrelid) AS adsrc,dsc.description,t.typbasetype,t.typtype  FROM pg_catalog.pg_namespace n  JOIN pg_catalog.pg_class c ON (c.relnamespace = n.oid)  JOIN pg_catalog.pg_attribute a ON (a.attrelid=c.oid)  JOIN pg_catalog.pg_type t ON (a.atttypid = t.oid)  LEFT JOIN pg_catalog.pg_attrdef def ON (a.attrelid=def.adrelid AND a.attnum = def.adnum)  LEFT JOIN pg_catalog.pg_description dsc ON (c.oid=dsc.objoid AND a.attnum = dsc.objsubid)  LEFT JOIN pg_catalog.pg_class dc ON (dc.oid=dsc.classoid AND dc.relname='pg_class')  LEFT JOIN pg_catalog.pg_namespace dn ON (dc.relnamespace=dn.oid AND dn.nspname='pg_catalog')  WHERE c.relkind in ('r','p','v','f','m') and a.attnum > 0 AND NOT a.attisdropped  AND n.nspname LIKE 'public') c WHERE true  AND attname LIKE '%' ORDER BY nspname,c.relname,attnum 
+2025-07-07 15:08:08 UTC [1]: [8-1] user=, db=, app=, client= LOG:  received fast shutdown request
+2025-07-07 15:08:08 UTC [1]: [9-1] user=, db=, app=, client= LOG:  aborting any active transactions
+2025-07-07 15:08:08 UTC [1]: [10-1] user=, db=, app=, client= LOG:  background worker "logical replication launcher" (PID 33) exited with exit code 1
+2025-07-07 15:08:08 UTC [28]: [1-1] user=, db=, app=, client= LOG:  shutting down
+2025-07-07 15:08:08 UTC [28]: [2-1] user=, db=, app=, client= LOG:  checkpoint starting: shutdown immediate
+2025-07-07 15:08:08 UTC [28]: [3-1] user=, db=, app=, client= LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.005 s, sync=0.001 s, total=0.010 s; sync files=2, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=0 kB; lsn=0/19CDB28, redo lsn=0/19CDB28
+2025-07-07 15:08:08 UTC [1]: [11-1] user=, db=, app=, client= LOG:  database system is shut down
+2025-07-07 15:08:11 UTC [1]: [3-1] user=, db=, app=, client= LOG:  starting PostgreSQL 16.9 (Debian 16.9-1.pgdg120+1) on aarch64-unknown-linux-gnu, compiled by gcc (Debian 12.2.0-14) 12.2.0, 64-bit
+2025-07-07 15:08:11 UTC [1]: [4-1] user=, db=, app=, client= LOG:  listening on IPv4 address "0.0.0.0", port 5432
+2025-07-07 15:08:11 UTC [1]: [5-1] user=, db=, app=, client= LOG:  listening on IPv6 address "::", port 5432
+2025-07-07 15:08:11 UTC [1]: [6-1] user=, db=, app=, client= LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2025-07-07 15:08:11 UTC [32]: [1-1] user=, db=, app=, client= LOG:  database system was shut down at 2025-07-07 15:08:08 UTC
+2025-07-07 15:08:11 UTC [1]: [7-1] user=, db=, app=, client= LOG:  database system is ready to accept connections
+2025-07-07 15:08:13 UTC [36]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 15:08:13 UTC [36]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 15:08:13 UTC [36]: [3-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SHOW TRANSACTION ISOLATION LEVEL
+2025-07-07 15:08:13 UTC [36]: [4-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT version()
+2025-07-07 15:08:13 UTC [36]: [5-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT version()
+2025-07-07 15:08:13 UTC [36]: [6-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SHOW search_path
+2025-07-07 15:08:13 UTC [36]: [7-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT CURRENT_USER
+2025-07-07 15:08:13 UTC [36]: [8-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT current_schema
+2025-07-07 15:08:13 UTC [36]: [9-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SHOW search_path
+2025-07-07 15:08:13 UTC [36]: [10-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT current_schema
+2025-07-07 15:08:13 UTC [36]: [11-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SHOW search_path
+2025-07-07 15:08:13 UTC [36]: [12-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT current_user
+2025-07-07 15:08:13 UTC [36]: [13-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT COUNT(*) FROM pg_namespace WHERE nspname=$1
+2025-07-07 15:08:13 UTC [36]: [14-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 DETAIL:  parameters: $1 = 'public'
+2025-07-07 15:08:13 UTC [36]: [15-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: BEGIN
+2025-07-07 15:08:13 UTC [36]: [16-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SET ROLE 'threadly'
+2025-07-07 15:08:13 UTC [36]: [17-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT EXISTS (
+	  SELECT 1
+	  FROM   pg_catalog.pg_class c
+	  JOIN   pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+	  WHERE  n.nspname = $1
+	  AND    c.relname = $2
+	  AND    c.relkind = 'r'
+	)
+2025-07-07 15:08:13 UTC [36]: [18-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 DETAIL:  parameters: $1 = 'public', $2 = 'flyway_schema_history'
+2025-07-07 15:08:13 UTC [36]: [19-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: /*NO LOAD BALANCE*/
+	SELECT "installed_rank","version","description","type","script","checksum","installed_on","installed_by","execution_time","success" FROM "public"."flyway_schema_history" WHERE "installed_rank" > $1 ORDER BY "installed_rank"
+2025-07-07 15:08:13 UTC [36]: [20-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 DETAIL:  parameters: $1 = '-1'
+2025-07-07 15:08:13 UTC [36]: [21-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute S_1: COMMIT
+2025-07-07 15:08:13 UTC [36]: [22-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: BEGIN
+2025-07-07 15:08:13 UTC [36]: [23-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT COUNT(*) FROM pg_namespace WHERE nspname=$1
+2025-07-07 15:08:13 UTC [36]: [24-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 DETAIL:  parameters: $1 = 'public'
+2025-07-07 15:08:13 UTC [36]: [25-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute S_1: COMMIT
+2025-07-07 15:08:13 UTC [36]: [26-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SET ROLE 'threadly'
+2025-07-07 15:08:13 UTC [36]: [27-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT EXISTS (
+	  SELECT 1
+	  FROM   pg_catalog.pg_class c
+	  JOIN   pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+	  WHERE  n.nspname = $1
+	  AND    c.relname = $2
+	  AND    c.relkind = 'r'
+	)
+2025-07-07 15:08:13 UTC [36]: [28-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 DETAIL:  parameters: $1 = 'public', $2 = 'flyway_schema_history'
+2025-07-07 15:08:13 UTC [37]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 15:08:13 UTC [37]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 15:08:13 UTC [37]: [3-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SHOW search_path
+2025-07-07 15:08:13 UTC [37]: [4-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT CURRENT_USER
+2025-07-07 15:08:13 UTC [36]: [29-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SET ROLE 'threadly'
+2025-07-07 15:08:13 UTC [36]: [30-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: BEGIN
+2025-07-07 15:08:13 UTC [36]: [31-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT pg_try_advisory_xact_lock(77433833903597)
+2025-07-07 15:08:13 UTC [36]: [32-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SET ROLE 'threadly'
+2025-07-07 15:08:13 UTC [36]: [33-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT EXISTS (
+	  SELECT 1
+	  FROM   pg_catalog.pg_class c
+	  JOIN   pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+	  WHERE  n.nspname = $1
+	  AND    c.relname = $2
+	  AND    c.relkind = 'r'
+	)
+2025-07-07 15:08:13 UTC [36]: [34-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 DETAIL:  parameters: $1 = 'public', $2 = 'flyway_schema_history'
+2025-07-07 15:08:13 UTC [36]: [35-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: /*NO LOAD BALANCE*/
+	SELECT "installed_rank","version","description","type","script","checksum","installed_on","installed_by","execution_time","success" FROM "public"."flyway_schema_history" WHERE "installed_rank" > $1 ORDER BY "installed_rank"
+2025-07-07 15:08:13 UTC [36]: [36-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 DETAIL:  parameters: $1 = '12'
+2025-07-07 15:08:13 UTC [36]: [37-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute S_1: COMMIT
+2025-07-07 15:08:13 UTC [37]: [5-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SET ROLE 'threadly'
+2025-07-07 15:08:13 UTC [37]: [6-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: BEGIN
+2025-07-07 15:08:13 UTC [37]: [7-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT set_config('search_path', $1, false)
+2025-07-07 15:08:13 UTC [37]: [8-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 DETAIL:  parameters: $1 = '"$user", public'
+2025-07-07 15:08:13 UTC [37]: [9-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute S_1: COMMIT
+2025-07-07 15:08:13 UTC [36]: [38-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute S_2: SET ROLE 'threadly'
+2025-07-07 15:08:13 UTC [36]: [39-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: BEGIN
+2025-07-07 15:08:13 UTC [36]: [40-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT set_config('search_path', $1, false)
+2025-07-07 15:08:13 UTC [36]: [41-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 DETAIL:  parameters: $1 = '"$user", public'
+2025-07-07 15:08:13 UTC [36]: [42-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute S_1: COMMIT
+2025-07-07 15:08:13 UTC [38]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 15:08:13 UTC [38]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 15:08:13 UTC [39]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 15:08:13 UTC [39]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 15:08:13 UTC [40]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 15:08:13 UTC [40]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 15:08:13 UTC [41]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 15:08:13 UTC [41]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 15:08:13 UTC [42]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 15:08:13 UTC [42]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 15:08:13 UTC [43]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 15:08:13 UTC [43]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 15:08:13 UTC [36]: [43-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: select string_agg(word, ',') from pg_catalog.pg_get_keywords() where word <> ALL ('{a,abs,absolute,action,ada,add,admin,after,all,allocate,alter,always,and,any,are,array,as,asc,asensitive,assertion,assignment,asymmetric,at,atomic,attribute,attributes,authorization,avg,before,begin,bernoulli,between,bigint,binary,blob,boolean,both,breadth,by,c,call,called,cardinality,cascade,cascaded,case,cast,catalog,catalog_name,ceil,ceiling,chain,char,char_length,character,character_length,character_set_catalog,character_set_name,character_set_schema,characteristics,characters,check,checked,class_origin,clob,close,coalesce,cobol,code_units,collate,collation,collation_catalog,collation_name,collation_schema,collect,column,column_name,command_function,command_function_code,commit,committed,condition,condition_number,connect,connection_name,constraint,constraint_catalog,constraint_name,constraint_schema,constraints,constructors,contains,continue,convert,corr,corresponding,count,covar_pop,covar_samp,create,cross,cube,cume_dist,current,current_collation,current_date,current_default_transform_group,current_path,current_role,current_time,current_timestamp,current_transform_group_for_type,current_user,cursor,cursor_name,cycle,data,date,datetime_interval_code,datetime_interval_precision,day,deallocate,dec,decimal,declare,default,defaults,deferrable,deferred,defined,definer,degree,delete,dense_rank,depth,deref,derived,desc,describe,descriptor,deterministic,diagnostics,disconnect,dispatch,distinct,domain,double,drop,dynamic,dynamic_function,dynamic_function_code,each,element,else,end,end-exec,equals,escape,every,except,exception,exclude,excluding,exec,execute,exists,exp,external,extract,false,fetch,filter,final,first,float,floor,following,for,foreign,fortran,found,free,from,full,function,fusion,g,general,get,global,go,goto,grant,granted,group,grouping,having,hierarchy,hold,hour,identity,immediate,implementation,in,including,increment,indicator,initially,inner,inout,input,insensitive,insert,instance,instantiable,int,integer,intersect,intersection,interval,into,invoker,is,isolation,join,k,key,key_member,key_type,language,large,last,lateral,leading,left,length,level,like,ln,local,localtime,localtimestamp,locator,lower,m,map,match,matched,max,maxvalue,member,merge,message_length,message_octet_length,message_text,method,min,minute,minvalue,mod,modifies,module,month,more,multiset,mumps,name,names,national,natural,nchar,nclob,nesting,new,next,no,none,normalize,normalized,not,"null",nullable,nullif,nulls,number,numeric,object,octet_length,octets,of,old,on,only,open,option,options,or,order,ordering,ordinality,others,out,outer,output,over,overlaps,overlay,overriding,pad,parameter,parameter_mode,parameter_name,parameter_ordinal_position,parameter_specific_catalog,parameter_specific_name,parameter_specific_schema,partial,partition,pascal,path,percent_rank,percentile_cont,percentile_disc,placing,pli,position,power,preceding,precision,prepare,preserve,primary,prior,privileges,procedure,public,range,rank,read,reads,real,recursive,ref,references,referencing,regr_avgx,regr_avgy,regr_count,regr_intercept,regr_r2,regr_slope,regr_sxx,regr_sxy,regr_syy,relative,release,repeatable,restart,result,return,returned_cardinality,returned_length,returned_octet_length,returned_sqlstate,returns,revoke,right,role,rollback,rollup,routine,routine_catalog,routine_name,routine_schema,row,row_count,row_number,rows,savepoint,scale,schema,schema_name,scope_catalog,scope_name,scope_schema,scroll,search,second,section,security,select,self,sensitive,sequence,serializable,server_name,session,session_user,set,sets,similar,simple,size,smallint,some,source,space,specific,specific_name,specifictype,sql,sqlexception,sqlstate,sqlwarning,sqrt,start,state,statement,static,stddev_pop,stddev_samp,structure,style,subclass_origin,submultiset,substring,sum,symmetric,system,system_user,table,table_name,tablesample,temporary,then,ties,time,timestamp,timezone_hour,timezone_minute,to,top_level_count,trailing,transaction,transaction_active,transactions_committed,transactions_rolled_back,transform,transforms,translate,translation,treat,trigger,trigger_catalog,trigger_name,trigger_schema,trim,true,type,uescape,unbounded,uncommitted,under,union,unique,unknown,unnamed,unnest,update,upper,usage,user,user_defined_type_catalog,user_defined_type_code,user_defined_type_name,user_defined_type_schema,using,value,values,var_pop,var_samp,varchar,varying,view,when,whenever,where,width_bucket,window,with,within,without,work,write,year,zone}'::text[])
+2025-07-07 15:08:13 UTC [36]: [44-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: select version()
+2025-07-07 15:08:13 UTC [36]: [45-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: select current_schema()
+2025-07-07 15:08:13 UTC [36]: [46-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: select current_schema()
+2025-07-07 15:08:13 UTC [44]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 15:08:13 UTC [44]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 15:08:13 UTC [45]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET extra_float_digits = 3
+2025-07-07 15:08:13 UTC [45]: [2-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.7 LOG:  execute <unnamed>: SET application_name = 'PostgreSQL JDBC Driver'
+2025-07-07 15:08:14 UTC [36]: [47-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: select * from information_schema.sequences
+2025-07-07 15:08:14 UTC [36]: [48-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT NULL AS TABLE_CAT, n.nspname AS TABLE_SCHEM, c.relname AS TABLE_NAME,  CASE n.nspname ~ '^pg_' OR n.nspname = 'information_schema'  WHEN true THEN CASE  WHEN n.nspname = 'pg_catalog' OR n.nspname = 'information_schema' THEN CASE c.relkind   WHEN 'r' THEN 'SYSTEM TABLE'   WHEN 'v' THEN 'SYSTEM VIEW'   WHEN 'i' THEN 'SYSTEM INDEX'   ELSE NULL   END  WHEN n.nspname = 'pg_toast' THEN CASE c.relkind   WHEN 'r' THEN 'SYSTEM TOAST TABLE'   WHEN 'i' THEN 'SYSTEM TOAST INDEX'   ELSE NULL   END  ELSE CASE c.relkind   WHEN 'r' THEN 'TEMPORARY TABLE'   WHEN 'p' THEN 'TEMPORARY TABLE'   WHEN 'i' THEN 'TEMPORARY INDEX'   WHEN 'S' THEN 'TEMPORARY SEQUENCE'   WHEN 'v' THEN 'TEMPORARY VIEW'   ELSE NULL   END  END  WHEN false THEN CASE c.relkind  WHEN 'r' THEN 'TABLE'  WHEN 'p' THEN 'PARTITIONED TABLE'  WHEN 'i' THEN 'INDEX'  WHEN 'P' then 'PARTITIONED INDEX'  WHEN 'S' THEN 'SEQUENCE'  WHEN 'v' THEN 'VIEW'  WHEN 'c' THEN 'TYPE'  WHEN 'f' THEN 'FOREIGN TABLE'  WHEN 'm' THEN 'MATERIALIZED VIEW'  ELSE NULL  END  ELSE NULL  END  AS TABLE_TYPE, d.description AS REMARKS,  '' as TYPE_CAT, '' as TYPE_SCHEM, '' as TYPE_NAME, '' AS SELF_REFERENCING_COL_NAME, '' AS REF_GENERATION  FROM pg_catalog.pg_namespace n, pg_catalog.pg_class c  LEFT JOIN pg_catalog.pg_description d ON (c.oid = d.objoid AND d.objsubid = 0  and d.classoid = 'pg_class'::regclass)  WHERE c.relnamespace = n.oid  AND n.nspname LIKE 'public' AND c.relname LIKE '%' AND (false  OR ( c.relkind = 'r' AND n.nspname !~ '^pg_' AND n.nspname <> 'information_schema' )  OR ( c.relkind = 'v' AND n.nspname <> 'pg_catalog' AND n.nspname <> 'information_schema' )  OR ( c.relkind = 'm' )  OR ( c.relkind = 'p' AND n.nspname !~ '^pg_' AND n.nspname <> 'information_schema' ) )  ORDER BY TABLE_TYPE,TABLE_SCHEM,TABLE_NAME 
+2025-07-07 15:08:14 UTC [36]: [49-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: SELECT * FROM (SELECT n.nspname,c.relname,a.attname,a.atttypid,a.attnotnull OR (t.typtype = 'd' AND t.typnotnull) AS attnotnull,a.atttypmod,a.attlen,t.typtypmod,row_number() OVER (PARTITION BY a.attrelid ORDER BY a.attnum) AS attnum, nullif(a.attidentity, '') as attidentity,nullif(a.attgenerated, '') as attgenerated,pg_catalog.pg_get_expr(def.adbin, def.adrelid) AS adsrc,dsc.description,t.typbasetype,t.typtype  FROM pg_catalog.pg_namespace n  JOIN pg_catalog.pg_class c ON (c.relnamespace = n.oid)  JOIN pg_catalog.pg_attribute a ON (a.attrelid=c.oid)  JOIN pg_catalog.pg_type t ON (a.atttypid = t.oid)  LEFT JOIN pg_catalog.pg_attrdef def ON (a.attrelid=def.adrelid AND a.attnum = def.adnum)  LEFT JOIN pg_catalog.pg_description dsc ON (c.oid=dsc.objoid AND a.attnum = dsc.objsubid)  LEFT JOIN pg_catalog.pg_class dc ON (dc.oid=dsc.classoid AND dc.relname='pg_class')  LEFT JOIN pg_catalog.pg_namespace dn ON (dc.relnamespace=dn.oid AND dn.nspname='pg_catalog')  WHERE c.relkind in ('r','p','v','f','m') and a.attnum > 0 AND NOT a.attisdropped  AND n.nspname LIKE 'public') c WHERE true  AND attname LIKE '%' ORDER BY nspname,c.relname,attnum 
+2025-07-07 15:08:28 UTC [46]: [1-1] user=threadly, db=threadly, app=[unknown], client=172.18.0.6 LOG:  statement: ;
+2025-07-07 15:12:23 UTC [36]: [50-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: BEGIN
+2025-07-07 15:12:23 UTC [36]: [51-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: select ue1_0.user_id,ue1_0.created_at,ue1_0.email,ue1_0.is_active,ue1_0.is_email_verified,ue1_0.modified_at,ue1_0.password,ue1_0.phone,ue1_0.user_name,ue1_0.user_profile_id,ue1_0.user_type from users ue1_0 where ue1_0.email=$1
+2025-07-07 15:12:23 UTC [36]: [52-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 DETAIL:  parameters: $1 = 'rlarbq5fssopadsrsdford01121@naver.com'
+2025-07-07 15:12:23 UTC [36]: [53-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: select ue1_0.user_id,ue1_0.created_at,ue1_0.email,ue1_0.is_active,ue1_0.is_email_verified,ue1_0.modified_at,ue1_0.password,ue1_0.phone,ue1_0.user_name,up1_0.user_profile_id,up1_0.bio,up1_0.created_at,up1_0.gender,up1_0.modified_at,up1_0.nickname,up1_0.profile_image_url,up1_0.profile_type,up1_0.status_message,ue1_0.user_type from users ue1_0 left join user_profile up1_0 on up1_0.user_profile_id=ue1_0.user_profile_id where ue1_0.user_id=$1
+2025-07-07 15:12:23 UTC [36]: [54-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 DETAIL:  parameters: $1 = 'aw5CbppLwVOvbXnY'
+2025-07-07 15:12:23 UTC [36]: [55-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute <unnamed>: insert into users (created_at,email,is_active,is_email_verified,modified_at,password,phone,user_name,user_profile_id,user_type,user_id) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
+2025-07-07 15:12:23 UTC [36]: [56-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 DETAIL:  parameters: $1 = '2025-07-07 15:12:23.812168', $2 = 'rlarbq5fssopadsrsdford01121@naver.com', $3 = 'f', $4 = 'f', $5 = '2025-07-07 15:12:23.812168', $6 = '1234', $7 = '123-1234-1234', $8 = '김규백', $9 = NULL, $10 = 'USER', $11 = 'aw5CbppLwVOvbXnY'
+2025-07-07 15:12:23 UTC [36]: [57-1] user=threadly, db=threadly, app=PostgreSQL JDBC Driver, client=172.18.0.7 LOG:  execute S_1: COMMIT
+2025-07-07 15:13:11 UTC [30]: [1-1] user=, db=, app=, client= LOG:  checkpoint starting: time
+2025-07-07 15:13:12 UTC [30]: [2-1] user=, db=, app=, client= LOG:  checkpoint complete: wrote 6 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.323 s, sync=0.004 s, total=0.338 s; sync files=5, longest=0.002 s, average=0.001 s; distance=2 kB, estimate=2 kB; lsn=0/19CE708, redo lsn=0/19CE6D0
+2025-07-07 15:19:06 UTC [1]: [8-1] user=, db=, app=, client= LOG:  received fast shutdown request
+2025-07-07 15:19:06 UTC [1]: [9-1] user=, db=, app=, client= LOG:  could not open file "postmaster.pid": No such file or directory
+2025-07-07 15:19:06 UTC [1]: [10-1] user=, db=, app=, client= LOG:  aborting any active transactions
+2025-07-07 15:19:06 UTC [1]: [11-1] user=, db=, app=, client= LOG:  background worker "logical replication launcher" (PID 35) exited with exit code 1
+2025-07-07 15:19:06 UTC [30]: [3-1] user=, db=, app=, client= LOG:  shutting down
+2025-07-07 15:19:06 UTC [30]: [4-1] user=, db=, app=, client= PANIC:  could not open file "/var/lib/postgresql/data/global/pg_control": No such file or directory
+2025-07-07 15:19:06 UTC [1]: [12-1] user=, db=, app=, client= LOG:  checkpointer process (PID 30) was terminated by signal 6: Aborted
+2025-07-07 15:19:06 UTC [1]: [13-1] user=, db=, app=, client= LOG:  terminating any other active server processes
+2025-07-07 15:19:06 UTC [1]: [14-1] user=, db=, app=, client= LOG:  abnormal database system shutdown
+2025-07-07 15:19:06 UTC [1]: [15-1] user=, db=, app=, client= LOG:  database system is shut down

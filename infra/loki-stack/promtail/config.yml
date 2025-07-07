@@ -15,24 +15,25 @@ scrape_configs:
           - localhost
         labels:
           job: clean-old-images
-          __path__: /app/logs/threadly/*.log
+          __path__: /app/logs/clean-old-images.log
 
-  - job_name: container-logs
-    docker_sd_configs:
-      - host: unix:///var/run/docker.sock
-        refresh_interval: 5s
+  - job_name: app-log
+    static_configs:
+      - targets: [localhost]
+        labels:
+          job: app
+          __path__: /app/logs/app.log
 
-    relabel_configs:
-      - source_labels: [__meta_docker_container_name]
-        regex: /?(.*)
-        target_label: container_name
+  - job_name: postgres-log
+    static_configs:
+      - targets: [localhost]
+        labels:
+          job: postgresql
+          __path__: /app/logs/postgresql.log
 
-      # 로그 파일 경로
-      - source_labels: [__meta_docker_container_log_stream]
-        target_label: stream
-
-      - source_labels: [__meta_docker_container_image]
-        target_label: container_image
-
-    pipeline_stages:
-      - docker: {}
+  - job_name: redis-log
+    static_configs:
+      - targets: [localhost]
+        labels:
+          job: redis
+          __path__: /app/logs/redis.log
