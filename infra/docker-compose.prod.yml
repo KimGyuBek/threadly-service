@@ -30,7 +30,7 @@ services:
       POSTGRES_USER: threadly
       POSTGRES_PASSWORD: localpwd
     volumes:
-      - /home/ubuntu/docker-volumes/postgres:/app/logs
+      - /home/ubuntu/docker-volumes/postgres:/var/lib/postgresql/data
       - /home/ubuntu/threadly/logs:/var/log/postgresql
     ports:
       - "5432:5432"

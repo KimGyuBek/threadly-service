@@ -18,7 +18,7 @@ infra/loki-stack/promtail/*
 !infra/loki-stack/promtail/config.yml
 infra/image_tag.txt
 infra/LOG_FILE
-logs/
+/logs/
 
 
 
