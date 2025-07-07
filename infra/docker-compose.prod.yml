@@ -17,7 +17,7 @@ services:
         max-size: "10m"
         max-file: "3"
     volumes:
-      - ../logs:/app/logs
+      - /home/ubuntu/threadly/logs/app:/var/log
     networks:
       - threadly-network
 
@@ -31,7 +31,7 @@ services:
       POSTGRES_PASSWORD: localpwd
     volumes:
       - /home/ubuntu/docker-volumes/postgres:/var/lib/postgresql/data
-      - /home/ubuntu/threadly/logs:/var/log
+      - /home/ubuntu/threadly/logs/postgres:/var/log
     user: "999:999"
     ports:
       - "5432:5432"
@@ -44,7 +44,7 @@ services:
     restart: always
     volumes:
       - /home/ubuntu/docker-volumes/redis:/data
-      - /home/ubuntu/threadly/logs:/var/log
+      - /home/ubuntu/threadly/logs/redis:/var/log
     user: "999:999"
     ports:
       - "6379:6379"
