@@ -31,7 +31,7 @@ services:
       POSTGRES_PASSWORD: localpwd
     volumes:
       - /home/ubuntu/docker-volumes/postgres:/var/lib/postgresql/data
-      - /home/ubuntu/threadly/logs:/app/logs
+      - /home/ubuntu/threadly/logs:/var/log
     user: "999:999"
     ports:
       - "5432:5432"
@@ -44,11 +44,11 @@ services:
     restart: always
     volumes:
       - /home/ubuntu/docker-volumes/redis:/data
-      - /home/ubuntu/threadly/logs:/app/logs
+      - /home/ubuntu/threadly/logs:/var/log
     user: "999:999"
     ports:
       - "6379:6379"
-    command: [ "redis-server", "--logfile", "/app/logs/redis.log" ]
+    command: [ "redis-server", "--logfile", "/var/log/redis.log" ]
     networks:
       - threadly-network
 
