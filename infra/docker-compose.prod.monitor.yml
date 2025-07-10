@@ -1,0 +1,46 @@
+services:
+  loki:
+    image: grafana/loki:2.9.0
+    container_name: loki
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./loki-stack/loki/config.yml:/etc/loki/config.yml
+      - /home/ubuntu/docker-volumes/loki/data:/tmp/loki
+      - /home/ubuntu/docker-volumes/loki/wal:/wal
+    command: -config.file=/etc/loki/config.yml
+    networks:
+      - monitoring-network
+
+  promtail:
+    image: grafana/promtail:2.9.0
+    container_name: promtail
+    volumes:
+      - /home/ubuntu/threadly/logs:/app/logs
+      - /home/ubuntu/threadly/infra/loki-stack/promtail/config.yml:/etc/promtail/config.yml:ro
+    command: -config.file=/etc/promtail/config.yml
+    networks:
+      - monitoring-network
+
+  grafana:
+    image: grafana/grafana:10.0.3
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    depends_on:
+      - loki
+    environment:
+      - GF_SERVER_HTTP_ADDR=0.0.0.0
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_PASSWORD=admin
+    volumes:
+      - /home/ubuntu/docker-volumes/grafana:/var/lib/grafana
+    networks:
+      - monitoring-network
+
+volumes:
+  grafana-storage:
+
+networks:
+  monitoring-network:
+    external: true
