@@ -55,6 +55,7 @@ jobs:
       - name: Docker compose file 업로드 준비
         run: |
           mkdir -p deploy
+          cp ./infra/docker-compose.prod.monitor.yml ./deploy
           cp ./infra/docker-compose.prod.yml ./deploy
 
 
