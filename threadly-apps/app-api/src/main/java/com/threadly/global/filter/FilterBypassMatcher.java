@@ -10,6 +10,7 @@ import org.springframework.util.AntPathMatcher;
 public class FilterBypassMatcher {
 
   public static final List<String> WHITE_LIST = List.of(
+      "/actuator/**",
       "/api/users",
       "/api/auth/verify-email",
       "/api/auth/login",
