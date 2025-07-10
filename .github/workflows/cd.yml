@@ -56,7 +56,7 @@ jobs:
         run: |
           mkdir -p deploy
           cp ./infra/compose/docker-compose.prod.monitor.yml ./deploy
-          cp ./infra/scripts/clean-old-images.sh
+          cp ./infra/scripts/clean-old-images.sh ./deploy
           cp ./infra/compose/docker-compose.prod.yml ./deploy
 
 
