@@ -11,6 +11,8 @@ services:
       - "8080:8080"
     env_file:
       - ./.env
+    environment:
+      TZ: "Asia/Seoul"
     logging:
       driver: json-file
       options:
