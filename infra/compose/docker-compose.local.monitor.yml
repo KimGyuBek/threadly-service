@@ -5,9 +5,9 @@ services:
     ports:
       - "3100:3100"
     volumes:
-      - ./loki-stack/loki/config.yml:/etc/loki/config.yml
-      - ./loki-stack/loki/data:/tmp/loki
-      - ./loki-stack/loki/wal:/wal
+      - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly/infra/loki-stack/loki/config.yml:/etc/loki/config.yml
+      - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly/infra/loki-stack/loki/data:/tmp/loki
+      - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly/infra/loki-stack/loki/wal:/wal
     command: -config.file=/etc/loki/config.yml
     networks:
       - monitoring-network
@@ -16,8 +16,8 @@ services:
     image: grafana/promtail:2.9.0
     container_name: promtail
     volumes:
-      - ../logs:/var/logs
-      - ./loki-stack/promtail/config_local.yml:/etc/promtail/config.yml
+      - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly/logs:/var/logs
+      - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly/infra/loki-stack/promtail/config_local.yml:/etc/promtail/config.yml
     command: -config.file=/etc/promtail/config.yml
     networks:
       - monitoring-network

@@ -5,7 +5,7 @@ services:
     ports:
       - "3100:3100"
     volumes:
-      - ./loki-stack/loki/config.yml:/etc/loki/config.yml
+      - /home/ubuntu/threadly/infra/loki-stack/loki/config.yml:/etc/loki/config.yml
       - /home/ubuntu/docker-volumes/loki/data:/tmp/loki
       - /home/ubuntu/docker-volumes/loki/wal:/wal
     command: -config.file=/etc/loki/config.yml

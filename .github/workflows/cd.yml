@@ -24,8 +24,8 @@ jobs:
 
       - name: Run build-deploy.sh
         run: |
-          chmod +x ./infra/build-deploy.sh
-          ./infra/build-deploy.sh
+          chmod +x ./infra/scripts/build-deploy.sh
+          ./infra/scripts/build-deploy.sh
 
       - name: Set IMAGE_TAG
         id: read_tag
@@ -39,7 +39,7 @@ jobs:
 
       - name: 도커 이미지 빌드
         run: |
-          docker build --no-cache -t ${{secrets.DOCKER_IMAGE_NAME }}:$IMAGE_TAG -f ./infra/Dockerfile .
+          docker build --no-cache -t ${{secrets.DOCKER_IMAGE_NAME }}:$IMAGE_TAG -f ./infra/docker/app/Dockerfile .
 
       - name: 도커 로그인
         uses: docker/login-action@v3
@@ -55,8 +55,9 @@ jobs:
       - name: Docker compose file 업로드 준비
         run: |
           mkdir -p deploy
-          cp ./infra/docker-compose.prod.monitor.yml ./deploy
-          cp ./infra/docker-compose.prod.yml ./deploy
+          cp ./infra/compose/docker-compose.prod.monitor.yml ./deploy
+          cp ./infra/scripts/clean-old-images.sh
+          cp ./infra/compose/docker-compose.prod.yml ./deploy
 
 
       - name: config 업로드 준비
