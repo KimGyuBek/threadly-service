@@ -11,6 +11,10 @@ services:
       POSTGRES_DB: threadly
       POSTGRES_USER: threadly
       POSTGRES_PASSWORD: localpwd
+    volumes:
+      - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly/infra/volumes/postgres/data:/var/lib/postgresql/data
+      - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly/logs/postgres:/var/log
+
 
   h2:
     container_name: threadly-h2-test
@@ -26,6 +30,10 @@ services:
   redis-test:
     container_name: threadly-redis-test
     image: redis:latest
+    command: [ "redis-server", "--logfile", "/var/log/redis.log" ]
+    volumes:
+      - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly/infra/volumes/redis/data:/data
+      - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly/logs/redis:/var/log
     ports:
       - "6380:6379"
 
@@ -41,6 +49,18 @@ services:
     networks:
       - monitoring-network
 
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: cadvisor
+    ports:
+      - "8081:8080"
+    volumes:
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+    networks:
+      - monitoring-network
 
 networks:
   monitoring-network:

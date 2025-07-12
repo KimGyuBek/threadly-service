@@ -55,6 +55,7 @@ services:
     networks:
       - threadly-network
 
+
 networks:
   monitoring-network:
     external: true
