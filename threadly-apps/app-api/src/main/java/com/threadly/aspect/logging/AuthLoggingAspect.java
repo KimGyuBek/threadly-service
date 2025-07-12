@@ -56,7 +56,12 @@ public class AuthLoggingAspect {
       throw new UserAuthenticationException(
           ((UserAuthenticationException) exception).getErrorCode());
 
-    } else if (exception instanceof UserException || exception instanceof UsernameNotFoundException
+    } else if (exception instanceof UserException) {
+      log.error(exception.getMessage(), exception);
+      logFailure(joinPoint, exception);
+      throw new UserAuthenticationException(ErrorCode.USER_NOT_FOUND);
+
+    } else if (exception instanceof UsernameNotFoundException
         || exception instanceof BadCredentialsException) {
       log.error(exception.getMessage(), exception);
       logFailure(joinPoint, exception);
