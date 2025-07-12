@@ -51,6 +51,26 @@ services:
       threadly-network:
       monitoring-network:
 
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter
+    restart: unless-stopped
+    ports:
+      - "9100:9100"
+    pid: "host"
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:r0
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs-/host/sys'
+      - '--path.rootfs=/rootfs'
+    networks:
+      monitoring-network:
+
+
+
 volumes:
   grafana-storage:
 
