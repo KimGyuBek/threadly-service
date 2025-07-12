@@ -64,7 +64,7 @@ services:
       - /:/rootfs:r0
     command:
       - '--path.procfs=/host/proc'
-      - '--path.sysfs-/host/sys'
+      - '--path.sysfs=/host/sys'
       - '--path.rootfs=/rootfs'
     networks:
       monitoring-network:
