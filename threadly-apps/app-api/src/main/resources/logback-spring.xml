@@ -10,13 +10,13 @@
   </springProfile>
 
   <!-- local  -->
-  <springProfile name="dev">
-    <property name="LOG_PATH" value="./logs/app" />
+  <springProfile name="local">
+    <property name="LOG_PATH" value="/app/logs" />
   </springProfile>
 
   <!-- prod  -->
   <springProfile name="prod">
-    <property name="LOG_PATH" value="/home/ubuntu/threadly/logs/services/app" />
+    <property name="LOG_PATH" value="/app/logs" />
   </springProfile>
 
   <!-- default fallback -->
