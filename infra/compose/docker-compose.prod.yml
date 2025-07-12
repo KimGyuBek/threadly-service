@@ -60,4 +60,4 @@ networks:
   monitoring-network:
     external: true
   threadly-network:
-    driver: bridge
+    external: true
