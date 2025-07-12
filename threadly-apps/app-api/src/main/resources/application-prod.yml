@@ -34,7 +34,7 @@ properties:
   file:
     upload:
       location: ./local-storage/uploads/images/
-      access-url: http://localhost:8080/images/
+      access-url: https://api.threadly.kr/images/
       max-image-count: 20
       max-size: 5MB
       allow-types:
