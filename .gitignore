@@ -11,6 +11,7 @@ local-storage/
 threadly-apps/app-api/src/test/resources/images/temp/
 infra/compose/.env.local
 runner/
+infra/grafana/
 
 infra/loki-stack/loki/*
 !infra/loki-stack/loki/config.yml
