@@ -16,14 +16,21 @@ public class ResponseWrapperAdvice implements ResponseBodyAdvice<Object> {
   @Override
   public boolean supports(MethodParameter returnType,
       Class<? extends HttpMessageConverter<?>> converterType) {
-//    return !returnType.getParameterType().equals(String.class);
     return true;
+//    String packageName = returnType.getDeclaringClass().getPackageName();
+//    return !packageName.startsWith("org.springframework.boot.actuate");
   }
+
+
 
   @Override
   public Object beforeBodyWrite(Object body, MethodParameter returnType,
       MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType,
       ServerHttpRequest request, ServerHttpResponse response) {
+    String path = request.getURI().getPath();
+    if (path.startsWith("/actuator")) {
+      return body;
+    }
 
     if (body instanceof ErrorResponse) {
       return ApiResponse.fail(((ErrorResponse) body).getErrorCode());

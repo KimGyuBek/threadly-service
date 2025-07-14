@@ -2,7 +2,7 @@
 
 set -e
 
-LOG_FILE="/home/ubuntu/threadly/logs/clean-old-images.log"
+LOG_FILE="/home/ubuntu/threadly/logs/scripts/clean-old-images.log"
 
 mkdir -p "$(dirname "$LOG_FILE")"
 exec >> "$LOG_FILE" 2>&1

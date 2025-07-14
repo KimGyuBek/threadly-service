@@ -31,6 +31,7 @@ public class SecurityConfig {
 
     http.authorizeHttpRequests(
         auth -> auth.requestMatchers(
+            "/actuator/**",
                 "/api/users",
                 "/api/auth/verify-email",
                 "/api/auth/login",

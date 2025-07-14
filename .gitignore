@@ -9,8 +9,9 @@ md/
 json/
 local-storage/
 threadly-apps/app-api/src/test/resources/images/temp/
-infra/.env.*
+infra/compose/.env.local
 runner/
+infra/grafana/
 
 infra/loki-stack/loki/*
 !infra/loki-stack/loki/config.yml
@@ -18,6 +19,10 @@ infra/loki-stack/promtail/*
 !infra/loki-stack/promtail/config.yml
 infra/image_tag.txt
 infra/LOG_FILE
+infra/volumes
+/logs/
+.env
+
 
 
 ### STS ###

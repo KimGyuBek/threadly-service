@@ -20,6 +20,8 @@ dependencies {
     implementation("org.springframework.data:spring-data-commons")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework:spring-tx")
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("io.micrometer:micrometer-registry-prometheus")
 
 
     implementation("org.springframework.boot:spring-boot-starter-web")
@@ -27,6 +29,7 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
 
     implementation("org.springframework.boot:spring-boot-devtools")
+
 
     /*Jwt*/
     implementation("io.jsonwebtoken:jjwt-api:0.11.5")

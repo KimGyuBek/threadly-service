@@ -1,14 +1,12 @@
 jwt:
   secret: ${JWT.SECRET}
 spring:
-#  mvc:
-#    contentnegotiation:
-#      favor-path-extension: false
-#      favor-paramter: false
-#      deault-content-type: application/json
-#  data:
-#    redis:
-#      host: redis
-#      port: 6379
+
 server:
   port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "prometheus"
