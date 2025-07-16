@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: 슬랙 웹훅 정보 설정
         run: |
-          echo "SLACK_WEBHOOK_URL=${{ secrets.SLACK_CICD_FAIL_WEBHOOK_URL }}" >> $GITHUB_ENV
+         echo "SLACK_WEBHOOK_URL=${{ secrets.SLACK_CICD_FAIL_WEBHOOK_URL }}" >> $GITHUB_ENV
 
       - name: PR 생성 시 Slack 알림
         run: |
