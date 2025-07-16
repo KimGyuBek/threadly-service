@@ -14,9 +14,5 @@ services:
   redis-test:
     container_name: threadly-redis-test
     image: redis:latest
-    command: [ "redis-server", "--logfile", "/var/log/redis.log" ]
-    volumes:
-      - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly/infra/volumes/redis/data:/data
-      - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly/logs/redis:/var/log
     ports:
       - "6380:6379"
