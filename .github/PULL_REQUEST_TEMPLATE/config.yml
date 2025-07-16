@@ -1,10 +1,1 @@
 blank_issues_enabled: false
-contact_links: []
-
-pull_request_templates:
-  - name: Feature Template
-    path: PULL_REQUEST_TEMPLATE/feature_template.md
-  - name: Bugfix Template
-    path: PULL_REQUEST_TEMPLATE/bugfix_template.md
-  - name: PullRequest Template
-    path: PULL_REQUEST_TEMPLATE/pr_template.md
