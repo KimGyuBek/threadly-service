@@ -23,6 +23,8 @@ jobs:
           *작성자:* $PR_AUTHOR
           *제목:* $PR_TITLE
           🔗 <$PR_URL|PR 바로 가기>"
+          
+         json=$(jq -nc --arg msg "$message" '{ text: $msg }')
 
           curl -X POST -H 'Content-type: application/json' \
             --data "$json" \
