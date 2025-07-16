@@ -20,6 +20,8 @@ jobs:
           
           message="⚠️ 워크플로우 \"$WORKFLOW_NAME\" 이(가) 실패했습니다.\n🔗 <$WORKFLOW_URL|실패 내역 보러가기>"
           
+           json=$(jq -nc --arg msg "$message" '{ text: $msg }')
+
           curl -X POST -H 'Content-type: application/json' \
-            --data "{\"text\":\"$message\"}" \
+            --data "$json" \
             "$SLACK_WEBHOOK_URL"
