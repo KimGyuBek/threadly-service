@@ -7,9 +7,7 @@ on:
 jobs:
   notify:
     runs-on: ubuntu-latest
-
     steps:
-
       - name: PR 생성 시 Slack 알림
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_CICD_FAIL_WEBHOOK_URL }}
@@ -23,7 +21,7 @@ jobs:
           *제목:* $PR_TITLE
           🔗 <$PR_URL|PR 바로 가기>"
           
-         json=$(jq -nc --arg msg "$message" '{ text: $msg }')
+           json=$(jq -nc --arg msg "$message" '{ text: $msg }')
 
           curl -X POST -H 'Content-type: application/json' \
             --data "$json" \
