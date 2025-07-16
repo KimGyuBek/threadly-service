@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: 슬랙 웹훅 정보 설정
         run: |
-          echo "SLACK_WEBHOOK_URL=${{ secrets.SLACK_PR_WEBHOOK_URL }}" >> $GITHUB_ENV
+          echo "SLACK_WEBHOOK_URL=${{ secrets.SLACK_CICD_FAIL_WEBHOOK_URL }}" >> $GITHUB_ENV
 
       - name: PR 생성 시 Slack 알림
         run: |
@@ -19,9 +19,11 @@ jobs:
           PR_URL="${{ github.event.pull_request.html_url }}"
           PR_AUTHOR="${{ github.event.pull_request.user.login }}"
 
-          message="📌 *새 Pull Request 알림!*\n*작성자:* $PR_AUTHOR\n*제목:* $PR_TITLE
+          message="📌 *새 Pull Request 알림!*
+          *작성자:* $PR_AUTHOR
+          *제목:* $PR_TITLE
           🔗 <$PR_URL|PR 바로 가기>"
 
           curl -X POST -H 'Content-type: application/json' \
-            --data "{\"text\":\"$message\"}" \
+            --data "$json" \
             "$SLACK_WEBHOOK_URL"
