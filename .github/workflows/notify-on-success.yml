@@ -18,7 +18,7 @@ jobs:
           WORKFLOW_NAME="${{ github.event.workflow_run.name }}"
           WORKFLOW_URL="${{ github.event.workflow_run.html_url }}"
           
-          message="⚠️ 워크플로우 \"$WORKFLOW_NAME\" 이(가) 성공했습니다.
+          message="✅ 워크플로우 \"$WORKFLOW_NAME\" 이(가) 성공했습니다.
           🔗 <$WORKFLOW_URL|성공 내역 보러가기>"
           
            json=$(jq -nc --arg msg "$message" '{ text: $msg }')
