@@ -86,13 +86,13 @@ class AuthControllerTest extends BaseApiTest {
       /*로그인 요청*/
       CommonResponse<Object> loginResponse = sendLoginRequest(invalidEmail, PASSWORD,
           new TypeReference<CommonResponse<Object>>() {
-          }, status().isUnauthorized());
+          }, status().isNotFound());
 
       //then
       assertAll(
           () -> assertFalse(loginResponse.isSuccess()),
           () -> assertEquals(loginResponse.getCode(),
-              ErrorCode.USER_AUTHENTICATION_FAILED.getCode())
+              ErrorCode.USER_NOT_FOUND.getCode())
       );
     }
 
@@ -107,7 +107,7 @@ class AuthControllerTest extends BaseApiTest {
 
       //when
       /*로그인 요청*/
-      CommonResponse<Object> loginResponse = sendLoginRequest(USER_EMAIL_NOT_VERIFIED,
+      CommonResponse<Object> loginResponse = sendLoginRequest(EMAIL_VERIFIED_USER_1,
           invalidPassword,
           new TypeReference<CommonResponse<Object>>() {
           }, status().isUnauthorized());
