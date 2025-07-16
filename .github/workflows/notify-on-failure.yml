@@ -2,7 +2,7 @@ name: Notify on Workflow Failure
 
 on:
   workflow_run:
-    workflows: [ "cd", "cd" ]
+    workflows: [ "CI", "CD" ]
     types:
       - completed
 
