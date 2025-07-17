@@ -21,14 +21,14 @@ scrape_configs:
     static_configs:
       - targets: [localhost]
         labels:
-          job: app
+          job: app-blue
           __path__: /app/logs/services/app/blue/app.log
 
   - job_name: app-green
     static_configs:
       - targets: [localhost]
         labels:
-          job: app
+          job: app-green
           __path__: /app/logs/services/app/green/app.log
 
   - job_name: postgres-log
