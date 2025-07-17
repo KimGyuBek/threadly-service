@@ -64,6 +64,7 @@ log "Nginx Reload 완료"
 
 # 기존 버전 종료
 log "기존 버전($CURRENT) 종료 중..."
-docker compose -f /home/ubuntu/threadly/infra/app/docker-compose.$CURRENT.yml down
+docker compose -f /home/ubuntu/threadly/infra/app/docker-compose.$CURRENT.yml -p $CURRENT down
 
+log "기존 버전($CURRENT) 종료 성공..."
 log "======Deploy Finish======"

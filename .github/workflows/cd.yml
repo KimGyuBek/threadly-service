@@ -94,7 +94,7 @@ jobs:
           echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
           echo "IMAGE_TAG=${{ needs.build.outputs.IMAGE_TAG }}" >> .env
           cp .env ./infra/app
-          
+
 
       - name: SCP 전송
         uses: appleboy/scp-action@v1.0.0
@@ -123,4 +123,4 @@ jobs:
             /home/ubuntu/threadly/infra/scripts/blue-green-deploy.sh
             
             chmod +x /home/ubuntu/threadly/infra/scripts/clean-old-images.sh
-            /home/ubuntu/threadly/infra/scripts/clean-old-images.sh
+            /home/ubuntu/threadly/infra/scripts/clean-old-images.sh ${{ secrets.DOCKER_IMAGE_NAME }} ${{ needs.build.outputs.IMAGE_TAG }}
