@@ -30,11 +30,8 @@ jobs:
       - name: IMAGE_TAG 설정
         id: read_tag
         run: |
-          echo "image_tag=$(cat image_tag.txt)" >> $GITHUB_OUTPUT
+          echo "IMAGE_TAG=$(cat image_tag.txt)" >> $GITHUB_OUTPUT
           echo "IMAGE_TAG=$(cat image_tag.txt)" >> $GITHUB_ENV
-#          TAG=$(cat image_tag.txt)
-#          echo "IMAGE_TAG=$TAG" >> $GITHUB_OUTPUT
-#          echo "IMAGE_TAG=$TAG" >> $GITHUB_ENV
 
       - name: 도커 이미지 빌드
         run: |
@@ -50,15 +47,10 @@ jobs:
         run: |
           docker push ${{ secrets.DOCKER_IMAGE_NAME }}:$IMAGE_TAG
 
-
       - name: Docker compose file 업로드 준비
         run: |
           mkdir -p deploy
           cp -r ./infra/compose/prod/* ./deploy
-      #          mkdir -p deploy
-      #          cp ./infra/compose/docker-compose.yml ./deploy
-      #          cp ./infra/scripts/clean-old-images.sh ./deploy
-      #          cp ./infra/compose/docker-compose.yml ./deploy
 
       - name: config 업로드 준비
         run: |
@@ -83,8 +75,6 @@ jobs:
           name: infra
           path: ./infra
 
-
-
       - name: 환경변수 생성 및 전송
         run: |
           echo "SPRING_PROFILES_ACTIVE=${{ secrets.SPRING_PROFILE_ACTIVE }}" >> .env
@@ -96,6 +86,7 @@ jobs:
           echo "MAIL_NAME=${{ secrets.MAIL_NAME }}" >> .env
           echo "MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }}" >> .env
           echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
+          echo "IMAGE_TAG=${{ needs.build.outputs.IMAGE_TAG }}" >> .env
           cp .env ./infra/app
 
       - name: SCP 전송
@@ -122,6 +113,6 @@ jobs:
             echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
             docker pull ${{ secrets.DOCKER_IMAGE_NAME }}
             docker compose -f ./infra/app/docker-compose.yml down
-            IMAGE_TAG=${{ needs.build.outputs.image_tag }} docker compose -f ./infra/app/docker-compose.yml up --build -d
+            docker compose -f ./infra/app/docker-compose.yml up --build -d
             chmod +x ./infra/clean-old-images.sh
-            ./infra/clean-old-images.sh ${{secrets.DOCKER_IMAGE_NAME }} ${{ needs.build.outputs.image_tag }}
+            ./infra/clean-old-images.sh ${{secrets.DOCKER_IMAGE_NAME }} ${{ needs.build.outputs.IMAGE_TAG }}
