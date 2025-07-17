@@ -34,7 +34,7 @@ log "현재 버전: $CURRENT ($CURRENT_PORT), 배포할 버전: $NEXT ($NEXT_POR
 
 # 다음 버전 실행
 log "새로운 버전($NEXT) 실행 중..."
-docker compose -f /home/ubuntu/threadly/infra/app/docker-compose.$NEXT.yml up -d --build
+docker compose -f /home/ubuntu/threadly/infra/app/docker-compose.$NEXT.yml -p $NEXT up -d --build
 sleep 5
 
 # Health Check
@@ -51,7 +51,7 @@ log "Health Check 성공!"
 
 # Nginx 포트 전환
 log "Nginx 포트 전환 중..."
-sed -i "s/$CURRENT_PORT/$NEXT_PORT/" "$NGINX_CONF"
+sudo sed -i "s/$CURRENT_PORT/$NEXT_PORT/" "$NGINX_CONF"
 sudo nginx -s reload
 log "Nginx Reload 완료"
 
