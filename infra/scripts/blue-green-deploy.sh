@@ -38,14 +38,21 @@ docker compose -f /home/ubuntu/threadly/infra/app/docker-compose.$NEXT.yml -p $N
 sleep 10
 
 # Health Check
-log "Health Check 시작..."
-sleep 10
+MAX_RETRIES=10
+RETRY_COUNT=0
 
-if ! curl -fs http://localhost:$NEXT_PORT/actuator/health > /dev/null; then
-  log "Health Check 실패. 롤백 수행..."
-  docker compose -f /home/ubuntu/threadly/infra/app/docker-compose.$NEXT.yml -p $NEXT down
-  exit 1
-fi
+log "Health Check 시작..."
+
+until curl -fs "http://localhost:$NEXT_PORT/actuator/health" > /dev/null; do
+  RETRY_COUNT=$((RETRY_COUNT + 1))
+  if [ $RETRY_COUNT -ge $MAX_RETRIES ]; then
+    log "Health Check 실패. 롤백 수행..."
+    docker compose -f /home/ubuntu/threadly/infra/app/docker-compose.$NEXT.yml -p $NEXT down
+    exit 1
+  fi
+  log "Health Check 대기 중... 재시도 $RETRY_COUNT"
+  sleep 3
+done
 
 log "Health Check 성공!"
 
