@@ -30,11 +30,11 @@ jobs:
       - name: IMAGE_TAG 설정
         id: read_tag
         run: |
+          echo "image_tag=$(cat image_tag.txt)" >> $GITHUB_OUTPUT
+          echo "IMAGE_TAG=$(cat image_tag.txt)" >> $GITHUB_ENV
 #          TAG=$(cat image_tag.txt)
 #          echo "IMAGE_TAG=$TAG" >> $GITHUB_OUTPUT
 #          echo "IMAGE_TAG=$TAG" >> $GITHUB_ENV
-          echo "image_tag=$(cat image_tag.txt)" >> $GITHUB_OUTPUT
-          echo "IMAGE_TAG=$(cat image_tag.txt)" >> $GITHUB_ENV
 
       - name: 도커 이미지 빌드
         run: |
