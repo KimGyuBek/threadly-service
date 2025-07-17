@@ -35,15 +35,15 @@ log "현재 버전: $CURRENT ($CURRENT_PORT), 배포할 버전: $NEXT ($NEXT_POR
 # 다음 버전 실행
 log "새로운 버전($NEXT) 실행 중..."
 docker compose -f /home/ubuntu/threadly/infra/app/docker-compose.$NEXT.yml -p $NEXT up -d --build
-sleep 5
+sleep 10
 
 # Health Check
 log "Health Check 시작..."
-sleep 5
+sleep 10
 
 if ! curl -fs http://localhost:$NEXT_PORT/actuator/health > /dev/null; then
   log "Health Check 실패. 롤백 수행..."
-  docker compose -f /home/ubuntu/threadly/infra/app/docker-compose.$NEXT.yml down
+  docker compose -f /home/ubuntu/threadly/infra/app/docker-compose.$NEXT.yml -p $NEXT down
   exit 1
 fi
 
