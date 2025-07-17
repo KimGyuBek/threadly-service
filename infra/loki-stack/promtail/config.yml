@@ -17,12 +17,19 @@ scrape_configs:
           job: clean-old-images
           __path__: /app/logs/scripts/clean-old-images.log
 
-  - job_name: app-log
+  - job_name: app-blue
     static_configs:
       - targets: [localhost]
         labels:
           job: app
-          __path__: /app/logs/services/app/app.log
+          __path__: /app/logs/services/app/blue/app.log
+
+  - job_name: app-green
+    static_configs:
+      - targets: [localhost]
+        labels:
+          job: app
+          __path__: /app/logs/services/app/green/app.log
 
   - job_name: postgres-log
     static_configs:
