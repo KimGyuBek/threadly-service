@@ -48,7 +48,7 @@ services:
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
     networks:
-      threadly-network:
+      service-network:
       monitoring-network:
 
   node-exporter:
@@ -75,7 +75,7 @@ volumes:
   grafana-storage:
 
 networks:
-  threadly-network:
+  service-network:
     external: true
   monitoring-network:
     external: true

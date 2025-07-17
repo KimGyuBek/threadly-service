@@ -2,9 +2,11 @@ name: CD
 
 on:
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+    branches: [ feature/TLY-85-blue-green-deployment ]
+#  push:
+#    branches: [ master ]
+#  pull_request:
+#    branches: [ master ]
 
 jobs:
   build:
@@ -30,10 +32,6 @@ jobs:
         run: |
           echo "IMAGE_TAG=$(cat image_tag.txt)" >> $GITHUB_OUTPUT
           echo "IMAGE_TAG=$(cat image_tag.txt)" >> $GITHUB_ENV
-      - name: debug
-        run: |
-          cat image_tag.txt
-          echo "image_tag=$IMAGE_TAG"
 
       - name: 도커 이미지 빌드
         run: |
@@ -53,10 +51,11 @@ jobs:
       - name: Docker compose file 업로드 준비
         run: |
           mkdir -p deploy
-          cp ./infra/compose/docker-compose.prod.monitor.yml ./deploy
-          cp ./infra/scripts/clean-old-images.sh ./deploy
-          cp ./infra/compose/docker-compose.prod.yml ./deploy
-
+          cp -r ./infra/compose/prod/* ./deploy
+      #          mkdir -p deploy
+      #          cp ./infra/compose/docker-compose.prod.monitor.yml ./deploy
+      #          cp ./infra/scripts/clean-old-images.sh ./deploy
+      #          cp ./infra/compose/docker-compose.prod.yml ./deploy
 
       - name: config 업로드 준비
         run: |
@@ -119,7 +118,7 @@ jobs:
             cd ~/threadly
             echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
             docker pull ${{ secrets.DOCKER_IMAGE_NAME }}
-            docker compose -f ./infra/docker-compose.prod.yml down
-            IMAGE_TAG=${{ needs.build.outputs.image_tag }} docker compose -f ./infra/docker-compose.prod.yml up --build -d
+            docker compose -f ./infra/app/docker-compose.yml down
+            IMAGE_TAG=${{ needs.build.outputs.image_tag }} docker compose -f ./infra/app/docker-compose.yml up --build -d
             chmod +x ./infra/clean-old-images.sh
             ./infra/clean-old-images.sh ${{secrets.DOCKER_IMAGE_NAME}} ${{ needs.build.outputs.image_tag}}
