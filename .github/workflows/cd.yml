@@ -53,9 +53,9 @@ jobs:
           mkdir -p deploy
           cp -r ./infra/compose/prod/* ./deploy
       #          mkdir -p deploy
-      #          cp ./infra/compose/docker-compose.prod.monitor.yml ./deploy
+      #          cp ./infra/compose/docker-compose.yml ./deploy
       #          cp ./infra/scripts/clean-old-images.sh ./deploy
-      #          cp ./infra/compose/docker-compose.prod.yml ./deploy
+      #          cp ./infra/compose/docker-compose.yml ./deploy
 
       - name: config 업로드 준비
         run: |

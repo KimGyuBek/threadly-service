@@ -23,7 +23,8 @@ services:
     networks:
       - service-network
 
-
 networks:
+  monitoring-network:
+    external: true
   service-network:
     external: true
