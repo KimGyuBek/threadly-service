@@ -1,7 +1,7 @@
 services:
   app:
     image: kimgyubek/threadly-app:${IMAGE_TAG}
-    container_name: threadly-app
+    container_name: app-blue
     working_dir: /app
     command: [ "java", "-jar", "threadly.jar" ]
     ports:

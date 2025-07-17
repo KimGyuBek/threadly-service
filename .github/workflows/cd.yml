@@ -58,6 +58,12 @@ jobs:
           cp -r ./infra/loki-stack ./deploy/
           cp -r ./infra/config/prometheus.prod.yml ./deploy/config/
 
+      - name: Scripts 업로드 준비
+        run: |
+          mkdir -p ./deploy/scripts
+          cp ./infra/scripts/blue-green-deploy.sh ./deploy/scripts/
+          cp ./infra/scripts/clean-old-images.sh ./deploy/scripts/
+
       - name: Artifact 업로드
         uses: actions/upload-artifact@v4
         with:
@@ -88,6 +94,7 @@ jobs:
           echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
           echo "IMAGE_TAG=${{ needs.build.outputs.IMAGE_TAG }}" >> .env
           cp .env ./infra/app
+          
 
       - name: SCP 전송
         uses: appleboy/scp-action@v1.0.0
@@ -112,7 +119,8 @@ jobs:
             cd ~/threadly
             echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
             docker pull ${{ secrets.DOCKER_IMAGE_NAME }}
-            docker compose -f ./infra/app/docker-compose.yml down
-            docker compose -f ./infra/app/docker-compose.yml up --build -d
-            chmod +x ./infra/clean-old-images.sh
-            ./infra/clean-old-images.sh ${{secrets.DOCKER_IMAGE_NAME }} ${{ needs.build.outputs.IMAGE_TAG }}
+            chmod +x /home/ubuntu/threadly/infra/scripts/blue-green-deploy.sh
+            /home/ubuntu/threadly/infra/scripts/blue-green-deploy.sh
+            
+            chmod +x /home/ubuntu/threadly/infra/scripts/clean-old-images.sh
+            /home/ubuntu/threadly/infra/scripts/clean-old-images.sh
