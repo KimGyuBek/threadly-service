@@ -26,8 +26,8 @@ if [ "$CURRENT_PORT" = "8080" ]; then
 else
   CURRENT="green"
   NEXT="blue"
-  CURRENT_PORT"8081"
-  NEXT_PORT"8080"
+  CURRENT_PORT="8081"
+  NEXT_PORT="8080"
 fi
 
 log "현재 버전: $CURRENT ($CURRENT_PORT), 배포할 버전: $NEXT ($NEXT_PORT)"
@@ -44,18 +44,19 @@ sleep 5
 if ! curl -fs http://localhost:$NEXT_PORT/actuator/health > /dev/null; then
   log "Health Check 실패. 롤백 수행..."
   docker compose -f /home/ubuntu/threadly/infra/app/docker-compose.$NEXT.yml down
+  exit 1
 fi
 
 log "Health Check 성공!"
 
 # Nginx 포트 전환
 log "Nginx 포트 전환 중..."
-sed -i "s/$CURRENT_PORT/$NEXT_PORT" "$NGINX_CONF"
-nginx -s reload
+sed -i "s/$CURRENT_PORT/$NEXT_PORT/" "$NGINX_CONF"
+sudo nginx -s reload
 log "Nginx Reload 완료"
 
 # 기존 버전 종료
 log "기존 버전($CURRENT) 종료 중..."
 docker compose -f /home/ubuntu/threadly/infra/app/docker-compose.$CURRENT.yml down
 
-log "무중단 배포 완료"
+log "======Deploy Finish======"
