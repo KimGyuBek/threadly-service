@@ -27,11 +27,14 @@ jobs:
           chmod +x ./infra/scripts/build-deploy.sh
           ./infra/scripts/build-deploy.sh
 
-      - name: Set IMAGE_TAG
+      - name: IMAGE_TAG 설정
         id: read_tag
         run: |
-          echo "IMAGE_TAG=$(cat image_tag.txt)" >> $GITHUB_OUTPUT
-          echo "IMAGE_TAG=$(cat image_tag.txt)" >> $GITHUB_ENV
+          TAG=$(cat image_tag.txt)
+          echo "image_tag=$TAG" >> $GITHUB_OUTPUT
+          echo "image_tag=$TAG" >> $GITHUB_ENV
+#          echo "IMAGE_TAG=$(cat image_tag.txt)" >> $GITHUB_OUTPUT
+#          echo "IMAGE_TAG=$(cat image_tag.txt)" >> $GITHUB_ENV
 
       - name: 도커 이미지 빌드
         run: |
@@ -93,7 +96,7 @@ jobs:
           echo "MAIL_NAME=${{ secrets.MAIL_NAME }}" >> .env
           echo "MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }}" >> .env
           echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
-          cp .env ./infra
+          cp .env ./infra/app
 
       - name: SCP 전송
         uses: appleboy/scp-action@v1.0.0
@@ -121,4 +124,4 @@ jobs:
             docker compose -f ./infra/app/docker-compose.yml down
             IMAGE_TAG=${{ needs.build.outputs.image_tag }} docker compose -f ./infra/app/docker-compose.yml up --build -d
             chmod +x ./infra/clean-old-images.sh
-            ./infra/clean-old-images.sh ${{secrets.DOCKER_IMAGE_NAME}} ${{ needs.build.outputs.image_tag}}
+            ./infra/clean-old-images.sh ${{secrets.DOCKER_IMAGE_NAME }} ${{ needs.build.outputs.image_tag }}
