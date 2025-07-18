@@ -1,28 +1,4 @@
 services:
-  app:
-    image: kimgyubek/threadly-app:${IMAGE_TAG}
-    container_name: threadly-app
-    depends_on:
-      - postgresql
-      - redis
-    working_dir: /app
-    command: [ "java", "-jar", "threadly.jar" ]
-    ports:
-      - "8080:8080"
-    env_file:
-      - ./.env
-    environment:
-      TZ: "Asia/Seoul"
-    logging:
-      driver: json-file
-      options:
-        max-size: "10m"
-        max-file: "3"
-    volumes:
-      - /home/ubuntu/threadly/logs/services/app:/app/logs
-    networks:
-      - threadly-network
-
   postgresql:
     image: postgres:16
     container_name: postgresql
@@ -38,7 +14,7 @@ services:
     ports:
       - "5432:5432"
     networks:
-      - threadly-network
+      - service-network
       - monitoring-network
 
   redis:
@@ -53,11 +29,11 @@ services:
       - "6379:6379"
     command: [ "redis-server", "--logfile", "/var/log/redis.log" ]
     networks:
-      - threadly-network
+      - service-network
 
 
 networks:
   monitoring-network:
     external: true
-  threadly-network:
+  service-network:
     external: true

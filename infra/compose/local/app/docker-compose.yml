@@ -1,0 +1,31 @@
+services:
+  app:
+    image: threadly-app-local:latest
+    build:
+      context: /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly
+      dockerfile: /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly/infra/docker/app/Dockerfile
+      args:
+        CACHE_BREAKER: 1
+    working_dir: /app
+    command: [ "java", "-jar", "/app/threadly.jar" ]
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env.local
+    volumes:
+      - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly/logs/app:/app/logs
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    tty: true
+    stdin_open: true
+    environment:
+      TZ: "Asia/Seoul"
+    networks:
+      - service-network
+
+networks:
+  service-network:
+    external: true

@@ -25,15 +25,11 @@ jobs:
           chmod +x ./infra/scripts/build-deploy.sh
           ./infra/scripts/build-deploy.sh
 
-      - name: Set IMAGE_TAG
+      - name: IMAGE_TAG 설정
         id: read_tag
         run: |
           echo "IMAGE_TAG=$(cat image_tag.txt)" >> $GITHUB_OUTPUT
           echo "IMAGE_TAG=$(cat image_tag.txt)" >> $GITHUB_ENV
-      - name: debug
-        run: |
-          cat image_tag.txt
-          echo "image_tag=$IMAGE_TAG"
 
       - name: 도커 이미지 빌드
         run: |
@@ -49,20 +45,22 @@ jobs:
         run: |
           docker push ${{ secrets.DOCKER_IMAGE_NAME }}:$IMAGE_TAG
 
-
       - name: Docker compose file 업로드 준비
         run: |
           mkdir -p deploy
-          cp ./infra/compose/docker-compose.prod.monitor.yml ./deploy
-          cp ./infra/scripts/clean-old-images.sh ./deploy
-          cp ./infra/compose/docker-compose.prod.yml ./deploy
-
+          cp -r ./infra/compose/prod/* ./deploy
 
       - name: config 업로드 준비
         run: |
           mkdir -p ./deploy/config
           cp -r ./infra/loki-stack ./deploy/
           cp -r ./infra/config/prometheus.prod.yml ./deploy/config/
+
+      - name: Scripts 업로드 준비
+        run: |
+          mkdir -p ./deploy/scripts
+          cp ./infra/scripts/blue-green-deploy.sh ./deploy/scripts/
+          cp ./infra/scripts/clean-old-images.sh ./deploy/scripts/
 
       - name: Artifact 업로드
         uses: actions/upload-artifact@v4
@@ -81,8 +79,6 @@ jobs:
           name: infra
           path: ./infra
 
-
-
       - name: 환경변수 생성 및 전송
         run: |
           echo "SPRING_PROFILES_ACTIVE=${{ secrets.SPRING_PROFILE_ACTIVE }}" >> .env
@@ -94,7 +90,9 @@ jobs:
           echo "MAIL_NAME=${{ secrets.MAIL_NAME }}" >> .env
           echo "MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }}" >> .env
           echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
-          cp .env ./infra
+          echo "IMAGE_TAG=${{ needs.build.outputs.IMAGE_TAG }}" >> .env
+          cp .env ./infra/app
+
 
       - name: SCP 전송
         uses: appleboy/scp-action@v1.0.0
@@ -119,7 +117,9 @@ jobs:
             cd ~/threadly
             echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
             docker pull ${{ secrets.DOCKER_IMAGE_NAME }}
-            docker compose -f ./infra/docker-compose.prod.yml down
-            IMAGE_TAG=${{ needs.build.outputs.image_tag }} docker compose -f ./infra/docker-compose.prod.yml up --build -d
-            chmod +x ./infra/clean-old-images.sh
-            ./infra/clean-old-images.sh ${{secrets.DOCKER_IMAGE_NAME}} ${{ needs.build.outputs.image_tag}}
+            
+            chmod +x /home/ubuntu/threadly/infra/scripts/blue-green-deploy.sh
+            /home/ubuntu/threadly/infra/scripts/blue-green-deploy.sh
+            
+            chmod +x /home/ubuntu/threadly/infra/scripts/clean-old-images.sh
+            /home/ubuntu/threadly/infra/scripts/clean-old-images.sh ${{ secrets.DOCKER_IMAGE_NAME }} ${{ needs.build.outputs.IMAGE_TAG }}

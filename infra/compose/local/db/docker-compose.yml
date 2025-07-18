@@ -1,34 +1,4 @@
 services:
-  app:
-    image: threadly-app-local:latest
-    build:
-      context: /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly
-      dockerfile: infra/docker/app/Dockerfile
-      args:
-        CACHE_BREAKER: 1
-    depends_on:
-      - postgresql
-      - redis
-    working_dir: /app
-    command: [ "java", "-jar", "/app/threadly.jar" ]
-    ports:
-      - "8080:8080"
-    env_file:
-      - .env.local
-    volumes:
-      - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly/logs/app:/app/logs
-    logging:
-      driver: json-file
-      options:
-        max-size: "10m"
-        max-file: "3"
-    tty: true
-    stdin_open: true
-    environment:
-      TZ: "Asia/Seoul"
-    networks:
-      - threadly-network
-
   postgresql:
     image: postgres:16
     container_name: postgresql
@@ -43,7 +13,7 @@ services:
     ports:
       - "5432:5432"
     networks:
-      - threadly-network
+      - service-network
       - monitoring-network
 
   redis:
@@ -57,10 +27,10 @@ services:
     ports:
       - "6379:6379"
     networks:
-      - threadly-network
+      - service-network
 
 networks:
   monitoring-network:
     external: true
-  threadly-network:
-    driver: bridge
+  service-network:
+    external: true
