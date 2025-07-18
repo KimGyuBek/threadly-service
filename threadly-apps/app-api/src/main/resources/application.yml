@@ -1,6 +1,7 @@
 jwt:
   secret: ${JWT.SECRET}
-spring:
+app:
+  version: ${{APP_VERSION:unknown}}
 
 server:
   port: 8080
@@ -9,4 +10,10 @@ management:
   endpoints:
     web:
       exposure:
-        include: "prometheus"
+        include:
+          - prometheus
+          - health
+          - info
+  endpoint:
+    health:
+      show-details: always

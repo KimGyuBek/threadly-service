@@ -9,7 +9,7 @@ md/
 json/
 local-storage/
 threadly-apps/app-api/src/test/resources/images/temp/
-infra/compose/.env.local
+infra/compose/local/app/.env.local
 runner/
 infra/grafana/
 

@@ -1,0 +1,79 @@
+#!/bin/bash
+set -e
+
+# 로깅
+LOG_FILE="/home/ubuntu/threadly/logs/scripts/blue-green-deploy.log"
+mkdir -p "$(dirname "$LOG_FILE")"
+exec >> "$LOG_FILE" 2>&1
+
+log() {
+  echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1"
+}
+
+NGINX_CONF="/etc/nginx/sites-available/default"
+
+
+log "======Deploy start======"
+
+#현재 포트 확인
+CURRENT_PORT=$(grep "proxy_pass" "$NGINX_CONF" | grep -o '[0-9]\+')
+
+if [ "$CURRENT_PORT" = "8080" ]; then
+  CURRENT="blue"
+  NEXT="green"
+  CURRENT_PORT=8080
+  NEXT_PORT=8081
+else
+  CURRENT="green"
+  NEXT="blue"
+  CURRENT_PORT="8081"
+  NEXT_PORT="8080"
+fi
+
+log "현재 버전: $CURRENT ($CURRENT_PORT), 배포할 버전: $NEXT ($NEXT_PORT)"
+
+# .env APP_VERSION 변경
+ENV_PATH=/home/ubuntu/threadly/infra/app/.env
+if grep -q "^APP_VERSION=" "$ENV_PATH"; then
+  sudo sed -i "s/^APP_VERSION=.*/APP_VERSION=$NEXT/" "$ENV_PATH"
+else
+  echo "APP_VERSION=$NEXT" | tee -a "$ENV_PATH" > /dev/null
+fi
+
+# 다음 버전 실행
+log "새로운 버전($NEXT) 실행 중..."
+
+docker compose -f /home/ubuntu/threadly/infra/app/docker-compose.$NEXT.yml -p $NEXT up -d --build
+sleep 10
+
+# Health Check
+MAX_RETRIES=10
+RETRY_COUNT=0
+
+log "Health Check 시작..."
+
+until curl -fs "http://localhost:$NEXT_PORT/actuator/health" > /dev/null; do
+  RETRY_COUNT=$((RETRY_COUNT + 1))
+  if [ $RETRY_COUNT -ge $MAX_RETRIES ]; then
+    log "Health Check 실패. 롤백 수행..."
+    docker compose -f /home/ubuntu/threadly/infra/app/docker-compose.$NEXT.yml -p $NEXT down
+    exit 1
+  fi
+  log "Health Check 대기 중... 재시도 $RETRY_COUNT"
+  sleep 3
+done
+
+log "Health Check 성공!"
+
+# Nginx 포트 전환
+log "Nginx 포트 전환 중..."
+sudo sed -i "s/$CURRENT_PORT/$NEXT_PORT/" "$NGINX_CONF"
+sudo nginx -s reload
+log "Nginx Reload 완료"
+
+# 기존 버전 종료
+log "기존 버전($CURRENT) 종료 중..."
+docker compose -f /home/ubuntu/threadly/infra/app/docker-compose.$CURRENT.yml -p $CURRENT down
+
+log "기존 버전($CURRENT) 종료 성공..."
+log "======Deploy Finish======"

@@ -1,0 +1,27 @@
+services:
+  app:
+    image: kimgyubek/threadly-app:${IMAGE_TAG}
+    container_name: app-blue
+    working_dir: /app
+    command: [ "java", "-jar", "threadly.jar" ]
+    ports:
+      - "8080:8080"
+    env_file:
+      - ./.env
+    environment:
+      TZ: "Asia/Seoul"
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    volumes:
+      - /home/ubuntu/threadly/logs/services/app/blue:/app/logs
+    networks:
+      - service-network
+
+networks:
+  monitoring-network:
+    external: true
+  service-network:
+    external: true
