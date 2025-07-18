@@ -41,7 +41,7 @@ jobs:
       - name: Docker compose 종료
         if: always()
         run: |
-          docker compose -f ./infra/compose/docker-compose.test.yml down
+          docker compose -f ./infra/compose/test/docker-compose.yml down
 
 
 
