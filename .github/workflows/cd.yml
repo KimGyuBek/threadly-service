@@ -2,11 +2,9 @@ name: CD
 
 on:
   push:
-    branches: [ feature/TLY-85-blue-green-deployment ]
-#  push:
-#    branches: [ master ]
-#  pull_request:
-#    branches: [ master ]
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
 jobs:
   build:
