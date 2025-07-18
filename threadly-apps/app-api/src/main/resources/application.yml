@@ -1,6 +1,7 @@
 jwt:
   secret: ${JWT.SECRET}
-spring:
+app:
+  version: ${{APP_VERSION:unknown}}
 
 server:
   port: 8080

@@ -17,6 +17,14 @@ scrape_configs:
           job: clean-old-images
           __path__: /app/logs/scripts/clean-old-images.log
 
+  - job_name: deploy
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: deploy
+          __path__: /app/logs/scripts/blue-green-deploy.log
+
   - job_name: app-blue
     static_configs:
       - targets: [localhost]

@@ -32,8 +32,17 @@ fi
 
 log "현재 버전: $CURRENT ($CURRENT_PORT), 배포할 버전: $NEXT ($NEXT_PORT)"
 
+# .env APP_VERSION 변경
+ENV_PATH=/home/ubuntu/threadly/infra/app/.env
+if grep -q "^APP_VERSION=" "$ENV_PATH"; then
+  sudo sed -i "s/^APP_VERSION=.*/APP_VERSION=$NEXT/" "$ENV_PATH"
+else
+  echo "APP_VERSION=$NEXT" | tee -a "$ENV_PATH" > /dev/null
+fi
+
 # 다음 버전 실행
 log "새로운 버전($NEXT) 실행 중..."
+
 docker compose -f /home/ubuntu/threadly/infra/app/docker-compose.$NEXT.yml -p $NEXT up -d --build
 sleep 10
 
