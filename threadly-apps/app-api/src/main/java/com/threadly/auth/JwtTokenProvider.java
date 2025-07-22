@@ -65,15 +65,23 @@ public class JwtTokenProvider {
   }
 
   /**
-   * jwt 토큰 생성
+   * accessToken 생성
    *
    * @param userId
-   * @param duration
    * @return
    */
-  public String createToken(String userId, String userType, boolean profileComplete,
-      Duration duration) {
-    return generateToken(userId, userType, profileComplete, duration);
+  public String createAccessToken(String userId, String userType, boolean profileComplete) {
+    return generateAccessToken(userId, userType, profileComplete);
+  }
+
+  /**
+   * refreshToken 생성
+   *
+   * @param userId
+   * @return
+   */
+  public String createRefreshToken(String userId) {
+    return generateRefreshToken(userId);
   }
 
   /**
@@ -177,12 +185,11 @@ public class JwtTokenProvider {
   }
 
   /**
-   * Token 생성
+   * accessToken 생성
    *
    * @return
    */
-  private String generateToken(String userId, String userType, boolean profileComplete,
-      Duration duration) {
+  private String generateAccessToken(String userId, String userType, boolean profileComplete) {
     Date now = new Date();
     Instant instant = now.toInstant();
 
@@ -194,7 +201,28 @@ public class JwtTokenProvider {
             .setId(UUID.randomUUID().toString().substring(0, 8))
             .setIssuedAt(now)
             .setExpiration(
-                Date.from(Instant.from(instant.plus(duration)))
+                Date.from(Instant.from(instant.plus(ttlProperties.getAccessToken())))
+            )
+            .signWith(generateSigningKey(), SignatureAlgorithm.HS256)
+            .compact();
+  }
+
+  /**
+   * refreshToken 생성
+   *
+   * @return
+   */
+  private String generateRefreshToken(String userId) {
+    Date now = new Date();
+    Instant instant = now.toInstant();
+
+    return
+        Jwts.builder()
+            .claim("userId", userId)
+            .setId(UUID.randomUUID().toString().substring(0, 8))
+            .setIssuedAt(now)
+            .setExpiration(
+                Date.from(Instant.from(instant.plus(ttlProperties.getRefreshToken())))
             )
             .signWith(generateSigningKey(), SignatureAlgorithm.HS256)
             .compact();

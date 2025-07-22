@@ -49,8 +49,6 @@ public class PasswordVerificationScenarioTest extends BaseApiTest {
     @Transactional
     public void accessProtectedResource_shouldSucceed_afterPasswordVerification() throws Exception {
       //given
-//    Thread.sleep(3000);
-
       //when
 
       /*1. 로그인 요청 전송*/
@@ -64,9 +62,17 @@ public class PasswordVerificationScenarioTest extends BaseApiTest {
       Map<String, String> headers = new HashMap<>();
       headers.put("Authorization", "Bearer " + accessToken);
 
-      CommonResponse<Object> response1 = sendPostRequest(
+//      CommonResponse<Object> response1 = sendPostRequest(
+//          "",
+//          "/api/user/update/password",
+//          status().isBadRequest(),
+//          new TypeReference<>() {
+//          },
+//          headers
+//      );
+      CommonResponse<Object> response1 = sendPatchRequest(
           "",
-          "/api/user/update/password",
+          "/api/user/profile/password",
           status().isBadRequest(),
           new TypeReference<>() {
           },
@@ -87,10 +93,10 @@ public class PasswordVerificationScenarioTest extends BaseApiTest {
 
       /*4. /users/update/password 재접속*/
       headers.put("X-Verify-Token", "Bearer " + verifyToken);
-      CommonResponse<Object> response2 = sendPostRequest(
+      CommonResponse<Object> response2 = sendPatchRequest(
           "",
-          "/api/user/update/password",
-          status().isOk(),
+          "/api/user/profile/password",
+          status().isNoContent(),
           new TypeReference<>() {
           },
           headers
@@ -141,9 +147,9 @@ public class PasswordVerificationScenarioTest extends BaseApiTest {
       Map<String, String> headers = new HashMap<>();
       headers.put("Authorization", "Bearer " + accessToken);
 
-      CommonResponse<Object> response1 = sendPostRequest(
+      CommonResponse<Object> response1 = sendPatchRequest(
           "",
-          "/api/user/update/password",
+          "/api/user/profile/password",
           status().isBadRequest(),
           new TypeReference<>() {
           },
@@ -164,10 +170,10 @@ public class PasswordVerificationScenarioTest extends BaseApiTest {
 
       /*4. /users/update/password 재접속*/
       headers.put("X-Verify-Token", "Bearer " + verifyToken);
-      CommonResponse<Object> response2 = sendPostRequest(
+      CommonResponse<Object> response2 = sendPatchRequest(
           "",
-          "/api/user/update/password",
-          status().isOk(),
+          "/api/user/profile/password",
+          status().isNoContent(),
           new TypeReference<>() {
           },
           headers
@@ -175,9 +181,9 @@ public class PasswordVerificationScenarioTest extends BaseApiTest {
 
       /* X-Verificatoin-token 만료 후 재접속*/
       Thread.sleep(3500);
-      CommonResponse<Object> response3 = sendPostRequest(
+      CommonResponse<Object> response3 = sendPatchRequest(
           "",
-          "/api/user/update/password",
+          "/api/user/profile/password",
           status().isUnauthorized(),
           new TypeReference<>() {
           },

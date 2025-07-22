@@ -49,14 +49,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         throw new TokenException(ErrorCode.TOKEN_INVALID);
       }
 
-      /*사용자 프로필 설정 검증*/
-      if (!jwtTokenProvider.isProfileComplete(token) && !isWhiteListedForProfileIncomplete(
-          request.getRequestURI())) {
-        throw new UserException(ErrorCode.USER_PROFILE_NOT_SET);
-      }
 
       /*토큰이 검증되면*/
       if (jwtTokenProvider.validateToken(token)) {
+
+        /*사용자 프로필 설정 검증*/
+        if (!jwtTokenProvider.isProfileComplete(token) && !isWhiteListedForProfileIncomplete(
+            request.getRequestURI())) {
+          throw new UserException(ErrorCode.USER_PROFILE_NOT_SET);
+        }
         /*TODO 성능 부하*/
         Authentication authentication = jwtTokenProvider.getAuthentication(token);
 

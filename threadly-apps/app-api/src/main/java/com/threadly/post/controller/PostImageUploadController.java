@@ -1,6 +1,6 @@
 package com.threadly.post.controller;
 
-import com.threadly.auth.LoginAuthenticationUser;
+import com.threadly.auth.JwtAuthenticationUser;
 import com.threadly.post.image.UploadPostImageCommand;
 import com.threadly.post.image.UploadPostImageUseCase;
 import com.threadly.post.image.UploadPostImagesApiResponse;
@@ -37,7 +37,7 @@ public class PostImageUploadController {
    */
   @PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   public ResponseEntity<UploadPostImagesApiResponse> uploadImage(
-      @AuthenticationPrincipal LoginAuthenticationUser user,
+      @AuthenticationPrincipal JwtAuthenticationUser user,
 //      @RequestParam(value = "postId", required = false) String postId,
       @RequestParam(value = "images", required = false) List<MultipartFile> images
   ) {

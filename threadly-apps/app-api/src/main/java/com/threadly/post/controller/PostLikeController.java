@@ -1,7 +1,7 @@
 package com.threadly.post.controller;
 
 import com.threadly.auth.JwtAuthenticationUser;
-import com.threadly.auth.LoginAuthenticationUser;
+import com.threadly.auth.JwtAuthenticationUser;
 import com.threadly.post.engagement.GetPostEngagementApiResponse;
 import com.threadly.post.engagement.GetPostEngagementQuery;
 import com.threadly.post.engagement.GetPostEngagementUseCase;

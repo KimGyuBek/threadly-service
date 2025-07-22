@@ -1,7 +1,7 @@
 package com.threadly.post.controller;
 
 import com.threadly.auth.JwtAuthenticationUser;
-import com.threadly.auth.LoginAuthenticationUser;
+import com.threadly.auth.JwtAuthenticationUser;
 import com.threadly.post.create.CreatePostApiResponse;
 import com.threadly.post.create.CreatePostCommand;
 import com.threadly.post.create.CreatePostCommand.ImageCommand;

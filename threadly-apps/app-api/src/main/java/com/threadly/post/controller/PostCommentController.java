@@ -1,6 +1,6 @@
 package com.threadly.post.controller;
 
-import com.threadly.auth.LoginAuthenticationUser;
+import com.threadly.auth.JwtAuthenticationUser;
 import com.threadly.post.comment.create.CreatePostCommentApiResponse;
 import com.threadly.post.comment.create.CreatePostCommentCommand;
 import com.threadly.post.comment.create.CreatePostCommentUseCase;
@@ -56,7 +56,7 @@ public class PostCommentController {
    */
   @GetMapping("/{postId}/comments")
   public ResponseEntity<GetPostCommentListApiResponse> getPostComments(
-      @AuthenticationPrincipal LoginAuthenticationUser user,
+      @AuthenticationPrincipal JwtAuthenticationUser user,
       @PathVariable String postId,
       @RequestParam(value = "cursor_commented_at", required = false) LocalDateTime cursorCommentedAt,
       @RequestParam(value = "cursor_comment_id", required = false) String cursorCommentId,
@@ -86,7 +86,7 @@ public class PostCommentController {
    */
   @PostMapping("/{postId}/comments")
   public ResponseEntity<CreatePostCommentApiResponse> createPostComment(
-      @AuthenticationPrincipal LoginAuthenticationUser user,
+      @AuthenticationPrincipal JwtAuthenticationUser user,
       @PathVariable("postId") String postId, @RequestBody @Valid CreatePostCommentRequest request) {
 
     return ResponseEntity.status(201).body(
@@ -108,7 +108,7 @@ public class PostCommentController {
    */
   @DeleteMapping("/{postId}/comments/{commentId}")
   public ResponseEntity<Void> deletePostComment(
-      @AuthenticationPrincipal LoginAuthenticationUser user,
+      @AuthenticationPrincipal JwtAuthenticationUser user,
       @PathVariable("postId") String postId,
       @PathVariable("commentId") String commentId) {
 

@@ -74,7 +74,7 @@ public class UserController {
       @AuthenticationPrincipal JwtAuthenticationUser user,
       @RequestBody CreateUserProfileRequest request) {
 
-    URI location = URI.create("/api/user/" + user.getUserId());
+//    URI location = URI.create("/api/user/" + user.getUserId());
 
     /*프로필 설정*/
     updateUserUseCase.upsertUserProfile(
@@ -86,7 +86,7 @@ public class UserController {
             request.getGender(),
             request.getProfileImageUrl())
     );
-    return ResponseEntity.status(200).body(
+    return ResponseEntity.status(201).body(
         reissueTokenUseCase.reissueToken(user.getUserId())
     );
 
@@ -107,7 +107,7 @@ public class UserController {
    *
    * @return
    */
-  @PatchMapping("/password")
+  @PatchMapping("/profile/password")
   public ResponseEntity<Void> changePassword() {
 
     return ResponseEntity.noContent().build();

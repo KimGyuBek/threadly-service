@@ -78,7 +78,7 @@ class UserControllerTest extends BaseApiTest {
           )
       );
 
-      /*프로필 변경 요청 전송*/
+      /*프로필 초기 설정 요청 전송*/
       CommonResponse<UserProfileSetupApiResponse> response = sendPostRequest(
           requestBody,
           "/api/user/profile",

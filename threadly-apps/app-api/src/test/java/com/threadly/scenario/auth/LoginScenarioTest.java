@@ -158,7 +158,7 @@ public class LoginScenarioTest extends BaseApiTest {
       String refreshToken = loginResponse.getData().refreshToken();
 
       /*토큰 만료까지 대기*/
-      Thread.sleep(3500);
+      Thread.sleep(3000);
 
       /*accessToken 만료 후 '/' 접속*/
       CommonResponse tokenExpiredResponse = sendGetRequest(
