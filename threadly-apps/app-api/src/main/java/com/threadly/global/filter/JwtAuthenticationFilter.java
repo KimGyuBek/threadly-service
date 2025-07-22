@@ -1,12 +1,12 @@
 package com.threadly.global.filter;
 
-import com.threadly.exception.ErrorCode;
 import com.threadly.auth.AuthManager;
 import com.threadly.auth.JwtTokenProvider;
-import com.threadly.global.exception.TokenAuthenticationException;
-import com.threadly.global.exception.UserAuthenticationException;
+import com.threadly.exception.ErrorCode;
 import com.threadly.exception.token.TokenException;
 import com.threadly.exception.user.UserException;
+import com.threadly.global.exception.TokenAuthenticationException;
+import com.threadly.global.exception.UserAuthenticationException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -44,22 +44,27 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     try {
       String token = resolveToken(request);
 
-
       /*blacklist token 조회 후 있을경우 예외 처리*/
       if (authManager.isBlacklisted(token)) {
         throw new TokenException(ErrorCode.TOKEN_INVALID);
       }
 
+      /*사용자 프로필 설정 검증*/
+      if (!jwtTokenProvider.isProfileComplete(token) && !isWhiteListedForProfileIncomplete(
+          request.getRequestURI())) {
+        throw new UserException(ErrorCode.USER_PROFILE_NOT_SET);
+      }
+
       /*토큰이 검증되면*/
       if (jwtTokenProvider.validateToken(token)) {
+        /*TODO 성능 부하*/
         Authentication authentication = jwtTokenProvider.getAuthentication(token);
 
         /*인증*/
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
       }
 
-      /*사용자가 없는 경우*/
+      /*사용자가 관련 오류 */
     } catch (UserException e) {
       UserAuthenticationException exception = new UserAuthenticationException(e.getErrorCode());
       authenticationEntryPoint.commence(request, response, exception);
@@ -88,5 +93,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     /*존재하지 않을 경우*/
     throw new TokenException(ErrorCode.TOKEN_MISSING);
+  }
+
+  /**
+   * 프로필 설정용 white list
+   *
+   * @param uri
+   * @return
+   */
+  private boolean isWhiteListedForProfileIncomplete(String uri) {
+    return uri.equals("/api/user/profile");
   }
 }

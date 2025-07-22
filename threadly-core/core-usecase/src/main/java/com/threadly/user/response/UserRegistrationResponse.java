@@ -1,5 +1,6 @@
 package com.threadly.user.response;
 
+import com.threadly.user.UserType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,7 +13,7 @@ public class UserRegistrationResponse {
   private String userId;
   private String userName;
   private String email;
-  private String userType;
+  private UserType userType;
   private boolean isActive;
   private boolean isEmailVerified;
 

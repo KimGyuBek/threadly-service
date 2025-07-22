@@ -10,6 +10,7 @@ import com.threadly.exception.token.TokenException;
 import com.threadly.properties.TtlProperties;
 import com.threadly.repository.auth.TestRedisHelper;
 import com.threadly.token.FetchTokenPort;
+import com.threadly.user.UserType;
 import java.time.Duration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -58,7 +59,8 @@ class AuthManagerTest {
     //given
     String userId = "user1";
     Duration duration = Duration.ofSeconds(5);
-    String refreshToken = jwtTokenProvider.generateToken(userId, duration);
+    String refreshToken = jwtTokenProvider.createToken(userId, UserType.USER.name(), true,
+        duration);
     String token = "Bearer " + refreshToken;
     loginAttemptHelper.insert("token:refresh:" + userId, refreshToken,
         ttlProperties.getRefreshToken());
@@ -84,7 +86,9 @@ class AuthManagerTest {
   public void reissueToken_shouldReturnException_whenRefreshTokenNotExists() throws Exception {
     //given
     String userId = "user1";
-    String refreshToken = "Bearer " + jwtTokenProvider.generateToken(userId, Duration.ofSeconds(5));
+    String refreshToken =
+        "Bearer " + jwtTokenProvider.createToken(userId, UserType.USER.name(), true,
+            Duration.ofSeconds(5));
 
     //when
     assertThrows(TokenException.class, () -> authManager.reissueLoginToken(refreshToken));

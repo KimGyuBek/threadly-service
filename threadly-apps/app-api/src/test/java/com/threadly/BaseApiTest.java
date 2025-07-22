@@ -39,6 +39,7 @@ public abstract class BaseApiTest {
   @BeforeEach
   public void setUpDefaultUser() {
     userFixtureLoader.load("/users/user-email-verified.json");
+    userFixtureLoader.load("/users/user-email-not-verified.json");
   }
 
   @Autowired

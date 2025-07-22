@@ -4,7 +4,6 @@ import static com.threadly.utils.LogFormatUtils.logFailure;
 import static com.threadly.utils.LogFormatUtils.logSuccess;
 
 import com.threadly.exception.ErrorCode;
-import com.threadly.auth.token.response.LoginTokenResponse;
 import com.threadly.exception.token.TokenException;
 import com.threadly.properties.TtlProperties;
 import com.threadly.user.FetchUserUseCase;
@@ -42,7 +41,6 @@ public class JwtTokenProvider {
 
   /*TODO 위치 옮기기*/
   public Authentication getAuthentication(String accessToken) {
-
     /*accessToken으로 사용자 조회*/
     String userId = getUserId(accessToken);
 
@@ -51,24 +49,20 @@ public class JwtTokenProvider {
 
     /*권한 설정*/
     List<SimpleGrantedAuthority> authorities = List.of(
-        new SimpleGrantedAuthority(user.getUserType())
+        new SimpleGrantedAuthority("ROLE_" + user.getUserType().name())
     );
 
-    AuthenticationUser authenticationUser = new AuthenticationUser(
+    JwtAuthenticationUser authenticationUser = new JwtAuthenticationUser(
         user.getUserId(),
-        user.getEmail(),
-        user.getPhone(),
-        user.getPassword()
+        authorities
     );
 
     return new UsernamePasswordAuthenticationToken(
         authenticationUser,
-        "",
-        authorities
+        null,
+        authenticationUser.getAuthorities()
     );
-
   }
-
 
   /**
    * jwt 토큰 생성
@@ -77,24 +71,22 @@ public class JwtTokenProvider {
    * @param duration
    * @return
    */
-  public String generateToken(String userId, Duration duration) {
-    String token = getToken(userId, duration);
-    return token;
+  public String createToken(String userId, String userType, boolean profileComplete,
+      Duration duration) {
+    return generateToken(userId, userType, profileComplete, duration);
   }
 
   /**
-   * login 토큰 생성
+   * 목적이 있는 토큰 생성
    *
    * @param userId
+   * @param purpose
+   * @param duration
    * @return
    */
-  public LoginTokenResponse generateLoginToken(String userId) {
-    String accessToken = getToken(userId, ttlProperties.getAccessToken());
-    String refreshToken = getToken(userId, ttlProperties.getRefreshToken());
-
-    return new LoginTokenResponse(accessToken, refreshToken);
+  public String createTokenWithPurpose(String userId, String purpose, Duration duration) {
+    return generateTokenWithPurpose(userId, purpose, duration);
   }
-
 
   /**
    * validate Token
@@ -102,11 +94,12 @@ public class JwtTokenProvider {
    * @param token
    * @return
    */
+  /*TODO 분리*/
   public boolean validateToken(String token) {
 
     try {
       Jwts.parserBuilder()
-          .setSigningKey(getSigningKey())
+          .setSigningKey(generateSigningKey())
           .build()
           .parseClaimsJws(token);
 
@@ -128,14 +121,14 @@ public class JwtTokenProvider {
   }
 
   /**
-   * accessToken에서 userId 추출
+   * jwt에서 claim:userId 추출
    *
    * @param token
    * @return
    */
   public String getUserId(String token) {
     Claims body = Jwts.parserBuilder()
-        .setSigningKey(getSigningKey())
+        .setSigningKey(generateSigningKey())
         .build()
         .parseClaimsJws(token)
         .getBody();
@@ -145,9 +138,40 @@ public class JwtTokenProvider {
   }
 
   /**
+   * jwt에서 claim:userType 추출
+   *
+   * @param token
+   * @return
+   */
+  public String getUserType(String token) {
+    Claims body = Jwts.parserBuilder()
+        .setSigningKey(generateSigningKey())
+        .build()
+        .parseClaimsJws(token)
+        .getBody();
+    return body.get("userType", String.class);
+  }
+
+  /**
+   * jwt에서 claim:profileComplete 추출
+   *
+   * @param token
+   * @return
+   */
+  public boolean isProfileComplete(String token) {
+    Claims body = Jwts.parserBuilder()
+        .setSigningKey(generateSigningKey())
+        .build()
+        .parseClaimsJws(token)
+        .getBody();
+
+    return body.get("profileComplete", Boolean.class);
+  }
+
+  /**
    * SiginingKey 생성
    */
-  private SecretKey getSigningKey() {
+  private SecretKey generateSigningKey() {
     byte[] keyBytes = Decoders.BASE64.decode(secretKey);
     return Keys.hmacShaKeyFor(keyBytes);
   }
@@ -157,20 +181,44 @@ public class JwtTokenProvider {
    *
    * @return
    */
-  private String getToken(String userId, Duration duration) {
+  private String generateToken(String userId, String userType, boolean profileComplete,
+      Duration duration) {
     Date now = new Date();
     Instant instant = now.toInstant();
 
     return
         Jwts.builder()
             .claim("userId", userId)
-            .claim("userType", "USER")
+            .claim("userType", userType)
+            .claim("profileComplete", profileComplete)
             .setId(UUID.randomUUID().toString().substring(0, 8))
             .setIssuedAt(now)
             .setExpiration(
                 Date.from(Instant.from(instant.plus(duration)))
             )
-            .signWith(getSigningKey(), SignatureAlgorithm.HS256)
+            .signWith(generateSigningKey(), SignatureAlgorithm.HS256)
+            .compact();
+  }
+
+  /**
+   * 목적이 있는 토큰 생성
+   *
+   * @return
+   */
+  private String generateTokenWithPurpose(String userId, String purpose, Duration duration) {
+    Date now = new Date();
+    Instant instant = now.toInstant();
+
+    return
+        Jwts.builder()
+            .claim("userId", userId)
+            .claim("purpose", purpose)
+            .setId(UUID.randomUUID().toString().substring(0, 8))
+            .setIssuedAt(now)
+            .setExpiration(
+                Date.from(Instant.from(instant.plus(duration)))
+            )
+            .signWith(generateSigningKey(), SignatureAlgorithm.HS256)
             .compact();
   }
 
@@ -181,7 +229,7 @@ public class JwtTokenProvider {
    */
   public Duration getAccessTokenTtl(String accessToken) {
     Claims claims = Jwts.parserBuilder()
-        .setSigningKey(getSigningKey())
+        .setSigningKey(generateSigningKey())
         .build()
         .parseClaimsJws(accessToken)
         .getBody();

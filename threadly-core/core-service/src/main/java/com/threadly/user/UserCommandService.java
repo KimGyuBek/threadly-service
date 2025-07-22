@@ -5,9 +5,8 @@ import com.threadly.exception.user.UserException;
 import com.threadly.user.command.UserRegistrationCommand;
 import com.threadly.user.command.UserSetProfileCommand;
 import com.threadly.user.response.UserPortResponse;
-import com.threadly.user.response.UserProfileApiResponse;
+import com.threadly.user.response.UserProfileSetupApiResponse;
 import com.threadly.user.response.UserRegistrationResponse;
-import com.threadly.user.response.UserResponse;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class UserService implements RegisterUserUseCase, FetchUserUseCase, UpdateUserUseCase {
+public class UserCommandService implements RegisterUserUseCase , UpdateUserUseCase {
 
   private final SaveUserPort saveUserPort;
   private final FetchUserPort fetchUserPort;
@@ -57,48 +56,10 @@ public class UserService implements RegisterUserUseCase, FetchUserUseCase, Updat
         .build();
   }
 
-  @Override
-  public UserResponse findUserByEmail(String email) {
-    User user = fetchUserPort.findByEmail(email).orElseThrow(
-        () -> new UserException(ErrorCode.USER_NOT_FOUND)
-    );
-
-    return
-        UserResponse.builder()
-            .userId(user.getUserId())
-            .userName(user.getUserName())
-            .password(user.getPassword())
-            .email(user.getEmail())
-            .phone(user.getPhone())
-            .userType(user.getUserType().name())
-            .isActive(user.isActive())
-            .isEmailVerified(user.isEmailVerified())
-            .build();
-
-  }
-
-  @Override
-  public UserResponse findUserByUserId(String userId) {
-
-    /*userId로 user 조회*/
-    User user = fetchUserPort.findByUserId(userId)
-        .orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
-
-    return
-        UserResponse.builder()
-            .userId(user.getUserId())
-            .userName(user.getUserName())
-            .password(user.getPassword())
-            .email(user.getEmail())
-            .phone(user.getPhone())
-            .userType(user.getUserType().name())
-            .isActive(user.isActive())
-            .build();
-  }
 
   @Transactional
   @Override
-  public UserProfileApiResponse upsertUserProfile(UserSetProfileCommand command) {
+  public void upsertUserProfile(UserSetProfileCommand command) {
     /*userId로 user 조회*/
     User user = fetchUserPort.findByUserIdWithUserProfile(command.getUserId())
         .orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
@@ -114,15 +75,6 @@ public class UserService implements RegisterUserUseCase, FetchUserUseCase, Updat
       /*없으면 생성*/
       user = createNewProfile(command, user);
     }
-
-    return new UserProfileApiResponse(
-        user.getUserName(),
-        user.getNickname(),
-        user.getStatusMessage(),
-        user.getBio(),
-        user.getGender().name(),
-        user.getProfileImageUrl()
-    );
   }
 
   /**

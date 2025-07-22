@@ -21,13 +21,13 @@ public class CustomUserDetailService implements UserDetailsService {
     UserResponse user = fetchUserUseCase.findUserByUserId(username);
 
     List<SimpleGrantedAuthority> authorities = List.of(
-        new SimpleGrantedAuthority(user.getUserType())
+        new SimpleGrantedAuthority(user.getUserType().name())
     );
-    return new AuthenticationUser(
+
+    return new LoginAuthenticationUser(
         user.getUserId(),
-        user.getEmail(),
-        user.getPhone(),
-        user.getPassword()
+        user.getPassword(),
+        authorities
     );
   }
 }

@@ -45,4 +45,16 @@ public interface UserJpaRepository extends JpaRepository<UserEntity, String> {
   )
   Optional<UserProfileEntity> findUserProfileByUserId(@Param("userId") String userId);
 
+  /**
+   * userId로 userProfile 존재 검증
+   *
+   * @param userId
+   * @return
+   */
+  @Query(value = """
+      select exists(select 1
+                    from users
+                    where user_id = :userId and user_profile_id is not null)
+      """, nativeQuery = true)
+  boolean existsByUserIdAndUserProfileIsNotNull(@Param("userId") String userId);
 }

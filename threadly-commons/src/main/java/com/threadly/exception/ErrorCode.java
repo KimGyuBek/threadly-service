@@ -31,6 +31,7 @@ public enum ErrorCode {
   SECOND_VERIFICATION_FAILED("TLY2015", "2차 인증에 실패했습니다.", HttpStatus.BAD_REQUEST),
   LOGIN_ATTEMPT_EXCEEDED("TLY2016", "로그인 시도 횟수를 초과하였습니다.", HttpStatus.TOO_MANY_REQUESTS),
   USER_PROFILE_NOT_FOUND("TLY2017", "사용자 프로필을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+  USER_PROFILE_NOT_SET("TLY2018", "사용자 프로필이 설정되지 않았습니다.", HttpStatus.FORBIDDEN),
 
 
   /*Token*/

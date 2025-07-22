@@ -1,5 +1,6 @@
 package com.threadly.user.response;
 
+import com.threadly.user.UserType;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -17,7 +18,7 @@ public class UserPortResponse {
 
   private String phone;
 
-  private String userType;
+  private UserType userType;
 
   private boolean isActive;
 

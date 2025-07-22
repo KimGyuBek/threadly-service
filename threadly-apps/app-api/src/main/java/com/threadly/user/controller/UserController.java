@@ -1,22 +1,24 @@
 package com.threadly.user.controller;
 
-import com.threadly.auth.AuthenticationUser;
+import com.threadly.auth.JwtAuthenticationUser;
+import com.threadly.auth.LoginAuthenticationUser;
 import com.threadly.auth.verification.EmailVerificationUseCase;
+import com.threadly.auth.verification.LoginUserUseCase;
+import com.threadly.auth.verification.ReissueTokenUseCase;
 import com.threadly.user.RegisterUserUseCase;
 import com.threadly.user.UpdateUserUseCase;
 import com.threadly.user.command.UserRegistrationCommand;
 import com.threadly.user.command.UserSetProfileCommand;
 import com.threadly.user.request.CreateUserProfileRequest;
 import com.threadly.user.request.UserRegisterRequest;
-import com.threadly.user.response.UserProfileApiResponse;
+import com.threadly.user.response.UserProfileSetupApiResponse;
 import com.threadly.user.response.UserRegistrationResponse;
 import jakarta.validation.Valid;
 import java.net.URI;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,12 +26,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/users")
+@RequestMapping("/api/user")
 public class UserController {
 
   private final RegisterUserUseCase registerUserUseCase;
   private final EmailVerificationUseCase emailVerificationUseCase;
   private final UpdateUserUseCase updateUserUseCase;
+
+  private final ReissueTokenUseCase reissueTokenUseCase;
 
   /**
    * 회원 가입
@@ -58,23 +62,55 @@ public class UserController {
     return response;
   }
 
+  /**
+   * 사용자 프로필 초기 설정
+   *
+   * @param user
+   * @param request
+   * @return
+   */
   @PostMapping("/profile")
-  public ResponseEntity<UserProfileApiResponse> setUserProfile(
-      @AuthenticationPrincipal AuthenticationUser user,
+  public ResponseEntity<UserProfileSetupApiResponse> setUserProfile(
+      @AuthenticationPrincipal JwtAuthenticationUser user,
       @RequestBody CreateUserProfileRequest request) {
 
-    URI location = URI.create("/api/users/" + user.getUserId());
+    URI location = URI.create("/api/user/" + user.getUserId());
 
-    return ResponseEntity.created(location)
-        .body(updateUserUseCase.upsertUserProfile(new UserSetProfileCommand(
-                user.getUserId(),
-                request.getNickname(),
-                request.getStatusMessage(),
-                request.getBio(),
-                request.getGender(),
-                request.getProfileImageUrl())
-            )
-        );
+    /*프로필 설정*/
+    updateUserUseCase.upsertUserProfile(
+        new UserSetProfileCommand(
+            user.getUserId(),
+            request.getNickname(),
+            request.getStatusMessage(),
+            request.getBio(),
+            request.getGender(),
+            request.getProfileImageUrl())
+    );
+    return ResponseEntity.status(200).body(
+        reissueTokenUseCase.reissueToken(user.getUserId())
+    );
+
+//    return ResponseEntity.created(location)
+//        .body(updateUserUseCase.upsertUserProfile(new UserSetProfileCommand(
+//                user.getUserId(),
+//                request.getNickname(),
+//                request.getStatusMessage(),
+//                request.getBio(),
+//                request.getGender(),
+//                request.getProfileImageUrl())
+//            )
+//        );
+  }
+
+  /**
+   * 사용자 비밀번호 변경
+   *
+   * @return
+   */
+  @PatchMapping("/password")
+  public ResponseEntity<Void> changePassword() {
+
+    return ResponseEntity.noContent().build();
   }
 
   /**

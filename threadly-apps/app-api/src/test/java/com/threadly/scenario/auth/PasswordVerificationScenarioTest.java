@@ -66,7 +66,7 @@ public class PasswordVerificationScenarioTest extends BaseApiTest {
 
       CommonResponse<Object> response1 = sendPostRequest(
           "",
-          "/api/users/update/password",
+          "/api/user/update/password",
           status().isBadRequest(),
           new TypeReference<>() {
           },
@@ -89,7 +89,7 @@ public class PasswordVerificationScenarioTest extends BaseApiTest {
       headers.put("X-Verify-Token", "Bearer " + verifyToken);
       CommonResponse<Object> response2 = sendPostRequest(
           "",
-          "/api/users/update/password",
+          "/api/user/update/password",
           status().isOk(),
           new TypeReference<>() {
           },
@@ -143,7 +143,7 @@ public class PasswordVerificationScenarioTest extends BaseApiTest {
 
       CommonResponse<Object> response1 = sendPostRequest(
           "",
-          "/api/users/update/password",
+          "/api/user/update/password",
           status().isBadRequest(),
           new TypeReference<>() {
           },
@@ -166,7 +166,7 @@ public class PasswordVerificationScenarioTest extends BaseApiTest {
       headers.put("X-Verify-Token", "Bearer " + verifyToken);
       CommonResponse<Object> response2 = sendPostRequest(
           "",
-          "/api/users/update/password",
+          "/api/user/update/password",
           status().isOk(),
           new TypeReference<>() {
           },
@@ -177,7 +177,7 @@ public class PasswordVerificationScenarioTest extends BaseApiTest {
       Thread.sleep(3500);
       CommonResponse<Object> response3 = sendPostRequest(
           "",
-          "/api/users/update/password",
+          "/api/user/update/password",
           status().isUnauthorized(),
           new TypeReference<>() {
           },

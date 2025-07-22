@@ -1,11 +1,11 @@
 package com.threadly.user;
 
 import com.threadly.user.command.UserSetProfileCommand;
-import com.threadly.user.response.UserProfileApiResponse;
+import com.threadly.user.response.UserProfileSetupApiResponse;
 
 public interface UpdateUserUseCase {
 
-  UserProfileApiResponse upsertUserProfile(UserSetProfileCommand userSetProfileCommand);
+  void upsertUserProfile(UserSetProfileCommand userSetProfileCommand);
 
 
 }

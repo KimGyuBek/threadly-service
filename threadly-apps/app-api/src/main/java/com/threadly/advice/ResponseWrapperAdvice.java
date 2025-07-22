@@ -22,7 +22,6 @@ public class ResponseWrapperAdvice implements ResponseBodyAdvice<Object> {
   }
 
 
-
   @Override
   public Object beforeBodyWrite(Object body, MethodParameter returnType,
       MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType,

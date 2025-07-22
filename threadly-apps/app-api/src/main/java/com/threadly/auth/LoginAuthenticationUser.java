@@ -1,29 +1,27 @@
 package com.threadly.auth;
 
 import java.util.Collection;
-import java.util.List;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Getter
-public class AuthenticationUser implements UserDetails {
+public class LoginAuthenticationUser implements UserDetails {
 
   private final String userId;
-  private final String email;
-  private final String phone;
   private final String password;
+  private final Collection<? extends GrantedAuthority> authorities;
 
-  public AuthenticationUser(String userId, String email, String phone, String password) {
+  public LoginAuthenticationUser(String userId, String password,
+      Collection<? extends GrantedAuthority> authorities) {
     this.userId = userId;
-    this.email = email;
-    this.phone = phone;
     this.password = password;
+    this.authorities = authorities;
   }
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return List.of();
+    return authorities;
   }
 
   @Override

@@ -51,7 +51,7 @@ public class UserPersistenceAdapter implements FetchUserPort, SaveUserPort,
             .password(userEntity.getPassword())
             .email(userEntity.getEmail())
             .phone(userEntity.getPhone())
-            .userType(userEntity.getUserType().getDesc())
+            .userType(userEntity.getUserType())
             .isActive(userEntity.isActive())
             .isEmailVerified(userEntity.isEmailVerified())
             .build();
@@ -124,4 +124,8 @@ public class UserPersistenceAdapter implements FetchUserPort, SaveUserPort,
         );
   }
 
+  @Override
+  public boolean existsUserProfileByUserId(String userId) {
+    return userJpaRepository.existsByUserIdAndUserProfileIsNotNull(userId);
+  }
 }

@@ -35,4 +35,11 @@ public interface FetchUserPort {
    */
   Optional<UserProfile> getUserProfile(String userId);
 
+  /**
+   * userId에 해당하는 userProfile 존재 유무
+   * @param userId
+   * @return
+   */
+  boolean existsUserProfileByUserId(String userId);
+
 }

@@ -1,11 +1,11 @@
 package com.threadly.global.filter;
 
-import static com.threadly.utils.LogFormatUtils.*;
+import static com.threadly.utils.LogFormatUtils.logFailure;
 
-import com.threadly.exception.ErrorCode;
 import com.threadly.auth.JwtTokenProvider;
-import com.threadly.global.exception.UserAuthenticationException;
+import com.threadly.exception.ErrorCode;
 import com.threadly.exception.token.TokenException;
+import com.threadly.global.exception.UserAuthenticationException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 /*TODO interceptor로 변경*/
+
 /**
  * 사용자 이중 인증을 위한 filter
  */
@@ -31,8 +32,8 @@ public class VerificationFilter extends OncePerRequestFilter {
 
   @Override
   protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-    String path = request.getRequestURI();
-    return !path.startsWith("/api/users/update/");
+    return !(request.getMethod().equals("PATCH") && request.getRequestURI()
+        .startsWith("/api/user/profile/"));
   }
 
   @Override

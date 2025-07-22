@@ -11,9 +11,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.threadly.BaseApiTest;
 import com.threadly.CommonResponse;
 import com.threadly.auth.token.response.LoginTokenResponse;
-import com.threadly.user.request.CreateUserProfileRequest;
 import com.threadly.user.UserGenderType;
-import com.threadly.user.response.UserProfileApiResponse;
+import com.threadly.user.request.CreateUserProfileRequest;
+import com.threadly.user.response.UserProfileSetupApiResponse;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.ClassOrderer;
@@ -79,11 +79,11 @@ class UserControllerTest extends BaseApiTest {
       );
 
       /*프로필 변경 요청 전송*/
-      CommonResponse<UserProfileApiResponse> response = sendPostRequest(
+      CommonResponse<UserProfileSetupApiResponse> response = sendPostRequest(
           requestBody,
-          "/api/users/profile",
+          "/api/user/profile",
           status().isCreated(),
-          new TypeReference<CommonResponse<UserProfileApiResponse>>() {
+          new TypeReference<CommonResponse<UserProfileSetupApiResponse>>() {
           },
           Map.of("Authorization", "Bearer " + accessToken)
       );
@@ -95,15 +95,19 @@ class UserControllerTest extends BaseApiTest {
           () -> assertNotNull(loginResponse.getData().accessToken())
       );
 
-      /*프로필 응답 검증*/
       assertAll(
           () -> assertTrue(response.isSuccess()),
-          () -> assertThat(response.getData().nickname()).isEqualTo(nickname),
-          () -> assertThat(response.getData().statusMessage()).isEqualTo(statusMessage),
-          () -> assertThat(response.getData().bio()).isEqualTo(bio),
-          () -> assertThat(response.getData().gender()).isEqualTo(gender.name()),
-          () -> assertThat(response.getData().profileImageUrl()).isEqualTo(profileImageUrl)
+          () -> assertNotNull(response.getData().accessToken())
       );
+//      /*프로필 응답 검증*/
+//      assertAll(
+//          () -> assertTrue(response.isSuccess()),
+//          () -> assertThat(response.getData().nickname()).isEqualTo(nickname),
+//          () -> assertThat(response.getData().statusMessage()).isEqualTo(statusMessage),
+//          () -> assertThat(response.getData().bio()).isEqualTo(bio),
+//          () -> assertThat(response.getData().gender()).isEqualTo(gender.name()),
+//          () -> assertThat(response.getData().profileImageUrl()).isEqualTo(profileImageUrl)
+//      );
     }
   }
 }

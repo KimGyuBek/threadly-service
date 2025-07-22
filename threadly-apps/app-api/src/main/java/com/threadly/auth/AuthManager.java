@@ -1,11 +1,12 @@
 package com.threadly.auth;
 
-import com.threadly.exception.ErrorCode;
 import com.threadly.auth.token.response.LoginTokenResponse;
 import com.threadly.auth.token.response.TokenReissueResponse;
 import com.threadly.auth.verification.LoginUserUseCase;
 import com.threadly.auth.verification.PasswordVerificationUseCase;
+import com.threadly.auth.verification.ReissueTokenUseCase;
 import com.threadly.auth.verification.response.PasswordVerificationToken;
+import com.threadly.exception.ErrorCode;
 import com.threadly.exception.token.TokenException;
 import com.threadly.global.exception.UserAuthenticationException;
 import com.threadly.properties.TtlProperties;
@@ -13,9 +14,11 @@ import com.threadly.token.DeleteTokenPort;
 import com.threadly.token.FetchTokenPort;
 import com.threadly.token.InsertBlackListToken;
 import com.threadly.token.InsertTokenPort;
+import com.threadly.token.TokenPurpose;
 import com.threadly.token.UpsertRefreshToken;
 import com.threadly.token.UpsertToken;
 import com.threadly.user.FetchUserUseCase;
+import com.threadly.user.response.UserProfileSetupApiResponse;
 import com.threadly.user.response.UserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -28,7 +31,8 @@ import org.springframework.stereotype.Service;
 /*TODO 이름 변경*/
 @Service
 @RequiredArgsConstructor
-public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCase {
+public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCase,
+    ReissueTokenUseCase {
 
   private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
@@ -56,14 +60,14 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
         .authenticate(authenticationToken);
 
     /*토큰 생성*/
-    String tokenResponse = jwtTokenProvider.generateToken(userId,
+    String tokenResponse = jwtTokenProvider.createTokenWithPurpose(userId,
+        TokenPurpose.PASSWORD_REVERIFY.name(),
         ttlProperties.getPasswordVerification());
 
     /*SecurityContextHolder에 인증 정보 저장*/
     SecurityContextHolder.getContext().setAuthentication(authenticate);
 
     return new PasswordVerificationToken(tokenResponse);
-
   }
 
   /**
@@ -84,6 +88,12 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
       throw new UserAuthenticationException(ErrorCode.LOGIN_ATTEMPT_EXCEEDED);
     }
 
+    /*email 인증이 되어있는지 검증*/
+    if (!findUser.isEmailVerified()) {
+      throw new UserAuthenticationException(ErrorCode.EMAIL_NOT_VERIFIED);
+    }
+
+    boolean profileComplete = fetchUserUseCase.isUserProfileExists(userId);
 
     /*TODO user 상태 검증*/
 
@@ -100,14 +110,13 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
       Authentication authenticate = authenticationManagerBuilder.getObject()
           .authenticate(authenticationToken);
 
-
-      /*email 인증이 되어있는지 검증*/
-      if (!findUser.isEmailVerified()) {
-        throw new UserAuthenticationException(ErrorCode.EMAIL_NOT_VERIFIED);
-      }
-
-      /*토큰 생성*/
-      LoginTokenResponse tokenResponse = jwtTokenProvider.generateLoginToken(userId);
+      /*로그인 토큰 응답 생성*/
+      LoginTokenResponse tokenResponse = new LoginTokenResponse(
+          jwtTokenProvider.createToken(findUser.getUserId(),
+              findUser.getUserType().name(), profileComplete, ttlProperties.getAccessToken()),
+          jwtTokenProvider.createToken(findUser.getUserId(),
+              findUser.getUserType().name(), profileComplete, ttlProperties.getRefreshToken())
+      );
 
       /*토큰 저장*/
       upsertTokenPort.upsertRefreshToken(UpsertRefreshToken.builder()
@@ -116,7 +125,7 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
           .duration(ttlProperties.getRefreshToken())
           .build());
 
-      /*SecurityContextHolder에 인증 정보 저장*/
+      /*인증*/
       SecurityContextHolder.getContext().setAuthentication(authenticate);
 
       /*login attempt 삭제*/
@@ -128,7 +137,6 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
     } catch (BadCredentialsException e) {
       loginAttemptLimiter.upsertLoginAttempt(userId);
       throw e;
-
     }
   }
 
@@ -148,6 +156,10 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
 
     /*refrehToken으로 userId 조회*/
     String userId = jwtTokenProvider.getUserId(refreshToken);
+    String userType = jwtTokenProvider.getUserType(refreshToken);
+
+    /*TODO 임시, refreshToken은 필요 없음 -> 분리*/
+    boolean profileComplete = jwtTokenProvider.isProfileComplete(refreshToken);
 
     /*refreshToken이 저장되어 있는지 검증*/
     if (!fetchTokenPort.existsRefreshTokenByUserId(userId)) {
@@ -158,7 +170,12 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
     jwtTokenProvider.validateToken(refreshToken);
 
     /*login Token 재생성*/
-    LoginTokenResponse loginTokenResponse = jwtTokenProvider.generateLoginToken(userId);
+    LoginTokenResponse loginTokenResponse = new LoginTokenResponse(
+        jwtTokenProvider.createToken(userId, userType, profileComplete,
+            ttlProperties.getAccessToken()),
+        jwtTokenProvider.createToken(userId, userType, profileComplete,
+            ttlProperties.getRefreshToken()
+        ));
 
     /*기존 토큰 덮어쓰기*/
     upsertTokenPort.upsertRefreshToken(
@@ -173,7 +190,6 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
         .accessToken(loginTokenResponse.accessToken())
         .refreshToken(loginTokenResponse.refreshToken())
         .build();
-
   }
 
   /**
@@ -208,7 +224,6 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
 
     /*refreshToken 삭제*/
     deleteTokenPort.deleteRefreshToken(userId);
-
   }
 
   /**
@@ -222,4 +237,21 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
         fetchTokenPort.existsBlackListTokenByAccessToken(token);
   }
 
+  /**
+   * TODO 임시
+   */
+  @Override
+  public UserProfileSetupApiResponse reissueToken(String userId) {
+    /*사용자 조회*/
+    UserResponse findUser = fetchUserUseCase.findUserByUserId(userId);
+
+    boolean profileComplete = fetchUserUseCase.isUserProfileExists(userId);
+
+    return new UserProfileSetupApiResponse(
+        jwtTokenProvider.createToken(userId,
+            findUser.getUserType().name(), profileComplete, ttlProperties.getAccessToken()),
+        jwtTokenProvider.createToken(findUser.getUserId(),
+            findUser.getUserType().name(), profileComplete, ttlProperties.getRefreshToken())
+    );
+  }
 }
