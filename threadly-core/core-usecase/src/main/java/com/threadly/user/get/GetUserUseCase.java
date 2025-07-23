@@ -1,8 +1,6 @@
-package com.threadly.user;
+package com.threadly.user.get;
 
-import com.threadly.user.response.UserResponse;
-
-public interface FetchUserUseCase {
+public interface GetUserUseCase {
 
   /**
    * Email로 User 조회

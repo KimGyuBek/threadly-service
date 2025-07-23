@@ -2,7 +2,8 @@ package com.threadly.user;
 
 import com.threadly.exception.ErrorCode;
 import com.threadly.exception.user.UserException;
-import com.threadly.user.response.UserResponse;
+import com.threadly.user.get.GetUserUseCase;
+import com.threadly.user.get.UserResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class UserQueryService implements FetchUserUseCase {
+public class UserQueryService implements GetUserUseCase {
 
   private final FetchUserPort fetchUserPort;
 

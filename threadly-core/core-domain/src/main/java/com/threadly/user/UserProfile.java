@@ -7,49 +7,46 @@ import lombok.Builder;
 import lombok.Getter;
 
 /**
- * UserProfile 도메인
+ * 사용자 프로필 도메인
  */
 @Getter
-@Builder
 @AllArgsConstructor
+@Builder
 public class UserProfile {
 
+  //  private String userId;
   private String userProfileId;
   private String nickname;
   private String statusMessage;
   private String bio;
-  private UserGenderType gender;
-  private UserProfileType profileType;
+  private String phone;
+  private UserGenderType genderType;
+  private UserProfileType userProfileType;
   private String profileImageUrl;
+//  ProfileImage profileImage;
 
-  public void updateProfile(String nickname, String statusMessage, String bio,
-      UserGenderType gender,
-      String profileImageUrl) {
-    this.nickname = nickname;
-    this.statusMessage = statusMessage;
-    this.bio = bio;
-    this.gender = gender;
-    this.profileImageUrl = profileImageUrl;
-  }
 
-  public static UserProfile newProfile(
-      String nickname,
-      String statusMessage,
-      String bio,
-      UserGenderType gender,
-      UserProfileType profileType,
-      String profileImageUrl
-  ) {
-    return
-        UserProfile.builder()
-            .userProfileId(RandomUtils.generateNanoId())
-            .nickname(nickname)
-            .statusMessage(statusMessage != null ? statusMessage : "")
-            .bio(bio != null ? bio : "")
-            .gender(gender)
-            .profileType(profileType)
-            .profileImageUrl(profileImageUrl != null ? profileImageUrl : "/")
-            .build();
+  /**
+   * 프로필 설정
+   *
+   * @param phone
+   * @param nickname
+   * @param statusMessage
+   * @param bio
+   * @return
+   */
+  public static UserProfile setProfile(String nickname, String statusMessage, String bio, String phone,
+      UserGenderType genderType ) {
+    return new UserProfile(
+        RandomUtils.generateNanoId(),
+        nickname,
+        statusMessage,
+        bio,
+        phone,
+        genderType,
+        UserProfileType.USER,
+        "/"
+    );
   }
 
   /*테스트용*/
@@ -69,8 +66,8 @@ public class UserProfile {
             .nickname(nickname)
             .statusMessage(statusMessage != null ? statusMessage : "")
             .bio(bio != null ? bio : "")
-            .gender(gender)
-            .profileType(profileType)
+            .genderType(gender)
+            .userProfileType(profileType)
             .profileImageUrl(profileImageUrl != null ? profileImageUrl : "/")
             .build();
   }

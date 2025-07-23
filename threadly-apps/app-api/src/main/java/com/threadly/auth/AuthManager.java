@@ -17,9 +17,9 @@ import com.threadly.token.InsertTokenPort;
 import com.threadly.token.TokenPurpose;
 import com.threadly.token.UpsertRefreshToken;
 import com.threadly.token.UpsertToken;
-import com.threadly.user.FetchUserUseCase;
-import com.threadly.user.response.UserProfileSetupApiResponse;
-import com.threadly.user.response.UserResponse;
+import com.threadly.user.get.GetUserUseCase;
+import com.threadly.user.profile.register.UserProfileRegistrationApiResponse;
+import com.threadly.user.get.UserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -36,7 +36,7 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
 
   private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-  private final FetchUserUseCase fetchUserUseCase;
+  private final GetUserUseCase getUserUseCase;
 
   private final FetchTokenPort fetchTokenPort;
   private final InsertTokenPort insertTokenPort;
@@ -79,7 +79,7 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
   public LoginTokenResponse login(String email, String password) {
 
     /*사용자 조회*/
-    UserResponse user = fetchUserUseCase.findUserByEmail(email);
+    UserResponse user = getUserUseCase.findUserByEmail(email);
 
     String userId = user.getUserId();
 
@@ -93,7 +93,7 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
       throw new UserAuthenticationException(ErrorCode.EMAIL_NOT_VERIFIED);
     }
 
-    boolean profileComplete = fetchUserUseCase.isUserProfileExists(userId);
+    boolean profileComplete = getUserUseCase.isUserProfileExists(userId);
 
     /*TODO user 상태 검증*/
 
@@ -155,13 +155,13 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
 
     /*refreshToken 검증*/
     jwtTokenProvider.validateToken(refreshToken);
-    
+
     /*userId 추출*/
     String userId = jwtTokenProvider.getUserId(refreshToken);
 
     /*db에서 user 조회*/
-    UserResponse user = fetchUserUseCase.findUserByUserId(userId);
-    boolean profileComplete = fetchUserUseCase.isUserProfileExists(userId);
+    UserResponse user = getUserUseCase.findUserByUserId(userId);
+    boolean profileComplete = getUserUseCase.isUserProfileExists(userId);
 
 
     /*refreshToken이 저장되어 있는지 검증*/
@@ -240,13 +240,13 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
    * TODO 임시
    */
   @Override
-  public UserProfileSetupApiResponse reissueToken(String userId) {
+  public UserProfileRegistrationApiResponse reissueToken(String userId) {
     /*사용자 조회*/
-    UserResponse user = fetchUserUseCase.findUserByUserId(userId);
+    UserResponse user = getUserUseCase.findUserByUserId(userId);
 
-    boolean profileComplete = fetchUserUseCase.isUserProfileExists(userId);
+    boolean profileComplete = getUserUseCase.isUserProfileExists(userId);
 
-    return new UserProfileSetupApiResponse(
+    return new UserProfileRegistrationApiResponse(
         jwtTokenProvider.createAccessToken(userId, user.getUserType().name(), profileComplete),
         jwtTokenProvider.createRefreshToken(userId)
     );

@@ -1,11 +1,14 @@
-package com.threadly.user.command;
+package com.threadly.user.register;
 
 import lombok.Builder;
 import lombok.Getter;
 
+/**
+ * 사용자 회원가입 command
+ */
 @Getter
 @Builder
-public class UserRegistrationCommand {
+public class RegisterUserCommand {
 
 
   private String email;
@@ -13,7 +16,7 @@ public class UserRegistrationCommand {
   private String password;
   private String phone;
 
-  public UserRegistrationCommand(String email, String userName, String password, String phone) {
+  public RegisterUserCommand(String email, String userName, String password, String phone) {
     this.email = email;
     this.userName = userName;
     this.password = password;

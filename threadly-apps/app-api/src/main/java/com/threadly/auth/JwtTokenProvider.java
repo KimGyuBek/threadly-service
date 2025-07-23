@@ -6,8 +6,8 @@ import static com.threadly.utils.LogFormatUtils.logSuccess;
 import com.threadly.exception.ErrorCode;
 import com.threadly.exception.token.TokenException;
 import com.threadly.properties.TtlProperties;
-import com.threadly.user.FetchUserUseCase;
-import com.threadly.user.response.UserResponse;
+import com.threadly.user.get.GetUserUseCase;
+import com.threadly.user.get.UserResponse;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -31,7 +31,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class JwtTokenProvider {
 
-  private final FetchUserUseCase fetchUserUseCase;
+  private final GetUserUseCase getUserUseCase;
 
   private final TtlProperties ttlProperties;
 
@@ -45,7 +45,7 @@ public class JwtTokenProvider {
     String userId = getUserId(accessToken);
 
     /*userId로 사용자 조회*/
-    UserResponse user = fetchUserUseCase.findUserByUserId(userId);
+    UserResponse user = getUserUseCase.findUserByUserId(userId);
 
     /*권한 설정*/
     List<SimpleGrantedAuthority> authorities = List.of(

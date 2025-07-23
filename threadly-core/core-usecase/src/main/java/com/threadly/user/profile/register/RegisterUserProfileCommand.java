@@ -1,8 +1,7 @@
-package com.threadly.user.command;
+package com.threadly.user.profile.register;
 
 import com.threadly.user.UserGenderType;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,12 +11,13 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserSetProfileCommand {
+public class RegisterUserProfileCommand {
 
     private String userId;
     private String nickname;
     private String statusMessage;
     private String bio;
+    private String phone;
     private UserGenderType gender;
     private String profileImageUrl;
 

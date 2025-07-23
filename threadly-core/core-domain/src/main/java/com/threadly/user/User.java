@@ -74,38 +74,31 @@ public class User {
             .build();
   }
 
-  /*User Profile*/
-
-  public void setUserProfile(UserProfile userProfile) {
-    this.userProfile = userProfile;
-  }
+  /*UserProfile*/
 
   /**
-   * UserProfile 생성
+   * 사용자 프로필 생성
    *
    * @param nickname
    * @param statusMessage
    * @param bio
-   * @param gender
-   * @param profileImageUrl
-   * @param profileType
+   * @param phone
+   * @param genderType
+   * @return
    */
-  public void setProfile(
-      String nickname,
-      String statusMessage,
-      String bio,
-      UserGenderType gender,
-      String profileImageUrl,
-      UserProfileType profileType
-  ) {
-    this.userProfile = UserProfile.newProfile(
+  public UserProfile setUserProfile(String nickname, String statusMessage, String bio, String phone,
+      UserGenderType genderType) {
+    return UserProfile.setProfile(
         nickname,
         statusMessage,
         bio,
-        gender,
-        profileType,
-        profileImageUrl
-    );
+        phone,
+        genderType
+        );
+  }
+
+  public void setUserProfile(UserProfile userProfile) {
+    this.userProfile = userProfile;
   }
 
   /**
@@ -117,11 +110,10 @@ public class User {
    * @param gender
    * @param profileImageUrl
    */
-  public void updateUserProfile(String nickname, String statusMessage, String bio,
-      UserGenderType gender, String profileImageUrl) {
-    userProfile.updateProfile(nickname, statusMessage, bio, gender, profileImageUrl);
-  }
-
+//  public void updateUserProfile(String nickname, String statusMessage, String bio,
+//      UserGenderType gender, String profileImageUrl) {
+//    userProfile.updateProfile(nickname, statusMessage, bio, gender, profileImageUrl);
+//  }
   public String getUserProfileId() {
     return userProfile.getUserProfileId();
   }
@@ -139,12 +131,12 @@ public class User {
   }
 
   public UserGenderType getGender() {
-    return userProfile.getGender();
+    return userProfile.getGenderType();
   }
 
-  public UserProfileType getProfileType() {
-    return userProfile.getProfileType();
-  }
+//  public UserProfileType getProfileType() {
+//    return userProfile.getProfileType();
+//  }
 
   public String getProfileImageUrl() {
     return userProfile.getProfileImageUrl();
@@ -154,6 +146,7 @@ public class User {
 
   /**
    * 테스트용 User 도메인 생성
+   *
    * @param userId
    * @param userName
    * @param password
@@ -176,8 +169,7 @@ public class User {
   }
 
   /**
-   * 테스트용
-   * 이메일 인증 상태로 변경
+   * 테스트용 이메일 인증 상태로 변경
    */
   @VisibleForTesting
   public void setEmailVerified() {

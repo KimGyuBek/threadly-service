@@ -1,4 +1,4 @@
-package com.threadly.user.response;
+package com.threadly.user.profile.register;
 
 
 /**
@@ -7,7 +7,7 @@ package com.threadly.user.response;
  * @param accessToken
  * @param refreshToken
  */
-public record UserProfileSetupApiResponse(
+public record UserProfileRegistrationApiResponse(
     String accessToken,
     String refreshToken
 ) {

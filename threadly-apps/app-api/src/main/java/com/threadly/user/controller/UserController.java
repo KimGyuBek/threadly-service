@@ -1,20 +1,17 @@
 package com.threadly.user.controller;
 
 import com.threadly.auth.JwtAuthenticationUser;
-import com.threadly.auth.LoginAuthenticationUser;
 import com.threadly.auth.verification.EmailVerificationUseCase;
-import com.threadly.auth.verification.LoginUserUseCase;
 import com.threadly.auth.verification.ReissueTokenUseCase;
-import com.threadly.user.RegisterUserUseCase;
-import com.threadly.user.UpdateUserUseCase;
-import com.threadly.user.command.UserRegistrationCommand;
-import com.threadly.user.command.UserSetProfileCommand;
-import com.threadly.user.request.CreateUserProfileRequest;
+import com.threadly.user.profile.register.RegisterUserProfileCommand;
+import com.threadly.user.profile.register.RegisterUserProfileUseCase;
+import com.threadly.user.profile.register.UserProfileRegistrationApiResponse;
+import com.threadly.user.register.RegisterUserCommand;
+import com.threadly.user.register.RegisterUserUseCase;
+import com.threadly.user.register.UserRegistrationApiResponse;
+import com.threadly.user.request.ResiterUserProfileRequest;
 import com.threadly.user.request.UserRegisterRequest;
-import com.threadly.user.response.UserProfileSetupApiResponse;
-import com.threadly.user.response.UserRegistrationResponse;
 import jakarta.validation.Valid;
-import java.net.URI;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -31,7 +28,7 @@ public class UserController {
 
   private final RegisterUserUseCase registerUserUseCase;
   private final EmailVerificationUseCase emailVerificationUseCase;
-  private final UpdateUserUseCase updateUserUseCase;
+  private final RegisterUserProfileUseCase registerUserProfileUseCase;
 
   private final ReissueTokenUseCase reissueTokenUseCase;
 
@@ -42,13 +39,13 @@ public class UserController {
    * @return
    */
   @PostMapping("")
-  public UserRegistrationResponse register(
+  public UserRegistrationApiResponse register(
       @Valid @RequestBody UserRegisterRequest request
   ) {
 
     /*회원 가입*/
-    UserRegistrationResponse response = registerUserUseCase.register(
-        UserRegistrationCommand.builder()
+    UserRegistrationApiResponse response = registerUserUseCase.register(
+        RegisterUserCommand.builder()
             .email(request.getEmail())
             .userName(request.getUserName())
             .password(request.getPassword())
@@ -70,37 +67,34 @@ public class UserController {
    * @return
    */
   @PostMapping("/profile")
-  public ResponseEntity<UserProfileSetupApiResponse> setUserProfile(
+  public ResponseEntity<UserProfileRegistrationApiResponse> setUserProfile(
       @AuthenticationPrincipal JwtAuthenticationUser user,
-      @RequestBody CreateUserProfileRequest request) {
+      @RequestBody ResiterUserProfileRequest request) {
 
 //    URI location = URI.create("/api/user/" + user.getUserId());
 
     /*프로필 설정*/
-    updateUserUseCase.upsertUserProfile(
-        new UserSetProfileCommand(
+    registerUserProfileUseCase.registerUserProfile(
+        new RegisterUserProfileCommand(
             user.getUserId(),
             request.getNickname(),
             request.getStatusMessage(),
             request.getBio(),
+            request.getPhone(),
             request.getGender(),
             request.getProfileImageUrl())
     );
     return ResponseEntity.status(201).body(
         reissueTokenUseCase.reissueToken(user.getUserId())
     );
-
-//    return ResponseEntity.created(location)
-//        .body(updateUserUseCase.upsertUserProfile(new UserSetProfileCommand(
-//                user.getUserId(),
-//                request.getNickname(),
-//                request.getStatusMessage(),
-//                request.getBio(),
-//                request.getGender(),
-//                request.getProfileImageUrl())
-//            )
-//        );
   }
+
+//  @PatchMapping("/profile")
+//  public ResponseEntity<UpdateUserProfileApiResponse> updateUserProfile(
+//      @AuthenticationPrincipal JwtAuthenticationUser user,
+//      @RequestBody UpdateUserProfileRequest request) {
+//
+//  }
 
   /**
    * 사용자 비밀번호 변경

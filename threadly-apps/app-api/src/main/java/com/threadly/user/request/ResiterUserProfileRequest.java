@@ -11,11 +11,12 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class CreateUserProfileRequest {
+public class ResiterUserProfileRequest {
 
   private String nickname;
   private String statusMessage;
   private String bio;
+  private String phone;
   private UserGenderType gender;
   private String profileImageUrl;
 }

@@ -15,8 +15,8 @@ import com.threadly.CommonResponse;
 import com.threadly.auth.token.response.LoginTokenResponse;
 import com.threadly.exception.ErrorCode;
 import com.threadly.user.UserGenderType;
-import com.threadly.user.request.CreateUserProfileRequest;
-import com.threadly.user.response.UserProfileSetupApiResponse;
+import com.threadly.user.request.ResiterUserProfileRequest;
+import com.threadly.user.profile.register.UserProfileRegistrationApiResponse;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.ClassOrderer;
@@ -69,24 +69,26 @@ class UserControllerTest extends BaseApiTest {
       String nickname = "nickname";
       String statusMessage = "statusMessage";
       String bio = "bio";
+      String phone = "1234-1234-1234";
       UserGenderType gender = UserGenderType.MALE;
       String profileImageUrl = "";
       String requestBody = generateRequestBody(
-          new CreateUserProfileRequest(
+          new ResiterUserProfileRequest(
               nickname,
               statusMessage,
               bio,
+              phone,
               gender,
               profileImageUrl
           )
       );
 
       /*프로필 초기 설정 요청 전송*/
-      CommonResponse<UserProfileSetupApiResponse> setProfileResponse = sendPostRequest(
+      CommonResponse<UserProfileRegistrationApiResponse> setProfileResponse = sendPostRequest(
           requestBody,
           "/api/user/profile",
           status().isCreated(),
-          new TypeReference<CommonResponse<UserProfileSetupApiResponse>>() {
+          new TypeReference<CommonResponse<UserProfileRegistrationApiResponse>>() {
           },
           Map.of("Authorization", "Bearer " + accessToken)
       );

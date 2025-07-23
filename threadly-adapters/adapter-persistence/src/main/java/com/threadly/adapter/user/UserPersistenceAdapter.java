@@ -85,8 +85,8 @@ public class UserPersistenceAdapter implements FetchUserPort, SaveUserPort,
                 .nickname(entity.getNickname())
                 .statusMessage(entity.getStatusMessage())
                 .bio(entity.getBio())
-                .gender(entity.getGender())
-                .profileType(entity.getProfileType())
+                .genderType(entity.getGender())
+                .userProfileType(entity.getProfileType())
                 .profileImageUrl(entity.getProfileImageUrl())
                 .build()
         );

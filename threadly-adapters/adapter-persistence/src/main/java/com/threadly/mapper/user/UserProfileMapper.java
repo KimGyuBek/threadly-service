@@ -17,8 +17,8 @@ public class UserProfileMapper {
         .nickname(entity.getNickname())
         .statusMessage(entity.getStatusMessage())
         .bio(entity.getBio())
-        .gender(entity.getGender())
-        .profileType(entity.getProfileType())
+        .genderType(entity.getGender())
+        .userProfileType(entity.getProfileType())
         .profileImageUrl(entity.getProfileImageUrl())
         .build();
   }
@@ -36,8 +36,8 @@ public class UserProfileMapper {
             domain.getNickname(),
             domain.getStatusMessage(),
             domain.getBio(),
-            domain.getGender(),
-            domain.getProfileType(),
+            domain.getGenderType(),
+            domain.getUserProfileType(),
             domain.getProfileImageUrl());
   }
 

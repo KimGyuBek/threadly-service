@@ -1,14 +1,18 @@
-package com.threadly.user.response;
+package com.threadly.user.register;
 
 import com.threadly.user.UserType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
+/**
+ * 사용자 회원가입 api 응답 객체
+ */
+
 @Getter
 @AllArgsConstructor
 @Builder
-public class UserRegistrationResponse {
+public class UserRegistrationApiResponse {
 
   private String userId;
   private String userName;
