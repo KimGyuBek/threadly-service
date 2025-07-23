@@ -1,8 +1,10 @@
 package com.threadly.user.controller;
 
 import static com.threadly.utils.TestConstants.EMAIL_VERIFIED_USER_1;
-import static org.assertj.core.api.Assertions.assertThat;
+import static com.threadly.utils.TestConstants.PROFILE_NOT_SET_USER_1;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -11,6 +13,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.threadly.BaseApiTest;
 import com.threadly.CommonResponse;
 import com.threadly.auth.token.response.LoginTokenResponse;
+import com.threadly.exception.ErrorCode;
 import com.threadly.user.UserGenderType;
 import com.threadly.user.request.CreateUserProfileRequest;
 import com.threadly.user.response.UserProfileSetupApiResponse;
@@ -79,7 +82,7 @@ class UserControllerTest extends BaseApiTest {
       );
 
       /*프로필 초기 설정 요청 전송*/
-      CommonResponse<UserProfileSetupApiResponse> response = sendPostRequest(
+      CommonResponse<UserProfileSetupApiResponse> setProfileResponse = sendPostRequest(
           requestBody,
           "/api/user/profile",
           status().isCreated(),
@@ -95,19 +98,36 @@ class UserControllerTest extends BaseApiTest {
           () -> assertNotNull(loginResponse.getData().accessToken())
       );
 
+      /*프로필 생성 응답 검증*/
       assertAll(
-          () -> assertTrue(response.isSuccess()),
-          () -> assertNotNull(response.getData().accessToken())
+          () -> assertTrue(setProfileResponse.isSuccess()),
+          () -> assertNotNull(setProfileResponse.getData().accessToken())
       );
-//      /*프로필 응답 검증*/
-//      assertAll(
-//          () -> assertTrue(response.isSuccess()),
-//          () -> assertThat(response.getData().nickname()).isEqualTo(nickname),
-//          () -> assertThat(response.getData().statusMessage()).isEqualTo(statusMessage),
-//          () -> assertThat(response.getData().bio()).isEqualTo(bio),
-//          () -> assertThat(response.getData().gender()).isEqualTo(gender.name()),
-//          () -> assertThat(response.getData().profileImageUrl()).isEqualTo(profileImageUrl)
-//      );
     }
+  }
+
+  @Order(2)
+  /* [Case #4] 사용자 프로필 설정을 하지 않은 상태에서 인증을 필요한 경로에 접속할 경우 403 Forbidden*/
+  @DisplayName("4. 사용자 프로필이 설정되지 않은 경우")
+  @Test
+  public void login_shouldFail_whenUserProfileNotSet() throws Exception {
+//    given
+//    when
+    CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(PROFILE_NOT_SET_USER_1,
+        PASSWORD,
+        new TypeReference<CommonResponse<LoginTokenResponse>>() {
+        }, status().isOk());
+
+    CommonResponse response = sendGetRequest(
+        loginResponse.getData().accessToken(),
+        "/",
+        status().isForbidden()
+    );
+
+//    then
+    assertAll(
+        () -> assertFalse(response.isSuccess()),
+        () -> assertEquals(response.getCode(), ErrorCode.USER_PROFILE_NOT_SET.getCode())
+    );
   }
 }

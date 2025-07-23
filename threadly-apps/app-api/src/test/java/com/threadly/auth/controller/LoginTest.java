@@ -1,6 +1,7 @@
 package com.threadly.auth.controller;
 
 import static com.threadly.utils.TestConstants.EMAIL_VERIFIED_USER_1;
+import static com.threadly.utils.TestConstants.PROFILE_NOT_SET_USER_1;
 import static com.threadly.utils.TestConstants.USER_EMAIL_NOT_VERIFIED;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -125,8 +126,6 @@ class LoginTest extends BaseApiTest {
     @Test
     public void login_shouldFail_whenEmailNotVerified() throws Exception {
 //    given
-      /*데이터 로드*/
-      userFixtureLoader.load("/users/user-email-not-verified.json");
 
 //    when
       CommonResponse<Object> loginResponse = sendLoginRequest(USER_EMAIL_NOT_VERIFIED, PASSWORD,
@@ -139,24 +138,5 @@ class LoginTest extends BaseApiTest {
       );
     }
 
-//    @Order(4)
-//    /* [Case #4] 로그인 실패 - 사용자 프로필이 설정되지 않은 경우*/
-//    @DisplayName("4. 이메일 인증이 되지 않은 경우")
-//    @Test
-//    public void login_shouldFail_whenEmailNotVerified() throws Exception {
-////    given
-//      /*데이터 로드*/
-//      userFixtureLoader.load("/users/user-email-not-verified.json");
-//
-////    when
-//      CommonResponse<Object> loginResponse = sendLoginRequest(USER_EMAIL_NOT_VERIFIED, PASSWORD,
-//          new TypeReference<CommonResponse<Object>>() {
-//          }, status().isUnauthorized());
-////    then
-//      assertAll(
-//          () -> assertFalse(loginResponse.isSuccess()),
-//          () -> assertEquals(loginResponse.getCode(), ErrorCode.EMAIL_NOT_VERIFIED.getCode())
-//      );
-//    }
   }
 }
