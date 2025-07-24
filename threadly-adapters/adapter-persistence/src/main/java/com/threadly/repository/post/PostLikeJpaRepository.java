@@ -76,7 +76,7 @@ public interface PostLikeJpaRepository extends JpaRepository<PostLikeEntity, Str
              pl.created_at        as likedAt
       from post_likes pl
                join users u on pl.user_id = u.user_id
-               join user_profile up on u.user_profile_id = up.user_profile_id
+               join user_profile up on u.user_id = up.user_id
       where pl.post_id = :postId
        and (:cursorLikedAt is null 
        or pl.created_at < :cursorLikedAt 

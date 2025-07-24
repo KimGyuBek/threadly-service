@@ -82,7 +82,6 @@ public class PostCommentQueryService implements GetPostCommentUseCase {
     );
   }
 
-
   @Override
   public GetPostCommentApiResponse getPostCommentDetailForUser(
       GetPostCommentDetailQuery query) {

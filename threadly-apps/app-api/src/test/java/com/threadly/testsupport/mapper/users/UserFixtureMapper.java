@@ -35,7 +35,7 @@ public class UserFixtureMapper {
   public static UserProfile toProfile(UserFixtureDto fixture) {
     return
         UserProfile.newTestProfile(
-            fixture.getUserProfile().getUserProfileId(),
+            fixture.getUserId(),
             fixture.getUserProfile().getNickname(),
             fixture.getUserProfile().getStatusMessage(),
             fixture.getUserProfile().getBio(),

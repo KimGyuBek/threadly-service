@@ -12,7 +12,7 @@ public interface CreatePostCommentPort {
    * @param postComment
    * @return
    */
-  CreatePostCommentResponse savePostComment(
+  void savePostComment(
       PostComment postComment);
 
 

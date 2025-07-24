@@ -8,6 +8,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.MapsId;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,8 +27,8 @@ import lombok.NoArgsConstructor;
 public class UserProfileEntity extends BaseEntity {
 
   @Id
-  @Column(name = "user_profile_id")
-  private String userProfileId;
+  @Column(name = "user_id")
+  private String userId;
 
   /*닉네임*/
   @Column(name = "nickname")
@@ -53,11 +56,11 @@ public class UserProfileEntity extends BaseEntity {
   @Column(name = "profile_image_url")
   private String profileImageUrl;
 
-  public static UserProfileEntity newUserProfile(String userProfileId,String nickname, String statusMessage, String bio, UserGenderType gender,
+  public static UserProfileEntity newUserProfile(String userId,String nickname, String statusMessage, String bio, UserGenderType gender,
       UserProfileType profileType, String profileImageUrl) {
 
     return new UserProfileEntity(
-        userProfileId,
+        userId,
         nickname,
         statusMessage,
         bio,

@@ -9,7 +9,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up1",
       "nickname": "nick0",
       "statusMessage": "status0",
       "bio": "bio0",
@@ -27,7 +26,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up2",
       "nickname": "nick1",
       "statusMessage": "status1",
       "bio": "bio1",
@@ -45,7 +43,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up3",
       "nickname": "nick2",
       "statusMessage": "status2",
       "bio": "bio2",
@@ -63,7 +60,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up4",
       "nickname": "nick3",
       "statusMessage": "status3",
       "bio": "bio3",
@@ -81,7 +77,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up5",
       "nickname": "nick4",
       "statusMessage": "status4",
       "bio": "bio4",
@@ -99,7 +94,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up6",
       "nickname": "nick5",
       "statusMessage": "status5",
       "bio": "bio5",
@@ -117,7 +111,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up7",
       "nickname": "nick6",
       "statusMessage": "status6",
       "bio": "bio6",
@@ -135,7 +128,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up8",
       "nickname": "nick7",
       "statusMessage": "status7",
       "bio": "bio7",
@@ -153,7 +145,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up9",
       "nickname": "nick8",
       "statusMessage": "status8",
       "bio": "bio8",
@@ -171,7 +162,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up10",
       "nickname": "nick9",
       "statusMessage": "status9",
       "bio": "bio9",
@@ -189,7 +179,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up_author",
       "nickname": "nick10",
       "statusMessage": "status10",
       "bio": "bio10",

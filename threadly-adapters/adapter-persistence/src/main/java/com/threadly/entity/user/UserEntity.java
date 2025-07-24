@@ -57,9 +57,9 @@ public class UserEntity extends BaseEntity {
   @Column(name = "is_email_verified")
   private boolean isEmailVerified;
 
-  @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  @JoinColumn(name = "user_profile_id")
-  private UserProfileEntity userProfile;
+//  @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
+//  private UserProfileEntity userProfile;
+
   /**
    * 새로운 User 생성
    *
@@ -80,8 +80,7 @@ public class UserEntity extends BaseEntity {
         user.getPhone(),
         user.getUserType(),
         user.isActive(),
-        user.isEmailVerified(),
-        null
+        user.isEmailVerified()
     );
   }
 
@@ -97,8 +96,8 @@ public class UserEntity extends BaseEntity {
     return userEntity;
   }
 
-  public void setUserProfile(UserProfileEntity userProfile) {
-    this.userProfile = userProfile;
-  }
+//  public void setUserProfile(UserProfileEntity userProfile) {
+//    this.userProfile = userProfile;
+//  }
 
 }

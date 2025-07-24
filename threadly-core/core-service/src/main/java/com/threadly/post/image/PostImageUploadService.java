@@ -39,39 +39,24 @@ public class PostImageUploadService implements UploadPostImageUseCase {
 
   @Override
   public UploadPostImagesApiResponse uploadPostImages(UploadPostImageCommand command) {
-
-    /*1. 게시글 존재 검증*/
-//    /*postId가 null일 경우*/
-//    if (command.getPostId() == null) {
-//      throw new PostException(ErrorCode.POST_NOT_FOUND);
-//    }
-//    String writerId = fetchPostPort.fetchUserIdByPostId(command.getPostId()).orElseThrow(
-//        () -> new PostException(ErrorCode.POST_NOT_FOUND)
-//    );
-
-    /*2. 게시글 작성자 id와 요청 userId가 일치하는지 검증*/
-//    if (!writerId.equals(command.getUserId())) {
-//      throw new PostException(ErrorCode.POST_IMAGE_UPLOAD_FORBIDDEN);
-//    }
-
-    /* 3. 이미지 파일 검증*/
+    /* 1. 이미지 파일 검증*/
     imageUploadValidator.validate(command.getImages());
 
-    /*4. 이미지 비율 검증*/
+    /*2. 이미지 비율 검증*/
 //    imageAspectRatioValidator.validate(command.getImages());
 
-    /* 5. 업로드 이미지 수 검증*/
+    /* 3. 업로드 이미지 수 검증*/
     if (command.getImages().isEmpty()
         || command.getImages().size() > uploadProperties.getMaxImageCount()) {
       throw new PostImageException(ErrorCode.POST_IMAGE_UPLOAD_LIMIT_EXCEEDED);
     }
 
-    /*6. 이미지 파일 저장*/
+    /*4. 이미지 파일 저장*/
     List<UploadImageResponse> uploadImageResponses = uploadPostImagePort.uploadPostImage(
         command.getImages());
     log.info("이미지 업로드 완료: {}", uploadImageResponses.toString());
 
-    /*7. 이미지 메타 데이터 db 저장*/
+    /*5. 이미지 메타 데이터 db 저장*/
     List<PostImage> postImages = new ArrayList<>();
     uploadImageResponses.forEach(response -> {
       PostImage postImage = PostImage.newPostImage(

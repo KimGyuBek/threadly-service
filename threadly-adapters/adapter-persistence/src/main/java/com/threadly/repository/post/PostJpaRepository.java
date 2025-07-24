@@ -52,7 +52,7 @@ public interface PostJpaRepository extends JpaRepository<PostEntity, String> {
              coalesce(pl.is_liked, false)  as liked
       from posts p
                join users u on p.user_id = u.user_id
-               join user_profile up on u.user_profile_id = up.user_profile_id
+               join user_profile up on u.user_id = up.user_id
                left join(select post_id,
                                 count(*) as like_count,
                                 max(
@@ -61,7 +61,7 @@ public interface PostJpaRepository extends JpaRepository<PostEntity, String> {
                                                 then 1
                                             else 0
                                             end
-                                )   > 0     as is_liked
+                                ) > 0    as is_liked
                          from post_likes
                          where post_id = :postId
                          group by post_id) pl on p.post_id = pl.post_id
@@ -99,7 +99,7 @@ public interface PostJpaRepository extends JpaRepository<PostEntity, String> {
              coalesce(pl_liked.liked, false)     as liked
       from posts p
                join users u on p.user_id = u.user_id
-               join user_profile up on u.user_profile_id = up.user_profile_id
+               join user_profile up on u.user_id = up.user_id
                left join(select post_id, count(*) as like_count
                          from post_likes
                          group by post_id) pl_count on p.post_id = pl_count.post_id
@@ -166,7 +166,7 @@ public interface PostJpaRepository extends JpaRepository<PostEntity, String> {
              coalesce(pl.is_liked, false) as liked
       from posts p
                join users u on p.user_id = u.user_id
-               join user_profile up on u.user_profile_id = up.user_profile_id
+               join user_profile up on u.user_id = up.user_id
                left join(select post_id,
                                 count(*) as like_count,
                                 max(case
@@ -181,14 +181,6 @@ public interface PostJpaRepository extends JpaRepository<PostEntity, String> {
       """, nativeQuery = true)
   Optional<PostEngagementProjection> findPostEngagementByPostIdAndUserId(
       @Param("postId") String postId, @Param("userId") String userId);
-
-
-  @Query(value = """
-      select count(*) > 0
-      from posts
-      where post_id = :postId;
-      """, nativeQuery = true)
-  boolean existsByPostId(@Param("postId") String postId);
 
   @Modifying()
   @Query("""

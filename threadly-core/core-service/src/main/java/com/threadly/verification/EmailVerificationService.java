@@ -39,10 +39,8 @@ public class EmailVerificationService implements EmailVerificationUseCase {
   @Transactional
   @Override
   public void verificationEmail(String code) {
-
     /*code로 userId 조회*/
     String userId = emailVerificationPort.getUserId(code);
-
 
     /*인증되지 않은 사용자인지 찾아서 검증 */
     Optional<User> findByUserId = fetchUserPort.findByUserId(userId);

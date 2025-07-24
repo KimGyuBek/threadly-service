@@ -1,6 +1,7 @@
 package com.threadly.testsupport.dto.posts;
 
 import com.threadly.post.PostCommentStatus;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

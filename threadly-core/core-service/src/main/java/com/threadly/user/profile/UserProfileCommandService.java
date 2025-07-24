@@ -10,6 +10,7 @@ import com.threadly.user.profile.register.RegisterUserProfileCommand;
 import com.threadly.user.profile.register.RegisterUserProfileUseCase;
 import com.threadly.user.profile.save.SaveUserProfilePort;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,10 +18,10 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserProfileCommandService implements RegisterUserProfileUseCase {
 
   private final FetchUserPort fetchUserPort;
-  private final SaveUserPort saveUserPort;
 
   private final SaveUserProfilePort saveUserProfilePort;
 
@@ -32,10 +33,7 @@ public class UserProfileCommandService implements RegisterUserProfileUseCase {
    */
   @Override
   public void registerUserProfile(RegisterUserProfileCommand command) {
-    /*user 조회*/
-    User user = fetchUserPort.findByUserId(command.getUserId()).orElseThrow(
-        () -> new UserException(ErrorCode.USER_NOT_FOUND)
-    );
+    User user = User.of(command.getUserId());
 
     /*프로필 생성*/
     UserProfile userProfile = user.setUserProfile(
@@ -47,6 +45,7 @@ public class UserProfileCommandService implements RegisterUserProfileUseCase {
     );
 
     saveUserProfilePort.saveUserProfile(userProfile);
+    log.debug("userProfile 생성 완료");
   }
 
 //  /**

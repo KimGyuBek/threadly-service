@@ -9,7 +9,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up1",
       "nickname": "sunset_gazer",
       "statusMessage": "혼자가 좋은",
       "bio": "아침형 인간",
@@ -28,7 +27,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up2",
       "nickname": "sky_gazer",
       "statusMessage": "기록하는 삶",
       "bio": "고양이 집사",
@@ -47,7 +45,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up3",
       "nickname": "book_worm",
       "statusMessage": "나만의 시간",
       "bio": "강아지 산책러",
@@ -66,7 +63,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up4",
       "nickname": "beach_bum",
       "statusMessage": "작지만 확실한 행복",
       "bio": "아침형 인간",
@@ -85,7 +81,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up5",
       "nickname": "early_bird",
       "statusMessage": "혼자가 좋은",
       "bio": "맛집 탐방 중",
@@ -104,7 +99,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up6",
       "nickname": "mountain_hiker",
       "statusMessage": "작지만 확실한 행복",
       "bio": "아침형 인간",
@@ -123,7 +117,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up7",
       "nickname": "dream_chaser",
       "statusMessage": "감성 충만",
       "bio": "영화 덕후",
@@ -142,7 +135,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up8",
       "nickname": "night_owl",
       "statusMessage": "바람이 좋아",
       "bio": "여행이 답이다",
@@ -161,7 +153,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up9",
       "nickname": "mountain_hiker",
       "statusMessage": "하늘이 참 예쁘네",
       "bio": "카페인 없인 못살아",
@@ -180,7 +171,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up10",
       "nickname": "mountain_hiker",
       "statusMessage": "나만의 시간",
       "bio": "자연을 사랑합니다",
@@ -199,7 +189,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up11",
       "nickname": "dream_chaser",
       "statusMessage": "여행 가고 싶다",
       "bio": "마음 가는 대로 사는 중",
@@ -218,7 +207,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up12",
       "nickname": "breeze_seeker",
       "statusMessage": "바쁜 일상 속 여유",
       "bio": "감성에 진심",
@@ -237,7 +225,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up13",
       "nickname": "early_bird",
       "statusMessage": "기록하는 삶",
       "bio": "고양이 집사",
@@ -256,7 +243,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up14",
       "nickname": "silent_walker",
       "statusMessage": "바람이 좋아",
       "bio": "빵순이",
@@ -275,7 +261,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up15",
       "nickname": "beach_bum",
       "statusMessage": "감성 충만",
       "bio": "밤하늘을 좋아해요",
@@ -294,7 +279,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up16",
       "nickname": "sky_gazer",
       "statusMessage": "노을 맛집",
       "bio": "고양이 집사",
@@ -313,7 +297,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up17",
       "nickname": "city_runner",
       "statusMessage": "조용한 하루",
       "bio": "낮보단 밤파",
@@ -332,7 +315,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up18",
       "nickname": "beach_bum",
       "statusMessage": "하늘이 참 예쁘네",
       "bio": "하늘 보는 게 취미",
@@ -351,7 +333,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up19",
       "nickname": "wave_rider",
       "statusMessage": "혼자가 좋은",
       "bio": "빵순이",
@@ -370,7 +351,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up20",
       "nickname": "tea_addict",
       "statusMessage": "아무 생각 없이 걷기",
       "bio": "뜨개질 취미",
@@ -389,7 +369,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up21",
       "nickname": "sunset_gazer",
       "statusMessage": "조용한 하루",
       "bio": "감성에 진심",
@@ -408,7 +387,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up22",
       "nickname": "night_owl",
       "statusMessage": "혼자가 좋은",
       "bio": "자연을 사랑합니다",
@@ -427,7 +405,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up23",
       "nickname": "lazy_sunday",
       "statusMessage": "바람이 좋아",
       "bio": "전시회 마니아",
@@ -446,7 +423,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up24",
       "nickname": "tea_addict",
       "statusMessage": "책과 함께",
       "bio": "생각이 많은 밤",
@@ -465,7 +441,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up25",
       "nickname": "coffee_lover",
       "statusMessage": "따뜻한 하루",
       "bio": "밤하늘을 좋아해요",
@@ -484,7 +459,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up26",
       "nickname": "sky_gazer",
       "statusMessage": "책과 함께",
       "bio": "아침형 인간",
@@ -503,7 +477,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up27",
       "nickname": "rainy_day",
       "statusMessage": "조용한 하루",
       "bio": "뜨개질 취미",
@@ -522,7 +495,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up28",
       "nickname": "breeze_seeker",
       "statusMessage": "나만의 시간",
       "bio": "맛집 탐방 중",
@@ -541,7 +513,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up29",
       "nickname": "sunset_gazer",
       "statusMessage": "혼자가 좋은",
       "bio": "아침형 인간",
@@ -560,7 +531,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up30",
       "nickname": "silent_walker",
       "statusMessage": "아무 생각 없이 걷기",
       "bio": "강아지 산책러",
@@ -579,7 +549,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up31",
       "nickname": "lazy_sunday",
       "statusMessage": "자유로운 영혼",
       "bio": "여행이 답이다",
@@ -598,7 +567,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up32",
       "nickname": "tea_addict",
       "statusMessage": "여행 가고 싶다",
       "bio": "아침형 인간",
@@ -617,7 +585,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up33",
       "nickname": "lazy_sunday",
       "statusMessage": "오늘도 달린다!",
       "bio": "마음 가는 대로 사는 중",
@@ -636,7 +603,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up34",
       "nickname": "rainy_day",
       "statusMessage": "빛처럼 살자",
       "bio": "영화 덕후",
@@ -655,7 +621,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up35",
       "nickname": "book_worm",
       "statusMessage": "빛처럼 살자",
       "bio": "빵순이",
@@ -674,7 +639,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up36",
       "nickname": "bike_rider",
       "statusMessage": "오늘도 달린다!",
       "bio": "책을 좋아해요",
@@ -693,7 +657,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up37",
       "nickname": "sunset_gazer",
       "statusMessage": "작지만 확실한 행복",
       "bio": "자연을 사랑합니다",
@@ -712,7 +675,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up38",
       "nickname": "art_junkie",
       "statusMessage": "혼자가 좋은",
       "bio": "생각이 많은 밤",
@@ -731,7 +693,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up39",
       "nickname": "mountain_hiker",
       "statusMessage": "책과 함께",
       "bio": "음악은 나의 친구",
@@ -750,7 +711,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up40",
       "nickname": "beach_bum",
       "statusMessage": "작지만 확실한 행복",
       "bio": "자전거 타는 개발자",
@@ -769,7 +729,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up41",
       "nickname": "silent_walker",
       "statusMessage": "비 오는 날이 좋아",
       "bio": "여행이 답이다",
@@ -788,7 +747,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up42",
       "nickname": "wave_rider",
       "statusMessage": "바람이 좋아",
       "bio": "여행이 답이다",
@@ -807,7 +765,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up43",
       "nickname": "coffee_lover",
       "statusMessage": "하늘이 참 예쁘네",
       "bio": "마음 가는 대로 사는 중",
@@ -826,7 +783,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up44",
       "nickname": "coffee_lover",
       "statusMessage": "감성 충만",
       "bio": "카페인 없인 못살아",
@@ -845,7 +801,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up45",
       "nickname": "dream_chaser",
       "statusMessage": "감성 충만",
       "bio": "생각이 많은 밤",
@@ -864,7 +819,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up46",
       "nickname": "dream_chaser",
       "statusMessage": "노을 맛집",
       "bio": "빵순이",
@@ -883,7 +837,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up47",
       "nickname": "book_worm",
       "statusMessage": "조용한 하루",
       "bio": "고양이 집사",
@@ -902,7 +855,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up48",
       "nickname": "dream_chaser",
       "statusMessage": "아무 생각 없이 걷기",
       "bio": "맛집 탐방 중",
@@ -921,7 +873,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up49",
       "nickname": "art_junkie",
       "statusMessage": "감성 충만",
       "bio": "낮보단 밤파",
@@ -940,7 +891,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up50",
       "nickname": "lazy_sunday",
       "statusMessage": "책과 함께",
       "bio": "여행이 답이다",
@@ -959,7 +909,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up51",
       "nickname": "tea_addict",
       "statusMessage": "감성 충만",
       "bio": "하늘 보는 게 취미",
@@ -978,7 +927,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up52",
       "nickname": "dream_chaser",
       "statusMessage": "감성 충만",
       "bio": "강아지 산책러",
@@ -997,7 +945,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up53",
       "nickname": "art_junkie",
       "statusMessage": "나만의 시간",
       "bio": "낮보단 밤파",
@@ -1016,7 +963,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up54",
       "nickname": "night_owl",
       "statusMessage": "비 오는 날이 좋아",
       "bio": "밤하늘을 좋아해요",
@@ -1035,7 +981,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up55",
       "nickname": "night_owl",
       "statusMessage": "비 오는 날이 좋아",
       "bio": "빵순이",
@@ -1054,7 +999,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up56",
       "nickname": "coffee_lover",
       "statusMessage": "감성 충만",
       "bio": "마음 가는 대로 사는 중",
@@ -1073,7 +1017,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up57",
       "nickname": "forest_soul",
       "statusMessage": "평화로운 하루",
       "bio": "책을 좋아해요",
@@ -1092,7 +1035,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up58",
       "nickname": "rainy_day",
       "statusMessage": "작지만 확실한 행복",
       "bio": "카페인 없인 못살아",
@@ -1111,7 +1053,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up59",
       "nickname": "gallery_goer",
       "statusMessage": "바람이 좋아",
       "bio": "여행이 답이다",
@@ -1130,7 +1071,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up60",
       "nickname": "rainy_day",
       "statusMessage": "나만의 시간",
       "bio": "뜨개질 취미",
@@ -1149,7 +1089,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up61",
       "nickname": "early_bird",
       "statusMessage": "나만의 시간",
       "bio": "뜨개질 취미",
@@ -1168,7 +1107,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up62",
       "nickname": "rainy_day",
       "statusMessage": "작지만 확실한 행복",
       "bio": "자연을 사랑합니다",
@@ -1187,7 +1125,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up63",
       "nickname": "dream_chaser",
       "statusMessage": "노을 맛집",
       "bio": "전시회 마니아",
@@ -1206,7 +1143,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up64",
       "nickname": "breeze_seeker",
       "statusMessage": "하늘이 참 예쁘네",
       "bio": "강아지 산책러",
@@ -1225,7 +1161,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up65",
       "nickname": "forest_soul",
       "statusMessage": "아무 생각 없이 걷기",
       "bio": "아침형 인간",
@@ -1244,7 +1179,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up66",
       "nickname": "city_runner",
       "statusMessage": "여행 가고 싶다",
       "bio": "강아지 산책러",
@@ -1263,7 +1197,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up67",
       "nickname": "city_runner",
       "statusMessage": "비 오는 날이 좋아",
       "bio": "여행이 답이다",
@@ -1282,7 +1215,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up68",
       "nickname": "dream_chaser",
       "statusMessage": "요즘 빠진 노래",
       "bio": "하늘 보는 게 취미",
@@ -1301,7 +1233,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up69",
       "nickname": "city_runner",
       "statusMessage": "나만의 시간",
       "bio": "여행이 답이다",
@@ -1320,7 +1251,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up70",
       "nickname": "early_bird",
       "statusMessage": "바람이 좋아",
       "bio": "아침형 인간",
@@ -1339,7 +1269,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up71",
       "nickname": "coffee_lover",
       "statusMessage": "혼자가 좋은",
       "bio": "전시회 마니아",
@@ -1358,7 +1287,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up72",
       "nickname": "gallery_goer",
       "statusMessage": "오늘도 달린다!",
       "bio": "자전거 타는 개발자",
@@ -1377,7 +1305,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up73",
       "nickname": "breeze_seeker",
       "statusMessage": "따뜻한 하루",
       "bio": "강아지 산책러",
@@ -1396,7 +1323,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up74",
       "nickname": "forest_soul",
       "statusMessage": "작지만 확실한 행복",
       "bio": "감성에 진심",
@@ -1415,7 +1341,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up75",
       "nickname": "breeze_seeker",
       "statusMessage": "혼자가 좋은",
       "bio": "여행이 답이다",
@@ -1434,7 +1359,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up76",
       "nickname": "city_runner",
       "statusMessage": "요즘 빠진 노래",
       "bio": "책을 좋아해요",
@@ -1453,7 +1377,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up77",
       "nickname": "wave_rider",
       "statusMessage": "바쁜 일상 속 여유",
       "bio": "하늘 보는 게 취미",
@@ -1472,7 +1395,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up78",
       "nickname": "dream_chaser",
       "statusMessage": "아무 생각 없이 걷기",
       "bio": "영화 덕후",
@@ -1491,7 +1413,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up79",
       "nickname": "early_bird",
       "statusMessage": "조용한 하루",
       "bio": "생각이 많은 밤",
@@ -1510,7 +1431,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up80",
       "nickname": "night_owl",
       "statusMessage": "기록하는 삶",
       "bio": "책을 좋아해요",
@@ -1529,7 +1449,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up81",
       "nickname": "sunset_gazer",
       "statusMessage": "바쁜 일상 속 여유",
       "bio": "맛집 탐방 중",
@@ -1548,7 +1467,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up82",
       "nickname": "dream_chaser",
       "statusMessage": "노을 맛집",
       "bio": "생각이 많은 밤",
@@ -1567,7 +1485,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up83",
       "nickname": "silent_walker",
       "statusMessage": "바람이 좋아",
       "bio": "생각이 많은 밤",
@@ -1586,7 +1503,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up84",
       "nickname": "forest_soul",
       "statusMessage": "오늘도 달린다!",
       "bio": "카페인 없인 못살아",
@@ -1605,7 +1521,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up85",
       "nickname": "gallery_goer",
       "statusMessage": "바쁜 일상 속 여유",
       "bio": "책을 좋아해요",
@@ -1624,7 +1539,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up86",
       "nickname": "forest_soul",
       "statusMessage": "요즘 빠진 노래",
       "bio": "아침형 인간",
@@ -1643,7 +1557,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up87",
       "nickname": "night_owl",
       "statusMessage": "여행 가고 싶다",
       "bio": "음악은 나의 친구",
@@ -1662,7 +1575,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up88",
       "nickname": "beach_bum",
       "statusMessage": "비 오는 날이 좋아",
       "bio": "밤하늘을 좋아해요",
@@ -1681,7 +1593,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up89",
       "nickname": "art_junkie",
       "statusMessage": "여행 가고 싶다",
       "bio": "생각이 많은 밤",
@@ -1700,7 +1611,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up90",
       "nickname": "city_runner",
       "statusMessage": "바쁜 일상 속 여유",
       "bio": "고양이 집사",
@@ -1719,7 +1629,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up91",
       "nickname": "lazy_sunday",
       "statusMessage": "혼자가 좋은",
       "bio": "밤하늘을 좋아해요",
@@ -1738,7 +1647,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up92",
       "nickname": "bike_rider",
       "statusMessage": "작지만 확실한 행복",
       "bio": "생각이 많은 밤",
@@ -1757,7 +1665,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up93",
       "nickname": "coffee_lover",
       "statusMessage": "노을 맛집",
       "bio": "음악은 나의 친구",
@@ -1776,7 +1683,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up94",
       "nickname": "early_bird",
       "statusMessage": "평화로운 하루",
       "bio": "하늘 보는 게 취미",
@@ -1795,7 +1701,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up95",
       "nickname": "lazy_sunday",
       "statusMessage": "노을 맛집",
       "bio": "고양이 집사",
@@ -1814,7 +1719,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up96",
       "nickname": "mountain_hiker",
       "statusMessage": "평화로운 하루",
       "bio": "마음 가는 대로 사는 중",
@@ -1833,7 +1737,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up97",
       "nickname": "rainy_day",
       "statusMessage": "책과 함께",
       "bio": "영화 덕후",
@@ -1852,7 +1755,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up98",
       "nickname": "tea_addict",
       "statusMessage": "오늘도 달린다!",
       "bio": "음악은 나의 친구",
@@ -1871,7 +1773,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up99",
       "nickname": "early_bird",
       "statusMessage": "자유로운 영혼",
       "bio": "빵순이",
@@ -1890,7 +1791,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up100",
       "nickname": "breeze_seeker",
       "statusMessage": "혼자가 좋은",
       "bio": "음악은 나의 친구",

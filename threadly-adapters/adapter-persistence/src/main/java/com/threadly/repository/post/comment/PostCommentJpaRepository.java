@@ -46,7 +46,7 @@ public interface PostCommentJpaRepository extends JpaRepository<PostCommentEntit
              pc.status            as status
       from post_comments pc
                join users u on pc.user_id = u.user_id
-               join user_profile up on u.user_profile_id = up.user_profile_id
+               join user_profile up on u.user_id = up.user_id
                left join(select comment_id,
                                 count(*) like_count,
                                 max(
@@ -77,7 +77,7 @@ public interface PostCommentJpaRepository extends JpaRepository<PostCommentEntit
              coalesce(user_liked.liked, false)  as liked
       from post_comments pc
                join users u on pc.user_id = u.user_id
-               join user_profile up on u.user_profile_id = up.user_profile_id
+               join user_profile up on u.user_id = up.user_id
                left join(select comment_id,
                                 count(*) as like_count
                          from comment_likes
@@ -100,7 +100,7 @@ public interface PostCommentJpaRepository extends JpaRepository<PostCommentEntit
       @Param("limit") int limit);
 
   /**
-   * 게시그 댓글 상태 조회
+   * 게시글 댓글 상태 조회
    *
    * @param commentId
    * @return

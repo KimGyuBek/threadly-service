@@ -28,6 +28,8 @@ import com.threadly.post.view.RecordPostViewPort;
 import com.threadly.properties.TtlProperties;
 import com.threadly.user.FetchUserPort;
 import com.threadly.user.UserProfile;
+import com.threadly.user.profile.fetch.FetchUserProfilePort;
+import com.threadly.user.profile.fetch.UserPreviewProjection;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -60,13 +62,11 @@ public class PostCommandService implements CreatePostUseCase, UpdatePostUseCase,
 
   private final TtlProperties ttlProperties;
 
+  private final FetchUserProfilePort fetchUserProfilePort;
+
   @Transactional
   @Override
   public CreatePostApiResponse createPost(CreatePostCommand command) {
-
-    /*사용자 프로필 조회*/
-    UserProfile userProfile = getUserProfile(command.getUserId());
-
     /*post 도메인 생성*/
     Post newPost = Post.newPost(command.getUserId(), command.getContent());
 
@@ -96,10 +96,14 @@ public class PostCommandService implements CreatePostUseCase, UpdatePostUseCase,
       ).toList();
     }
 
+    /*사용자 프로필 조회*/
+    UserPreviewProjection userPreview = fetchUserProfilePort.findUserPreviewByUserId(
+        command.getUserId());
+
     return new CreatePostApiResponse(
         savedPost.getPostId(),
-        userProfile.getProfileImageUrl(),
-        userProfile.getNickname(),
+        userPreview.getProfileImageUrl(),
+        userPreview.getNickname(),
         savedPost.getUserId(),
         savedPost.getContent(),
         postImageApiResponse,
@@ -198,18 +202,5 @@ public class PostCommandService implements CreatePostUseCase, UpdatePostUseCase,
         fetchPostPort.fetchById(command).orElseThrow(
             () -> new PostException(ErrorCode.POST_NOT_FOUND)
         );
-  }
-
-  /**
-   * userProfile 조회
-   *
-   * @param userId
-   * @return
-   */
-  private UserProfile getUserProfile(String userId) {
-    return
-        fetchUserPort.getUserProfile(userId)
-            .orElseThrow(() -> new UserException(
-                ErrorCode.USER_PROFILE_NOT_FOUND));
   }
 }

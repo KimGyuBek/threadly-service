@@ -74,6 +74,17 @@ public class User {
             .build();
   }
 
+  /**
+   * userId만 포함한 user 도메인 객체 생성
+   * @param userId
+   * @return
+   */
+  public static User of(String userId) {
+    return User.builder()
+        .userId(userId)
+        .build();
+  }
+
   /*UserProfile*/
 
   /**
@@ -89,12 +100,13 @@ public class User {
   public UserProfile setUserProfile(String nickname, String statusMessage, String bio, String phone,
       UserGenderType genderType) {
     return UserProfile.setProfile(
+        this.userId,
         nickname,
         statusMessage,
         bio,
         phone,
         genderType
-        );
+    );
   }
 
   public void setUserProfile(UserProfile userProfile) {
@@ -114,9 +126,9 @@ public class User {
 //      UserGenderType gender, String profileImageUrl) {
 //    userProfile.updateProfile(nickname, statusMessage, bio, gender, profileImageUrl);
 //  }
-  public String getUserProfileId() {
-    return userProfile.getUserProfileId();
-  }
+//  public String getUserProfileId() {
+//    return userProfile.getUserProfileId();
+//  }
 
   public String getNickname() {
     return userProfile.getNickname();

@@ -54,9 +54,4 @@ public class UserQueryService implements GetUserUseCase {
             .isActive(user.isActive())
             .build();
   }
-
-  @Override
-  public boolean isUserProfileExists(String userId) {
-    return fetchUserPort.existsUserProfileByUserId(userId);
-  }
 }

@@ -37,7 +37,6 @@ public class UserFixtureDto {
   @AllArgsConstructor
   public static class UserProfileFixtureDto {
 
-    private String userProfileId;
     private String nickname;
     private String statusMessage;
     private String bio;

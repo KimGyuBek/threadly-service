@@ -9,7 +9,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up0",
       "nickname": "__writer__",
       "statusMessage": "나는 작성자",
       "bio": "작성자다",
@@ -28,7 +27,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up1",
       "nickname": "sunset_gazer",
       "statusMessage": "혼자가 좋은",
       "bio": "아침형 인간",
@@ -47,7 +45,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up2",
       "nickname": "sky_gazer",
       "statusMessage": "기록하는 삶",
       "bio": "고양이 집사",
@@ -66,7 +63,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up3",
       "nickname": "book_worm",
       "statusMessage": "나만의 시간",
       "bio": "강아지 산책러",
@@ -85,7 +81,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up4",
       "nickname": "beach_bum",
       "statusMessage": "작지만 확실한 행복",
       "bio": "아침형 인간",
@@ -104,7 +99,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up5",
       "nickname": "early_bird",
       "statusMessage": "혼자가 좋은",
       "bio": "맛집 탐방 중",
@@ -123,7 +117,6 @@
     "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up6",
       "nickname": "mountain_hiker",
       "statusMessage": "작지만 확실한 행복",
       "bio": "아침형 인간",

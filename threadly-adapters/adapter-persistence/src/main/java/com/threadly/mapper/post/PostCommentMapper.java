@@ -25,7 +25,8 @@ public class PostCommentMapper {
         entity.getPost().getPostId(),
         entity.getUser().getUserId(),
         entity.getContent(),
-        entity.getStatus()
+        entity.getStatus(),
+        entity.getCreatedAt()
     );
   }
 

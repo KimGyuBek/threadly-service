@@ -3,7 +3,6 @@ package com.threadly.post.comment;
 import com.threadly.exception.ErrorCode;
 import com.threadly.exception.post.PostCommentException;
 import com.threadly.exception.post.PostException;
-import com.threadly.exception.user.UserException;
 import com.threadly.post.Post;
 import com.threadly.post.PostCommentStatus;
 import com.threadly.post.PostStatus;
@@ -14,7 +13,6 @@ import com.threadly.post.comment.CannotDeleteCommentException.WriteMismatchExcep
 import com.threadly.post.comment.create.CreatePostCommentApiResponse;
 import com.threadly.post.comment.create.CreatePostCommentCommand;
 import com.threadly.post.comment.create.CreatePostCommentPort;
-import com.threadly.post.comment.create.CreatePostCommentResponse;
 import com.threadly.post.comment.create.CreatePostCommentUseCase;
 import com.threadly.post.comment.delete.DeletePostCommentCommand;
 import com.threadly.post.comment.delete.DeletePostCommentUseCase;
@@ -22,8 +20,8 @@ import com.threadly.post.comment.fetch.FetchPostCommentPort;
 import com.threadly.post.comment.update.UpdatePostCommentPort;
 import com.threadly.post.fetch.FetchPostPort;
 import com.threadly.post.like.comment.DeletePostCommentLikePort;
-import com.threadly.user.FetchUserPort;
-import com.threadly.user.User;
+import com.threadly.user.profile.fetch.FetchUserProfilePort;
+import com.threadly.user.profile.fetch.UserPreviewProjection;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,7 +42,8 @@ public class PostCommentCommandService implements CreatePostCommentUseCase,
 
   private final DeletePostCommentLikePort deletePostCommentLikePort;
 
-  private final FetchUserPort fetchUserPort;
+  private final FetchUserProfilePort fetchUserProfilePort;
+
 
   @Override
   public CreatePostCommentApiResponse createPostComment(CreatePostCommentCommand command) {
@@ -61,26 +60,23 @@ public class PostCommentCommandService implements CreatePostCommentUseCase,
       throw new PostException(ErrorCode.POST_ARCHIVED);
     }
 
-    /*사용자 조회*/
-    /*TODO 중복 검증?*/
-    User user = fetchUserPort.findByUserIdWithUserProfile(command.getUserId())
-        .orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
-
     /*게시글 생성*/
     PostComment newComment = post.addComment(command.getUserId(), command.getContent());
 
-    /*저장*/
-    /*TODO DTO로 묶기*/
-    CreatePostCommentResponse createPostCommentResponse = createPostCommentPort.savePostComment(
-        newComment);
+    /*댓글 저장*/
+    createPostCommentPort.savePostComment(newComment);
+
+    /*comment preview 조회*/
+    UserPreviewProjection userCommentPreview = fetchUserProfilePort.findUserPreviewByUserId(
+        newComment.getUserId());
 
     return new CreatePostCommentApiResponse(
-        createPostCommentResponse.commentId(),
-        createPostCommentResponse.userId(),
-        user.getNickname(),
-        user.getProfileImageUrl(),
-        createPostCommentResponse.content(),
-        createPostCommentResponse.createdAt()
+        newComment.getCommentId(),
+        newComment.getUserId(),
+        userCommentPreview.getNickname(),
+        userCommentPreview.getProfileImageUrl(),
+        newComment.getContent(),
+        newComment.getCreatedAt()
     );
   }
 

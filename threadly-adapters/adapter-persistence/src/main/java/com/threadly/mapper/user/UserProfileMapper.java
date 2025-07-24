@@ -13,7 +13,7 @@ public class UserProfileMapper {
    */
   public static UserProfile toDomain(UserProfileEntity entity) {
     return UserProfile.builder()
-        .userProfileId(entity.getUserProfileId())
+        .userId(entity.getUserId())
         .nickname(entity.getNickname())
         .statusMessage(entity.getStatusMessage())
         .bio(entity.getBio())
@@ -32,7 +32,7 @@ public class UserProfileMapper {
   public static UserProfileEntity toEntity(UserProfile domain) {
     return
         UserProfileEntity.newUserProfile(
-            domain.getUserProfileId(),
+            domain.getUserId(),
             domain.getNickname(),
             domain.getStatusMessage(),
             domain.getBio(),
@@ -40,5 +40,4 @@ public class UserProfileMapper {
             domain.getUserProfileType(),
             domain.getProfileImageUrl());
   }
-
 }
