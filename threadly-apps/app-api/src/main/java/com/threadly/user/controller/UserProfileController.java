@@ -5,7 +5,6 @@ import com.threadly.auth.verification.ReissueTokenUseCase;
 import com.threadly.user.profile.get.GetMyProfileEditApiResponse;
 import com.threadly.user.profile.get.GetUserProfileApiResponse;
 import com.threadly.user.profile.get.GetUserProfileUseCase;
-import com.threadly.user.profile.register.RegisterUserProfileCommand;
 import com.threadly.user.profile.register.RegisterUserProfileUseCase;
 import com.threadly.user.profile.register.UserProfileRegistrationApiResponse;
 import com.threadly.user.profile.update.UpdateUserProfileUseCase;
@@ -73,16 +72,8 @@ public class UserProfileController {
       @RequestBody RegisterUserProfileRequest request) {
 
     /*프로필 설정*/
-    registerUserProfileUseCase.registerUserProfile(
-        new RegisterUserProfileCommand(
-            user.getUserId(),
-            request.getNickname(),
-            request.getStatusMessage(),
-            request.getBio(),
-            request.getPhone(),
-            request.getGender(),
-            request.getProfileImageUrl())
-    );
+    registerUserProfileUseCase.registerUserProfile(request.toCommand(user.getUserId()));
+
     return ResponseEntity.status(201).body(
         reissueTokenUseCase.reissueToken(user.getUserId())
     );

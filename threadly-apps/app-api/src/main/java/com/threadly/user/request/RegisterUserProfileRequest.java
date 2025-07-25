@@ -1,6 +1,7 @@
 package com.threadly.user.request;
 
 import com.threadly.user.UserGenderType;
+import com.threadly.user.profile.register.RegisterUserProfileCommand;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,5 +20,22 @@ public class RegisterUserProfileRequest {
   private String phone;
   private UserGenderType gender;
   private String profileImageUrl;
+
+  /**
+   * request -> command
+   * @param userId
+   * @return
+   */
+  public RegisterUserProfileCommand toCommand(String userId) {
+    return new RegisterUserProfileCommand(
+        userId,
+        nickname,
+        statusMessage,
+        bio,
+        phone,
+        gender,
+        profileImageUrl
+    );
+  }
 }
 

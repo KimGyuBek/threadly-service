@@ -157,6 +157,7 @@ public class User {
             .email(email)
             .phone(phone)
             .userType(UserType.USER)
+            .userStatusType(UserStatusType.ACTIVE)
             .build();
   }
 

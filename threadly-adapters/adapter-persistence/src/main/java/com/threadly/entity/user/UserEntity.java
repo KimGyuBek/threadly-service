@@ -46,7 +46,7 @@ public class UserEntity extends BaseEntity {
   @Column(name = "user_type")
   private UserType userType;
 
-  @Column(name = "status")
+  @Column(name = "status", insertable = false)
   @Enumerated(EnumType.STRING)
   private UserStatusType userStatusType;
 

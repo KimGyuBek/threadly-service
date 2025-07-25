@@ -68,7 +68,11 @@ public class UserFixtureLoader {
 
     for (int i = 0; i < count; i++) {
       UserFixtureDto dto = fixtures.get(i);
-      User user = UserFixtureMapper.toUser(dto);
+//      User user = UserFixtureMapper.toUser(dto);
+
+      User user = User.newTestUser(dto.getUserId(),
+          dto.getUserName(),
+          dto.getPassword(), dto.getEmail(), dto.getPhone());
 
       if (dto.isEmailVerified()) {
         user.setEmailVerified();
