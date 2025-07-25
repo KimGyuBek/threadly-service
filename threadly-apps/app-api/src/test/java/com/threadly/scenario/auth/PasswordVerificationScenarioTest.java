@@ -30,12 +30,6 @@ import org.springframework.transaction.annotation.Transactional;
  * auth - password Verification 테스트
  */
 public class PasswordVerificationScenarioTest extends BaseApiTest {
-
-  @BeforeEach
-  void setUp() throws Exception {
-    super.setUpDefaultUser();
-  }
-
   @Nested
   @DisplayName("사용자 이중 인증 시라니오 테스트")
   @TestMethodOrder(MethodOrderer.OrderAnnotation.class)

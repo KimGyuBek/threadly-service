@@ -46,7 +46,6 @@ public class LoginScenarioTest extends BaseApiTest {
   @BeforeEach
   public void setUp() throws Exception {
     loginAttemptHelper.clearRedis();
-    super.setUpDefaultUser();
   }
 
   /* 로그인 시나리오 테스트*/

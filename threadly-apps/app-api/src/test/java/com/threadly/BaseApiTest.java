@@ -4,11 +4,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.threadly.auth.request.UserLoginRequest;
+import com.threadly.auth.token.response.LoginTokenResponse;
 import com.threadly.testsupport.fixture.users.UserFixtureLoader;
 import com.threadly.utils.TestLogUtils;
 import java.io.UnsupportedEncodingException;
@@ -49,6 +51,22 @@ public abstract class BaseApiTest {
   private ObjectMapper objectMapper;
 
   public static final String PASSWORD = "1234";
+
+  /**
+   * 로그인 후 accessToken 추출
+   *
+   * @param email
+   * @return
+   * @throws Exception
+   */
+  public String getAccessToken(String email) throws Exception {
+    CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(
+        email, PASSWORD, new TypeReference<>() {
+        },
+        status().isOk()
+    );
+    return loginResponse.getData().accessToken();
+  }
 
   /**
    * login 요청

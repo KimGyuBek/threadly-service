@@ -2,7 +2,7 @@ package com.threadly.testsupport.dto.users;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.threadly.user.UserGenderType;
-import com.threadly.user.UserProfileType;
+import com.threadly.user.profile.UserProfileType;
 import com.threadly.user.UserType;
 import lombok.AllArgsConstructor;
 import lombok.Data;

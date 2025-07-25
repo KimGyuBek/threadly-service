@@ -11,7 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class ResiterUserProfileRequest {
+public class RegisterUserProfileRequest {
 
   private String nickname;
   private String statusMessage;

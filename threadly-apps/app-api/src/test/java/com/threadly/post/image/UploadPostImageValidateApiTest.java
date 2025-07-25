@@ -35,8 +35,6 @@ public class UploadPostImageValidateApiTest extends BasePostImageApiTest {
 
   @BeforeEach
   void setUp() throws Exception {
-    super.setUpDefaultUser();
-
     /*로그인*/
     accessToken = getAccessToken(EMAIL_VERIFIED_USER_1);
     /*게시글 생성 후 postId 가져오기*/

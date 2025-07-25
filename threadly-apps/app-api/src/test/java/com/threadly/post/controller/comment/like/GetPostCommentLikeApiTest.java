@@ -36,7 +36,6 @@ public class GetPostCommentLikeApiTest extends BasePostApiTest {
 
   @BeforeEach
   void setUp() throws Exception {
-    super.setUpDefaultUser();
     postCommentLikeFixtureLoader.load(
         "/posts/comments/likes/get-comment-like/user.json",
         "/posts/comments/likes/get-comment-like/post.json",

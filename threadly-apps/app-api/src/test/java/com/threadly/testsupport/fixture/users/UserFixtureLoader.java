@@ -7,7 +7,7 @@ import com.threadly.testsupport.dto.users.UserFixtureDto;
 import com.threadly.testsupport.fixture.FixtureLoader;
 import com.threadly.testsupport.mapper.users.UserFixtureMapper;
 import com.threadly.user.User;
-import com.threadly.user.UserProfile;
+import com.threadly.user.profile.UserProfile;
 import com.threadly.utils.TestLogUtils;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;

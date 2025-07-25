@@ -49,7 +49,6 @@ public class DeletePostApiTest extends BasePostImageApiTest {
 
   @BeforeEach
   void setUp() throws IOException {
-    super.setUpDefaultUser();
     super.clearFiles();
 
     postCommentLikeFixtureLoader.load(

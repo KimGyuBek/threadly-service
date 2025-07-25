@@ -9,4 +9,18 @@ public interface GetUserProfileUseCase {
    */
   boolean existsUserProfile(String userId);
 
+  /**
+   * nickname 중복 검증
+   * @param nickname
+   */
+  void validateNicknameUnique(String nickname);
+
+  /**
+   * userId로 사용자 프로필 조회
+   * @param userId
+   * @return
+   */
+  GetUserProfileApiResponse getUserProfile(String userId);
+
+
 }

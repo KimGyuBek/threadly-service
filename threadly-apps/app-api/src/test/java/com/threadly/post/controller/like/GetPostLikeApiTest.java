@@ -37,8 +37,6 @@ public class GetPostLikeApiTest extends BasePostApiTest {
 
   @BeforeEach
   void setUp() throws Exception {
-    super.setUpDefaultUser();
-
     postLikeFixtureLoader.load(
         "/posts/likes/post-like-list/post-like-user.json",
         "/posts/likes/post-like-list/post.json",

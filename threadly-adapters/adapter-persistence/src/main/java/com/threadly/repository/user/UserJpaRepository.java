@@ -20,4 +20,5 @@ public interface UserJpaRepository extends JpaRepository<UserEntity, String> {
           + "where u.userId = :userId")
   void updateEmailVerification(@Param("userId") String userId,
       @Param("isEmailVerified") boolean isEmailVerified);
+
 }

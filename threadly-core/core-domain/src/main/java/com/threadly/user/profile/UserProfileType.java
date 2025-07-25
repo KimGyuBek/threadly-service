@@ -1,4 +1,4 @@
-package com.threadly.user;
+package com.threadly.user.profile;
 
 /**
  * 사용자 계정 타입

@@ -3,10 +3,12 @@ package com.threadly.adapter.user;
 
 import com.threadly.mapper.user.UserProfileMapper;
 import com.threadly.repository.user.UserProfileJpaRepository;
-import com.threadly.user.UserProfile;
+import com.threadly.user.profile.UserProfile;
 import com.threadly.user.profile.fetch.FetchUserProfilePort;
 import com.threadly.user.profile.fetch.UserPreviewProjection;
+import com.threadly.user.profile.fetch.UserProfileProjection;
 import com.threadly.user.profile.save.SaveUserProfilePort;
+import java.util.Optional;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -39,5 +41,15 @@ public class UserProfilePersistenceAdapter implements FetchUserProfilePort, Save
   public boolean existsUserProfileByUserId(String userId) {
     return
         userProfileJpaRepository.existsById(userId);
+  }
+
+  @Override
+  public boolean existsByNickname(String nickname) {
+    return userProfileJpaRepository.existsByNickname(nickname);
+  }
+
+  @Override
+  public Optional<UserProfileProjection> findUserProfileByUserId(String userId) {
+    return userProfileJpaRepository.findUserProfileByUserId(userId);
   }
 }

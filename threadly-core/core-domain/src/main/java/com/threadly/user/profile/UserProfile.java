@@ -1,6 +1,7 @@
-package com.threadly.user;
+package com.threadly.user.profile;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.threadly.user.UserGenderType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -45,6 +46,27 @@ public class UserProfile {
         UserProfileType.USER,
         "/"
     );
+  }
+
+  /**
+   * 프로필 업데이트
+   *
+   * @param userId
+   * @param nickname
+   * @param statusMessage
+   * @param bio
+   * @param phone
+   * @param profileImageUrl
+   * @return
+   */
+  public UserProfile updateProfile(String nickname, String statusMessage,
+      String bio, String phone, String profileImageUrl) {
+    this.nickname = nickname;
+    this.statusMessage = statusMessage;
+    this.bio = bio;
+    this.phone = phone;
+    this.profileImageUrl = profileImageUrl;
+    return this;
   }
 
   /*테스트용*/

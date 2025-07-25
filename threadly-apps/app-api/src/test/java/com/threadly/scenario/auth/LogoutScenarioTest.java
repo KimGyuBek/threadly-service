@@ -26,12 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
  */
 public class LogoutScenarioTest extends BaseApiTest {
 
-
-  @BeforeEach
-  void setUp() {
-    super.setUpDefaultUser();
-  }
-
   @Nested
   @DisplayName("로그아웃 시나리오 테스트")
   class logoutTest {

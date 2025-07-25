@@ -1,7 +1,7 @@
 package com.threadly.mapper.user;
 
 import com.threadly.entity.user.UserProfileEntity;
-import com.threadly.user.UserProfile;
+import com.threadly.user.profile.UserProfile;
 
 public class UserProfileMapper {
 

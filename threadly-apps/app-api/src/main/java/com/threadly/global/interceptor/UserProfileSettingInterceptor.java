@@ -2,7 +2,6 @@ package com.threadly.global.interceptor;
 
 import com.threadly.auth.JwtTokenProvider;
 import com.threadly.exception.ErrorCode;
-import com.threadly.exception.token.TokenException;
 import com.threadly.exception.user.UserException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -36,7 +35,8 @@ public class UserProfileSettingInterceptor implements HandlerInterceptor {
       return true;
     }
 
-    boolean profileComplete = jwtTokenProvider.isProfileComplete(jwtTokenProvider.resolveToken(request));
+    boolean profileComplete = jwtTokenProvider.isProfileComplete(
+        jwtTokenProvider.resolveToken(request));
 
     if (profileComplete) {
       throw new UserException(ErrorCode.USER_PROFILE_ALREADY_SET);

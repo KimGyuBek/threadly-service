@@ -5,7 +5,6 @@ import static com.threadly.post.PostStatus.DELETED;
 
 import com.threadly.exception.ErrorCode;
 import com.threadly.exception.post.PostException;
-import com.threadly.exception.user.UserException;
 import com.threadly.post.comment.delete.DeletePostCommentUseCase;
 import com.threadly.post.create.CreatePostApiResponse;
 import com.threadly.post.create.CreatePostApiResponse.PostImageApiResponse;
@@ -27,7 +26,6 @@ import com.threadly.post.update.view.IncreaseViewCountUseCase;
 import com.threadly.post.view.RecordPostViewPort;
 import com.threadly.properties.TtlProperties;
 import com.threadly.user.FetchUserPort;
-import com.threadly.user.UserProfile;
 import com.threadly.user.profile.fetch.FetchUserProfilePort;
 import com.threadly.user.profile.fetch.UserPreviewProjection;
 import java.util.ArrayList;

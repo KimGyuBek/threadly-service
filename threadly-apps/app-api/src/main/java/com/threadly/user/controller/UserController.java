@@ -3,22 +3,30 @@ package com.threadly.user.controller;
 import com.threadly.auth.JwtAuthenticationUser;
 import com.threadly.auth.verification.EmailVerificationUseCase;
 import com.threadly.auth.verification.ReissueTokenUseCase;
+import com.threadly.user.profile.get.GetMyProfileEditApiResponse;
+import com.threadly.user.profile.get.GetUserProfileApiResponse;
+import com.threadly.user.profile.get.GetUserProfileUseCase;
 import com.threadly.user.profile.register.RegisterUserProfileCommand;
 import com.threadly.user.profile.register.RegisterUserProfileUseCase;
 import com.threadly.user.profile.register.UserProfileRegistrationApiResponse;
+import com.threadly.user.profile.update.UpdateUserProfileUseCase;
 import com.threadly.user.register.RegisterUserCommand;
 import com.threadly.user.register.RegisterUserUseCase;
 import com.threadly.user.register.UserRegistrationApiResponse;
-import com.threadly.user.request.ResiterUserProfileRequest;
+import com.threadly.user.request.RegisterUserProfileRequest;
+import com.threadly.user.request.UpdateUserProfileRequest;
 import com.threadly.user.request.UserRegisterRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -29,6 +37,9 @@ public class UserController {
   private final RegisterUserUseCase registerUserUseCase;
   private final EmailVerificationUseCase emailVerificationUseCase;
   private final RegisterUserProfileUseCase registerUserProfileUseCase;
+
+  private final UpdateUserProfileUseCase updateUserProfileUseCase;
+  private final GetUserProfileUseCase getUserProfileUseCase;
 
   private final ReissueTokenUseCase reissueTokenUseCase;
 
@@ -60,6 +71,42 @@ public class UserController {
   }
 
   /**
+   * 내 프로필 수정 용 정보 조회
+   *
+   * @return
+   */
+  @GetMapping("/profile/edit")
+  public ResponseEntity<GetMyProfileEditApiResponse> getMyProfileEdit() {
+
+    return ResponseEntity.status(200).body(null);
+  }
+
+//  /**
+//   * 사용자 프로필 조회
+//   *
+//   * @return
+//   */
+//  @GetMapping("/profile")
+//  public ResponseEntity<GetMyProfileApiResponse> getMyProfile(
+//      @AuthenticationPrincipal JwtAuthenticationUser user
+//  ) {
+//
+//    return ResponseEntity.status(200).body(null);
+//  }
+
+  /**
+   * 사용자 프로필 조회
+   *
+   * @return
+   */
+  @GetMapping("/profile/{userId}")
+  public ResponseEntity<GetUserProfileApiResponse> getOtherUserProfile(
+      @PathVariable String userId) {
+
+    return ResponseEntity.status(200).body(getUserProfileUseCase.getUserProfile(userId));
+  }
+
+  /**
    * 사용자 프로필 초기 설정
    *
    * @param user
@@ -69,9 +116,7 @@ public class UserController {
   @PostMapping("/profile")
   public ResponseEntity<UserProfileRegistrationApiResponse> setUserProfile(
       @AuthenticationPrincipal JwtAuthenticationUser user,
-      @RequestBody ResiterUserProfileRequest request) {
-
-//    URI location = URI.create("/api/user/" + user.getUserId());
+      @RequestBody RegisterUserProfileRequest request) {
 
     /*프로필 설정*/
     registerUserProfileUseCase.registerUserProfile(
@@ -89,12 +134,34 @@ public class UserController {
     );
   }
 
-//  @PatchMapping("/profile")
-//  public ResponseEntity<UpdateUserProfileApiResponse> updateUserProfile(
-//      @AuthenticationPrincipal JwtAuthenticationUser user,
-//      @RequestBody UpdateUserProfileRequest request) {
-//
-//  }
+  /**
+   * 사용자 프로필 업데이트
+   *
+   * @param user
+   * @param request
+   * @return
+   */
+  @PatchMapping("/profile")
+  public ResponseEntity<Void> updateUserProfile(
+      @AuthenticationPrincipal JwtAuthenticationUser user,
+      @RequestBody UpdateUserProfileRequest request) {
+
+    updateUserProfileUseCase.updateUserProfile(request.toCommand(user.getUserId()));
+    return ResponseEntity.status(200).build();
+  }
+
+  /**
+   * nickname 중복 체크
+   *
+   * @param nickName
+   * @return
+   */
+  @GetMapping("/profile/check")
+  public ResponseEntity<Void> checkNickname(@RequestParam("nickname") String nickName) {
+    getUserProfileUseCase.validateNicknameUnique(nickName);
+    return ResponseEntity.status(200).build();
+  }
+
 
   /**
    * 사용자 비밀번호 변경

@@ -34,7 +34,6 @@ public class CreatePostWithImageTest extends BasePostImageApiTest {
   @BeforeEach
   void setUp() throws IOException {
     super.clearFiles();
-    super.setUpDefaultUser();
   }
 
 

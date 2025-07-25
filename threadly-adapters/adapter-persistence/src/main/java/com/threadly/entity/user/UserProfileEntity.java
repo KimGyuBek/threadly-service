@@ -2,15 +2,12 @@ package com.threadly.entity.user;
 
 import com.threadly.entity.BaseEntity;
 import com.threadly.user.UserGenderType;
-import com.threadly.user.UserProfileType;
+import com.threadly.user.profile.UserProfileType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.MapsId;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

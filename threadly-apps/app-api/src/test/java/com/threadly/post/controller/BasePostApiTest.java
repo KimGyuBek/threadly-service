@@ -38,21 +38,6 @@ public abstract class BasePostApiTest extends BaseApiTest {
 
   @Autowired
   private PostJpaRepository postJpaRepository;
-  /**
-   * 로그인 후 accessToken 추출
-   *
-   * @param email
-   * @return
-   * @throws Exception
-   */
-  public String getAccessToken(String email) throws Exception {
-    CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(
-        email, PASSWORD, new TypeReference<>() {
-        },
-        status().isOk()
-    );
-    return loginResponse.getData().accessToken();
-  }
 
   /**
    * 게시글 등록 요청 전송
