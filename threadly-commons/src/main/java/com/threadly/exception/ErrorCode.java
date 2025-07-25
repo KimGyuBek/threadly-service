@@ -32,7 +32,7 @@ public enum ErrorCode {
   LOGIN_ATTEMPT_EXCEEDED("TLY2016", "로그인 시도 횟수를 초과하였습니다.", HttpStatus.TOO_MANY_REQUESTS),
   USER_PROFILE_NOT_FOUND("TLY2017", "사용자 프로필을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
   USER_PROFILE_NOT_SET("TLY2018", "사용자 프로필이 설정되지 않았습니다.", HttpStatus.FORBIDDEN),
-
+  USER_PROFILE_ALREADY_SET("TLY2019", "이미 프로필을 설정한 사용자입니다.", HttpStatus.CONFLICT),
 
   /*Token*/
   TOKEN_EXPIRED("TLY3000", "토큰이 만료되었습니다.", HttpStatus.UNAUTHORIZED),

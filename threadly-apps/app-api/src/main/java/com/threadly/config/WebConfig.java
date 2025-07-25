@@ -1,10 +1,12 @@
 package com.threadly.config;
 
+import com.threadly.global.interceptor.UserProfileSettingInterceptor;
 import com.threadly.properties.UploadProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -13,6 +15,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
 
   private final UploadProperties uploadProperties;
+
+  private final UserProfileSettingInterceptor userProfileSettingInterceptor;
 
   @Override
   public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
@@ -25,5 +29,12 @@ public class WebConfig implements WebMvcConfigurer {
     registry.addResourceHandler("/images/**")
         .addResourceLocations(
             "file:" + uploadProperties.getLocation());
+  }
+
+  @Override
+  public void addInterceptors(InterceptorRegistry registry) {
+    registry.addInterceptor(userProfileSettingInterceptor)
+        .addPathPatterns("/api/user/profile")
+        .order(1);
   }
 }

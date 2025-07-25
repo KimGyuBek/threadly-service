@@ -42,7 +42,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
       FilterChain filterChain) throws ServletException, IOException {
     try {
-      String token = resolveToken(request);
+      String token = jwtTokenProvider.resolveToken(request);
 
       /*blacklist token 조회 후 있을경우 예외 처리*/
       if (authManager.isBlacklisted(token)) {
@@ -58,6 +58,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             request.getRequestURI())) {
           throw new UserException(ErrorCode.USER_PROFILE_NOT_SET);
         }
+
         /*TODO 성능 부하*/
         Authentication authentication = jwtTokenProvider.getAuthentication(token);
 
@@ -81,19 +82,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     filterChain.doFilter(request, response);
-  }
-
-  private static String resolveToken(HttpServletRequest request) {
-    /*authorization header 가져오기*/
-    String bearerToken = request.getHeader("Authorization");
-
-    /*bearer Token이 존재할 경우*/
-    if (bearerToken != null && bearerToken.startsWith("Bearer")) {
-      return bearerToken.substring(7);
-    }
-
-    /*존재하지 않을 경우*/
-    throw new TokenException(ErrorCode.TOKEN_MISSING);
   }
 
   /**

@@ -21,8 +21,6 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class UserProfileCommandService implements RegisterUserProfileUseCase {
 
-  private final FetchUserPort fetchUserPort;
-
   private final SaveUserProfilePort saveUserProfilePort;
 
 
