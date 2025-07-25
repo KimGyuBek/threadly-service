@@ -6,7 +6,7 @@
     "email": "writer@threadly.com",
     "phone": "010-3148-6830",
     "userType": "USER",
-    "isActive": true,
+
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "__writer__",
@@ -24,7 +24,7 @@
     "email": "sunset_gazer1@threadly.com",
     "phone": "010-3178-6830",
     "userType": "USER",
-    "isActive": true,
+
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "sunset_gazer",
@@ -42,7 +42,7 @@
     "email": "sky_gazer2@threadly.com",
     "phone": "010-3014-5653",
     "userType": "USER",
-    "isActive": true,
+
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "sky_gazer",
@@ -60,7 +60,7 @@
     "email": "book_worm3@threadly.com",
     "phone": "010-3871-7464",
     "userType": "USER",
-    "isActive": true,
+
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "book_worm",
@@ -78,7 +78,7 @@
     "email": "beach_bum4@threadly.com",
     "phone": "010-9129-4788",
     "userType": "USER",
-    "isActive": true,
+
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "beach_bum",
@@ -96,7 +96,7 @@
     "email": "early_bird5@threadly.com",
     "phone": "010-8655-3240",
     "userType": "USER",
-    "isActive": true,
+
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "early_bird",
@@ -114,7 +114,7 @@
     "email": "mountain_hiker6@threadly.com",
     "phone": "010-5527-8804",
     "userType": "USER",
-    "isActive": true,
+
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "mountain_hiker",

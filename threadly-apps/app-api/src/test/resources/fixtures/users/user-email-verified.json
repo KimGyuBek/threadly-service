@@ -6,7 +6,6 @@
     "email": "sunset_gazer1@threadly.com",
     "phone": "010-3178-6830",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "sunset_gazer",
@@ -24,7 +23,6 @@
     "email": "sky_gazer2@threadly.com",
     "phone": "010-3014-5653",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "sky_gazer",
@@ -42,7 +40,6 @@
     "email": "no_profile@threadly.com",
     "phone": "010-3014-5653",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": null
   }

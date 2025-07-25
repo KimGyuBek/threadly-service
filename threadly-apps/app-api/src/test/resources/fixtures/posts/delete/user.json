@@ -6,7 +6,7 @@
     "email": "user_1@threadly.com",
     "phone": "010-0000-0000",
     "userType": "USER",
-    "isActive": true,
+
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "nick0",
@@ -23,7 +23,7 @@
     "email": "user_2@threadly.com",
     "phone": "010-0000-0001",
     "userType": "USER",
-    "isActive": true,
+
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "nick1",
@@ -40,7 +40,7 @@
     "email": "user_3@threadly.com",
     "phone": "010-0000-0002",
     "userType": "USER",
-    "isActive": true,
+
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "nick2",
@@ -57,7 +57,7 @@
     "email": "user_4@threadly.com",
     "phone": "010-0000-0003",
     "userType": "USER",
-    "isActive": true,
+
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "nick3",
@@ -74,7 +74,7 @@
     "email": "user5@threadly.com",
     "phone": "010-0000-0004",
     "userType": "USER",
-    "isActive": true,
+
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "nick4",
@@ -91,7 +91,7 @@
     "email": "user6@threadly.com",
     "phone": "010-0000-0005",
     "userType": "USER",
-    "isActive": true,
+
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "nick5",
@@ -108,7 +108,7 @@
     "email": "user7@threadly.com",
     "phone": "010-0000-0006",
     "userType": "USER",
-    "isActive": true,
+
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "nick6",
@@ -125,7 +125,7 @@
     "email": "user8@threadly.com",
     "phone": "010-0000-0007",
     "userType": "USER",
-    "isActive": true,
+
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "nick7",
@@ -142,7 +142,7 @@
     "email": "user9@threadly.com",
     "phone": "010-0000-0008",
     "userType": "USER",
-    "isActive": true,
+
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "nick8",
@@ -159,7 +159,7 @@
     "email": "user10@threadly.com",
     "phone": "010-0000-0009",
     "userType": "USER",
-    "isActive": true,
+
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "nick9",
@@ -176,7 +176,7 @@
     "email": "author@threadly.com",
     "phone": "010-0000-00010",
     "userType": "USER",
-    "isActive": true,
+
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "nick10",

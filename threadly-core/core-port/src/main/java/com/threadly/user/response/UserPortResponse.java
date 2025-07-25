@@ -1,5 +1,6 @@
 package com.threadly.user.response;
 
+import com.threadly.user.UserStatusType;
 import com.threadly.user.UserType;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,7 +21,7 @@ public class UserPortResponse {
 
   private UserType userType;
 
-  private boolean isActive;
+  private UserStatusType userStatusType;
 
   private boolean isEmailVerified;
 

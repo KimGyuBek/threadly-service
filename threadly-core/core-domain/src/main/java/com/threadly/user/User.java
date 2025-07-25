@@ -21,7 +21,7 @@ public class User {
   private String email;
   private String phone;
   private UserType userType;
-  private boolean isActive;
+  private UserStatusType userStatusType;
   private boolean isEmailVerified;
 
   private UserProfile userProfile;
@@ -38,20 +38,6 @@ public class User {
 
   public boolean hasUserProfile() {
     return userProfile != null;
-  }
-
-
-  private User(String userName, String password, String email, String phone,
-      UserType userType) {
-    this.userId = null;
-    this.userName = userName;
-    this.password = password;
-    this.email = email;
-    this.phone = phone;
-    this.userType = userType;
-    this.isActive = true;
-    this.isEmailVerified = false;
-    this.userProfile = null;
   }
 
   /**
@@ -72,6 +58,7 @@ public class User {
             .email(email)
             .phone(phone)
             .userType(UserType.USER)
+            .userStatusType(UserStatusType.ACTIVE)
             .build();
   }
 
@@ -127,23 +114,6 @@ public class User {
     this.userProfile = userProfile;
   }
 
-  /**
-   * userProfile 업데이트
-   *
-   * @param nickname
-   * @param statusMessage
-   * @param bio
-   * @param gender
-   * @param profileImageUrl
-   */
-//  public void updateUserProfile(String nickname, String statusMessage, String bio,
-//      UserGenderType gender, String profileImageUrl) {
-//    userProfile.updateProfile(nickname, statusMessage, bio, gender, profileImageUrl);
-//  }
-//  public String getUserProfileId() {
-//    return userProfile.getUserProfileId();
-//  }
-
   public String getNickname() {
     return userProfile.getNickname();
   }
@@ -159,10 +129,6 @@ public class User {
   public UserGenderType getGender() {
     return userProfile.getGenderType();
   }
-
-//  public UserProfileType getProfileType() {
-//    return userProfile.getProfileType();
-//  }
 
   public String getProfileImageUrl() {
     return userProfile.getProfileImageUrl();

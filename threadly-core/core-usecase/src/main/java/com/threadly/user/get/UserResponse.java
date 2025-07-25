@@ -1,5 +1,6 @@
 package com.threadly.user.get;
 
+import com.threadly.user.UserStatusType;
 import com.threadly.user.UserType;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +15,7 @@ public class UserResponse {
   private String email;
   private String phone;
   private UserType userType;
-  private boolean isActive;
+  private UserStatusType userStatusType;
   private boolean isEmailVerified;
   private UserType type;
 

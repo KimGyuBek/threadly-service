@@ -6,7 +6,7 @@
     "email": "writer@threadly.com",
     "phone": "010-3148-6830",
     "userType": "USER",
-    "isActive": true,
+
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "__writer__",
@@ -24,7 +24,7 @@
     "email": "commentliker@threadly.com",
     "phone": "010-3178-6830",
     "userType": "USER",
-    "isActive": true,
+
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "__comment_liker__",
@@ -42,7 +42,7 @@
     "email": "commentNotLiker@threadly.com",
     "phone": "010-3014-5653",
     "userType": "USER",
-    "isActive": true,
+
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "__comment_not_liker__",

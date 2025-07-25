@@ -51,7 +51,7 @@ public class UserCommandService implements RegisterUserUseCase, UpdateUserUseCas
         .userName(userPortResponse.getUserName())
         .userType(userPortResponse.getUserType())
         .email(userPortResponse.getEmail())
-        .isActive(userPortResponse.isActive())
+        .userStatusType(userPortResponse.getUserStatusType())
         .isEmailVerified(userPortResponse.isEmailVerified())
         .build();
   }

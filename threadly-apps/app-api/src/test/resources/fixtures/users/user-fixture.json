@@ -6,7 +6,6 @@
     "email": "sunset_gazer1@threadly.com",
     "phone": "010-3178-6830",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "sunset_gazer",
@@ -24,7 +23,6 @@
     "email": "sky_gazer2@threadly.com",
     "phone": "010-3014-5653",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "sky_gazer",
@@ -42,7 +40,6 @@
     "email": "book_worm3@threadly.com",
     "phone": "010-3871-7464",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "book_worm",
@@ -60,7 +57,6 @@
     "email": "beach_bum4@threadly.com",
     "phone": "010-9129-4788",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "beach_bum",
@@ -78,7 +74,6 @@
     "email": "early_bird5@threadly.com",
     "phone": "010-8655-3240",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "early_bird",
@@ -96,7 +91,6 @@
     "email": "mountain_hiker6@threadly.com",
     "phone": "010-5527-8804",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "mountain_hiker",
@@ -114,7 +108,6 @@
     "email": "dream_chaser7@threadly.com",
     "phone": "010-7482-1250",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "dream_chaser",
@@ -132,7 +125,6 @@
     "email": "night_owl8@threadly.com",
     "phone": "010-2545-7173",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "night_owl",
@@ -150,7 +142,6 @@
     "email": "mountain_hiker9@threadly.com",
     "phone": "010-1760-3127",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "mountain_hiker",
@@ -168,7 +159,6 @@
     "email": "mountain_hiker10@threadly.com",
     "phone": "010-1776-4294",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "mountain_hiker",
@@ -186,7 +176,6 @@
     "email": "dream_chaser11@threadly.com",
     "phone": "010-7631-5198",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "dream_chaser",
@@ -204,7 +193,6 @@
     "email": "breeze_seeker12@threadly.com",
     "phone": "010-3832-8438",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "breeze_seeker",
@@ -222,7 +210,6 @@
     "email": "early_bird13@threadly.com",
     "phone": "010-1033-2146",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "early_bird",
@@ -240,7 +227,6 @@
     "email": "silent_walker14@threadly.com",
     "phone": "010-5786-6878",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "silent_walker",
@@ -258,7 +244,6 @@
     "email": "beach_bum15@threadly.com",
     "phone": "010-2610-3409",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "beach_bum",
@@ -276,7 +261,6 @@
     "email": "sky_gazer16@threadly.com",
     "phone": "010-7076-3302",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "sky_gazer",
@@ -294,7 +278,6 @@
     "email": "city_runner17@threadly.com",
     "phone": "010-3878-3680",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "city_runner",
@@ -312,7 +295,6 @@
     "email": "beach_bum18@threadly.com",
     "phone": "010-3870-6011",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "beach_bum",
@@ -330,7 +312,6 @@
     "email": "wave_rider19@threadly.com",
     "phone": "010-2313-7267",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "wave_rider",
@@ -348,7 +329,6 @@
     "email": "tea_addict20@threadly.com",
     "phone": "010-5752-6635",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "tea_addict",
@@ -366,7 +346,6 @@
     "email": "sunset_gazer21@threadly.com",
     "phone": "010-7853-9054",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "sunset_gazer",
@@ -384,7 +363,6 @@
     "email": "night_owl22@threadly.com",
     "phone": "010-3136-2759",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "night_owl",
@@ -402,7 +380,6 @@
     "email": "lazy_sunday23@threadly.com",
     "phone": "010-3847-8574",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "lazy_sunday",
@@ -420,7 +397,6 @@
     "email": "tea_addict24@threadly.com",
     "phone": "010-6072-3638",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "tea_addict",
@@ -438,7 +414,6 @@
     "email": "coffee_lover25@threadly.com",
     "phone": "010-4792-1062",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "coffee_lover",
@@ -456,7 +431,6 @@
     "email": "sky_gazer26@threadly.com",
     "phone": "010-5996-9196",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "sky_gazer",
@@ -474,7 +448,6 @@
     "email": "rainy_day27@threadly.com",
     "phone": "010-1003-4840",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "rainy_day",
@@ -492,7 +465,6 @@
     "email": "breeze_seeker28@threadly.com",
     "phone": "010-9502-9519",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "breeze_seeker",
@@ -510,7 +482,6 @@
     "email": "sunset_gazer29@threadly.com",
     "phone": "010-1666-3495",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "sunset_gazer",
@@ -528,7 +499,6 @@
     "email": "silent_walker30@threadly.com",
     "phone": "010-7852-3123",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "silent_walker",
@@ -546,7 +516,6 @@
     "email": "lazy_sunday31@threadly.com",
     "phone": "010-7845-7071",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "lazy_sunday",
@@ -564,7 +533,6 @@
     "email": "tea_addict32@threadly.com",
     "phone": "010-8811-3908",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "tea_addict",
@@ -582,7 +550,6 @@
     "email": "lazy_sunday33@threadly.com",
     "phone": "010-8063-4602",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "lazy_sunday",
@@ -600,7 +567,6 @@
     "email": "rainy_day34@threadly.com",
     "phone": "010-6607-1388",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "rainy_day",
@@ -618,7 +584,6 @@
     "email": "book_worm35@threadly.com",
     "phone": "010-4359-7613",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "book_worm",
@@ -636,7 +601,6 @@
     "email": "bike_rider36@threadly.com",
     "phone": "010-5614-2603",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "bike_rider",
@@ -654,7 +618,6 @@
     "email": "sunset_gazer37@threadly.com",
     "phone": "010-8448-8526",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "sunset_gazer",
@@ -672,7 +635,6 @@
     "email": "art_junkie38@threadly.com",
     "phone": "010-9604-7898",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "art_junkie",
@@ -690,7 +652,6 @@
     "email": "mountain_hiker39@threadly.com",
     "phone": "010-7982-8307",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "mountain_hiker",
@@ -708,7 +669,6 @@
     "email": "beach_bum40@threadly.com",
     "phone": "010-2505-1538",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "beach_bum",
@@ -726,7 +686,6 @@
     "email": "silent_walker41@threadly.com",
     "phone": "010-1538-8447",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "silent_walker",
@@ -744,7 +703,6 @@
     "email": "wave_rider42@threadly.com",
     "phone": "010-6716-2492",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "wave_rider",
@@ -762,7 +720,6 @@
     "email": "coffee_lover43@threadly.com",
     "phone": "010-8525-4194",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "coffee_lover",
@@ -780,7 +737,6 @@
     "email": "coffee_lover44@threadly.com",
     "phone": "010-6262-5004",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "coffee_lover",
@@ -798,7 +754,6 @@
     "email": "dream_chaser45@threadly.com",
     "phone": "010-4528-2154",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "dream_chaser",
@@ -816,7 +771,6 @@
     "email": "dream_chaser46@threadly.com",
     "phone": "010-9553-9899",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "dream_chaser",
@@ -834,7 +788,6 @@
     "email": "book_worm47@threadly.com",
     "phone": "010-4075-7538",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "book_worm",
@@ -852,7 +805,6 @@
     "email": "dream_chaser48@threadly.com",
     "phone": "010-1991-4858",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "dream_chaser",
@@ -870,7 +822,6 @@
     "email": "art_junkie49@threadly.com",
     "phone": "010-9136-9520",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "art_junkie",
@@ -888,7 +839,6 @@
     "email": "lazy_sunday50@threadly.com",
     "phone": "010-5420-7138",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "lazy_sunday",
@@ -906,7 +856,6 @@
     "email": "tea_addict51@threadly.com",
     "phone": "010-1584-6934",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "tea_addict",
@@ -924,7 +873,6 @@
     "email": "dream_chaser52@threadly.com",
     "phone": "010-7083-8317",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "dream_chaser",
@@ -942,7 +890,6 @@
     "email": "art_junkie53@threadly.com",
     "phone": "010-8448-2783",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "art_junkie",
@@ -960,7 +907,6 @@
     "email": "night_owl54@threadly.com",
     "phone": "010-3020-7310",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "night_owl",
@@ -978,7 +924,6 @@
     "email": "night_owl55@threadly.com",
     "phone": "010-5571-5934",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "night_owl",
@@ -996,7 +941,6 @@
     "email": "coffee_lover56@threadly.com",
     "phone": "010-3359-1998",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "coffee_lover",
@@ -1014,7 +958,6 @@
     "email": "forest_soul57@threadly.com",
     "phone": "010-1607-9652",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "forest_soul",
@@ -1032,7 +975,6 @@
     "email": "rainy_day58@threadly.com",
     "phone": "010-3146-9195",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "rainy_day",
@@ -1050,7 +992,6 @@
     "email": "gallery_goer59@threadly.com",
     "phone": "010-4261-7361",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "gallery_goer",
@@ -1068,7 +1009,6 @@
     "email": "rainy_day60@threadly.com",
     "phone": "010-2461-9456",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "rainy_day",
@@ -1086,7 +1026,6 @@
     "email": "early_bird61@threadly.com",
     "phone": "010-4361-7233",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "early_bird",
@@ -1104,7 +1043,6 @@
     "email": "rainy_day62@threadly.com",
     "phone": "010-9372-2582",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "rainy_day",
@@ -1122,7 +1060,6 @@
     "email": "dream_chaser63@threadly.com",
     "phone": "010-8380-8213",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "dream_chaser",
@@ -1140,7 +1077,6 @@
     "email": "breeze_seeker64@threadly.com",
     "phone": "010-1353-9487",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "breeze_seeker",
@@ -1158,7 +1094,6 @@
     "email": "forest_soul65@threadly.com",
     "phone": "010-4989-3838",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "forest_soul",
@@ -1176,7 +1111,6 @@
     "email": "city_runner66@threadly.com",
     "phone": "010-4447-5335",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "city_runner",
@@ -1194,7 +1128,6 @@
     "email": "city_runner67@threadly.com",
     "phone": "010-2979-4690",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "city_runner",
@@ -1212,7 +1145,6 @@
     "email": "dream_chaser68@threadly.com",
     "phone": "010-6563-6879",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "dream_chaser",
@@ -1230,7 +1162,6 @@
     "email": "city_runner69@threadly.com",
     "phone": "010-7504-1428",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "city_runner",
@@ -1248,7 +1179,6 @@
     "email": "early_bird70@threadly.com",
     "phone": "010-2313-2323",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "early_bird",
@@ -1266,7 +1196,6 @@
     "email": "coffee_lover71@threadly.com",
     "phone": "010-6824-3981",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "coffee_lover",
@@ -1284,7 +1213,6 @@
     "email": "gallery_goer72@threadly.com",
     "phone": "010-7823-4634",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "gallery_goer",
@@ -1302,7 +1230,6 @@
     "email": "breeze_seeker73@threadly.com",
     "phone": "010-5095-4892",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "breeze_seeker",
@@ -1320,7 +1247,6 @@
     "email": "forest_soul74@threadly.com",
     "phone": "010-9001-6051",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "forest_soul",
@@ -1338,7 +1264,6 @@
     "email": "breeze_seeker75@threadly.com",
     "phone": "010-5522-4162",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "breeze_seeker",
@@ -1356,7 +1281,6 @@
     "email": "city_runner76@threadly.com",
     "phone": "010-2142-3930",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "city_runner",
@@ -1374,7 +1298,6 @@
     "email": "wave_rider77@threadly.com",
     "phone": "010-9238-6257",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "wave_rider",
@@ -1392,7 +1315,6 @@
     "email": "dream_chaser78@threadly.com",
     "phone": "010-7912-5262",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "dream_chaser",
@@ -1410,7 +1332,6 @@
     "email": "early_bird79@threadly.com",
     "phone": "010-7740-1878",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "early_bird",
@@ -1428,7 +1349,6 @@
     "email": "night_owl80@threadly.com",
     "phone": "010-9201-7030",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "night_owl",
@@ -1446,7 +1366,6 @@
     "email": "sunset_gazer81@threadly.com",
     "phone": "010-6793-4605",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "sunset_gazer",
@@ -1464,7 +1383,6 @@
     "email": "dream_chaser82@threadly.com",
     "phone": "010-6375-1001",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "dream_chaser",
@@ -1482,7 +1400,6 @@
     "email": "silent_walker83@threadly.com",
     "phone": "010-6057-1830",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "silent_walker",
@@ -1500,7 +1417,6 @@
     "email": "forest_soul84@threadly.com",
     "phone": "010-6256-9511",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "forest_soul",
@@ -1518,7 +1434,6 @@
     "email": "gallery_goer85@threadly.com",
     "phone": "010-3275-4751",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "gallery_goer",
@@ -1536,7 +1451,6 @@
     "email": "forest_soul86@threadly.com",
     "phone": "010-5198-1712",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "forest_soul",
@@ -1554,7 +1468,6 @@
     "email": "night_owl87@threadly.com",
     "phone": "010-7599-5410",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "night_owl",
@@ -1572,7 +1485,6 @@
     "email": "beach_bum88@threadly.com",
     "phone": "010-5080-3149",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "beach_bum",
@@ -1590,7 +1502,6 @@
     "email": "art_junkie89@threadly.com",
     "phone": "010-1571-6909",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "art_junkie",
@@ -1608,7 +1519,6 @@
     "email": "city_runner90@threadly.com",
     "phone": "010-2599-8197",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "city_runner",
@@ -1626,7 +1536,6 @@
     "email": "lazy_sunday91@threadly.com",
     "phone": "010-5577-4475",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "lazy_sunday",
@@ -1644,7 +1553,6 @@
     "email": "bike_rider92@threadly.com",
     "phone": "010-9441-6218",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "bike_rider",
@@ -1662,7 +1570,6 @@
     "email": "coffee_lover93@threadly.com",
     "phone": "010-1427-1427",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "coffee_lover",
@@ -1680,7 +1587,6 @@
     "email": "early_bird94@threadly.com",
     "phone": "010-4769-9725",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "early_bird",
@@ -1698,7 +1604,6 @@
     "email": "lazy_sunday95@threadly.com",
     "phone": "010-1215-3443",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "lazy_sunday",
@@ -1716,7 +1621,6 @@
     "email": "mountain_hiker96@threadly.com",
     "phone": "010-7370-2349",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "mountain_hiker",
@@ -1734,7 +1638,6 @@
     "email": "rainy_day97@threadly.com",
     "phone": "010-3193-1872",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "rainy_day",
@@ -1752,7 +1655,6 @@
     "email": "tea_addict98@threadly.com",
     "phone": "010-6632-3545",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "tea_addict",
@@ -1770,7 +1672,6 @@
     "email": "early_bird99@threadly.com",
     "phone": "010-9833-3850",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "early_bird",
@@ -1788,7 +1689,6 @@
     "email": "breeze_seeker100@threadly.com",
     "phone": "010-1834-2807",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "breeze_seeker",

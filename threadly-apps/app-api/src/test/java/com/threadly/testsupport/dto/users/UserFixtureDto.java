@@ -23,8 +23,6 @@ public class UserFixtureDto {
   private String phone;
   private UserType userType;
 
-  @JsonProperty("isActive")
-  private boolean isActive;
   @JsonProperty("isEmailVerified")
   private boolean isEmailVerified;
   private UserProfileFixtureDto userProfile;

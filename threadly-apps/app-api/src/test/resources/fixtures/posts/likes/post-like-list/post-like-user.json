@@ -6,7 +6,7 @@
     "email": "user100@threadly.com",
     "phone": "010-0000-1100",
     "userType": "USER",
-    "isActive": true,
+
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "user100",
@@ -24,7 +24,7 @@
     "email": "user101@threadly.com",
     "phone": "010-0000-1101",
     "userType": "USER",
-    "isActive": true,
+
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "user101",
@@ -42,7 +42,7 @@
     "email": "user102@threadly.com",
     "phone": "010-0000-1102",
     "userType": "USER",
-    "isActive": true,
+
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "user102",
@@ -60,7 +60,7 @@
     "email": "user103@threadly.com",
     "phone": "010-0000-1103",
     "userType": "USER",
-    "isActive": true,
+
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "user103",
@@ -78,7 +78,7 @@
     "email": "user104@threadly.com",
     "phone": "010-0000-1104",
     "userType": "USER",
-    "isActive": true,
+
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "user104",
@@ -96,7 +96,7 @@
     "email": "user105@threadly.com",
     "phone": "010-0000-1105",
     "userType": "USER",
-    "isActive": true,
+
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "user105",
@@ -114,7 +114,7 @@
     "email": "user106@threadly.com",
     "phone": "010-0000-1106",
     "userType": "USER",
-    "isActive": true,
+
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "user106",
@@ -132,7 +132,7 @@
     "email": "user107@threadly.com",
     "phone": "010-0000-1107",
     "userType": "USER",
-    "isActive": true,
+
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "user107",
@@ -150,7 +150,7 @@
     "email": "user108@threadly.com",
     "phone": "010-0000-1108",
     "userType": "USER",
-    "isActive": true,
+
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "user108",
@@ -168,7 +168,7 @@
     "email": "user109@threadly.com",
     "phone": "010-0000-1109",
     "userType": "USER",
-    "isActive": true,
+
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "user109",
@@ -186,7 +186,7 @@
     "email": "user110@threadly.com",
     "phone": "010-0000-1110",
     "userType": "USER",
-    "isActive": true,
+
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "user110",
@@ -204,7 +204,7 @@
     "email": "user111@threadly.com",
     "phone": "010-0000-1111",
     "userType": "USER",
-    "isActive": true,
+
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "user111",
@@ -222,7 +222,7 @@
     "email": "user112@threadly.com",
     "phone": "010-0000-1112",
     "userType": "USER",
-    "isActive": true,
+
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "user112",
@@ -240,7 +240,7 @@
     "email": "user113@threadly.com",
     "phone": "010-0000-1113",
     "userType": "USER",
-    "isActive": true,
+
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "user113",
@@ -258,7 +258,7 @@
     "email": "user114@threadly.com",
     "phone": "010-0000-1114",
     "userType": "USER",
-    "isActive": true,
+
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "user114",
@@ -276,7 +276,7 @@
     "email": "user115@threadly.com",
     "phone": "010-0000-1115",
     "userType": "USER",
-    "isActive": true,
+
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "user115",
@@ -294,7 +294,7 @@
     "email": "user116@threadly.com",
     "phone": "010-0000-1116",
     "userType": "USER",
-    "isActive": true,
+
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "user116",
@@ -312,7 +312,7 @@
     "email": "user117@threadly.com",
     "phone": "010-0000-1117",
     "userType": "USER",
-    "isActive": true,
+
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "user117",
@@ -330,7 +330,7 @@
     "email": "user118@threadly.com",
     "phone": "010-0000-1118",
     "userType": "USER",
-    "isActive": true,
+
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "user118",
@@ -348,7 +348,7 @@
     "email": "user119@threadly.com",
     "phone": "010-0000-1119",
     "userType": "USER",
-    "isActive": true,
+
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "user119",
@@ -366,7 +366,7 @@
     "email": "user120@threadly.com",
     "phone": "010-0000-1120",
     "userType": "USER",
-    "isActive": true,
+
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "user120",
@@ -384,7 +384,7 @@
     "email": "user121@threadly.com",
     "phone": "010-0000-1121",
     "userType": "USER",
-    "isActive": true,
+
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "user121",
@@ -402,7 +402,7 @@
     "email": "user122@threadly.com",
     "phone": "010-0000-1122",
     "userType": "USER",
-    "isActive": true,
+
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "user122",
@@ -420,7 +420,7 @@
     "email": "user123@threadly.com",
     "phone": "010-0000-1123",
     "userType": "USER",
-    "isActive": true,
+
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "user123",
@@ -438,7 +438,7 @@
     "email": "user124@threadly.com",
     "phone": "010-0000-1124",
     "userType": "USER",
-    "isActive": true,
+
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "user124",
@@ -456,7 +456,7 @@
     "email": "user125@threadly.com",
     "phone": "010-0000-1125",
     "userType": "USER",
-    "isActive": true,
+
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "user125",

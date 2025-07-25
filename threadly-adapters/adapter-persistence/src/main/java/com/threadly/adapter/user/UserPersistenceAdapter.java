@@ -53,7 +53,7 @@ public class UserPersistenceAdapter implements FetchUserPort, SaveUserPort,
             .email(userEntity.getEmail())
             .phone(userEntity.getPhone())
             .userType(userEntity.getUserType())
-            .isActive(userEntity.isActive())
+            .userStatusType(userEntity.getUserStatusType())
             .isEmailVerified(userEntity.isEmailVerified())
             .build();
   }

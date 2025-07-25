@@ -6,7 +6,7 @@
     "email": "user_with_profile_test@threadly.com",
     "phone": "010-3178-6830",
     "userType": "USER",
-    "isActive": true,
+
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "usr1_nickname",

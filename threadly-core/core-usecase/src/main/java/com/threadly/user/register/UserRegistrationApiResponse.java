@@ -1,5 +1,6 @@
 package com.threadly.user.register;
 
+import com.threadly.user.UserStatusType;
 import com.threadly.user.UserType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,7 +19,7 @@ public class UserRegistrationApiResponse {
   private String userName;
   private String email;
   private UserType userType;
-  private boolean isActive;
+  private UserStatusType userStatusType;
   private boolean isEmailVerified;
 
 

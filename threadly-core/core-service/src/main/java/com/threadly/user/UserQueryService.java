@@ -29,7 +29,7 @@ public class UserQueryService implements GetUserUseCase {
             .email(user.getEmail())
             .phone(user.getPhone())
             .userType(user.getUserType())
-            .isActive(user.isActive())
+            .userStatusType(user.getUserStatusType())
             .isEmailVerified(user.isEmailVerified())
             .type(user.getUserType())
             .build();
@@ -51,7 +51,7 @@ public class UserQueryService implements GetUserUseCase {
             .email(user.getEmail())
             .phone(user.getPhone())
             .userType(user.getUserType())
-            .isActive(user.isActive())
+            .userStatusType(user.getUserStatusType())
             .build();
   }
 }
