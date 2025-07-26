@@ -18,6 +18,7 @@ import com.threadly.token.InsertTokenPort;
 import com.threadly.token.TokenPurpose;
 import com.threadly.token.UpsertRefreshToken;
 import com.threadly.token.UpsertTokenPort;
+import com.threadly.user.UserStatusType;
 import com.threadly.user.get.GetUserUseCase;
 import com.threadly.user.get.UserResponse;
 import com.threadly.user.profile.fetch.FetchUserProfilePort;
@@ -110,6 +111,12 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
 
     /*사용자 조회*/
     UserResponse user = getUserUseCase.findUserByEmail(email);
+
+    /*탈퇴한 사용자인경우*/
+    if (user.getUserStatusType().equals(UserStatusType.DELETED)) {
+
+      throw new UserAuthenticationException(ErrorCode.USER_ALREADY_DELETED);
+    }
 
     String userId = user.getUserId();
 

@@ -81,9 +81,6 @@ public class UserCommandService implements RegisterUserUseCase, UpdateUserUseCas
     User user = fetchUserPort.findByUserId(userId)
         .orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
 
-    /*accessToken 추출*/
-    accessToken = accessToken.substring(7);
-
     /* userStatusType 변경*/
     user.markAsDeleted();
 
