@@ -54,7 +54,6 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
 
   private final FetchUserProfilePort fetchUserProfilePort;
 
-  /*TODO 위치 옮기기*/
   public Authentication getAuthentication(String accessToken) {
     /*accessToken으로 사용자 조회*/
     String userId = jwtTokenProvider.getUserId(accessToken);
@@ -260,9 +259,6 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
         fetchTokenPort.existsBlackListTokenByAccessToken(token);
   }
 
-  /**
-   * TODO 임시
-   */
   @Override
   public UserProfileRegistrationApiResponse reissueToken(String userId) {
     /*사용자 조회*/

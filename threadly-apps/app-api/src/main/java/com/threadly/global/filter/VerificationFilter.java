@@ -1,11 +1,13 @@
 package com.threadly.global.filter;
 
+import static com.threadly.utils.JwtTokenUtils.extractAccessToken;
 import static com.threadly.utils.LogFormatUtils.logFailure;
 
 import com.threadly.security.JwtTokenProvider;
 import com.threadly.exception.ErrorCode;
 import com.threadly.exception.token.TokenException;
 import com.threadly.global.exception.UserAuthenticationException;
+import com.threadly.utils.JwtTokenUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -40,10 +42,9 @@ public class VerificationFilter extends OncePerRequestFilter {
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
       FilterChain filterChain) throws ServletException, IOException {
     try {
-      String token = resolveToken(request);
 
       /*토큰 검증*/
-      jwtTokenProvider.validateToken(token);
+      jwtTokenProvider.validateToken(extractAccessToken(request.getHeader("X-Verify-Token")));
 
     } catch (Exception e) {
       logFailure(e.getMessage());
@@ -55,20 +56,5 @@ public class VerificationFilter extends OncePerRequestFilter {
     }
 
     filterChain.doFilter(request, response);
-
-  }
-
-  private String resolveToken(HttpServletRequest request) {
-
-    /*header에서 token 가져오기*/
-    String verifyToken = request.getHeader("X-Verify-Token");
-
-    /*token이 존재하지 않을 경우*/
-    if (verifyToken == null || !verifyToken.startsWith("Bearer ")) {
-      throw new TokenException(ErrorCode.TOKEN_MISSING);
-    }
-    return
-        verifyToken.substring(7);
-
   }
 }

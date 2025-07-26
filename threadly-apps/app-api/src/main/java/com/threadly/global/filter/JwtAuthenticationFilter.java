@@ -7,6 +7,7 @@ import com.threadly.exception.user.UserException;
 import com.threadly.global.exception.TokenAuthenticationException;
 import com.threadly.global.exception.UserAuthenticationException;
 import com.threadly.security.JwtTokenProvider;
+import com.threadly.utils.JwtTokenUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -42,13 +43,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
       FilterChain filterChain) throws ServletException, IOException {
     try {
-      String token = jwtTokenProvider.resolveToken(request);
+      String token = JwtTokenUtils.extractAccessToken(request.getHeader("Authorization"));
 
       /*blacklist token 조회 후 있을경우 예외 처리*/
       if (authManager.isBlacklisted(token)) {
         throw new TokenException(ErrorCode.TOKEN_INVALID);
       }
-
 
       /*토큰이 검증되면*/
       if (jwtTokenProvider.validateToken(token)) {
