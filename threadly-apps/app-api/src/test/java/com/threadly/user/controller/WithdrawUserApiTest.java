@@ -1,6 +1,7 @@
 package com.threadly.user.controller;
 
 import static com.threadly.utils.TestConstants.EMAIL_VERIFIED_USER_1;
+import static com.threadly.utils.TestConstants.EMAIL_VERIFIED_USER_2;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -67,6 +68,7 @@ public class WithdrawUserApiTest extends BaseUserApiTest {
 
       /*로그인*/
       String accessToken = getAccessToken(EMAIL_VERIFIED_USER_1);
+      String accessToken2 = getAccessToken(EMAIL_VERIFIED_USER_2);
 
       //when
       /*탈퇴 요청*/
@@ -74,7 +76,7 @@ public class WithdrawUserApiTest extends BaseUserApiTest {
           status().isOk());
 
       /*탈퇴 요청 */
-      CommonResponse<Void> withdrawUserResponse2 = sendWithDrawUserRequest(accessToken,
+      CommonResponse<Void> withdrawUserResponse2 = sendWithDrawUserRequest(accessToken2,
           status().isOk());
 
       //then
