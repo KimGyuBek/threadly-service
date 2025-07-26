@@ -1,4 +1,4 @@
-package com.threadly.post.image.upload;
+package com.threadly.image;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

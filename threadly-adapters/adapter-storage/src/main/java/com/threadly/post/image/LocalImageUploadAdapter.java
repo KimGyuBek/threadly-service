@@ -2,8 +2,8 @@ package com.threadly.post.image;
 
 
 import com.threadly.file.UploadImage;
-import com.threadly.post.image.upload.UploadImageResponse;
-import com.threadly.post.image.upload.UploadPostImagePort;
+import com.threadly.image.UploadImagePort;
+import com.threadly.image.UploadImageResponse;
 import com.threadly.properties.UploadProperties;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -15,38 +15,44 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 /**
- * 로컬
- * <p>
- * 게시글 이미지 업로드 adapter
+ * 이미지 업로드 adapter
  */
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class LocalPostImageUploadAdapter implements UploadPostImagePort {
+public class LocalImageUploadAdapter implements UploadImagePort {
 
   private final UploadProperties uploadProperties;
 
   @Override
-  public List<UploadImageResponse> uploadPostImage(List<UploadImage> uploadImages) {
+  public List<UploadImageResponse> uploadPostImageList(List<UploadImage> uploadImages) {
     List<UploadImageResponse> uploadImageResponses = new ArrayList<>();
 
     for (int i = 0; i < uploadImages.size(); i++) {
-      uploadImageResponses.add(storeImage(uploadImages.get(i), i));
+      uploadImageResponses.add(storeImage(uploadImages.get(i),
+          uploadProperties.getLocation().getPostImage()));
     }
     return uploadImageResponses;
+  }
+
+  @Override
+  public UploadImageResponse uploadProfileImage(UploadImage uploadImage) {
+    return
+        storeImage(uploadImage, uploadProperties.getLocation().getProfileImage());
   }
 
   /**
    * 이미지 저장
    *
    * @param uploadImage
+   * @param storePath
    * @return
    */
-  private UploadImageResponse storeImage(UploadImage uploadImage, int imageOrder) {
+  private UploadImageResponse storeImage(UploadImage uploadImage, String storePath) {
     String originalFileName = uploadImage.getOriginalFileName();
     String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
     String storedFileName = uploadImage.getStoredFileName() + extension;
-    Path fullPath = Paths.get(uploadProperties.getLocation(), storedFileName);
+    Path fullPath = Paths.get(storePath, storedFileName);
 
     log.debug("fullPath {}", fullPath);
 

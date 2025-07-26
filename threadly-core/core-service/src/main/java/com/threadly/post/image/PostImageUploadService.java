@@ -1,14 +1,12 @@
 package com.threadly.post.image;
 
 import com.threadly.exception.ErrorCode;
-import com.threadly.exception.post.PostException;
 import com.threadly.exception.post.PostImageException;
 import com.threadly.post.PostImage;
-import com.threadly.post.fetch.FetchPostPort;
 import com.threadly.post.image.UploadPostImagesApiResponse.PostImageResponse;
 import com.threadly.post.image.save.SavePostImagePort;
-import com.threadly.post.image.upload.UploadImageResponse;
-import com.threadly.post.image.upload.UploadPostImagePort;
+import com.threadly.image.UploadImageResponse;
+import com.threadly.image.UploadImagePort;
 import com.threadly.post.image.validator.ImageAspectRatioValidator;
 import com.threadly.post.image.validator.ImageUploadValidator;
 import com.threadly.properties.UploadProperties;
@@ -26,10 +24,8 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class PostImageUploadService implements UploadPostImageUseCase {
 
-  private final FetchPostPort fetchPostPort;
-
   private final SavePostImagePort savePostImagePort;
-  private final UploadPostImagePort uploadPostImagePort;
+  private final UploadImagePort uploadImagePort;
 
   private final UploadProperties uploadProperties;
 
@@ -52,7 +48,7 @@ public class PostImageUploadService implements UploadPostImageUseCase {
     }
 
     /*4. 이미지 파일 저장*/
-    List<UploadImageResponse> uploadImageResponses = uploadPostImagePort.uploadPostImage(
+    List<UploadImageResponse> uploadImageResponses = uploadImagePort.uploadPostImageList(
         command.getImages());
     log.info("이미지 업로드 완료: {}", uploadImageResponses.toString());
 
@@ -60,7 +56,6 @@ public class PostImageUploadService implements UploadPostImageUseCase {
     List<PostImage> postImages = new ArrayList<>();
     uploadImageResponses.forEach(response -> {
       PostImage postImage = PostImage.newPostImage(
-//          command.getPostId(
           response.getStoredName(),
           response.getImageUrl()
       );
