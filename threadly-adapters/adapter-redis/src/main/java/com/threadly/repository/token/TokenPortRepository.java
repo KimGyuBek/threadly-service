@@ -6,7 +6,7 @@ import com.threadly.token.InsertBlackListToken;
 import com.threadly.token.InsertRefreshToken;
 import com.threadly.token.InsertTokenPort;
 import com.threadly.token.UpsertRefreshToken;
-import com.threadly.token.UpsertToken;
+import com.threadly.token.UpsertTokenPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 @RequiredArgsConstructor
 @Slf4j
-public class TokenRepository implements InsertTokenPort, FetchTokenPort, UpsertToken,
+public class TokenPortRepository implements InsertTokenPort, FetchTokenPort, UpsertTokenPort,
     DeleteTokenPort {
 
   private final RedisTemplate<String, String> redisTemplate;

@@ -1,6 +1,6 @@
 package com.threadly.global.interceptor;
 
-import com.threadly.auth.JwtTokenProvider;
+import com.threadly.security.JwtTokenProvider;
 import com.threadly.exception.ErrorCode;
 import com.threadly.exception.user.UserException;
 import jakarta.servlet.http.HttpServletRequest;

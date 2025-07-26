@@ -2,6 +2,8 @@ package com.threadly.user;
 
 import com.threadly.exception.ErrorCode;
 import com.threadly.exception.user.UserException;
+import com.threadly.properties.TtlProperties;
+import com.threadly.security.JwtTokenProvider;
 import com.threadly.token.DeleteTokenPort;
 import com.threadly.token.InsertBlackListToken;
 import com.threadly.token.InsertTokenPort;
@@ -11,6 +13,7 @@ import com.threadly.user.register.UserRegistrationApiResponse;
 import com.threadly.user.response.UserPortResponse;
 import com.threadly.user.update.UpdateUserUseCase;
 import com.threadly.user.withdraw.WithdrawUserUseCase;
+import com.threadly.utils.JwtTokenUtils;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +32,10 @@ public class UserCommandService implements RegisterUserUseCase, UpdateUserUseCas
 
   private final InsertTokenPort insertTokenPort;
   private final DeleteTokenPort deleteTokenPort;
+
+  private final JwtTokenProvider jwtTokenProvider;
+
+  private final TtlProperties ttlProperties;
 
   @Transactional
   @Override
@@ -66,24 +73,28 @@ public class UserCommandService implements RegisterUserUseCase, UpdateUserUseCas
 
   @Transactional
   @Override
-  public void withdrawUser(String userId) {
-    /*1. user 도매인 생성*/
-    User user = User.builder().userId(userId).build();
+  public void withdrawUser(String userId, String bearerToken) {
+    /*토큰 추출*/
+    String accessToken = JwtTokenUtils.extractAccessToken(bearerToken);
 
-    /*2. userStatusType 변경*/
+    /*user 조회*/
+    User user = fetchUserPort.findByUserId(userId)
+        .orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
+
+    /*accessToken 추출*/
+    accessToken = accessToken.substring(7);
+
+    /* userStatusType 변경*/
     user.markAsDeleted();
 
     updateUserPort.updateUserStatus(userId, user.getUserStatusType());
 
-
     /*블랙리스트 토큰 등록*/
-    insertTokenPort.saveBlackListToken(
-        InsertBlackListToken.builder()
-            .userId(userId)
-            .accessToken(accessToken)
-            .duration(jwtTokenProvider.getAccessTokenTtl(accessToken))
-            .build()
-    );
+    insertTokenPort.saveBlackListToken(InsertBlackListToken.builder()
+        .accessToken(accessToken)
+        .userId(userId)
+        .duration(ttlProperties.getBlacklistToken())
+        .build());
 
     /*refreshToken 삭제*/
     deleteTokenPort.deleteRefreshToken(userId);

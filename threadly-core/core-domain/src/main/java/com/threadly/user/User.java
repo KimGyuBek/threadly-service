@@ -94,6 +94,9 @@ public class User {
    * INACTIVE 상태로 변경
    */
   void markAsInactive() {
+    if (userStatusType.equals(UserStatusType.DELETED)) {
+      throw new CannotInactiveException();
+    }
     this.userStatusType = UserStatusType.INACTIVE;
   }
 
@@ -102,6 +105,9 @@ public class User {
    * BANNED 상태로 변경
    */
   void markAsBanned() {
+    if (userStatusType.equals(UserStatusType.DELETED)) {
+      throw new CannotBannedException();
+    }
     this.userStatusType = UserStatusType.BANNED;
   }
 

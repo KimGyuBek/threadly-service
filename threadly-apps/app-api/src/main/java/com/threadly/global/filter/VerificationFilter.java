@@ -2,7 +2,7 @@ package com.threadly.global.filter;
 
 import static com.threadly.utils.LogFormatUtils.logFailure;
 
-import com.threadly.auth.JwtTokenProvider;
+import com.threadly.security.JwtTokenProvider;
 import com.threadly.exception.ErrorCode;
 import com.threadly.exception.token.TokenException;
 import com.threadly.global.exception.UserAuthenticationException;

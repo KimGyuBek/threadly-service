@@ -1,4 +1,4 @@
-package com.threadly.auth;
+package com.threadly.security;
 
 import static com.threadly.utils.LogFormatUtils.logFailure;
 import static com.threadly.utils.LogFormatUtils.logSuccess;
@@ -6,8 +6,6 @@ import static com.threadly.utils.LogFormatUtils.logSuccess;
 import com.threadly.exception.ErrorCode;
 import com.threadly.exception.token.TokenException;
 import com.threadly.properties.TtlProperties;
-import com.threadly.user.get.GetUserUseCase;
-import com.threadly.user.get.UserResponse;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -18,27 +16,20 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 import javax.crypto.SecretKey;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
 public class JwtTokenProvider {
 
-  private final GetUserUseCase getUserUseCase;
-
   private final TtlProperties ttlProperties;
 
   @Value("${jwt.secret}")
   private String secretKey;
-
 
   /**
    * header에서 jwt 추출
@@ -59,30 +50,6 @@ public class JwtTokenProvider {
     throw new TokenException(ErrorCode.TOKEN_MISSING);
   }
 
-  /*TODO 위치 옮기기*/
-  public Authentication getAuthentication(String accessToken) {
-    /*accessToken으로 사용자 조회*/
-    String userId = getUserId(accessToken);
-
-    /*userId로 사용자 조회*/
-    UserResponse user = getUserUseCase.findUserByUserId(userId);
-
-    /*권한 설정*/
-    List<SimpleGrantedAuthority> authorities = List.of(
-        new SimpleGrantedAuthority("ROLE_" + user.getUserType().name())
-    );
-
-    JwtAuthenticationUser authenticationUser = new JwtAuthenticationUser(
-        user.getUserId(),
-        authorities
-    );
-
-    return new UsernamePasswordAuthenticationToken(
-        authenticationUser,
-        null,
-        authenticationUser.getAuthorities()
-    );
-  }
 
   /**
    * accessToken 생성

@@ -3,7 +3,7 @@ package com.threadly.token;
 /**
  * redis token 삭제 port
  */
-public interface UpsertToken {
+public interface UpsertTokenPort {
 
   /**
    * refreshToken upsert

@@ -1,12 +1,12 @@
 package com.threadly.global.filter;
 
 import com.threadly.auth.AuthManager;
-import com.threadly.auth.JwtTokenProvider;
 import com.threadly.exception.ErrorCode;
 import com.threadly.exception.token.TokenException;
 import com.threadly.exception.user.UserException;
 import com.threadly.global.exception.TokenAuthenticationException;
 import com.threadly.global.exception.UserAuthenticationException;
+import com.threadly.security.JwtTokenProvider;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -60,7 +60,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         /*TODO 성능 부하*/
-        Authentication authentication = jwtTokenProvider.getAuthentication(token);
+        Authentication authentication = authManager.getAuthentication(token);
 
         /*인증*/
         SecurityContextHolder.getContext().setAuthentication(authentication);

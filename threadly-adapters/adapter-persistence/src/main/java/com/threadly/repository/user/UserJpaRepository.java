@@ -37,5 +37,5 @@ public interface UserJpaRepository extends JpaRepository<UserEntity, String> {
           + "set u.userStatusType = :statusType "
           + "where u.userId = :userId")
   void updateStatus(@Param("userId") String userId,
-      @Param("status") UserStatusType statusType);
+      @Param("statusType") UserStatusType statusType);
 }

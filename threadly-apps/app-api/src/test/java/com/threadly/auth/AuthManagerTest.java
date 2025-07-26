@@ -5,15 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import com.threadly.auth.token.response.TokenReissueResponse;
-import com.threadly.exception.token.TokenException;
 import com.threadly.properties.TtlProperties;
 import com.threadly.repository.auth.TestRedisHelper;
+import com.threadly.security.JwtTokenProvider;
 import com.threadly.token.FetchTokenPort;
-import com.threadly.user.UserType;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;

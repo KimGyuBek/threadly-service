@@ -10,27 +10,29 @@ import com.threadly.exception.ErrorCode;
 import com.threadly.exception.token.TokenException;
 import com.threadly.global.exception.UserAuthenticationException;
 import com.threadly.properties.TtlProperties;
+import com.threadly.security.JwtTokenProvider;
 import com.threadly.token.DeleteTokenPort;
 import com.threadly.token.FetchTokenPort;
 import com.threadly.token.InsertBlackListToken;
 import com.threadly.token.InsertTokenPort;
 import com.threadly.token.TokenPurpose;
 import com.threadly.token.UpsertRefreshToken;
-import com.threadly.token.UpsertToken;
+import com.threadly.token.UpsertTokenPort;
 import com.threadly.user.get.GetUserUseCase;
 import com.threadly.user.get.UserResponse;
 import com.threadly.user.profile.fetch.FetchUserProfilePort;
-import com.threadly.user.profile.get.GetUserProfileUseCase;
 import com.threadly.user.profile.register.UserProfileRegistrationApiResponse;
+import com.threadly.utils.JwtTokenUtils;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-/*TODO 이름 변경*/
 @Service
 @RequiredArgsConstructor
 public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCase,
@@ -42,7 +44,7 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
 
   private final FetchTokenPort fetchTokenPort;
   private final InsertTokenPort insertTokenPort;
-  private final UpsertToken upsertTokenPort;
+  private final UpsertTokenPort upsertTokenPort;
   private final DeleteTokenPort deleteTokenPort;
 
   private final LoginAttemptLimiter loginAttemptLimiter;
@@ -51,6 +53,31 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
   private final TtlProperties ttlProperties;
 
   private final FetchUserProfilePort fetchUserProfilePort;
+
+  /*TODO 위치 옮기기*/
+  public Authentication getAuthentication(String accessToken) {
+    /*accessToken으로 사용자 조회*/
+    String userId = jwtTokenProvider.getUserId(accessToken);
+
+    /*userId로 사용자 조회*/
+    UserResponse user = getUserUseCase.findUserByUserId(userId);
+
+    /*권한 설정*/
+    List<SimpleGrantedAuthority> authorities = List.of(
+        new SimpleGrantedAuthority("ROLE_" + user.getUserType().name())
+    );
+
+    JwtAuthenticationUser authenticationUser = new JwtAuthenticationUser(
+        user.getUserId(),
+        authorities
+    );
+
+    return new UsernamePasswordAuthenticationToken(
+        authenticationUser,
+        null,
+        authenticationUser.getAuthorities()
+    );
+  }
 
   @Override
   public PasswordVerificationToken getPasswordVerificationToken(String userId, String password) {
@@ -195,22 +222,18 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
   /**
    * 로그아웃
    *
-   * @param token
+   * @param bearerToken
    */
-  public void logout(String token) {
+  public void logout(String bearerToken) {
 
-    /*header에 토큰이 존재하지 않을경우*/
-    if (!token.startsWith("Bearer")) {
-      throw new TokenException(ErrorCode.TOKEN_MISSING);
-    }
 
     /*accessToken 추출*/
-    String accessToken = token.substring(7);
+    String accessToken = JwtTokenUtils.extractAccessToken(bearerToken);
 
     /*accessToken 검증*/
     jwtTokenProvider.validateToken(accessToken);
 
-    /*tokne으로 부터 userId 추출*/
+    /*token에서 userId 추출*/
     String userId = jwtTokenProvider.getUserId(accessToken);
 
     /*redis에 저장*/
