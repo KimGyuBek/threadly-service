@@ -1,4 +1,4 @@
-package com.threadly.entity.post;
+package com.threadly.entity.user;
 
 import com.threadly.entity.image.BaseImageEntity;
 import com.threadly.image.ImageStatus;
@@ -15,31 +15,27 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 /**
- * 게시글 이미지 entity
+ * 사용자 프로필 이미지 entity
  */
-@Table(name = "post_images")
+@Table(name = "user_profile_images")
 @EntityListeners(AuditingEntityListener.class)
 @Entity
 @Getter
 @NoArgsConstructor
-public class PostImageEntity extends BaseImageEntity {
+public class UserProfileImageEntity extends BaseImageEntity {
 
   @Id
-  @Column(name = "post_image_id")
-  private String postImageId;
+  @Column(name = "user_profile_image_id")
+  String userProfileImageId;
 
-  @JoinColumn(name = "post_id")
+  @JoinColumn(name = "user_id")
   @ManyToOne(fetch = FetchType.LAZY)
-  private PostEntity post;
+  private UserProfileEntity userProfile;
 
-  @Column(name = "image_order", nullable = false)
-  private int imageOrder = 0;
-
-  public PostImageEntity(String postImageId, PostEntity post, String storedFileName, int imageOrder,
-      String imageUrl, ImageStatus status) {
+  public UserProfileImageEntity(String userProfileImageId, UserProfileEntity userProfile,
+      String storedFileName, String imageUrl, ImageStatus status) {
     super(storedFileName, imageUrl, status);
-    this.postImageId = postImageId;
-    this.post = post;
-    this.imageOrder = imageOrder;
+    this.userProfileImageId = userProfileImageId;
+    this.userProfile = userProfile;
   }
 }

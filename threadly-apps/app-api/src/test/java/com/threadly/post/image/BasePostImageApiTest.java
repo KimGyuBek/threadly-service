@@ -8,7 +8,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.threadly.CommonResponse;
 import com.threadly.entity.post.PostImageEntity;
 import com.threadly.post.PostCommentStatus;
-import com.threadly.post.PostImageStatus;
+import com.threadly.image.ImageStatus;
 import com.threadly.post.controller.BasePostApiTest;
 import com.threadly.post.create.CreatePostApiResponse;
 import com.threadly.post.create.CreatePostApiResponse.PostImageApiResponse;
@@ -249,7 +249,7 @@ public abstract class BasePostImageApiTest extends BasePostApiTest {
    * @param expectedStatus
    */
   public void validateImageResponse(CommonResponse<CreatePostApiResponse> createPostResponse,
-      String postId, PostImageStatus expectedStatus) {
+      String postId, ImageStatus expectedStatus) {
     if (createPostResponse.getData().images().isEmpty()) {
       return;
     }

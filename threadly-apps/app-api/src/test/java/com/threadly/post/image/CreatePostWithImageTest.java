@@ -4,7 +4,7 @@ import static com.threadly.utils.TestConstants.EMAIL_VERIFIED_USER_1;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.threadly.CommonResponse;
-import com.threadly.post.PostImageStatus;
+import com.threadly.image.ImageStatus;
 import com.threadly.post.create.CreatePostApiResponse;
 import com.threadly.repository.post.PostImageJpaRepository;
 import java.io.IOException;
@@ -73,7 +73,7 @@ public class CreatePostWithImageTest extends BasePostImageApiTest {
 
       /*db 조회*/
       /*id 추출*/
-      validateImageResponse(createPostResponse, postId, PostImageStatus.CONFIRMED);
+      validateImageResponse(createPostResponse, postId, ImageStatus.CONFIRMED);
     }
 
   }

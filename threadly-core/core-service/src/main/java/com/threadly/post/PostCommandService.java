@@ -5,6 +5,7 @@ import static com.threadly.post.PostStatus.DELETED;
 
 import com.threadly.exception.ErrorCode;
 import com.threadly.exception.post.PostException;
+import com.threadly.image.ImageStatus;
 import com.threadly.post.comment.delete.DeletePostCommentUseCase;
 import com.threadly.post.create.CreatePostApiResponse;
 import com.threadly.post.create.CreatePostApiResponse.PostImageApiResponse;
@@ -85,7 +86,7 @@ public class PostCommandService implements CreatePostUseCase, UpdatePostUseCase,
       /*게시글 이미지 조회*/
       postImageApiResponse = fetchPostImagePort.findAllByPostIdAndStatus(
           savedPost.getPostId(),
-          PostImageStatus.CONFIRMED).stream().map(
+          ImageStatus.CONFIRMED).stream().map(
           projection -> new PostImageApiResponse(
               projection.getImageId(),
               projection.getImageUrl(),
@@ -166,7 +167,7 @@ public class PostCommandService implements CreatePostUseCase, UpdatePostUseCase,
     updatePostPort.changeStatus(post);
 
     /*게시글 이미지 삭제 처리*/
-    updatePostImagePort.updateStatus(post.getPostId(), PostImageStatus.DELETED);
+    updatePostImagePort.updateStatus(post.getPostId(), ImageStatus.DELETED);
 
     /*게시글 좋아요 삭제 처리*/
     deletePostLikePort.deleteAllByPostId(post.getPostId());

@@ -5,6 +5,7 @@ import com.threadly.file.UploadImage;
 import com.threadly.image.UploadImagePort;
 import com.threadly.image.UploadImageResponse;
 import com.threadly.properties.UploadProperties;
+import com.threadly.properties.UploadProperties.AccessUrl;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -30,7 +31,7 @@ public class LocalImageUploadAdapter implements UploadImagePort {
 
     for (int i = 0; i < uploadImages.size(); i++) {
       uploadImageResponses.add(storeImage(uploadImages.get(i),
-          uploadProperties.getLocation().getPostImage()));
+          uploadProperties.getLocation().getPostImage(), uploadProperties.getAccessUrl().getPostImage()));
     }
     return uploadImageResponses;
   }
@@ -38,7 +39,8 @@ public class LocalImageUploadAdapter implements UploadImagePort {
   @Override
   public UploadImageResponse uploadProfileImage(UploadImage uploadImage) {
     return
-        storeImage(uploadImage, uploadProperties.getLocation().getProfileImage());
+        storeImage(uploadImage, uploadProperties.getLocation().getProfileImage(),
+            uploadProperties.getAccessUrl().getProfileImage());
   }
 
   /**
@@ -46,9 +48,11 @@ public class LocalImageUploadAdapter implements UploadImagePort {
    *
    * @param uploadImage
    * @param storePath
+   * @param accessUrl
    * @return
    */
-  private UploadImageResponse storeImage(UploadImage uploadImage, String storePath) {
+  private UploadImageResponse storeImage(UploadImage uploadImage, String storePath,
+      String accessUrl) {
     String originalFileName = uploadImage.getOriginalFileName();
     String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
     String storedFileName = uploadImage.getStoredFileName() + extension;
@@ -61,7 +65,7 @@ public class LocalImageUploadAdapter implements UploadImagePort {
       Files.createDirectories(fullPath.getParent());
       Files.write(fullPath, uploadImage.getContent());
       return new UploadImageResponse(storedFileName,
-          uploadProperties.getAccessUrl() + storedFileName);
+          accessUrl + storedFileName);
     } catch (Exception e) {
       log.error(e.getMessage(), e);
       throw new RuntimeException(e);

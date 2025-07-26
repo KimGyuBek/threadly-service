@@ -23,7 +23,7 @@ properties:
   file:
     upload:
       location:
-        post-image: ./local-storage/uploads/posts
+        post-image: ./local-storage/uploads/posts/
         profile-image: ./local-storage/uploads/profiles/
       access-url:
         post-image: http://localhost:8080/images/posts/
