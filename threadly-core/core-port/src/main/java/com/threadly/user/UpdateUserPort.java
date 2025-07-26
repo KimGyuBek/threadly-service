@@ -1,13 +1,22 @@
 package com.threadly.user;
 
 /**
- * 사용자 정보 업데이트 port
+ * user 상태 변경 port
  */
 public interface UpdateUserPort {
+
   /**
-   * 사용자 프로필 초기 설정
-   * @param user
-   * @return
+   * email verification 변경
+   * @param userId
+   * @param isEmailVerified
    */
+  void updateEmailVerification(String userId, boolean isEmailVerified);
+
+  /**
+   * userStatus 변경
+   * @param userId
+   * @param status
+   */
+  void updateUserStatus(String userId, UserStatusType status);
 
 }

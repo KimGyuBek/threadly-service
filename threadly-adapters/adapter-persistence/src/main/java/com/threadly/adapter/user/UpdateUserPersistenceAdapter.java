@@ -9,8 +9,9 @@ import com.threadly.repository.user.UserJpaRepository;
 import com.threadly.repository.user.UserProfileJpaRepository;
 import com.threadly.user.FetchUserPort;
 import com.threadly.user.SaveUserPort;
+import com.threadly.user.UpdateUserPort;
 import com.threadly.user.User;
-import com.threadly.user.UserEmailVerificationPort;
+import com.threadly.user.UserStatusType;
 import com.threadly.user.profile.UserProfile;
 import com.threadly.user.response.UserPortResponse;
 import java.util.Optional;
@@ -19,8 +20,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-public class UserPersistenceAdapter implements FetchUserPort, SaveUserPort,
-    UserEmailVerificationPort {
+public class UpdateUserPersistenceAdapter implements FetchUserPort, SaveUserPort,
+    UpdateUserPort {
 
   private final UserJpaRepository userJpaRepository;
   private final UserProfileJpaRepository userProfileJpaRepository;
@@ -66,8 +67,8 @@ public class UserPersistenceAdapter implements FetchUserPort, SaveUserPort,
   }
 
   @Override
-  public void updateEmailVerification(User user) {
-    userJpaRepository.updateEmailVerification(user.getUserId(), user.isEmailVerified());
+  public void updateEmailVerification(String userId, boolean isEmailVerified) {
+    userJpaRepository.updateEmailVerification(userId, isEmailVerified);
   }
 
   @Override
@@ -79,5 +80,10 @@ public class UserPersistenceAdapter implements FetchUserPort, SaveUserPort,
         .userId(userId)
         .userProfile(userProfile)
         .build();
+  }
+
+  @Override
+  public void updateUserStatus(String userId, UserStatusType status) {
+   userJpaRepository.updateStatus(userId, status);
   }
 }

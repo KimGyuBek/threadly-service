@@ -64,6 +64,7 @@ public class User {
 
   /**
    * userId만 포함한 user 도메인 객체 생성
+   *
    * @param userId
    * @return
    */
@@ -71,6 +72,37 @@ public class User {
     return User.builder()
         .userId(userId)
         .build();
+  }
+
+  /*상태 변경*/
+
+  /**
+   * ACTIVE 상태로 변경
+   */
+  void markAsActive() {
+    this.userStatusType = UserStatusType.ACTIVE;
+  }
+
+  /**
+   * DELETED 상태로 변경
+   */
+  void markAsDeleted() {
+    this.userStatusType = UserStatusType.DELETED;
+  }
+
+  /**
+   * INACTIVE 상태로 변경
+   */
+  void markAsInactive() {
+    this.userStatusType = UserStatusType.INACTIVE;
+  }
+
+
+  /**
+   * BANNED 상태로 변경
+   */
+  void markAsBanned() {
+    this.userStatusType = UserStatusType.BANNED;
   }
 
   /*UserProfile*/
@@ -99,6 +131,7 @@ public class User {
 
   /**
    * 프로필 업데이트
+   *
    * @param nickname
    * @param statusMessage
    * @param bio
