@@ -2,6 +2,7 @@ package com.threadly.user;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.threadly.user.profile.UserProfile;
+import com.threadly.user.profile.image.UserProfileImage;
 import com.threadly.utils.RandomUtils;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -145,8 +146,8 @@ public class User {
    * @param profileImageUrl
    */
   public void updateProfile(String nickname, String statusMessage, String bio, String phone,
-      String profileImageUrl) {
-    this.userProfile.updateProfile(nickname, statusMessage, bio, phone, profileImageUrl);
+      UserProfileImage userProfileImage) {
+    this.userProfile.updateProfile(nickname, statusMessage, bio, phone, userProfileImage);
   }
 
   public void setUserProfile(UserProfile userProfile) {
@@ -167,10 +168,6 @@ public class User {
 
   public UserGenderType getGender() {
     return userProfile.getGenderType();
-  }
-
-  public String getProfileImageUrl() {
-    return userProfile.getProfileImageUrl();
   }
 
   /*테스트용 메서드*/

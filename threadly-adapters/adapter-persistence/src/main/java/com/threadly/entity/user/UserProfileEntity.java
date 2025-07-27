@@ -49,12 +49,13 @@ public class UserProfileEntity extends BaseEntity {
   @Column(name = "profile_type")
   private UserProfileType profileType;
 
-  /*프로필 이미지 경로*/
-  @Column(name = "profile_image_url")
-  private String profileImageUrl;
-
-  public static UserProfileEntity newUserProfile(String userId,String nickname, String statusMessage, String bio, UserGenderType gender,
-      UserProfileType profileType, String profileImageUrl) {
+  //  /*프로필 이미지 경로*/
+//  @Column(name = "profile_image_url")
+//  private String profileImageUrl;
+//
+  public static UserProfileEntity newUserProfile(String userId, String nickname,
+      String statusMessage, String bio, UserGenderType gender,
+      UserProfileType profileType) {
 
     return new UserProfileEntity(
         userId,
@@ -62,8 +63,8 @@ public class UserProfileEntity extends BaseEntity {
         statusMessage,
         bio,
         gender,
-        profileType,
-        profileImageUrl
+        profileType
+//        profileImageUrl
     );
   }
 }

@@ -50,7 +50,6 @@ public class PostImageUploadController {
         uploadPostImageUseCase.uploadPostImages(
             new UploadPostImageCommand(
                 user.getUserId(),
-//                postId,
                 images.stream().map(
                 ImageMapper::toUploadImage
             ).toList()

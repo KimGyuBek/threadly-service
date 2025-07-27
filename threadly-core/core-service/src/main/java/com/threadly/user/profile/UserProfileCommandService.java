@@ -69,7 +69,8 @@ public class UserProfileCommandService implements RegisterUserProfileUseCase,
         command.getBio(),
         command.getPhone(),
         /*TODO profile image id로 변경*/
-        command.getProfileImageId()
+//        command.get()
+        null
     );
 
     /*4. 저장*/

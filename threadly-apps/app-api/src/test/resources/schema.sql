@@ -32,7 +32,6 @@ create table user_profile
     bio               varchar(255) not null,
     gender            varchar(50)  not null,
     profile_type      varchar(50)  not null default 'USER',
-    profile_image_url varchar(255),
     created_at        timestamp    not null default current_timestamp,
     modified_at       timestamp    not null default current_timestamp,
     foreign key (user_id) references users (user_id) on delete cascade

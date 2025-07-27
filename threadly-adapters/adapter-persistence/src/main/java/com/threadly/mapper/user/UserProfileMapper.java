@@ -19,7 +19,7 @@ public class UserProfileMapper {
         .bio(entity.getBio())
         .genderType(entity.getGender())
         .userProfileType(entity.getProfileType())
-        .profileImageUrl(entity.getProfileImageUrl())
+//        .profileImageUrl(entity.getProfileImageUrl())
         .build();
   }
 
@@ -37,7 +37,7 @@ public class UserProfileMapper {
             domain.getStatusMessage(),
             domain.getBio(),
             domain.getGenderType(),
-            domain.getUserProfileType(),
-            domain.getProfileImageUrl());
+            domain.getUserProfileType()
+        );
   }
 }

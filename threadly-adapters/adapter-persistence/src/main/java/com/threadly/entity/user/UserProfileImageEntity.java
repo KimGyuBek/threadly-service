@@ -38,4 +38,25 @@ public class UserProfileImageEntity extends BaseImageEntity {
     this.userProfileImageId = userProfileImageId;
     this.userProfile = userProfile;
   }
+
+  /**
+   * Entity 생성
+   *
+   * @param userProfileImageId
+   * @param userProfile
+   * @param storedFileName
+   * @param imageUrl
+   * @param status
+   * @return
+   */
+  public static UserProfileImageEntity newUserProfileImage(String userProfileImageId,
+      UserProfileEntity userProfile,
+      String storedFileName, String imageUrl, ImageStatus status) {
+    return new UserProfileImageEntity(userProfileImageId,
+        userProfile,
+        storedFileName,
+        imageUrl,
+        status);
+
+  }
 }
