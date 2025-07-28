@@ -16,6 +16,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 import javax.imageio.ImageIO;
+import org.junit.jupiter.api.AfterAll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
@@ -27,6 +28,7 @@ import org.springframework.test.web.servlet.request.MockMultipartHttpServletRequ
  * 프로필 이미지 관련 Base Api Test
  */
 public abstract class BaseProfileImageApiTest extends BaseMyProfileApiTest {
+
 
 
   public static final String UPLOAD_PATH = "src/test/resources/images/temp";

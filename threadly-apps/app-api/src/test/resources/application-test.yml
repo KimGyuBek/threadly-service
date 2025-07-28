@@ -27,8 +27,8 @@ properties:
   file:
     upload:
       location:
-        post-image: ./local-storage/uploads/posts
-        profile-image: ./local-storage/uploads/profiles/
+        post-image: src/test/resources/images/temp
+        profile-image: src/test/resources/images/temp
       access-url:
         post-image: http://localhost:8080/images/posts/
         profile-image: http://localhost:8080/images/profiles/

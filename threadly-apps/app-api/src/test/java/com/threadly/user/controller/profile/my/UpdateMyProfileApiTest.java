@@ -7,6 +7,7 @@ import com.threadly.CommonResponse;
 import com.threadly.exception.ErrorCode;
 import com.threadly.user.profile.get.GetUserProfileApiResponse;
 import java.util.Map;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.ClassOrderer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;

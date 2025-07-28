@@ -2,6 +2,8 @@ package com.threadly.user.controller.profile.my.image;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.io.IOException;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.ClassOrderer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
@@ -15,6 +17,11 @@ import org.springframework.mock.web.MockMultipartFile;
 @TestClassOrder(ClassOrderer.OrderAnnotation.class)
 @DisplayName("내 프로필 이미지 업로드 관련 API 테스트")
 public class UploadProfileImageApiTest extends BaseProfileImageApiTest {
+
+  @AfterAll
+  static void cleanup() throws IOException {
+    cleanUpDirectoryContents();
+  }
 
   @Order(1)
   @Nested
