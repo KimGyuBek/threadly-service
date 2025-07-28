@@ -40,8 +40,7 @@ public class UserFixtureMapper {
             fixture.getUserProfile().getStatusMessage(),
             fixture.getUserProfile().getBio(),
             fixture.getUserProfile().getGender(),
-            fixture.getUserProfile().getProfileType(),
-            fixture.getUserProfile().getProfileImageUrl()
+            fixture.getUserProfile().getProfileType()
         );
   }
 

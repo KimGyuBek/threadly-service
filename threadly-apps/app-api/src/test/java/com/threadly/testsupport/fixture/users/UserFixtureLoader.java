@@ -7,6 +7,7 @@ import com.threadly.testsupport.dto.users.UserFixtureDto;
 import com.threadly.testsupport.fixture.FixtureLoader;
 import com.threadly.testsupport.mapper.users.UserFixtureMapper;
 import com.threadly.user.User;
+import com.threadly.user.UserStatusType;
 import com.threadly.user.profile.UserProfile;
 import com.threadly.utils.TestLogUtils;
 import jakarta.persistence.EntityManager;
@@ -37,9 +38,14 @@ public class UserFixtureLoader {
   @Transactional
   public void load(String path) {
     List<UserFixtureDto> userData = getUserData(path);
-    generateUser(userData, userData.size());
+    generateUser(userData, userData.size(), UserStatusType.ACTIVE);
   }
 
+  @Transactional
+  public void load(String path, UserStatusType userStatusType) {
+    List<UserFixtureDto> userData = getUserData(path);
+    generateUser(userData, userData.size(), userStatusType);
+  }
 
   /**
    * count 만큼 사용자 데이터 삽입
@@ -50,7 +56,7 @@ public class UserFixtureLoader {
   @Transactional
   public void load(String path, int count) {
     List<UserFixtureDto> userData = getUserData(path);
-    generateUser(userData, count);
+    generateUser(userData, count, UserStatusType.ACTIVE);
   }
 
   /**
@@ -59,7 +65,8 @@ public class UserFixtureLoader {
    * @param userFixtureDtoList
    * @param count
    */
-  private void generateUser(List<UserFixtureDto> userFixtureDtoList, int count) {
+  private void generateUser(List<UserFixtureDto> userFixtureDtoList, int count,
+      UserStatusType userStatusType) {
     List<UserFixtureDto> fixtures = userFixtureDtoList;
 
     if (count > fixtures.size() || count < 1 || count == 0) {
@@ -70,13 +77,15 @@ public class UserFixtureLoader {
       UserFixtureDto dto = fixtures.get(i);
 //      User user = UserFixtureMapper.toUser(dto);
 
-      User user = User.newTestUser(dto.getUserId(),
-          dto.getUserName(),
-          dto.getPassword(), dto.getEmail(), dto.getPhone());
+//      User user = User.newTestUser(dto.getUserId(),
+//          dto.getUserName(),
+//          dto.getPassword(), dto.getEmail(), dto.getPhone());
+      User user = UserFixtureMapper.toUser(dto);
 
       if (dto.isEmailVerified()) {
         user.setEmailVerified();
       }
+      user.setUserStatusType(userStatusType);
 
       userPersistenceAdapter.save(user);
       if (dto.getUserProfile() != null) {

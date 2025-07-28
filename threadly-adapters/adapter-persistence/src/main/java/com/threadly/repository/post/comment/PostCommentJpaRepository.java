@@ -38,7 +38,7 @@ public interface PostCommentJpaRepository extends JpaRepository<PostCommentEntit
              pc.comment_id        as comment_id,
              pc.user_id           as commenterId,
              up.nickname          as commenterNickname,
-             up.profile_image_url as commenterProfileImageUrl,
+             upi.image_url        as commenterProfileImageUrl,
             coalesce(cl.like_count, 0)  as likeCount,
              pc.created_at        as commentedAt,
              pc.content           as content,
@@ -47,6 +47,7 @@ public interface PostCommentJpaRepository extends JpaRepository<PostCommentEntit
       from post_comments pc
                join users u on pc.user_id = u.user_id
                join user_profile up on u.user_id = up.user_id
+               left join user_profile_images upi on up.user_id = upi.user_id
                left join(select comment_id,
                                 count(*) like_count,
                                 max(
@@ -70,7 +71,7 @@ public interface PostCommentJpaRepository extends JpaRepository<PostCommentEntit
              pc.comment_id                      as commentId,
              pc.user_id                         as commenterId,
              up.nickname                        as commenterNickname,
-             up.profile_image_url               as commenterProfileImageUrl,
+             upi.image_url                      as commenterProfileImageUrl,
              coalesce(like_count.like_count, 0) as likeCount,
              pc.created_at                      as commentedAt,
              pc.content                         as content,
@@ -78,6 +79,7 @@ public interface PostCommentJpaRepository extends JpaRepository<PostCommentEntit
       from post_comments pc
                join users u on pc.user_id = u.user_id
                join user_profile up on u.user_id = up.user_id
+               left join user_profile_images upi on up.user_id = upi.user_id
                left join(select comment_id,
                                 count(*) as like_count
                          from comment_likes
@@ -139,5 +141,6 @@ public interface PostCommentJpaRepository extends JpaRepository<PostCommentEntit
       select count(*) from PostCommentEntity pc
       where pc.post.postId = :postId and pc.status = :status
       """)
-  long countByStatusAndPostId(@Param("status") PostCommentStatus status,@Param("postId") String postId);
+  long countByStatusAndPostId(@Param("status") PostCommentStatus status,
+      @Param("postId") String postId);
 }

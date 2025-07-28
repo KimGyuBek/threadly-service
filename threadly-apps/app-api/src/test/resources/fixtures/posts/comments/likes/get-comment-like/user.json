@@ -6,15 +6,13 @@
     "email": "writer@threadly.com",
     "phone": "010-3148-6830",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "__writer__",
       "statusMessage": "나는 작성자",
       "bio": "작성자다",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/writer_1.png"
+      "profileType": "USER"
     }
   },
   {
@@ -24,15 +22,13 @@
     "email": "sunset_gazer1@threadly.com",
     "phone": "010-3178-6830",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "sunset_gazer",
       "statusMessage": "혼자가 좋은",
       "bio": "아침형 인간",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/sunset_gazer_1.png"
+      "profileType": "USER"
     }
   },
   {
@@ -42,15 +38,13 @@
     "email": "sky_gazer2@threadly.com",
     "phone": "010-3014-5653",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "sky_gazer",
       "statusMessage": "기록하는 삶",
       "bio": "고양이 집사",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/sky_gazer_2.png"
+      "profileType": "USER"
     }
   },
   {
@@ -60,15 +54,13 @@
     "email": "book_worm3@threadly.com",
     "phone": "010-3871-7464",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "book_worm",
       "statusMessage": "나만의 시간",
       "bio": "강아지 산책러",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/book_worm_3.png"
+      "profileType": "USER"
     }
   },
   {
@@ -78,15 +70,13 @@
     "email": "beach_bum4@threadly.com",
     "phone": "010-9129-4788",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "beach_bum",
       "statusMessage": "작지만 확실한 행복",
       "bio": "아침형 인간",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/beach_bum_4.png"
+      "profileType": "USER"
     }
   },
   {
@@ -96,15 +86,13 @@
     "email": "early_bird5@threadly.com",
     "phone": "010-8655-3240",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "early_bird",
       "statusMessage": "혼자가 좋은",
       "bio": "맛집 탐방 중",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/early_bird_5.png"
+      "profileType": "USER"
     }
   },
   {
@@ -114,15 +102,13 @@
     "email": "mountain_hiker6@threadly.com",
     "phone": "010-5527-8804",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "mountain_hiker",
       "statusMessage": "작지만 확실한 행복",
       "bio": "아침형 인간",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/mountain_hiker_6.png"
+      "profileType": "USER"
     }
   },
   {
@@ -132,15 +118,13 @@
     "email": "dream_chaser7@threadly.com",
     "phone": "010-7482-1250",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "dream_chaser",
       "statusMessage": "감성 충만",
       "bio": "영화 덕후",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/dream_chaser_7.png"
+      "profileType": "USER"
     }
   },
   {
@@ -150,15 +134,13 @@
     "email": "night_owl8@threadly.com",
     "phone": "010-2545-7173",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "night_owl",
       "statusMessage": "바람이 좋아",
       "bio": "여행이 답이다",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/night_owl_8.png"
+      "profileType": "USER"
     }
   },
   {
@@ -168,15 +150,13 @@
     "email": "mountain_hiker9@threadly.com",
     "phone": "010-1760-3127",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "mountain_hiker",
       "statusMessage": "하늘이 참 예쁘네",
       "bio": "카페인 없인 못살아",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/mountain_hiker_9.png"
+      "profileType": "USER"
     }
   },
   {
@@ -186,15 +166,13 @@
     "email": "mountain_hiker10@threadly.com",
     "phone": "010-1776-4294",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "mountain_hiker",
       "statusMessage": "나만의 시간",
       "bio": "자연을 사랑합니다",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/mountain_hiker_10.png"
+      "profileType": "USER"
     }
   },
   {
@@ -204,15 +182,13 @@
     "email": "dream_chaser11@threadly.com",
     "phone": "010-7631-5198",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "dream_chaser",
       "statusMessage": "여행 가고 싶다",
       "bio": "마음 가는 대로 사는 중",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/dream_chaser_11.png"
+      "profileType": "USER"
     }
   },
   {
@@ -222,15 +198,13 @@
     "email": "breeze_seeker12@threadly.com",
     "phone": "010-3832-8438",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "breeze_seeker",
       "statusMessage": "바쁜 일상 속 여유",
       "bio": "감성에 진심",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/breeze_seeker_12.png"
+      "profileType": "USER"
     }
   },
   {
@@ -240,15 +214,13 @@
     "email": "early_bird13@threadly.com",
     "phone": "010-1033-2146",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "early_bird",
       "statusMessage": "기록하는 삶",
       "bio": "고양이 집사",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/early_bird_13.png"
+      "profileType": "USER"
     }
   },
   {
@@ -258,15 +230,13 @@
     "email": "silent_walker14@threadly.com",
     "phone": "010-5786-6878",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "silent_walker",
       "statusMessage": "바람이 좋아",
       "bio": "빵순이",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/silent_walker_14.png"
+      "profileType": "USER"
     }
   },
   {
@@ -276,15 +246,13 @@
     "email": "beach_bum15@threadly.com",
     "phone": "010-2610-3409",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "beach_bum",
       "statusMessage": "감성 충만",
       "bio": "밤하늘을 좋아해요",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/beach_bum_15.png"
+      "profileType": "USER"
     }
   },
   {
@@ -294,15 +262,13 @@
     "email": "sky_gazer16@threadly.com",
     "phone": "010-7076-3302",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "sky_gazer",
       "statusMessage": "노을 맛집",
       "bio": "고양이 집사",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/sky_gazer_16.png"
+      "profileType": "USER"
     }
   },
   {
@@ -312,15 +278,13 @@
     "email": "city_runner17@threadly.com",
     "phone": "010-3878-3680",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "city_runner",
       "statusMessage": "조용한 하루",
       "bio": "낮보단 밤파",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/city_runner_17.png"
+      "profileType": "USER"
     }
   },
   {
@@ -330,15 +294,13 @@
     "email": "beach_bum18@threadly.com",
     "phone": "010-3870-6011",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "beach_bum",
       "statusMessage": "하늘이 참 예쁘네",
       "bio": "하늘 보는 게 취미",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/beach_bum_18.png"
+      "profileType": "USER"
     }
   },
   {
@@ -348,15 +310,13 @@
     "email": "wave_rider19@threadly.com",
     "phone": "010-2313-7267",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "wave_rider",
       "statusMessage": "혼자가 좋은",
       "bio": "빵순이",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/wave_rider_19.png"
+      "profileType": "USER"
     }
   },
   {
@@ -366,15 +326,13 @@
     "email": "tea_addict20@threadly.com",
     "phone": "010-5752-6635",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "tea_addict",
       "statusMessage": "아무 생각 없이 걷기",
       "bio": "뜨개질 취미",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/tea_addict_20.png"
+      "profileType": "USER"
     }
   },
   {
@@ -384,15 +342,13 @@
     "email": "sunset_gazer21@threadly.com",
     "phone": "010-7853-9054",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "sunset_gazer",
       "statusMessage": "조용한 하루",
       "bio": "감성에 진심",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/sunset_gazer_21.png"
+      "profileType": "USER"
     }
   },
   {
@@ -402,15 +358,13 @@
     "email": "night_owl22@threadly.com",
     "phone": "010-3136-2759",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "night_owl",
       "statusMessage": "혼자가 좋은",
       "bio": "자연을 사랑합니다",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/night_owl_22.png"
+      "profileType": "USER"
     }
   },
   {
@@ -420,15 +374,13 @@
     "email": "lazy_sunday23@threadly.com",
     "phone": "010-3847-8574",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "lazy_sunday",
       "statusMessage": "바람이 좋아",
       "bio": "전시회 마니아",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/lazy_sunday_23.png"
+      "profileType": "USER"
     }
   },
   {
@@ -438,15 +390,13 @@
     "email": "tea_addict24@threadly.com",
     "phone": "010-6072-3638",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "tea_addict",
       "statusMessage": "책과 함께",
       "bio": "생각이 많은 밤",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/tea_addict_24.png"
+      "profileType": "USER"
     }
   },
   {
@@ -456,15 +406,13 @@
     "email": "coffee_lover25@threadly.com",
     "phone": "010-4792-1062",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "coffee_lover",
       "statusMessage": "따뜻한 하루",
       "bio": "밤하늘을 좋아해요",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/coffee_lover_25.png"
+      "profileType": "USER"
     }
   },
   {
@@ -474,15 +422,13 @@
     "email": "sky_gazer26@threadly.com",
     "phone": "010-5996-9196",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "sky_gazer",
       "statusMessage": "책과 함께",
       "bio": "아침형 인간",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/sky_gazer_26.png"
+      "profileType": "USER"
     }
   },
   {
@@ -492,15 +438,13 @@
     "email": "rainy_day27@threadly.com",
     "phone": "010-1003-4840",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "rainy_day",
       "statusMessage": "조용한 하루",
       "bio": "뜨개질 취미",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/rainy_day_27.png"
+      "profileType": "USER"
     }
   },
   {
@@ -510,15 +454,13 @@
     "email": "breeze_seeker28@threadly.com",
     "phone": "010-9502-9519",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "breeze_seeker",
       "statusMessage": "나만의 시간",
       "bio": "맛집 탐방 중",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/breeze_seeker_28.png"
+      "profileType": "USER"
     }
   },
   {
@@ -528,15 +470,13 @@
     "email": "sunset_gazer29@threadly.com",
     "phone": "010-1666-3495",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "sunset_gazer",
       "statusMessage": "혼자가 좋은",
       "bio": "아침형 인간",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/sunset_gazer_29.png"
+      "profileType": "USER"
     }
   },
   {
@@ -546,15 +486,13 @@
     "email": "silent_walker30@threadly.com",
     "phone": "010-7852-3123",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "silent_walker",
       "statusMessage": "아무 생각 없이 걷기",
       "bio": "강아지 산책러",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/silent_walker_30.png"
+      "profileType": "USER"
     }
   },
   {
@@ -564,15 +502,13 @@
     "email": "lazy_sunday31@threadly.com",
     "phone": "010-7845-7071",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "lazy_sunday",
       "statusMessage": "자유로운 영혼",
       "bio": "여행이 답이다",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/lazy_sunday_31.png"
+      "profileType": "USER"
     }
   },
   {
@@ -582,15 +518,13 @@
     "email": "tea_addict32@threadly.com",
     "phone": "010-8811-3908",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "tea_addict",
       "statusMessage": "여행 가고 싶다",
       "bio": "아침형 인간",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/tea_addict_32.png"
+      "profileType": "USER"
     }
   },
   {
@@ -600,15 +534,13 @@
     "email": "lazy_sunday33@threadly.com",
     "phone": "010-8063-4602",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "lazy_sunday",
       "statusMessage": "오늘도 달린다!",
       "bio": "마음 가는 대로 사는 중",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/lazy_sunday_33.png"
+      "profileType": "USER"
     }
   },
   {
@@ -618,15 +550,13 @@
     "email": "rainy_day34@threadly.com",
     "phone": "010-6607-1388",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "rainy_day",
       "statusMessage": "빛처럼 살자",
       "bio": "영화 덕후",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/rainy_day_34.png"
+      "profileType": "USER"
     }
   },
   {
@@ -636,15 +566,13 @@
     "email": "book_worm35@threadly.com",
     "phone": "010-4359-7613",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "book_worm",
       "statusMessage": "빛처럼 살자",
       "bio": "빵순이",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/book_worm_35.png"
+      "profileType": "USER"
     }
   },
   {
@@ -654,15 +582,13 @@
     "email": "bike_rider36@threadly.com",
     "phone": "010-5614-2603",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "bike_rider",
       "statusMessage": "오늘도 달린다!",
       "bio": "책을 좋아해요",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/bike_rider_36.png"
+      "profileType": "USER"
     }
   },
   {
@@ -672,15 +598,13 @@
     "email": "sunset_gazer37@threadly.com",
     "phone": "010-8448-8526",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "sunset_gazer",
       "statusMessage": "작지만 확실한 행복",
       "bio": "자연을 사랑합니다",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/sunset_gazer_37.png"
+      "profileType": "USER"
     }
   },
   {
@@ -690,15 +614,13 @@
     "email": "art_junkie38@threadly.com",
     "phone": "010-9604-7898",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "art_junkie",
       "statusMessage": "혼자가 좋은",
       "bio": "생각이 많은 밤",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/art_junkie_38.png"
+      "profileType": "USER"
     }
   },
   {
@@ -708,15 +630,13 @@
     "email": "mountain_hiker39@threadly.com",
     "phone": "010-7982-8307",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "mountain_hiker",
       "statusMessage": "책과 함께",
       "bio": "음악은 나의 친구",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/mountain_hiker_39.png"
+      "profileType": "USER"
     }
   },
   {
@@ -726,15 +646,13 @@
     "email": "beach_bum40@threadly.com",
     "phone": "010-2505-1538",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "beach_bum",
       "statusMessage": "작지만 확실한 행복",
       "bio": "자전거 타는 개발자",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/beach_bum_40.png"
+      "profileType": "USER"
     }
   },
   {
@@ -744,15 +662,13 @@
     "email": "silent_walker41@threadly.com",
     "phone": "010-1538-8447",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "silent_walker",
       "statusMessage": "비 오는 날이 좋아",
       "bio": "여행이 답이다",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/silent_walker_41.png"
+      "profileType": "USER"
     }
   },
   {
@@ -762,15 +678,13 @@
     "email": "wave_rider42@threadly.com",
     "phone": "010-6716-2492",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "wave_rider",
       "statusMessage": "바람이 좋아",
       "bio": "여행이 답이다",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/wave_rider_42.png"
+      "profileType": "USER"
     }
   },
   {
@@ -780,15 +694,13 @@
     "email": "coffee_lover43@threadly.com",
     "phone": "010-8525-4194",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "coffee_lover",
       "statusMessage": "하늘이 참 예쁘네",
       "bio": "마음 가는 대로 사는 중",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/coffee_lover_43.png"
+      "profileType": "USER"
     }
   },
   {
@@ -798,15 +710,13 @@
     "email": "coffee_lover44@threadly.com",
     "phone": "010-6262-5004",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "coffee_lover",
       "statusMessage": "감성 충만",
       "bio": "카페인 없인 못살아",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/coffee_lover_44.png"
+      "profileType": "USER"
     }
   },
   {
@@ -816,15 +726,13 @@
     "email": "dream_chaser45@threadly.com",
     "phone": "010-4528-2154",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "dream_chaser",
       "statusMessage": "감성 충만",
       "bio": "생각이 많은 밤",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/dream_chaser_45.png"
+      "profileType": "USER"
     }
   },
   {
@@ -834,15 +742,13 @@
     "email": "dream_chaser46@threadly.com",
     "phone": "010-9553-9899",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "dream_chaser",
       "statusMessage": "노을 맛집",
       "bio": "빵순이",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/dream_chaser_46.png"
+      "profileType": "USER"
     }
   },
   {
@@ -852,15 +758,13 @@
     "email": "book_worm47@threadly.com",
     "phone": "010-4075-7538",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "book_worm",
       "statusMessage": "조용한 하루",
       "bio": "고양이 집사",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/book_worm_47.png"
+      "profileType": "USER"
     }
   },
   {
@@ -870,15 +774,13 @@
     "email": "dream_chaser48@threadly.com",
     "phone": "010-1991-4858",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "dream_chaser",
       "statusMessage": "아무 생각 없이 걷기",
       "bio": "맛집 탐방 중",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/dream_chaser_48.png"
+      "profileType": "USER"
     }
   },
   {
@@ -888,15 +790,13 @@
     "email": "art_junkie49@threadly.com",
     "phone": "010-9136-9520",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "art_junkie",
       "statusMessage": "감성 충만",
       "bio": "낮보단 밤파",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/art_junkie_49.png"
+      "profileType": "USER"
     }
   },
   {
@@ -906,15 +806,13 @@
     "email": "lazy_sunday50@threadly.com",
     "phone": "010-5420-7138",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "lazy_sunday",
       "statusMessage": "책과 함께",
       "bio": "여행이 답이다",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/lazy_sunday_50.png"
+      "profileType": "USER"
     }
   },
   {
@@ -924,15 +822,13 @@
     "email": "tea_addict51@threadly.com",
     "phone": "010-1584-6934",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "tea_addict",
       "statusMessage": "감성 충만",
       "bio": "하늘 보는 게 취미",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/tea_addict_51.png"
+      "profileType": "USER"
     }
   },
   {
@@ -942,15 +838,13 @@
     "email": "dream_chaser52@threadly.com",
     "phone": "010-7083-8317",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "dream_chaser",
       "statusMessage": "감성 충만",
       "bio": "강아지 산책러",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/dream_chaser_52.png"
+      "profileType": "USER"
     }
   },
   {
@@ -960,15 +854,13 @@
     "email": "art_junkie53@threadly.com",
     "phone": "010-8448-2783",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "art_junkie",
       "statusMessage": "나만의 시간",
       "bio": "낮보단 밤파",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/art_junkie_53.png"
+      "profileType": "USER"
     }
   },
   {
@@ -978,15 +870,13 @@
     "email": "night_owl54@threadly.com",
     "phone": "010-3020-7310",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "night_owl",
       "statusMessage": "비 오는 날이 좋아",
       "bio": "밤하늘을 좋아해요",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/night_owl_54.png"
+      "profileType": "USER"
     }
   },
   {
@@ -996,15 +886,13 @@
     "email": "night_owl55@threadly.com",
     "phone": "010-5571-5934",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "night_owl",
       "statusMessage": "비 오는 날이 좋아",
       "bio": "빵순이",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/night_owl_55.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1014,15 +902,13 @@
     "email": "coffee_lover56@threadly.com",
     "phone": "010-3359-1998",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "coffee_lover",
       "statusMessage": "감성 충만",
       "bio": "마음 가는 대로 사는 중",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/coffee_lover_56.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1032,15 +918,13 @@
     "email": "forest_soul57@threadly.com",
     "phone": "010-1607-9652",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "forest_soul",
       "statusMessage": "평화로운 하루",
       "bio": "책을 좋아해요",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/forest_soul_57.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1050,15 +934,13 @@
     "email": "rainy_day58@threadly.com",
     "phone": "010-3146-9195",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "rainy_day",
       "statusMessage": "작지만 확실한 행복",
       "bio": "카페인 없인 못살아",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/rainy_day_58.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1068,15 +950,13 @@
     "email": "gallery_goer59@threadly.com",
     "phone": "010-4261-7361",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "gallery_goer",
       "statusMessage": "바람이 좋아",
       "bio": "여행이 답이다",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/gallery_goer_59.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1086,15 +966,13 @@
     "email": "rainy_day60@threadly.com",
     "phone": "010-2461-9456",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "rainy_day",
       "statusMessage": "나만의 시간",
       "bio": "뜨개질 취미",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/rainy_day_60.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1104,15 +982,13 @@
     "email": "early_bird61@threadly.com",
     "phone": "010-4361-7233",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "early_bird",
       "statusMessage": "나만의 시간",
       "bio": "뜨개질 취미",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/early_bird_61.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1122,15 +998,13 @@
     "email": "rainy_day62@threadly.com",
     "phone": "010-9372-2582",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "rainy_day",
       "statusMessage": "작지만 확실한 행복",
       "bio": "자연을 사랑합니다",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/rainy_day_62.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1140,15 +1014,13 @@
     "email": "dream_chaser63@threadly.com",
     "phone": "010-8380-8213",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "dream_chaser",
       "statusMessage": "노을 맛집",
       "bio": "전시회 마니아",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/dream_chaser_63.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1158,15 +1030,13 @@
     "email": "breeze_seeker64@threadly.com",
     "phone": "010-1353-9487",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "breeze_seeker",
       "statusMessage": "하늘이 참 예쁘네",
       "bio": "강아지 산책러",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/breeze_seeker_64.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1176,15 +1046,13 @@
     "email": "forest_soul65@threadly.com",
     "phone": "010-4989-3838",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "forest_soul",
       "statusMessage": "아무 생각 없이 걷기",
       "bio": "아침형 인간",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/forest_soul_65.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1194,15 +1062,13 @@
     "email": "city_runner66@threadly.com",
     "phone": "010-4447-5335",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "city_runner",
       "statusMessage": "여행 가고 싶다",
       "bio": "강아지 산책러",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/city_runner_66.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1212,15 +1078,13 @@
     "email": "city_runner67@threadly.com",
     "phone": "010-2979-4690",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "city_runner",
       "statusMessage": "비 오는 날이 좋아",
       "bio": "여행이 답이다",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/city_runner_67.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1230,15 +1094,13 @@
     "email": "dream_chaser68@threadly.com",
     "phone": "010-6563-6879",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "dream_chaser",
       "statusMessage": "요즘 빠진 노래",
       "bio": "하늘 보는 게 취미",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/dream_chaser_68.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1248,15 +1110,13 @@
     "email": "city_runner69@threadly.com",
     "phone": "010-7504-1428",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "city_runner",
       "statusMessage": "나만의 시간",
       "bio": "여행이 답이다",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/city_runner_69.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1266,15 +1126,13 @@
     "email": "early_bird70@threadly.com",
     "phone": "010-2313-2323",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "early_bird",
       "statusMessage": "바람이 좋아",
       "bio": "아침형 인간",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/early_bird_70.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1284,15 +1142,13 @@
     "email": "coffee_lover71@threadly.com",
     "phone": "010-6824-3981",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "coffee_lover",
       "statusMessage": "혼자가 좋은",
       "bio": "전시회 마니아",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/coffee_lover_71.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1302,15 +1158,13 @@
     "email": "gallery_goer72@threadly.com",
     "phone": "010-7823-4634",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "gallery_goer",
       "statusMessage": "오늘도 달린다!",
       "bio": "자전거 타는 개발자",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/gallery_goer_72.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1320,15 +1174,13 @@
     "email": "breeze_seeker73@threadly.com",
     "phone": "010-5095-4892",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "breeze_seeker",
       "statusMessage": "따뜻한 하루",
       "bio": "강아지 산책러",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/breeze_seeker_73.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1338,15 +1190,13 @@
     "email": "forest_soul74@threadly.com",
     "phone": "010-9001-6051",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "forest_soul",
       "statusMessage": "작지만 확실한 행복",
       "bio": "감성에 진심",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/forest_soul_74.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1356,15 +1206,13 @@
     "email": "breeze_seeker75@threadly.com",
     "phone": "010-5522-4162",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "breeze_seeker",
       "statusMessage": "혼자가 좋은",
       "bio": "여행이 답이다",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/breeze_seeker_75.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1374,15 +1222,13 @@
     "email": "city_runner76@threadly.com",
     "phone": "010-2142-3930",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "city_runner",
       "statusMessage": "요즘 빠진 노래",
       "bio": "책을 좋아해요",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/city_runner_76.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1392,15 +1238,13 @@
     "email": "wave_rider77@threadly.com",
     "phone": "010-9238-6257",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "wave_rider",
       "statusMessage": "바쁜 일상 속 여유",
       "bio": "하늘 보는 게 취미",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/wave_rider_77.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1410,15 +1254,13 @@
     "email": "dream_chaser78@threadly.com",
     "phone": "010-7912-5262",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "dream_chaser",
       "statusMessage": "아무 생각 없이 걷기",
       "bio": "영화 덕후",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/dream_chaser_78.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1428,15 +1270,13 @@
     "email": "early_bird79@threadly.com",
     "phone": "010-7740-1878",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "early_bird",
       "statusMessage": "조용한 하루",
       "bio": "생각이 많은 밤",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/early_bird_79.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1446,15 +1286,13 @@
     "email": "night_owl80@threadly.com",
     "phone": "010-9201-7030",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "night_owl",
       "statusMessage": "기록하는 삶",
       "bio": "책을 좋아해요",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/night_owl_80.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1464,15 +1302,13 @@
     "email": "sunset_gazer81@threadly.com",
     "phone": "010-6793-4605",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "sunset_gazer",
       "statusMessage": "바쁜 일상 속 여유",
       "bio": "맛집 탐방 중",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/sunset_gazer_81.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1482,15 +1318,13 @@
     "email": "dream_chaser82@threadly.com",
     "phone": "010-6375-1001",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "dream_chaser",
       "statusMessage": "노을 맛집",
       "bio": "생각이 많은 밤",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/dream_chaser_82.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1500,15 +1334,13 @@
     "email": "silent_walker83@threadly.com",
     "phone": "010-6057-1830",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "silent_walker",
       "statusMessage": "바람이 좋아",
       "bio": "생각이 많은 밤",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/silent_walker_83.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1518,15 +1350,13 @@
     "email": "forest_soul84@threadly.com",
     "phone": "010-6256-9511",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "forest_soul",
       "statusMessage": "오늘도 달린다!",
       "bio": "카페인 없인 못살아",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/forest_soul_84.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1536,15 +1366,13 @@
     "email": "gallery_goer85@threadly.com",
     "phone": "010-3275-4751",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "gallery_goer",
       "statusMessage": "바쁜 일상 속 여유",
       "bio": "책을 좋아해요",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/gallery_goer_85.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1554,15 +1382,13 @@
     "email": "forest_soul86@threadly.com",
     "phone": "010-5198-1712",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "forest_soul",
       "statusMessage": "요즘 빠진 노래",
       "bio": "아침형 인간",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/forest_soul_86.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1572,15 +1398,13 @@
     "email": "night_owl87@threadly.com",
     "phone": "010-7599-5410",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "night_owl",
       "statusMessage": "여행 가고 싶다",
       "bio": "음악은 나의 친구",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/night_owl_87.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1590,15 +1414,13 @@
     "email": "beach_bum88@threadly.com",
     "phone": "010-5080-3149",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "beach_bum",
       "statusMessage": "비 오는 날이 좋아",
       "bio": "밤하늘을 좋아해요",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/beach_bum_88.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1608,15 +1430,13 @@
     "email": "art_junkie89@threadly.com",
     "phone": "010-1571-6909",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "art_junkie",
       "statusMessage": "여행 가고 싶다",
       "bio": "생각이 많은 밤",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/art_junkie_89.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1626,15 +1446,13 @@
     "email": "city_runner90@threadly.com",
     "phone": "010-2599-8197",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "city_runner",
       "statusMessage": "바쁜 일상 속 여유",
       "bio": "고양이 집사",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/city_runner_90.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1644,15 +1462,13 @@
     "email": "lazy_sunday91@threadly.com",
     "phone": "010-5577-4475",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "lazy_sunday",
       "statusMessage": "혼자가 좋은",
       "bio": "밤하늘을 좋아해요",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/lazy_sunday_91.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1662,15 +1478,13 @@
     "email": "bike_rider92@threadly.com",
     "phone": "010-9441-6218",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "bike_rider",
       "statusMessage": "작지만 확실한 행복",
       "bio": "생각이 많은 밤",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/bike_rider_92.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1680,15 +1494,13 @@
     "email": "coffee_lover93@threadly.com",
     "phone": "010-1427-1427",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "coffee_lover",
       "statusMessage": "노을 맛집",
       "bio": "음악은 나의 친구",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/coffee_lover_93.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1698,15 +1510,13 @@
     "email": "early_bird94@threadly.com",
     "phone": "010-4769-9725",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "early_bird",
       "statusMessage": "평화로운 하루",
       "bio": "하늘 보는 게 취미",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/early_bird_94.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1716,15 +1526,13 @@
     "email": "lazy_sunday95@threadly.com",
     "phone": "010-1215-3443",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "lazy_sunday",
       "statusMessage": "노을 맛집",
       "bio": "고양이 집사",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/lazy_sunday_95.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1734,15 +1542,13 @@
     "email": "mountain_hiker96@threadly.com",
     "phone": "010-7370-2349",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "mountain_hiker",
       "statusMessage": "평화로운 하루",
       "bio": "마음 가는 대로 사는 중",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/mountain_hiker_96.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1752,15 +1558,13 @@
     "email": "rainy_day97@threadly.com",
     "phone": "010-3193-1872",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "rainy_day",
       "statusMessage": "책과 함께",
       "bio": "영화 덕후",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/rainy_day_97.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1770,15 +1574,13 @@
     "email": "tea_addict98@threadly.com",
     "phone": "010-6632-3545",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "tea_addict",
       "statusMessage": "오늘도 달린다!",
       "bio": "음악은 나의 친구",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/tea_addict_98.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1788,15 +1590,13 @@
     "email": "early_bird99@threadly.com",
     "phone": "010-9833-3850",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "early_bird",
       "statusMessage": "자유로운 영혼",
       "bio": "빵순이",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/early_bird_99.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1806,15 +1606,13 @@
     "email": "breeze_seeker100@threadly.com",
     "phone": "010-1834-2807",
     "userType": "USER",
-
     "isEmailVerified": true,
     "userProfile": {
       "nickname": "breeze_seeker",
       "statusMessage": "혼자가 좋은",
       "bio": "음악은 나의 친구",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/breeze_seeker_100.png"
+      "profileType": "USER"
     }
   }
 ]

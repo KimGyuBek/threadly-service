@@ -22,9 +22,11 @@
 
 //userId
 public static final String USER_ID = "user_with_profile_test";
+public static final String USER2_ID = "user_with_profile_test2";
 
 //user email
 public static final String USER_EMAIL = "user_with_profile_test@threadly.com";
+public static final String USER2_EMAIL = "user_with_profile_test2@threadly.com";
 
 //user password
 public static final String USER_PASSWORD = "1234";
@@ -36,7 +38,15 @@ public static final Map<String, String> USER_PROFILE = Map.of(
     "statusMessage", "상태 메세지",
     "bio", "나는 사용자이다",
     "gender", "MALE",
-    "profileType", "USER",
-    "profileImageUrl", "/images/profile/usr_1.png"
+    "profileType", "USER"
+);
+
+public static final Map<String, String> USER2_PROFILE = Map.of(
+    "userId", "user_with_profile_test2",
+    "nickname", "usr1_nickname2",
+    "statusMessage", "상태 메세지",
+    "bio", "나는 사용자이다2",
+    "gender", "MALE",
+    "profileType", "USER"
 );
 ```

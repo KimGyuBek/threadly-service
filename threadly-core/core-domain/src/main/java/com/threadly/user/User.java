@@ -204,4 +204,12 @@ public class User {
   public void setEmailVerified() {
     isEmailVerified = true;
   }
+
+  /**
+   * 테스트용 userStatusType 변경
+   */
+  @VisibleForTesting
+  public void setUserStatusType(UserStatusType userStatusType) {
+    this.userStatusType = userStatusType;
+  }
 }

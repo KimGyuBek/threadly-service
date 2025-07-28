@@ -12,8 +12,7 @@
       "statusMessage": "혼자가 좋은",
       "bio": "아침형 인간",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/sunset_gazer_1.png"
+      "profileType": "USER"
     }
   },
   {
@@ -29,8 +28,7 @@
       "statusMessage": "기록하는 삶",
       "bio": "고양이 집사",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/sky_gazer_2.png"
+      "profileType": "USER"
     }
   },
   {
@@ -46,8 +44,7 @@
       "statusMessage": "나만의 시간",
       "bio": "강아지 산책러",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/book_worm_3.png"
+      "profileType": "USER"
     }
   },
   {
@@ -63,8 +60,7 @@
       "statusMessage": "작지만 확실한 행복",
       "bio": "아침형 인간",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/beach_bum_4.png"
+      "profileType": "USER"
     }
   },
   {
@@ -80,8 +76,7 @@
       "statusMessage": "혼자가 좋은",
       "bio": "맛집 탐방 중",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/early_bird_5.png"
+      "profileType": "USER"
     }
   },
   {
@@ -97,8 +92,7 @@
       "statusMessage": "작지만 확실한 행복",
       "bio": "아침형 인간",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/mountain_hiker_6.png"
+      "profileType": "USER"
     }
   },
   {
@@ -114,8 +108,7 @@
       "statusMessage": "감성 충만",
       "bio": "영화 덕후",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/dream_chaser_7.png"
+      "profileType": "USER"
     }
   },
   {
@@ -131,8 +124,7 @@
       "statusMessage": "바람이 좋아",
       "bio": "여행이 답이다",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/night_owl_8.png"
+      "profileType": "USER"
     }
   },
   {
@@ -148,8 +140,7 @@
       "statusMessage": "하늘이 참 예쁘네",
       "bio": "카페인 없인 못살아",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/mountain_hiker_9.png"
+      "profileType": "USER"
     }
   },
   {
@@ -165,8 +156,7 @@
       "statusMessage": "나만의 시간",
       "bio": "자연을 사랑합니다",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/mountain_hiker_10.png"
+      "profileType": "USER"
     }
   },
   {
@@ -182,8 +172,7 @@
       "statusMessage": "여행 가고 싶다",
       "bio": "마음 가는 대로 사는 중",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/dream_chaser_11.png"
+      "profileType": "USER"
     }
   },
   {
@@ -199,8 +188,7 @@
       "statusMessage": "바쁜 일상 속 여유",
       "bio": "감성에 진심",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/breeze_seeker_12.png"
+      "profileType": "USER"
     }
   },
   {
@@ -216,8 +204,7 @@
       "statusMessage": "기록하는 삶",
       "bio": "고양이 집사",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/early_bird_13.png"
+      "profileType": "USER"
     }
   },
   {
@@ -233,8 +220,7 @@
       "statusMessage": "바람이 좋아",
       "bio": "빵순이",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/silent_walker_14.png"
+      "profileType": "USER"
     }
   },
   {
@@ -250,8 +236,7 @@
       "statusMessage": "감성 충만",
       "bio": "밤하늘을 좋아해요",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/beach_bum_15.png"
+      "profileType": "USER"
     }
   },
   {
@@ -267,8 +252,7 @@
       "statusMessage": "노을 맛집",
       "bio": "고양이 집사",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/sky_gazer_16.png"
+      "profileType": "USER"
     }
   },
   {
@@ -284,8 +268,7 @@
       "statusMessage": "조용한 하루",
       "bio": "낮보단 밤파",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/city_runner_17.png"
+      "profileType": "USER"
     }
   },
   {
@@ -301,8 +284,7 @@
       "statusMessage": "하늘이 참 예쁘네",
       "bio": "하늘 보는 게 취미",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/beach_bum_18.png"
+      "profileType": "USER"
     }
   },
   {
@@ -318,8 +300,7 @@
       "statusMessage": "혼자가 좋은",
       "bio": "빵순이",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/wave_rider_19.png"
+      "profileType": "USER"
     }
   },
   {
@@ -335,8 +316,7 @@
       "statusMessage": "아무 생각 없이 걷기",
       "bio": "뜨개질 취미",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/tea_addict_20.png"
+      "profileType": "USER"
     }
   },
   {
@@ -352,8 +332,7 @@
       "statusMessage": "조용한 하루",
       "bio": "감성에 진심",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/sunset_gazer_21.png"
+      "profileType": "USER"
     }
   },
   {
@@ -369,8 +348,7 @@
       "statusMessage": "혼자가 좋은",
       "bio": "자연을 사랑합니다",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/night_owl_22.png"
+      "profileType": "USER"
     }
   },
   {
@@ -386,8 +364,7 @@
       "statusMessage": "바람이 좋아",
       "bio": "전시회 마니아",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/lazy_sunday_23.png"
+      "profileType": "USER"
     }
   },
   {
@@ -403,8 +380,7 @@
       "statusMessage": "책과 함께",
       "bio": "생각이 많은 밤",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/tea_addict_24.png"
+      "profileType": "USER"
     }
   },
   {
@@ -420,8 +396,7 @@
       "statusMessage": "따뜻한 하루",
       "bio": "밤하늘을 좋아해요",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/coffee_lover_25.png"
+      "profileType": "USER"
     }
   },
   {
@@ -437,8 +412,7 @@
       "statusMessage": "책과 함께",
       "bio": "아침형 인간",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/sky_gazer_26.png"
+      "profileType": "USER"
     }
   },
   {
@@ -454,8 +428,7 @@
       "statusMessage": "조용한 하루",
       "bio": "뜨개질 취미",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/rainy_day_27.png"
+      "profileType": "USER"
     }
   },
   {
@@ -471,8 +444,7 @@
       "statusMessage": "나만의 시간",
       "bio": "맛집 탐방 중",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/breeze_seeker_28.png"
+      "profileType": "USER"
     }
   },
   {
@@ -488,8 +460,7 @@
       "statusMessage": "혼자가 좋은",
       "bio": "아침형 인간",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/sunset_gazer_29.png"
+      "profileType": "USER"
     }
   },
   {
@@ -505,8 +476,7 @@
       "statusMessage": "아무 생각 없이 걷기",
       "bio": "강아지 산책러",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/silent_walker_30.png"
+      "profileType": "USER"
     }
   },
   {
@@ -522,8 +492,7 @@
       "statusMessage": "자유로운 영혼",
       "bio": "여행이 답이다",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/lazy_sunday_31.png"
+      "profileType": "USER"
     }
   },
   {
@@ -539,8 +508,7 @@
       "statusMessage": "여행 가고 싶다",
       "bio": "아침형 인간",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/tea_addict_32.png"
+      "profileType": "USER"
     }
   },
   {
@@ -556,8 +524,7 @@
       "statusMessage": "오늘도 달린다!",
       "bio": "마음 가는 대로 사는 중",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/lazy_sunday_33.png"
+      "profileType": "USER"
     }
   },
   {
@@ -573,8 +540,7 @@
       "statusMessage": "빛처럼 살자",
       "bio": "영화 덕후",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/rainy_day_34.png"
+      "profileType": "USER"
     }
   },
   {
@@ -590,8 +556,7 @@
       "statusMessage": "빛처럼 살자",
       "bio": "빵순이",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/book_worm_35.png"
+      "profileType": "USER"
     }
   },
   {
@@ -607,8 +572,7 @@
       "statusMessage": "오늘도 달린다!",
       "bio": "책을 좋아해요",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/bike_rider_36.png"
+      "profileType": "USER"
     }
   },
   {
@@ -624,8 +588,7 @@
       "statusMessage": "작지만 확실한 행복",
       "bio": "자연을 사랑합니다",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/sunset_gazer_37.png"
+      "profileType": "USER"
     }
   },
   {
@@ -641,8 +604,7 @@
       "statusMessage": "혼자가 좋은",
       "bio": "생각이 많은 밤",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/art_junkie_38.png"
+      "profileType": "USER"
     }
   },
   {
@@ -658,8 +620,7 @@
       "statusMessage": "책과 함께",
       "bio": "음악은 나의 친구",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/mountain_hiker_39.png"
+      "profileType": "USER"
     }
   },
   {
@@ -675,8 +636,7 @@
       "statusMessage": "작지만 확실한 행복",
       "bio": "자전거 타는 개발자",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/beach_bum_40.png"
+      "profileType": "USER"
     }
   },
   {
@@ -692,8 +652,7 @@
       "statusMessage": "비 오는 날이 좋아",
       "bio": "여행이 답이다",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/silent_walker_41.png"
+      "profileType": "USER"
     }
   },
   {
@@ -709,8 +668,7 @@
       "statusMessage": "바람이 좋아",
       "bio": "여행이 답이다",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/wave_rider_42.png"
+      "profileType": "USER"
     }
   },
   {
@@ -726,8 +684,7 @@
       "statusMessage": "하늘이 참 예쁘네",
       "bio": "마음 가는 대로 사는 중",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/coffee_lover_43.png"
+      "profileType": "USER"
     }
   },
   {
@@ -743,8 +700,7 @@
       "statusMessage": "감성 충만",
       "bio": "카페인 없인 못살아",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/coffee_lover_44.png"
+      "profileType": "USER"
     }
   },
   {
@@ -760,8 +716,7 @@
       "statusMessage": "감성 충만",
       "bio": "생각이 많은 밤",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/dream_chaser_45.png"
+      "profileType": "USER"
     }
   },
   {
@@ -777,8 +732,7 @@
       "statusMessage": "노을 맛집",
       "bio": "빵순이",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/dream_chaser_46.png"
+      "profileType": "USER"
     }
   },
   {
@@ -794,8 +748,7 @@
       "statusMessage": "조용한 하루",
       "bio": "고양이 집사",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/book_worm_47.png"
+      "profileType": "USER"
     }
   },
   {
@@ -811,8 +764,7 @@
       "statusMessage": "아무 생각 없이 걷기",
       "bio": "맛집 탐방 중",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/dream_chaser_48.png"
+      "profileType": "USER"
     }
   },
   {
@@ -828,8 +780,7 @@
       "statusMessage": "감성 충만",
       "bio": "낮보단 밤파",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/art_junkie_49.png"
+      "profileType": "USER"
     }
   },
   {
@@ -845,8 +796,7 @@
       "statusMessage": "책과 함께",
       "bio": "여행이 답이다",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/lazy_sunday_50.png"
+      "profileType": "USER"
     }
   },
   {
@@ -862,8 +812,7 @@
       "statusMessage": "감성 충만",
       "bio": "하늘 보는 게 취미",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/tea_addict_51.png"
+      "profileType": "USER"
     }
   },
   {
@@ -879,8 +828,7 @@
       "statusMessage": "감성 충만",
       "bio": "강아지 산책러",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/dream_chaser_52.png"
+      "profileType": "USER"
     }
   },
   {
@@ -896,8 +844,7 @@
       "statusMessage": "나만의 시간",
       "bio": "낮보단 밤파",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/art_junkie_53.png"
+      "profileType": "USER"
     }
   },
   {
@@ -913,8 +860,7 @@
       "statusMessage": "비 오는 날이 좋아",
       "bio": "밤하늘을 좋아해요",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/night_owl_54.png"
+      "profileType": "USER"
     }
   },
   {
@@ -930,8 +876,7 @@
       "statusMessage": "비 오는 날이 좋아",
       "bio": "빵순이",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/night_owl_55.png"
+      "profileType": "USER"
     }
   },
   {
@@ -947,8 +892,7 @@
       "statusMessage": "감성 충만",
       "bio": "마음 가는 대로 사는 중",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/coffee_lover_56.png"
+      "profileType": "USER"
     }
   },
   {
@@ -964,8 +908,7 @@
       "statusMessage": "평화로운 하루",
       "bio": "책을 좋아해요",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/forest_soul_57.png"
+      "profileType": "USER"
     }
   },
   {
@@ -981,8 +924,7 @@
       "statusMessage": "작지만 확실한 행복",
       "bio": "카페인 없인 못살아",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/rainy_day_58.png"
+      "profileType": "USER"
     }
   },
   {
@@ -998,8 +940,7 @@
       "statusMessage": "바람이 좋아",
       "bio": "여행이 답이다",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/gallery_goer_59.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1015,8 +956,7 @@
       "statusMessage": "나만의 시간",
       "bio": "뜨개질 취미",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/rainy_day_60.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1032,8 +972,7 @@
       "statusMessage": "나만의 시간",
       "bio": "뜨개질 취미",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/early_bird_61.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1049,8 +988,7 @@
       "statusMessage": "작지만 확실한 행복",
       "bio": "자연을 사랑합니다",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/rainy_day_62.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1066,8 +1004,7 @@
       "statusMessage": "노을 맛집",
       "bio": "전시회 마니아",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/dream_chaser_63.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1083,8 +1020,7 @@
       "statusMessage": "하늘이 참 예쁘네",
       "bio": "강아지 산책러",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/breeze_seeker_64.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1100,8 +1036,7 @@
       "statusMessage": "아무 생각 없이 걷기",
       "bio": "아침형 인간",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/forest_soul_65.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1117,8 +1052,7 @@
       "statusMessage": "여행 가고 싶다",
       "bio": "강아지 산책러",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/city_runner_66.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1134,8 +1068,7 @@
       "statusMessage": "비 오는 날이 좋아",
       "bio": "여행이 답이다",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/city_runner_67.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1151,8 +1084,7 @@
       "statusMessage": "요즘 빠진 노래",
       "bio": "하늘 보는 게 취미",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/dream_chaser_68.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1168,8 +1100,7 @@
       "statusMessage": "나만의 시간",
       "bio": "여행이 답이다",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/city_runner_69.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1185,8 +1116,7 @@
       "statusMessage": "바람이 좋아",
       "bio": "아침형 인간",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/early_bird_70.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1202,8 +1132,7 @@
       "statusMessage": "혼자가 좋은",
       "bio": "전시회 마니아",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/coffee_lover_71.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1219,8 +1148,7 @@
       "statusMessage": "오늘도 달린다!",
       "bio": "자전거 타는 개발자",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/gallery_goer_72.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1236,8 +1164,7 @@
       "statusMessage": "따뜻한 하루",
       "bio": "강아지 산책러",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/breeze_seeker_73.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1253,8 +1180,7 @@
       "statusMessage": "작지만 확실한 행복",
       "bio": "감성에 진심",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/forest_soul_74.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1270,8 +1196,7 @@
       "statusMessage": "혼자가 좋은",
       "bio": "여행이 답이다",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/breeze_seeker_75.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1287,8 +1212,7 @@
       "statusMessage": "요즘 빠진 노래",
       "bio": "책을 좋아해요",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/city_runner_76.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1304,8 +1228,7 @@
       "statusMessage": "바쁜 일상 속 여유",
       "bio": "하늘 보는 게 취미",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/wave_rider_77.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1321,8 +1244,7 @@
       "statusMessage": "아무 생각 없이 걷기",
       "bio": "영화 덕후",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/dream_chaser_78.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1338,8 +1260,7 @@
       "statusMessage": "조용한 하루",
       "bio": "생각이 많은 밤",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/early_bird_79.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1355,8 +1276,7 @@
       "statusMessage": "기록하는 삶",
       "bio": "책을 좋아해요",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/night_owl_80.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1372,8 +1292,7 @@
       "statusMessage": "바쁜 일상 속 여유",
       "bio": "맛집 탐방 중",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/sunset_gazer_81.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1389,8 +1308,7 @@
       "statusMessage": "노을 맛집",
       "bio": "생각이 많은 밤",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/dream_chaser_82.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1406,8 +1324,7 @@
       "statusMessage": "바람이 좋아",
       "bio": "생각이 많은 밤",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/silent_walker_83.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1423,8 +1340,7 @@
       "statusMessage": "오늘도 달린다!",
       "bio": "카페인 없인 못살아",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/forest_soul_84.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1440,8 +1356,7 @@
       "statusMessage": "바쁜 일상 속 여유",
       "bio": "책을 좋아해요",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/gallery_goer_85.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1457,8 +1372,7 @@
       "statusMessage": "요즘 빠진 노래",
       "bio": "아침형 인간",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/forest_soul_86.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1474,8 +1388,7 @@
       "statusMessage": "여행 가고 싶다",
       "bio": "음악은 나의 친구",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/night_owl_87.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1491,8 +1404,7 @@
       "statusMessage": "비 오는 날이 좋아",
       "bio": "밤하늘을 좋아해요",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/beach_bum_88.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1508,8 +1420,7 @@
       "statusMessage": "여행 가고 싶다",
       "bio": "생각이 많은 밤",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/art_junkie_89.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1525,8 +1436,7 @@
       "statusMessage": "바쁜 일상 속 여유",
       "bio": "고양이 집사",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/city_runner_90.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1542,8 +1452,7 @@
       "statusMessage": "혼자가 좋은",
       "bio": "밤하늘을 좋아해요",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/lazy_sunday_91.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1559,8 +1468,7 @@
       "statusMessage": "작지만 확실한 행복",
       "bio": "생각이 많은 밤",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/bike_rider_92.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1576,8 +1484,7 @@
       "statusMessage": "노을 맛집",
       "bio": "음악은 나의 친구",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/coffee_lover_93.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1593,8 +1500,7 @@
       "statusMessage": "평화로운 하루",
       "bio": "하늘 보는 게 취미",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/early_bird_94.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1610,8 +1516,7 @@
       "statusMessage": "노을 맛집",
       "bio": "고양이 집사",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/lazy_sunday_95.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1627,8 +1532,7 @@
       "statusMessage": "평화로운 하루",
       "bio": "마음 가는 대로 사는 중",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/mountain_hiker_96.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1644,8 +1548,7 @@
       "statusMessage": "책과 함께",
       "bio": "영화 덕후",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/rainy_day_97.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1661,8 +1564,7 @@
       "statusMessage": "오늘도 달린다!",
       "bio": "음악은 나의 친구",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/tea_addict_98.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1678,8 +1580,7 @@
       "statusMessage": "자유로운 영혼",
       "bio": "빵순이",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/early_bird_99.png"
+      "profileType": "USER"
     }
   },
   {
@@ -1695,8 +1596,7 @@
       "statusMessage": "혼자가 좋은",
       "bio": "음악은 나의 친구",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/breeze_seeker_100.png"
+      "profileType": "USER"
     }
   }
 ]

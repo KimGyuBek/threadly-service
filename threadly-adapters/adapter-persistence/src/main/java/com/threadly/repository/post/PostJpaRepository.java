@@ -47,12 +47,14 @@ public interface PostJpaRepository extends JpaRepository<PostEntity, String> {
              p.view_count                  as viewCount,
              p.modified_at                 as postedAt,
              p.status                      as postStatus,
+             upi.image_url as userProfileImageUrl,
              coalesce(pl.like_count, 0)    as likeCount,
              coalesce(pc.comment_count, 0) as commentCount,
              coalesce(pl.is_liked, false)  as liked
       from posts p
                join users u on p.user_id = u.user_id
                join user_profile up on u.user_id = up.user_id
+               left join user_profile_images upi on up.user_id = upi.user_id
                left join(select post_id,
                                 count(*) as like_count,
                                 max(
@@ -89,17 +91,19 @@ public interface PostJpaRepository extends JpaRepository<PostEntity, String> {
   @Query(value = """
       select p.post_id                           as postId,
              u.user_id                           as userId,
-             up.profile_image_url                as userProfileImageUrl,
+             upi.image_url                       as userProfileImageUrl,
              up.nickname                         as userNickname,
              p.content                           as content,
              p.view_count                        as viewCount,
              p.modified_at                       as postedAt,
+                   upi.image_url as userProfileImageUrl,
              coalesce(pl_count.like_count, 0)    as likeCount,
              coalesce(pc_count.comment_count, 0) as commentCount,
              coalesce(pl_liked.liked, false)     as liked
       from posts p
                join users u on p.user_id = u.user_id
                join user_profile up on u.user_id = up.user_id
+               left join user_profile_images upi on up.user_id = upi.user_id
                left join(select post_id, count(*) as like_count
                          from post_likes
                          group by post_id) pl_count on p.post_id = pl_count.post_id
@@ -120,8 +124,7 @@ public interface PostJpaRepository extends JpaRepository<PostEntity, String> {
               )
           )
       order by p.modified_at DESC, p.post_id desc
-      limit :limit
-      """, nativeQuery = true)
+      limit :limit     """, nativeQuery = true)
   List<PostDetailProjection> findUserVisiblePostsBeforeModifiedAt(@Param("userId") String userId,
       @Param("cursorPostedAt") LocalDateTime cursorPostedAt,
       @Param("cursorPostId") String cursorPostId,
@@ -160,13 +163,14 @@ public interface PostJpaRepository extends JpaRepository<PostEntity, String> {
       select p.post_id                    as postId,
              u.user_id                    as authorId,
              up.nickname                  as authorNickname,
-             up.profile_image_url         as authorProfileImageUrl,
+             upi.image_url   as authorProfileImageUrl,
              p.content                    as content,
              coalesce(pl.like_count, 0)   as likeCount,
              coalesce(pl.is_liked, false) as liked
       from posts p
                join users u on p.user_id = u.user_id
                join user_profile up on u.user_id = up.user_id
+               left join user_profile_images upi on up.user_id = upi.user_id
                left join(select post_id,
                                 count(*) as like_count,
                                 max(case

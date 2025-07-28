@@ -1,16 +1,16 @@
 [
   {
-    "userId": "user_with_profile_test",
+    "userId": "user_with_profile_test2",
     "userName": "사용자 프로필 테스트용",
     "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
-    "email": "user_with_profile_test@threadly.com",
+    "email": "user_with_profile_test2@threadly.com",
     "phone": "010-3178-6830",
     "userType": "USER",
     "isEmailVerified": true,
     "userProfile": {
-      "nickname": "usr1_nickname",
+      "nickname": "usr1_nickname2",
       "statusMessage": "상태 메세지",
-      "bio": "나는 사용자이다",
+      "bio": "나는 사용자이다2",
       "gender": "MALE",
       "profileType": "USER"
     }

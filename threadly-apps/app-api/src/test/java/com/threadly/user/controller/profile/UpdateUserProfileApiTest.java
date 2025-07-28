@@ -41,8 +41,7 @@ class UpdateUserProfileApiTest extends BaseUserProfileApiTest {
           "nickname", "newNickname",
           "statusMessage", "newStatusMessage",
           "bio", "newBio",
-          "phoneNumber", "newPhoneNumber",
-          "profileImageUrl", "/images/profile/usr_1.png"
+          "phoneNumber", "newPhoneNumber"
       );
 
       //when

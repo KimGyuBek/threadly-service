@@ -13,8 +13,7 @@
       "statusMessage": "나는 작성자",
       "bio": "작성자다",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/writer_1.png"
+      "profileType": "USER"
     }
   },
   {
@@ -31,8 +30,7 @@
       "statusMessage": "혼자가 좋은",
       "bio": "아침형 인간",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/sunset_gazer_1.png"
+      "profileType": "USER"
     }
   },
   {
@@ -49,8 +47,7 @@
       "statusMessage": "기록하는 삶",
       "bio": "고양이 집사",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/sky_gazer_2.png"
+      "profileType": "USER"
     }
   },
   {
@@ -67,8 +64,7 @@
       "statusMessage": "나만의 시간",
       "bio": "강아지 산책러",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/book_worm_3.png"
+      "profileType": "USER"
     }
   },
   {
@@ -85,8 +81,7 @@
       "statusMessage": "작지만 확실한 행복",
       "bio": "아침형 인간",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/beach_bum_4.png"
+      "profileType": "USER"
     }
   },
   {
@@ -103,8 +98,7 @@
       "statusMessage": "혼자가 좋은",
       "bio": "맛집 탐방 중",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/early_bird_5.png"
+      "profileType": "USER"
     }
   },
   {
@@ -121,8 +115,7 @@
       "statusMessage": "작지만 확실한 행복",
       "bio": "아침형 인간",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/mountain_hiker_6.png"
+      "profileType": "USER"
     }
   }
 ]

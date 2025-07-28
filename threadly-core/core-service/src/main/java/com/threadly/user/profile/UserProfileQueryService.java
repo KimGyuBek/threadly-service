@@ -2,6 +2,7 @@ package com.threadly.user.profile;
 
 import com.threadly.exception.ErrorCode;
 import com.threadly.exception.user.UserException;
+import com.threadly.user.UserStatusType;
 import com.threadly.user.profile.fetch.FetchUserProfilePort;
 import com.threadly.user.profile.fetch.UserProfileProjection;
 import com.threadly.user.profile.get.GetUserProfileApiResponse;
@@ -38,6 +39,11 @@ public class UserProfileQueryService implements GetUserProfileUseCase {
         userId).orElseThrow(
         () -> new UserException(ErrorCode.USER_NOT_FOUND)
     );
+
+    /*사용자 상태 검증*/
+    if (userProfileProjection.getUserStatus().equals(UserStatusType.DELETED)) {
+      throw new UserException(ErrorCode.USER_ALREADY_DELETED);
+    }
 
     return new GetUserProfileApiResponse(
         userProfileProjection.getUserId(),

@@ -5,10 +5,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.threadly.CommonResponse;
 import com.threadly.exception.ErrorCode;
-import com.threadly.testsupport.fixture.users.UserFixtureLoader;
+import com.threadly.user.UserStatusType;
 import com.threadly.user.profile.get.GetUserProfileApiResponse;
 import com.threadly.utils.TestConstants;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.ClassOrderer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
@@ -17,7 +16,6 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestClassOrder;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * 사용자 프로필 조회 관련 테스트
@@ -98,8 +96,31 @@ class GetUserProfileApiTest extends BaseUserProfileApiTest {
       assertThat(getUserProfileResponse.getCode()).isEqualTo(ErrorCode.USER_NOT_FOUND.getCode());
     }
 
+    /*[Case #3]  탈퇴한 사용자를 조회할 경우 */
+    @Order(3)
+    @DisplayName("탈퇴 처리된 사용자의 프로필을 조회할 경우")
+    @Test
+    public void getUserProfile_shouldReturn403Forbidden_userDeleted() throws Exception {
+      //given
+      userFixtureLoader.load(
+          "/users/profile/user2.json",
+          UserStatusType.DELETED
+      );
 
+      /*로그인*/
+      String accessToken = getAccessToken(TestConstants.EMAIL_VERIFIED_USER_1);
+
+      //when
+      /*프로필 조회 요청*/
+      CommonResponse<GetUserProfileApiResponse> getUserProfileResponse = sendGetUserProfileRequest(
+          accessToken, USER2_ID, status().isForbidden());
+
+      //then
+      /*응답 검증*/
+      assertThat(getUserProfileResponse.isSuccess()).isFalse();
+      assertThat(getUserProfileResponse.getCode()).isEqualTo(
+          ErrorCode.USER_ALREADY_DELETED.getCode());
+    }
     /*[Case #3]  차단된 사용자를 조회할 경우*/
-    /*[Case #4]  탈퇴한 사용자를 조회할 경우 */
   }
 }

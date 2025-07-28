@@ -21,8 +21,9 @@ public interface UserProfileJpaRepository extends JpaRepository<UserProfileEntit
    */
   @Query(value = """
       select up.nickname          as nickname,
-             up.profile_image_url as profileImageUrl
+             upi.image_url        as profileImageUrl
       from user_profile up
+      left join user_profile_images upi on up.user_id = upi.user_id
       where up.user_id = :userId;
       """, nativeQuery = true)
   UserPreviewProjection findUserCommentPreviewByUserId(@Param("userId") String userId);
@@ -45,16 +46,17 @@ public interface UserProfileJpaRepository extends JpaRepository<UserProfileEntit
    * @return
    */
   @Query(value = """
-      select
-          up.user_id as userId,
-          up.nickname as nickname,
-          up.status_message as statusMessage,
-          up.bio as bio,
-          u.phone as phone,
-          up.profile_image_url as profileImageUrl
+      select up.user_id        as userId,
+             up.nickname       as nickname,
+             up.status_message as statusMessage,
+             up.bio            as bio,
+             u.phone           as phone,
+             upi.image_url     as profileImageurl,
+             u.status          as userStatus
       from user_profile up
-      left join users u on u.user_id = up.user_id
-      where up.user_id = :userId
+               left join users u on up.user_id = u.user_id
+               left join user_profile_images upi on up.user_id = upi.user_id
+      where u.user_id = :userId;
       """, nativeQuery = true)
   Optional<UserProfileProjection> findUserProfileByUserId(@Param("userId") String userId);
 

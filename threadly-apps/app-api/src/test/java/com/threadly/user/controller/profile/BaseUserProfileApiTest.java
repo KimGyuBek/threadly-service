@@ -22,7 +22,7 @@ import org.springframework.test.web.servlet.ResultMatcher;
 public abstract class BaseUserProfileApiTest extends BaseApiTest {
 
   @Autowired
-  private UserFixtureLoader userFixtureLoader;
+  public UserFixtureLoader userFixtureLoader;
 
   @BeforeEach
   void setUp() {
@@ -33,9 +33,14 @@ public abstract class BaseUserProfileApiTest extends BaseApiTest {
 
   //userId
   public static final String USER_ID = "user_with_profile_test";
+  public static final String USER2_ID = "user_with_profile_test2";
 
   //user email
   public static final String USER_EMAIL = "user_with_profile_test@threadly.com";
+  public static final String USER2_EMAIL = "user_with_profile_test2@threadly.com";
+
+  //user password
+  public static final String USER_PASSWORD = "1234";
 
   //user profile
   public static final Map<String, String> USER_PROFILE = Map.of(
@@ -44,10 +49,17 @@ public abstract class BaseUserProfileApiTest extends BaseApiTest {
       "statusMessage", "상태 메세지",
       "bio", "나는 사용자이다",
       "gender", "MALE",
-      "profileType", "USER",
-      "profileImageUrl", "/images/profile/usr_1.png"
+      "profileType", "USER"
   );
 
+  public static final Map<String, String> USER2_PROFILE = Map.of(
+      "userId", "user_with_profile_test2",
+      "nickname", "usr1_nickname2",
+      "statusMessage", "상태 메세지",
+      "bio", "나는 사용자이다2",
+      "gender", "MALE",
+      "profileType", "USER"
+  );
   /**
    * 사용자 프로필 초기 설정 요청
    *

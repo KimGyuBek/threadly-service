@@ -53,12 +53,10 @@ public class UserProfile {
   /**
    * 프로필 업데이트
    *
-   * @param userId
    * @param nickname
    * @param statusMessage
    * @param bio
    * @param phone
-   * @param profileImage
    * @return
    */
   public void updateProfile(String nickname, String statusMessage,
@@ -68,7 +66,6 @@ public class UserProfile {
     this.bio = bio;
     this.phone = phone;
     this.userProfileImage = userProfileImage;
-//    this.profileImageUrl = profileImageUrl;
   }
 
   /*테스트용*/
@@ -79,8 +76,7 @@ public class UserProfile {
       String statusMessage,
       String bio,
       UserGenderType gender,
-      UserProfileType profileType,
-      String profileImageUrl
+      UserProfileType profileType
   ) {
     return
         UserProfile.builder()
@@ -90,7 +86,6 @@ public class UserProfile {
             .bio(bio != null ? bio : "")
             .genderType(gender)
             .userProfileType(profileType)
-            .userProfileImage(null)
             .build();
   }
 }

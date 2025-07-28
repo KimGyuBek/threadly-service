@@ -9,6 +9,7 @@ public record GetMyProfileEditApiResponse(
     String statusMessage,
     String bio,
     String phone,
+    String profileImageId,
     String profileImageUrl
 ) {
 
