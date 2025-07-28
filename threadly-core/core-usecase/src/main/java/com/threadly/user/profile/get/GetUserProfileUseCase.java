@@ -22,5 +22,10 @@ public interface GetUserProfileUseCase {
    */
   GetUserProfileApiResponse getUserProfile(String userId);
 
-
+  /**
+   * 자신의 프로필 상세 조회
+   * @param userId
+   * @return
+   */
+  GetMyProfileDetailsApiResponse getMyProfileDetails(String userId);
 }

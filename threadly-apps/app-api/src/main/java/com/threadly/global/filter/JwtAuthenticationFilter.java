@@ -91,6 +91,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
    * @return
    */
   private boolean isWhiteListedForProfileIncomplete(String uri) {
-    return uri.equals("/api/user/profile");
+    return uri.equals("/api/me/profile");
   }
 }

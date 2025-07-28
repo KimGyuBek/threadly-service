@@ -1,4 +1,4 @@
-package com.threadly.user.controller.profile;
+package com.threadly.user.controller.profile.my;
 
 import static com.threadly.utils.TestConstants.EMAIL_VERIFIED_USER_1;
 import static com.threadly.utils.TestConstants.PROFILE_NOT_SET_USER_1;
@@ -15,7 +15,7 @@ import com.threadly.CommonResponse;
 import com.threadly.auth.token.response.LoginTokenResponse;
 import com.threadly.exception.ErrorCode;
 import com.threadly.user.UserGenderType;
-import com.threadly.user.profile.register.UserProfileRegistrationApiResponse;
+import com.threadly.user.profile.register.MyProfileRegisterApiResponse;
 import java.util.Map;
 import org.junit.jupiter.api.ClassOrderer;
 import org.junit.jupiter.api.DisplayName;
@@ -31,7 +31,7 @@ import org.junit.jupiter.api.TestMethodOrder;
  */
 @DisplayName("사용자 프로필 생성 테스트")
 @TestClassOrder(ClassOrderer.OrderAnnotation.class)
-class CreateUserProfileApiTest extends BaseUserProfileApiTest {
+class CreateMyProfileApiTest extends BaseMyProfileApiTest {
 
   @Order(1)
   @Nested
@@ -66,7 +66,7 @@ class CreateUserProfileApiTest extends BaseUserProfileApiTest {
 
 
       /*프로필 초기 설정 요청 전송*/
-      CommonResponse<UserProfileRegistrationApiResponse> setProfileResponse = setUserProfileRequest(
+      CommonResponse<MyProfileRegisterApiResponse> setProfileResponse = sendSetMyProfileRequest(
           accessToken, profileData, status().isCreated()
       );
 
@@ -120,7 +120,7 @@ class CreateUserProfileApiTest extends BaseUserProfileApiTest {
 
 
       /*프로필 초기 설정 요청 전송*/
-      CommonResponse<UserProfileRegistrationApiResponse> setProfileResponse = setUserProfileRequest(
+      CommonResponse<MyProfileRegisterApiResponse> setProfileResponse = sendSetMyProfileRequest(
           accessToken, profileData, status().isConflict()
       );
 
@@ -158,7 +158,7 @@ class CreateUserProfileApiTest extends BaseUserProfileApiTest {
       //when
 
       /*프로필 초기 설정 요청 전송*/
-      CommonResponse<UserProfileRegistrationApiResponse> setProfileResponse = setUserProfileRequest(
+      CommonResponse<MyProfileRegisterApiResponse> setProfileResponse = sendSetMyProfileRequest(
           accessToken, USER_PROFILE, status().isConflict()
       );
 

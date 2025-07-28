@@ -24,7 +24,7 @@ public class UserProfileSettingInterceptor implements HandlerInterceptor {
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
       throws Exception {
     /*요청 검증*/
-    if (!request.getRequestURI().equals("/api/user/profile") || !request.getMethod()
+    if (!request.getRequestURI().equals("/api/me/profile") || !request.getMethod()
         .equalsIgnoreCase("POST")) {
       return true;
     }

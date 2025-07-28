@@ -38,4 +38,11 @@ public interface FetchUserProfilePort {
    */
   Optional<UserProfileProjection> findUserProfileByUserId(String userId);
 
+  /**
+   * 내 프로필 정보 상세 조회
+   * @param userId
+   * @return
+   */
+  Optional<MyProfileDetailsProjection> findMyProfileDetailsByUserId(String userId);
+
 }

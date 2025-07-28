@@ -9,7 +9,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public class SetProfileImageCommand {
+public class SetMyProfileImageCommand {
 
   private String userId;
   private UploadImage uploadImage;

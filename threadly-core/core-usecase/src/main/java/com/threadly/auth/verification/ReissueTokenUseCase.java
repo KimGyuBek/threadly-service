@@ -1,13 +1,13 @@
 package com.threadly.auth.verification;
 
-import com.threadly.user.profile.register.UserProfileRegistrationApiResponse;
+import com.threadly.user.profile.register.MyProfileRegisterApiResponse;
 
 /**
  * 임시
  */
 public interface ReissueTokenUseCase {
 
-  UserProfileRegistrationApiResponse reissueToken(String userId);
+  MyProfileRegisterApiResponse reissueToken(String userId);
 
 
 }

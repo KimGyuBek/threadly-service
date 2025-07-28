@@ -1,4 +1,4 @@
-package com.threadly.user.controller.profile;
+package com.threadly.user.controller.profile.my;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -7,8 +7,9 @@ import com.threadly.BaseApiTest;
 import com.threadly.CommonResponse;
 import com.threadly.testsupport.fixture.users.UserFixtureLoader;
 import com.threadly.user.UserGenderType;
+import com.threadly.user.profile.get.GetMyProfileDetailsApiResponse;
 import com.threadly.user.profile.get.GetUserProfileApiResponse;
-import com.threadly.user.profile.register.UserProfileRegistrationApiResponse;
+import com.threadly.user.profile.register.MyProfileRegisterApiResponse;
 import com.threadly.user.request.RegisterUserProfileRequest;
 import com.threadly.user.request.UpdateUserProfileRequest;
 import java.util.Map;
@@ -19,7 +20,7 @@ import org.springframework.test.web.servlet.ResultMatcher;
 /**
  * 사용자 프로필 관련 Base 테스트
  */
-public abstract class BaseUserProfileApiTest extends BaseApiTest {
+public abstract class BaseMyProfileApiTest extends BaseApiTest {
 
   @Autowired
   public UserFixtureLoader userFixtureLoader;
@@ -49,7 +50,8 @@ public abstract class BaseUserProfileApiTest extends BaseApiTest {
       "statusMessage", "상태 메세지",
       "bio", "나는 사용자이다",
       "gender", "MALE",
-      "profileType", "USER"
+      "profileType", "USER",
+      "phone", "010-1111-1111"
   );
 
   public static final Map<String, String> USER2_PROFILE = Map.of(
@@ -58,14 +60,33 @@ public abstract class BaseUserProfileApiTest extends BaseApiTest {
       "statusMessage", "상태 메세지",
       "bio", "나는 사용자이다2",
       "gender", "MALE",
-      "profileType", "USER"
+      "profileType", "USER",
+      "phone", "010-2222-2222"
   );
+
+  /**
+   * 내 프로필 정보 상세 조회 요청
+   *
+   * @param accessToken
+   * @param expectedStatus
+   * @return
+   * @throws Exception
+   */
+  public CommonResponse<GetMyProfileDetailsApiResponse> sendGetMyProfileDetailsRequest(
+      String accessToken,
+      ResultMatcher expectedStatus) throws Exception {
+    return sendGetRequest(
+        accessToken, "/api/me/profile", expectedStatus,
+        new TypeReference<CommonResponse<GetMyProfileDetailsApiResponse>>() {
+        });
+  }
+
   /**
    * 사용자 프로필 초기 설정 요청
    *
    * @return
    */
-  public CommonResponse<UserProfileRegistrationApiResponse> setUserProfileRequest(
+  public CommonResponse<MyProfileRegisterApiResponse> sendSetMyProfileRequest(
       String accessToken,
       Map<String, String> profileData,
       ResultMatcher conflict) throws Exception {
@@ -83,9 +104,9 @@ public abstract class BaseUserProfileApiTest extends BaseApiTest {
     return
         sendPostRequest(
             requestBody,
-            "/api/user/profile",
+            "/api/me/profile",
             conflict,
-            new TypeReference<CommonResponse<UserProfileRegistrationApiResponse>>() {
+            new TypeReference<>() {
             },
             Map.of("Authorization", "Bearer " + accessToken)
         );
@@ -100,7 +121,7 @@ public abstract class BaseUserProfileApiTest extends BaseApiTest {
    * @return
    * @throws Exception
    */
-  public CommonResponse<Void> sendUpdateUserProfileRequest(String accessToken,
+  public CommonResponse<Void> sendUpdateMyProfileRequest(String accessToken,
       Map<String, String> newProfileData, ResultMatcher expectedStatus)
       throws Exception {
     String requestBody = generateRequestBody(
@@ -114,9 +135,9 @@ public abstract class BaseUserProfileApiTest extends BaseApiTest {
     );
     return sendPatchRequest(
         requestBody,
-        "/api/user/profile",
+        "/api/me/profile",
         expectedStatus,
-        new TypeReference<CommonResponse<Void>>() {
+        new TypeReference<>() {
         },
         Map.of("Authorization", "Bearer " + accessToken)
     );
@@ -153,7 +174,7 @@ public abstract class BaseUserProfileApiTest extends BaseApiTest {
    */
   public CommonResponse<Void> sendCheckNicknameRequest(String accessToken, String nickname,
       ResultMatcher expectedStatus) throws Exception {
-    return sendGetRequest(accessToken, "/api/user/profile/check?nickname=" + nickname,
+    return sendGetRequest(accessToken, "/api/me/profile/check?nickname=" + nickname,
         expectedStatus);
   }
 
@@ -169,4 +190,17 @@ public abstract class BaseUserProfileApiTest extends BaseApiTest {
     assertThat(actual.profileImageUrl()).isEqualTo(expected.get("profileImageUrl"));
   }
 
+  /**
+   * 사용자 프로필 응답 검증
+   */
+  public void assertMyProfileDetailsResponse(GetMyProfileDetailsApiResponse actual,
+      Map<String, String> expected) {
+    assertThat(actual.userId()).isEqualTo(expected.get("userId"));
+    assertThat(actual.nickname()).isEqualTo(expected.get("nickname"));
+    assertThat(actual.statusMessage()).isEqualTo(expected.get("statusMessage"));
+    assertThat(actual.bio()).isEqualTo(expected.get("bio"));
+    assertThat(actual.profileImageUrl()).isEqualTo(expected.get("profileImageUrl"));
+    assertThat(actual.phone()).isEqualTo(expected.get("phone"));
+
+  }
 }

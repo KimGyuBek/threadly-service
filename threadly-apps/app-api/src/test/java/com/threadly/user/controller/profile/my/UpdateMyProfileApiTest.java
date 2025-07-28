@@ -1,4 +1,4 @@
-package com.threadly.user.controller.profile;
+package com.threadly.user.controller.profile.my;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -17,10 +17,10 @@ import org.junit.jupiter.api.TestClassOrder;
 import org.junit.jupiter.api.TestMethodOrder;
 
 /**
- * 사용자 프로필 업데이트 관련 테스트
+ * 내 프로필 업데이트 관련 테스트
  */
 @TestClassOrder(ClassOrderer.OrderAnnotation.class)
-class UpdateUserProfileApiTest extends BaseUserProfileApiTest {
+class UpdateMyProfileApiTest extends BaseMyProfileApiTest {
 
   @Order(1)
   @Nested
@@ -46,7 +46,7 @@ class UpdateUserProfileApiTest extends BaseUserProfileApiTest {
 
       //when
       /*프로필 업데이트 요청 전송*/
-      CommonResponse<Void> updateProfileResponse = sendUpdateUserProfileRequest(accessToken,
+      CommonResponse<Void> updateProfileResponse = sendUpdateMyProfileRequest(accessToken,
           newProfileData, status().isOk());
 
       /*프로필 조회 요청*/
@@ -79,7 +79,7 @@ class UpdateUserProfileApiTest extends BaseUserProfileApiTest {
 
       //when
       /*프로필 업데이트 요청 전송*/
-      CommonResponse<Void> updateProfileResponse = sendUpdateUserProfileRequest(accessToken,
+      CommonResponse<Void> updateProfileResponse = sendUpdateMyProfileRequest(accessToken,
           USER_PROFILE, status().isConflict());
 
       //then

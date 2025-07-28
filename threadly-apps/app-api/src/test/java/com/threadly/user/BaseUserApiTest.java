@@ -27,7 +27,7 @@ public abstract class BaseUserApiTest extends BaseApiTest {
       ResultMatcher expectedStatus) throws Exception {
     return
         sendDeleteRequest(
-            "", "/api/user/me", expectedStatus, new TypeReference<>() {
+            "", "/api/me/account", expectedStatus, new TypeReference<>() {
             },
             Map.of("Authorization", "Bearer " + accessToken)
         );

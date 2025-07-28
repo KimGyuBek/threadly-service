@@ -8,7 +8,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public class UpdateUserProfileCommand {
+public class UpdateMyProfileCommand {
 
   private String userId;
   private String nickname;

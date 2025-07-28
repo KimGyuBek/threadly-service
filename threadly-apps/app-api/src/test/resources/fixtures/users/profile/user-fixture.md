@@ -38,7 +38,8 @@ public static final Map<String, String> USER_PROFILE = Map.of(
     "statusMessage", "상태 메세지",
     "bio", "나는 사용자이다",
     "gender", "MALE",
-    "profileType", "USER"
+    "profileType", "USER",
+    "phone", "010-1111-1111"
 );
 
 public static final Map<String, String> USER2_PROFILE = Map.of(
@@ -47,6 +48,7 @@ public static final Map<String, String> USER2_PROFILE = Map.of(
     "statusMessage", "상태 메세지",
     "bio", "나는 사용자이다2",
     "gender", "MALE",
-    "profileType", "USER"
+    "profileType", "USER",
+    "phone", "010-2222-2222"
 );
 ```

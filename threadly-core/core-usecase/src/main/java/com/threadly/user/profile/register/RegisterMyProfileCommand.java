@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RegisterUserProfileCommand {
+public class RegisterMyProfileCommand {
 
     private String userId;
     private String nickname;

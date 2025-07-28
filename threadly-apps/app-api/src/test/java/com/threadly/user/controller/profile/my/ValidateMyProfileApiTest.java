@@ -1,13 +1,11 @@
-package com.threadly.user.controller.profile;
+package com.threadly.user.controller.profile.my;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.threadly.CommonResponse;
 import com.threadly.exception.ErrorCode;
-import com.threadly.testsupport.fixture.users.UserFixtureLoader;
 import com.threadly.utils.TestConstants;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.ClassOrderer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
@@ -16,13 +14,12 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestClassOrder;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * 사용자 프로필  검증 관련 테스트
  */
 @TestClassOrder(ClassOrderer.OrderAnnotation.class)
-class ValidateUserProfileApiTest extends BaseUserProfileApiTest {
+class ValidateMyProfileApiTest extends BaseMyProfileApiTest {
 
   @Order(1)
   @Nested

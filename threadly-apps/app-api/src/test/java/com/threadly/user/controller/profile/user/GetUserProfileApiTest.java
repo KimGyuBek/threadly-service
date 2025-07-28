@@ -1,4 +1,4 @@
-package com.threadly.user.controller.profile;
+package com.threadly.user.controller.profile.user;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -20,6 +20,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 /**
  * 사용자 프로필 조회 관련 테스트
  */
+@DisplayName("사용자 프로필 조회 관련 API 테스트")
 @TestClassOrder(ClassOrderer.OrderAnnotation.class)
 class GetUserProfileApiTest extends BaseUserProfileApiTest {
 

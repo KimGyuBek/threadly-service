@@ -3,11 +3,9 @@ package com.threadly.global.filter;
 import static com.threadly.utils.JwtTokenUtils.extractAccessToken;
 import static com.threadly.utils.LogFormatUtils.logFailure;
 
-import com.threadly.security.JwtTokenProvider;
 import com.threadly.exception.ErrorCode;
-import com.threadly.exception.token.TokenException;
 import com.threadly.global.exception.UserAuthenticationException;
-import com.threadly.utils.JwtTokenUtils;
+import com.threadly.security.JwtTokenProvider;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,7 +33,7 @@ public class VerificationFilter extends OncePerRequestFilter {
   @Override
   protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
     return !(request.getMethod().equals("PATCH") && request.getRequestURI()
-        .startsWith("/api/user/profile/"));
+        .startsWith("/api/me/account/"));
   }
 
   @Override

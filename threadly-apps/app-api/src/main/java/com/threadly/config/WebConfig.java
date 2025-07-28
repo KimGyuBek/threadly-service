@@ -38,7 +38,7 @@ public class WebConfig implements WebMvcConfigurer {
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
     registry.addInterceptor(userProfileSettingInterceptor)
-        .addPathPatterns("/api/user/profile")
+        .addPathPatterns("/api/me/profile")
         .order(1);
   }
 }

@@ -5,6 +5,7 @@ import com.threadly.mapper.user.UserProfileMapper;
 import com.threadly.repository.user.UserProfileJpaRepository;
 import com.threadly.user.profile.UserProfile;
 import com.threadly.user.profile.fetch.FetchUserProfilePort;
+import com.threadly.user.profile.fetch.MyProfileDetailsProjection;
 import com.threadly.user.profile.fetch.UserPreviewProjection;
 import com.threadly.user.profile.fetch.UserProfileProjection;
 import com.threadly.user.profile.save.SaveUserProfilePort;
@@ -51,5 +52,10 @@ public class UserProfilePersistenceAdapter implements FetchUserProfilePort, Save
   @Override
   public Optional<UserProfileProjection> findUserProfileByUserId(String userId) {
     return userProfileJpaRepository.findUserProfileByUserId(userId);
+  }
+
+  @Override
+  public Optional<MyProfileDetailsProjection> findMyProfileDetailsByUserId(String userId) {
+    return userProfileJpaRepository.findMyProfileDetailsByUserId(userId);
   }
 }

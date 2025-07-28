@@ -1,6 +1,6 @@
 package com.threadly.user.request;
 
-import com.threadly.user.profile.update.UpdateUserProfileCommand;
+import com.threadly.user.profile.update.UpdateMyProfileCommand;
 
 /**
  * 사용자 프로필 업데이트 요청 객체
@@ -18,8 +18,8 @@ public record UpdateUserProfileRequest(
      * @param userId
      * @return
      */
-    public  UpdateUserProfileCommand toCommand(String userId) {
-        return new UpdateUserProfileCommand(
+    public UpdateMyProfileCommand toCommand(String userId) {
+        return new UpdateMyProfileCommand(
             userId,
             nickname,
             statusMessage,

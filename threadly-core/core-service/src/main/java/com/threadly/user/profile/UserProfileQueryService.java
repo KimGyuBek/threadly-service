@@ -4,7 +4,10 @@ import com.threadly.exception.ErrorCode;
 import com.threadly.exception.user.UserException;
 import com.threadly.user.UserStatusType;
 import com.threadly.user.profile.fetch.FetchUserProfilePort;
+import com.threadly.user.profile.fetch.MyProfileDetailsProjection;
 import com.threadly.user.profile.fetch.UserProfileProjection;
+import com.threadly.user.profile.get.GetMyProfileDetailsApiResponse;
+import com.threadly.user.profile.get.GetMyProfileUseCase;
 import com.threadly.user.profile.get.GetUserProfileApiResponse;
 import com.threadly.user.profile.get.GetUserProfileUseCase;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +20,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class UserProfileQueryService implements GetUserProfileUseCase {
+public class UserProfileQueryService implements GetUserProfileUseCase, GetMyProfileUseCase {
 
   private final FetchUserProfilePort fetchUserProfilePort;
 
@@ -51,6 +54,29 @@ public class UserProfileQueryService implements GetUserProfileUseCase {
         userProfileProjection.getStatusMessage(),
         userProfileProjection.getBio(),
         userProfileProjection.getProfileImageUrl()
+    );
+  }
+
+  @Override
+  public GetMyProfileDetailsApiResponse getMyProfileDetails(String userId) {
+    /*사용자 상태 검증*/
+    MyProfileDetailsProjection myProfileDetailsProjection = fetchUserProfilePort.findMyProfileDetailsByUserId(
+        userId).orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
+
+    /*사용자 상태 검증*/
+    if (myProfileDetailsProjection.getStatus().equals(UserStatusType.DELETED)) {
+      throw new UserException(ErrorCode.USER_ALREADY_DELETED);
+    }
+
+    /*응답 생성 후 리턴*/
+    return new GetMyProfileDetailsApiResponse(
+        userId,
+        myProfileDetailsProjection.getNickname(),
+        myProfileDetailsProjection.getStatusMessage(),
+        myProfileDetailsProjection.getBio(),
+        myProfileDetailsProjection.getPhone(),
+        myProfileDetailsProjection.getProfileImageId(),
+        myProfileDetailsProjection.getProfileImageUrl()
     );
   }
 }

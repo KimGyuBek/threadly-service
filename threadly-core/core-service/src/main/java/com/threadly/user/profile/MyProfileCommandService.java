@@ -5,11 +5,11 @@ import com.threadly.exception.user.UserException;
 import com.threadly.user.FetchUserPort;
 import com.threadly.user.User;
 import com.threadly.user.profile.fetch.FetchUserProfilePort;
-import com.threadly.user.profile.register.RegisterUserProfileCommand;
-import com.threadly.user.profile.register.RegisterUserProfileUseCase;
+import com.threadly.user.profile.register.RegisterMyProfileUseCase;
+import com.threadly.user.profile.register.RegisterMyProfileCommand;
 import com.threadly.user.profile.save.SaveUserProfilePort;
-import com.threadly.user.profile.update.UpdateUserProfileCommand;
-import com.threadly.user.profile.update.UpdateUserProfileUseCase;
+import com.threadly.user.profile.update.UpdateMyProfileCommand;
+import com.threadly.user.profile.update.UpdateMyProfileUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,8 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class UserProfileCommandService implements RegisterUserProfileUseCase,
-    UpdateUserProfileUseCase {
+public class MyProfileCommandService implements RegisterMyProfileUseCase,
+    UpdateMyProfileUseCase {
 
   private final SaveUserProfilePort saveUserProfilePort;
   private final FetchUserProfilePort fetchUserProfilePort;
@@ -31,7 +31,7 @@ public class UserProfileCommandService implements RegisterUserProfileUseCase,
 
 
   @Override
-  public void registerUserProfile(RegisterUserProfileCommand command) {
+  public void registerMyProfile(RegisterMyProfileCommand command) {
     /*닉네임 중복 검증*/
     if (fetchUserProfilePort.existsByNickname(command.getNickname())) {
       throw new UserException(ErrorCode.USER_NICKNAME_DUPLICATED);
@@ -54,7 +54,7 @@ public class UserProfileCommandService implements RegisterUserProfileUseCase,
 
   @Transactional
   @Override
-  public void updateUserProfile(UpdateUserProfileCommand command) {
+  public void updateMyProfile(UpdateMyProfileCommand command) {
     /*1. 닉네임 중복 검증*/
     if (fetchUserProfilePort.existsByNickname(command.getNickname())) {
       throw new UserException(ErrorCode.USER_NICKNAME_DUPLICATED);

@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class ProfileImageCommandService implements SetUserProfileImageUseCase {
+public class ProfileImageCommandService implements SetMyProfileImageUseCase {
 
   private final UploadImagePort uploadImagePort;
 
@@ -26,7 +26,7 @@ public class ProfileImageCommandService implements SetUserProfileImageUseCase {
   private final ImageAspectRatioValidator imageAspectRatioValidator;
 
   @Override
-  public SetProfileImageApiResponse setProfileImage(SetProfileImageCommand command) {
+  public UploadMyProfileImageApiResponse setMyProfileImage(SetMyProfileImageCommand command) {
     /*이미지 파일 검증*/
     List<UploadImage> uploadImageToList = List.of(command.getUploadImage());
     imageUploadValidator.validate(uploadImageToList);
@@ -49,7 +49,7 @@ public class ProfileImageCommandService implements SetUserProfileImageUseCase {
 
     /*응답 객체 생성*/
     return
-        new SetProfileImageApiResponse(
+        new UploadMyProfileImageApiResponse(
             userProfileImage.getUserProfileImageId(),
             userProfileImage.getImageUrl());
   }

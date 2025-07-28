@@ -1,6 +1,7 @@
 package com.threadly.repository.user;
 
 import com.threadly.entity.user.UserProfileEntity;
+import com.threadly.user.profile.fetch.MyProfileDetailsProjection;
 import com.threadly.user.profile.fetch.UserPreviewProjection;
 import com.threadly.user.profile.fetch.UserProfileProjection;
 import java.util.Optional;
@@ -59,5 +60,26 @@ public interface UserProfileJpaRepository extends JpaRepository<UserProfileEntit
       where u.user_id = :userId;
       """, nativeQuery = true)
   Optional<UserProfileProjection> findUserProfileByUserId(@Param("userId") String userId);
+
+  /**
+   * 내 프로필 정보 상세 조회
+   *
+   * @param userId
+   * @return
+   */
+  @Query(value = """
+      select up.nickname               as nickname,
+             up.status_message         as statusMessage,
+             up.bio                    as bio,
+             u.phone                   as phone,
+             u.status                  as status,
+             upi.user_profile_image_id as profileImageId,
+             upi.image_url             as profileImageUrl
+      from user_profile up
+               join users u on up.user_id = u.user_id
+               left join user_profile_images upi on up.user_id = upi.user_id
+               where up.user_id = :userId;
+      """, nativeQuery = true)
+  Optional<MyProfileDetailsProjection> findMyProfileDetailsByUserId(@Param("userId") String userId);
 
 }
