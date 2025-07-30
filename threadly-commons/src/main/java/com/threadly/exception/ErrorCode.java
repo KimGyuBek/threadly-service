@@ -103,7 +103,10 @@ public enum ErrorCode {
   POST_IMAGE_ALREADY_ATTACHED("TLY6103", "이미 게시글에 첨부된 이미지입니다.", HttpStatus.BAD_REQUEST),
   POST_IMAGE_TEMP_EXPIRED("TLY6104", "임시 업로드 이미지의 유효 시간이 만료되었습니다.", HttpStatus.GONE),
   POST_IMAGE_EMPTY("TLY6105", "게시글에는 최소 한 장의 이미지를 첨부해야 합니다.", HttpStatus.BAD_REQUEST),
-  POST_IMAGE_UPLOAD_FORBIDDEN("TLY6106", "게시글 이미지 업로드 권한이 없습니다.", HttpStatus.FORBIDDEN);
+  POST_IMAGE_UPLOAD_FORBIDDEN("TLY6106", "게시글 이미지 업로드 권한이 없습니다.", HttpStatus.FORBIDDEN),
+
+  /*UserProfile Image*/
+  USER_PROFILE_IMAGE_NOT_EXISTS("TLY6201", "존재하지 않는 이미지입니다.", HttpStatus.NOT_FOUND);
 
 
   private final String code;

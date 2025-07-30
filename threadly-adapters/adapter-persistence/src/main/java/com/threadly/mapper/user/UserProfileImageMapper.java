@@ -8,12 +8,17 @@ import com.threadly.user.profile.image.UserProfileImage;
  */
 public class UserProfileImageMapper {
 
-//  /**
+  //  /**
 //   * entity -> domain
 //   *
 //   * @param entity
 //   * @return
 //   */
+  public static UserProfileImage toDomain(UserProfileImageEntity entity) {
+    return  UserProfileImage.builder()
+        .userProfileImageId(entity.getUserProfileImageId())
+        .build();
+  }
 
   /**
    * domain -> entity

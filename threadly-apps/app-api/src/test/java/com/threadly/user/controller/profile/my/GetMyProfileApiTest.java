@@ -35,9 +35,7 @@ public class GetMyProfileApiTest extends BaseMyProfileApiTest {
           accessToken, status().isOk());
 
       //then
-      assertMyProfileDetailsResponse(getMyProfileDetailsResponse.getData(), USER_PROFILE);
-
-
+      validateMyProfileDetailsResponse(getMyProfileDetailsResponse.getData(), USER_PROFILE);
     }
 
   }

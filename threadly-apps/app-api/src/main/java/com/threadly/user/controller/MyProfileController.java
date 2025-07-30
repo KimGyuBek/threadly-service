@@ -8,6 +8,7 @@ import com.threadly.user.profile.get.GetMyProfileUseCase;
 import com.threadly.user.profile.get.GetUserProfileUseCase;
 import com.threadly.user.profile.image.SetMyProfileImageCommand;
 import com.threadly.user.profile.image.SetMyProfileImageUseCase;
+import com.threadly.user.profile.image.UpdateMyProfileImageUseCase;
 import com.threadly.user.profile.image.UploadMyProfileImageApiResponse;
 import com.threadly.user.profile.register.MyProfileRegisterApiResponse;
 import com.threadly.user.profile.register.RegisterMyProfileUseCase;
@@ -38,10 +39,12 @@ public class MyProfileController {
 
   private final RegisterMyProfileUseCase registerMyProfileUseCase;
   private final UpdateMyProfileUseCase updateMyProfileUseCase;
-  private final SetMyProfileImageUseCase setMyProfileImageUseCase;
   private final GetMyProfileUseCase getMyProfileUseCase;
 
   private final ReissueTokenUseCase reissueTokenUseCase;
+
+  private final SetMyProfileImageUseCase setMyProfileImageUseCase;
+  private final UpdateMyProfileImageUseCase updateMyProfileImageUseCase;
 
   /**
    * 내 프로필 수정용 정보 조회
@@ -89,7 +92,12 @@ public class MyProfileController {
       @AuthenticationPrincipal JwtAuthenticationUser user,
       @RequestBody UpdateUserProfileRequest request) {
 
+    /*UserProfile 데이터 업데이트*/
     updateMyProfileUseCase.updateMyProfile(request.toCommand(user.getUserId()));
+
+    /*ProfileImage 업데이트*/
+    updateMyProfileImageUseCase.updateProfileImage(user.getUserId(), request.profileImageId());
+
     return ResponseEntity.status(200).build();
   }
 

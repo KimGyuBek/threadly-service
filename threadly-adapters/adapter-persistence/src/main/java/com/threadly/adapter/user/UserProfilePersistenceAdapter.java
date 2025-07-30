@@ -9,11 +9,13 @@ import com.threadly.user.profile.fetch.MyProfileDetailsProjection;
 import com.threadly.user.profile.fetch.UserPreviewProjection;
 import com.threadly.user.profile.fetch.UserProfileProjection;
 import com.threadly.user.profile.save.SaveUserProfilePort;
+import com.threadly.user.profile.update.UpdateMyProfilePort;
 import java.util.Optional;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class UserProfilePersistenceAdapter implements FetchUserProfilePort, SaveUserProfilePort {
+public class UserProfilePersistenceAdapter implements FetchUserProfilePort, SaveUserProfilePort,
+    UpdateMyProfilePort {
 
   private final UserProfileJpaRepository userProfileJpaRepository;
 
@@ -57,5 +59,11 @@ public class UserProfilePersistenceAdapter implements FetchUserProfilePort, Save
   @Override
   public Optional<MyProfileDetailsProjection> findMyProfileDetailsByUserId(String userId) {
     return userProfileJpaRepository.findMyProfileDetailsByUserId(userId);
+  }
+
+  @Override
+  public void updateMyProfile(UserProfile userProfile) {
+    userProfileJpaRepository.updateMyProfile(userProfile.getUserId(), userProfile.getNickname(),
+        userProfile.getStatusMessage(), userProfile.getBio());
   }
 }

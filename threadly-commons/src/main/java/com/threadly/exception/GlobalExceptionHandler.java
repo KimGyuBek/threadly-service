@@ -6,6 +6,7 @@ import com.threadly.exception.post.PostException;
 import com.threadly.exception.post.PostImageException;
 import com.threadly.exception.token.TokenException;
 import com.threadly.exception.user.UserException;
+import com.threadly.exception.user.UserProfileImageException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
@@ -66,14 +67,24 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
   /*Post Image Exception*/
   @ExceptionHandler(PostImageException.class)
-  public ResponseEntity<ErrorResponse> handlePostImageException(PostImageException ex, WebRequest request) {
+  public ResponseEntity<ErrorResponse> handlePostImageException(PostImageException ex,
+      WebRequest request) {
     return ResponseEntity.status(ex.getErrorCode().getHttpStatus())
         .body(new ErrorResponse(ex.getErrorCode()));
   }
 
   /*Post Comment Exception*/
   @ExceptionHandler(PostCommentException.class)
-  public ResponseEntity<ErrorResponse> handlePostCommentException(PostCommentException ex, WebRequest request) {
+  public ResponseEntity<ErrorResponse> handlePostCommentException(PostCommentException ex,
+      WebRequest request) {
+    return ResponseEntity.status(ex.getErrorCode().getHttpStatus())
+        .body(new ErrorResponse(ex.getErrorCode()));
+  }
+
+  /*User Profile Image Exception*/
+  @ExceptionHandler(UserProfileImageException.class)
+  public ResponseEntity<ErrorResponse> handleUserProfileImageException(UserProfileImageException ex,
+      WebRequest request) {
     return ResponseEntity.status(ex.getErrorCode().getHttpStatus())
         .body(new ErrorResponse(ex.getErrorCode()));
   }

@@ -1,7 +1,6 @@
 package com.threadly.repository.user;
 
 import com.threadly.entity.user.UserEntity;
-import com.threadly.entity.user.UserProfileEntity;
 import com.threadly.user.UserStatusType;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,6 +14,7 @@ public interface UserJpaRepository extends JpaRepository<UserEntity, String> {
 
   /**
    * isEmailVerified 변경
+   *
    * @param userId
    * @param isEmailVerified
    */
@@ -28,6 +28,7 @@ public interface UserJpaRepository extends JpaRepository<UserEntity, String> {
 
   /**
    * status 변경
+   *
    * @param userId
    * @param statusType
    */
@@ -38,4 +39,19 @@ public interface UserJpaRepository extends JpaRepository<UserEntity, String> {
           + "where u.userId = :userId")
   void updateStatus(@Param("userId") String userId,
       @Param("statusType") UserStatusType statusType);
+
+
+  /**
+   * 주어진 userId에 해당하는 사용자의 phone 업데이트
+   *
+   * @param userId
+   * @param phone
+   */
+  @Modifying
+  @Query("""
+      update UserEntity  u
+      set u.phone = :phone
+      where u.userId = :userId
+      """)
+  void updatePhoneByUserId(@Param("userId") String userId, @Param("phone") String phone);
 }

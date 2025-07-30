@@ -2,6 +2,7 @@ package com.threadly.mapper.user;
 
 import com.threadly.entity.user.UserProfileEntity;
 import com.threadly.user.profile.UserProfile;
+import com.threadly.user.profile.image.UserProfileImage;
 
 public class UserProfileMapper {
 
@@ -19,7 +20,7 @@ public class UserProfileMapper {
         .bio(entity.getBio())
         .genderType(entity.getGender())
         .userProfileType(entity.getProfileType())
-//        .profileImageUrl(entity.getProfileImageUrl())
+        .userProfileImage(UserProfileImage.builder().build())
         .build();
   }
 

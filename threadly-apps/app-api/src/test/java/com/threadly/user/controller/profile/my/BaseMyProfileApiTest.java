@@ -1,10 +1,12 @@
 package com.threadly.user.controller.profile.my;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.threadly.BaseApiTest;
 import com.threadly.CommonResponse;
+import com.threadly.exception.ErrorCode;
 import com.threadly.testsupport.fixture.users.UserFixtureLoader;
 import com.threadly.user.UserGenderType;
 import com.threadly.user.profile.get.GetMyProfileDetailsApiResponse;
@@ -12,7 +14,9 @@ import com.threadly.user.profile.get.GetUserProfileApiResponse;
 import com.threadly.user.profile.register.MyProfileRegisterApiResponse;
 import com.threadly.user.request.RegisterUserProfileRequest;
 import com.threadly.user.request.UpdateUserProfileRequest;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.ResultMatcher;
@@ -62,6 +66,45 @@ public abstract class BaseMyProfileApiTest extends BaseApiTest {
       "gender", "MALE",
       "profileType", "USER",
       "phone", "010-2222-2222"
+  );
+
+  /*프로필 이미지가 있는 userId*/
+  public static final String USER_WITH_PROFILE_IMAGE_ID = "user_with_profile_image";
+
+  /*프로필 이미지가 없는 userId*/
+  public static final String NO_PROFILE_IMAGE_USER_ID = "no_profile_image_user";
+
+  /*프로필 이미지가 있는 email*/
+  public static final String USER_WITH_PROFILE_IMAGE_EMAIL = "user_with_profile_image@threadly.com";
+
+  /*프로필 이미지가 없는 email*/
+  public static final String NO_PROFILE_IMAGE_USER_EMAIL = "no_profile_image_user@threadly.com";
+
+  /*TEMPORARY 이미지 데이터*/
+  public static final Map<String, String> TEMPORARY_IMAGE = Map.of(
+      "userProfileImageId", "temp-img-001",
+      "userId", "user_with_profile_image",
+      "storedFileName", "temp_1234abcd.webp",
+      "imageUrl", "/images/temp_1234abcd.webp",
+      "status", "TEMPORARY"
+  );
+
+  /*CONFIRMED 이미지 데이터*/
+  public static final Map<String, String> CONFIRMED_IMAGE = Map.of(
+      "userProfileImageId", "confirmed-img-001",
+      "userId", "user_with_profile_image",
+      "storedFileName", "confirmed_abcd5678.webp",
+      "imageUrl", "/images/confirmed_abcd5678.webp",
+      "status", "CONFIRMED"
+  );
+
+  /*DELETED 이미지 데이터*/
+  public static final Map<String, String> DELETED_IMAGE = Map.of(
+      "userProfileImageId", "deleted-img-001",
+      "userId", "user_with_profile_image",
+      "storedFileName", "deleted_ijkl9012.webp",
+      "imageUrl", "/images/deleted_ijkl9012.webp",
+      "status", "DELETED"
   );
 
   /**
@@ -130,7 +173,7 @@ public abstract class BaseMyProfileApiTest extends BaseApiTest {
             newProfileData.get("statusMessage"),
             newProfileData.get("bio"),
             newProfileData.get("phone"),
-            newProfileData.get("profileImageUrl")
+            newProfileData.get("profileImageId")
         )
     );
     return sendPatchRequest(
@@ -187,20 +230,92 @@ public abstract class BaseMyProfileApiTest extends BaseApiTest {
     assertThat(actual.nickname()).isEqualTo(expected.get("nickname"));
     assertThat(actual.statusMessage()).isEqualTo(expected.get("statusMessage"));
     assertThat(actual.bio()).isEqualTo(expected.get("bio"));
-    assertThat(actual.profileImageUrl()).isEqualTo(expected.get("profileImageUrl"));
+    assertThat(Objects.equals(actual.profileImageUrl(), expected.get("profileImageId"))).isTrue();
   }
 
   /**
    * 사용자 프로필 응답 검증
    */
-  public void assertMyProfileDetailsResponse(GetMyProfileDetailsApiResponse actual,
+  public void validateMyProfileDetailsResponse(GetMyProfileDetailsApiResponse actual,
       Map<String, String> expected) {
     assertThat(actual.userId()).isEqualTo(expected.get("userId"));
     assertThat(actual.nickname()).isEqualTo(expected.get("nickname"));
     assertThat(actual.statusMessage()).isEqualTo(expected.get("statusMessage"));
     assertThat(actual.bio()).isEqualTo(expected.get("bio"));
-    assertThat(actual.profileImageUrl()).isEqualTo(expected.get("profileImageUrl"));
+    assertThat(actual.profileImageId()).isEqualTo(expected.get("profileImageId"));
     assertThat(actual.phone()).isEqualTo(expected.get("phone"));
 
+  }
+
+  /**
+   * 사용자 프로필 응답 검증
+   */
+  public void validateMyProfileDetailsResponse(GetMyProfileDetailsApiResponse actual,
+      String actualUserId,
+      Map<String, String> expected) {
+    assertThat(actual.userId()).isEqualTo(actualUserId);
+    assertThat(actual.nickname()).isEqualTo(expected.get("nickname"));
+    assertThat(actual.statusMessage()).isEqualTo(expected.get("statusMessage"));
+    assertThat(actual.bio()).isEqualTo(expected.get("bio"));
+    assertThat(actual.profileImageId()).isEqualTo(expected.get("profileImageId"));
+    assertThat(actual.phone()).isEqualTo(expected.get("phone"));
+  }
+
+  /**
+   * 새로운 프로필  데이터 생성
+   *
+   * @param newNickname
+   * @param newStatusMessage
+   * @param newBio
+   * @param newPhoneNumber
+   * @param profileImageId
+   * @return
+   */
+  public Map<String, String> generateNewProfileData(String newNickname, String newStatusMessage,
+      String newBio, String newPhoneNumber, String profileImageId) {
+    Map<String, String> newProfileData = new HashMap<>();
+    newProfileData.put("nickname", newNickname);
+    newProfileData.put("statusMessage", newStatusMessage);
+    newProfileData.put("bio", newBio);
+    newProfileData.put("phone", newPhoneNumber);
+    newProfileData.put("profileImageId", profileImageId);
+
+    return newProfileData;
+  }
+
+  /**
+   * 주어진 파라미터로 내 프로필 조회 요청 후 응답 검증
+   *
+   * @param accessToken
+   * @param actualUserId
+   * @param newProfileData
+   */
+  public void validateMyProfileDetailsResponseAfterUpdate(String accessToken, String actualUserId,
+      Map<String, String> newProfileData) throws Exception {
+    /*프로필 조회*/
+    CommonResponse<GetMyProfileDetailsApiResponse> getMyProfileDetailsResponse = sendGetMyProfileDetailsRequest(
+        accessToken, status().isOk());
+
+    //then
+    validateMyProfileDetailsResponse(getMyProfileDetailsResponse.getData(),
+        actualUserId, newProfileData);
+  }
+
+  /**
+   * 주어진 파라미터로 프로필 업데이트 요청 후 실패 응답 검증
+   * @param accessToken
+   * @param newProfileData
+   * @param expectedErrorCode
+   * @param expectedStatus
+   * @throws Exception
+   */
+  public void validateUpdateMyProfileFailureResponse(String accessToken,
+      Map<String, String> newProfileData, ErrorCode expectedErrorCode, ResultMatcher expectedStatus) throws Exception {
+    CommonResponse<Void> updateMyProfileResponse = sendUpdateMyProfileRequest(accessToken,
+        newProfileData, expectedStatus);
+
+    assertThat(updateMyProfileResponse.isSuccess()).isFalse();
+    assertThat(updateMyProfileResponse.getCode()).isEqualTo(
+        expectedErrorCode.getCode());
   }
 }

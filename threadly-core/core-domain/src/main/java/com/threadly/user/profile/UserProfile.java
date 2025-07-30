@@ -23,7 +23,6 @@ public class UserProfile {
   private UserGenderType genderType;
   private UserProfileType userProfileType;
   private UserProfileImage userProfileImage;
-//  private String profileImageUrl;
 
 
   /**
@@ -60,12 +59,24 @@ public class UserProfile {
    * @return
    */
   public void updateProfile(String nickname, String statusMessage,
-      String bio, String phone, UserProfileImage userProfileImage) {
+      String bio, String phone) {
     this.nickname = nickname;
     this.statusMessage = statusMessage;
     this.bio = bio;
     this.phone = phone;
-    this.userProfileImage = userProfileImage;
+
+//    /* 새로운 프로필 이미지일경우*/
+//    if(userProfileImageId != null) {
+//      this.userProfileImage.setProfileImage(userProfileImageId);
+//    }
+  }
+
+  /**
+   * 주어진 userProfileImageId를 새로운 프로필 이미지로 설정
+   * @param userProfileImageId
+   */
+  public void updateProfileImage(String userProfileImageId) {
+    this.userProfileImage.setProfileImage(userProfileImageId);
   }
 
   /*테스트용*/

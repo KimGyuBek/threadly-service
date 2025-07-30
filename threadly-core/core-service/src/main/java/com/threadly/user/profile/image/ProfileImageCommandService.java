@@ -1,6 +1,10 @@
 package com.threadly.user.profile.image;
 
+import com.google.common.base.Objects;
+import com.threadly.exception.ErrorCode;
+import com.threadly.exception.user.UserProfileImageException;
 import com.threadly.file.UploadImage;
+import com.threadly.image.ImageStatus;
 import com.threadly.image.UploadImagePort;
 import com.threadly.image.UploadImageResponse;
 import com.threadly.post.image.validator.ImageAspectRatioValidator;
@@ -9,6 +13,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 사용자 프로필 commandService
@@ -16,14 +21,18 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class ProfileImageCommandService implements SetMyProfileImageUseCase {
+public class ProfileImageCommandService implements SetMyProfileImageUseCase,
+    UpdateMyProfileImageUseCase {
 
   private final UploadImagePort uploadImagePort;
 
-  private final CreateUserProfileImagePort createUserProfileImagePort;
+  private final CreateMyProfileImagePort createMyProfileImagePort;
+  private final FetchMyProfileImagePort fetchMyProfileImagePort;
+  private final UpdateMyProfileImagePort updateMyProfileImagePort;
 
   private final ImageUploadValidator imageUploadValidator;
   private final ImageAspectRatioValidator imageAspectRatioValidator;
+
 
   @Override
   public UploadMyProfileImageApiResponse setMyProfileImage(SetMyProfileImageCommand command) {
@@ -44,7 +53,7 @@ public class ProfileImageCommandService implements SetMyProfileImageUseCase {
         uploadImageResponse.getStoredName(),
         uploadImageResponse.getImageUrl());
 
-    createUserProfileImagePort.create(userProfileImage);
+    createMyProfileImagePort.create(userProfileImage);
     log.debug("이미지 메타 데이터 저장 완료: {}", userProfileImage.toString());
 
     /*응답 객체 생성*/
@@ -52,5 +61,41 @@ public class ProfileImageCommandService implements SetMyProfileImageUseCase {
         new UploadMyProfileImageApiResponse(
             userProfileImage.getUserProfileImageId(),
             userProfileImage.getImageUrl());
+  }
+
+  /*
+   * 1. 프로필 이미지 유지
+   * 2. 프로필 이미지 변경
+   * 3. 프로필 이미지 새로 생성
+   * 4. 프로필 이미지 삭제
+   * */
+  @Transactional
+  @Override
+  public void updateProfileImage(String userId, String profileImageId) {
+
+    /*profileImageId 유효성 검증*/
+    if (profileImageId != null && !fetchMyProfileImagePort.existsNotDeletedByUserProfileImageId(
+        profileImageId)) {
+      throw new UserProfileImageException(ErrorCode.USER_PROFILE_IMAGE_NOT_EXISTS);
+    }
+
+    /*기존 이미지 id 조회*/
+    String previousProfileImageId = fetchMyProfileImagePort.findConfirmedProfileImageIdByUserId(
+        userId).orElse(null);
+
+    /*이미지 변경 없으면 종료*/
+    if (Objects.equal(previousProfileImageId, profileImageId)) {
+      return;
+    }
+
+    /*기존 이미지 삭제*/
+    if (previousProfileImageId != null) {
+      updateMyProfileImagePort.updateStatusById(previousProfileImageId, ImageStatus.DELETED);
+    }
+    /*새로운 이미지 설정*/
+    if (profileImageId != null) {
+      updateMyProfileImagePort.updateStatusAndUserIdByImageId(profileImageId, userId,
+          ImageStatus.CONFIRMED);
+    }
   }
 }

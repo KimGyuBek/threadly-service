@@ -2,7 +2,6 @@ package com.threadly.user;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.threadly.user.profile.UserProfile;
-import com.threadly.user.profile.image.UserProfileImage;
 import com.threadly.utils.RandomUtils;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -143,11 +142,9 @@ public class User {
    * @param statusMessage
    * @param bio
    * @param phone
-   * @param profileImageUrl
    */
-  public void updateProfile(String nickname, String statusMessage, String bio, String phone,
-      UserProfileImage userProfileImage) {
-    this.userProfile.updateProfile(nickname, statusMessage, bio, phone, userProfileImage);
+  public void updateProfile(String nickname, String statusMessage, String bio, String phone) {
+    this.userProfile.updateProfile(nickname, statusMessage, bio, phone);
   }
 
   public void setUserProfile(UserProfile userProfile) {
@@ -168,6 +165,19 @@ public class User {
 
   public UserGenderType getGender() {
     return userProfile.getGenderType();
+  }
+
+  /**
+   * 주어진 userId로 빈 User, UserProfile 도메인 생성
+   *
+   * @param userId
+   * @return
+   */
+  public static User emptyWithUserId(String userId) {
+    return
+        User.builder()
+            .userId(userId)
+            .userProfile(UserProfile.builder().userId(userId).build()).build();
   }
 
   /*테스트용 메서드*/

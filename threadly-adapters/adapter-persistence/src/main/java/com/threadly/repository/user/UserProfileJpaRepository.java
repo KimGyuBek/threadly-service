@@ -6,6 +6,7 @@ import com.threadly.user.profile.fetch.UserPreviewProjection;
 import com.threadly.user.profile.fetch.UserProfileProjection;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -56,8 +57,8 @@ public interface UserProfileJpaRepository extends JpaRepository<UserProfileEntit
              u.status          as userStatus
       from user_profile up
                left join users u on up.user_id = u.user_id
-               left join user_profile_images upi on up.user_id = upi.user_id
-      where u.user_id = :userId;
+               left join user_profile_images upi on up.user_id = upi.user_id and upi.status = 'CONFIRMED'
+      where u.user_id = :userId 
       """, nativeQuery = true)
   Optional<UserProfileProjection> findUserProfileByUserId(@Param("userId") String userId);
 
@@ -82,4 +83,19 @@ public interface UserProfileJpaRepository extends JpaRepository<UserProfileEntit
       """, nativeQuery = true)
   Optional<MyProfileDetailsProjection> findMyProfileDetailsByUserId(@Param("userId") String userId);
 
+  /**
+   * 주어진 파라미터로 user profile 업데이트
+   *
+   * @param nickname
+   * @param statusMessage
+   * @param bio
+   */
+  @Modifying
+  @Query("""
+      update UserProfileEntity up
+      set up.nickname = :nickname, up.statusMessage = :statusMessage, up.bio = :bio
+      where up.userId = :userId
+      """)
+  void updateMyProfile(@Param("userId") String userId, @Param("nickname") String nickname,
+      @Param("statusMessage") String statusMessage, @Param("bio") String bio);
 }

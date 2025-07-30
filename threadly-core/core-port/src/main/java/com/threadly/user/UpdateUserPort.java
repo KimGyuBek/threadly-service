@@ -19,4 +19,10 @@ public interface UpdateUserPort {
    */
   void updateUserStatus(String userId, UserStatusType status);
 
+  /**
+   * 주어진 userId에 해당하는 phone을 업데이트
+   * @param userId
+   * @param phone
+   */
+  void updateUserPhone(String userId ,String phone);
 }

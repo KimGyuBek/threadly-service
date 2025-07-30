@@ -29,7 +29,7 @@ public class UploadProfileImageApiTest extends BaseProfileImageApiTest {
   @DisplayName("성공")
   class success {
 
-    @DisplayName("1. ")
+    @DisplayName("1. 프로필 이미지 임시 업로드 성공 검증 ")
     @Test
     public void uploadMyProfileImage_shouldSuccess() throws Exception {
       //given

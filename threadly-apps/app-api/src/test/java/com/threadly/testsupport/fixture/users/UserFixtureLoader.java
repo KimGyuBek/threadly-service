@@ -1,7 +1,7 @@
 package com.threadly.testsupport.fixture.users;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.threadly.adapter.user.UpdateUserPersistenceAdapter;
+import com.threadly.adapter.user.UserPersistenceAdapter;
 import com.threadly.adapter.user.UserProfilePersistenceAdapter;
 import com.threadly.testsupport.dto.users.UserFixtureDto;
 import com.threadly.testsupport.fixture.FixtureLoader;
@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 public class UserFixtureLoader {
 
-  private final UpdateUserPersistenceAdapter userPersistenceAdapter;
+  private final UserPersistenceAdapter userPersistenceAdapter;
   private final UserProfilePersistenceAdapter userProfilePersistenceAdapter;
 
   @PersistenceContext
