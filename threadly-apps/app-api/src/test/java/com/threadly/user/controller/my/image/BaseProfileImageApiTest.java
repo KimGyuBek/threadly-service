@@ -1,11 +1,11 @@
-package com.threadly.user.controller.profile.my.image;
+package com.threadly.user.controller.my.image;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.threadly.CommonResponse;
 import com.threadly.properties.UploadProperties;
-import com.threadly.user.controller.profile.my.BaseMyProfileApiTest;
+import com.threadly.user.controller.my.BaseMyProfileApiTest;
 import com.threadly.user.profile.image.UploadMyProfileImageApiResponse;
 import com.threadly.utils.TestLogUtils;
 import java.awt.image.BufferedImage;
@@ -16,7 +16,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 import javax.imageio.ImageIO;
-import org.junit.jupiter.api.AfterAll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;

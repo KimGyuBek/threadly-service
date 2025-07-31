@@ -4,7 +4,6 @@ import com.threadly.auth.verification.EmailVerificationUseCase;
 import com.threadly.user.register.RegisterUserUseCase;
 import com.threadly.user.register.UserRegistrationApiResponse;
 import com.threadly.user.request.UserRegisterRequest;
-import com.threadly.user.withdraw.WithdrawUserUseCase;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;

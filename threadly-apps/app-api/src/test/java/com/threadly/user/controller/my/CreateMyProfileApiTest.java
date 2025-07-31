@@ -1,4 +1,4 @@
-package com.threadly.user.controller.profile.my;
+package com.threadly.user.controller.my;
 
 import static com.threadly.utils.TestConstants.EMAIL_VERIFIED_USER_1;
 import static com.threadly.utils.TestConstants.PROFILE_NOT_SET_USER_1;

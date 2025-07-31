@@ -1,11 +1,15 @@
 package com.threadly.user;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.threadly.BaseApiTest;
 import com.threadly.CommonResponse;
+import com.threadly.auth.request.PasswordVerificationRequest;
+import com.threadly.auth.verification.response.PasswordVerificationToken;
 import com.threadly.repository.TestUserRepository;
+import java.util.HashMap;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.ResultMatcher;
@@ -19,20 +23,55 @@ public abstract class BaseUserApiTest extends BaseApiTest {
   private TestUserRepository testUserRepository;
 
   /**
-   * 회원 탈퇴 요청
+   * 내 계정 탈퇴 요청
    *
    * @return
    */
-  public CommonResponse<Void> sendWithDrawUserRequest(String accessToken,
+  public CommonResponse<Void> sendWithdrawMyAccountRequest(String accessToken, String xVerifyToken,
       ResultMatcher expectedStatus) throws Exception {
     return
         sendDeleteRequest(
             "", "/api/me/account", expectedStatus, new TypeReference<>() {
             },
-            Map.of("Authorization", "Bearer " + accessToken)
+            Map.of("Authorization", "Bearer " + accessToken,
+                "X-Verify-Token", "Bearer " + xVerifyToken)
         );
   }
 
+  /**
+   * 내 계정 비활성화 요청
+   *
+   * @return
+   */
+  public CommonResponse<Void> sendDeactivateMyAccountRequest(String accessToken,
+      String xVerifyToken,
+      ResultMatcher expectedStatus) throws Exception {
+    return
+        sendPatchRequest(
+            "", "/api/me/account/deactivate", expectedStatus, new TypeReference<>() {
+            },
+            Map.of("Authorization", "Bearer " + accessToken,
+                "X-Verify-Token", "Bearer " + xVerifyToken)
+        );
+  }
+
+  public String getXVerifyToken(String accessToken)
+      throws Exception {
+    Map<String, String> headers = new HashMap<>();
+    headers.put("Authorization", "Bearer " + accessToken);
+
+    String requestBody = generateRequestBody(
+        new PasswordVerificationRequest(PASSWORD)
+    );
+
+    return
+        sendPostRequest(
+            requestBody, "/api/auth/verify-password", status().isOk(),
+            new TypeReference<CommonResponse<PasswordVerificationToken>>() {
+            },
+            headers
+        ).getData().getVerifyToken();
+  }
 
   /**
    * email로 user statusType 검증

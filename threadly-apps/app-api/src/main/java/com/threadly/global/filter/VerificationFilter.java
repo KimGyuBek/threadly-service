@@ -32,8 +32,7 @@ public class VerificationFilter extends OncePerRequestFilter {
 
   @Override
   protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-    return !(request.getMethod().equals("PATCH") && request.getRequestURI()
-        .startsWith("/api/me/account/"));
+    return !request.getRequestURI().startsWith("/api/me/account");
   }
 
   @Override

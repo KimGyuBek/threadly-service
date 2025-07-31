@@ -25,7 +25,7 @@ public interface UserProfileJpaRepository extends JpaRepository<UserProfileEntit
       select up.nickname          as nickname,
              upi.image_url        as profileImageUrl
       from user_profile up
-      left join user_profile_images upi on up.user_id = upi.user_id
+      left join user_profile_images upi on up.user_id = upi.user_id and upi.status = 'CONFIRMED'
       where up.user_id = :userId;
       """, nativeQuery = true)
   UserPreviewProjection findUserCommentPreviewByUserId(@Param("userId") String userId);

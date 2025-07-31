@@ -1,7 +1,6 @@
-package com.threadly.user.controller;
+package com.threadly.user.controller.account;
 
 import static com.threadly.utils.TestConstants.EMAIL_VERIFIED_USER_1;
-import static com.threadly.utils.TestConstants.EMAIL_VERIFIED_USER_2;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -22,11 +21,11 @@ import org.junit.jupiter.api.TestClassOrder;
 import org.junit.jupiter.api.TestMethodOrder;
 
 /**
- * 사용자 탈퇴 관련 테스트
+ * 내 계정 탈퇴 API 테스트
  */
-@DisplayName("사용자 탈퇴 테스트")
+@DisplayName("내 계정 탈퇴 테스트")
 @TestClassOrder(ClassOrderer.OrderAnnotation.class)
-public class WithdrawUserApiTest extends BaseUserApiTest {
+public class WithdrawMyAccountApiTest extends BaseUserApiTest {
 
 
   @Order(1)
@@ -46,8 +45,12 @@ public class WithdrawUserApiTest extends BaseUserApiTest {
       String accessToken = getAccessToken(EMAIL_VERIFIED_USER_1);
 
       //when
+      /*이중인증 요청*/
+      String xVerifyToken = getXVerifyToken(accessToken);
+
       /*탈퇴 요청*/
-      CommonResponse<Void> withdrawUserResponse = sendWithDrawUserRequest(accessToken,
+      CommonResponse<Void> withdrawUserResponse = sendWithdrawMyAccountRequest(accessToken,
+          xVerifyToken,
           status().isOk());
 
       //then
@@ -59,34 +62,6 @@ public class WithdrawUserApiTest extends BaseUserApiTest {
     }
 
 
-    /*[Case #2] 이미 탈퇴 처리된 userId로 탈퇴 요청시 멱등한지 검증*/
-    @Order(2)
-    @DisplayName("2. 이미 탈퇴 처리된 userId로 탈퇴 요청 시 멱등해야한다")
-    @Test
-    public void withdrawUser_shouldIdempotent_whenUserIdAlreadyWithdraw() throws Exception {
-      //given
-
-      /*로그인*/
-      String accessToken = getAccessToken(EMAIL_VERIFIED_USER_1);
-      String accessToken2 = getAccessToken(EMAIL_VERIFIED_USER_2);
-
-      //when
-      /*탈퇴 요청*/
-      CommonResponse<Void> withdrawUserResponse1 = sendWithDrawUserRequest(accessToken,
-          status().isOk());
-
-      /*탈퇴 요청 */
-      CommonResponse<Void> withdrawUserResponse2 = sendWithDrawUserRequest(accessToken2,
-          status().isOk());
-
-      //then
-      /*응답 검증*/
-      assertThat(withdrawUserResponse1.isSuccess()).isTrue();
-      assertThat(withdrawUserResponse2.isSuccess()).isTrue();
-
-      /*user statusType 검증*/
-      validateUserStatusType(EMAIL_VERIFIED_USER_1, UserStatusType.DELETED);
-    }
   }
 
   @Order(2)
@@ -99,21 +74,25 @@ public class WithdrawUserApiTest extends BaseUserApiTest {
     @Order(1)
     @DisplayName("1. 회원 탈퇴 후 로그인 및 jwt 인증 불가 검증")
     @Test
-    public void withdrawUser_shouldFail_whenUserWithdraw() throws Exception {
+    public void withdrawUser_shouldReturn400BadRequest_whenUserWithdraw() throws Exception {
       //given
 
       /*로그인*/
       String accessToken = getAccessToken(EMAIL_VERIFIED_USER_1);
 
       //when
+      /*이중인증 요청*/
+      String xVerifyToken = getXVerifyToken(accessToken);
+
       /*탈퇴 요청*/
-      CommonResponse<Void> withdrawUserResponse1 = sendWithDrawUserRequest(accessToken,
+      CommonResponse<Void> withdrawUserResponse1 = sendWithdrawMyAccountRequest(accessToken,
+          xVerifyToken,
           status().isOk());
 
       /*로그인*/
       CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(EMAIL_VERIFIED_USER_1,
           TestConstants.PASSWORD,
-          new TypeReference<CommonResponse<LoginTokenResponse>>() {
+          new TypeReference<>() {
           }, status().isForbidden());
 
       /*인증 필요 경로로 접근*/
@@ -131,6 +110,28 @@ public class WithdrawUserApiTest extends BaseUserApiTest {
       assertThat(response.isSuccess()).isFalse();
       assertThat(response.getCode()).isEqualTo(ErrorCode.TOKEN_INVALID.getCode());
 
+    }
+
+    /*[Case #2] 이중인증 없이 회원 탈퇴 요청 시  응답 검증 */
+    @Order(2)
+    @DisplayName("2. 이중인증 없이 회원 탈퇴 요청 시 400 BadRequest")
+    @Test
+    public void withdrawUser_shouldReturn400BadRequest_whenXVerifyTokenMissing() throws Exception {
+      //given
+
+      /*로그인*/
+      String accessToken = getAccessToken(EMAIL_VERIFIED_USER_1);
+
+      //when
+      /*탈퇴 요청*/
+      CommonResponse<Void> withdrawUserResponse = sendWithdrawMyAccountRequest(accessToken, null,
+          status().isBadRequest());
+
+      //then
+      /*응답 검증*/
+      assertThat(withdrawUserResponse.isSuccess()).isFalse();
+      assertThat(withdrawUserResponse.getCode()).isEqualTo(
+          ErrorCode.SECOND_VERIFICATION_FAILED.getCode());
     }
   }
 }

@@ -1,9 +1,9 @@
-package com.threadly.user.controller.profile.my.image;
+package com.threadly.user.controller.my;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.io.IOException;
-import org.junit.jupiter.api.AfterAll;
+import com.threadly.CommonResponse;
+import com.threadly.user.profile.get.GetMyProfileDetailsApiResponse;
 import org.junit.jupiter.api.ClassOrderer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
@@ -12,16 +12,10 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestClassOrder;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.springframework.mock.web.MockMultipartFile;
 
+@DisplayName("내 프로필 조회 관련 API 테스트")
 @TestClassOrder(ClassOrderer.OrderAnnotation.class)
-@DisplayName("내 프로필 이미지 업로드 관련 API 테스트")
-public class UploadProfileImageApiTest extends BaseProfileImageApiTest {
-
-  @AfterAll
-  static void cleanup() throws IOException {
-    cleanUpDirectoryContents();
-  }
+public class GetMyProfileApiTest extends BaseMyProfileApiTest {
 
   @Order(1)
   @Nested
@@ -29,20 +23,21 @@ public class UploadProfileImageApiTest extends BaseProfileImageApiTest {
   @DisplayName("성공")
   class success {
 
-    @DisplayName("1. 프로필 이미지 임시 업로드 성공 검증 ")
+    /*[Case #1] 내 프로필 정보 조회 성공 검증*/
+    @DisplayName("1. ")
     @Test
-    public void uploadMyProfileImage_shouldSuccess() throws Exception {
+    public void getMyProfileDetails_shouldSuccess() throws Exception {
       //given
-
       String accessToken = getAccessToken(USER_EMAIL);
 
-      MockMultipartFile file = generateImageWithRatio("01.jpeg", "jpeg", 100, 100);
       //when
-      sendUploadMyProfileImageRequest(accessToken, file, status().isCreated());
+      CommonResponse<GetMyProfileDetailsApiResponse> getMyProfileDetailsResponse = sendGetMyProfileDetailsRequest(
+          accessToken, status().isOk());
 
       //then
-
+      validateMyProfileDetailsResponse(getMyProfileDetailsResponse.getData(), USER_PROFILE);
     }
+
   }
 
   @Order(2)
@@ -53,6 +48,5 @@ public class UploadProfileImageApiTest extends BaseProfileImageApiTest {
 
   }
 }
-
 
 

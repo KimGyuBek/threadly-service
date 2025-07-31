@@ -3,16 +3,16 @@ package com.threadly.user;
 import com.threadly.exception.ErrorCode;
 import com.threadly.exception.user.UserException;
 import com.threadly.properties.TtlProperties;
-import com.threadly.security.JwtTokenProvider;
 import com.threadly.token.DeleteTokenPort;
 import com.threadly.token.InsertBlackListToken;
 import com.threadly.token.InsertTokenPort;
+import com.threadly.user.account.DeactivateMyAccountUseCase;
+import com.threadly.user.account.WithdrawMyAccountUseCase;
 import com.threadly.user.register.RegisterUserCommand;
 import com.threadly.user.register.RegisterUserUseCase;
 import com.threadly.user.register.UserRegistrationApiResponse;
 import com.threadly.user.response.UserPortResponse;
 import com.threadly.user.update.UpdateUserUseCase;
-import com.threadly.user.withdraw.WithdrawUserUseCase;
 import com.threadly.utils.JwtTokenUtils;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Slf4j
 public class UserCommandService implements RegisterUserUseCase, UpdateUserUseCase,
-    WithdrawUserUseCase {
+    WithdrawMyAccountUseCase, DeactivateMyAccountUseCase {
 
   private final SaveUserPort saveUserPort;
   private final FetchUserPort fetchUserPort;
@@ -32,8 +32,6 @@ public class UserCommandService implements RegisterUserUseCase, UpdateUserUseCas
 
   private final InsertTokenPort insertTokenPort;
   private final DeleteTokenPort deleteTokenPort;
-
-  private final JwtTokenProvider jwtTokenProvider;
 
   private final TtlProperties ttlProperties;
 
@@ -73,10 +71,7 @@ public class UserCommandService implements RegisterUserUseCase, UpdateUserUseCas
 
   @Transactional
   @Override
-  public void withdrawUser(String userId, String bearerToken) {
-    /*토큰 추출*/
-    String accessToken = JwtTokenUtils.extractAccessToken(bearerToken);
-
+  public void withdrawMyAccount(String userId, String bearerToken) {
     /*user 조회*/
     User user = fetchUserPort.findByUserId(userId)
         .orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
@@ -86,6 +81,38 @@ public class UserCommandService implements RegisterUserUseCase, UpdateUserUseCas
 
     updateUserPort.updateUserStatus(userId, user.getUserStatusType());
 
+    /*토큰 무효화 처리*/
+    addBlackListTokenAndDeleteRefreshToken(userId, bearerToken);
+
+    log.info("계정 탈퇴 성공");
+  }
+
+  @Transactional
+  @Override
+  public void deactivateMyAccount(String userId, String bearerToken) {
+    /*user 조회*/
+    User user = fetchUserPort.findByUserId(userId)
+        .orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
+
+    /*비활성화 처리*/
+    user.markAsInactive();
+    updateUserPort.updateUserStatus(userId, user.getUserStatusType());
+
+    /*토큰 무효화 처리*/
+    addBlackListTokenAndDeleteRefreshToken(userId, bearerToken);
+
+    log.info("계정 비활성화 성공");
+  }
+
+  /**
+   * 주어진 bearerToken으로 accessToken 블랙리스트 등록 및 refreshToken 삭제
+   *
+   * @param userId
+   * @param bearerToken
+   */
+  private void addBlackListTokenAndDeleteRefreshToken(String userId, String bearerToken) {
+    /*토큰 추출*/
+    String accessToken = JwtTokenUtils.extractAccessToken(bearerToken);
     /*블랙리스트 토큰 등록*/
     insertTokenPort.saveBlackListToken(InsertBlackListToken.builder()
         .accessToken(accessToken)
@@ -95,6 +122,6 @@ public class UserCommandService implements RegisterUserUseCase, UpdateUserUseCas
 
     /*refreshToken 삭제*/
     deleteTokenPort.deleteRefreshToken(userId);
-    log.info("회원 탈퇴 성공");
   }
+
 }

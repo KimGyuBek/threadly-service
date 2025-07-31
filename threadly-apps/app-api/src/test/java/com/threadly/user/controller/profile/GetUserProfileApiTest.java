@@ -1,4 +1,4 @@
-package com.threadly.user.controller.profile.user;
+package com.threadly.user.controller.profile;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;

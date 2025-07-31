@@ -1,10 +1,9 @@
-package com.threadly.user.controller.profile.my;
+package com.threadly.user.controller.my;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.threadly.CommonResponse;
 import com.threadly.exception.ErrorCode;
-import com.threadly.testsupport.fixture.users.UserFixtureLoader;
 import com.threadly.testsupport.fixture.users.UserProfileImageFixtureLoader;
 import com.threadly.user.profile.get.GetMyProfileDetailsApiResponse;
 import com.threadly.user.profile.get.GetUserProfileApiResponse;
