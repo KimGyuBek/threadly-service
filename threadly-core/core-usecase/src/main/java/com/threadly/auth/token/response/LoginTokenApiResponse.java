@@ -6,7 +6,7 @@ package com.threadly.auth.token.response;
  * @param accessToken
  * @param refreshToken
  */
-public record LoginTokenResponse(
+public record LoginTokenApiResponse(
     String accessToken,
     String refreshToken
 ) {

@@ -1,4 +1,4 @@
-package com.threadly.user.controller.account;
+package com.threadly.user.controller.my.account;
 
 import static com.threadly.utils.TestConstants.EMAIL_VERIFIED_USER_1;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -6,7 +6,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.threadly.CommonResponse;
-import com.threadly.auth.token.response.LoginTokenResponse;
+import com.threadly.auth.token.response.LoginTokenApiResponse;
+import com.threadly.auth.token.response.TokenReissueApiResponse;
 import com.threadly.exception.ErrorCode;
 import com.threadly.user.BaseUserApiTest;
 import com.threadly.user.UserStatusType;
@@ -90,7 +91,7 @@ public class WithdrawMyAccountApiTest extends BaseUserApiTest {
           status().isOk());
 
       /*로그인*/
-      CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(EMAIL_VERIFIED_USER_1,
+      CommonResponse<LoginTokenApiResponse> loginResponse = sendLoginRequest(EMAIL_VERIFIED_USER_1,
           TestConstants.PASSWORD,
           new TypeReference<>() {
           }, status().isForbidden());
@@ -132,6 +133,40 @@ public class WithdrawMyAccountApiTest extends BaseUserApiTest {
       assertThat(withdrawUserResponse.isSuccess()).isFalse();
       assertThat(withdrawUserResponse.getCode()).isEqualTo(
           ErrorCode.SECOND_VERIFICATION_FAILED.getCode());
+    }
+
+    /*[Case #3] 회원 탈퇴 후 토큰 재발급이 불가능한지 검증 */
+    @Order(3)
+    @DisplayName("3. 회원 탈퇴 후 토큰 재발급이 불가능한지 검증")
+    @Test
+    public void withdrawUser_shouldReturn400BadRequest_whenReissueAccessTokenAfterWithdraw()
+        throws Exception {
+      //given
+
+      /*로그인*/
+      CommonResponse<LoginTokenApiResponse> loginResponse = sendLoginRequest(EMAIL_VERIFIED_USER_1,
+          TestConstants.PASSWORD, new TypeReference<>() {
+          },
+          status().isOk());
+
+      String accessToken = loginResponse.getData().accessToken();
+      //when
+
+      /*이중 인증 요청*/
+      String xVerifyToken = getXVerifyToken(accessToken);
+      /*탈퇴 요청*/
+      CommonResponse<Void> withdrawUserResponse = sendWithdrawMyAccountRequest(accessToken,
+          xVerifyToken,
+          status().isOk());
+
+      /*토큰 재발급 요청*/
+      CommonResponse<TokenReissueApiResponse> reissueTokenResponse = sendReissueTokenRequest(
+          loginResponse.getData().refreshToken(), status().isBadRequest());
+
+      //then
+      /*응답 검증*/
+      assertThat(reissueTokenResponse.isSuccess()).isFalse();
+      assertThat(reissueTokenResponse.getCode()).isEqualTo(ErrorCode.TOKEN_MISSING.getCode());
     }
   }
 }

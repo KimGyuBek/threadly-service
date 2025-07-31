@@ -12,12 +12,11 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.threadly.BaseApiTest;
 import com.threadly.CommonResponse;
 import com.threadly.exception.ErrorCode;
-import com.threadly.auth.token.response.LoginTokenResponse;
+import com.threadly.auth.token.response.LoginTokenApiResponse;
 import com.threadly.auth.verification.response.PasswordVerificationToken;
 import com.threadly.auth.request.PasswordVerificationRequest;
 import java.util.HashMap;
 import java.util.Map;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Nested;
@@ -46,7 +45,7 @@ public class PasswordVerificationScenarioTest extends BaseApiTest {
       //when
 
       /*1. 로그인 요청 전송*/
-      CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(
+      CommonResponse<LoginTokenApiResponse> loginResponse = sendLoginRequest(
           EMAIL_VERIFIED_USER_1, PASSWORD, new TypeReference<>() {
           }, status().isOk());
 
@@ -131,7 +130,7 @@ public class PasswordVerificationScenarioTest extends BaseApiTest {
       //when
 
       /*1. 로그인 요청 전송*/
-      CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(
+      CommonResponse<LoginTokenApiResponse> loginResponse = sendLoginRequest(
           EMAIL_VERIFIED_USER_1, PASSWORD, new TypeReference<>() {
           }, status().isOk());
 

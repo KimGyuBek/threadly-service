@@ -12,6 +12,7 @@ threadly-apps/app-api/src/test/resources/images/temp/
 infra/compose/local/app/.env.local
 runner/
 infra/grafana/
+.jqwik-database
 
 infra/loki-stack/loki/*
 !infra/loki-stack/loki/config.yml

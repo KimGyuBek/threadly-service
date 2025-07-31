@@ -1,4 +1,4 @@
-package com.threadly.user.controller.account;
+package com.threadly.user.controller.my.account;
 
 import static com.threadly.utils.TestConstants.EMAIL_VERIFIED_USER_1;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -6,7 +6,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.threadly.CommonResponse;
-import com.threadly.auth.token.response.LoginTokenResponse;
+import com.threadly.auth.token.response.LoginTokenApiResponse;
+import com.threadly.auth.token.response.TokenReissueApiResponse;
 import com.threadly.exception.ErrorCode;
 import com.threadly.user.BaseUserApiTest;
 import com.threadly.user.UserStatusType;
@@ -72,9 +73,9 @@ public class DeactivateMyAccountApiTest extends BaseUserApiTest {
     @Order(1)
     @DisplayName("1. 계정 비활성화 후 로그인이 불가능한지 검증")
     @Test
-    public void deactivateMyAccount_shouldReturn403Forbidden_whenUserLoginAfterUserDeactivate() throws Exception {
+    public void deactivateMyAccount_shouldReturn403Forbidden_whenUserLoginAfterUserDeactivate()
+        throws Exception {
       //given
-
       /*로그인*/
       String accessToken = getAccessToken(EMAIL_VERIFIED_USER_1);
 
@@ -88,7 +89,7 @@ public class DeactivateMyAccountApiTest extends BaseUserApiTest {
           status().isOk());
 
       /*로그인 요청*/
-      CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(EMAIL_VERIFIED_USER_1,
+      CommonResponse<LoginTokenApiResponse> loginResponse = sendLoginRequest(EMAIL_VERIFIED_USER_1,
           TestConstants.PASSWORD,
           new TypeReference<>() {
           }, status().isForbidden());
@@ -103,9 +104,9 @@ public class DeactivateMyAccountApiTest extends BaseUserApiTest {
     @Order(2)
     @DisplayName("2. 계정 비활성화 후 인증을 필요로한 경로로 접근이 불가능한지 검증")
     @Test
-    public void deactivateMyAccount_shouldReturn400BadRequest_whenAccessAuthorizedPathAfterUserDeactivate() throws Exception {
+    public void deactivateMyAccount_shouldReturn400BadRequest_whenAccessAuthorizedPathAfterUserDeactivate()
+        throws Exception {
       //given
-
       /*로그인*/
       String accessToken = getAccessToken(EMAIL_VERIFIED_USER_1);
 
@@ -118,7 +119,7 @@ public class DeactivateMyAccountApiTest extends BaseUserApiTest {
           xVerifyToken,
           status().isOk());
 
-      /*로그인 요청*/
+      /*경로 접근 요청*/
       CommonResponse response = sendGetRequest(accessToken, "/", status().isBadRequest());
 
       //then
@@ -126,13 +127,14 @@ public class DeactivateMyAccountApiTest extends BaseUserApiTest {
       assertThat(response.isSuccess()).isFalse();
       assertThat(response.getCode()).isEqualTo(ErrorCode.TOKEN_INVALID.getCode());
     }
-    /*[Case #3] 계정 비활성화 후  인증이 필요한 경로로 접근이 불가능한지 검증*/
-    @Order(3)
-    @DisplayName("3. 이중인증 없이 비활성화를 요청 할 경우 400 BadRequest")
-    @Test
-    public void deactivateMyAccount_shouldReturn400BadRequest_whenDeactivateWithout2FA() throws Exception {
-      //given
 
+    /*[Case #3] 이중인증 없이 비활성화 요청 할 경우 400 BadRequest*/
+    @Order(3)
+    @DisplayName("3. 이중인증 없이 비활성화를 요청 할 경우 불가능한지 검증")
+    @Test
+    public void deactivateMyAccount_shouldReturn400BadRequest_whenDeactivateWithout2FA()
+        throws Exception {
+      //given
       /*로그인*/
       String accessToken = getAccessToken(EMAIL_VERIFIED_USER_1);
 
@@ -144,8 +146,41 @@ public class DeactivateMyAccountApiTest extends BaseUserApiTest {
       //then
       /*응답 검증*/
       assertThat(deactivateResponse.isSuccess()).isFalse();
-      assertThat(deactivateResponse.getCode()).isEqualTo(ErrorCode.SECOND_VERIFICATION_FAILED.getCode());
+      assertThat(deactivateResponse.getCode()).isEqualTo(
+          ErrorCode.SECOND_VERIFICATION_FAILED.getCode());
     }
+
+    /*[Case #4] 계정 비활성화 후 토큰 재발급 불가능한지 검증*/
+    @Order(4)
+    @DisplayName("4. 계정 비활성화 후 토큰 재발급 불가능한지 검증")
+    @Test
+    public void deactivateMyAccount_shouldReturn_whenReissueAccessTokenAfterUserDeactivate()
+        throws Exception {
+      //given
+      /*로그인*/
+      CommonResponse<LoginTokenApiResponse> loginResponse = sendLoginRequest(
+          EMAIL_VERIFIED_USER_1, TestConstants.PASSWORD,
+          new TypeReference<>() {
+          }, status().isOk());
+
+      //when
+      String accessToken = loginResponse.getData().accessToken();
+      String xVerifyToken = getXVerifyToken(accessToken);
+
+      /*탈퇴 요청*/
+      sendDeactivateMyAccountRequest(accessToken, xVerifyToken, status().isOk());
+
+      /*토큰 재발급 요청*/
+      CommonResponse<TokenReissueApiResponse> reissueTokenResponse = sendReissueTokenRequest(
+          loginResponse.getData().refreshToken(), status().isBadRequest());
+
+      //then
+      /*응답 검증*/
+
+      assertThat(reissueTokenResponse.isSuccess()).isFalse();
+      assertThat(reissueTokenResponse.getCode()).isEqualTo(ErrorCode.TOKEN_MISSING.getCode());
+    }
+
   }
 }
 

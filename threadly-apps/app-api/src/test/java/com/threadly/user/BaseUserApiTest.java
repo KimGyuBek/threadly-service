@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.threadly.BaseApiTest;
 import com.threadly.CommonResponse;
 import com.threadly.auth.request.PasswordVerificationRequest;
+import com.threadly.auth.token.response.TokenReissueApiResponse;
 import com.threadly.auth.verification.response.PasswordVerificationToken;
 import com.threadly.repository.TestUserRepository;
 import java.util.HashMap;
@@ -71,6 +72,23 @@ public abstract class BaseUserApiTest extends BaseApiTest {
             },
             headers
         ).getData().getVerifyToken();
+  }
+
+  /**
+   * accessToken 재발급 요청
+   *
+   * @param refreshToken
+   * @param expectedStatus
+   * @return
+   */
+  public CommonResponse<TokenReissueApiResponse> sendReissueTokenRequest(String refreshToken,
+      ResultMatcher expectedStatus)
+      throws Exception {
+    return
+        sendPostRequest("", "/api/auth/reissue",
+            expectedStatus,
+            new TypeReference<>() {
+            }, Map.of("X-refresh-token", "Bearer " + refreshToken));
   }
 
   /**

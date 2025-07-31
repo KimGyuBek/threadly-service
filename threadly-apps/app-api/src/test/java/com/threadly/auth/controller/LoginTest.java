@@ -1,7 +1,6 @@
 package com.threadly.auth.controller;
 
 import static com.threadly.utils.TestConstants.EMAIL_VERIFIED_USER_1;
-import static com.threadly.utils.TestConstants.PROFILE_NOT_SET_USER_1;
 import static com.threadly.utils.TestConstants.USER_EMAIL_NOT_VERIFIED;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -12,7 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.threadly.BaseApiTest;
 import com.threadly.CommonResponse;
-import com.threadly.auth.token.response.LoginTokenResponse;
+import com.threadly.auth.token.response.LoginTokenApiResponse;
 import com.threadly.exception.ErrorCode;
 import com.threadly.testsupport.fixture.users.UserFixtureLoader;
 import com.threadly.utils.TestConstants;
@@ -58,9 +57,9 @@ class LoginTest extends BaseApiTest {
       //given
       //when
       //then
-      CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(EMAIL_VERIFIED_USER_1,
+      CommonResponse<LoginTokenApiResponse> loginResponse = sendLoginRequest(EMAIL_VERIFIED_USER_1,
           TestConstants.PASSWORD,
-          new TypeReference<CommonResponse<LoginTokenResponse>>() {
+          new TypeReference<CommonResponse<LoginTokenApiResponse>>() {
           }, status().isOk());
       assertThat(loginResponse.getData().accessToken()).isNotNull();
       assertThat(loginResponse.getData().refreshToken()).isNotNull();

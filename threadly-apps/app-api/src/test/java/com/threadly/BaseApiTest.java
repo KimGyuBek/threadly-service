@@ -10,7 +10,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.threadly.auth.request.UserLoginRequest;
-import com.threadly.auth.token.response.LoginTokenResponse;
+import com.threadly.auth.token.response.LoginTokenApiResponse;
 import com.threadly.testsupport.fixture.users.UserFixtureLoader;
 import com.threadly.utils.TestLogUtils;
 import java.io.UnsupportedEncodingException;
@@ -60,7 +60,7 @@ public abstract class BaseApiTest {
    * @throws Exception
    */
   public String getAccessToken(String email) throws Exception {
-    CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(
+    CommonResponse<LoginTokenApiResponse> loginResponse = sendLoginRequest(
         email, PASSWORD, new TypeReference<>() {
         },
         status().isOk()

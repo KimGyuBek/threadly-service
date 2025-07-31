@@ -1,12 +1,10 @@
 package com.threadly.post.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.threadly.BaseApiTest;
 import com.threadly.CommonResponse;
-import com.threadly.auth.token.response.LoginTokenResponse;
 import com.threadly.entity.post.PostEntity;
 import com.threadly.post.PostStatus;
 import com.threadly.post.comment.create.CreatePostCommentApiResponse;

@@ -12,8 +12,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.threadly.BaseApiTest;
 import com.threadly.CommonResponse;
 import com.threadly.exception.ErrorCode;
-import com.threadly.auth.token.response.LoginTokenResponse;
-import com.threadly.auth.token.response.TokenReissueResponse;
+import com.threadly.auth.token.response.LoginTokenApiResponse;
+import com.threadly.auth.token.response.TokenReissueApiResponse;
 import com.threadly.auth.request.UserLoginRequest;
 import com.threadly.repository.auth.TestRedisHelper;
 import java.util.ArrayList;
@@ -77,9 +77,9 @@ public class LoginScenarioTest extends BaseApiTest {
 
       //when
       /*1. 로그인 요청 전송*/
-      CommonResponse<LoginTokenResponse> loginResponse = sendPostRequest(loginRequestBody,
+      CommonResponse<LoginTokenApiResponse> loginResponse = sendPostRequest(loginRequestBody,
           "/api/auth/login",
-          status().isOk(), new TypeReference<CommonResponse<LoginTokenResponse>>() {
+          status().isOk(), new TypeReference<CommonResponse<LoginTokenApiResponse>>() {
           }, Map.of());
       String accessToken = loginResponse.getData().accessToken();
 
@@ -106,7 +106,7 @@ public class LoginScenarioTest extends BaseApiTest {
       //given
       //when
       /*로그인*/
-      CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(
+      CommonResponse<LoginTokenApiResponse> loginResponse = sendLoginRequest(
           EMAIL_VERIFIED_USER_1,
           PASSWORD,
           new TypeReference<>() {
@@ -148,8 +148,8 @@ public class LoginScenarioTest extends BaseApiTest {
       //when
 
       /*로그인*/
-      CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(
-          EMAIL_VERIFIED_USER_1, PASSWORD, new TypeReference<CommonResponse<LoginTokenResponse>>() {
+      CommonResponse<LoginTokenApiResponse> loginResponse = sendLoginRequest(
+          EMAIL_VERIFIED_USER_1, PASSWORD, new TypeReference<CommonResponse<LoginTokenApiResponse>>() {
           }, status().isOk()
       );
 
@@ -164,9 +164,9 @@ public class LoginScenarioTest extends BaseApiTest {
           accessToken, "/", status().isUnauthorized());
 
       /*accessToken 재발급*/
-      CommonResponse<TokenReissueResponse> tokenReissueResponse = sendPostRequest(
+      CommonResponse<TokenReissueApiResponse> tokenReissueResponse = sendPostRequest(
           "", "/api/auth/reissue", status().isOk(),
-          new TypeReference<CommonResponse<TokenReissueResponse>>() {
+          new TypeReference<CommonResponse<TokenReissueApiResponse>>() {
           }, Map.of("X-refresh-token", "Bearer " + refreshToken)
       );
       String reIssueAccessToken = tokenReissueResponse.getData().getAccessToken();
@@ -211,7 +211,7 @@ public class LoginScenarioTest extends BaseApiTest {
       List<String> accessTokenList = new ArrayList<>();
       List<String> refreshTokenList = new ArrayList<>();
 
-      CommonResponse<LoginTokenResponse> loginResponse;
+      CommonResponse<LoginTokenApiResponse> loginResponse;
 
       for (int i = 0; i < 50; i++) {
         loginResponse = sendLoginRequest(
@@ -255,7 +255,7 @@ public class LoginScenarioTest extends BaseApiTest {
       Thread.sleep(5200);
 
       /*정상 로그인 시도*/
-      CommonResponse<LoginTokenResponse> response2 = sendLoginRequest(EMAIL_VERIFIED_USER_1,
+      CommonResponse<LoginTokenApiResponse> response2 = sendLoginRequest(EMAIL_VERIFIED_USER_1,
           PASSWORD,
           new TypeReference<>() {
           }, status().isOk());
@@ -311,7 +311,7 @@ public class LoginScenarioTest extends BaseApiTest {
       }
 
       /*정상 로그인 시도*/
-      CommonResponse<LoginTokenResponse> response1 = sendLoginRequest(EMAIL_VERIFIED_USER_1,
+      CommonResponse<LoginTokenApiResponse> response1 = sendLoginRequest(EMAIL_VERIFIED_USER_1,
           PASSWORD,
           new TypeReference<>() {
           }, status().isOk());

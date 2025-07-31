@@ -12,7 +12,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.threadly.BaseApiTest;
 import com.threadly.CommonResponse;
 import com.threadly.auth.request.PasswordVerificationRequest;
-import com.threadly.auth.token.response.LoginTokenResponse;
+import com.threadly.auth.token.response.LoginTokenApiResponse;
 import com.threadly.auth.verification.response.PasswordVerificationToken;
 import com.threadly.exception.ErrorCode;
 import com.threadly.testsupport.fixture.users.UserFixtureLoader;
@@ -63,9 +63,9 @@ class LogoutTest extends BaseApiTest {
       //given
 
       /*로그인 요청*/
-      CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(
+      CommonResponse<LoginTokenApiResponse> loginResponse = sendLoginRequest(
           EMAIL_VERIFIED_USER_1, PASSWORD,
-          new TypeReference<CommonResponse<LoginTokenResponse>>() {
+          new TypeReference<CommonResponse<LoginTokenApiResponse>>() {
           }, status().isOk()
       );
 
@@ -113,9 +113,9 @@ class LogoutTest extends BaseApiTest {
       //given
 
       /*로그인 요청*/
-      CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(
+      CommonResponse<LoginTokenApiResponse> loginResponse = sendLoginRequest(
           EMAIL_VERIFIED_USER_1, PASSWORD,
-          new TypeReference<CommonResponse<LoginTokenResponse>>() {
+          new TypeReference<CommonResponse<LoginTokenApiResponse>>() {
           }, status().isOk()
       );
 
@@ -159,9 +159,9 @@ class LogoutTest extends BaseApiTest {
       //given
 
       /*로그인 요청*/
-      CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(
+      CommonResponse<LoginTokenApiResponse> loginResponse = sendLoginRequest(
           EMAIL_VERIFIED_USER_1, PASSWORD,
-          new TypeReference<CommonResponse<LoginTokenResponse>>() {
+          new TypeReference<CommonResponse<LoginTokenApiResponse>>() {
           }, status().isOk()
       );
 
@@ -217,7 +217,7 @@ class LogoutTest extends BaseApiTest {
       //given
 
       /*로그인 요청*/
-      CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(
+      CommonResponse<LoginTokenApiResponse> loginResponse = sendLoginRequest(
           EMAIL_VERIFIED_USER_1,
           PASSWORD,
           new TypeReference<>() {
@@ -265,7 +265,7 @@ class LogoutTest extends BaseApiTest {
       //given
 
       /*로그인 요청*/
-      CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(
+      CommonResponse<LoginTokenApiResponse> loginResponse = sendLoginRequest(
           EMAIL_VERIFIED_USER_1,
           PASSWORD,
           new TypeReference<>() {

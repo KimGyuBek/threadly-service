@@ -12,7 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.threadly.CommonResponse;
-import com.threadly.auth.token.response.LoginTokenResponse;
+import com.threadly.auth.token.response.LoginTokenApiResponse;
 import com.threadly.exception.ErrorCode;
 import com.threadly.user.UserGenderType;
 import com.threadly.user.profile.register.MyProfileRegisterApiResponse;
@@ -47,9 +47,9 @@ class CreateMyProfileApiTest extends BaseMyProfileApiTest {
         throws Exception {
       //given
       /*로그인 요청 전송*/
-      CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(
+      CommonResponse<LoginTokenApiResponse> loginResponse = sendLoginRequest(
           PROFILE_NOT_SET_USER_1, PASSWORD,
-          new TypeReference<CommonResponse<LoginTokenResponse>>() {
+          new TypeReference<CommonResponse<LoginTokenApiResponse>>() {
           }, status().isOk()
       );
 
@@ -101,9 +101,9 @@ class CreateMyProfileApiTest extends BaseMyProfileApiTest {
         throws Exception {
       //given
       /*로그인 요청 전송*/
-      CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(
+      CommonResponse<LoginTokenApiResponse> loginResponse = sendLoginRequest(
           EMAIL_VERIFIED_USER_1, PASSWORD,
-          new TypeReference<CommonResponse<LoginTokenResponse>>() {
+          new TypeReference<CommonResponse<LoginTokenApiResponse>>() {
           }, status().isOk()
       );
 
@@ -147,9 +147,9 @@ class CreateMyProfileApiTest extends BaseMyProfileApiTest {
         throws Exception {
       //given
       /*로그인 요청 전송*/
-      CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(
+      CommonResponse<LoginTokenApiResponse> loginResponse = sendLoginRequest(
           PROFILE_NOT_SET_USER_1, PASSWORD,
-          new TypeReference<CommonResponse<LoginTokenResponse>>() {
+          new TypeReference<CommonResponse<LoginTokenApiResponse>>() {
           }, status().isOk()
       );
 
@@ -185,9 +185,9 @@ class CreateMyProfileApiTest extends BaseMyProfileApiTest {
   public void login_shouldReturn403_whenUserProfileNotSet() throws Exception {
 //    given
 //    when
-    CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(PROFILE_NOT_SET_USER_1,
+    CommonResponse<LoginTokenApiResponse> loginResponse = sendLoginRequest(PROFILE_NOT_SET_USER_1,
         PASSWORD,
-        new TypeReference<CommonResponse<LoginTokenResponse>>() {
+        new TypeReference<CommonResponse<LoginTokenApiResponse>>() {
         }, status().isOk());
 
     CommonResponse response = sendGetRequest(

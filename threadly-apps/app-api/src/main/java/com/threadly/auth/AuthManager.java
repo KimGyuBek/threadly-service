@@ -1,7 +1,7 @@
 package com.threadly.auth;
 
-import com.threadly.auth.token.response.LoginTokenResponse;
-import com.threadly.auth.token.response.TokenReissueResponse;
+import com.threadly.auth.token.response.LoginTokenApiResponse;
+import com.threadly.auth.token.response.TokenReissueApiResponse;
 import com.threadly.auth.verification.LoginUserUseCase;
 import com.threadly.auth.verification.PasswordVerificationUseCase;
 import com.threadly.auth.verification.ReissueTokenUseCase;
@@ -107,7 +107,7 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
    * @return
    */
   @Override
-  public LoginTokenResponse login(String email, String password) {
+  public LoginTokenApiResponse login(String email, String password) {
 
     /*사용자 조회*/
     UserResponse user = getUserUseCase.findUserByEmail(email);
@@ -149,7 +149,7 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
           .authenticate(authenticationToken);
 
       /*로그인 토큰 응답 생성*/
-      LoginTokenResponse tokenResponse = new LoginTokenResponse(
+      LoginTokenApiResponse tokenResponse = new LoginTokenApiResponse(
           jwtTokenProvider.createAccessToken(userId, user.getUserType().name(), profileComplete),
           jwtTokenProvider.createRefreshToken(userId)
       );
@@ -181,15 +181,17 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
    *
    * @return
    */
-  public TokenReissueResponse reissueLoginToken(String refreshToken) {
+  public TokenReissueApiResponse reissueLoginToken(String refreshToken) {
 
-    /*refreshToken이 null일 경우*/
-    if (refreshToken == null || refreshToken.equals("null")) {
-      throw new TokenException(ErrorCode.TOKEN_MISSING);
-    }
+//    /*refreshToken이 null일 경우*/
+//    if (refreshToken == null || refreshToken.equals("null")) {
+//      throw new TokenException(ErrorCode.TOKEN_MISSING);
+//    }
 
     /*jwt 분리*/
-    refreshToken = refreshToken.substring(7);
+//    refreshToken = refreshToken.substring(7);
+
+    refreshToken = JwtTokenUtils.extractAccessToken(refreshToken);
 
     /*refreshToken 검증*/
     jwtTokenProvider.validateToken(refreshToken);
@@ -208,7 +210,7 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
     }
 
     /*login Token 재생성*/
-    LoginTokenResponse loginTokenResponse = new LoginTokenResponse(
+    LoginTokenApiResponse loginTokenApiResponse = new LoginTokenApiResponse(
         jwtTokenProvider.createAccessToken(userId, user.getUserType().name(), profileComplete),
         jwtTokenProvider.createRefreshToken(userId)
     );
@@ -217,14 +219,14 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
     upsertTokenPort.upsertRefreshToken(
         UpsertRefreshToken.builder()
             .userId(userId)
-            .refreshToken(loginTokenResponse.refreshToken())
+            .refreshToken(loginTokenApiResponse.refreshToken())
             .duration(ttlProperties.getRefreshToken())
             .build()
     );
 
-    return TokenReissueResponse.builder()
-        .accessToken(loginTokenResponse.accessToken())
-        .refreshToken(loginTokenResponse.refreshToken())
+    return TokenReissueApiResponse.builder()
+        .accessToken(loginTokenApiResponse.accessToken())
+        .refreshToken(loginTokenApiResponse.refreshToken())
         .build();
   }
 
