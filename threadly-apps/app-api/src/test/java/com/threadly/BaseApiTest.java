@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.threadly.auth.request.UserLoginRequest;
 import com.threadly.auth.token.response.LoginTokenApiResponse;
 import com.threadly.testsupport.fixture.users.UserFixtureLoader;
+import com.threadly.user.UserStatusType;
 import com.threadly.utils.TestLogUtils;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
@@ -36,12 +37,13 @@ import org.springframework.test.web.servlet.ResultMatcher;
 public abstract class BaseApiTest {
 
   @Autowired
-  private UserFixtureLoader userFixtureLoader;
+  public UserFixtureLoader userFixtureLoader;
 
   @BeforeEach
   public void setUpDefaultUser() {
     userFixtureLoader.load("/users/user-email-verified.json");
     userFixtureLoader.load("/users/user-email-not-verified.json");
+    userFixtureLoader.load("/users/no-profile-user.json", UserStatusType.INCOMPLETE_PROFILE);
   }
 
   @Autowired

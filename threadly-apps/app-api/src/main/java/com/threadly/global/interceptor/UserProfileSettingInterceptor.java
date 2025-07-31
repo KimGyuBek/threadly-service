@@ -1,8 +1,10 @@
 package com.threadly.global.interceptor;
 
-import com.threadly.security.JwtTokenProvider;
+import com.google.common.base.Objects;
 import com.threadly.exception.ErrorCode;
 import com.threadly.exception.user.UserException;
+import com.threadly.security.JwtTokenProvider;
+import com.threadly.user.UserStatusType;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
@@ -35,10 +37,12 @@ public class UserProfileSettingInterceptor implements HandlerInterceptor {
       return true;
     }
 
-    boolean profileComplete = jwtTokenProvider.isProfileComplete(
+    String userStatusType = jwtTokenProvider.getUserStatusType(
         jwtTokenProvider.resolveToken(request));
 
-    if (profileComplete) {
+    if (!Objects.equal(userStatusType,
+        UserStatusType.INCOMPLETE_PROFILE.name())) {
+
       throw new UserException(ErrorCode.USER_PROFILE_ALREADY_SET);
     }
 

@@ -49,7 +49,7 @@ class CreateMyProfileApiTest extends BaseMyProfileApiTest {
       /*로그인 요청 전송*/
       CommonResponse<LoginTokenApiResponse> loginResponse = sendLoginRequest(
           PROFILE_NOT_SET_USER_1, PASSWORD,
-          new TypeReference<CommonResponse<LoginTokenApiResponse>>() {
+          new TypeReference<>() {
           }, status().isOk()
       );
 

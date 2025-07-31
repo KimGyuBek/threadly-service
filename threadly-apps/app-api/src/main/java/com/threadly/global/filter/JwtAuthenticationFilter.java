@@ -1,5 +1,6 @@
 package com.threadly.global.filter;
 
+import com.google.common.base.Objects;
 import com.threadly.auth.AuthManager;
 import com.threadly.exception.ErrorCode;
 import com.threadly.exception.token.TokenException;
@@ -7,6 +8,7 @@ import com.threadly.exception.user.UserException;
 import com.threadly.global.exception.TokenAuthenticationException;
 import com.threadly.global.exception.UserAuthenticationException;
 import com.threadly.security.JwtTokenProvider;
+import com.threadly.user.UserStatusType;
 import com.threadly.utils.JwtTokenUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -53,10 +55,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       /*토큰이 검증되면*/
       if (jwtTokenProvider.validateToken(token)) {
 
-        /*사용자 프로필 설정 검증*/
-        if (!jwtTokenProvider.isProfileComplete(token) && !isWhiteListedForProfileIncomplete(
+        /*UserStatusType 검증*/
+        String userStatusType = jwtTokenProvider.getUserStatusType(token);
+
+        /*INCOMPLETE_PROFILE*/
+        if (Objects.equal(userStatusType,
+            UserStatusType.INCOMPLETE_PROFILE.name()) && !isWhiteListedForProfileIncomplete(
             request.getRequestURI())) {
           throw new UserException(ErrorCode.USER_PROFILE_NOT_SET);
+
+          /*INACTIVE*/
+        } else if(Objects.equal(userStatusType, UserStatusType.INACTIVE.name())) {
+          throw new UserException(ErrorCode.USER_INACTIVE);
         }
 
         /*TODO 성능 부하*/

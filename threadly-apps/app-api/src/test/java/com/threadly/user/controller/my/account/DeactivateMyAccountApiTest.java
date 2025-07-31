@@ -48,7 +48,8 @@ public class DeactivateMyAccountApiTest extends BaseUserApiTest {
       //when
       /*이중인증 요청*/
       String xVerifyToken = getXVerifyToken(accessToken);
-      /*탈퇴 요청*/
+
+      /*비활성화 요청*/
       CommonResponse<Void> deactivateMyAccountResponse = sendDeactivateMyAccountRequest(accessToken,
           xVerifyToken,
           status().isOk());
@@ -60,7 +61,6 @@ public class DeactivateMyAccountApiTest extends BaseUserApiTest {
       /*user statusType 검증*/
       validateUserStatusType(EMAIL_VERIFIED_USER_1, UserStatusType.INACTIVE);
     }
-
   }
 
   @Order(2)
@@ -69,11 +69,11 @@ public class DeactivateMyAccountApiTest extends BaseUserApiTest {
   @DisplayName("실패")
   class fail {
 
-    /*[Case #1] 계정 비활성화 후 로그인이 불가능한지 검증*/
+    /*[Case #1] 계정 비활성화 후 로그인이 후 인증을 필요로 하는 경로로 접근이 불가능한지 검증*/
     @Order(1)
-    @DisplayName("1. 계정 비활성화 후 로그인이 불가능한지 검증")
+    @DisplayName("1. 걔정 비활성화, 로그인 후 인증을 필요로 하는 경로로 접근이 불가능한지 검증")
     @Test
-    public void deactivateMyAccount_shouldReturn403Forbidden_whenUserLoginAfterUserDeactivate()
+    public void deactivateMyAccount_shouldReturn403Forbidden_whenUserRequestAuthorizedEndPointAfterWithdraw()
         throws Exception {
       //given
       /*로그인*/
@@ -83,21 +83,19 @@ public class DeactivateMyAccountApiTest extends BaseUserApiTest {
       /*이중인증 요청*/
       String xVerifyToken = getXVerifyToken(accessToken);
 
-      /*탈퇴 요청*/
+      /*비활성화 요청*/
       sendDeactivateMyAccountRequest(accessToken,
           xVerifyToken,
           status().isOk());
 
-      /*로그인 요청*/
-      CommonResponse<LoginTokenApiResponse> loginResponse = sendLoginRequest(EMAIL_VERIFIED_USER_1,
-          TestConstants.PASSWORD,
-          new TypeReference<>() {
-          }, status().isForbidden());
+      String accessToken2 = getAccessToken(EMAIL_VERIFIED_USER_1);
+
+      CommonResponse response = sendGetRequest(accessToken2, "/", status().isForbidden());
 
       //then
       /*응답 검증*/
-      assertThat(loginResponse.isSuccess()).isFalse();
-      assertThat(loginResponse.getCode()).isEqualTo(ErrorCode.USER_INACTIVE.getCode());
+      assertThat(response.isSuccess()).isFalse();
+      assertThat(response.getCode()).isEqualTo(ErrorCode.USER_INACTIVE.getCode());
     }
 
     /*[Case #2] 계정 비활성화 후  인증이 필요한 경로로 접근이 불가능한지 검증*/

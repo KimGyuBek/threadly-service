@@ -117,10 +117,10 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
       throw new UserAuthenticationException(ErrorCode.USER_ALREADY_DELETED);
     }
 
-    /*비활성화된 사용자인경우*/
-    if (user.getUserStatusType().equals(UserStatusType.INACTIVE)) {
-      throw new UserAuthenticationException(ErrorCode.USER_INACTIVE);
-    }
+//    /*비활성화된 사용자인경우*/
+//    if (user.getUserStatusType().equals(UserStatusType.INACTIVE)) {
+//      throw new UserAuthenticationException(ErrorCode.USER_INACTIVE);
+//    }
     String userId = user.getUserId();
 
     /*로그인 횟수 제한이 걸려있는지 검증*/
@@ -132,8 +132,6 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
     if (!user.isEmailVerified()) {
       throw new UserAuthenticationException(ErrorCode.EMAIL_NOT_VERIFIED);
     }
-
-    boolean profileComplete = fetchUserProfilePort.existsUserProfileByUserId(userId);
 
     /*인증용 토큰 생성*/
     /*
@@ -150,7 +148,7 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
 
       /*로그인 토큰 응답 생성*/
       LoginTokenApiResponse tokenResponse = new LoginTokenApiResponse(
-          jwtTokenProvider.createAccessToken(userId, user.getUserType().name(), profileComplete),
+          jwtTokenProvider.createAccessToken(userId, user.getUserType().name(), user.getUserStatusType().name()),
           jwtTokenProvider.createRefreshToken(userId)
       );
 
@@ -182,15 +180,7 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
    * @return
    */
   public TokenReissueApiResponse reissueLoginToken(String refreshToken) {
-
-//    /*refreshToken이 null일 경우*/
-//    if (refreshToken == null || refreshToken.equals("null")) {
-//      throw new TokenException(ErrorCode.TOKEN_MISSING);
-//    }
-
-    /*jwt 분리*/
-//    refreshToken = refreshToken.substring(7);
-
+    /*토큰 추출*/
     refreshToken = JwtTokenUtils.extractAccessToken(refreshToken);
 
     /*refreshToken 검증*/
@@ -201,8 +191,6 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
 
     /*db에서 user 조회*/
     UserResponse user = getUserUseCase.findUserByUserId(userId);
-    boolean profileComplete = fetchUserProfilePort.existsUserProfileByUserId(userId);
-
 
     /*refreshToken이 저장되어 있는지 검증*/
     if (!fetchTokenPort.existsRefreshTokenByUserId(userId)) {
@@ -211,7 +199,7 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
 
     /*login Token 재생성*/
     LoginTokenApiResponse loginTokenApiResponse = new LoginTokenApiResponse(
-        jwtTokenProvider.createAccessToken(userId, user.getUserType().name(), profileComplete),
+        jwtTokenProvider.createAccessToken(userId, user.getUserType().name(), user.getUserStatusType().name()),
         jwtTokenProvider.createRefreshToken(userId)
     );
 
@@ -276,10 +264,8 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
     /*사용자 조회*/
     UserResponse user = getUserUseCase.findUserByUserId(userId);
 
-    boolean profileComplete = fetchUserProfilePort.existsUserProfileByUserId(userId);
-
     return new MyProfileRegisterApiResponse(
-        jwtTokenProvider.createAccessToken(userId, user.getUserType().name(), profileComplete),
+        jwtTokenProvider.createAccessToken(userId, user.getUserType().name(), user.getUserStatusType().name()),
         jwtTokenProvider.createRefreshToken(userId)
     );
   }

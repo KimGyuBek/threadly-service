@@ -57,8 +57,8 @@ public class JwtTokenProvider {
    * @param userId
    * @return
    */
-  public String createAccessToken(String userId, String userType, boolean profileComplete) {
-    return generateAccessToken(userId, userType, profileComplete);
+  public String createAccessToken(String userId, String userType, String userStatusType) {
+    return generateAccessToken(userId, userType, userStatusType);
   }
 
   /**
@@ -122,14 +122,8 @@ public class JwtTokenProvider {
    * @return
    */
   public String getUserId(String token) {
-    Claims body = Jwts.parserBuilder()
-        .setSigningKey(generateSigningKey())
-        .build()
-        .parseClaimsJws(token)
-        .getBody();
-
     return
-        body.get("userId", String.class);
+        getClaims(token).get("userId", String.class);
   }
 
   /**
@@ -139,28 +133,27 @@ public class JwtTokenProvider {
    * @return
    */
   public String getUserType(String token) {
-    Claims body = Jwts.parserBuilder()
-        .setSigningKey(generateSigningKey())
-        .build()
-        .parseClaimsJws(token)
-        .getBody();
-    return body.get("userType", String.class);
+    return getClaims(token).get("userType", String.class);
   }
 
   /**
-   * jwt에서 claim:profileComplete 추출
+   * jwt에서 claim:userStatusType 추출
    *
    * @param token
    * @return
    */
-  public boolean isProfileComplete(String token) {
+  public String getUserStatusType(String token) {
+    return getClaims(token).get("userStatusType", String.class);
+  }
+
+
+  private Claims getClaims(String token) {
     Claims body = Jwts.parserBuilder()
         .setSigningKey(generateSigningKey())
         .build()
         .parseClaimsJws(token)
         .getBody();
-
-    return body.get("profileComplete", Boolean.class);
+    return body;
   }
 
   /**
@@ -174,9 +167,12 @@ public class JwtTokenProvider {
   /**
    * accessToken 생성
    *
+   * @param userId
+   * @param userType
+   * @param userStatusType
    * @return
    */
-  private String generateAccessToken(String userId, String userType, boolean profileComplete) {
+  private String generateAccessToken(String userId, String userType, String userStatusType) {
     Date now = new Date();
     Instant instant = now.toInstant();
 
@@ -184,7 +180,7 @@ public class JwtTokenProvider {
         Jwts.builder()
             .claim("userId", userId)
             .claim("userType", userType)
-            .claim("profileComplete", profileComplete)
+            .claim("userStatusType", userStatusType)
             .setId(UUID.randomUUID().toString().substring(0, 8))
             .setIssuedAt(now)
             .setExpiration(
@@ -243,11 +239,7 @@ public class JwtTokenProvider {
    * @return
    */
   public Duration getAccessTokenTtl(String accessToken) {
-    Claims claims = Jwts.parserBuilder()
-        .setSigningKey(generateSigningKey())
-        .build()
-        .parseClaimsJws(accessToken)
-        .getBody();
+    Claims claims = getClaims(accessToken);
 
     /*만료 시간*/
     Date expiration = claims.getExpiration();
