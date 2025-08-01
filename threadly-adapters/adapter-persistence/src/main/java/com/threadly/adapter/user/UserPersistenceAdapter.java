@@ -73,8 +73,8 @@ public class UserPersistenceAdapter implements FetchUserPort, SaveUserPort,
   public void updateEmailVerification(String userId, boolean isEmailVerified) {
     userJpaRepository.updateEmailVerification(userId, isEmailVerified);
   }
-  @Override
 
+  @Override
   public void updateUserStatus(String userId, UserStatusType status) {
     userJpaRepository.updateStatus(userId, status);
   }
@@ -87,5 +87,10 @@ public class UserPersistenceAdapter implements FetchUserPort, SaveUserPort,
   @Override
   public void changePassword(String userId, String newPassword) {
     userJpaRepository.updatePasswordByUserId(userId, newPassword);
+  }
+
+  @Override
+  public void updatePrivacy(User user) {
+    userJpaRepository.updatePrivacyByUserId(user.getUserId(), user.isPrivate());
   }
 }

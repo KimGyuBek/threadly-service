@@ -169,6 +169,14 @@ public class User {
   }
 
   /**
+   * 공개 계정 유무 설정
+   * @param isPrivate
+   */
+  public void setPrivacy(boolean isPrivate) {
+    this.isPrivate = isPrivate;
+  }
+
+  /**
    * 주어진 userId로 빈 User, UserProfile 도메인 생성
    *
    * @param userId

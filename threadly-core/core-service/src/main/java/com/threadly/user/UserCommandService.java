@@ -10,6 +10,8 @@ import com.threadly.user.account.ChangePasswordCommand;
 import com.threadly.user.account.ChangePasswordUseCase;
 import com.threadly.user.account.DeactivateMyAccountUseCase;
 import com.threadly.user.account.WithdrawMyAccountUseCase;
+import com.threadly.user.profile.update.UpdateMyPrivacySettingCommand;
+import com.threadly.user.profile.update.UpdateMyPrivacySettingUseCase;
 import com.threadly.user.register.RegisterUserCommand;
 import com.threadly.user.register.RegisterUserUseCase;
 import com.threadly.user.register.UserRegistrationApiResponse;
@@ -26,7 +28,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Slf4j
 public class UserCommandService implements RegisterUserUseCase, UpdateUserUseCase,
-    WithdrawMyAccountUseCase, DeactivateMyAccountUseCase, ChangePasswordUseCase {
+    WithdrawMyAccountUseCase, DeactivateMyAccountUseCase, ChangePasswordUseCase,
+    UpdateMyPrivacySettingUseCase {
 
   private final SaveUserPort saveUserPort;
   private final FetchUserPort fetchUserPort;
@@ -106,6 +109,21 @@ public class UserCommandService implements RegisterUserUseCase, UpdateUserUseCas
     log.info("계정 비활성화 성공");
   }
 
+
+  @Transactional
+  @Override
+  public void changePassword(ChangePasswordCommand command) {
+    updateUserPort.changePassword(command.getUserId(), command.getNewPassword());
+  }
+
+  @Transactional
+  @Override
+  public void updatePrivacy(UpdateMyPrivacySettingCommand command) {
+    User user = User.emptyWithUserId(command.getUserId());
+    user.setPrivacy(command.isPrivate());
+    updateUserPort.updatePrivacy(user);
+  }
+
   /**
    * 주어진 bearerToken으로 accessToken 블랙리스트 등록 및 refreshToken 삭제
    *
@@ -124,11 +142,5 @@ public class UserCommandService implements RegisterUserUseCase, UpdateUserUseCas
 
     /*refreshToken 삭제*/
     deleteTokenPort.deleteRefreshToken(userId);
-  }
-
-  @Transactional
-  @Override
-  public void changePassword(ChangePasswordCommand command) {
-    updateUserPort.changePassword(command.getUserId(), command.getNewPassword());
   }
 }

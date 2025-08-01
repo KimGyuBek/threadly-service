@@ -42,7 +42,6 @@ public class UserProfileSettingInterceptor implements HandlerInterceptor {
 
     if (!Objects.equal(userStatusType,
         UserStatusType.INCOMPLETE_PROFILE.name())) {
-
       throw new UserException(ErrorCode.USER_PROFILE_ALREADY_SET);
     }
 

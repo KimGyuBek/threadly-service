@@ -98,4 +98,6 @@ public interface UserProfileJpaRepository extends JpaRepository<UserProfileEntit
       """)
   void updateMyProfile(@Param("userId") String userId, @Param("nickname") String nickname,
       @Param("statusMessage") String statusMessage, @Param("bio") String bio);
+
+
 }

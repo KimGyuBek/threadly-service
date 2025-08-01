@@ -66,4 +66,5 @@ public class UserProfilePersistenceAdapter implements FetchUserProfilePort, Save
     userProfileJpaRepository.updateMyProfile(userProfile.getUserId(), userProfile.getNickname(),
         userProfile.getStatusMessage(), userProfile.getBio());
   }
+
 }

@@ -70,4 +70,17 @@ public interface UserJpaRepository extends JpaRepository<UserEntity, String> {
   void updatePasswordByUserId(@Param("userId") String userId,
       @Param("newPassword") String newPassword);
 
+  /**
+   * 주어진 userId에 해당하는 사용자의 is_private 변경
+   *
+   * @param userId
+   * @param isPrivate
+   */
+  @Modifying
+  @Query("""
+      update UserEntity u
+       set u.isPrivate = :isPrivate 
+       where u.userId = :userId
+      """)
+  void updatePrivacyByUserId(@Param("userId") String userId, @Param("isPrivate") boolean isPrivate);
 }

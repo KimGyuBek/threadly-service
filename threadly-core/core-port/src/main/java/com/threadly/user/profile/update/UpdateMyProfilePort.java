@@ -9,8 +9,10 @@ public interface UpdateMyProfilePort {
 
   /**
    * 주어진 userProfile domain으로 userProfile 업데이트
+   *
    * @param userProfile
    */
   void updateMyProfile(UserProfile userProfile);
+
 
 }

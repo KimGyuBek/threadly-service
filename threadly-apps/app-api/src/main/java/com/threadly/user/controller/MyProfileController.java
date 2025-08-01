@@ -12,9 +12,12 @@ import com.threadly.user.profile.image.UpdateMyProfileImageUseCase;
 import com.threadly.user.profile.image.UploadMyProfileImageApiResponse;
 import com.threadly.user.profile.register.MyProfileRegisterApiResponse;
 import com.threadly.user.profile.register.RegisterMyProfileUseCase;
+import com.threadly.user.profile.update.UpdateMyPrivacySettingUseCase;
 import com.threadly.user.profile.update.UpdateMyProfileUseCase;
 import com.threadly.user.request.RegisterUserProfileRequest;
+import com.threadly.user.request.UpdateMyPrivacySettingRequest;
 import com.threadly.user.request.UpdateUserProfileRequest;
+import com.threadly.user.update.UpdateUserUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -46,6 +49,8 @@ public class MyProfileController {
   private final SetMyProfileImageUseCase setMyProfileImageUseCase;
   private final UpdateMyProfileImageUseCase updateMyProfileImageUseCase;
 
+  private final UpdateMyPrivacySettingUseCase updateMyPrivacyUseCase;
+
   /**
    * 내 프로필 수정용 정보 조회
    *
@@ -74,6 +79,7 @@ public class MyProfileController {
 
     /*프로필 설정*/
     registerMyProfileUseCase.registerMyProfile(request.toCommand(user.getUserId()));
+//    updateUserUseCase.
 
     return ResponseEntity.status(201).body(
         reissueTokenUseCase.reissueToken(user.getUserId())
@@ -99,6 +105,22 @@ public class MyProfileController {
     updateMyProfileImageUseCase.updateProfileImage(user.getUserId(), request.profileImageId());
 
     return ResponseEntity.status(200).build();
+  }
+
+  /**
+   * 내 계정 비공개 처리
+   *
+   * @param user
+   * @return
+   */
+  @PatchMapping("/privacy")
+  public ResponseEntity<Void> updatePrivacySetting(
+      @AuthenticationPrincipal JwtAuthenticationUser user,
+      @RequestBody UpdateMyPrivacySettingRequest request
+  ) {
+    updateMyPrivacyUseCase.updatePrivacy(request.toCommand(user.getUserId()));
+    return ResponseEntity.status(200).build();
+
   }
 
   /**
