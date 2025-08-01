@@ -29,6 +29,15 @@ public record ApiResponse<T>(
     );
   }
 
+  public static <T> ApiResponse<T> success(T data, ErrorCode errorCode) {
+    return new ApiResponse<>(
+        true,
+        errorCode.getCode(),
+        errorCode.getDesc(),
+        data,
+        LocalDateTime.now()
+    );
+  }
   public static <T> ApiResponse<T> fail(ErrorCode errorCode) {
     return new ApiResponse<>(
         false,

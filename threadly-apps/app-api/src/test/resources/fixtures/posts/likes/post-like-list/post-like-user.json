@@ -6,16 +6,13 @@
     "email": "user100@threadly.com",
     "phone": "010-0000-1100",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up100",
       "nickname": "user100",
       "statusMessage": "user100의 상태메시지",
       "bio": "user100의 bio입니다.",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/up100.png"
+      "profileType": "USER"
     }
   },
   {
@@ -25,16 +22,13 @@
     "email": "user101@threadly.com",
     "phone": "010-0000-1101",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up101",
       "nickname": "user101",
       "statusMessage": "user101의 상태메시지",
       "bio": "user101의 bio입니다.",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/up101.png"
+      "profileType": "USER"
     }
   },
   {
@@ -44,16 +38,13 @@
     "email": "user102@threadly.com",
     "phone": "010-0000-1102",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up102",
       "nickname": "user102",
       "statusMessage": "user102의 상태메시지",
       "bio": "user102의 bio입니다.",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/up102.png"
+      "profileType": "USER"
     }
   },
   {
@@ -63,16 +54,13 @@
     "email": "user103@threadly.com",
     "phone": "010-0000-1103",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up103",
       "nickname": "user103",
       "statusMessage": "user103의 상태메시지",
       "bio": "user103의 bio입니다.",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/up103.png"
+      "profileType": "USER"
     }
   },
   {
@@ -82,16 +70,13 @@
     "email": "user104@threadly.com",
     "phone": "010-0000-1104",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up104",
       "nickname": "user104",
       "statusMessage": "user104의 상태메시지",
       "bio": "user104의 bio입니다.",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/up104.png"
+      "profileType": "USER"
     }
   },
   {
@@ -101,16 +86,13 @@
     "email": "user105@threadly.com",
     "phone": "010-0000-1105",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up105",
       "nickname": "user105",
       "statusMessage": "user105의 상태메시지",
       "bio": "user105의 bio입니다.",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/up105.png"
+      "profileType": "USER"
     }
   },
   {
@@ -120,16 +102,13 @@
     "email": "user106@threadly.com",
     "phone": "010-0000-1106",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up106",
       "nickname": "user106",
       "statusMessage": "user106의 상태메시지",
       "bio": "user106의 bio입니다.",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/up106.png"
+      "profileType": "USER"
     }
   },
   {
@@ -139,16 +118,13 @@
     "email": "user107@threadly.com",
     "phone": "010-0000-1107",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up107",
       "nickname": "user107",
       "statusMessage": "user107의 상태메시지",
       "bio": "user107의 bio입니다.",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/up107.png"
+      "profileType": "USER"
     }
   },
   {
@@ -158,16 +134,13 @@
     "email": "user108@threadly.com",
     "phone": "010-0000-1108",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up108",
       "nickname": "user108",
       "statusMessage": "user108의 상태메시지",
       "bio": "user108의 bio입니다.",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/up108.png"
+      "profileType": "USER"
     }
   },
   {
@@ -177,16 +150,13 @@
     "email": "user109@threadly.com",
     "phone": "010-0000-1109",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up109",
       "nickname": "user109",
       "statusMessage": "user109의 상태메시지",
       "bio": "user109의 bio입니다.",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/up109.png"
+      "profileType": "USER"
     }
   },
   {
@@ -196,16 +166,13 @@
     "email": "user110@threadly.com",
     "phone": "010-0000-1110",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up110",
       "nickname": "user110",
       "statusMessage": "user110의 상태메시지",
       "bio": "user110의 bio입니다.",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/up110.png"
+      "profileType": "USER"
     }
   },
   {
@@ -215,16 +182,13 @@
     "email": "user111@threadly.com",
     "phone": "010-0000-1111",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up111",
       "nickname": "user111",
       "statusMessage": "user111의 상태메시지",
       "bio": "user111의 bio입니다.",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/up111.png"
+      "profileType": "USER"
     }
   },
   {
@@ -234,16 +198,13 @@
     "email": "user112@threadly.com",
     "phone": "010-0000-1112",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up112",
       "nickname": "user112",
       "statusMessage": "user112의 상태메시지",
       "bio": "user112의 bio입니다.",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/up112.png"
+      "profileType": "USER"
     }
   },
   {
@@ -253,16 +214,13 @@
     "email": "user113@threadly.com",
     "phone": "010-0000-1113",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up113",
       "nickname": "user113",
       "statusMessage": "user113의 상태메시지",
       "bio": "user113의 bio입니다.",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/up113.png"
+      "profileType": "USER"
     }
   },
   {
@@ -272,16 +230,13 @@
     "email": "user114@threadly.com",
     "phone": "010-0000-1114",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up114",
       "nickname": "user114",
       "statusMessage": "user114의 상태메시지",
       "bio": "user114의 bio입니다.",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/up114.png"
+      "profileType": "USER"
     }
   },
   {
@@ -291,16 +246,13 @@
     "email": "user115@threadly.com",
     "phone": "010-0000-1115",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up115",
       "nickname": "user115",
       "statusMessage": "user115의 상태메시지",
       "bio": "user115의 bio입니다.",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/up115.png"
+      "profileType": "USER"
     }
   },
   {
@@ -310,16 +262,13 @@
     "email": "user116@threadly.com",
     "phone": "010-0000-1116",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up116",
       "nickname": "user116",
       "statusMessage": "user116의 상태메시지",
       "bio": "user116의 bio입니다.",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/up116.png"
+      "profileType": "USER"
     }
   },
   {
@@ -329,16 +278,13 @@
     "email": "user117@threadly.com",
     "phone": "010-0000-1117",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up117",
       "nickname": "user117",
       "statusMessage": "user117의 상태메시지",
       "bio": "user117의 bio입니다.",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/up117.png"
+      "profileType": "USER"
     }
   },
   {
@@ -348,16 +294,13 @@
     "email": "user118@threadly.com",
     "phone": "010-0000-1118",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up118",
       "nickname": "user118",
       "statusMessage": "user118의 상태메시지",
       "bio": "user118의 bio입니다.",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/up118.png"
+      "profileType": "USER"
     }
   },
   {
@@ -367,16 +310,13 @@
     "email": "user119@threadly.com",
     "phone": "010-0000-1119",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up119",
       "nickname": "user119",
       "statusMessage": "user119의 상태메시지",
       "bio": "user119의 bio입니다.",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/up119.png"
+      "profileType": "USER"
     }
   },
   {
@@ -386,16 +326,13 @@
     "email": "user120@threadly.com",
     "phone": "010-0000-1120",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up120",
       "nickname": "user120",
       "statusMessage": "user120의 상태메시지",
       "bio": "user120의 bio입니다.",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/up120.png"
+      "profileType": "USER"
     }
   },
   {
@@ -405,16 +342,13 @@
     "email": "user121@threadly.com",
     "phone": "010-0000-1121",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up121",
       "nickname": "user121",
       "statusMessage": "user121의 상태메시지",
       "bio": "user121의 bio입니다.",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/up121.png"
+      "profileType": "USER"
     }
   },
   {
@@ -424,16 +358,13 @@
     "email": "user122@threadly.com",
     "phone": "010-0000-1122",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up122",
       "nickname": "user122",
       "statusMessage": "user122의 상태메시지",
       "bio": "user122의 bio입니다.",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/up122.png"
+      "profileType": "USER"
     }
   },
   {
@@ -443,16 +374,13 @@
     "email": "user123@threadly.com",
     "phone": "010-0000-1123",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up123",
       "nickname": "user123",
       "statusMessage": "user123의 상태메시지",
       "bio": "user123의 bio입니다.",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/up123.png"
+      "profileType": "USER"
     }
   },
   {
@@ -462,16 +390,13 @@
     "email": "user124@threadly.com",
     "phone": "010-0000-1124",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up124",
       "nickname": "user124",
       "statusMessage": "user124의 상태메시지",
       "bio": "user124의 bio입니다.",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/up124.png"
+      "profileType": "USER"
     }
   },
   {
@@ -481,16 +406,13 @@
     "email": "user125@threadly.com",
     "phone": "010-0000-1125",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up125",
       "nickname": "user125",
       "statusMessage": "user125의 상태메시지",
       "bio": "user125의 bio입니다.",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/up125.png"
+      "profileType": "USER"
     }
   }
 ]

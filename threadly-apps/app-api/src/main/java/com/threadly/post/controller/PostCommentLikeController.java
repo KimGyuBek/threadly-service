@@ -1,6 +1,6 @@
 package com.threadly.post.controller;
 
-import com.threadly.auth.AuthenticationUser;
+import com.threadly.auth.JwtAuthenticationUser;
 import com.threadly.post.like.comment.GetPostCommentLikersApiResponse;
 import com.threadly.post.like.comment.GetPostCommentLikersQuery;
 import com.threadly.post.like.comment.GetPostCommentLikersUseCase;
@@ -73,7 +73,7 @@ public class PostCommentLikeController {
    */
   @PostMapping("/{postId}/comments/{commentId}/likes")
   public ResponseEntity<LikePostCommentApiResponse> likePostComment(
-      @AuthenticationPrincipal AuthenticationUser user,
+      @AuthenticationPrincipal JwtAuthenticationUser user,
       @PathVariable("postId") String postId, @PathVariable("commentId") String commentId
   ) {
 
@@ -94,7 +94,7 @@ public class PostCommentLikeController {
    */
   @DeleteMapping("/{postId}/comments/{commentId}/likes")
   public ResponseEntity<LikePostCommentApiResponse> cancelPostCommentLike(
-      @AuthenticationPrincipal AuthenticationUser user,
+      @AuthenticationPrincipal JwtAuthenticationUser user,
       @PathVariable("postId") String postId, @PathVariable("commentId") String commentId) {
 
     return ResponseEntity.status(204).body(

@@ -2,7 +2,7 @@ package com.threadly.repository.post;
 
 import com.threadly.entity.post.PostEntity;
 import com.threadly.entity.post.PostImageEntity;
-import com.threadly.post.PostImageStatus;
+import com.threadly.image.ImageStatus;
 import com.threadly.post.image.fetch.PostImageProjection;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -44,12 +44,12 @@ public interface PostImageJpaRepository extends JpaRepository<PostImageEntity, S
           pi.imageUrl as imageUrl,
           pi.imageOrder as imageOrder
           from PostImageEntity pi
-          where pi.post.id = :postId and pi.status = :status
+          where pi.post.postId = :postId and pi.status = :status
           order by imageOrder
           """
   )
   List<PostImageProjection> getPostImageListByPostIdAndStatus(@Param("postId") String postId,
-      @Param("status") PostImageStatus status);
+      @Param("status") ImageStatus status);
 
   /**
    * postId에 해당하는 이미지를 soft delete 처리
@@ -78,7 +78,7 @@ public interface PostImageJpaRepository extends JpaRepository<PostImageEntity, S
       set pi.status = :status
       where pi.post.postId = :postId
       """)
-  void updateStatus(@Param("postId") String postId, @Param("status") PostImageStatus status);
+  void updateStatus(@Param("postId") String postId, @Param("status") ImageStatus status);
 
 
   /**
@@ -127,7 +127,7 @@ public interface PostImageJpaRepository extends JpaRepository<PostImageEntity, S
       where pi.postImageId = :imageId
       """)
   void finalizePostImage(@Param("imageId") String imageId, @Param("post") PostEntity postEntity,
-      @Param("order") int order, @Param("status") PostImageStatus status);
+      @Param("order") int order, @Param("status") ImageStatus status);
 
   List<PostImageEntity> findAllByPostImageId(String postImageId);
 

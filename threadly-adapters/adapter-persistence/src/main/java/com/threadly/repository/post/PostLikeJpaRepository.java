@@ -71,12 +71,13 @@ public interface PostLikeJpaRepository extends JpaRepository<PostLikeEntity, Str
   @Query(value = """
       select pl.user_id           as likerId,
              up.nickname          as likerNickname,
-             up.profile_image_url as likerProfileImageUrl,
+             upi.image_url        as likerProfileImageUrl,
              up.bio               as likerBio,
              pl.created_at        as likedAt
       from post_likes pl
                join users u on pl.user_id = u.user_id
-               join user_profile up on u.user_profile_id = up.user_profile_id
+               join user_profile up on u.user_id = up.user_id
+               left join user_profile_images upi on up.user_id = upi.user_id
       where pl.post_id = :postId
        and (:cursorLikedAt is null 
        or pl.created_at < :cursorLikedAt 

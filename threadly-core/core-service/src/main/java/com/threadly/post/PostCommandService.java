@@ -5,7 +5,7 @@ import static com.threadly.post.PostStatus.DELETED;
 
 import com.threadly.exception.ErrorCode;
 import com.threadly.exception.post.PostException;
-import com.threadly.exception.user.UserException;
+import com.threadly.image.ImageStatus;
 import com.threadly.post.comment.delete.DeletePostCommentUseCase;
 import com.threadly.post.create.CreatePostApiResponse;
 import com.threadly.post.create.CreatePostApiResponse.PostImageApiResponse;
@@ -27,7 +27,8 @@ import com.threadly.post.update.view.IncreaseViewCountUseCase;
 import com.threadly.post.view.RecordPostViewPort;
 import com.threadly.properties.TtlProperties;
 import com.threadly.user.FetchUserPort;
-import com.threadly.user.UserProfile;
+import com.threadly.user.profile.fetch.FetchUserProfilePort;
+import com.threadly.user.profile.fetch.UserPreviewProjection;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -60,13 +61,11 @@ public class PostCommandService implements CreatePostUseCase, UpdatePostUseCase,
 
   private final TtlProperties ttlProperties;
 
+  private final FetchUserProfilePort fetchUserProfilePort;
+
   @Transactional
   @Override
   public CreatePostApiResponse createPost(CreatePostCommand command) {
-
-    /*사용자 프로필 조회*/
-    UserProfile userProfile = getUserProfile(command.getUserId());
-
     /*post 도메인 생성*/
     Post newPost = Post.newPost(command.getUserId(), command.getContent());
 
@@ -87,7 +86,7 @@ public class PostCommandService implements CreatePostUseCase, UpdatePostUseCase,
       /*게시글 이미지 조회*/
       postImageApiResponse = fetchPostImagePort.findAllByPostIdAndStatus(
           savedPost.getPostId(),
-          PostImageStatus.CONFIRMED).stream().map(
+          ImageStatus.CONFIRMED).stream().map(
           projection -> new PostImageApiResponse(
               projection.getImageId(),
               projection.getImageUrl(),
@@ -96,10 +95,14 @@ public class PostCommandService implements CreatePostUseCase, UpdatePostUseCase,
       ).toList();
     }
 
+    /*사용자 프로필 조회*/
+    UserPreviewProjection userPreview = fetchUserProfilePort.findUserPreviewByUserId(
+        command.getUserId());
+
     return new CreatePostApiResponse(
         savedPost.getPostId(),
-        userProfile.getProfileImageUrl(),
-        userProfile.getNickname(),
+        userPreview.getProfileImageUrl(),
+        userPreview.getNickname(),
         savedPost.getUserId(),
         savedPost.getContent(),
         postImageApiResponse,
@@ -164,7 +167,7 @@ public class PostCommandService implements CreatePostUseCase, UpdatePostUseCase,
     updatePostPort.changeStatus(post);
 
     /*게시글 이미지 삭제 처리*/
-    updatePostImagePort.updateStatus(post.getPostId(), PostImageStatus.DELETED);
+    updatePostImagePort.updateStatus(post.getPostId(), ImageStatus.DELETED);
 
     /*게시글 좋아요 삭제 처리*/
     deletePostLikePort.deleteAllByPostId(post.getPostId());
@@ -198,18 +201,5 @@ public class PostCommandService implements CreatePostUseCase, UpdatePostUseCase,
         fetchPostPort.fetchById(command).orElseThrow(
             () -> new PostException(ErrorCode.POST_NOT_FOUND)
         );
-  }
-
-  /**
-   * userProfile 조회
-   *
-   * @param userId
-   * @return
-   */
-  private UserProfile getUserProfile(String userId) {
-    return
-        fetchUserPort.getUserProfile(userId)
-            .orElseThrow(() -> new UserException(
-                ErrorCode.USER_PROFILE_NOT_FOUND));
   }
 }

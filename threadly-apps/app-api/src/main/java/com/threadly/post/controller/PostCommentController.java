@@ -1,6 +1,6 @@
 package com.threadly.post.controller;
 
-import com.threadly.auth.AuthenticationUser;
+import com.threadly.auth.JwtAuthenticationUser;
 import com.threadly.post.comment.create.CreatePostCommentApiResponse;
 import com.threadly.post.comment.create.CreatePostCommentCommand;
 import com.threadly.post.comment.create.CreatePostCommentUseCase;
@@ -14,9 +14,7 @@ import jakarta.validation.Valid;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -58,7 +56,7 @@ public class PostCommentController {
    */
   @GetMapping("/{postId}/comments")
   public ResponseEntity<GetPostCommentListApiResponse> getPostComments(
-      @AuthenticationPrincipal AuthenticationUser user,
+      @AuthenticationPrincipal JwtAuthenticationUser user,
       @PathVariable String postId,
       @RequestParam(value = "cursor_commented_at", required = false) LocalDateTime cursorCommentedAt,
       @RequestParam(value = "cursor_comment_id", required = false) String cursorCommentId,
@@ -88,7 +86,7 @@ public class PostCommentController {
    */
   @PostMapping("/{postId}/comments")
   public ResponseEntity<CreatePostCommentApiResponse> createPostComment(
-      @AuthenticationPrincipal AuthenticationUser user,
+      @AuthenticationPrincipal JwtAuthenticationUser user,
       @PathVariable("postId") String postId, @RequestBody @Valid CreatePostCommentRequest request) {
 
     return ResponseEntity.status(201).body(
@@ -110,7 +108,7 @@ public class PostCommentController {
    */
   @DeleteMapping("/{postId}/comments/{commentId}")
   public ResponseEntity<Void> deletePostComment(
-      @AuthenticationPrincipal AuthenticationUser user,
+      @AuthenticationPrincipal JwtAuthenticationUser user,
       @PathVariable("postId") String postId,
       @PathVariable("commentId") String commentId) {
 

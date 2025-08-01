@@ -1,5 +1,6 @@
 package com.threadly.post;
 
+import com.threadly.image.ImageStatus;
 import com.threadly.utils.RandomUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,7 +16,7 @@ public class PostImage {
   private String storedName;
   private String imageUrl;
   private int imageOrder = 0;
-  private PostImageStatus status;
+  private ImageStatus status;
 
   /**
    * 새로운 postimage 도메인 생성
@@ -31,7 +32,7 @@ public class PostImage {
         storedName,
         imageUrl,
         -1,
-        PostImageStatus.TEMPORARY
+        ImageStatus.TEMPORARY
     );
   }
 

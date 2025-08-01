@@ -1,6 +1,6 @@
 package com.threadly.post.image.fetch;
 
-import com.threadly.post.PostImageStatus;
+import com.threadly.image.ImageStatus;
 import java.util.List;
 
 /**
@@ -20,7 +20,7 @@ public interface FetchPostImagePort {
    * @param postId
    * @return
    */
-  List<PostImageProjection> findAllByPostIdAndStatus(String postId, PostImageStatus status);
+  List<PostImageProjection> findAllByPostIdAndStatus(String postId, ImageStatus status);
 
 
 

@@ -9,15 +9,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.threadly.BaseApiTest;
 import com.threadly.CommonResponse;
-import com.threadly.exception.ErrorCode;
-import com.threadly.auth.token.response.LoginTokenResponse;
-import com.threadly.auth.verification.response.PasswordVerificationToken;
 import com.threadly.auth.request.PasswordVerificationRequest;
+import com.threadly.auth.token.response.LoginTokenApiResponse;
+import com.threadly.auth.verification.response.PasswordVerificationToken;
+import com.threadly.exception.ErrorCode;
+import com.threadly.user.BaseUserApiTest;
 import java.util.HashMap;
 import java.util.Map;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Nested;
@@ -29,12 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * auth - password Verification 테스트
  */
-public class PasswordVerificationScenarioTest extends BaseApiTest {
-
-  @BeforeEach
-  void setUp() throws Exception {
-    super.setUpDefaultUser();
-  }
+public class PasswordVerificationScenarioTest extends BaseUserApiTest {
 
   @Nested
   @DisplayName("사용자 이중 인증 시라니오 테스트")
@@ -49,12 +43,10 @@ public class PasswordVerificationScenarioTest extends BaseApiTest {
     @Transactional
     public void accessProtectedResource_shouldSucceed_afterPasswordVerification() throws Exception {
       //given
-//    Thread.sleep(3000);
-
       //when
 
       /*1. 로그인 요청 전송*/
-      CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(
+      CommonResponse<LoginTokenApiResponse> loginResponse = sendLoginRequest(
           EMAIL_VERIFIED_USER_1, PASSWORD, new TypeReference<>() {
           }, status().isOk());
 
@@ -64,9 +56,9 @@ public class PasswordVerificationScenarioTest extends BaseApiTest {
       Map<String, String> headers = new HashMap<>();
       headers.put("Authorization", "Bearer " + accessToken);
 
-      CommonResponse<Object> response1 = sendPostRequest(
+      CommonResponse<Object> response1 = sendPatchRequest(
           "",
-          "/api/users/update/password",
+          "/api/me/account/password",
           status().isBadRequest(),
           new TypeReference<>() {
           },
@@ -86,15 +78,8 @@ public class PasswordVerificationScenarioTest extends BaseApiTest {
       String verifyToken = passwordVerificationResponse.getData().getVerifyToken();
 
       /*4. /users/update/password 재접속*/
-      headers.put("X-Verify-Token", "Bearer " + verifyToken);
-      CommonResponse<Object> response2 = sendPostRequest(
-          "",
-          "/api/users/update/password",
-          status().isOk(),
-          new TypeReference<>() {
-          },
-          headers
-      );
+      CommonResponse<Void> response2 = sendChangePasswordRequest(accessToken,
+          passwordVerificationResponse.getData().getVerifyToken(), "newPassword", status().isOk());
 
       //then
       /*login response 검증*/
@@ -131,7 +116,7 @@ public class PasswordVerificationScenarioTest extends BaseApiTest {
       //when
 
       /*1. 로그인 요청 전송*/
-      CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(
+      CommonResponse<LoginTokenApiResponse> loginResponse = sendLoginRequest(
           EMAIL_VERIFIED_USER_1, PASSWORD, new TypeReference<>() {
           }, status().isOk());
 
@@ -141,9 +126,9 @@ public class PasswordVerificationScenarioTest extends BaseApiTest {
       Map<String, String> headers = new HashMap<>();
       headers.put("Authorization", "Bearer " + accessToken);
 
-      CommonResponse<Object> response1 = sendPostRequest(
+      CommonResponse<Object> response1 = sendPatchRequest(
           "",
-          "/api/users/update/password",
+          "/api/me/account/password",
           status().isBadRequest(),
           new TypeReference<>() {
           },
@@ -160,24 +145,16 @@ public class PasswordVerificationScenarioTest extends BaseApiTest {
           },
           headers
       );
-      String verifyToken = passwordVerificationResponse.getData().getVerifyToken();
 
       /*4. /users/update/password 재접속*/
-      headers.put("X-Verify-Token", "Bearer " + verifyToken);
-      CommonResponse<Object> response2 = sendPostRequest(
-          "",
-          "/api/users/update/password",
-          status().isOk(),
-          new TypeReference<>() {
-          },
-          headers
-      );
+      CommonResponse<Void> response2 = sendChangePasswordRequest(accessToken,
+          passwordVerificationResponse.getData().getVerifyToken(), "newPassword", status().isOk());
 
       /* X-Verificatoin-token 만료 후 재접속*/
       Thread.sleep(3500);
-      CommonResponse<Object> response3 = sendPostRequest(
+      CommonResponse<Object> response3 = sendPatchRequest(
           "",
-          "/api/users/update/password",
+          "/api/me/account/password",
           status().isUnauthorized(),
           new TypeReference<>() {
           },

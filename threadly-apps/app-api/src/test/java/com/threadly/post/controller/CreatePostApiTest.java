@@ -22,11 +22,6 @@ import org.junit.jupiter.api.TestClassOrder;
 @TestClassOrder(ClassOrderer.OrderAnnotation.class)
 class CreatePostApiTest extends BasePostApiTest {
 
-  @BeforeEach
-  void setUp() {
-    super.setUpDefaultUser();
-  }
-
   @Order(1)
   @DisplayName("게시글 생성 테스트")
   @Nested

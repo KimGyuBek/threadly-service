@@ -34,7 +34,6 @@ public class CreatePostCommentApiTest extends BasePostApiTest {
 
   @BeforeEach
   void setUp() throws Exception {
-    super.setUpDefaultUser();
     postFixtureLoader.load(
         "/posts/comments/create-comment/user.json",
         "/posts/comments/create-comment/post.json"

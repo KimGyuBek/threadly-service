@@ -1,7 +1,7 @@
 package com.threadly.user.response;
 
 import com.threadly.user.UserGenderType;
-import com.threadly.user.UserProfileType;
+import com.threadly.user.profile.UserProfileType;
 import lombok.Builder;
 import lombok.Getter;
 

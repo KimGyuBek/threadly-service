@@ -1,7 +1,7 @@
 package com.threadly.repository.user;
 
 import com.threadly.entity.user.UserEntity;
-import com.threadly.entity.user.UserProfileEntity;
+import com.threadly.user.UserStatusType;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -12,7 +12,12 @@ public interface UserJpaRepository extends JpaRepository<UserEntity, String> {
 
   Optional<UserEntity> findByEmail(String email);
 
-
+  /**
+   * isEmailVerified 변경
+   *
+   * @param userId
+   * @param isEmailVerified
+   */
   @Modifying
   @Query(
       value = "update UserEntity u "
@@ -21,28 +26,48 @@ public interface UserJpaRepository extends JpaRepository<UserEntity, String> {
   void updateEmailVerification(@Param("userId") String userId,
       @Param("isEmailVerified") boolean isEmailVerified);
 
+  /**
+   * status 변경
+   *
+   * @param userId
+   * @param statusType
+   */
   @Modifying
   @Query(
       value = "update UserEntity u "
-          + "set u.userProfile = :userProfileEntity "
-          + "where u.userId = :userId"
-  )
-  void setUserProfile(@Param("userId") String userId,
-      @Param("userProfileEntity") UserProfileEntity userProfileEntity);
-
-  @Query(value =
-      "select u from UserEntity u "
-          + "left join "
-          + "fetch u.userProfile "
+          + "set u.userStatusType = :statusType "
           + "where u.userId = :userId")
-  Optional<UserEntity> findByUserIdWithUserProfile(@Param("userId") String userId);
+  void updateStatus(@Param("userId") String userId,
+      @Param("statusType") UserStatusType statusType);
 
-  @Query(value =
-      "select up "
-          + "from UserEntity u "
-          + "left join u.userProfile up "
-          + "where u.userId = :userId"
-  )
-  Optional<UserProfileEntity> findUserProfileByUserId(@Param("userId") String userId);
+
+  /**
+   * 주어진 userId에 해당하는 사용자의 phone 업데이트
+   *
+   * @param userId
+   * @param phone
+   */
+  @Modifying
+  @Query("""
+      update UserEntity  u
+      set u.phone = :phone
+      where u.userId = :userId
+      """)
+  void updatePhoneByUserId(@Param("userId") String userId, @Param("phone") String phone);
+
+  /**
+   * 주어진 userId에 해당하는 사용자의 password 변경
+   *
+   * @param userId
+   * @param newPassword
+   */
+  @Modifying
+  @Query("""
+      update UserEntity u
+      set u.password = :newPassword
+      where u.userId = :userId
+      """)
+  void updatePasswordByUserId(@Param("userId") String userId,
+      @Param("newPassword") String newPassword);
 
 }

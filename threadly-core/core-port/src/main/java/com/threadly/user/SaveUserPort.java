@@ -8,9 +8,4 @@ import com.threadly.user.response.UserPortResponse;
 public interface SaveUserPort {
 
   UserPortResponse save(User user);
-
-  void saveUserProfile(User user, UserProfile userProfile);
-
-
-
 }

@@ -6,8 +6,8 @@ import static com.threadly.utils.LogFormatUtils.logSuccess;
 
 import com.threadly.exception.ErrorCode;
 import com.threadly.global.exception.UserAuthenticationException;
-import com.threadly.auth.token.response.LoginTokenResponse;
-import com.threadly.auth.token.response.TokenReissueResponse;
+import com.threadly.auth.token.response.LoginTokenApiResponse;
+import com.threadly.auth.token.response.TokenReissueApiResponse;
 import com.threadly.auth.verification.response.PasswordVerificationToken;
 import com.threadly.exception.user.UserException;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +40,7 @@ public class AuthLoggingAspect {
 
   /*성공*/
   @AfterReturning(pointcut = "login()", returning = "result")
-  public void logLoginSuccess(JoinPoint joinPoint, LoginTokenResponse result) {
+  public void logLoginSuccess(JoinPoint joinPoint, LoginTokenApiResponse result) {
     debugLog(joinPoint, "로그인 성공");
     logSuccess(joinPoint);
   }
@@ -59,7 +59,9 @@ public class AuthLoggingAspect {
     } else if (exception instanceof UserException) {
       log.error(exception.getMessage(), exception);
       logFailure(joinPoint, exception);
-      throw new UserAuthenticationException(ErrorCode.USER_NOT_FOUND);
+      throw new UserException(
+          ((UserException) exception).getErrorCode());
+//      throw new UserAuthenticationException(ErrorCode.USER_NOT_FOUND);
 
     } else if (exception instanceof UsernameNotFoundException
         || exception instanceof BadCredentialsException) {
@@ -158,7 +160,7 @@ public class AuthLoggingAspect {
   /*성공*/
   @AfterReturning(pointcut = "reissueLoginToken()", returning = "result")
   public void logReissueLoginTokenSuccess(JoinPoint joinPoint,
-      TokenReissueResponse result) {
+      TokenReissueApiResponse result) {
     debugLog(joinPoint, "로그인 토큰 재발급 성공");
     logSuccess(joinPoint);
   }

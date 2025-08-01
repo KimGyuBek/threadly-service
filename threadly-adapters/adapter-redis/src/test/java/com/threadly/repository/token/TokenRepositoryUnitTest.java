@@ -27,7 +27,7 @@ class TokenRepositoryUnitTest {
   private RedisTemplate<String, String> redisTemplate;
 
   @InjectMocks
-  private TokenRepository tokenRepository;
+  private TokenPortRepository tokenRepository;
 
   @Mock
   private ValueOperations<String, String> valueOperations;

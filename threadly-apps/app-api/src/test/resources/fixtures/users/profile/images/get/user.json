@@ -1,0 +1,18 @@
+[
+  {
+    "userId": "user_with_profile_test",
+    "userName": "사용자 프로필 테스트용",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "user_with_profile_test@threadly.com",
+    "phone": "010-3178-6830",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "usr1_nickname",
+      "statusMessage": "상태 메세지",
+      "bio": "나는 사용자이다",
+      "gender": "MALE",
+      "profileType": "USER"
+    }
+  }
+]

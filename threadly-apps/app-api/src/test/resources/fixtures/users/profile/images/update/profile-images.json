@@ -1,0 +1,23 @@
+[
+  {
+    "userProfileImageId": "temp-img-001",
+    "userId": "user_with_profile_image",
+    "storedFileName": "temp_1234abcd.webp",
+    "imageUrl": "/images/temp_1234abcd.webp",
+    "status": "TEMPORARY"
+  },
+  {
+    "userProfileImageId": "confirmed-img-001",
+    "userId": "user_with_profile_image",
+    "storedFileName": "confirmed_abcd5678.webp",
+    "imageUrl": "/images/confirmed_abcd5678.webp",
+    "status": "CONFIRMED"
+  },
+  {
+    "userProfileImageId": "deleted-img-001",
+    "userId": "user_with_profile_image",
+    "storedFileName": "deleted_ijkl9012.webp",
+    "imageUrl": "/images/deleted_ijkl9012.webp",
+    "status": "DELETED"
+  }
+]

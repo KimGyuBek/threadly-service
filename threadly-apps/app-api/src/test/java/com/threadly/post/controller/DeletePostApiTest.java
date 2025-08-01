@@ -6,7 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.threadly.CommonResponse;
 import com.threadly.exception.ErrorCode;
 import com.threadly.post.PostCommentStatus;
-import com.threadly.post.PostImageStatus;
+import com.threadly.image.ImageStatus;
 import com.threadly.post.PostStatus;
 import com.threadly.post.create.CreatePostApiResponse;
 import com.threadly.post.image.BasePostImageApiTest;
@@ -49,7 +49,6 @@ public class DeletePostApiTest extends BasePostImageApiTest {
 
   @BeforeEach
   void setUp() throws IOException {
-    super.setUpDefaultUser();
     super.clearFiles();
 
     postCommentLikeFixtureLoader.load(
@@ -111,7 +110,7 @@ public class DeletePostApiTest extends BasePostImageApiTest {
 
       //then
       /*검증*/
-      validateImageResponse(createPostResponse, postId, PostImageStatus.DELETED);
+      validateImageResponse(createPostResponse, postId, ImageStatus.DELETED);
       validatePostStatus(postId, PostStatus.DELETED);
     }
 

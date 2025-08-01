@@ -33,8 +33,12 @@ properties:
     post-view: 3600
   file:
     upload:
-      location: ./local-storage/uploads/images/
-      access-url: https://api.threadly.kr/images/
+      location:
+        post-image: ./local-storage/uploads/images/posts/
+        profile-image: ./local-storage/uploads/images/profiles/
+      access-url:
+        post-image: https://api.threadly.kr/images/posts/
+        profile-image: https://api.threadly.kr/images/profiles/
       max-image-count: 20
       max-size: 5MB
       allow-types:

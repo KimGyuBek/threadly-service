@@ -2,7 +2,7 @@ package com.threadly.testsupport.mapper.users;
 
 import com.threadly.testsupport.dto.users.UserFixtureDto;
 import com.threadly.user.User;
-import com.threadly.user.UserProfile;
+import com.threadly.user.profile.UserProfile;
 
 /**
  * User, UserProfile Fixture 객체 매퍼
@@ -35,13 +35,12 @@ public class UserFixtureMapper {
   public static UserProfile toProfile(UserFixtureDto fixture) {
     return
         UserProfile.newTestProfile(
-            fixture.getUserProfile().getUserProfileId(),
+            fixture.getUserId(),
             fixture.getUserProfile().getNickname(),
             fixture.getUserProfile().getStatusMessage(),
             fixture.getUserProfile().getBio(),
             fixture.getUserProfile().getGender(),
-            fixture.getUserProfile().getProfileType(),
-            fixture.getUserProfile().getProfileImageUrl()
+            fixture.getUserProfile().getProfileType()
         );
   }
 

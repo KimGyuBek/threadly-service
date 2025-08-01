@@ -12,10 +12,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.threadly.BaseApiTest;
 import com.threadly.CommonResponse;
 import com.threadly.exception.ErrorCode;
-import com.threadly.auth.token.response.LoginTokenResponse;
+import com.threadly.auth.token.response.LoginTokenApiResponse;
 import java.util.HashMap;
 import java.util.Map;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -25,12 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
  * auth - logout 시나리오 테스트
  */
 public class LogoutScenarioTest extends BaseApiTest {
-
-
-  @BeforeEach
-  void setUp() {
-    super.setUpDefaultUser();
-  }
 
   @Nested
   @DisplayName("로그아웃 시나리오 테스트")
@@ -47,8 +40,8 @@ public class LogoutScenarioTest extends BaseApiTest {
       //given
 
       /*1. 로그인 요청 전송*/
-      CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(
-          EMAIL_VERIFIED_USER_1, PASSWORD, new TypeReference<CommonResponse<LoginTokenResponse>>() {
+      CommonResponse<LoginTokenApiResponse> loginResponse = sendLoginRequest(
+          EMAIL_VERIFIED_USER_1, PASSWORD, new TypeReference<CommonResponse<LoginTokenApiResponse>>() {
           }, status().isOk());
 
       String accessToken = loginResponse.getData().accessToken();

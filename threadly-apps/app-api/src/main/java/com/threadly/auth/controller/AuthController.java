@@ -1,18 +1,16 @@
 package com.threadly.auth.controller;
 
 import com.threadly.auth.AuthManager;
-import com.threadly.auth.AuthenticationUser;
-import com.threadly.auth.token.response.LoginTokenResponse;
-import com.threadly.auth.token.response.TokenReissueResponse;
+import com.threadly.auth.JwtAuthenticationUser;
+import com.threadly.auth.token.response.LoginTokenApiResponse;
+import com.threadly.auth.token.response.TokenReissueApiResponse;
 import com.threadly.auth.verification.EmailVerificationUseCase;
 import com.threadly.auth.verification.PasswordVerificationUseCase;
 import com.threadly.auth.verification.response.PasswordVerificationToken;
 import com.threadly.auth.request.PasswordVerificationRequest;
 import com.threadly.auth.request.UserLoginRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,8 +36,9 @@ public class AuthController {
    * @param userLoginRequest
    * @return
    */
+//  @PreAuthorize("hasRole('USER')")
   @PostMapping("/login")
-  public LoginTokenResponse login(@RequestBody UserLoginRequest userLoginRequest) {
+  public LoginTokenApiResponse login(@RequestBody UserLoginRequest userLoginRequest) {
     return authManager.login(userLoginRequest.getEmail(), userLoginRequest.getPassword());
   }
 
@@ -48,7 +47,7 @@ public class AuthController {
    * @param accessToken
    */
   @PostMapping("/logout")
-  public void logout(@RequestHeader("Authorization") String accessToken) {
+  public void logout(@RequestHeader(value = "Authorization", required = false) String accessToken) {
     authManager.logout(accessToken);
   }
 
@@ -59,8 +58,8 @@ public class AuthController {
    * @return
    */
   @PostMapping("/reissue")
-  public TokenReissueResponse reissueAccessToken(
-      @RequestHeader(value = "X-refresh-token") String refreshToken) {
+  public TokenReissueApiResponse reissueAccessToken(
+      @RequestHeader(value = "X-refresh-token", required = false) String refreshToken) {
     return
         authManager.reissueLoginToken(refreshToken);
   }
@@ -83,7 +82,7 @@ public class AuthController {
    */
   @PostMapping("/verify-password")
   public PasswordVerificationToken verifyPassword(
-      @AuthenticationPrincipal AuthenticationUser user,
+      @AuthenticationPrincipal JwtAuthenticationUser user,
       @RequestBody PasswordVerificationRequest request) {
 
     return

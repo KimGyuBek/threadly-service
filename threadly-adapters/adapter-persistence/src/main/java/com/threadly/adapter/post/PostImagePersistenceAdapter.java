@@ -3,7 +3,7 @@ package com.threadly.adapter.post;
 import com.threadly.entity.post.PostEntity;
 import com.threadly.mapper.post.PostImageMapper;
 import com.threadly.post.PostImage;
-import com.threadly.post.PostImageStatus;
+import com.threadly.image.ImageStatus;
 import com.threadly.post.image.fetch.FetchPostImagePort;
 import com.threadly.post.image.fetch.PostImageProjection;
 import com.threadly.post.image.save.SavePostImagePort;
@@ -35,13 +35,13 @@ public class PostImagePersistenceAdapter implements SavePostImagePort, FetchPost
     return postImageJpaRepository.getPostImageListByPostId(postId);
   }
 
-  public List<PostImageProjection> findAllByPostIdAndStatus(String postId, PostImageStatus status) {
+  public List<PostImageProjection> findAllByPostIdAndStatus(String postId, ImageStatus status) {
     return postImageJpaRepository.getPostImageListByPostIdAndStatus(postId, status);
   }
 
 
   @Override
-  public void updateStatus(String postId, PostImageStatus status) {
+  public void updateStatus(String postId, ImageStatus status) {
     postImageJpaRepository.updateStatus(postId, status);
   }
 
@@ -58,6 +58,6 @@ public class PostImagePersistenceAdapter implements SavePostImagePort, FetchPost
   @Override
   public void finalizeImage(String imageId, String postId, int order) {
     postImageJpaRepository.finalizePostImage(imageId, PostEntity.fromId(postId), order,
-        PostImageStatus.CONFIRMED);
+        ImageStatus.CONFIRMED);
   }
 }

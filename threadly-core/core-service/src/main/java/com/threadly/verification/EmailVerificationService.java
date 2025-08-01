@@ -1,21 +1,18 @@
 package com.threadly.verification;
 
-import com.threadly.exception.ErrorCode;
 import com.threadly.auth.verification.EmailVerificationUseCase;
+import com.threadly.exception.ErrorCode;
 import com.threadly.exception.mail.EmailVerificationException;
 import com.threadly.exception.user.UserException;
 import com.threadly.mail.SendMailPort;
 import com.threadly.properties.TtlProperties;
 import com.threadly.user.FetchUserPort;
+import com.threadly.user.UpdateUserPort;
 import com.threadly.user.User;
-import com.threadly.user.UserEmailVerificationPort;
-import jakarta.annotation.PostConstruct;
-import java.time.Duration;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,20 +26,17 @@ public class EmailVerificationService implements EmailVerificationUseCase {
 
   private final com.threadly.verification.EmailVerificationPort emailVerificationPort;
   private final SendMailPort sendMailPort;
-  private final UserEmailVerificationPort userEmailVerificationPort;
+  private final UpdateUserPort updateUserPort;
   private final FetchUserPort fetchUserPort;
 
   private final TtlProperties ttlProperties;
 
 
-
   @Transactional
   @Override
   public void verificationEmail(String code) {
-
     /*code로 userId 조회*/
     String userId = emailVerificationPort.getUserId(code);
-
 
     /*인증되지 않은 사용자인지 찾아서 검증 */
     Optional<User> findByUserId = fetchUserPort.findByUserId(userId);
@@ -59,7 +53,7 @@ public class EmailVerificationService implements EmailVerificationUseCase {
     user.verifyEmail();
 
     /*db 업데이트*/
-    userEmailVerificationPort.updateEmailVerification(user);
+    updateUserPort.updateEmailVerification(user.getUserId(), user.isEmailVerified());
 
     /*redis에서 코드 삭제*/
     emailVerificationPort.deleteCode(code);

@@ -4,12 +4,15 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.threadly.auth.request.UserLoginRequest;
+import com.threadly.auth.token.response.LoginTokenApiResponse;
 import com.threadly.testsupport.fixture.users.UserFixtureLoader;
+import com.threadly.user.UserStatusType;
 import com.threadly.utils.TestLogUtils;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
@@ -34,11 +37,13 @@ import org.springframework.test.web.servlet.ResultMatcher;
 public abstract class BaseApiTest {
 
   @Autowired
-  private UserFixtureLoader userFixtureLoader;
+  public UserFixtureLoader userFixtureLoader;
 
   @BeforeEach
   public void setUpDefaultUser() {
     userFixtureLoader.load("/users/user-email-verified.json");
+    userFixtureLoader.load("/users/user-email-not-verified.json");
+    userFixtureLoader.load("/users/no-profile-user.json", UserStatusType.INCOMPLETE_PROFILE);
   }
 
   @Autowired
@@ -48,6 +53,22 @@ public abstract class BaseApiTest {
   private ObjectMapper objectMapper;
 
   public static final String PASSWORD = "1234";
+
+  /**
+   * 로그인 후 accessToken 추출
+   *
+   * @param email
+   * @return
+   * @throws Exception
+   */
+  public String getAccessToken(String email) throws Exception {
+    CommonResponse<LoginTokenApiResponse> loginResponse = sendLoginRequest(
+        email, PASSWORD, new TypeReference<>() {
+        },
+        status().isOk()
+    );
+    return loginResponse.getData().accessToken();
+  }
 
   /**
    * login 요청

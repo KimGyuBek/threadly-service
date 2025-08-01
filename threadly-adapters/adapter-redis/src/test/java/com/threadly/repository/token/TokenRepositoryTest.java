@@ -25,7 +25,7 @@ import org.springframework.test.context.ActiveProfiles;
 class TokenRepositoryTest {
 
   @Autowired
-  private TokenRepository tokenRepository;
+  private TokenPortRepository tokenRepository;
 
   @Autowired
   private RedisTemplate<String, String> redisTemplate;

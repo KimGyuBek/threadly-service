@@ -18,8 +18,6 @@ public class PostImageMapper {
   public static PostImageEntity toEntity(PostImage domain) {
     return new PostImageEntity(
         domain.getPostImageId(),
-//        PostEntity.fromId(
-//            domain.getPostId()),
         null,
         domain.getStoredName(),
         domain.getImageOrder(),

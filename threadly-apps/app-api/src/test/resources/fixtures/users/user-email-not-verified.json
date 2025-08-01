@@ -6,7 +6,6 @@
     "email": "email_not_verified@threadly.com",
     "phone": "010-3178-1233",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": false,
     "userProfile": null
   }

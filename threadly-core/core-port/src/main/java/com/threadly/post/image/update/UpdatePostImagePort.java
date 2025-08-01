@@ -1,6 +1,6 @@
 package com.threadly.post.image.update;
 
-import com.threadly.post.PostImageStatus;
+import com.threadly.image.ImageStatus;
 
 /**
  * 게시글 이미지 업데이트 관련 port
@@ -13,7 +13,7 @@ public interface UpdatePostImagePort {
    *
    * @param imageId
    */
-  void updateStatus(String imageId, PostImageStatus status);
+  void updateStatus(String imageId, ImageStatus status);
 
   /**
    * imageOrder update

@@ -25,13 +25,15 @@ public enum ErrorCode {
   DUPLICATE_EMAIL("TLY2009", "이미 사용 중인 이메일입니다.", HttpStatus.CONFLICT),
   PASSWORD_REQUIRED("TLY2010", "패스워드는 필수입니다.", HttpStatus.BAD_REQUEST),
   INVALID_USER_STATUS("TLY2011", "유효하지 않은 사용자 상태입니다.", HttpStatus.BAD_REQUEST),
-  USER_ALREADY_DELETED("TLY2012", "이미 삭제된 사용자입니다.", HttpStatus.BAD_REQUEST),
+  USER_ALREADY_DELETED("TLY2012", "탈퇴한 사용자입니다.", HttpStatus.FORBIDDEN),
   EMAIL_NOT_VERIFIED("TLY2013", "이메일 인증이 필요합니다.", HttpStatus.UNAUTHORIZED),
   EMAIL_VERIFICATION_FAILED("TLY2014", "이메일 인증에 실패했습니다.", HttpStatus.BAD_REQUEST),
   SECOND_VERIFICATION_FAILED("TLY2015", "2차 인증에 실패했습니다.", HttpStatus.BAD_REQUEST),
   LOGIN_ATTEMPT_EXCEEDED("TLY2016", "로그인 시도 횟수를 초과하였습니다.", HttpStatus.TOO_MANY_REQUESTS),
   USER_PROFILE_NOT_FOUND("TLY2017", "사용자 프로필을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
-
+  USER_PROFILE_NOT_SET("TLY2018", "사용자 프로필이 설정되지 않았습니다.", HttpStatus.FORBIDDEN),
+  USER_PROFILE_ALREADY_SET("TLY2019", "이미 프로필을 설정한 사용자입니다.", HttpStatus.CONFLICT),
+  USER_NICKNAME_DUPLICATED("TLY2020", "이미 존재하는 닉네임입니다.", HttpStatus.CONFLICT),
 
   /*Token*/
   TOKEN_EXPIRED("TLY3000", "토큰이 만료되었습니다.", HttpStatus.UNAUTHORIZED),
@@ -101,7 +103,10 @@ public enum ErrorCode {
   POST_IMAGE_ALREADY_ATTACHED("TLY6103", "이미 게시글에 첨부된 이미지입니다.", HttpStatus.BAD_REQUEST),
   POST_IMAGE_TEMP_EXPIRED("TLY6104", "임시 업로드 이미지의 유효 시간이 만료되었습니다.", HttpStatus.GONE),
   POST_IMAGE_EMPTY("TLY6105", "게시글에는 최소 한 장의 이미지를 첨부해야 합니다.", HttpStatus.BAD_REQUEST),
-  POST_IMAGE_UPLOAD_FORBIDDEN("TLY6106", "게시글 이미지 업로드 권한이 없습니다.", HttpStatus.FORBIDDEN);
+  POST_IMAGE_UPLOAD_FORBIDDEN("TLY6106", "게시글 이미지 업로드 권한이 없습니다.", HttpStatus.FORBIDDEN),
+
+  /*UserProfile Image*/
+  USER_PROFILE_IMAGE_NOT_EXISTS("TLY6201", "존재하지 않는 이미지입니다.", HttpStatus.NOT_FOUND);
 
 
   private final String code;

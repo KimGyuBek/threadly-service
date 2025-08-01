@@ -34,7 +34,6 @@ public class DeletePostLikeApiTest extends BasePostApiTest {
 
   @BeforeEach
   void setUp() throws Exception {
-    super.setUpDefaultUser();
     postFixtureLoader.load("/posts/likes/like-post/user.json", "/posts/likes/like-post/post.json");
   }
 

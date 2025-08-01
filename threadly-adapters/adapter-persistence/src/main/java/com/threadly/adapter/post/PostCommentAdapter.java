@@ -3,12 +3,11 @@ package com.threadly.adapter.post;
 import com.threadly.entity.post.PostCommentEntity;
 import com.threadly.mapper.post.PostCommentMapper;
 import com.threadly.post.PostCommentStatus;
+import com.threadly.post.comment.PostComment;
 import com.threadly.post.comment.create.CreatePostCommentPort;
-import com.threadly.post.comment.create.CreatePostCommentResponse;
 import com.threadly.post.comment.fetch.FetchPostCommentPort;
 import com.threadly.post.comment.fetch.PostCommentDetailForUserProjection;
 import com.threadly.post.comment.update.UpdatePostCommentPort;
-import com.threadly.post.comment.PostComment;
 import com.threadly.repository.post.comment.PostCommentJpaRepository;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,17 +26,8 @@ public class PostCommentAdapter implements CreatePostCommentPort, FetchPostComme
   private final PostCommentJpaRepository postCommentJpaRepository;
 
   @Override
-  public CreatePostCommentResponse savePostComment( PostComment postComment) {
-    PostCommentEntity postCommentEntity = PostCommentEntity.newComment(postComment);
-
-    postCommentJpaRepository.save(postCommentEntity);
-
-    return new CreatePostCommentResponse(
-        postComment.getCommentId(),
-        postComment.getUserId(),
-        postComment.getContent(),
-        LocalDateTime.now()
-    );
+  public void savePostComment(PostComment postComment) {
+    postCommentJpaRepository.save(PostCommentEntity.newComment(postComment));
   }
 
   @Override
