@@ -59,7 +59,7 @@ class LoginTest extends BaseApiTest {
       //then
       CommonResponse<LoginTokenApiResponse> loginResponse = sendLoginRequest(EMAIL_VERIFIED_USER_1,
           TestConstants.PASSWORD,
-          new TypeReference<CommonResponse<LoginTokenApiResponse>>() {
+          new TypeReference<>() {
           }, status().isOk());
       assertThat(loginResponse.getData().accessToken()).isNotNull();
       assertThat(loginResponse.getData().refreshToken()).isNotNull();

@@ -1,6 +1,5 @@
 package com.threadly.global.filter;
 
-import com.google.common.base.Objects;
 import com.threadly.auth.AuthManager;
 import com.threadly.exception.ErrorCode;
 import com.threadly.exception.token.TokenException;
@@ -8,7 +7,6 @@ import com.threadly.exception.user.UserException;
 import com.threadly.global.exception.TokenAuthenticationException;
 import com.threadly.global.exception.UserAuthenticationException;
 import com.threadly.security.JwtTokenProvider;
-import com.threadly.user.UserStatusType;
 import com.threadly.utils.JwtTokenUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -54,21 +52,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
       /*토큰이 검증되면*/
       if (jwtTokenProvider.validateToken(token)) {
-
-        /*UserStatusType 검증*/
-        String userStatusType = jwtTokenProvider.getUserStatusType(token);
-
-        /*INCOMPLETE_PROFILE*/
-        if (Objects.equal(userStatusType,
-            UserStatusType.INCOMPLETE_PROFILE.name()) && !isWhiteListedForProfileIncomplete(
-            request.getRequestURI())) {
-          throw new UserException(ErrorCode.USER_PROFILE_NOT_SET);
-
-          /*INACTIVE*/
-        } else if(Objects.equal(userStatusType, UserStatusType.INACTIVE.name())) {
-          throw new UserException(ErrorCode.USER_INACTIVE);
-        }
-
         /*TODO 성능 부하*/
         Authentication authentication = authManager.getAuthentication(token);
 
@@ -76,31 +59,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         SecurityContextHolder.getContext().setAuthentication(authentication);
       }
 
-      /*사용자가 관련 오류 */
+      /*사용자 관련 오류 */
     } catch (UserException e) {
       UserAuthenticationException exception = new UserAuthenticationException(e.getErrorCode());
       authenticationEntryPoint.commence(request, response, exception);
       return;
-
     } catch (TokenException e) {
       TokenAuthenticationException exception = new TokenAuthenticationException(e.getErrorCode());
       authenticationEntryPoint.commence(request, response, exception);
       return;
-
-    } catch (Exception e) {
-      throw e;
     }
 
     filterChain.doFilter(request, response);
   }
 
-  /**
-   * 프로필 설정용 white list
-   *
-   * @param uri
-   * @return
-   */
-  private boolean isWhiteListedForProfileIncomplete(String uri) {
-    return uri.equals("/api/me/profile");
-  }
 }

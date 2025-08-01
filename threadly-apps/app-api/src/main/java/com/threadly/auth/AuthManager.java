@@ -69,6 +69,7 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
 
     JwtAuthenticationUser authenticationUser = new JwtAuthenticationUser(
         user.getUserId(),
+        user.getUserStatusType(),
         authorities
     );
 

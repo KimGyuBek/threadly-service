@@ -1,5 +1,6 @@
 package com.threadly.auth;
 
+import com.threadly.user.UserStatusType;
 import java.util.Collection;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
@@ -9,10 +10,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class JwtAuthenticationUser implements UserDetails {
 
   private final String userId;
+  private final UserStatusType userStatusType;
   private final Collection<? extends GrantedAuthority> authorities;
 
-  public JwtAuthenticationUser(String userId, Collection<? extends GrantedAuthority> authorities) {
+  public JwtAuthenticationUser(String userId, UserStatusType userStatusType,
+      Collection<? extends GrantedAuthority> authorities) {
     this.userId = userId;
+    this.userStatusType = userStatusType;
     this.authorities = authorities;
   }
 
