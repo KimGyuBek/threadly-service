@@ -6,6 +6,7 @@ import static com.threadly.post.PostStatus.DELETED;
 
 import com.threadly.exception.ErrorCode;
 import com.threadly.exception.post.PostException;
+import com.threadly.image.ImageStatus;
 import com.threadly.post.engagement.GetPostEngagementApiResponse;
 import com.threadly.post.engagement.GetPostEngagementQuery;
 import com.threadly.post.engagement.GetPostEngagementUseCase;
@@ -52,7 +53,7 @@ public class PostQueryService implements GetPostUseCase, GetPostEngagementUseCas
                 projection.getContent(),
                 fetchPostImagePort.findAllByPostIdAndStatus(
                     projection.getPostId(),
-                    PostImageStatus.CONFIRMED
+                    ImageStatus.CONFIRMED
                 ).stream().map(
                     image -> new GetPostDetailApiResponse.PostImage(
                         image.getImageId(),
@@ -94,7 +95,7 @@ public class PostQueryService implements GetPostUseCase, GetPostEngagementUseCas
 
     /*게시글 이미지 조회*/
     List<PostImageProjection> postImageProjections = fetchPostImagePort.findAllByPostIdAndStatus(
-        query.getPostId(), PostImageStatus.CONFIRMED);
+        query.getPostId(), ImageStatus.CONFIRMED);
 
     /*TODO 도메인 로직으로 변경*/
     PostStatus status = postDetailProjection.getPostStatus();

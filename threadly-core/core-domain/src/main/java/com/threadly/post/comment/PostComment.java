@@ -10,6 +10,7 @@ import com.threadly.post.comment.CannotDeleteCommentException.BlockedException;
 import com.threadly.post.comment.CannotDeleteCommentException.ParentPostInactiveException;
 import com.threadly.post.comment.CannotDeleteCommentException.WriteMismatchException;
 import com.threadly.utils.RandomUtils;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
@@ -25,6 +26,7 @@ public class PostComment {
   private String userId;
   private String content;
   private PostCommentStatus status;
+  private LocalDateTime createdAt;
 
   private List<CommentLike> commentLikes = new ArrayList<>();
 
@@ -42,7 +44,8 @@ public class PostComment {
         postId,
         userId,
         (content != null) ? content : "",
-        PostCommentStatus.ACTIVE
+        PostCommentStatus.ACTIVE,
+        LocalDateTime.now()
     );
   }
 
@@ -126,12 +129,13 @@ public class PostComment {
    * @param status
    */
   public PostComment(String commentId, String postId, String userId, String content,
-      PostCommentStatus status) {
+      PostCommentStatus status, LocalDateTime createdAt) {
     this.commentId = commentId;
     this.postId = postId;
     this.userId = userId;
     this.content = content;
     this.status = status;
+    this.createdAt = createdAt;
   }
 
   /*Test*/
@@ -142,6 +146,7 @@ public class PostComment {
 
   /**
    * 테스트용
+   *
    * @param commentId
    * @param postId
    * @param userId
@@ -158,7 +163,9 @@ public class PostComment {
         postId,
         userId,
         content,
-        status
+        status,
+        LocalDateTime.now()
+
     );
   }
 }

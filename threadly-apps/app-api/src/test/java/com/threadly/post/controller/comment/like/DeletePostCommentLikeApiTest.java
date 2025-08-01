@@ -32,7 +32,6 @@ public class DeletePostCommentLikeApiTest extends BasePostApiTest {
 
   @BeforeEach
   void setUp() throws Exception {
-    super.setUpDefaultUser();
     postCommentLikeFixtureLoader.load(
         "/posts/comments/likes/delete-comment-like/user.json",
         "/posts/comments/likes/delete-comment-like/post.json",

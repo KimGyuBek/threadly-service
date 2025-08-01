@@ -1,6 +1,7 @@
 package com.threadly.user;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.threadly.user.profile.UserProfile;
 import com.threadly.utils.RandomUtils;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,7 +21,7 @@ public class User {
   private String email;
   private String phone;
   private UserType userType;
-  private boolean isActive;
+  private UserStatusType userStatusType;
   private boolean isEmailVerified;
 
   private UserProfile userProfile;
@@ -37,20 +38,6 @@ public class User {
 
   public boolean hasUserProfile() {
     return userProfile != null;
-  }
-
-
-  private User(String userName, String password, String email, String phone,
-      UserType userType) {
-    this.userId = null;
-    this.userName = userName;
-    this.password = password;
-    this.email = email;
-    this.phone = phone;
-    this.userType = userType;
-    this.isActive = true;
-    this.isEmailVerified = false;
-    this.userProfile = null;
   }
 
   /**
@@ -71,59 +58,97 @@ public class User {
             .email(email)
             .phone(phone)
             .userType(UserType.USER)
+            .userStatusType(UserStatusType.INCOMPLETE_PROFILE)
             .build();
   }
 
-  /*User Profile*/
+  /**
+   * userId만 포함한 user 도메인 객체 생성
+   *
+   * @param userId
+   * @return
+   */
+  public static User of(String userId) {
+    return User.builder()
+        .userId(userId)
+        .build();
+  }
 
-  public void setUserProfile(UserProfile userProfile) {
-    this.userProfile = userProfile;
+  /*상태 변경*/
+
+  /**
+   * ACTIVE 상태로 변경
+   */
+  void markAsActive() {
+    this.userStatusType = UserStatusType.ACTIVE;
   }
 
   /**
-   * UserProfile 생성
+   * DELETED 상태로 변경
+   */
+  void markAsDeleted() {
+    this.userStatusType = UserStatusType.DELETED;
+  }
+
+  /**
+   * INACTIVE 상태로 변경
+   */
+  void markAsInactive() {
+    if (userStatusType.equals(UserStatusType.DELETED)) {
+      throw new CannotInactiveException();
+    }
+    this.userStatusType = UserStatusType.INACTIVE;
+  }
+
+
+  /**
+   * BANNED 상태로 변경
+   */
+  void markAsBanned() {
+    if (userStatusType.equals(UserStatusType.DELETED)) {
+      throw new CannotBannedException();
+    }
+    this.userStatusType = UserStatusType.BANNED;
+  }
+
+  /*UserProfile*/
+
+  /**
+   * 사용자 프로필 생성
    *
    * @param nickname
    * @param statusMessage
    * @param bio
-   * @param gender
-   * @param profileImageUrl
-   * @param profileType
+   * @param phone
+   * @param genderType
+   * @return
    */
-  public void setProfile(
-      String nickname,
-      String statusMessage,
-      String bio,
-      UserGenderType gender,
-      String profileImageUrl,
-      UserProfileType profileType
-  ) {
-    this.userProfile = UserProfile.newProfile(
+  public UserProfile setUserProfile(String nickname, String statusMessage, String bio, String phone,
+      UserGenderType genderType) {
+    return UserProfile.setProfile(
+        this.userId,
         nickname,
         statusMessage,
         bio,
-        gender,
-        profileType,
-        profileImageUrl
+        phone,
+        genderType
     );
   }
 
   /**
-   * userProfile 업데이트
+   * 프로필 업데이트
    *
    * @param nickname
    * @param statusMessage
    * @param bio
-   * @param gender
-   * @param profileImageUrl
+   * @param phone
    */
-  public void updateUserProfile(String nickname, String statusMessage, String bio,
-      UserGenderType gender, String profileImageUrl) {
-    userProfile.updateProfile(nickname, statusMessage, bio, gender, profileImageUrl);
+  public void updateProfile(String nickname, String statusMessage, String bio, String phone) {
+    this.userProfile.updateProfile(nickname, statusMessage, bio, phone);
   }
 
-  public String getUserProfileId() {
-    return userProfile.getUserProfileId();
+  public void setUserProfile(UserProfile userProfile) {
+    this.userProfile = userProfile;
   }
 
   public String getNickname() {
@@ -139,21 +164,27 @@ public class User {
   }
 
   public UserGenderType getGender() {
-    return userProfile.getGender();
+    return userProfile.getGenderType();
   }
 
-  public UserProfileType getProfileType() {
-    return userProfile.getProfileType();
-  }
-
-  public String getProfileImageUrl() {
-    return userProfile.getProfileImageUrl();
+  /**
+   * 주어진 userId로 빈 User, UserProfile 도메인 생성
+   *
+   * @param userId
+   * @return
+   */
+  public static User emptyWithUserId(String userId) {
+    return
+        User.builder()
+            .userId(userId)
+            .userProfile(UserProfile.builder().userId(userId).build()).build();
   }
 
   /*테스트용 메서드*/
 
   /**
    * 테스트용 User 도메인 생성
+   *
    * @param userId
    * @param userName
    * @param password
@@ -172,15 +203,23 @@ public class User {
             .email(email)
             .phone(phone)
             .userType(UserType.USER)
+            .userStatusType(UserStatusType.ACTIVE)
             .build();
   }
 
   /**
-   * 테스트용
-   * 이메일 인증 상태로 변경
+   * 테스트용 이메일 인증 상태로 변경
    */
   @VisibleForTesting
   public void setEmailVerified() {
     isEmailVerified = true;
+  }
+
+  /**
+   * 테스트용 userStatusType 변경
+   */
+  @VisibleForTesting
+  public void setUserStatusType(UserStatusType userStatusType) {
+    this.userStatusType = userStatusType;
   }
 }

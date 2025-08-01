@@ -1,0 +1,12 @@
+[
+  {
+    "userId": "usr3",
+    "userName": "no_profile_user",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "no_profile@threadly.com",
+    "phone": "010-3014-5653",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": null
+  }
+]

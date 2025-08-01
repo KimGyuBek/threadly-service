@@ -1,6 +1,7 @@
 package com.threadly.post.controller;
 
-import com.threadly.auth.AuthenticationUser;
+import com.threadly.auth.JwtAuthenticationUser;
+import com.threadly.auth.JwtAuthenticationUser;
 import com.threadly.post.engagement.GetPostEngagementApiResponse;
 import com.threadly.post.engagement.GetPostEngagementQuery;
 import com.threadly.post.engagement.GetPostEngagementUseCase;
@@ -14,9 +15,7 @@ import com.threadly.post.like.post.UnlikePostUseCase;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -54,7 +53,7 @@ public class PostLikeController {
    */
   @GetMapping("/{postId}/engagement")
   public ResponseEntity<GetPostEngagementApiResponse> getPostEngagement(
-      @AuthenticationPrincipal AuthenticationUser user,
+      @AuthenticationPrincipal JwtAuthenticationUser user,
       @PathVariable("postId") String postId) {
 
     return ResponseEntity.status(200).body(getPostEngagementUsecase.getPostEngagement(
@@ -94,7 +93,7 @@ public class PostLikeController {
    */
   @PostMapping("/{postId}/likes")
   public ResponseEntity<LikePostApiResponse> likePost(
-      @AuthenticationPrincipal AuthenticationUser user,
+      @AuthenticationPrincipal JwtAuthenticationUser user,
       @PathVariable("postId") String postId) {
 
     return ResponseEntity.status(200).body(
@@ -115,7 +114,7 @@ public class PostLikeController {
    */
   @DeleteMapping("/{postId}/likes")
   public ResponseEntity<LikePostApiResponse> cancelPostLike(
-      @AuthenticationPrincipal AuthenticationUser user,
+      @AuthenticationPrincipal JwtAuthenticationUser user,
       @PathVariable("postId") String postId) {
 
     return ResponseEntity.status(204).body(unlikePostUseCase.cancelLikePost(

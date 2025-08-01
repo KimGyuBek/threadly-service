@@ -14,25 +14,10 @@ public interface FetchUserPort {
 
   /**
    * userId로 User 조회
+   *
    * @param userId
    * @return
    */
   Optional<User> findByUserId(String userId);
-
-  Optional<UserProfile> findUserProfileByUserProfileId(String userProfileId);
-
-  /**
-   * userId로 user, userProfile 조회
-    * @param userId
-   * @return
-   */
-  Optional<User> findByUserIdWithUserProfile(String userId);
-
-  /**
-   * userId로 userProfileImageUrl 조회
-   * @param userId
-   * @return
-   */
-  Optional<UserProfile> getUserProfile(String userId);
 
 }

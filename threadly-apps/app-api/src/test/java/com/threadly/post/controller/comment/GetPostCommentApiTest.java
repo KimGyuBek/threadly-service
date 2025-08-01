@@ -33,7 +33,6 @@ public class GetPostCommentApiTest extends BasePostApiTest {
 
   @BeforeEach
   void setup() {
-    super.setUpDefaultUser();
     postCommentFixtureLoader.load(
         "/posts/comments/get-comment/user.json",
         "/posts/comments/get-comment/post.json",

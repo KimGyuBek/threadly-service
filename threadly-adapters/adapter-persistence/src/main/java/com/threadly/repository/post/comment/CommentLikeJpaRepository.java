@@ -72,13 +72,14 @@ public interface CommentLikeJpaRepository extends JpaRepository<CommentLikeEntit
   @Query(value = """
       select cl.user_id           as likerId,
              up.nickname          as likerNickname,
-             up.profile_image_url as likerProfileImageUrl,
+             upi.image_url        as likerProfileImageUrl,
              up.bio               as likerBio,
              cl.created_at        as likedAt
       from comment_likes cl
                join users u on cl.user_id = u.user_id
-               join user_profile up on u.user_profile_id = up.user_profile_id
+               join user_profile up on u.user_id = up.user_id
                join post_comments pc on cl.comment_id = pc.comment_id
+               left join user_profile_images upi on up.user_id = upi.user_id
       where pc.status = 'ACTIVE'
         and pc.comment_id = :commentId
         and (:cursorLikedAt is null
@@ -109,6 +110,7 @@ public interface CommentLikeJpaRepository extends JpaRepository<CommentLikeEntit
 
   /**
    * posId에 해당하는 데이터 수 조회
+   *
    * @param postId
    * @return
    */

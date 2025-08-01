@@ -26,8 +26,12 @@ properties:
     post-view: 1
   file:
     upload:
-      location: src/test/resources/images/temp/
-      access-url: http://localhost:8080/images/
+      location:
+        post-image: src/test/resources/images/temp
+        profile-image: src/test/resources/images/temp
+      access-url:
+        post-image: http://localhost:8080/images/posts/
+        profile-image: http://localhost:8080/images/profiles/
       max-image-count: 5
       max-size: 5MB
       allow-types:

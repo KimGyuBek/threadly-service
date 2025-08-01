@@ -1,12 +1,10 @@
 package com.threadly.post.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.threadly.BaseApiTest;
 import com.threadly.CommonResponse;
-import com.threadly.auth.token.response.LoginTokenResponse;
 import com.threadly.entity.post.PostEntity;
 import com.threadly.post.PostStatus;
 import com.threadly.post.comment.create.CreatePostCommentApiResponse;
@@ -38,21 +36,6 @@ public abstract class BasePostApiTest extends BaseApiTest {
 
   @Autowired
   private PostJpaRepository postJpaRepository;
-  /**
-   * 로그인 후 accessToken 추출
-   *
-   * @param email
-   * @return
-   * @throws Exception
-   */
-  public String getAccessToken(String email) throws Exception {
-    CommonResponse<LoginTokenResponse> loginResponse = sendLoginRequest(
-        email, PASSWORD, new TypeReference<>() {
-        },
-        status().isOk()
-    );
-    return loginResponse.getData().accessToken();
-  }
 
   /**
    * 게시글 등록 요청 전송

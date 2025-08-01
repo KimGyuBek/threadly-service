@@ -2,16 +2,13 @@ package com.threadly.entity.user;
 
 import com.threadly.entity.BaseEntity;
 import com.threadly.user.User;
+import com.threadly.user.UserStatusType;
 import com.threadly.user.UserType;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -49,27 +46,16 @@ public class UserEntity extends BaseEntity {
   @Column(name = "user_type")
   private UserType userType;
 
-  /*계정 활성화 유무*/
-  @Column(name = "is_active")
-  private boolean isActive;
+  @Column(name = "status")
+  @Enumerated(EnumType.STRING)
+  private UserStatusType userStatusType;
 
   /*이메일 인증 유무*/
   @Column(name = "is_email_verified")
   private boolean isEmailVerified;
 
-  @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  @JoinColumn(name = "user_profile_id")
-  private UserProfileEntity userProfile;
   /**
    * 새로운 User 생성
-   *
-   * @param userName
-   * @param password
-   * @param email
-   * @param phone
-   * @param userType
-   * @param isActive
-   * @return
    */
   public static UserEntity newUser(User user) {
     return new UserEntity(
@@ -79,14 +65,14 @@ public class UserEntity extends BaseEntity {
         user.getEmail(),
         user.getPhone(),
         user.getUserType(),
-        user.isActive(),
-        user.isEmailVerified(),
-        null
+        user.getUserStatusType(),
+        user.isEmailVerified()
     );
   }
 
   /**
    * 프록시 객체 생성
+   *
    * @param userId
    * @return
    */
@@ -95,10 +81,6 @@ public class UserEntity extends BaseEntity {
     userEntity.userId = userId;
 
     return userEntity;
-  }
-
-  public void setUserProfile(UserProfileEntity userProfile) {
-    this.userProfile = userProfile;
   }
 
 }

@@ -42,7 +42,6 @@ public class IncreaseViewCountApiTest extends BasePostApiTest {
 
   @BeforeEach
   void setUp() {
-    super.setUpDefaultUser();
     postFixtureLoader.load("/posts/post-view/user.json", "/posts/post-view/post.json");
 
     /*레디스 초기화*/

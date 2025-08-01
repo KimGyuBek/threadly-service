@@ -1,7 +1,8 @@
 package com.threadly.mapper.user;
 
 import com.threadly.entity.user.UserProfileEntity;
-import com.threadly.user.UserProfile;
+import com.threadly.user.profile.UserProfile;
+import com.threadly.user.profile.image.UserProfileImage;
 
 public class UserProfileMapper {
 
@@ -13,13 +14,13 @@ public class UserProfileMapper {
    */
   public static UserProfile toDomain(UserProfileEntity entity) {
     return UserProfile.builder()
-        .userProfileId(entity.getUserProfileId())
+        .userId(entity.getUserId())
         .nickname(entity.getNickname())
         .statusMessage(entity.getStatusMessage())
         .bio(entity.getBio())
-        .gender(entity.getGender())
-        .profileType(entity.getProfileType())
-        .profileImageUrl(entity.getProfileImageUrl())
+        .genderType(entity.getGender())
+        .userProfileType(entity.getProfileType())
+        .userProfileImage(UserProfileImage.builder().build())
         .build();
   }
 
@@ -32,13 +33,12 @@ public class UserProfileMapper {
   public static UserProfileEntity toEntity(UserProfile domain) {
     return
         UserProfileEntity.newUserProfile(
-            domain.getUserProfileId(),
+            domain.getUserId(),
             domain.getNickname(),
             domain.getStatusMessage(),
             domain.getBio(),
-            domain.getGender(),
-            domain.getProfileType(),
-            domain.getProfileImageUrl());
+            domain.getGenderType(),
+            domain.getUserProfileType()
+        );
   }
-
 }

@@ -23,6 +23,12 @@ public class TestConstants {
   public static final String EMAIL_VERIFIED_USER_2 = "sky_gazer2@threadly.com";
 
   /**
+   * 프로필 설정을 하지 않은 사용자 이메일
+   */
+
+  public static final String PROFILE_NOT_SET_USER_1 = "no_profile@threadly.com";
+
+  /**
    * 비밀번호
    */
   public static final String PASSWORD = "1234";

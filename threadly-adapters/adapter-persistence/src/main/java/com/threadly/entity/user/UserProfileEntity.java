@@ -2,7 +2,7 @@ package com.threadly.entity.user;
 
 import com.threadly.entity.BaseEntity;
 import com.threadly.user.UserGenderType;
-import com.threadly.user.UserProfileType;
+import com.threadly.user.profile.UserProfileType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -24,8 +24,8 @@ import lombok.NoArgsConstructor;
 public class UserProfileEntity extends BaseEntity {
 
   @Id
-  @Column(name = "user_profile_id")
-  private String userProfileId;
+  @Column(name = "user_id")
+  private String userId;
 
   /*닉네임*/
   @Column(name = "nickname")
@@ -49,21 +49,17 @@ public class UserProfileEntity extends BaseEntity {
   @Column(name = "profile_type")
   private UserProfileType profileType;
 
-  /*프로필 이미지 경로*/
-  @Column(name = "profile_image_url")
-  private String profileImageUrl;
-
-  public static UserProfileEntity newUserProfile(String userProfileId,String nickname, String statusMessage, String bio, UserGenderType gender,
-      UserProfileType profileType, String profileImageUrl) {
+  public static UserProfileEntity newUserProfile(String userId, String nickname,
+      String statusMessage, String bio, UserGenderType gender,
+      UserProfileType profileType) {
 
     return new UserProfileEntity(
-        userProfileId,
+        userId,
         nickname,
         statusMessage,
         bio,
         gender,
-        profileType,
-        profileImageUrl
+        profileType
     );
   }
 }

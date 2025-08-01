@@ -6,16 +6,13 @@
     "email": "comment_writer@threadly.com",
     "phone": "010-3178-6830",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up1",
       "nickname": "__comment_writer__",
       "statusMessage": "내가 댓글 다 달았다",
       "bio": "아침형 인간",
       "gender": "MALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/sunset_gazer_1.png"
+      "profileType": "USER"
     }
   },
   {
@@ -25,16 +22,13 @@
     "email": "comment_not_writer@threadly.com",
     "phone": "010-1834-2807",
     "userType": "USER",
-    "isActive": true,
     "isEmailVerified": true,
     "userProfile": {
-      "userProfileId": "up100",
       "nickname": "__comment__not_writer__",
       "statusMessage": "나는 댓글 안 달았다",
       "bio": "음악은 나의 친구",
       "gender": "FEMALE",
-      "profileType": "USER",
-      "profileImageUrl": "/images/profile/breeze_seeker_100.png"
+      "profileType": "USER"
     }
   }
 ]

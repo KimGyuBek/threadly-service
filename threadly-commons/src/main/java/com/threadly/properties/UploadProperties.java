@@ -20,12 +20,25 @@ public class UploadProperties {
   /**
    * 실제 파일 저장 경로 *
    */
-  private String location;
+  private Location location;
+
+  @Data
+  public static class Location {
+    private String postImage;
+    private String profileImage;
+  }
 
   /**
    * 접근 URL
    */
-  private String accessUrl;
+  private AccessUrl accessUrl;
+
+  @Data
+  public static class AccessUrl {
+    private String postImage;
+    private String profileImage;
+  }
+
 
   /**
    * 최대 업로드 허용 이미지 수

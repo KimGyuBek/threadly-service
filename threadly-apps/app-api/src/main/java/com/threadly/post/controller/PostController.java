@@ -1,6 +1,7 @@
 package com.threadly.post.controller;
 
-import com.threadly.auth.AuthenticationUser;
+import com.threadly.auth.JwtAuthenticationUser;
+import com.threadly.auth.JwtAuthenticationUser;
 import com.threadly.post.create.CreatePostApiResponse;
 import com.threadly.post.create.CreatePostCommand;
 import com.threadly.post.create.CreatePostCommand.ImageCommand;
@@ -22,6 +23,7 @@ import jakarta.validation.Valid;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -65,7 +67,7 @@ public class PostController {
    */
   @GetMapping("/{postId}")
   public ResponseEntity<GetPostDetailApiResponse> getPost(
-      @AuthenticationPrincipal AuthenticationUser user,
+      @AuthenticationPrincipal JwtAuthenticationUser user,
       @PathVariable String postId) {
 
     /*게시글 조회*/
@@ -91,7 +93,7 @@ public class PostController {
    */
   @GetMapping("")
   public ResponseEntity<GetPostDetailListApiResponse> getPostList(
-      @AuthenticationPrincipal AuthenticationUser user,
+      @AuthenticationPrincipal JwtAuthenticationUser user,
       @RequestParam(value = "cursor_posted_at", required = false) LocalDateTime cursorPostedAt,
       @RequestParam(value = "cursor_post_id", required = false) String cursorPostId,
       @RequestParam(value = "limit", defaultValue = "10") int limit
@@ -113,7 +115,7 @@ public class PostController {
    */
   @PostMapping("")
   public ResponseEntity<CreatePostApiResponse> createPost(
-      @AuthenticationPrincipal AuthenticationUser user,
+      @AuthenticationPrincipal JwtAuthenticationUser user,
       @Valid @RequestBody CreatePostRequest request) {
 
     return ResponseEntity.status(201).body(
@@ -139,7 +141,7 @@ public class PostController {
    */
   @PatchMapping("/{postId}")
   public ResponseEntity<UpdatePostApiResponse> updatePost(
-      @AuthenticationPrincipal AuthenticationUser user,
+      @AuthenticationPrincipal JwtAuthenticationUser user,
       @Valid @RequestBody UpdatePostRequest request,
       @PathVariable("postId") String postId) {
 
@@ -158,7 +160,7 @@ public class PostController {
    */
   @DeleteMapping("/{postId}")
   public ResponseEntity<Void> deletePost(
-      @AuthenticationPrincipal AuthenticationUser user,
+      @AuthenticationPrincipal JwtAuthenticationUser user,
       @PathVariable("postId") String postId) {
 
     deletePostUseCase.softDeletePost(

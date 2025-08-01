@@ -1,16 +1,22 @@
 package com.threadly.adapter.user;
 
 import com.threadly.entity.user.UserEntity;
-import com.threadly.entity.user.UserProfileEntity;
+import com.threadly.entity.user.UserProfileImageEntity;
+import com.threadly.exception.ErrorCode;
+import com.threadly.exception.user.UserException;
 import com.threadly.mapper.user.UserMapper;
+import com.threadly.mapper.user.UserProfileImageMapper;
 import com.threadly.mapper.user.UserProfileMapper;
 import com.threadly.repository.user.UserJpaRepository;
+import com.threadly.repository.user.UserProfileImageJpaRepository;
 import com.threadly.repository.user.UserProfileJpaRepository;
 import com.threadly.user.FetchUserPort;
 import com.threadly.user.SaveUserPort;
+import com.threadly.user.UpdateUserPort;
 import com.threadly.user.User;
-import com.threadly.user.UserEmailVerificationPort;
-import com.threadly.user.UserProfile;
+import com.threadly.user.UserStatusType;
+import com.threadly.user.profile.UserProfile;
+import com.threadly.user.profile.image.UserProfileImage;
 import com.threadly.user.response.UserPortResponse;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -19,10 +25,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 @RequiredArgsConstructor
 public class UserPersistenceAdapter implements FetchUserPort, SaveUserPort,
-    UserEmailVerificationPort {
+    UpdateUserPort {
 
   private final UserJpaRepository userJpaRepository;
-  private final UserProfileJpaRepository userProfileJpaRepository;
 
   @Override
   public Optional<User> findByEmail(String email) {
@@ -51,8 +56,8 @@ public class UserPersistenceAdapter implements FetchUserPort, SaveUserPort,
             .password(userEntity.getPassword())
             .email(userEntity.getEmail())
             .phone(userEntity.getPhone())
-            .userType(userEntity.getUserType().getDesc())
-            .isActive(userEntity.isActive())
+            .userType(userEntity.getUserType())
+            .userStatusType(userEntity.getUserStatusType())
             .isEmailVerified(userEntity.isEmailVerified())
             .build();
   }
@@ -65,63 +70,22 @@ public class UserPersistenceAdapter implements FetchUserPort, SaveUserPort,
   }
 
   @Override
-  public void updateEmailVerification(User user) {
-    userJpaRepository.updateEmailVerification(user.getUserId(), user.isEmailVerified());
+  public void updateEmailVerification(String userId, boolean isEmailVerified) {
+    userJpaRepository.updateEmailVerification(userId, isEmailVerified);
   }
-
-
-  /**
-   * userProfileId로 userProfile 조회
-   *
-   * @param userProfileId
-   * @return
-   */
   @Override
-  public Optional<UserProfile> findUserProfileByUserProfileId(String userProfileId) {
-    return userProfileJpaRepository.findById(userProfileId)
-        .map(
-            entity -> UserProfile.builder()
-                .userProfileId(entity.getUserProfileId())
-                .nickname(entity.getNickname())
-                .statusMessage(entity.getStatusMessage())
-                .bio(entity.getBio())
-                .gender(entity.getGender())
-                .profileType(entity.getProfileType())
-                .profileImageUrl(entity.getProfileImageUrl())
-                .build()
-        );
+
+  public void updateUserStatus(String userId, UserStatusType status) {
+    userJpaRepository.updateStatus(userId, status);
   }
 
   @Override
-  public void saveUserProfile(User user, UserProfile userProfile) {
-    UserProfileEntity userProfileEntity = UserProfileMapper.toEntity(userProfile);
-
-    UserEntity userEntity = UserMapper.toEntity(user);
-    userEntity.setUserProfile(userProfileEntity);
-    userJpaRepository.save(userEntity);
+  public void updateUserPhone(String userId, String phone) {
+    userJpaRepository.updatePhoneByUserId(userId, phone);
   }
 
   @Override
-  public Optional<User> findByUserIdWithUserProfile(String userId) {
-    Optional<UserEntity> userEntity = userJpaRepository.findByUserIdWithUserProfile(
-        userId);
-
-    return
-        userEntity.map(entity ->
-            UserMapper.toDomain(
-                entity,
-                entity.getUserProfile()
-            )
-        );
+  public void changePassword(String userId, String newPassword) {
+    userJpaRepository.updatePasswordByUserId(userId, newPassword);
   }
-
-  @Override
-  public Optional<UserProfile> getUserProfile(String userId) {
-    return
-        userJpaRepository.findUserProfileByUserId(
-            userId).map(
-            UserProfileMapper::toDomain
-        );
-  }
-
 }
