@@ -41,11 +41,12 @@ public class UserEntity extends BaseEntity {
   @Column(name = "phone")
   private String phone;
 
+  /*User type*/
   @Enumerated(EnumType.STRING)
-  /*사용자 타입*/
   @Column(name = "user_type")
   private UserType userType;
 
+  /*UserStatusType*/
   @Column(name = "status")
   @Enumerated(EnumType.STRING)
   private UserStatusType userStatusType;
@@ -53,6 +54,10 @@ public class UserEntity extends BaseEntity {
   /*이메일 인증 유무*/
   @Column(name = "is_email_verified")
   private boolean isEmailVerified;
+
+  /*비공개 계정 유무*/
+  @Column(name = "is_private")
+  private boolean isPrivate;
 
   /**
    * 새로운 User 생성
@@ -66,9 +71,11 @@ public class UserEntity extends BaseEntity {
         user.getPhone(),
         user.getUserType(),
         user.getUserStatusType(),
-        user.isEmailVerified()
+        user.isEmailVerified(),
+        user.isPrivate()
     );
   }
+
 
   /**
    * 프록시 객체 생성

@@ -23,6 +23,7 @@ public class User {
   private UserType userType;
   private UserStatusType userStatusType;
   private boolean isEmailVerified;
+  private boolean isPrivate;
 
   private UserProfile userProfile;
 

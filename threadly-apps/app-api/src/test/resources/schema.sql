@@ -19,6 +19,7 @@ create table users
     user_type         varchar(50)  not null,
     status            varchar(20)  not null default 'ACTIVE',
     is_email_verified boolean      not null default false,
+    is_private        boolean      not null default false,
     created_at        timestamp    not null default current_timestamp,
     modified_at       timestamp    not null default current_timestamp
 );
@@ -26,14 +27,14 @@ create table users
 --user_profile
 create table user_profile
 (
-    user_id           varchar(50) primary key,
-    nickname          varchar(255) not null,
-    status_message    varchar(255) not null,
-    bio               varchar(255) not null,
-    gender            varchar(50)  not null,
-    profile_type      varchar(50)  not null default 'USER',
-    created_at        timestamp    not null default current_timestamp,
-    modified_at       timestamp    not null default current_timestamp,
+    user_id        varchar(50) primary key,
+    nickname       varchar(255) not null,
+    status_message varchar(255) not null,
+    bio            varchar(255) not null,
+    gender         varchar(50)  not null,
+    profile_type   varchar(50)  not null default 'USER',
+    created_at     timestamp    not null default current_timestamp,
+    modified_at    timestamp    not null default current_timestamp,
     foreign key (user_id) references users (user_id) on delete cascade
 );
 
