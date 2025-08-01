@@ -10,6 +10,7 @@ import com.threadly.auth.request.PasswordVerificationRequest;
 import com.threadly.auth.token.response.TokenReissueApiResponse;
 import com.threadly.auth.verification.response.PasswordVerificationToken;
 import com.threadly.repository.TestUserRepository;
+import com.threadly.user.request.ChangePasswordRequest;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,34 @@ public abstract class BaseUserApiTest extends BaseApiTest {
 
   @Autowired
   private TestUserRepository testUserRepository;
+
+  /**
+   * 비밀번호 변경 요청
+   *
+   * @param accessToken
+   * @param xVerifyToken
+   * @param newPassword
+   * @param expectedStatus
+   * @return
+   * @throws Exception
+   */
+  public CommonResponse<Void> sendChangePasswordRequest(String accessToken, String xVerifyToken,
+      String newPassword,
+      ResultMatcher expectedStatus)
+      throws Exception {
+    String requestBody = generateRequestBody(
+        new ChangePasswordRequest(newPassword)
+    );
+    return
+        sendPatchRequest(
+            requestBody,
+            "/api/me/account/password",
+            expectedStatus, new TypeReference<>() {
+            },
+            Map.of("Authorization", "Bearer " + accessToken,
+                "X-Verify-Token", "Bearer " + xVerifyToken)
+        );
+  }
 
   /**
    * 내 계정 탈퇴 요청
@@ -56,6 +85,13 @@ public abstract class BaseUserApiTest extends BaseApiTest {
         );
   }
 
+  /**
+   * X-Verify-Token 발급 요청
+   *
+   * @param accessToken
+   * @return
+   * @throws Exception
+   */
   public String getXVerifyToken(String accessToken)
       throws Exception {
     Map<String, String> headers = new HashMap<>();

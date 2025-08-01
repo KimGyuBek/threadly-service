@@ -6,6 +6,8 @@ import com.threadly.properties.TtlProperties;
 import com.threadly.token.DeleteTokenPort;
 import com.threadly.token.InsertBlackListToken;
 import com.threadly.token.InsertTokenPort;
+import com.threadly.user.account.ChangePasswordCommand;
+import com.threadly.user.account.ChangePasswordUseCase;
 import com.threadly.user.account.DeactivateMyAccountUseCase;
 import com.threadly.user.account.WithdrawMyAccountUseCase;
 import com.threadly.user.register.RegisterUserCommand;
@@ -24,7 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Slf4j
 public class UserCommandService implements RegisterUserUseCase, UpdateUserUseCase,
-    WithdrawMyAccountUseCase, DeactivateMyAccountUseCase {
+    WithdrawMyAccountUseCase, DeactivateMyAccountUseCase, ChangePasswordUseCase {
 
   private final SaveUserPort saveUserPort;
   private final FetchUserPort fetchUserPort;
@@ -124,4 +126,9 @@ public class UserCommandService implements RegisterUserUseCase, UpdateUserUseCas
     deleteTokenPort.deleteRefreshToken(userId);
   }
 
+  @Transactional
+  @Override
+  public void changePassword(ChangePasswordCommand command) {
+    updateUserPort.changePassword(command.getUserId(), command.getNewPassword());
+  }
 }

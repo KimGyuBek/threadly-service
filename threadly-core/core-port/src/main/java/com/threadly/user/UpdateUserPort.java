@@ -7,6 +7,7 @@ public interface UpdateUserPort {
 
   /**
    * email verification 변경
+   *
    * @param userId
    * @param isEmailVerified
    */
@@ -14,6 +15,7 @@ public interface UpdateUserPort {
 
   /**
    * userStatus 변경
+   *
    * @param userId
    * @param status
    */
@@ -21,8 +23,17 @@ public interface UpdateUserPort {
 
   /**
    * 주어진 userId에 해당하는 phone을 업데이트
+   *
    * @param userId
    * @param phone
    */
-  void updateUserPhone(String userId ,String phone);
+  void updateUserPhone(String userId, String phone);
+
+  /**
+   * 주어진 userId에 해당하는 사용자의 비밀번호 변경
+   *
+   * @param userId
+   * @param newPassword
+   */
+  void changePassword(String userId, String newPassword);
 }

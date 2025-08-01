@@ -83,4 +83,9 @@ public class UserPersistenceAdapter implements FetchUserPort, SaveUserPort,
   public void updateUserPhone(String userId, String phone) {
     userJpaRepository.updatePhoneByUserId(userId, phone);
   }
+
+  @Override
+  public void changePassword(String userId, String newPassword) {
+    userJpaRepository.updatePasswordByUserId(userId, newPassword);
+  }
 }

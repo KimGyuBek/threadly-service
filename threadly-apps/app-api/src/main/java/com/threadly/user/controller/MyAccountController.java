@@ -1,13 +1,16 @@
 package com.threadly.user.controller;
 
 import com.threadly.auth.JwtAuthenticationUser;
+import com.threadly.user.account.ChangePasswordUseCase;
 import com.threadly.user.account.DeactivateMyAccountUseCase;
 import com.threadly.user.account.WithdrawMyAccountUseCase;
+import com.threadly.user.request.ChangePasswordRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +25,7 @@ public class MyAccountController {
 
   private final WithdrawMyAccountUseCase withdrawMyAccountUsecase;
   private final DeactivateMyAccountUseCase deactivateMyAccountUseCase;
+  private final ChangePasswordUseCase changePasswordUseCase;
 
   /**
    * 사용자 비밀번호 변경
@@ -29,9 +33,11 @@ public class MyAccountController {
    * @return
    */
   @PatchMapping("/password")
-  public ResponseEntity<Void> changePassword() {
+  public ResponseEntity<Void> changePassword(@AuthenticationPrincipal JwtAuthenticationUser user,
+      @RequestBody ChangePasswordRequest request) {
 
-    return ResponseEntity.noContent().build();
+    changePasswordUseCase.changePassword(request.toCommand(user.getUserId()));
+    return ResponseEntity.status(200).build();
   }
 
   /**
