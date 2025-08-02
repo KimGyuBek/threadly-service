@@ -1,4 +1,4 @@
-package com.threadly.user.controller;
+package com.threadly.user.controller.me;
 
 import com.threadly.auth.JwtAuthenticationUser;
 import com.threadly.auth.verification.ReissueTokenUseCase;
@@ -10,14 +10,13 @@ import com.threadly.user.profile.image.SetMyProfileImageCommand;
 import com.threadly.user.profile.image.SetMyProfileImageUseCase;
 import com.threadly.user.profile.image.UpdateMyProfileImageUseCase;
 import com.threadly.user.profile.image.UploadMyProfileImageApiResponse;
-import com.threadly.user.profile.register.MyProfileRegisterApiResponse;
+import com.threadly.user.profile.register.RegisterMyProfileApiResponse;
 import com.threadly.user.profile.register.RegisterMyProfileUseCase;
 import com.threadly.user.profile.update.UpdateMyPrivacySettingUseCase;
 import com.threadly.user.profile.update.UpdateMyProfileUseCase;
-import com.threadly.user.request.RegisterUserProfileRequest;
-import com.threadly.user.request.UpdateMyPrivacySettingRequest;
-import com.threadly.user.request.UpdateUserProfileRequest;
-import com.threadly.user.update.UpdateUserUseCase;
+import com.threadly.user.request.me.RegisterUserProfileRequest;
+import com.threadly.user.request.me.UpdateMyPrivacySettingRequest;
+import com.threadly.user.request.me.UpdateMyProfileRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -73,7 +72,7 @@ public class MyProfileController {
    * @return
    */
   @PostMapping("")
-  public ResponseEntity<MyProfileRegisterApiResponse> setMyProfile(
+  public ResponseEntity<RegisterMyProfileApiResponse> setMyProfile(
       @AuthenticationPrincipal JwtAuthenticationUser user,
       @RequestBody RegisterUserProfileRequest request) {
 
@@ -96,7 +95,7 @@ public class MyProfileController {
   @PatchMapping("")
   public ResponseEntity<Void> updateMyProfile(
       @AuthenticationPrincipal JwtAuthenticationUser user,
-      @RequestBody UpdateUserProfileRequest request) {
+      @RequestBody UpdateMyProfileRequest request) {
 
     /*UserProfile 데이터 업데이트*/
     updateMyProfileUseCase.updateMyProfile(request.toCommand(user.getUserId()));

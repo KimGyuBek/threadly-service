@@ -1,4 +1,4 @@
-package com.threadly.user.request;
+package com.threadly.user.request.me;
 
 import com.threadly.annotation.PasswordEncryption;
 import com.threadly.user.account.ChangePasswordCommand;

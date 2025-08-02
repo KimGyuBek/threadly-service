@@ -1,4 +1,4 @@
-package com.threadly.user.request;
+package com.threadly.user.request.me;
 
 import com.threadly.user.UserGenderType;
 import com.threadly.user.profile.register.RegisterMyProfileCommand;

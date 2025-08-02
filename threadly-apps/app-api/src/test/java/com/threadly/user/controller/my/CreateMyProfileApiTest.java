@@ -15,7 +15,7 @@ import com.threadly.CommonResponse;
 import com.threadly.auth.token.response.LoginTokenApiResponse;
 import com.threadly.exception.ErrorCode;
 import com.threadly.user.UserGenderType;
-import com.threadly.user.profile.register.MyProfileRegisterApiResponse;
+import com.threadly.user.profile.register.RegisterMyProfileApiResponse;
 import java.util.Map;
 import org.junit.jupiter.api.ClassOrderer;
 import org.junit.jupiter.api.DisplayName;
@@ -66,7 +66,7 @@ class CreateMyProfileApiTest extends BaseMyProfileApiTest {
 
 
       /*프로필 초기 설정 요청 전송*/
-      CommonResponse<MyProfileRegisterApiResponse> setProfileResponse = sendSetMyProfileRequest(
+      CommonResponse<RegisterMyProfileApiResponse> setProfileResponse = sendSetMyProfileRequest(
           accessToken, profileData, status().isCreated()
       );
 
@@ -120,7 +120,7 @@ class CreateMyProfileApiTest extends BaseMyProfileApiTest {
 
 
       /*프로필 초기 설정 요청 전송*/
-      CommonResponse<MyProfileRegisterApiResponse> setProfileResponse = sendSetMyProfileRequest(
+      CommonResponse<RegisterMyProfileApiResponse> setProfileResponse = sendSetMyProfileRequest(
           accessToken, profileData, status().isConflict()
       );
 
@@ -158,7 +158,7 @@ class CreateMyProfileApiTest extends BaseMyProfileApiTest {
       //when
 
       /*프로필 초기 설정 요청 전송*/
-      CommonResponse<MyProfileRegisterApiResponse> setProfileResponse = sendSetMyProfileRequest(
+      CommonResponse<RegisterMyProfileApiResponse> setProfileResponse = sendSetMyProfileRequest(
           accessToken, USER_PROFILE, status().isConflict()
       );
 

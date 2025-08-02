@@ -22,7 +22,7 @@ import com.threadly.user.UserStatusType;
 import com.threadly.user.get.GetUserUseCase;
 import com.threadly.user.get.UserResponse;
 import com.threadly.user.profile.fetch.FetchUserProfilePort;
-import com.threadly.user.profile.register.MyProfileRegisterApiResponse;
+import com.threadly.user.profile.register.RegisterMyProfileApiResponse;
 import com.threadly.utils.JwtTokenUtils;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -261,11 +261,11 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
   }
 
   @Override
-  public MyProfileRegisterApiResponse reissueToken(String userId) {
+  public RegisterMyProfileApiResponse reissueToken(String userId) {
     /*사용자 조회*/
     UserResponse user = getUserUseCase.findUserByUserId(userId);
 
-    return new MyProfileRegisterApiResponse(
+    return new RegisterMyProfileApiResponse(
         jwtTokenProvider.createAccessToken(userId, user.getUserType().name(), user.getUserStatusType().name()),
         jwtTokenProvider.createRefreshToken(userId)
     );

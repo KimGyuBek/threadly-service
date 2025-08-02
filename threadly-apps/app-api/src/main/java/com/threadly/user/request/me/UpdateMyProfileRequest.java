@@ -1,11 +1,11 @@
-package com.threadly.user.request;
+package com.threadly.user.request.me;
 
 import com.threadly.user.profile.update.UpdateMyProfileCommand;
 
 /**
  * 사용자 프로필 업데이트 요청 객체
  */
-public record UpdateUserProfileRequest(
+public record UpdateMyProfileRequest(
     String nickname,
     String statusMessage,
     String bio,

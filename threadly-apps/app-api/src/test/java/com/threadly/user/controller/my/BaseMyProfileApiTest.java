@@ -11,9 +11,9 @@ import com.threadly.testsupport.fixture.users.UserFixtureLoader;
 import com.threadly.user.UserGenderType;
 import com.threadly.user.profile.get.GetMyProfileDetailsApiResponse;
 import com.threadly.user.profile.get.GetUserProfileApiResponse;
-import com.threadly.user.profile.register.MyProfileRegisterApiResponse;
-import com.threadly.user.request.RegisterUserProfileRequest;
-import com.threadly.user.request.UpdateUserProfileRequest;
+import com.threadly.user.profile.register.RegisterMyProfileApiResponse;
+import com.threadly.user.request.me.RegisterUserProfileRequest;
+import com.threadly.user.request.me.UpdateMyProfileRequest;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -129,7 +129,7 @@ public abstract class BaseMyProfileApiTest extends BaseApiTest {
    *
    * @return
    */
-  public CommonResponse<MyProfileRegisterApiResponse> sendSetMyProfileRequest(
+  public CommonResponse<RegisterMyProfileApiResponse> sendSetMyProfileRequest(
       String accessToken,
       Map<String, String> profileData,
       ResultMatcher conflict) throws Exception {
@@ -168,7 +168,7 @@ public abstract class BaseMyProfileApiTest extends BaseApiTest {
       Map<String, String> newProfileData, ResultMatcher expectedStatus)
       throws Exception {
     String requestBody = generateRequestBody(
-        new UpdateUserProfileRequest(
+        new UpdateMyProfileRequest(
             newProfileData.get("nickname"),
             newProfileData.get("statusMessage"),
             newProfileData.get("bio"),

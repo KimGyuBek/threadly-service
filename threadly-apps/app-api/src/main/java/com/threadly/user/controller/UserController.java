@@ -2,7 +2,7 @@ package com.threadly.user.controller;
 
 import com.threadly.auth.verification.EmailVerificationUseCase;
 import com.threadly.user.register.RegisterUserUseCase;
-import com.threadly.user.register.UserRegistrationApiResponse;
+import com.threadly.user.register.RegisterUserApiResponse;
 import com.threadly.user.request.UserRegisterRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -30,11 +30,11 @@ public class UserController {
    * @return
    */
   @PostMapping("")
-  public UserRegistrationApiResponse register(
+  public RegisterUserApiResponse register(
       @Valid @RequestBody UserRegisterRequest request
   ) {
     /*회원 가입*/
-    UserRegistrationApiResponse response = registerUserUseCase.register(request.toCommand());
+    RegisterUserApiResponse response = registerUserUseCase.register(request.toCommand());
 
     /*인증 메일 전송*/
     emailVerificationUseCase.sendVerificationEmail(response.getUserId());

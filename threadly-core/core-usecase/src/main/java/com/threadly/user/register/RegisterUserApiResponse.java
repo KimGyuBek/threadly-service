@@ -13,7 +13,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 @Builder
-public class UserRegistrationApiResponse {
+public class RegisterUserApiResponse {
 
   private String userId;
   private String userName;

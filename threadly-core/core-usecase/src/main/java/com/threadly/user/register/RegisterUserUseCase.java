@@ -10,7 +10,7 @@ public interface RegisterUserUseCase {
    * @param request
    * @return
    */
-  UserRegistrationApiResponse register(RegisterUserCommand request);
+  RegisterUserApiResponse register(RegisterUserCommand request);
 
 
 }

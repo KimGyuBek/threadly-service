@@ -14,7 +14,7 @@ import com.threadly.user.profile.update.UpdateMyPrivacySettingCommand;
 import com.threadly.user.profile.update.UpdateMyPrivacySettingUseCase;
 import com.threadly.user.register.RegisterUserCommand;
 import com.threadly.user.register.RegisterUserUseCase;
-import com.threadly.user.register.UserRegistrationApiResponse;
+import com.threadly.user.register.RegisterUserApiResponse;
 import com.threadly.user.response.UserPortResponse;
 import com.threadly.user.update.UpdateUserUseCase;
 import com.threadly.utils.JwtTokenUtils;
@@ -42,7 +42,7 @@ public class UserCommandService implements RegisterUserUseCase, UpdateUserUseCas
 
   @Transactional
   @Override
-  public UserRegistrationApiResponse register(RegisterUserCommand command) {
+  public RegisterUserApiResponse register(RegisterUserCommand command) {
 
     /*email로 사용자 조회*/
     Optional<User> byEmail = fetchUserPort.findByEmail(command.getEmail());
@@ -64,7 +64,7 @@ public class UserCommandService implements RegisterUserUseCase, UpdateUserUseCas
 
     log.info("회원 가입 성공");
 
-    return UserRegistrationApiResponse.builder()
+    return RegisterUserApiResponse.builder()
         .userId(userPortResponse.getUserId())
         .userName(userPortResponse.getUserName())
         .userType(userPortResponse.getUserType())
