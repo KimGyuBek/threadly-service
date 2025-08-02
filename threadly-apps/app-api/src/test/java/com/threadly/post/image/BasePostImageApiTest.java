@@ -288,7 +288,7 @@ public abstract class BasePostImageApiTest extends BasePostApiTest {
   }
 
   /**
-   * status, postId에 해당하는 데이터 수 검증
+   * followStatusType, postId에 해당하는 데이터 수 검증
    *
    * @param postId
    * @param expectedStatus

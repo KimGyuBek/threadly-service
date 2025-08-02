@@ -2,7 +2,9 @@ package com.threadly.user.profile;
 
 import com.threadly.exception.ErrorCode;
 import com.threadly.exception.user.UserException;
+import com.threadly.user.FollowStatusType;
 import com.threadly.user.UserStatusType;
+import com.threadly.user.follow.FollowQueryPort;
 import com.threadly.user.profile.fetch.FetchUserProfilePort;
 import com.threadly.user.profile.fetch.MyProfileDetailsProjection;
 import com.threadly.user.profile.fetch.UserProfileProjection;
@@ -13,6 +15,7 @@ import com.threadly.user.profile.get.GetUserProfileUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * userprofile 관련 조회 서비스
@@ -23,6 +26,8 @@ import org.springframework.stereotype.Service;
 public class UserProfileQueryService implements GetUserProfileUseCase, GetMyProfileUseCase {
 
   private final FetchUserProfilePort fetchUserProfilePort;
+
+  private final FollowQueryPort followQueryPort;
 
   @Override
   public boolean existsUserProfile(String userId) {
@@ -36,16 +41,27 @@ public class UserProfileQueryService implements GetUserProfileUseCase, GetMyProf
     }
   }
 
+  @Transactional(readOnly = true)
   @Override
-  public GetUserProfileApiResponse getUserProfile(String userId) {
+  public GetUserProfileApiResponse getUserProfile(String userId, String targetUserId) {
     UserProfileProjection userProfileProjection = fetchUserProfilePort.findUserProfileByUserId(
-        userId).orElseThrow(
+        targetUserId).orElseThrow(
         () -> new UserException(ErrorCode.USER_NOT_FOUND)
     );
 
     /*사용자 상태 검증*/
     if (userProfileProjection.getUserStatus().equals(UserStatusType.DELETED)) {
       throw new UserException(ErrorCode.USER_ALREADY_DELETED);
+    } else if (userProfileProjection.getUserStatus().equals(UserStatusType.INACTIVE)) {
+      throw new UserException(ErrorCode.USER_INACTIVE);
+    }
+
+    /*팔로우 유무 검증*/
+    FollowStatusType followStatusType = followQueryPort.findFollowStatusType(userId, targetUserId)
+        .orElse(FollowStatusType.NONE);
+    if (userProfileProjection.getIsPrivate() && !followStatusType.equals(
+        FollowStatusType.APPROVED)) {
+      throw new UserException(ErrorCode.USER_PROFILE_PRIVATE);
     }
 
     return new GetUserProfileApiResponse(
@@ -53,9 +69,11 @@ public class UserProfileQueryService implements GetUserProfileUseCase, GetMyProf
         userProfileProjection.getNickname(),
         userProfileProjection.getStatusMessage(),
         userProfileProjection.getBio(),
-        userProfileProjection.getProfileImageUrl()
+        userProfileProjection.getProfileImageUrl(),
+        followStatusType
     );
   }
+
 
   @Override
   public GetMyProfileDetailsApiResponse getMyProfileDetails(String userId) {

@@ -21,4 +21,6 @@ public interface UserProfileProjection {
 
   UserStatusType getUserStatus();
 
+  boolean getIsPrivate();
+
 }

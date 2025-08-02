@@ -11,11 +11,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Table(name = "user_follows")
 @Entity
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserFollowEntity extends BaseEntity {
 
   @Id
@@ -29,7 +33,6 @@ public class UserFollowEntity extends BaseEntity {
   @JoinColumn(name = "following_id")
   @ManyToOne(fetch = FetchType.LAZY)
   private UserEntity following;
-
 
   @Column(name = "status")
   @Enumerated(EnumType.STRING)

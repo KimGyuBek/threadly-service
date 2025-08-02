@@ -8,6 +8,7 @@ import com.threadly.exception.ErrorCode;
 import com.threadly.user.UserStatusType;
 import com.threadly.user.profile.get.GetUserProfileApiResponse;
 import com.threadly.utils.TestConstants;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.ClassOrderer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
@@ -24,17 +25,54 @@ import org.junit.jupiter.api.TestMethodOrder;
 @TestClassOrder(ClassOrderer.OrderAnnotation.class)
 class GetUserProfileApiTest extends BaseUserProfileApiTest {
 
+  @BeforeEach
+  void setUp() {
+    userFixtureLoader.load(
+        "/users/profile/user.json", UserStatusType.ACTIVE
+    );
+
+  }
+
+  /*
+   * 1. 사용자의 프로필이 존재하고 공개 계정이면 팔로우 상태가 아니더라도 조회가 가능
+   * 2. 사용자의 프로필이 존재하고 비공개 계정이면 팔로우 상태면 조회 가능
+   * 3. 사용자의 프로필이 존재하고 비공개 계정이지만 팔로우 상태가 아니면 조회 불가
+   * 4. 존재하지 않는 userId로 조회하는 경우 실패
+   * 5. 프로필을 설정하지 않는 사용자의 프로필을 조회 할 경우 실패
+   * 6. 탈퇴 처리된 사용자의 프로필을 조회하는 경우 실패
+   * 7. 비활성화 처리된 사용자의 프로필을 조회하는 경우 실패
+   * */
+
   @Order(1)
   @Nested
   @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
   @DisplayName("성공")
   class success {
 
-    /*[Case #1] 사용자와 프로필이 존재하는 경우 성공해야한다*/
+    /*[Case #1] 사용자의 프로필이 존재하고 공개 계정이면 팔로우 상태가 아니더라도 조회가 가능*/
     @Order(1)
-    @DisplayName("1. 사용자와 프로필이 존재하는 경우 성공 검증")
+    @DisplayName("1. 사용자 프로필이 존재하고 공개 계정이면 팔로우 상태가 아니더라도 조회가 가능한지 검증")
     @Test
-    public void getUserProfile_shouldSuccess_whenUserAndUserProfileExists() throws Exception {
+    public void getUserProfile_shouldSuccess_01() throws Exception {
+      //given
+      /*로그인*/
+      String accessToken = getAccessToken(TestConstants.EMAIL_VERIFIED_USER_1);
+
+      //when
+      /*프로필 조회 요청*/
+      CommonResponse<GetUserProfileApiResponse> getUserProfileResponse = sendGetUserProfileRequest(
+          accessToken, USER_ID, status().isOk());
+
+      //then
+      /*응답 검증*/
+      assertUserProfileResponse(getUserProfileResponse.getData(), USER_PROFILE);
+    }
+
+    /*[Case #2] 사용자의 프로필이 존재하고 비공개 계정이면 팔로우 상태일 경우 조회 가능*/
+    @Order(2)
+    @DisplayName("")
+    @Test
+    public void getUserProfile_shouldSuccess_02() throws Exception {
       //given
       /*로그인*/
       String accessToken = getAccessToken(TestConstants.EMAIL_VERIFIED_USER_1);
@@ -57,11 +95,38 @@ class GetUserProfileApiTest extends BaseUserProfileApiTest {
   @DisplayName("실패")
   class fail {
 
-    /*[Case #1] 존재하지 않은 userId로 조회한 경우 */
+    /*[Case #1] 사용자가 비공개 계정이면서 팔로우 되어 있지 않는 경우 실패 검증*/
     @Order(1)
-    @DisplayName("1. 존재하지 않는 userId로 조회한 경우 404 NotFound")
+    @DisplayName("1. 사용자가 비공개 계정이면서 팔로우 되어 있지 않은 경우 403 Forbidden")
     @Test
-    public void getUserProfile_shouldReturnNotFound_whenUserIdNotExists() throws Exception {
+    public void getUserProfile_shouldFail_01() throws Exception {
+      //given
+
+      /*비공개 계정 사용자 데이터 삽입*/
+      userFixtureLoader.load(
+          "/users/profile/user2.json", UserStatusType.ACTIVE, true
+      );
+
+      /*로그인*/
+      String accessToken = getAccessToken(TestConstants.EMAIL_VERIFIED_USER_1);
+
+      //when
+      /*프로필 조회 요청*/
+      CommonResponse<GetUserProfileApiResponse> getUserProfileResponse = sendGetUserProfileRequest(
+          accessToken, USER2_ID, status().isForbidden());
+
+      //then
+      /*응답 검증*/
+      assertThat(getUserProfileResponse.isSuccess()).isFalse();
+      assertThat(getUserProfileResponse.getCode()).isEqualTo(
+          ErrorCode.USER_PROFILE_PRIVATE.getCode());
+    }
+
+    /*[Case #2] 존재하지 않은 userId로 조회한 경우 */
+    @Order(2)
+    @DisplayName("2. 존재하지 않는 userId로 조회한 경우 404 NotFound")
+    @Test
+    public void getUserProfile_shouldFail_02() throws Exception {
       //given
       /*로그인*/
       String accessToken = getAccessToken(TestConstants.EMAIL_VERIFIED_USER_1);
@@ -77,11 +142,11 @@ class GetUserProfileApiTest extends BaseUserProfileApiTest {
       assertThat(getUserProfileResponse.getCode()).isEqualTo(ErrorCode.USER_NOT_FOUND.getCode());
     }
 
-    /*[Case #2]  사용자는 존재하지만 profile이 없는 경우*/
-    @Order(2)
-    @DisplayName("2. 사용자는 존재하지만 profile이 없는 경우")
+    /*[Case #3]  사용자는 존재하지만 profile이 없는 경우*/
+    @Order(3)
+    @DisplayName("3. 사용자는 존재하지만 profile이 없는 경우 404 Not Found")
     @Test
-    public void getUserProfile_shouldReturnNotFound_whenUserProfileNotSet() throws Exception {
+    public void getUserProfile_shouldFail_03() throws Exception {
       //given
       /*로그인*/
       String accessToken = getAccessToken(TestConstants.EMAIL_VERIFIED_USER_1);
@@ -97,11 +162,11 @@ class GetUserProfileApiTest extends BaseUserProfileApiTest {
       assertThat(getUserProfileResponse.getCode()).isEqualTo(ErrorCode.USER_NOT_FOUND.getCode());
     }
 
-    /*[Case #3]  탈퇴한 사용자를 조회할 경우 */
-    @Order(3)
-    @DisplayName("탈퇴 처리된 사용자의 프로필을 조회할 경우")
+    /*[Case #4]  탈퇴한 사용자를 조회할 경우 */
+    @Order(4)
+    @DisplayName("4. 탈퇴 처리된 사용자의 프로필을 조회할 경우 403 Forbidden")
     @Test
-    public void getUserProfile_shouldReturn403Forbidden_userDeleted() throws Exception {
+    public void getUserProfile_shouldFail_04() throws Exception {
       //given
       userFixtureLoader.load(
           "/users/profile/user2.json",
@@ -121,6 +186,33 @@ class GetUserProfileApiTest extends BaseUserProfileApiTest {
       assertThat(getUserProfileResponse.isSuccess()).isFalse();
       assertThat(getUserProfileResponse.getCode()).isEqualTo(
           ErrorCode.USER_ALREADY_DELETED.getCode());
+    }
+
+    /*[Case #5]  비활성화 된 사용자를 조회하는 경우 실패 검증 */
+    @Order(5)
+    @DisplayName("5. 비활성화 된 사용자를 조회하는 경우 403 Forbidden")
+    @Test
+    public void getUserProfile_shouldFail_05() throws Exception {
+      //given
+      /*비활성화 된 사용자 데이터 삽입*/
+      userFixtureLoader.load(
+          "/users/profile/user2.json",
+          UserStatusType.INACTIVE
+      );
+
+      /*로그인*/
+      String accessToken = getAccessToken(TestConstants.EMAIL_VERIFIED_USER_1);
+
+      //when
+      /*프로필 조회 요청*/
+      CommonResponse<GetUserProfileApiResponse> getUserProfileResponse = sendGetUserProfileRequest(
+          accessToken, USER2_ID, status().isForbidden());
+
+      //then
+      /*응답 검증*/
+      assertThat(getUserProfileResponse.isSuccess()).isFalse();
+      assertThat(getUserProfileResponse.getCode()).isEqualTo(
+          ErrorCode.USER_INACTIVE.getCode());
     }
     /*[Case #3]  차단된 사용자를 조회할 경우*/
   }

@@ -20,7 +20,7 @@ public interface GetUserProfileUseCase {
    * @param userId
    * @return
    */
-  GetUserProfileApiResponse getUserProfile(String userId);
+  GetUserProfileApiResponse getUserProfile(String userId, String targetUserId);
 
   /**
    * 자신의 프로필 상세 조회

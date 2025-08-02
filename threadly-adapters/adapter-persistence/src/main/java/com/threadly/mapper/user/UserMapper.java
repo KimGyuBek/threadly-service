@@ -22,6 +22,7 @@ public class UserMapper {
             .userType(entity.getUserType())
             .isEmailVerified(entity.isEmailVerified())
             .userStatusType(entity.getUserStatusType())
+            .isPrivate(entity.isPrivate())
             .build();
   }
 

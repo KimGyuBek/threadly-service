@@ -54,7 +54,8 @@ public interface UserProfileJpaRepository extends JpaRepository<UserProfileEntit
              up.bio            as bio,
              u.phone           as phone,
              upi.image_url     as profileImageurl,
-             u.status          as userStatus
+             u.status          as userStatus,
+             u.is_private      as isPrivate
       from user_profile up
                left join users u on up.user_id = u.user_id
                left join user_profile_images upi on up.user_id = upi.user_id and upi.status = 'CONFIRMED'

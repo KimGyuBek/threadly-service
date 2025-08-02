@@ -80,21 +80,21 @@ public class User {
   /**
    * ACTIVE 상태로 변경
    */
-  void markAsActive() {
+  public void markAsActive() {
     this.userStatusType = UserStatusType.ACTIVE;
   }
 
   /**
    * DELETED 상태로 변경
    */
-  void markAsDeleted() {
+  public void markAsDeleted() {
     this.userStatusType = UserStatusType.DELETED;
   }
 
   /**
    * INACTIVE 상태로 변경
    */
-  void markAsInactive() {
+  public void markAsInactive() {
     if (userStatusType.equals(UserStatusType.DELETED)) {
       throw new CannotInactiveException();
     }
@@ -105,7 +105,7 @@ public class User {
   /**
    * BANNED 상태로 변경
    */
-  void markAsBanned() {
+  public void markAsBanned() {
     if (userStatusType.equals(UserStatusType.DELETED)) {
       throw new CannotBannedException();
     }
@@ -174,6 +174,20 @@ public class User {
    */
   public void setPrivacy(boolean isPrivate) {
     this.isPrivate = isPrivate;
+  }
+
+  /**
+   * 계정 비공개 상태로 변경
+   */
+  public void markAsPrivate() {
+    this.isPrivate = true;
+  }
+
+  /**
+   * 계정 공개 상태로 변경
+   */
+  public void markAsPublic() {
+    this.isPrivate = false;
   }
 
   /**

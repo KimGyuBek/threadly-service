@@ -20,4 +20,11 @@ public interface FetchUserPort {
    */
   Optional<User> findByUserId(String userId);
 
+  /**
+   * 주어진 userId에 해당하는 사용자의 isPrivate 조회
+   * @param userId
+   * @return
+   */
+  boolean isUserPrivate(String userId);
+
 }

@@ -12,9 +12,9 @@ import com.threadly.user.account.DeactivateMyAccountUseCase;
 import com.threadly.user.account.WithdrawMyAccountUseCase;
 import com.threadly.user.profile.update.UpdateMyPrivacySettingCommand;
 import com.threadly.user.profile.update.UpdateMyPrivacySettingUseCase;
+import com.threadly.user.register.RegisterUserApiResponse;
 import com.threadly.user.register.RegisterUserCommand;
 import com.threadly.user.register.RegisterUserUseCase;
-import com.threadly.user.register.RegisterUserApiResponse;
 import com.threadly.user.response.UserPortResponse;
 import com.threadly.user.update.UpdateUserUseCase;
 import com.threadly.utils.JwtTokenUtils;
@@ -119,8 +119,15 @@ public class UserCommandService implements RegisterUserUseCase, UpdateUserUseCas
   @Transactional
   @Override
   public void updatePrivacy(UpdateMyPrivacySettingCommand command) {
+
+    /*계정 공개 여부 설정*/
     User user = User.emptyWithUserId(command.getUserId());
-    user.setPrivacy(command.isPrivate());
+    if (command.isPrivate()) {
+      user.markAsPrivate();
+    } else {
+      user.markAsPublic();
+    }
+
     updateUserPort.updatePrivacy(user);
   }
 

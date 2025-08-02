@@ -34,6 +34,8 @@ public enum ErrorCode {
   USER_PROFILE_NOT_SET("TLY2018", "사용자 프로필이 설정되지 않았습니다.", HttpStatus.FORBIDDEN),
   USER_PROFILE_ALREADY_SET("TLY2019", "이미 프로필을 설정한 사용자입니다.", HttpStatus.CONFLICT),
   USER_NICKNAME_DUPLICATED("TLY2020", "이미 존재하는 닉네임입니다.", HttpStatus.CONFLICT),
+  USER_PROFILE_PRIVATE("TLY2021", "비공개 계정입니다.", HttpStatus.FORBIDDEN),
+  USER_BANNED("TLY2022", "운영자에 의해 차단된 계정입니다.", HttpStatus.FORBIDDEN),
 
   /*Token*/
   TOKEN_EXPIRED("TLY3000", "토큰이 만료되었습니다.", HttpStatus.UNAUTHORIZED),

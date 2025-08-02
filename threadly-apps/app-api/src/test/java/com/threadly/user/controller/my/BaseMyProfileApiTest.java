@@ -86,7 +86,7 @@ public abstract class BaseMyProfileApiTest extends BaseApiTest {
       "userId", "user_with_profile_image",
       "storedFileName", "temp_1234abcd.webp",
       "imageUrl", "/images/temp_1234abcd.webp",
-      "status", "TEMPORARY"
+      "followStatusType", "TEMPORARY"
   );
 
   /*CONFIRMED 이미지 데이터*/
@@ -95,7 +95,7 @@ public abstract class BaseMyProfileApiTest extends BaseApiTest {
       "userId", "user_with_profile_image",
       "storedFileName", "confirmed_abcd5678.webp",
       "imageUrl", "/images/confirmed_abcd5678.webp",
-      "status", "CONFIRMED"
+      "followStatusType", "CONFIRMED"
   );
 
   /*DELETED 이미지 데이터*/
@@ -104,7 +104,7 @@ public abstract class BaseMyProfileApiTest extends BaseApiTest {
       "userId", "user_with_profile_image",
       "storedFileName", "deleted_ijkl9012.webp",
       "imageUrl", "/images/deleted_ijkl9012.webp",
-      "status", "DELETED"
+      "followStatusType", "DELETED"
   );
 
   /**
@@ -201,7 +201,7 @@ public abstract class BaseMyProfileApiTest extends BaseApiTest {
 
     return
         sendGetRequest(
-            accessToken, "/api/user/profile/" + userId, expectedStatus,
+            accessToken, "/api/users/profile/" + userId, expectedStatus,
             new TypeReference<CommonResponse<GetUserProfileApiResponse>>() {
             });
   }

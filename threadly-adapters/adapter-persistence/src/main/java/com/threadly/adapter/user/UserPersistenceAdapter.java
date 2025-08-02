@@ -1,22 +1,13 @@
 package com.threadly.adapter.user;
 
 import com.threadly.entity.user.UserEntity;
-import com.threadly.entity.user.UserProfileImageEntity;
-import com.threadly.exception.ErrorCode;
-import com.threadly.exception.user.UserException;
 import com.threadly.mapper.user.UserMapper;
-import com.threadly.mapper.user.UserProfileImageMapper;
-import com.threadly.mapper.user.UserProfileMapper;
 import com.threadly.repository.user.UserJpaRepository;
-import com.threadly.repository.user.UserProfileImageJpaRepository;
-import com.threadly.repository.user.UserProfileJpaRepository;
 import com.threadly.user.FetchUserPort;
 import com.threadly.user.SaveUserPort;
 import com.threadly.user.UpdateUserPort;
 import com.threadly.user.User;
 import com.threadly.user.UserStatusType;
-import com.threadly.user.profile.UserProfile;
-import com.threadly.user.profile.image.UserProfileImage;
 import com.threadly.user.response.UserPortResponse;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -92,5 +83,10 @@ public class UserPersistenceAdapter implements FetchUserPort, SaveUserPort,
   @Override
   public void updatePrivacy(User user) {
     userJpaRepository.updatePrivacyByUserId(user.getUserId(), user.isPrivate());
+  }
+
+  @Override
+  public boolean isUserPrivate(String userId) {
+    return userJpaRepository.isUserPrivate(userId);
   }
 }

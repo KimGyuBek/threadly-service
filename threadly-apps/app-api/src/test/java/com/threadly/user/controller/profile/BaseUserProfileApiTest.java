@@ -20,12 +20,12 @@ public abstract class BaseUserProfileApiTest extends BaseApiTest {
   @Autowired
   public UserFixtureLoader userFixtureLoader;
 
-  @BeforeEach
-  void setUp() {
-    userFixtureLoader.load(
-        "/users/profile/user.json"
-    );
-  }
+//  @BeforeEach
+//  void setUp() {
+//    userFixtureLoader.load(
+//        "/users/profile/user.json"
+//    );
+//  }
 
   //userId
   public static final String USER_ID = "user_with_profile_test";
@@ -71,7 +71,7 @@ public abstract class BaseUserProfileApiTest extends BaseApiTest {
 
     return
         sendGetRequest(
-            accessToken, "/api/user/profile/" + userId, expectedStatus,
+            accessToken, "/api/users/profile/" + userId, expectedStatus,
             new TypeReference<>() {
             });
   }
