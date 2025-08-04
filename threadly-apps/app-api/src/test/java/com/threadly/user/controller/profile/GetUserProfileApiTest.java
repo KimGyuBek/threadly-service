@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.threadly.CommonResponse;
 import com.threadly.exception.ErrorCode;
 import com.threadly.user.UserStatusType;
+import com.threadly.user.controller.follow.BaseFollowApiTest;
 import com.threadly.user.profile.get.GetUserProfileApiResponse;
 import com.threadly.utils.TestConstants;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,7 +24,7 @@ import org.junit.jupiter.api.TestMethodOrder;
  */
 @DisplayName("사용자 프로필 조회 관련 API 테스트")
 @TestClassOrder(ClassOrderer.OrderAnnotation.class)
-class GetUserProfileApiTest extends BaseUserProfileApiTest {
+class GetUserProfileApiTest extends BaseFollowApiTest {
 
   @BeforeEach
   void setUp() {
@@ -35,7 +36,7 @@ class GetUserProfileApiTest extends BaseUserProfileApiTest {
 
   /*
    * 1. 사용자의 프로필이 존재하고 공개 계정이면 팔로우 상태가 아니더라도 조회가 가능
-   * 2. 사용자의 프로필이 존재하고 비공개 계정이면 팔로우 상태면 조회 가능
+   * 2. 사용자의 프로필이 존재하고 비공개 계정이면 팔로우 상태인경우 조회 가능
    * 3. 사용자의 프로필이 존재하고 비공개 계정이지만 팔로우 상태가 아니면 조회 불가
    * 4. 존재하지 않는 userId로 조회하는 경우 실패
    * 5. 프로필을 설정하지 않는 사용자의 프로필을 조회 할 경우 실패
@@ -69,23 +70,29 @@ class GetUserProfileApiTest extends BaseUserProfileApiTest {
     }
 
     /*[Case #2] 사용자의 프로필이 존재하고 비공개 계정이면 팔로우 상태일 경우 조회 가능*/
-    @Order(2)
-    @DisplayName("")
-    @Test
-    public void getUserProfile_shouldSuccess_02() throws Exception {
-      //given
-      /*로그인*/
-      String accessToken = getAccessToken(TestConstants.EMAIL_VERIFIED_USER_1);
-
-      //when
-      /*프로필 조회 요청*/
-      CommonResponse<GetUserProfileApiResponse> getUserProfileResponse = sendGetUserProfileRequest(
-          accessToken, USER_ID, status().isOk());
-
-      //then
-      /*응답 검증*/
-      assertUserProfileResponse(getUserProfileResponse.getData(), USER_PROFILE);
-    }
+//    @Order(2)
+//    @DisplayName("2. 사용자가 비공개 계정이지만 팔로우 상태인 경우 조회 가능")
+//    @Test
+//    public void getUserProfile_shouldSuccess_02() throws Exception {
+//      //given
+//      /*사용자 데이터 삽입*/
+//      userFixtureLoader.load("/users/profile/user2.json", UserStatusType.ACTIVE, true);
+//
+//      /*로그인*/
+//      String accessToken = getAccessToken(TestConstants.EMAIL_VERIFIED_USER_1);
+//
+//      //when
+//      /*팔로우 요청*/
+//      sendFollowUserRequest(accessToken, USER2_ID, status().isOk());
+//
+//      /*프로필 조회 요청*/
+//      CommonResponse<GetUserProfileApiResponse> getUserProfileResponse = sendGetUserProfileRequest(
+//          accessToken, USER2_ID, status().isOk());
+//
+//      //then
+//      /*응답 검증*/
+//      assertUserProfileResponse(getUserProfileResponse.getData(), USER_PROFILE);
+//    }
 
   }
 

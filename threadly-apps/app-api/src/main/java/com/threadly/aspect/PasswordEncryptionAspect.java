@@ -18,7 +18,7 @@ public class PasswordEncryptionAspect {
 
   private final PasswordEncoder passwordEncoder;
 
-  @Around("execution(* com.threadly.user.controller.*.*(..))")
+  @Around("execution(* com.threadly.user.controller..*.*(..))")
   public Object passwordEncryptionAspect(ProceedingJoinPoint pjp) throws Throwable {
 
     Arrays.stream(pjp.getArgs()).forEach(this::fieldEncryption);
@@ -27,7 +27,7 @@ public class PasswordEncryptionAspect {
   }
 
   private void fieldEncryption(Object obj) {
-    if(obj == null) {
+    if (obj == null) {
       return;
     }
 

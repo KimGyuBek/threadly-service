@@ -1,5 +1,6 @@
 package com.threadly.post.like.comment;
 
+import com.threadly.commons.dto.UserPreview;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -16,9 +17,7 @@ public record GetPostCommentLikersApiResponse(
    * 게시글 댓글에 좋아요를 누른 사용자 정보 응답 객체
    */
   public record PostCommentLiker(
-      String likerId,
-      String likerNickname,
-      String likerProfileImageUrl,
+      UserPreview liker,
       String likerBio,
       LocalDateTime likedAt
   ) {

@@ -8,11 +8,11 @@ import com.threadly.CommonResponse;
 import com.threadly.entity.post.PostEntity;
 import com.threadly.post.PostStatus;
 import com.threadly.post.comment.create.CreatePostCommentApiResponse;
-import com.threadly.post.comment.get.GetPostCommentListApiResponse;
+import com.threadly.post.comment.get.GetPostCommentsApiResponse;
 import com.threadly.post.create.CreatePostApiResponse;
 import com.threadly.post.engagement.GetPostEngagementApiResponse;
 import com.threadly.post.get.GetPostDetailApiResponse;
-import com.threadly.post.get.GetPostDetailListApiResponse;
+import com.threadly.post.get.GetPostDetailsApiResponse;
 import com.threadly.post.like.comment.GetPostCommentLikersApiResponse;
 import com.threadly.post.like.comment.LikePostCommentApiResponse;
 import com.threadly.post.like.post.GetPostLikersApiResponse;
@@ -152,7 +152,7 @@ public abstract class BasePostApiTest extends BaseApiTest {
    * @param expectedStatus
    * @return
    */
-  public CommonResponse<GetPostDetailListApiResponse> sendGetPostListRequest(String accessToken,
+  public CommonResponse<GetPostDetailsApiResponse> sendGetPostListRequest(String accessToken,
       LocalDateTime cursorPostedAt, String cursorPostId, int limit,
       ResultMatcher expectedStatus) throws Exception {
     String path =
@@ -232,7 +232,7 @@ public abstract class BasePostApiTest extends BaseApiTest {
    * @param expectedStatus
    * @return
    */
-  public CommonResponse<GetPostCommentListApiResponse> sendGetPostCommentListRequest(
+  public CommonResponse<GetPostCommentsApiResponse> sendGetPostCommentListRequest(
       String accessToken,
       String postId, LocalDateTime cursorLikedAt, String cursorLikerId, int limit,
       ResultMatcher expectedStatus) throws Exception {
@@ -244,7 +244,7 @@ public abstract class BasePostApiTest extends BaseApiTest {
           + limit;
 
     }
-    CommonResponse<GetPostCommentListApiResponse> response = sendGetRequest(
+    CommonResponse<GetPostCommentsApiResponse> response = sendGetRequest(
         accessToken, path, expectedStatus,
         new TypeReference<>() {
         });

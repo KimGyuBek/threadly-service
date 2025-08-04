@@ -1,8 +1,6 @@
 package com.threadly.post.comment.get;
 
 
-import java.util.List;
-
 /**
  * 게시글 댓글 조회 관련 UseCase
  */
@@ -16,7 +14,7 @@ public interface GetPostCommentUseCase {
    * @param query
    * @return
    */
-  GetPostCommentListApiResponse getPostCommentDetailListForUser(GetPostCommentListQuery query);
+  GetPostCommentsApiResponse getPostCommentDetailListForUser(GetPostCommentListQuery query);
 
 
   /**

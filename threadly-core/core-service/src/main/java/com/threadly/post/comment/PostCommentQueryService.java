@@ -1,15 +1,16 @@
 package com.threadly.post.comment;
 
+import com.threadly.commons.dto.UserPreview;
 import com.threadly.exception.ErrorCode;
 import com.threadly.exception.post.PostException;
 import com.threadly.post.PostStatus;
 import com.threadly.post.comment.fetch.FetchPostCommentPort;
 import com.threadly.post.comment.get.GetPostCommentApiResponse;
 import com.threadly.post.comment.get.GetPostCommentDetailQuery;
-import com.threadly.post.comment.get.GetPostCommentListApiResponse;
-import com.threadly.post.comment.get.GetPostCommentListApiResponse.NextCursor;
 import com.threadly.post.comment.get.GetPostCommentListQuery;
 import com.threadly.post.comment.get.GetPostCommentUseCase;
+import com.threadly.post.comment.get.GetPostCommentsApiResponse;
+import com.threadly.post.comment.get.GetPostCommentsApiResponse.NextCursor;
 import com.threadly.post.fetch.FetchPostPort;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -30,7 +31,7 @@ public class PostCommentQueryService implements GetPostCommentUseCase {
 
   @Transactional(readOnly = true)
   @Override
-  public GetPostCommentListApiResponse getPostCommentDetailListForUser(
+  public GetPostCommentsApiResponse getPostCommentDetailListForUser(
       GetPostCommentListQuery query
   ) {
 
@@ -53,9 +54,11 @@ public class PostCommentQueryService implements GetPostCommentUseCase {
         projection -> new GetPostCommentApiResponse(
             projection.getPostId(),
             projection.getCommentId(),
-            projection.getCommenterId(),
-            projection.getCommenterNickname(),
-            projection.getCommenterProfileImageUrl(),
+            new UserPreview(
+                projection.getCommenterId(),
+                projection.getCommenterNickname(),
+                projection.getCommenterProfileImageUrl()
+            ),
             projection.getCommentedAt(),
             projection.getLikeCount(),
             projection.getContent(),
@@ -76,7 +79,7 @@ public class PostCommentQueryService implements GetPostCommentUseCase {
 
     String cursorCommentId = hasNext ? pagedCommentList.getLast().commentId() : null;
 
-    return new GetPostCommentListApiResponse(
+    return new GetPostCommentsApiResponse(
         pagedCommentList,
         new NextCursor(cursorCommentedAt, cursorCommentId)
     );

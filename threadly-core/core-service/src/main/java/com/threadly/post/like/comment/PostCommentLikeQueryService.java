@@ -1,11 +1,12 @@
 package com.threadly.post.like.comment;
 
+import com.threadly.commons.dto.UserPreview;
 import com.threadly.exception.ErrorCode;
 import com.threadly.exception.post.PostCommentException;
+import com.threadly.post.PostCommentStatus;
 import com.threadly.post.comment.fetch.FetchPostCommentPort;
 import com.threadly.post.like.comment.GetPostCommentLikersApiResponse.NextCursor;
 import com.threadly.post.like.comment.GetPostCommentLikersApiResponse.PostCommentLiker;
-import com.threadly.post.PostCommentStatus;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -37,9 +38,11 @@ public class PostCommentLikeQueryService implements GetPostCommentLikersUseCase 
         query.limit() + 1
     ).stream().map(
         projection -> new PostCommentLiker(
-            projection.getLikerId(),
-            projection.getLikerNickname(),
-            projection.getLikerProfileImageUrl(),
+            new UserPreview(
+                projection.getLikerId(),
+                projection.getLikerNickname(),
+                projection.getLikerProfileImageUrl()
+            ),
             projection.getLikerBio(),
             projection.getLikedAt()
         )
@@ -53,7 +56,7 @@ public class PostCommentLikeQueryService implements GetPostCommentLikersUseCase 
 
     /*커서 지정*/
     LocalDateTime cursorLikedAt = hasNext ? pagedCommentLikerList.getLast().likedAt() : null;
-    String cursorLikerId = hasNext ? pagedCommentLikerList.getLast().likerId() : null;
+    String cursorLikerId = hasNext ? pagedCommentLikerList.getLast().liker().userId() : null;
 
     return new GetPostCommentLikersApiResponse(
         pagedCommentLikerList,

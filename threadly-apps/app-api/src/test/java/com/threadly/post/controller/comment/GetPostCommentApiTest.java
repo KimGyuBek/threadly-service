@@ -7,7 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.threadly.CommonResponse;
 import com.threadly.exception.ErrorCode;
 import com.threadly.post.controller.BasePostApiTest;
-import com.threadly.post.comment.get.GetPostCommentListApiResponse;
+import com.threadly.post.comment.get.GetPostCommentsApiResponse;
 import com.threadly.testsupport.fixture.posts.PostCommentFixtureLoader;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
@@ -82,7 +82,7 @@ public class GetPostCommentApiTest extends BasePostApiTest {
         String cursorCommentId = null;
         int limit = 10;
 
-        CommonResponse<GetPostCommentListApiResponse> getPostCommentListResponse = sendGetPostCommentListRequest(
+        CommonResponse<GetPostCommentsApiResponse> getPostCommentListResponse = sendGetPostCommentListRequest(
             accessToken, ACTIVE_POST_ID, cursorCommentedAt, cursorCommentId, limit,
             status().isOk()
         );
@@ -109,7 +109,7 @@ public class GetPostCommentApiTest extends BasePostApiTest {
         int size = 0;
 
         while (true) {
-          CommonResponse<GetPostCommentListApiResponse> getPostCommentListResponse = sendGetPostCommentListRequest(
+          CommonResponse<GetPostCommentsApiResponse> getPostCommentListResponse = sendGetPostCommentListRequest(
               accessToken, ACTIVE_POST_ID, cursorCommentedAt, cursorCommentId, limit,
               status().isOk()
           );
@@ -154,7 +154,7 @@ public class GetPostCommentApiTest extends BasePostApiTest {
         int limit = 10;
 
         /*게시글 댓글 목록 조회*/
-        CommonResponse<GetPostCommentListApiResponse> getPostCommentListResponse1 = sendGetPostCommentListRequest(
+        CommonResponse<GetPostCommentsApiResponse> getPostCommentListResponse1 = sendGetPostCommentListRequest(
             accessToken, ACTIVE_POST_ID, cursorCommentedAt, cursorCommentId, limit, status().isOk()
         );
 
@@ -166,7 +166,7 @@ public class GetPostCommentApiTest extends BasePostApiTest {
         );
 
         /*게시글 댓글 목록 조회*/
-        CommonResponse<GetPostCommentListApiResponse> getPostCommentListResponse2 = sendGetPostCommentListRequest(
+        CommonResponse<GetPostCommentsApiResponse> getPostCommentListResponse2 = sendGetPostCommentListRequest(
             accessToken, ACTIVE_POST_ID, cursorCommentedAt, cursorCommentId, limit, status().isOk()
         );
 
@@ -198,7 +198,7 @@ public class GetPostCommentApiTest extends BasePostApiTest {
         String cursorCommentId = null;
         int limit = 10;
 
-        CommonResponse<GetPostCommentListApiResponse> getPostCommentListResponse = sendGetPostCommentListRequest(
+        CommonResponse<GetPostCommentsApiResponse> getPostCommentListResponse = sendGetPostCommentListRequest(
             accessToken, DELETED_POST_ID, cursorCommentedAt, cursorCommentId, limit,
             status().isBadRequest()
         );
@@ -223,7 +223,7 @@ public class GetPostCommentApiTest extends BasePostApiTest {
         String cursorCommentId = null;
         int limit = 10;
 
-        CommonResponse<GetPostCommentListApiResponse> getPostCommentListResponse = sendGetPostCommentListRequest(
+        CommonResponse<GetPostCommentsApiResponse> getPostCommentListResponse = sendGetPostCommentListRequest(
             accessToken, ARCHIVED_POST_ID, cursorCommentedAt, cursorCommentId, limit,
             status().isBadRequest()
         );
@@ -248,7 +248,7 @@ public class GetPostCommentApiTest extends BasePostApiTest {
         String cursorCommentId = null;
         int limit = 10;
 
-        CommonResponse<GetPostCommentListApiResponse> getPostCommentListResponse = sendGetPostCommentListRequest(
+        CommonResponse<GetPostCommentsApiResponse> getPostCommentListResponse = sendGetPostCommentListRequest(
             accessToken, DELETED_POST_ID, cursorCommentedAt, cursorCommentId, limit,
             status().isBadRequest()
         );
@@ -274,7 +274,7 @@ public class GetPostCommentApiTest extends BasePostApiTest {
         String cursorCommentId = null;
         int limit = 10;
 
-        CommonResponse<GetPostCommentListApiResponse> getPostCommentListResponse = sendGetPostCommentListRequest(
+        CommonResponse<GetPostCommentsApiResponse> getPostCommentListResponse = sendGetPostCommentListRequest(
             accessToken, postId, cursorCommentedAt, cursorCommentId, limit, status().isNotFound()
         );
 

@@ -7,7 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.threadly.CommonResponse;
 import com.threadly.exception.ErrorCode;
 import com.threadly.post.controller.BasePostApiTest;
-import com.threadly.post.comment.get.GetPostCommentListApiResponse;
+import com.threadly.post.comment.get.GetPostCommentsApiResponse;
 import com.threadly.post.like.comment.GetPostCommentLikersApiResponse;
 import com.threadly.testsupport.fixture.posts.PostCommentLikeFixtureLoader;
 import java.time.LocalDateTime;
@@ -86,7 +86,7 @@ public class GetPostCommentLikeApiTest extends BasePostApiTest {
         String accessToken = getAccessToken(EMAIL_VERIFIED_USER_1);
 
         /*게시글 댓글 목록 조회*/
-        CommonResponse<GetPostCommentListApiResponse> getPostCommentListResponse = sendGetPostCommentListRequest(
+        CommonResponse<GetPostCommentsApiResponse> getPostCommentListResponse = sendGetPostCommentListRequest(
             accessToken,
             ACTIVE_POST_ID,
             null,
@@ -111,7 +111,7 @@ public class GetPostCommentLikeApiTest extends BasePostApiTest {
             getPostCommentLikerListResponse.getData().likers().getLast().likedAt()).isEqualTo(
             getPostCommentLikerListResponse.getData().nextCursor().cursorLikedAt());
         assertThat(
-            getPostCommentLikerListResponse.getData().likers().getLast().likerId()).isEqualTo(
+            getPostCommentLikerListResponse.getData().likers().getLast().liker().userId()).isEqualTo(
             getPostCommentLikerListResponse.getData().nextCursor().cursorLikerId());
       }
 

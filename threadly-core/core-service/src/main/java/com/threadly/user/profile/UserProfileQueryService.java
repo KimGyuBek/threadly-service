@@ -1,5 +1,6 @@
 package com.threadly.user.profile;
 
+import com.threadly.commons.dto.UserPreview;
 import com.threadly.exception.ErrorCode;
 import com.threadly.exception.user.UserException;
 import com.threadly.user.FollowStatusType;
@@ -65,11 +66,13 @@ public class UserProfileQueryService implements GetUserProfileUseCase, GetMyProf
     }
 
     return new GetUserProfileApiResponse(
-        userProfileProjection.getUserId(),
-        userProfileProjection.getNickname(),
+        new UserPreview(
+            userProfileProjection.getUserId(),
+            userProfileProjection.getNickname(),
+            userProfileProjection.getProfileImageUrl()
+        ),
         userProfileProjection.getStatusMessage(),
         userProfileProjection.getBio(),
-        userProfileProjection.getProfileImageUrl(),
         followStatusType
     );
   }

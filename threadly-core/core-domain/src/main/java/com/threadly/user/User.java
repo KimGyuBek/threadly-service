@@ -76,6 +76,12 @@ public class User {
   }
 
   /*상태 변경*/
+  /**
+   * INCOMPLETE_PROFILE 상태로 변경
+   */
+  public void markAsIncompleteProfile() {
+    this.userStatusType = UserStatusType.INCOMPLETE_PROFILE;
+  }
 
   /**
    * ACTIVE 상태로 변경

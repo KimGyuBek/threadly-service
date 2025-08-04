@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * 게시글 댓글 목록 조회 API 응답 객체
  */
-public record GetPostCommentListApiResponse(
+public record GetPostCommentsApiResponse(
     List<GetPostCommentApiResponse> comments,
     NextCursor nextCursor
 ) {

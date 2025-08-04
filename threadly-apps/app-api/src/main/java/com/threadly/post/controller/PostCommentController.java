@@ -6,7 +6,7 @@ import com.threadly.post.comment.create.CreatePostCommentCommand;
 import com.threadly.post.comment.create.CreatePostCommentUseCase;
 import com.threadly.post.comment.delete.DeletePostCommentCommand;
 import com.threadly.post.comment.delete.DeletePostCommentUseCase;
-import com.threadly.post.comment.get.GetPostCommentListApiResponse;
+import com.threadly.post.comment.get.GetPostCommentsApiResponse;
 import com.threadly.post.comment.get.GetPostCommentListQuery;
 import com.threadly.post.comment.get.GetPostCommentUseCase;
 import com.threadly.post.request.CreatePostCommentRequest;
@@ -55,7 +55,7 @@ public class PostCommentController {
    * @return
    */
   @GetMapping("/{postId}/comments")
-  public ResponseEntity<GetPostCommentListApiResponse> getPostComments(
+  public ResponseEntity<GetPostCommentsApiResponse> getPostComments(
       @AuthenticationPrincipal JwtAuthenticationUser user,
       @PathVariable String postId,
       @RequestParam(value = "cursor_commented_at", required = false) LocalDateTime cursorCommentedAt,

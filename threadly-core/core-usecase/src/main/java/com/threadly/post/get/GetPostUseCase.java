@@ -18,6 +18,6 @@ public interface GetPostUseCase {
    *
    * @return
    */
-  GetPostDetailListApiResponse getUserVisiblePostListByCursor(GetPostListQuery query);
+  GetPostDetailsApiResponse getUserVisiblePostListByCursor(GetPostListQuery query);
 
 }

@@ -1,7 +1,6 @@
 package com.threadly.post.controller;
 
 import com.threadly.auth.JwtAuthenticationUser;
-import com.threadly.auth.JwtAuthenticationUser;
 import com.threadly.post.create.CreatePostApiResponse;
 import com.threadly.post.create.CreatePostCommand;
 import com.threadly.post.create.CreatePostCommand.ImageCommand;
@@ -9,7 +8,7 @@ import com.threadly.post.create.CreatePostUseCase;
 import com.threadly.post.delete.DeletePostCommand;
 import com.threadly.post.delete.DeletePostUseCase;
 import com.threadly.post.get.GetPostDetailApiResponse;
-import com.threadly.post.get.GetPostDetailListApiResponse;
+import com.threadly.post.get.GetPostDetailsApiResponse;
 import com.threadly.post.get.GetPostListQuery;
 import com.threadly.post.get.GetPostQuery;
 import com.threadly.post.get.GetPostUseCase;
@@ -23,7 +22,6 @@ import jakarta.validation.Valid;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -92,7 +90,7 @@ public class PostController {
    * @return
    */
   @GetMapping("")
-  public ResponseEntity<GetPostDetailListApiResponse> getPostList(
+  public ResponseEntity<GetPostDetailsApiResponse> getPostList(
       @AuthenticationPrincipal JwtAuthenticationUser user,
       @RequestParam(value = "cursor_posted_at", required = false) LocalDateTime cursorPostedAt,
       @RequestParam(value = "cursor_post_id", required = false) String cursorPostId,

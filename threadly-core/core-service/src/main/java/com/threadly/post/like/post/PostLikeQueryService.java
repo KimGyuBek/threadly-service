@@ -1,5 +1,6 @@
 package com.threadly.post.like.post;
 
+import com.threadly.commons.dto.UserPreview;
 import com.threadly.exception.ErrorCode;
 import com.threadly.exception.post.PostException;
 import com.threadly.post.fetch.FetchPostPort;
@@ -37,9 +38,11 @@ public class PostLikeQueryService implements GetPostLikersUseCase {
         query.getLimit() + 1
     ).stream().map(
         projection -> new PostLiker(
-            projection.getLikerId(),
-            projection.getLikerNickname(),
-            projection.getLikerProfileImageUrl(),
+            new UserPreview(
+                projection.getLikerId(),
+                projection.getLikerNickname(),
+                projection.getLikerProfileImageUrl()
+            ),
             projection.getLikerBio(),
             projection.getLikedAt()
         )
@@ -58,7 +61,7 @@ public class PostLikeQueryService implements GetPostLikersUseCase {
         ? pagedLikerList.getLast().likedAt()
         : null;
     String cursorLikerId = hasNext
-        ? pagedLikerList.getLast().likerId()
+        ? pagedLikerList.getLast().liker().userId()
         : null;
 
     return new GetPostLikersApiResponse(

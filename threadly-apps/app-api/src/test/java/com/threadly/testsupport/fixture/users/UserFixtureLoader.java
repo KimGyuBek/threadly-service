@@ -100,6 +100,9 @@ public class UserFixtureLoader {
         case BANNED:
           user.markAsBanned();
           break;
+        case INCOMPLETE_PROFILE:
+          user.markAsIncompleteProfile();
+          break;
       }
 
 //      user.setUserStatusType(userStatusType);

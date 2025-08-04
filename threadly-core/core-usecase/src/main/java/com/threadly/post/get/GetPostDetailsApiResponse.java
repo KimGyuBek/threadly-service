@@ -8,7 +8,7 @@ import java.util.List;
  * @param posts
  * @param nextCursor(null 이면 마지막 페이지)
  */
-public record GetPostDetailListApiResponse(
+public record GetPostDetailsApiResponse(
     List<GetPostDetailApiResponse> posts,
     NextCursor nextCursor
 ) {

@@ -6,7 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.threadly.CommonResponse;
 import com.threadly.exception.ErrorCode;
 import com.threadly.post.get.GetPostDetailApiResponse;
-import com.threadly.post.get.GetPostDetailListApiResponse;
+import com.threadly.post.get.GetPostDetailsApiResponse;
 import com.threadly.testsupport.fixture.posts.PostFixtureLoader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.ClassOrderer;
@@ -78,7 +78,7 @@ class UpdatePostStatusApiTest extends BasePostApiTest {
             accessToken, POST_ACTIVE_ID, status().isBadRequest());
 
         /*게시글 목록 조회 요청 전송*/
-        CommonResponse<GetPostDetailListApiResponse> getPostListResponse = sendGetPostListRequest(
+        CommonResponse<GetPostDetailsApiResponse> getPostListResponse = sendGetPostListRequest(
             accessToken, null, null, 10, status().isOk());
 
         assertThat(getPostResponse.isSuccess()).isFalse();

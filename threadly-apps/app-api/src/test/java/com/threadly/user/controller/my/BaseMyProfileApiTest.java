@@ -226,11 +226,11 @@ public abstract class BaseMyProfileApiTest extends BaseApiTest {
    */
   public void assertUserProfileResponse(GetUserProfileApiResponse actual,
       Map<String, String> expected) {
-    assertThat(actual.userId()).isEqualTo(expected.get("userId"));
-    assertThat(actual.nickname()).isEqualTo(expected.get("nickname"));
+    assertThat(actual.user().userId()).isEqualTo(expected.get("userId"));
+    assertThat(actual.user().nickname()).isEqualTo(expected.get("nickname"));
     assertThat(actual.statusMessage()).isEqualTo(expected.get("statusMessage"));
     assertThat(actual.bio()).isEqualTo(expected.get("bio"));
-    assertThat(Objects.equals(actual.profileImageUrl(), expected.get("profileImageId"))).isTrue();
+    assertThat(Objects.equals(actual.user().profileImageUrl(), expected.get("profileImageId"))).isTrue();
   }
 
   /**

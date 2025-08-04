@@ -9,7 +9,7 @@ import com.threadly.exception.ErrorCode;
 import com.threadly.post.create.CreatePostApiResponse;
 import com.threadly.post.engagement.GetPostEngagementApiResponse;
 import com.threadly.post.get.GetPostDetailApiResponse;
-import com.threadly.post.get.GetPostDetailListApiResponse;
+import com.threadly.post.get.GetPostDetailsApiResponse;
 import com.threadly.post.update.UpdatePostApiResponse;
 import com.threadly.testsupport.fixture.posts.PostFixtureLoader;
 import java.time.LocalDateTime;
@@ -198,13 +198,13 @@ class GetPostApiTest extends BasePostApiTest {
         LocalDateTime cursorPostedAt = null;
         String cursorPostId = null;
 
-        CommonResponse<GetPostDetailListApiResponse> postListResponse1 = sendGetPostListRequest(
+        CommonResponse<GetPostDetailsApiResponse> postListResponse1 = sendGetPostListRequest(
             accessToken, cursorPostedAt, cursorPostId, 10, status().isOk());
 
         cursorPostedAt = postListResponse1.getData().nextCursor().postedAt();
         cursorPostId = postListResponse1.getData().nextCursor().postId();
 
-        CommonResponse<GetPostDetailListApiResponse> postListResponse2 = sendGetPostListRequest(
+        CommonResponse<GetPostDetailsApiResponse> postListResponse2 = sendGetPostListRequest(
             accessToken, cursorPostedAt, cursorPostId, 10, status().isOk());
 
         assertThat(postListResponse1.getData().posts()).hasSize(10);
@@ -234,7 +234,7 @@ class GetPostApiTest extends BasePostApiTest {
         int size = 0;
 
         while (true) {
-          CommonResponse<GetPostDetailListApiResponse> getPostListResponse = sendGetPostListRequest(
+          CommonResponse<GetPostDetailsApiResponse> getPostListResponse = sendGetPostListRequest(
               accessToken, cursorPostedAt, cursorPostId, limit, status().isOk());
           size += getPostListResponse.getData().posts().size();
 

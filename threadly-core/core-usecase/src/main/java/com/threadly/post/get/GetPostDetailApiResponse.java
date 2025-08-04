@@ -1,5 +1,6 @@
 package com.threadly.post.get;
 
+import com.threadly.commons.dto.UserPreview;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -8,9 +9,7 @@ import java.util.List;
  */
 public record GetPostDetailApiResponse(
     String postId,
-    String userId,
-    String userProfileImageUrl,
-    String userNickname,
+    UserPreview author,
     String content,
     List<PostImage> images,
     long viewCount,
