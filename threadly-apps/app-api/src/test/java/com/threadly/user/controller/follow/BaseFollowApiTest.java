@@ -7,6 +7,7 @@ import com.threadly.user.controller.profile.BaseUserProfileApiTest;
 import com.threadly.user.follow.FollowUserApiResponse;
 import com.threadly.user.follow.get.GetFollowRequestsApiResponse;
 import com.threadly.user.follow.get.GetFollowersApiResponse;
+import com.threadly.user.follow.get.GetFollowingsApiResponse;
 import com.threadly.user.request.follow.FollowRequest;
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -70,6 +71,41 @@ public abstract class BaseFollowApiTest extends BaseUserProfileApiTest {
     if (cursorFollowedAt != null || cursorFollowerId != null) {
       path += "&cursor_followed_at=" + cursorFollowedAt + "&cursor_follower_id="
           + cursorFollowerId;
+    }
+    return
+        sendGetRequest(
+            accessToken,
+            path,
+            expectedStatus,
+            new TypeReference<>() {
+            }
+        );
+  }
+
+  /**
+   * 팔로잉 목록 조회 요청
+   *
+   * @param accessToken
+   * @param cursorFollowedAt
+   * @param cursorFollowingId
+   * @param limit
+   * @param expectedStatus
+   * @return
+   */
+  public CommonResponse<GetFollowingsApiResponse> sendGetFollowingsRequest(
+      String accessToken, String targetUserId, LocalDateTime cursorFollowedAt,
+      String cursorFollowingId,
+      int limit,
+      ResultMatcher expectedStatus)
+      throws Exception {
+    String path = "/api/follows/followings?limit=" + limit;
+    if (targetUserId != null) {
+      path += "&user_id=" + targetUserId;
+    }
+
+    if (cursorFollowedAt != null || cursorFollowingId != null) {
+      path += "&cursor_followed_at=" + cursorFollowedAt + "&cursor_following_id="
+          + cursorFollowingId;
     }
     return
         sendGetRequest(

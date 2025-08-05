@@ -50,4 +50,15 @@ public interface FollowQueryPort {
    */
   List<FollowerProjection> findFollowersByCursor(String targetUserId,
       LocalDateTime cursorFollowedAt, String cursorFollowerId, int limit);
+
+  /**
+   * 주어진 targetUserId에 해당하는 사용자의 팔로잉 목록 커서 기반 조회
+   * @param targetUserId
+   * @param cursorFollowedAt
+   * @param cursorFollowingId
+   * @param limit
+   * @return
+   */
+  List<FollowingProjection> findFollowingsByCursor(String targetUserId,
+      LocalDateTime cursorFollowedAt, String cursorFollowingId, int limit);
 }

@@ -8,6 +8,7 @@ import com.threadly.user.follow.FollowCommandPort;
 import com.threadly.user.follow.FollowQueryPort;
 import com.threadly.user.follow.FollowRequestsProjection;
 import com.threadly.user.follow.FollowerProjection;
+import com.threadly.user.follow.FollowingProjection;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -64,5 +65,12 @@ public class UserFollowPersistenceAdapter implements FollowCommandPort, FollowQu
       LocalDateTime cursorFollowedAt, String cursorFollowerId, int limit) {
     return userFollowJpaRepository.findFollowersByCursor(targetUserId, cursorFollowedAt,
         cursorFollowerId, limit);
+  }
+
+  @Override
+  public List<FollowingProjection> findFollowingsByCursor(String targetUserId,
+      LocalDateTime cursorFollowedAt, String cursorFollowingId, int limit) {
+    return userFollowJpaRepository.findFollowingsByCursor(targetUserId, cursorFollowedAt,
+        cursorFollowingId, limit);
   }
 }

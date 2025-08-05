@@ -1,0 +1,15 @@
+package com.threadly.user.follow.get;
+
+import java.time.LocalDateTime;
+
+/**
+ * 커서 기반 팔로앙 목록 조회 쿼리 객체
+ */
+public record GetFollowingsQuery(
+    String targetUserId,
+    LocalDateTime cursorFollowedAt,
+    String cursorFollowingId,
+    int limit
+) {
+
+}

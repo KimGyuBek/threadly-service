@@ -45,7 +45,9 @@ public class GetFollowersApiTest extends BaseFollowApiTest {
    * 6. 팔로워가 있는 사용자의 팔로워 목록 전제 조회 검증
    * 7. 팔로워 목록에서 비활성화 된 사용자가 포함되는지 검증
    * 8. 팔로워 목록에서 탈퇴 된 사용자가 포함 되는지 검증
-   * 9. 다른 사용자의 팔로워 목록 전체 조회 검증
+   * 9. 공개 계정인 사용자의 팔로워 목록 전체 조회 검증
+   * 10.비공개 계정이면서 팔로우 상태인 사용자의 팔로워 목록 전체 조회 검증
+   * 11.비공개 계정이면서 팔로우 상태가 아닌 사용자의 팔로워 목록 전체 조회 실패 검증
    * */
 
 
@@ -221,7 +223,7 @@ public class GetFollowersApiTest extends BaseFollowApiTest {
 
     /*[Case #8] 팔로워 목록에서 탈퇴처리 된 사용자가 포함되는지 검증 */
     @Order(8)
-    @DisplayName("7. 팔로워 목록에서 탈퇴처리 된 사용자가 포함되는지 검증")
+    @DisplayName("8. 팔로워 목록에서 탈퇴처리 된 사용자가 포함되는지 검증")
     @Test
     public void getFollowers_shouldSuccess_08() throws Exception {
       //given
@@ -245,7 +247,7 @@ public class GetFollowersApiTest extends BaseFollowApiTest {
     }
 
 
-    /*[Case #9] 다른 사용자의 팔로워 목록 전체 조회 검증 */
+    /*[Case #9] 공개 계정인 다른 사용자의 팔로워 목록 전체 조회 검증 */
     @Order(9)
     @DisplayName("9. 다른 사용자의 팔로워 목록 전체 조회 검증")
     @Test
@@ -283,6 +285,19 @@ public class GetFollowersApiTest extends BaseFollowApiTest {
       //then
       assertThat(size).isEqualTo(FOLLOW_REQUESTS_SIZE);
     }
+
+    /*[Case #10] 비공개 계정이면서 팔로우 상태인 사용자의 팔로워 목록 전체 조회 검증 */
+    @Order(10)
+    @DisplayName("10. 비공개 계정이면서 팔로우 상태인 사용자의 팔로워 목록 전제 조회 검증")
+    @Test
+    public void getFollowers_shouldSuccess_10() throws Exception {
+      //given
+
+      //when
+
+      //then
+
+    }
   }
 
   @Order(2)
@@ -290,6 +305,19 @@ public class GetFollowersApiTest extends BaseFollowApiTest {
   @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
   @DisplayName("실패")
   class fail {
+
+    /*[Case #1] 비공개 계정이면서 팔로우 상태가 아닌 사용자의 팔로워 목록 전체 조회 실패 검증 */
+    @Order(1)
+    @DisplayName("1. 비공개 계정이면서 팔로우 상태가 아닌 사용자의 팔로워 목록 전체 조회 실패 검증")
+    @Test
+    public void getFollowers_shouldFail_01() throws Exception {
+      //given
+
+      //when
+
+      //then
+
+    }
 
   }
 }

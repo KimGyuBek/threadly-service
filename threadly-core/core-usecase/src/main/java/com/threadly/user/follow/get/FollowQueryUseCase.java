@@ -18,4 +18,11 @@ public interface FollowQueryUseCase {
    * @return
    */
   GetFollowersApiResponse getFollowers(GetFollowersQuery query);
+
+  /**
+   * 커서 기반 팔로잉 목록 조회
+   * @param query
+   * @return
+   */
+  GetFollowingsApiResponse getFollowings(GetFollowingsQuery query);
 }

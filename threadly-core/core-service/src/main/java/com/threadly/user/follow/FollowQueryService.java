@@ -9,6 +9,9 @@ import com.threadly.user.follow.get.GetFollowRequestsQuery;
 import com.threadly.user.follow.get.GetFollowersApiResponse;
 import com.threadly.user.follow.get.GetFollowersApiResponse.FollowerDetails;
 import com.threadly.user.follow.get.GetFollowersQuery;
+import com.threadly.user.follow.get.GetFollowingsApiResponse;
+import com.threadly.user.follow.get.GetFollowingsApiResponse.FollowingDetails;
+import com.threadly.user.follow.get.GetFollowingsQuery;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -101,4 +104,40 @@ public class FollowQueryService implements FollowQueryUseCase {
             cursorFollowerId));
   }
 
+  @Override
+  public GetFollowingsApiResponse getFollowings(GetFollowingsQuery query) {
+    /*팔로워 목록 조회*/
+    List<FollowingDetails> allFollowerList = followQueryPort.findFollowingsByCursor(
+        query.targetUserId(),
+        query.cursorFollowedAt(),
+        query.cursorFollowingId(),
+        query.limit() + 1
+    ).stream().map(
+        projection -> new FollowingDetails(
+            new UserPreview(
+                projection.getFollowingId(),
+                projection.getFollowingNickname(),
+                projection.getFollowingProfileImageUrl()
+            ),
+            projection.getFollowedAt()
+        )
+    ).toList();
+
+    /*다음 페이지가 있는지 검증*/
+    boolean hasNext = allFollowerList.size() > query.limit();
+
+    /*리스트 분할*/
+    List<FollowingDetails> pagedList =
+        hasNext ? allFollowerList.subList(0, query.limit()) : allFollowerList;
+
+    /*커서 지정*/
+    LocalDateTime cursorFollowedAt = hasNext ? pagedList.getLast().followedAt() : null;
+    String cursorFollowerId = hasNext ? pagedList.getLast().following().userId() : null;
+
+    return new GetFollowingsApiResponse(
+        pagedList,
+        new com.threadly.user.follow.get.GetFollowingsApiResponse.NextCursor(
+            cursorFollowedAt,
+            cursorFollowerId));
+  }
 }

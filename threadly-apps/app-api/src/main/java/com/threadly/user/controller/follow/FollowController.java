@@ -8,6 +8,8 @@ import com.threadly.user.follow.get.GetFollowRequestsApiResponse;
 import com.threadly.user.follow.get.GetFollowRequestsQuery;
 import com.threadly.user.follow.get.GetFollowersApiResponse;
 import com.threadly.user.follow.get.GetFollowersQuery;
+import com.threadly.user.follow.get.GetFollowingsApiResponse;
+import com.threadly.user.follow.get.GetFollowingsQuery;
 import com.threadly.user.request.follow.FollowRequest;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
@@ -97,4 +99,32 @@ public class FollowController {
     );
   }
 
+  /**
+   * userId에 해당하는 사용자의 팔로잉 목록 커서 기반 조회
+   * <p>
+   * userId가 없는 경우 인증 객체에서 userId 추출 후 내 팔로잉 목록 조회
+   * </p>
+   *
+   * @param user
+   * @param cursorFollowedAt
+   * @param cursorFollowingId
+   * @param limit
+   * @return
+   */
+  @GetMapping("/followings")
+  public ResponseEntity<GetFollowingsApiResponse> getFollowings(
+      @AuthenticationPrincipal JwtAuthenticationUser user,
+      @RequestParam(value = "user_id", required = false) String targetUserId,
+      @RequestParam(value = "cursor_followed_at", required = false) LocalDateTime cursorFollowedAt,
+      @RequestParam(value = "cursor_following_id", required = false) String cursorFollowingId,
+      @RequestParam(value = "limit", defaultValue = "10") int limit
+  ) {
+
+    return ResponseEntity.status(200).body(followQueryUseCas.getFollowings(
+            new GetFollowingsQuery((targetUserId != null) ? targetUserId : user.getUserId(),
+                cursorFollowedAt, cursorFollowingId, limit
+            )
+        )
+    );
+  }
 }
