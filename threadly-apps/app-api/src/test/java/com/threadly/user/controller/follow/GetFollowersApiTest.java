@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.threadly.CommonResponse;
+import com.threadly.exception.ErrorCode;
 import com.threadly.user.UserStatusType;
 import com.threadly.user.follow.get.GetFollowersApiResponse;
 import com.threadly.utils.TestConstants;
@@ -46,8 +47,8 @@ public class GetFollowersApiTest extends BaseFollowApiTest {
    * 7. 팔로워 목록에서 비활성화 된 사용자가 포함되는지 검증
    * 8. 팔로워 목록에서 탈퇴 된 사용자가 포함 되는지 검증
    * 9. 공개 계정인 사용자의 팔로워 목록 전체 조회 검증
-   * 10.비공개 계정이면서 팔로우 상태인 사용자의 팔로워 목록 전체 조회 검증
-   * 11.비공개 계정이면서 팔로우 상태가 아닌 사용자의 팔로워 목록 전체 조회 실패 검증
+   * 10. 비공개 계정이면서 팔로우 상태인 사용자의 팔로워 목록 전체 조회 검증
+   * 11. 비공개 계정이면서 팔로우 상태가 아닌 사용자의 팔로워 목록 전체 조회 실패 검증
    * */
 
 
@@ -107,7 +108,7 @@ public class GetFollowersApiTest extends BaseFollowApiTest {
 
     /*[Case #3]  팔로우 요청 수락 대기중인 사용자가 팔로워 목록에 포함되는지 검증  */
     @Order(3)
-    @DisplayName("3. 팔로우 요청 수락 대기중인 사용자가 팔로워 목록에 포함되는지 검증")
+    @DisplayName("3. 팔로우 요청 수락 대기중인 사용자가  팔로워 목록에 포함되는지 검증")
     @Test
     public void getFollowers_shouldSuccess_03() throws Exception {
       //given
@@ -292,10 +293,39 @@ public class GetFollowersApiTest extends BaseFollowApiTest {
     @Test
     public void getFollowers_shouldSuccess_10() throws Exception {
       //given
+      /*데이터 로드*/
+      userFixtureLoader.load("/users/follow/followers/target-user.json", UserStatusType.ACTIVE,
+          true);
+      userFollowFixtureLoader.load("/users/follow/followers/user.json",
+          "/users/follow/followers/follow.json");
+      userFollowFixtureLoader.load("/users/follow/followers/users.json",
+          "/users/follow/followers/user-follows.json");
 
+      /*로그인*/
+      String accessToken = getAccessToken(TEST_USER_EMAIL);
       //when
 
+      LocalDateTime cursorFollowedAt = null;
+      String cursorFollowerId = null;
+      int limit = 10;
+      int size = 0;
+
+      while (true) {
+        CommonResponse<GetFollowersApiResponse> getFollowersResponse = sendGetFollowersRequest(
+            accessToken, TARGET_USER_ID, cursorFollowedAt, cursorFollowerId, limit,
+            status().isOk());
+        size += getFollowersResponse.getData().followers().size();
+
+        /*마지막 페이지인 경우*/
+        if (getFollowersResponse.getData().nextCursor().cursorFollowedAt() == null) {
+          break;
+        }
+
+        cursorFollowedAt = getFollowersResponse.getData().nextCursor().cursorFollowedAt();
+        cursorFollowerId = getFollowersResponse.getData().nextCursor().cursorFollowerId();
+      }
       //then
+      assertThat(size).isEqualTo(FOLLOW_REQUESTS_SIZE + 1);
 
     }
   }
@@ -312,10 +342,22 @@ public class GetFollowersApiTest extends BaseFollowApiTest {
     @Test
     public void getFollowers_shouldFail_01() throws Exception {
       //given
+      /*데이터 로드*/
+      userFixtureLoader.load("/users/follow/followers/user.json");
+      userFixtureLoader.load("/users/follow/followers/target-user.json", UserStatusType.ACTIVE,
+          true);
+      userFollowFixtureLoader.load("/users/follow/followers/users.json",
+          "/users/follow/followers/user-follows.json");
 
+      /*로그인*/
+      String accessToken = getAccessToken(TEST_USER_EMAIL);
       //when
 
+      CommonResponse<GetFollowersApiResponse> getFollowersResponse = sendGetFollowersRequest(
+          accessToken, TARGET_USER_ID, null, null, 10,
+          status().isForbidden());
       //then
+      validateFailResponse(getFollowersResponse, ErrorCode.USER_PROFILE_PRIVATE);
 
     }
 

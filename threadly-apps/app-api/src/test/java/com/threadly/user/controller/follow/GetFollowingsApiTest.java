@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.threadly.CommonResponse;
+import com.threadly.exception.ErrorCode;
 import com.threadly.user.UserStatusType;
 import com.threadly.user.follow.get.GetFollowingsApiResponse;
 import com.threadly.utils.TestConstants;
@@ -287,11 +288,40 @@ public class GetFollowingsApiTest extends BaseFollowApiTest {
     @Test
     public void getFollowings_shouldSuccess_10() throws Exception {
       //given
+      /*데이터 로드*/
+      userFixtureLoader.load("/users/follow/followings/target-user.json", UserStatusType.ACTIVE,
+          true);
+      userFollowFixtureLoader.load("/users/follow/followings/user.json",
+          "/users/follow/followings/follow.json"
+      );
+      userFollowFixtureLoader.load("/users/follow/followings/users.json",
+          "/users/follow/followings/followings.json");
 
+      /*로그인*/
+      String accessToken = getAccessToken(TEST_USER_EMAIL);
       //when
+      LocalDateTime cursorFollowedAt = null;
+      String cursorFollowerId = null;
+      int limit = 10;
+      int size = 0;
+
+      while (true) {
+        CommonResponse<GetFollowingsApiResponse> getFollowingsResponse = sendGetFollowingsRequest(
+            accessToken, TEST_USER_ID, cursorFollowedAt, cursorFollowerId, limit, status().isOk()
+        );
+        size += getFollowingsResponse.getData().followings().size();
+
+        /*마지막 페이지인 경우*/
+        if (getFollowingsResponse.getData().nextCursor().cursorFollowedAt() == null) {
+          break;
+        }
+
+        cursorFollowedAt = getFollowingsResponse.getData().nextCursor().cursorFollowedAt();
+        cursorFollowerId = getFollowingsResponse.getData().nextCursor().cursorFollowingId();
+      }
 
       //then
-
+      assertThat(size).isEqualTo(FOLLOW_REQUESTS_SIZE + 1);
     }
   }
 
@@ -307,11 +337,21 @@ public class GetFollowingsApiTest extends BaseFollowApiTest {
     @Test
     public void getFollowings_shouldFail_01() throws Exception {
       //given
+      /*데이터 로드*/
+      userFixtureLoader.load("/users/follow/followings/user.json", UserStatusType.ACTIVE, true);
+      userFollowFixtureLoader.load("/users/follow/followings/users.json",
+          "/users/follow/followings/followings.json");
 
+      /*로그인*/
+      String accessToken = getAccessToken(TestConstants.EMAIL_VERIFIED_USER_1);
       //when
 
-      //then
+      CommonResponse<GetFollowingsApiResponse> getFollowingsResponse = sendGetFollowingsRequest(
+          accessToken, TEST_USER_ID, null, null, 10, status().isForbidden()
+      );
 
+      //then
+      validateFailResponse(getFollowingsResponse, ErrorCode.USER_PROFILE_PRIVATE);
     }
 
   }

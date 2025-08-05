@@ -1,6 +1,6 @@
 [
   {
-    "followId": "follow_1",
+    "followId": "follow_0",
     "followerId": "test_user",
     "followingId": "target_user",
     "status": "APPROVED"

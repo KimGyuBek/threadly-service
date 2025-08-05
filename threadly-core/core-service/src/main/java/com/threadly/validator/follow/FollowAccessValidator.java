@@ -34,9 +34,12 @@ public class FollowAccessValidator {
   public FollowStatusType validateProfileAccessible(String userId, String targetUserId) {
     FollowStatusType followStatusType = followQueryPort.findFollowStatusType(userId, targetUserId)
         .orElse(FollowStatusType.NONE);
-    if (isPrivateUser(targetUserId) && !followStatusType.equals(
-        FollowStatusType.APPROVED)) {
-      throw new UserException(ErrorCode.USER_PROFILE_PRIVATE);
+
+    if (!userId.equals(targetUserId)) {
+      if (isPrivateUser(targetUserId) && !followStatusType.equals(
+          FollowStatusType.APPROVED)) {
+        throw new UserException(ErrorCode.USER_PROFILE_PRIVATE);
+      }
     }
 
     return followStatusType;
