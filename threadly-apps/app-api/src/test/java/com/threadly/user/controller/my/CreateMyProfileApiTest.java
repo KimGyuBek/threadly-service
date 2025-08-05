@@ -15,7 +15,7 @@ import com.threadly.CommonResponse;
 import com.threadly.auth.token.response.LoginTokenApiResponse;
 import com.threadly.exception.ErrorCode;
 import com.threadly.user.UserGenderType;
-import com.threadly.user.profile.register.RegisterMyProfileApiResponse;
+import com.threadly.user.profile.command.dto.RegisterMyProfileApiResponse;
 import java.util.Map;
 import org.junit.jupiter.api.ClassOrderer;
 import org.junit.jupiter.api.DisplayName;

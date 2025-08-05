@@ -7,7 +7,7 @@ import com.threadly.CommonResponse;
 import com.threadly.exception.ErrorCode;
 import com.threadly.user.UserStatusType;
 import com.threadly.user.controller.follow.BaseFollowApiTest;
-import com.threadly.user.profile.get.GetUserProfileApiResponse;
+import com.threadly.user.profile.query.dto.GetUserProfileApiResponse;
 import com.threadly.utils.TestConstants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.ClassOrderer;

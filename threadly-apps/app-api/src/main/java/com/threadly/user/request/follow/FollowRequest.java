@@ -1,6 +1,6 @@
 package com.threadly.user.request.follow;
 
-import com.threadly.user.follow.FollowUserCommand;
+import com.threadly.user.follow.command.dto.FollowUserCommand;
 
 /**
  * 사용자 팔로우 요청 객체

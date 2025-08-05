@@ -1,17 +1,17 @@
 package com.threadly.user.follow;
 
 import com.threadly.commons.dto.UserPreview;
-import com.threadly.user.follow.get.FollowQueryUseCase;
-import com.threadly.user.follow.get.GetFollowRequestsApiResponse;
-import com.threadly.user.follow.get.GetFollowRequestsApiResponse.FollowRequestDetails;
-import com.threadly.user.follow.get.GetFollowRequestsApiResponse.NextCursor;
-import com.threadly.user.follow.get.GetFollowRequestsQuery;
-import com.threadly.user.follow.get.GetFollowersApiResponse;
-import com.threadly.user.follow.get.GetFollowersApiResponse.FollowerDetails;
-import com.threadly.user.follow.get.GetFollowersQuery;
-import com.threadly.user.follow.get.GetFollowingsApiResponse;
-import com.threadly.user.follow.get.GetFollowingsApiResponse.FollowingDetails;
-import com.threadly.user.follow.get.GetFollowingsQuery;
+import com.threadly.user.follow.query.FollowQueryUseCase;
+import com.threadly.user.follow.query.dto.GetFollowRequestsApiResponse;
+import com.threadly.user.follow.query.dto.GetFollowRequestsApiResponse.FollowRequestDetails;
+import com.threadly.user.follow.query.dto.GetFollowRequestsApiResponse.NextCursor;
+import com.threadly.user.follow.query.dto.GetFollowRequestsQuery;
+import com.threadly.user.follow.query.dto.GetFollowersApiResponse;
+import com.threadly.user.follow.query.dto.GetFollowersApiResponse.FollowerDetails;
+import com.threadly.user.follow.query.dto.GetFollowersQuery;
+import com.threadly.user.follow.query.dto.GetFollowingsApiResponse;
+import com.threadly.user.follow.query.dto.GetFollowingsApiResponse.FollowingDetails;
+import com.threadly.user.follow.query.dto.GetFollowingsQuery;
 import com.threadly.validator.follow.FollowAccessValidator;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -105,7 +105,7 @@ public class FollowQueryService implements FollowQueryUseCase {
 
     return new GetFollowersApiResponse(
         pagedList,
-        new com.threadly.user.follow.get.GetFollowersApiResponse.NextCursor(
+        new GetFollowersApiResponse.NextCursor(
             cursorFollowedAt,
             cursorFollowerId));
   }
@@ -145,7 +145,7 @@ public class FollowQueryService implements FollowQueryUseCase {
 
     return new GetFollowingsApiResponse(
         pagedList,
-        new com.threadly.user.follow.get.GetFollowingsApiResponse.NextCursor(
+        new GetFollowingsApiResponse.NextCursor(
             cursorFollowedAt,
             cursorFollowerId));
   }

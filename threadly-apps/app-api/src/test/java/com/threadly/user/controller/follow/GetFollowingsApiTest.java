@@ -6,7 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.threadly.CommonResponse;
 import com.threadly.exception.ErrorCode;
 import com.threadly.user.UserStatusType;
-import com.threadly.user.follow.get.GetFollowingsApiResponse;
+import com.threadly.user.follow.query.dto.GetFollowingsApiResponse;
 import com.threadly.utils.TestConstants;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.ClassOrderer;

@@ -5,8 +5,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.threadly.CommonResponse;
 import com.threadly.exception.ErrorCode;
 import com.threadly.testsupport.fixture.users.UserProfileImageFixtureLoader;
-import com.threadly.user.profile.get.GetMyProfileDetailsApiResponse;
-import com.threadly.user.profile.get.GetUserProfileApiResponse;
+import com.threadly.user.profile.query.dto.GetMyProfileDetailsApiResponse;
+import com.threadly.user.profile.query.dto.GetUserProfileApiResponse;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.ClassOrderer;

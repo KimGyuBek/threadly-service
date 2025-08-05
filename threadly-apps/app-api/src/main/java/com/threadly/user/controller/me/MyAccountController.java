@@ -1,9 +1,9 @@
 package com.threadly.user.controller.me;
 
 import com.threadly.auth.JwtAuthenticationUser;
-import com.threadly.user.account.ChangePasswordUseCase;
-import com.threadly.user.account.DeactivateMyAccountUseCase;
-import com.threadly.user.account.WithdrawMyAccountUseCase;
+import com.threadly.user.account.command.ChangePasswordUseCase;
+import com.threadly.user.account.command.DeactivateMyAccountUseCase;
+import com.threadly.user.account.command.WithdrawMyAccountUseCase;
 import com.threadly.user.request.me.ChangePasswordRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

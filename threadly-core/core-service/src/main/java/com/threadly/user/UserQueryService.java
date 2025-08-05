@@ -2,8 +2,8 @@ package com.threadly.user;
 
 import com.threadly.exception.ErrorCode;
 import com.threadly.exception.user.UserException;
-import com.threadly.user.get.GetUserUseCase;
-import com.threadly.user.get.UserResponse;
+import com.threadly.user.query.GetUserUseCase;
+import com.threadly.user.shared.UserResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
