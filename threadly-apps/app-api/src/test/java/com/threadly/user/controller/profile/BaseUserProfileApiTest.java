@@ -20,13 +20,6 @@ public abstract class BaseUserProfileApiTest extends BaseApiTest {
   @Autowired
   public UserFixtureLoader userFixtureLoader;
 
-//  @BeforeEach
-//  void setUp() {
-//    userFixtureLoader.load(
-//        "/users/profile/user.json"
-//    );
-//  }
-
   //userId
   public static final String USER_ID = "user_with_profile_test";
   public static final String USER2_ID = "user_with_profile_test2";

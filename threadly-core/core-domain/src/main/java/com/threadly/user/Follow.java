@@ -42,9 +42,9 @@ public class Follow {
   }
 
   /**
-   * userStatusType을 REJECTED로 변경
+   * userStatusType을 SELF 변경
    */
-  public void markAsRejected() {
-    this.statusType = FollowStatusType.REJECTED;
+  public void markAsSelf() {
+    this.statusType = FollowStatusType.SELF;
   }
 }

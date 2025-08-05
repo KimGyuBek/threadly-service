@@ -32,6 +32,7 @@ public class FollowApiTest extends BaseFollowApiTest {
    * 3. 존재하지 않는 사용자를 팔로우 요청 하는 경우
    * 4. 탈퇴한 사용자를 팔로우 요청하는 경우
    * 5. 비활성화 상태의 사용자를 팔로우 요청하는 경우
+   * 6. 자신에게 팔로우 요청을 하는 경우 실패 검증
    * */
 
   @TestClassOrder(OrderAnnotation.class)
@@ -154,6 +155,27 @@ public class FollowApiTest extends BaseFollowApiTest {
 
         //then
         validateFailResponse(followUserResponse, ErrorCode.USER_INACTIVE);
+      }
+
+      /*[Case #4] 자신에게 팔로우 요청을 하는 경우 실패 검증*/
+      @Order(4)
+      @DisplayName("4. 자신에게 팔로우 요청을 하는 경우 실패 검증")
+      @Test
+      public void followUser_shouldFail_04() throws Exception {
+        //given
+        /*사용자 데이터 삽입*/
+        userFixtureLoader.load("/users/profile/user.json", UserStatusType.ACTIVE, false);
+
+        /*로그인*/
+        String accessToken = getAccessToken(USER_EMAIL);
+
+        //when
+        /*팔로우 요청*/
+        CommonResponse<FollowUserApiResponse> followUserResponse = sendFollowUserRequest(
+            accessToken, USER_ID, status().isBadRequest());
+
+        //then
+        validateFailResponse(followUserResponse, ErrorCode.SELF_FOLLOW_REQUEST_NOT_ALLOWED);
       }
     }
   }

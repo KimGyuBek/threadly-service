@@ -1,5 +1,6 @@
 package com.threadly.user.follow;
 
+import com.google.common.base.Objects;
 import com.threadly.exception.ErrorCode;
 import com.threadly.exception.user.UserException;
 import com.threadly.user.FetchUserPort;
@@ -26,6 +27,12 @@ public class FollowCommandService implements FollowUserUseCase {
   @Override
   public FollowUserApiResponse followUser(FollowUserCommand command) {
     /*targetUserId 검증*/
+    /*userId와 targetId가 일치 하는 경우*/
+    if (Objects.equal(command.userId(), command.targetUserId())) {
+      throw new UserException(ErrorCode.SELF_FOLLOW_REQUEST_NOT_ALLOWED);
+    }
+
+    /*targetId가 존재하지 않는 경우*/
     User targetUser = fetchUserPort.findByUserId(command.targetUserId())
         .orElseThrow(() -> new UserException(
             ErrorCode.USER_NOT_FOUND));

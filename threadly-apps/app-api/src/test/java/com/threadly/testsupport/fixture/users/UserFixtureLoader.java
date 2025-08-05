@@ -105,7 +105,6 @@ public class UserFixtureLoader {
           break;
       }
 
-//      user.setUserStatusType(userStatusType);
       if (isPrivate) {
         user.markAsPrivate();
       } else {
