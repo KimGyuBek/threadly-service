@@ -1,6 +1,6 @@
 # Followers 테스트 데이터
 
-이 문서는 `/users/follow/followers` 경로에서 사용되는 팔로워 목록 조회 테스트 데이터를 설명합니다.
+이 문서는 `/users/follow/followings` 경로에서 사용되는 팔로잉 목록 조회 테스트 데이터를 설명합니다.
 
 ## 위치
 

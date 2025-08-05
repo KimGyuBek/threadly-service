@@ -5,7 +5,6 @@ import com.threadly.exception.ErrorCode;
 import com.threadly.exception.user.UserException;
 import com.threadly.user.FollowStatusType;
 import com.threadly.user.UserStatusType;
-import com.threadly.user.follow.FollowQueryPort;
 import com.threadly.user.profile.fetch.FetchUserProfilePort;
 import com.threadly.user.profile.fetch.MyProfileDetailsProjection;
 import com.threadly.user.profile.fetch.UserProfileProjection;
@@ -13,6 +12,7 @@ import com.threadly.user.profile.get.GetMyProfileDetailsApiResponse;
 import com.threadly.user.profile.get.GetMyProfileUseCase;
 import com.threadly.user.profile.get.GetUserProfileApiResponse;
 import com.threadly.user.profile.get.GetUserProfileUseCase;
+import com.threadly.validator.follow.FollowAccessValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -28,7 +28,7 @@ public class UserProfileQueryService implements GetUserProfileUseCase, GetMyProf
 
   private final FetchUserProfilePort fetchUserProfilePort;
 
-  private final FollowQueryPort followQueryPort;
+  private final FollowAccessValidator followAccessValidator;
 
   @Override
   public boolean existsUserProfile(String userId) {
@@ -58,12 +58,9 @@ public class UserProfileQueryService implements GetUserProfileUseCase, GetMyProf
     }
 
     /*팔로우 유무 검증*/
-    FollowStatusType followStatusType = followQueryPort.findFollowStatusType(userId, targetUserId)
-        .orElse(FollowStatusType.NONE);
-    if (userProfileProjection.getIsPrivate() && !followStatusType.equals(
-        FollowStatusType.APPROVED)) {
-      throw new UserException(ErrorCode.USER_PROFILE_PRIVATE);
-    }
+    FollowStatusType followStatusType = followAccessValidator.validateProfileAccessible(userId,
+        targetUserId,
+        userProfileProjection.getIsPrivate());
 
     return new GetUserProfileApiResponse(
         new UserPreview(

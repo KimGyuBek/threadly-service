@@ -1,4 +1,4 @@
-package com.threadly.post.image.validator;
+package com.threadly.validator.image;
 
 import com.threadly.exception.ErrorCode;
 import com.threadly.exception.post.PostImageException;

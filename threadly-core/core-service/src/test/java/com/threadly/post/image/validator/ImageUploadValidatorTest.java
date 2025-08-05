@@ -9,6 +9,7 @@ import com.threadly.exception.post.PostImageException;
 import com.threadly.file.UploadImage;
 import com.threadly.post.image.helper.image.UploadImageFactory;
 import com.threadly.properties.UploadProperties;
+import com.threadly.validator.image.ImageUploadValidator;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
