@@ -36,7 +36,13 @@ public enum ErrorCode {
   USER_NICKNAME_DUPLICATED("TLY2020", "이미 존재하는 닉네임입니다.", HttpStatus.CONFLICT),
   USER_PROFILE_PRIVATE("TLY2021", "비공개 계정입니다.", HttpStatus.FORBIDDEN),
   USER_BANNED("TLY2022", "운영자에 의해 차단된 계정입니다.", HttpStatus.FORBIDDEN),
+
+  /*User Profile*/
+
+  /*Follow*/
   SELF_FOLLOW_REQUEST_NOT_ALLOWED("TLY2023", "자신에게는 팔로우 요청을 할 수 없습니다.", HttpStatus.BAD_REQUEST),
+  FOLLOW_REQUEST_NOT_FOUND("TLY2024", "존재하지 않는 팔로우 요청입니다.", HttpStatus.NOT_FOUND),
+  FOLLOW_REQUEST_FORBIDDEN("TLY2025", "팔로우 요청에 대한 권한이 없습니다.", HttpStatus.FORBIDDEN),
 
   /*Token*/
   TOKEN_EXPIRED("TLY3000", "토큰이 만료되었습니다.", HttpStatus.UNAUTHORIZED),

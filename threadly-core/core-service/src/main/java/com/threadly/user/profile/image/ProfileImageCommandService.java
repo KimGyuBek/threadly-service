@@ -7,6 +7,8 @@ import com.threadly.file.UploadImage;
 import com.threadly.image.ImageStatus;
 import com.threadly.image.UploadImagePort;
 import com.threadly.image.UploadImageResponse;
+import com.threadly.user.profile.image.dto.SetMyProfileImageCommand;
+import com.threadly.user.profile.image.dto.UploadMyProfileImageApiResponse;
 import com.threadly.validator.image.ImageAspectRatioValidator;
 import com.threadly.validator.image.ImageUploadValidator;
 import java.util.List;

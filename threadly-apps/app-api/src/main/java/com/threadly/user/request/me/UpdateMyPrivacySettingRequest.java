@@ -1,6 +1,6 @@
 package com.threadly.user.request.me;
 
-import com.threadly.user.profile.update.UpdateMyPrivacySettingCommand;
+import com.threadly.user.profile.command.dto.UpdateMyPrivacySettingCommand;
 
 /**
  * 내 계정 비공개 처리 요청 객체

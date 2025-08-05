@@ -1,6 +1,6 @@
 package com.threadly.auth.verification;
 
-import com.threadly.user.profile.register.RegisterMyProfileApiResponse;
+import com.threadly.user.profile.command.dto.RegisterMyProfileApiResponse;
 
 /**
  * 임시

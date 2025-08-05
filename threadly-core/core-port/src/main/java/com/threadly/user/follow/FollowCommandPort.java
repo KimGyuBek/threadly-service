@@ -1,6 +1,6 @@
 package com.threadly.user.follow;
 
-import com.threadly.user.Follow;
+import com.threadly.follow.Follow;
 
 /**
  * 팔로우 command port
@@ -15,16 +15,17 @@ public interface FollowCommandPort {
   void createFollow(Follow follow);
 
   /**
-   * 팔로우 승인
-   * @param followId
+   * 팔로우 상태 변경
+   * @param follow
    */
-  void approveFollow(String followId);
+  void updateFollowStatus(Follow follow);
 
   /**
-   * 팔로우 거절
+   * 주어진 followId에 해당하는 follow 삭제
    * @param followId
    */
-  void rejectFollow(String followId);
+  void deleteFollow(String followId);
+
 
 
 }

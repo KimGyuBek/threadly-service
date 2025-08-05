@@ -2,8 +2,8 @@ package com.threadly.validator.follow;
 
 import com.threadly.exception.ErrorCode;
 import com.threadly.exception.user.UserException;
+import com.threadly.follow.FollowStatusType;
 import com.threadly.user.FetchUserPort;
-import com.threadly.user.FollowStatusType;
 import com.threadly.user.follow.FollowQueryPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -32,14 +32,16 @@ public class FollowAccessValidator {
    * @throws UserException
    */
   public FollowStatusType validateProfileAccessible(String userId, String targetUserId) {
+    if (userId.equals(targetUserId)) {
+      return FollowStatusType.SELF;
+    }
+
     FollowStatusType followStatusType = followQueryPort.findFollowStatusType(userId, targetUserId)
         .orElse(FollowStatusType.NONE);
 
-    if (!userId.equals(targetUserId)) {
-      if (isPrivateUser(targetUserId) && !followStatusType.equals(
-          FollowStatusType.APPROVED)) {
-        throw new UserException(ErrorCode.USER_PROFILE_PRIVATE);
-      }
+    if (isPrivateUser(targetUserId) && !followStatusType.equals(
+        FollowStatusType.APPROVED)) {
+      throw new UserException(ErrorCode.USER_PROFILE_PRIVATE);
     }
 
     return followStatusType;

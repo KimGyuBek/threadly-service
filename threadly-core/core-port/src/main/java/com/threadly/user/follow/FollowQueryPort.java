@@ -1,6 +1,7 @@
 package com.threadly.user.follow;
 
-import com.threadly.user.FollowStatusType;
+import com.threadly.follow.Follow;
+import com.threadly.follow.FollowStatusType;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -61,4 +62,11 @@ public interface FollowQueryPort {
    */
   List<FollowingProjection> findFollowingsByCursor(String targetUserId,
       LocalDateTime cursorFollowedAt, String cursorFollowingId, int limit);
+
+  /**
+   * 주어진 followId와 followStatusType에 해당하는 follow 조회
+   * @param followId
+   * @return
+   */
+  Optional<Follow> findByIdAndStatusType(String followId, FollowStatusType followStatusType);
 }

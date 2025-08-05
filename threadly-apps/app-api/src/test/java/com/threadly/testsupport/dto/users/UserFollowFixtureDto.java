@@ -1,7 +1,7 @@
 package com.threadly.testsupport.dto.users;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.threadly.user.FollowStatusType;
+import com.threadly.follow.FollowStatusType;
 import lombok.Data;
 
 /**

@@ -6,9 +6,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.threadly.BaseApiTest;
 import com.threadly.CommonResponse;
 import com.threadly.testsupport.fixture.users.UserFixtureLoader;
-import com.threadly.user.profile.get.GetUserProfileApiResponse;
+import com.threadly.user.profile.query.dto.GetUserProfileApiResponse;
 import java.util.Map;
-import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.ResultMatcher;
 
