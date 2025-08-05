@@ -92,7 +92,8 @@ public class FollowController {
   ) {
 
     return ResponseEntity.status(200).body(followQueryUseCas.getFollowers(
-            new GetFollowersQuery((targetUserId != null) ? targetUserId : user.getUserId(),
+            new GetFollowersQuery(user.getUserId(),
+                (targetUserId != null) ? targetUserId : user.getUserId(),
                 cursorFollowedAt, cursorFollowerId, limit
             )
         )
@@ -121,7 +122,8 @@ public class FollowController {
   ) {
 
     return ResponseEntity.status(200).body(followQueryUseCas.getFollowings(
-            new GetFollowingsQuery((targetUserId != null) ? targetUserId : user.getUserId(),
+            new GetFollowingsQuery(user.getUserId(),
+                (targetUserId != null) ? targetUserId : user.getUserId(),
                 cursorFollowedAt, cursorFollowingId, limit
             )
         )

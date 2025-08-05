@@ -12,6 +12,7 @@ import com.threadly.user.follow.get.GetFollowersQuery;
 import com.threadly.user.follow.get.GetFollowingsApiResponse;
 import com.threadly.user.follow.get.GetFollowingsApiResponse.FollowingDetails;
 import com.threadly.user.follow.get.GetFollowingsQuery;
+import com.threadly.validator.follow.FollowAccessValidator;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class FollowQueryService implements FollowQueryUseCase {
 
   private final FollowQueryPort followQueryPort;
+
+  private final FollowAccessValidator followAccessValidator;
 
   @Transactional(readOnly = true)
   @Override
@@ -66,9 +69,12 @@ public class FollowQueryService implements FollowQueryUseCase {
     );
   }
 
-  @Transactional
+  @Transactional(readOnly = true)
   @Override
   public GetFollowersApiResponse getFollowers(GetFollowersQuery query) {
+    /*접근 가능 여부 검증*/
+    followAccessValidator.validateProfileAccessible(query.userId(), query.targetUserId());
+    
     /*팔로워 목록 조회*/
     List<FollowerDetails> allFollowerList = followQueryPort.findFollowersByCursor(
         query.targetUserId(),

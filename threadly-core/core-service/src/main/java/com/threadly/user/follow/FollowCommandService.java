@@ -26,7 +26,7 @@ public class FollowCommandService implements FollowUserUseCase {
   @Transactional
   @Override
   public FollowUserApiResponse followUser(FollowUserCommand command) {
-    /*targetUserId 검증*/
+    /*userId 검증*/
     /*userId와 targetId가 일치 하는 경우*/
     if (Objects.equal(command.userId(), command.targetUserId())) {
       throw new UserException(ErrorCode.SELF_FOLLOW_REQUEST_NOT_ALLOWED);

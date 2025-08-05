@@ -59,8 +59,7 @@ public class UserProfileQueryService implements GetUserProfileUseCase, GetMyProf
 
     /*팔로우 유무 검증*/
     FollowStatusType followStatusType = followAccessValidator.validateProfileAccessible(userId,
-        targetUserId,
-        userProfileProjection.getIsPrivate());
+        targetUserId);
 
     return new GetUserProfileApiResponse(
         new UserPreview(

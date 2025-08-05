@@ -2,6 +2,7 @@ package com.threadly.validator.follow;
 
 import com.threadly.exception.ErrorCode;
 import com.threadly.exception.user.UserException;
+import com.threadly.user.FetchUserPort;
 import com.threadly.user.FollowStatusType;
 import com.threadly.user.follow.FollowQueryPort;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Component;
 public class FollowAccessValidator {
 
   private final FollowQueryPort followQueryPort;
+  private final FetchUserPort fetchUserPort;
 
 
   /**
@@ -26,20 +28,28 @@ public class FollowAccessValidator {
    *
    * @param userId
    * @param targetUserId
-   * @param isPrivate
    * @return followStatusType
    * @throws UserException
    */
-  public FollowStatusType validateProfileAccessible(String userId, String targetUserId,
-      boolean isPrivate) {
+  public FollowStatusType validateProfileAccessible(String userId, String targetUserId) {
     FollowStatusType followStatusType = followQueryPort.findFollowStatusType(userId, targetUserId)
         .orElse(FollowStatusType.NONE);
-    if (isPrivate && !followStatusType.equals(
+    if (isPrivateUser(targetUserId) && !followStatusType.equals(
         FollowStatusType.APPROVED)) {
       throw new UserException(ErrorCode.USER_PROFILE_PRIVATE);
     }
 
     return followStatusType;
+  }
+
+  /**
+   * 주어진 targetUserId에 해당하는 사용자의 계정 공개유무 조회
+   *
+   * @param targetUserId
+   * @return
+   */
+  private boolean isPrivateUser(String targetUserId) {
+    return fetchUserPort.isUserPrivate(targetUserId);
   }
 
 }
