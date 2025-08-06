@@ -41,7 +41,7 @@ public enum ErrorCode {
 
   /*Follow*/
   SELF_FOLLOW_REQUEST_NOT_ALLOWED("TLY2023", "자신에게는 팔로우 요청을 할 수 없습니다.", HttpStatus.BAD_REQUEST),
-  FOLLOW_REQUEST_NOT_FOUND("TLY2024", "존재하지 않는 팔로우 요청입니다.", HttpStatus.NOT_FOUND),
+  FOLLOW_RELATION_NOT_FOUND("TLY2024", "팔로우 관계가 존재하지 않습니다.", HttpStatus.NOT_FOUND),
   FOLLOW_REQUEST_FORBIDDEN("TLY2025", "팔로우 요청에 대한 권한이 없습니다.", HttpStatus.FORBIDDEN),
 
   /*Token*/

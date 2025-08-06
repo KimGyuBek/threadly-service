@@ -84,7 +84,7 @@ public class FollowCommandService implements FollowCommandUseCase {
     /*팔로우 요청 조회*/
     Follow follow = followQueryPort.findByIdAndStatusType(command.followId(),
             FollowStatusType.PENDING)
-        .orElseThrow(() -> new FollowException(ErrorCode.FOLLOW_REQUEST_NOT_FOUND));
+        .orElseThrow(() -> new FollowException(ErrorCode.FOLLOW_RELATION_NOT_FOUND));
 
     /*내가 받은 팔로우 요청이 아닌 경우*/
     if (!follow.getFollowingId().equals(command.userId())) {
@@ -106,7 +106,7 @@ public class FollowCommandService implements FollowCommandUseCase {
     /*팔로우 요청 조회*/
     Follow follow = followQueryPort.findByIdAndStatusType(command.followId(),
             FollowStatusType.PENDING)
-        .orElseThrow(() -> new FollowException(ErrorCode.FOLLOW_REQUEST_NOT_FOUND));
+        .orElseThrow(() -> new FollowException(ErrorCode.FOLLOW_RELATION_NOT_FOUND));
 
     /*내가 받은 팔로우 요청이 아닌 경우*/
     if (!follow.getFollowingId().equals(command.userId())) {
@@ -174,7 +174,7 @@ public class FollowCommandService implements FollowCommandUseCase {
 
     /*팔로우 요청이 존재하지 않는 경우*/
     if (!exists) {
-      throw new FollowException(ErrorCode.FOLLOW_REQUEST_NOT_FOUND);
+      throw new FollowException(ErrorCode.FOLLOW_RELATION_NOT_FOUND);
     }
   }
 }

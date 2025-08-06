@@ -104,7 +104,7 @@ public class HandleFollowRequestApiTest extends BaseFollowApiTest {
             status().isNotFound());
 
         //then
-        validateFailResponse(approveFollowResponse, ErrorCode.FOLLOW_REQUEST_NOT_FOUND);
+        validateFailResponse(approveFollowResponse, ErrorCode.FOLLOW_RELATION_NOT_FOUND);
       }
 
       /*[Case #2] 내가 받은 팔로우 요청이 아닌 경우 실패 검증*/
@@ -155,7 +155,7 @@ public class HandleFollowRequestApiTest extends BaseFollowApiTest {
             status().isNotFound());
 
         //then
-        validateFailResponse(approveFollowRequestResponse, ErrorCode.FOLLOW_REQUEST_NOT_FOUND);
+        validateFailResponse(approveFollowRequestResponse, ErrorCode.FOLLOW_RELATION_NOT_FOUND);
       }
 
     }
@@ -231,7 +231,7 @@ public class HandleFollowRequestApiTest extends BaseFollowApiTest {
             status().isNotFound());
 
         //then
-        validateFailResponse(approveFollowResponse, ErrorCode.FOLLOW_REQUEST_NOT_FOUND);
+        validateFailResponse(approveFollowResponse, ErrorCode.FOLLOW_RELATION_NOT_FOUND);
       }
 
       /*[Case #2] 내가 받은 팔로우 요청이 아닌 경우 실패 검증*/
@@ -282,11 +282,8 @@ public class HandleFollowRequestApiTest extends BaseFollowApiTest {
             status().isNotFound());
 
         //then
-        validateFailResponse(approveFollowRequestResponse, ErrorCode.FOLLOW_REQUEST_NOT_FOUND);
+        validateFailResponse(approveFollowRequestResponse, ErrorCode.FOLLOW_RELATION_NOT_FOUND);
       }
-
     }
-
-
   }
 }

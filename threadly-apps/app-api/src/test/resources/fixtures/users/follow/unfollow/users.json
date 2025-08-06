@@ -1,0 +1,50 @@
+[
+  {
+    "userId": "usr1",
+    "userName": "sunset_gazer_1",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "sunset_gazer1@threadly.com",
+    "phone": "010-3178-6830",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "sunset_gazer",
+      "statusMessage": "혼자가 좋은",
+      "bio": "아침형 인간",
+      "gender": "MALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "usr2",
+    "userName": "sky_gazer_2",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "sky_gazer2@threadly.com",
+    "phone": "010-3014-5653",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "sky_gazer",
+      "statusMessage": "기록하는 삶",
+      "bio": "고양이 집사",
+      "gender": "MALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "usr3",
+    "userName": "book_worm_3",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "book_worm3@threadly.com",
+    "phone": "010-3871-7464",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "book_worm",
+      "statusMessage": "나만의 시간",
+      "bio": "강아지 산책러",
+      "gender": "MALE",
+      "profileType": "USER"
+    }
+  }
+]

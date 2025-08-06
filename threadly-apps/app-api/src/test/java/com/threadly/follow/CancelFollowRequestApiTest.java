@@ -35,9 +35,6 @@ public class CancelFollowRequestApiTest extends BaseFollowApiTest {
   public static final String FOLLOWING_USER_ID = "usr3";
   public static final String FOLLOWING_USER_EMAIL = "book_worm3@threadly.com";
 
-  // follows.json
-  public static final String APPROVED_FOLLOW_ID = "approve_follow";
-  public static final String PENDING_FOLLOW_ID = "pending_follow";
   /*
    * 1. 정상적인 팔로우 요청 취소인 경우 성공
    * 2. PENDING 상태가 아닌 팔로우를 취소 요청 할 경우
@@ -110,7 +107,7 @@ public class CancelFollowRequestApiTest extends BaseFollowApiTest {
       );
 
       //then
-      validateFailResponse(cancelFollowRequestResponse, ErrorCode.FOLLOW_REQUEST_NOT_FOUND);
+      validateFailResponse(cancelFollowRequestResponse, ErrorCode.FOLLOW_RELATION_NOT_FOUND);
     }
 
     /*[Case #2]  존재하지 않는 팔로우 관계에 대해서 요청 취소를 할 경우 실패 검증*/
@@ -126,7 +123,7 @@ public class CancelFollowRequestApiTest extends BaseFollowApiTest {
       );
 
       //then
-      validateFailResponse(cancelFollowRequestResponse, ErrorCode.FOLLOW_REQUEST_NOT_FOUND);
+      validateFailResponse(cancelFollowRequestResponse, ErrorCode.FOLLOW_RELATION_NOT_FOUND);
     }
 
     /*[Case #3] 이미 취소 처리된 팔로우 요청에 대해서 취소 요청 할 경우 실패 검증*/
@@ -152,7 +149,7 @@ public class CancelFollowRequestApiTest extends BaseFollowApiTest {
       );
 
       //then
-      validateFailResponse(cancelFollowRequestResponse, ErrorCode.FOLLOW_REQUEST_NOT_FOUND);
+      validateFailResponse(cancelFollowRequestResponse, ErrorCode.FOLLOW_RELATION_NOT_FOUND);
 
     }
   }
