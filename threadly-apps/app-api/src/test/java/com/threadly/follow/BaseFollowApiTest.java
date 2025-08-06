@@ -198,6 +198,7 @@ public abstract class BaseFollowApiTest extends BaseUserProfileApiTest {
 
   /**
    * 팔로우 요청 취소 요청
+   *
    * @param accessToken
    * @param targetUserId
    * @param expectedStatus
@@ -210,6 +211,49 @@ public abstract class BaseFollowApiTest extends BaseUserProfileApiTest {
     return
         sendDeleteRequest(
             "", "/api/follows/requests/" + targetUserId,
+            expectedStatus,
+            new TypeReference<>() {
+            },
+            Map.of("Authorization", "Bearer " + accessToken)
+        );
+  }
+
+  /**
+   * 주어진 targetUserId에 해당하는 사용자 언팔로우 요청
+   *
+   * @param accessToken
+   * @param targetUserId
+   * @param expectedStatus
+   * @return
+   * @throws Exception
+   */
+  public CommonResponse<Void> sendUnfollowUser(String accessToken, String targetUserId,
+      ResultMatcher expectedStatus)
+      throws Exception {
+    return
+        sendDeleteRequest(
+            "", "/api/follows/following/" + targetUserId,
+            expectedStatus,
+            new TypeReference<>() {
+            },
+            Map.of("Authorization", "Bearer " + accessToken)
+        );
+  }
+
+  /**
+   * 주어진 targetUserId에 해당하는 사용자 팔로워 삭제 요청
+   * @param accessToken
+   * @param targetUserId
+   * @param expectedStatus
+   * @return
+   * @throws Exception
+   */
+  public CommonResponse<Void> sendRemoveFollower(String accessToken, String targetUserId,
+      ResultMatcher expectedStatus)
+      throws Exception {
+    return
+        sendDeleteRequest(
+            "", "/api/follows/followers/" + targetUserId,
             expectedStatus,
             new TypeReference<>() {
             },

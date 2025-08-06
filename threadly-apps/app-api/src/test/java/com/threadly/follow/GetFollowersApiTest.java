@@ -5,8 +5,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.threadly.CommonResponse;
 import com.threadly.exception.ErrorCode;
-import com.threadly.user.UserStatusType;
 import com.threadly.follow.query.dto.GetFollowersApiResponse;
+import com.threadly.user.UserStatusType;
 import com.threadly.utils.TestConstants;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.ClassOrderer;
@@ -41,8 +41,8 @@ public class GetFollowersApiTest extends BaseFollowApiTest {
    * 1. 팔로워가 없는 사용자의 팔로워 목록 조회 요청 검증
    * 2. 팔로우 요청 후 해당 사용자가 팔로워 목록에 포함되는지 검증
    * 3. 팔로우 요청 수락 대기중인 사용자가 팔로워 목록에 포함되는지 검증
-   * 4. 팔로우 취소 후 해당 사용자가 팔로워 목록에 포함되는지 검증
-   * 5. 팔로워 삭제 후 해당 사용자가 팔로워 목록에 포함되는지 검증
+   * 4. 언팔로우 후 상대방의 목록에서 제거되는지 검증
+   * 5. 팔로워 삭제 후 팔로워 목록에 상대방이 제거되는지 검증
    * 6. 팔로워가 있는 사용자의 팔로워 목록 전제 조회 검증
    * 7. 팔로워 목록에서 비활성화 된 사용자가 포함되는지 검증
    * 8. 팔로워 목록에서 탈퇴 된 사용자가 포함 되는지 검증
@@ -133,29 +133,68 @@ public class GetFollowersApiTest extends BaseFollowApiTest {
       assertThat(getFollowersResponse.getData().followers()).isEmpty();
     }
 
-    /*[Case #4]  팔로우 취소 후 해당 사용자가 팔로워 목록에 포함되는지 검증  */
+    /*[Case #4] 언팔로우 후 상대방의 팔로워 목록에서 제거되는지 검증   */
     @Order(4)
-    @DisplayName("4. 팔로우 취소 후 해당 사용자가 팔로워 목록에 포함되는지 검증")
+    @DisplayName("4. 언팔로우 후 상대방의 팔로워 목록에서 제거되는지 검증")
     @Test
     public void getFollowers_shouldSuccess_04() throws Exception {
       //given
+      /*데이터 삽입*/
+      userFixtureLoader.load("/users/follow/followers/user.json");
+      userFollowFixtureLoader.load(
+          "/users/follow/followers/target-user.json",
+          "/users/follow/followers/follow.json"
+      );
 
       //when
+      /*팔로워 목록 조회 요청*/
+      CommonResponse<GetFollowersApiResponse> getFollowersResponse1 = sendGetFollowersRequest(
+          getAccessToken(TARGET_USER_EMAIL), null, null, null, 10, status().isOk());
+
+      sendUnfollowUser(getAccessToken(TEST_USER_EMAIL), TARGET_USER_ID, status().isOk());
+
+      /*팔로워 목록 조회 요청*/
+      CommonResponse<GetFollowersApiResponse> getFollowersResponse2 = sendGetFollowersRequest(
+          getAccessToken(TARGET_USER_EMAIL), null, null, null, 10, status().isOk());
 
       //then
-
+      assertThat(getFollowersResponse1.getData().followers().size()).isEqualTo(
+          getFollowersResponse2.getData().followers().size() + 1
+      );
     }
 
-    /*[Case #5]  팔로워 삭제 후 해당 사용자가 팔로워 목록에 포함되는지 검증 */
+    /*[Case #5]  팔로워 삭제 후 상대방이 팔로워 목록에서 제거되는지 검증 */
     @Order(5)
-    @DisplayName("5. 팔로워 삭제 후 해당 사용자가 팔로워 목록에 포함되는지 검증")
+    @DisplayName("5. 팔로워 삭제 후 상대방이 팔로워 목록에서 제거되는지 검증")
     @Test
     public void getFollowers_shouldSuccess_05() throws Exception {
       //given
+      /*데이터 삽입*/
+      userFixtureLoader.load("/users/follow/followers/user.json");
+      userFollowFixtureLoader.load(
+          "/users/follow/followers/target-user.json",
+          "/users/follow/followers/follow.json"
+      );
 
       //when
+      String accessToken = getAccessToken(TARGET_USER_EMAIL);
+
+      /*팔로워 목록 조회*/
+      CommonResponse<GetFollowersApiResponse> getFollowersResponse1 = sendGetFollowersRequest(
+          accessToken, null, null, null, 10, status().isOk());
+
+      /*팔로워 삭제 요청*/
+      CommonResponse<Void> removeFollowerResponse = sendRemoveFollower(
+          accessToken, TEST_USER_ID, status().isOk());
+
+      /*팔로워 목록 재조회*/
+      CommonResponse<GetFollowersApiResponse> getFollowersResponse2 = sendGetFollowersRequest(
+          accessToken, null, null, null, 10, status().isOk());
 
       //then
+      assertThat(getFollowersResponse1.getData().followers().size()).isEqualTo(
+          getFollowersResponse2.getData().followers().size() + 1
+      );
 
     }
 

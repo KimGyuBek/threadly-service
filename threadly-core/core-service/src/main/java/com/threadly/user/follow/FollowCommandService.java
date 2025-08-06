@@ -121,31 +121,60 @@ public class FollowCommandService implements FollowCommandUseCase {
   @Transactional
   @Override
   public void cancelFollowRequest(FollowRelationCommand command) {
-    /*팔로우 요청 조회*/
-    boolean exists = followQueryPort.existsByFollowerIdAndFollowingIdAndStatusType(command.userId(),
-        command.targetUserId(), FollowStatusType.PENDING);
+    /*command 검증*/
+    validateFollow(command.userId(), command.targetUserId(), FollowStatusType.PENDING);
 
-    /*팔로우 요청이 존재하지 않는 경우*/
-    if (!exists) {
-      throw new FollowException(ErrorCode.FOLLOW_REQUEST_NOT_FOUND);
-    }
-
-    /*삭제*/
+    /*팔로우 요청 삭제*/
     followCommandPort.deleteByFollowerIdAndFollowingIdAndStatusType(
         command.userId(), command.targetUserId(), FollowStatusType.PENDING
     );
     log.info("팔로우 요청 삭제 : {} -> {}", command.userId(), command.targetUserId());
   }
 
+
   @Transactional
   @Override
   public void unfollowUser(FollowRelationCommand command) {
+    /*command 검증*/
+    validateFollow(command.userId(), command.targetUserId(), FollowStatusType.APPROVED);
 
+    /*팔로잉 삭제*/
+    followCommandPort.deleteByFollowerIdAndFollowingIdAndStatusType(
+        command.userId(), command.targetUserId(), FollowStatusType.APPROVED
+    );
+    log.info("팔로잉 삭제 : {} -> {}", command.userId(), command.targetUserId());
   }
 
   @Transactional
   @Override
   public void removeFollower(FollowRelationCommand command) {
+    /*command 검증*/
+    validateFollow(command.targetUserId(), command.userId(), FollowStatusType.APPROVED);
 
+    /*팔로워 삭제*/
+    followCommandPort.deleteByFollowerIdAndFollowingIdAndStatusType(
+        command.targetUserId(), command.userId(), FollowStatusType.APPROVED
+    );
+    log.info("팔로워 삭제 : {} -> {}", command.targetUserId(), command.userId());
+  }
+
+  /**
+   * 주어진 commnad에 해당하는 팔로우 조회 후 존재 하지 않을 경우 예외 발생
+   *
+   * @param followerId
+   * @param followingId
+   * @param followStatusType
+   * @throws FollowException
+   */
+  private void validateFollow(String followerId, String followingId,
+      FollowStatusType followStatusType) {
+    /*팔로우 요청 조회*/
+    boolean exists = followQueryPort.existsByFollowerIdAndFollowingIdAndStatusType(followerId,
+        followingId, followStatusType);
+
+    /*팔로우 요청이 존재하지 않는 경우*/
+    if (!exists) {
+      throw new FollowException(ErrorCode.FOLLOW_REQUEST_NOT_FOUND);
+    }
   }
 }

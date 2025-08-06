@@ -229,7 +229,6 @@ public class GetFollowRequestsApiTest extends BaseFollowApiTest {
   @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
   @DisplayName("실패")
   class fail {
-    /*[Case #1] 존재하지 않는 */
 
   }
 

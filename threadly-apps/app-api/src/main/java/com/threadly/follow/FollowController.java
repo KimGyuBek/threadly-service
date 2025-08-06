@@ -171,7 +171,7 @@ public class FollowController {
   /**
    * 주어진 followId에 해당하는 팔로우 요청 삭제
    *
-   * @param followId
+   * @param targetUserId
    * @param user
    * @return
    */
