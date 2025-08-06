@@ -2,6 +2,7 @@ package com.threadly.follow;
 
 import com.threadly.auth.JwtAuthenticationUser;
 import com.threadly.follow.command.FollowCommandUseCase;
+import com.threadly.follow.command.dto.FollowRelationCommand;
 import com.threadly.follow.command.dto.FollowUserApiResponse;
 import com.threadly.follow.command.dto.HandleFollowRequestCommand;
 import com.threadly.follow.query.FollowQueryUseCase;
@@ -166,4 +167,49 @@ public class FollowController {
         )
     );
   }
+
+  /**
+   * 주어진 followId에 해당하는 팔로우 요청 삭제
+   *
+   * @param followId
+   * @param user
+   * @return
+   */
+  @DeleteMapping("/requests/{targetUserId}")
+  public ResponseEntity<Void> cancelFollowRequest(@PathVariable("targetUserId") String targetUserId,
+      @AuthenticationPrincipal JwtAuthenticationUser user) {
+    followCommandUseCase.cancelFollowRequest(
+        new FollowRelationCommand(user.getUserId(), targetUserId));
+    return ResponseEntity.status(200).build();
+  }
+
+  /**
+   * 사용자 언팔로우
+   *
+   * @param followingUserId *
+   * @param user
+   * @return
+   */
+  @DeleteMapping("/following/{followingUserId}")
+  public ResponseEntity<Void> unfollowUser(@PathVariable("followingUserId") String followingUserId,
+      @AuthenticationPrincipal JwtAuthenticationUser user) {
+    followCommandUseCase.unfollowUser(new FollowRelationCommand(user.getUserId(), followingUserId));
+    return ResponseEntity.status(200).build();
+  }
+
+
+  /**
+   * 팔로워 삭제
+   *
+   * @param followerId
+   * @param user
+   * @return
+   */
+  @DeleteMapping("/followers/{followerId}")
+  public ResponseEntity<Void> removeFollower(@PathVariable("followerId") String followerId,
+      @AuthenticationPrincipal JwtAuthenticationUser user) {
+    followCommandUseCase.removeFollower(new FollowRelationCommand(user.getUserId(), followerId));
+    return ResponseEntity.status(200).build();
+  }
+
 }

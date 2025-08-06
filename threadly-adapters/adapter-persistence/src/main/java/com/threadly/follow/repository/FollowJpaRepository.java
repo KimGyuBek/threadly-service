@@ -1,7 +1,8 @@
 package com.threadly.follow.repository;
 
-import com.threadly.follow.entity.FollowEntity;
 import com.threadly.follow.FollowStatusType;
+import com.threadly.follow.entity.FollowEntity;
+import com.threadly.user.entity.UserEntity;
 import com.threadly.user.follow.FollowRequestsProjection;
 import com.threadly.user.follow.FollowerProjection;
 import com.threadly.user.follow.FollowingProjection;
@@ -170,4 +171,43 @@ public interface FollowJpaRepository extends JpaRepository<FollowEntity, String>
       """)
   Optional<FollowEntity> findByFollowIdAndStatusType(@Param("followId") String followId,
       @Param("statusType") FollowStatusType statusType);
+
+  /**
+   * 주어진 파라미터에 해당하는 팔로우 삭제
+   *
+   * @param followerId
+   * @param followingId
+   * @param statusType
+   */
+  @Modifying
+  @Query("""
+      delete from FollowEntity f
+      where f.follower.userId = :followerId 
+        and f.following.userId = :followingId 
+          and f.statusType = :statusType
+      """)
+  void deleteByFollowerIdAndFollowingIdAndStatusType(@Param("followerId") String followerId,
+      @Param("followingId") String followingId,
+      @Param("statusType") FollowStatusType statusType);
+
+  /**
+   * 주어진 파라미터에 해당하는 팔로우 존재 유무 조회
+   *
+   * @param followerId
+   * @param followingId
+   * @param statusType
+   * @return
+   */
+  @Query("""
+      select exists (
+        select f
+         from FollowEntity f 
+         where f.follower.userId = :followerId 
+          and f.following.userId = :followingId 
+            and f.statusType = :statusType)
+      """)
+  boolean existsByFollowerIdAndFollowingIdAndStatusType(@Param("followerId") String followerId,
+      @Param("followingId") String followingId, @Param("statusType") FollowStatusType statusType);
+
+  String follower(UserEntity follower);
 }

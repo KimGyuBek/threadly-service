@@ -157,7 +157,7 @@ public class GetFollowingsApiTest extends BaseFollowApiTest {
     }
 
 
-    /*[Case #6]  팔로워잉 하는 사용자가 있는 사용자의 팔로워 목록 전제 조회 검증 */
+    /*[Case #6]  팔로잉 하는 사용자가 있는 사용자의 팔로워 목록 전제 조회 검증 */
     @Order(6)
     @DisplayName("6.팔로잉 하는 사용자가 있는 사용자의 팔로워 목록 전제 조회 검증")
     @Test

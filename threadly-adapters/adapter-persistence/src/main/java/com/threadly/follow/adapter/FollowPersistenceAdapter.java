@@ -80,4 +80,21 @@ public class FollowPersistenceAdapter implements FollowCommandPort, FollowQueryP
     return followJpaRepository.findByFollowIdAndStatusType(followId, followStatusType)
         .map(FollowMapper::toDomain);
   }
+
+  @Override
+  public void deleteByFollowerIdAndFollowingIdAndStatusType(String followerId,
+      String followingId, FollowStatusType statusType) {
+
+    followJpaRepository.deleteByFollowerIdAndFollowingIdAndStatusType(
+        followerId, followingId, statusType
+    );
+  }
+
+  @Override
+  public boolean existsByFollowerIdAndFollowingIdAndStatusType(String followerId,
+      String followingId, FollowStatusType statusType) {
+    return followJpaRepository.existsByFollowerIdAndFollowingIdAndStatusType(
+        followerId, followingId, statusType
+    );
+  }
 }

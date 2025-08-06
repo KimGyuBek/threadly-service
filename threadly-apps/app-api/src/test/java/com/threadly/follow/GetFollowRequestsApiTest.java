@@ -4,9 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.threadly.CommonResponse;
-import com.threadly.user.UserStatusType;
 import com.threadly.follow.command.dto.FollowUserApiResponse;
 import com.threadly.follow.query.dto.GetFollowRequestsApiResponse;
+import com.threadly.user.UserStatusType;
 import com.threadly.utils.TestConstants;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.ClassOrderer;
@@ -41,6 +41,7 @@ public class GetFollowRequestsApiTest extends BaseFollowApiTest {
    * 4. 공개 계정에 팔로우 요청 후 팔로우 요청 목록 조회 응댭 검증
    * 5. 팔로우 요청 목록
    * 6. 팔로우 요청 수락 후 팔로우 요청 목록에서 삭제되는지 검증
+   * 7. 팔로우 요청 취소 시 팔로우 요청 목록에서 삭제되는지 검증
    * */
 
   @Order(1)
@@ -174,6 +175,51 @@ public class GetFollowRequestsApiTest extends BaseFollowApiTest {
       assertThat(followRequestResponse.getData().followStatusType()).isEqualTo(
           FollowStatusType.APPROVED);
       assertThat(getFollowRequestsResponse.getData().followRequests()).isEmpty();
+    }
+
+    /*[Case #5] 비공개 계정에 팔로우 요청 시 팔로우 요청 목록에 추가 되는지 검증*/
+    @Order(5)
+    @DisplayName("5. 팔로우 요청 취소 시 팔로우 요청 목록에 불포함되어 있는지 검증")
+    @Test
+    public void getFollowRequests_shouldSuccess_05() throws Exception {
+      //given
+      /*사용자 데이터 삽입*/
+      userFixtureLoader.load("/users/profile/user.json");
+      userFixtureLoader.load("/users/profile/user2.json", UserStatusType.ACTIVE, true);
+
+      /*로그인*/
+      String requesterAccessToken = getAccessToken(USER_EMAIL);
+
+      /*팔로우 요청*/
+      CommonResponse<FollowUserApiResponse> followRequestResponse = sendFollowUserRequest(
+          requesterAccessToken, USER2_ID, status().isOk());
+
+      //when
+      /*로그인 후 팔로우 요청 목록 조회*/
+      String targetUserAccessToken = getAccessToken(USER2_EMAIL);
+      CommonResponse<GetFollowRequestsApiResponse> getFollowRequestsResponse = sendGetFollowRequestsRequest(
+          targetUserAccessToken, null, null, 10, status().isOk());
+
+      /*팔로우 요청 취소*/
+      CommonResponse<Void> cancelFollowRequestResponse = sendCancelFollowRequest(
+          requesterAccessToken,
+          USER2_ID, status().isOk());
+
+
+      /*팔로우 요청 목록 재조회*/
+      CommonResponse<GetFollowRequestsApiResponse> getFollowRequestsResponse2 = sendGetFollowRequestsRequest(
+          targetUserAccessToken, null, null, 10, status().isOk());
+
+      //then
+      /*검증*/
+      assertThat(followRequestResponse.getData().followStatusType()).isEqualTo(
+          FollowStatusType.PENDING);
+
+      assertThat(getFollowRequestsResponse.getData().followRequests().getFirst().requester()
+          .userId()).isEqualTo(
+          USER_ID);
+
+      assertThat(getFollowRequestsResponse2.getData().followRequests()).isEmpty();
     }
 
   }

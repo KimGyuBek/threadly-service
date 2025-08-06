@@ -197,6 +197,27 @@ public abstract class BaseFollowApiTest extends BaseUserProfileApiTest {
   }
 
   /**
+   * 팔로우 요청 취소 요청
+   * @param accessToken
+   * @param targetUserId
+   * @param expectedStatus
+   * @return
+   * @throws Exception
+   */
+  public CommonResponse<Void> sendCancelFollowRequest(String accessToken, String targetUserId,
+      ResultMatcher expectedStatus)
+      throws Exception {
+    return
+        sendDeleteRequest(
+            "", "/api/follows/requests/" + targetUserId,
+            expectedStatus,
+            new TypeReference<>() {
+            },
+            Map.of("Authorization", "Bearer " + accessToken)
+        );
+  }
+
+  /**
    * 주어진 followerId가 팔로워 목록에 포함되는지 검증
    *
    * @param accessToken
@@ -221,7 +242,6 @@ public abstract class BaseFollowApiTest extends BaseUserProfileApiTest {
     CommonResponse<GetFollowersApiResponse> getFollowersResponse = sendGetFollowersRequest(
         accessToken, null, null, null, 10, status().isOk());
     assertThat(getFollowersResponse.getData().followers()).isEmpty();
-
   }
 
 }

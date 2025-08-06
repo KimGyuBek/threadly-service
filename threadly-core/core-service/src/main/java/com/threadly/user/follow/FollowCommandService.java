@@ -7,6 +7,7 @@ import com.threadly.exception.user.UserException;
 import com.threadly.follow.Follow;
 import com.threadly.follow.FollowStatusType;
 import com.threadly.follow.command.FollowCommandUseCase;
+import com.threadly.follow.command.dto.FollowRelationCommand;
 import com.threadly.follow.command.dto.FollowUserApiResponse;
 import com.threadly.follow.command.dto.FollowUserCommand;
 import com.threadly.follow.command.dto.HandleFollowRequestCommand;
@@ -69,7 +70,7 @@ public class FollowCommandService implements FollowCommandUseCase {
     /*저장*/
     followCommandPort.createFollow(follow);
 
-    log.info("팔로우 요청 전송 : {}", command.targetUserId());
+    log.info("팔로우 요청 : {} -> {}", follow.getFollowerId(), follow.getFollowingId());
 
     /*응답 리턴*/
     return new FollowUserApiResponse(
@@ -95,7 +96,8 @@ public class FollowCommandService implements FollowCommandUseCase {
 
     /*업데이트*/
     followCommandPort.updateFollowStatus(follow);
-    log.info("팔로우 요청 수락 : {}", follow.getFollowerId());
+    log.info("팔로우 요청 수락 : {} -> {}", follow.getFollowerId(), follow.getFollowingId());
+
   }
 
   @Transactional
@@ -113,6 +115,37 @@ public class FollowCommandService implements FollowCommandUseCase {
 
     /*삭제 처리*/
     followCommandPort.deleteFollow(command.followId());
-    log.info("팔로우 요청 거절 : {}", follow.getFollowerId());
+    log.info("팔로우 요청 거절 : {} -> {}", follow.getFollowerId(), follow.getFollowingId());
+  }
+
+  @Transactional
+  @Override
+  public void cancelFollowRequest(FollowRelationCommand command) {
+    /*팔로우 요청 조회*/
+    boolean exists = followQueryPort.existsByFollowerIdAndFollowingIdAndStatusType(command.userId(),
+        command.targetUserId(), FollowStatusType.PENDING);
+
+    /*팔로우 요청이 존재하지 않는 경우*/
+    if (!exists) {
+      throw new FollowException(ErrorCode.FOLLOW_REQUEST_NOT_FOUND);
+    }
+
+    /*삭제*/
+    followCommandPort.deleteByFollowerIdAndFollowingIdAndStatusType(
+        command.userId(), command.targetUserId(), FollowStatusType.PENDING
+    );
+    log.info("팔로우 요청 삭제 : {} -> {}", command.userId(), command.targetUserId());
+  }
+
+  @Transactional
+  @Override
+  public void unfollowUser(FollowRelationCommand command) {
+
+  }
+
+  @Transactional
+  @Override
+  public void removeFollower(FollowRelationCommand command) {
+
   }
 }
