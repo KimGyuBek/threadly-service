@@ -6,7 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.threadly.CommonResponse;
 import com.threadly.image.ImageStatus;
 import com.threadly.post.create.CreatePostApiResponse;
-import com.threadly.repository.post.PostImageJpaRepository;
+import com.threadly.post.repository.PostImageJpaRepository;
 import java.io.IOException;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;

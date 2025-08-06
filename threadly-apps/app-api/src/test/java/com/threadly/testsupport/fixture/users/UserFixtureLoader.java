@@ -1,8 +1,8 @@
 package com.threadly.testsupport.fixture.users;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.threadly.adapter.user.UserPersistenceAdapter;
-import com.threadly.adapter.user.UserProfilePersistenceAdapter;
+import com.threadly.user.adapter.UserPersistenceAdapter;
+import com.threadly.user.adapter.UserProfilePersistenceAdapter;
 import com.threadly.testsupport.dto.users.UserFixtureDto;
 import com.threadly.testsupport.fixture.FixtureLoader;
 import com.threadly.testsupport.mapper.users.UserFixtureMapper;
