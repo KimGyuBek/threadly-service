@@ -8,8 +8,8 @@ import java.time.LocalDateTime;
 public record GetFollowersQuery(
     String userId,
     String targetUserId,
-    LocalDateTime cursorFollowedAt,
-    String cursorFollowerId,
+    LocalDateTime cursorTimestamp,
+    String cursorId,
     int limit
 ) {
 

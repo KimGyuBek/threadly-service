@@ -6,9 +6,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.threadly.CommonResponse;
 import com.threadly.exception.ErrorCode;
+import com.threadly.post.comment.get.GetPostCommentApiResponse;
 import com.threadly.post.controller.BasePostApiTest;
-import com.threadly.post.comment.get.GetPostCommentsApiResponse;
-import com.threadly.post.like.comment.GetPostCommentLikersApiResponse;
+import com.threadly.post.like.comment.PostCommentLiker;
+import com.threadly.response.CursorPageApiResponse;
 import com.threadly.testsupport.fixture.posts.PostCommentLikeFixtureLoader;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
@@ -86,7 +87,7 @@ public class GetPostCommentLikeApiTest extends BasePostApiTest {
         String accessToken = getAccessToken(EMAIL_VERIFIED_USER_1);
 
         /*게시글 댓글 목록 조회*/
-        CommonResponse<GetPostCommentsApiResponse> getPostCommentListResponse = sendGetPostCommentListRequest(
+        CommonResponse<CursorPageApiResponse<GetPostCommentApiResponse>> getPostCommentListResponse = sendGetPostCommentListRequest(
             accessToken,
             ACTIVE_POST_ID,
             null,
@@ -98,7 +99,7 @@ public class GetPostCommentLikeApiTest extends BasePostApiTest {
         //when
         //then
         /*게시글 댓글 좋아요 목록 조회 요청*/
-        CommonResponse<GetPostCommentLikersApiResponse> getPostCommentLikerListResponse = sendGetPostCommentLikersRequest(
+        CommonResponse<CursorPageApiResponse<PostCommentLiker>> getPostCommentLikerListResponse = sendGetPostCommentLikersRequest(
             accessToken,
             ACTIVE_POST_ID,
             ACTIVE_COMMENT_WITH_LIKES_ID,
@@ -108,11 +109,12 @@ public class GetPostCommentLikeApiTest extends BasePostApiTest {
 
         //    커서 검증
         assertThat(
-            getPostCommentLikerListResponse.getData().likers().getLast().likedAt()).isEqualTo(
-            getPostCommentLikerListResponse.getData().nextCursor().cursorLikedAt());
+            getPostCommentLikerListResponse.getData().content().getLast().likedAt()).isEqualTo(
+            getPostCommentLikerListResponse.getData().nextCursor().cursorTimestamp());
         assertThat(
-            getPostCommentLikerListResponse.getData().likers().getLast().liker().userId()).isEqualTo(
-            getPostCommentLikerListResponse.getData().nextCursor().cursorLikerId());
+            getPostCommentLikerListResponse.getData().content().getLast().liker()
+                .userId()).isEqualTo(
+            getPostCommentLikerListResponse.getData().nextCursor().cursorId());
       }
 
       /*[Case #2] getPostLikers - 좋아요가 없는 댓글에 대한 요청 시 빈 리스트가 반환되어야한다.*/
@@ -128,12 +130,12 @@ public class GetPostCommentLikeApiTest extends BasePostApiTest {
 
         //when
         //then
-        CommonResponse<GetPostCommentLikersApiResponse> getPostCommentLikersResponse = sendGetPostCommentLikersRequest(
+        CommonResponse<CursorPageApiResponse<PostCommentLiker>> getPostCommentLikersResponse = sendGetPostCommentLikersRequest(
             accessToken,
             ACTIVE_POST_ID, ACTIVE_COMMENT_WITHOUT_LIKES_ID, null, null, 10, status().isOk()
         );
 
-        assertThat(getPostCommentLikersResponse.getData().likers()).isEmpty();
+        assertThat(getPostCommentLikersResponse.getData().content()).isEmpty();
       }
 
       /*[Case #3] getPostLikers - 전체 좋아요 목록 조회 시 마지막 페이지까지 순회 조화한다*/
@@ -147,26 +149,26 @@ public class GetPostCommentLikeApiTest extends BasePostApiTest {
         /*로그인 요청*/
         String accessToken = getAccessToken(EMAIL_VERIFIED_USER_1);
 
-        LocalDateTime cursorLikedAt = null;
-        String cursorLikerId = null;
+        LocalDateTime cursorTimestamp = null;
+        String cursorId = null;
         int limit = 10;
         int size = 0;
 
         //when
         //then
         while (true) {
-          CommonResponse<GetPostCommentLikersApiResponse> getPostCommentLikersResponse = sendGetPostCommentLikersRequest(
+          CommonResponse<CursorPageApiResponse<PostCommentLiker>> getPostCommentLikersResponse = sendGetPostCommentLikersRequest(
               accessToken,
-              ACTIVE_POST_ID, ACTIVE_COMMENT_WITH_LIKES_ID, cursorLikedAt, cursorLikerId, limit,
+              ACTIVE_POST_ID, ACTIVE_COMMENT_WITH_LIKES_ID, cursorTimestamp, cursorId, limit,
               status().isOk()
           );
-          size += getPostCommentLikersResponse.getData().likers().size();
+          size += getPostCommentLikersResponse.getData().content().size();
 
-          if (getPostCommentLikersResponse.getData().nextCursor().cursorLikerId() == null) {
+          if (getPostCommentLikersResponse.getData().nextCursor().cursorId() == null) {
             break;
           }
-          cursorLikerId = getPostCommentLikersResponse.getData().nextCursor().cursorLikerId();
-          cursorLikedAt = getPostCommentLikersResponse.getData().nextCursor().cursorLikedAt();
+          cursorId = getPostCommentLikersResponse.getData().nextCursor().cursorId();
+          cursorTimestamp = getPostCommentLikersResponse.getData().nextCursor().cursorTimestamp();
         }
 
         assertThat(size).isEqualTo(COMMENT_LIKE_USER_COUNT);
@@ -193,7 +195,7 @@ public class GetPostCommentLikeApiTest extends BasePostApiTest {
 
         //when
         //then
-        CommonResponse<GetPostCommentLikersApiResponse> getPostCommentLikersResponse = sendGetPostCommentLikersRequest(
+        CommonResponse<CursorPageApiResponse<PostCommentLiker>> getPostCommentLikersResponse = sendGetPostCommentLikersRequest(
             accessToken,
             ACTIVE_POST_ID, commentId, null, null, 10, status().isNotFound()
         );
@@ -215,7 +217,7 @@ public class GetPostCommentLikeApiTest extends BasePostApiTest {
 
         //when
         //then
-        CommonResponse<GetPostCommentLikersApiResponse> getPostCommentLikersResponse = sendGetPostCommentLikersRequest(
+        CommonResponse<CursorPageApiResponse<PostCommentLiker>> getPostCommentLikersResponse = sendGetPostCommentLikersRequest(
             accessToken,
             ACTIVE_POST_ID, DELETED_COMMENT_ID, null, null, 10, status().isBadRequest()
         );

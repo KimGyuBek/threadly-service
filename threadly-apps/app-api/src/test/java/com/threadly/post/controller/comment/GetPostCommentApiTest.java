@@ -7,7 +7,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.threadly.CommonResponse;
 import com.threadly.exception.ErrorCode;
 import com.threadly.post.controller.BasePostApiTest;
-import com.threadly.post.comment.get.GetPostCommentsApiResponse;
+import com.threadly.post.comment.get.GetPostCommentApiResponse;
+import com.threadly.response.CursorPageApiResponse;
 import com.threadly.testsupport.fixture.posts.PostCommentFixtureLoader;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
@@ -78,18 +79,18 @@ public class GetPostCommentApiTest extends BasePostApiTest {
 
         //when
         //then
-        LocalDateTime cursorCommentedAt = null;
-        String cursorCommentId = null;
+        LocalDateTime cursorTimestamp = null;
+        String cursorId = null;
         int limit = 10;
 
-        CommonResponse<GetPostCommentsApiResponse> getPostCommentListResponse = sendGetPostCommentListRequest(
-            accessToken, ACTIVE_POST_ID, cursorCommentedAt, cursorCommentId, limit,
+        CommonResponse<CursorPageApiResponse<GetPostCommentApiResponse>> getPostCommentListResponse = sendGetPostCommentListRequest(
+            accessToken, ACTIVE_POST_ID, cursorTimestamp, cursorId, limit,
             status().isOk()
         );
-        assertThat(getPostCommentListResponse.getData().nextCursor().cursorCommentedAt()).isEqualTo(
-            getPostCommentListResponse.getData().nextCursor().cursorCommentedAt());
-        assertThat(getPostCommentListResponse.getData().nextCursor().cursorCommentId()).isEqualTo(
-            getPostCommentListResponse.getData().nextCursor().cursorCommentId());
+        assertThat(getPostCommentListResponse.getData().nextCursor().cursorTimestamp()).isEqualTo(
+            getPostCommentListResponse.getData().nextCursor().cursorTimestamp());
+        assertThat(getPostCommentListResponse.getData().nextCursor().cursorId()).isEqualTo(
+            getPostCommentListResponse.getData().nextCursor().cursorId());
       }
 
       /*[Case #2] getPostCommentList - 게시글 댓글 목록 전체 조회 검증*/
@@ -103,37 +104,37 @@ public class GetPostCommentApiTest extends BasePostApiTest {
 
         //when
         //then
-        LocalDateTime cursorCommentedAt = null;
-        String cursorCommentId = null;
+        LocalDateTime cursorTimestamp = null;
+        String cursorId = null;
         int limit = 10;
         int size = 0;
 
         while (true) {
-          CommonResponse<GetPostCommentsApiResponse> getPostCommentListResponse = sendGetPostCommentListRequest(
-              accessToken, ACTIVE_POST_ID, cursorCommentedAt, cursorCommentId, limit,
+          CommonResponse<CursorPageApiResponse<GetPostCommentApiResponse>> getPostCommentListResponse = sendGetPostCommentListRequest(
+              accessToken, ACTIVE_POST_ID, cursorTimestamp, cursorId, limit,
               status().isOk()
           );
 
           /*사이즈 증가*/
-          size += getPostCommentListResponse.getData().comments().size();
+          size += getPostCommentListResponse.getData().content().size();
 
 
           /*마지막 페이지일경우 종료*/
-          if (getPostCommentListResponse.getData().nextCursor().cursorCommentId() == null) {
+          if (getPostCommentListResponse.getData().nextCursor().cursorId() == null) {
             break;
           }
 
           /*커서 검증*/
           assertThat(
-              getPostCommentListResponse.getData().comments().getLast().commentId()).isEqualTo(
-              getPostCommentListResponse.getData().nextCursor().cursorCommentId());
+              getPostCommentListResponse.getData().content().getLast().commentId()).isEqualTo(
+              getPostCommentListResponse.getData().nextCursor().cursorId());
           assertThat(
-              getPostCommentListResponse.getData().comments().getLast().commentedAt()).isEqualTo(
-              getPostCommentListResponse.getData().nextCursor().cursorCommentedAt());
+              getPostCommentListResponse.getData().content().getLast().commentedAt()).isEqualTo(
+              getPostCommentListResponse.getData().nextCursor().cursorTimestamp());
 
           /*커서 지정*/
-          cursorCommentId = getPostCommentListResponse.getData().nextCursor().cursorCommentId();
-          cursorCommentedAt = getPostCommentListResponse.getData().nextCursor().cursorCommentedAt();
+          cursorId = getPostCommentListResponse.getData().nextCursor().cursorId();
+          cursorTimestamp = getPostCommentListResponse.getData().nextCursor().cursorTimestamp();
         }
         assertThat(size).isEqualTo(ACTIVE_POST_COMMENT_COUNT);
       }
@@ -149,16 +150,16 @@ public class GetPostCommentApiTest extends BasePostApiTest {
 
         //when
         //then
-        LocalDateTime cursorCommentedAt = null;
-        String cursorCommentId = null;
+        LocalDateTime cursorTimestamp = null;
+        String cursorId = null;
         int limit = 10;
 
         /*게시글 댓글 목록 조회*/
-        CommonResponse<GetPostCommentsApiResponse> getPostCommentListResponse1 = sendGetPostCommentListRequest(
-            accessToken, ACTIVE_POST_ID, cursorCommentedAt, cursorCommentId, limit, status().isOk()
+        CommonResponse<CursorPageApiResponse<GetPostCommentApiResponse>> getPostCommentListResponse1 = sendGetPostCommentListRequest(
+            accessToken, ACTIVE_POST_ID, cursorTimestamp, cursorId, limit, status().isOk()
         );
 
-        String commentId = getPostCommentListResponse1.getData().comments().getFirst().commentId();
+        String commentId = getPostCommentListResponse1.getData().content().getFirst().commentId();
 
         /*좋아요 요청*/
         sendLikePostCommentRequest(
@@ -166,14 +167,14 @@ public class GetPostCommentApiTest extends BasePostApiTest {
         );
 
         /*게시글 댓글 목록 조회*/
-        CommonResponse<GetPostCommentsApiResponse> getPostCommentListResponse2 = sendGetPostCommentListRequest(
-            accessToken, ACTIVE_POST_ID, cursorCommentedAt, cursorCommentId, limit, status().isOk()
+        CommonResponse<CursorPageApiResponse<GetPostCommentApiResponse>> getPostCommentListResponse2 = sendGetPostCommentListRequest(
+            accessToken, ACTIVE_POST_ID, cursorTimestamp, cursorId, limit, status().isOk()
         );
 
         assertThat(
-            getPostCommentListResponse2.getData().comments().getFirst().liked()).isNotEqualTo(
-            getPostCommentListResponse1.getData().comments().getFirst().liked());
-        assertThat(getPostCommentListResponse2.getData().comments().getFirst().liked()).isTrue();
+            getPostCommentListResponse2.getData().content().getFirst().liked()).isNotEqualTo(
+            getPostCommentListResponse1.getData().content().getFirst().liked());
+        assertThat(getPostCommentListResponse2.getData().content().getFirst().liked()).isTrue();
       }
     }
 
@@ -194,12 +195,12 @@ public class GetPostCommentApiTest extends BasePostApiTest {
 
         //when
         //then
-        LocalDateTime cursorCommentedAt = null;
-        String cursorCommentId = null;
+        LocalDateTime cursorTimestamp = null;
+        String cursorId = null;
         int limit = 10;
 
-        CommonResponse<GetPostCommentsApiResponse> getPostCommentListResponse = sendGetPostCommentListRequest(
-            accessToken, DELETED_POST_ID, cursorCommentedAt, cursorCommentId, limit,
+        CommonResponse<CursorPageApiResponse<GetPostCommentApiResponse>> getPostCommentListResponse = sendGetPostCommentListRequest(
+            accessToken, DELETED_POST_ID, cursorTimestamp, cursorId, limit,
             status().isBadRequest()
         );
 
@@ -219,12 +220,12 @@ public class GetPostCommentApiTest extends BasePostApiTest {
 
         //when
         //then
-        LocalDateTime cursorCommentedAt = null;
-        String cursorCommentId = null;
+        LocalDateTime cursorTimestamp = null;
+        String cursorId = null;
         int limit = 10;
 
-        CommonResponse<GetPostCommentsApiResponse> getPostCommentListResponse = sendGetPostCommentListRequest(
-            accessToken, ARCHIVED_POST_ID, cursorCommentedAt, cursorCommentId, limit,
+        CommonResponse<CursorPageApiResponse<GetPostCommentApiResponse>> getPostCommentListResponse = sendGetPostCommentListRequest(
+            accessToken, ARCHIVED_POST_ID, cursorTimestamp, cursorId, limit,
             status().isBadRequest()
         );
 
@@ -244,12 +245,12 @@ public class GetPostCommentApiTest extends BasePostApiTest {
 
         //when
         //then
-        LocalDateTime cursorCommentedAt = null;
-        String cursorCommentId = null;
+        LocalDateTime cursorTimestamp = null;
+        String cursorId = null;
         int limit = 10;
 
-        CommonResponse<GetPostCommentsApiResponse> getPostCommentListResponse = sendGetPostCommentListRequest(
-            accessToken, DELETED_POST_ID, cursorCommentedAt, cursorCommentId, limit,
+        CommonResponse<CursorPageApiResponse<GetPostCommentApiResponse>> getPostCommentListResponse = sendGetPostCommentListRequest(
+            accessToken, DELETED_POST_ID, cursorTimestamp, cursorId, limit,
             status().isBadRequest()
         );
 
@@ -270,12 +271,12 @@ public class GetPostCommentApiTest extends BasePostApiTest {
 
         //when
         //then
-        LocalDateTime cursorCommentedAt = null;
-        String cursorCommentId = null;
+        LocalDateTime cursorTimestamp = null;
+        String cursorId = null;
         int limit = 10;
 
-        CommonResponse<GetPostCommentsApiResponse> getPostCommentListResponse = sendGetPostCommentListRequest(
-            accessToken, postId, cursorCommentedAt, cursorCommentId, limit, status().isNotFound()
+        CommonResponse<CursorPageApiResponse<GetPostCommentApiResponse>> getPostCommentListResponse = sendGetPostCommentListRequest(
+            accessToken, postId, cursorTimestamp, cursorId, limit, status().isNotFound()
         );
 
         assertThat(getPostCommentListResponse.isSuccess()).isFalse();

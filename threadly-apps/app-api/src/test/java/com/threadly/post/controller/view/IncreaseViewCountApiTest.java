@@ -6,7 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.threadly.CommonResponse;
 import com.threadly.post.controller.BasePostApiTest;
-import com.threadly.post.get.GetPostDetailApiResponse;
+import com.threadly.post.get.PostDetails;
 import com.threadly.properties.TtlProperties;
 import com.threadly.repository.auth.TestRedisHelper;
 import com.threadly.testsupport.fixture.posts.PostFixtureLoader;
@@ -85,10 +85,10 @@ public class IncreaseViewCountApiTest extends BasePostApiTest {
         //when
         //then
         /*게시글 조회 요청 */
-        CommonResponse<GetPostDetailApiResponse> getPostResponse1 = sendGetPostRequest(accessToken,
+        CommonResponse<PostDetails> getPostResponse1 = sendGetPostRequest(accessToken,
             VIEW_COUNT_ZERO_POST_ID, status().isOk());
 
-        CommonResponse<GetPostDetailApiResponse> getPostResponse2 = sendGetPostRequest(accessToken,
+        CommonResponse<PostDetails> getPostResponse2 = sendGetPostRequest(accessToken,
             VIEW_COUNT_ZERO_POST_ID, status().isOk());
         long viewCount1 = getPostResponse1.getData().viewCount();
         long viewCount2 = getPostResponse2.getData().viewCount();
@@ -108,13 +108,13 @@ public class IncreaseViewCountApiTest extends BasePostApiTest {
 
         //when
         /*최초 조회*/
-        CommonResponse<GetPostDetailApiResponse> getPostResponse1 = sendGetPostRequest(accessToken,
+        CommonResponse<PostDetails> getPostResponse1 = sendGetPostRequest(accessToken,
             VIEW_COUNT_ZERO_POST_ID, status().isOk());
 
         //then
         /*게시글 중복 조회 요청 */
         for (int i = 0; i < 3; i++) {
-          CommonResponse<GetPostDetailApiResponse> getPostResponse = sendGetPostRequest(accessToken,
+          CommonResponse<PostDetails> getPostResponse = sendGetPostRequest(accessToken,
               VIEW_COUNT_ZERO_POST_ID, status().isOk());
 
           assertThat(getPostResponse.getData().viewCount()).isEqualTo(1);
@@ -133,7 +133,7 @@ public class IncreaseViewCountApiTest extends BasePostApiTest {
 
         //when
         /*조회 요청 1*/
-        CommonResponse<GetPostDetailApiResponse> getPostResponse1 = sendGetPostRequest(accessToken,
+        CommonResponse<PostDetails> getPostResponse1 = sendGetPostRequest(accessToken,
             VIEW_COUNT_ZERO_POST_ID, status().isOk());
 
         /*ttl 만큼 대기*/
@@ -141,7 +141,7 @@ public class IncreaseViewCountApiTest extends BasePostApiTest {
 
         //then
         /*시간 경과 후 조회 요청*/
-        CommonResponse<GetPostDetailApiResponse> getPostResponse2 = sendGetPostRequest(accessToken,
+        CommonResponse<PostDetails> getPostResponse2 = sendGetPostRequest(accessToken,
             VIEW_COUNT_ZERO_POST_ID, status().isOk());
 
         long viewCount1 = getPostResponse1.getData().viewCount();
@@ -169,7 +169,7 @@ public class IncreaseViewCountApiTest extends BasePostApiTest {
         }
 
         //then
-        CommonResponse<GetPostDetailApiResponse> getPostRequest = sendGetPostRequest(
+        CommonResponse<PostDetails> getPostRequest = sendGetPostRequest(
             getAccessToken(EMAIL_VERIFIED_USER_1),
             VIEW_COUNT_ZERO_POST_ID,
             status().isOk()

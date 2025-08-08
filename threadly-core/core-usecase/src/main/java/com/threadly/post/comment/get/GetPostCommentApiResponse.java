@@ -1,6 +1,7 @@
 package com.threadly.post.comment.get;
 
 import com.threadly.commons.dto.UserPreview;
+import com.threadly.response.CursorSupport;
 import java.time.LocalDateTime;
 
 /**
@@ -14,7 +15,15 @@ public record GetPostCommentApiResponse(
     long likeCount,
     String content,
     boolean liked
-) {
+) implements CursorSupport {
 
+  @Override
+  public LocalDateTime cursorTimeStamp() {
+    return commentedAt;
+  }
 
+  @Override
+  public String cursorId() {
+    return commentId;
+  }
 }

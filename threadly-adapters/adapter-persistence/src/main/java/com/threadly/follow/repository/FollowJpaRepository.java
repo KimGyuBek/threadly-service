@@ -56,8 +56,8 @@ public interface FollowJpaRepository extends JpaRepository<FollowEntity, String>
    * 팔로우 요청 목록 커서 기반 조회
    *
    * @param userId
-   * @param cursorFollowRequestedAt
-   * @param cursorFollowId
+   * @param cursorTimestamp
+   * @param cursorId
    * @param limit
    * @return
    */
@@ -73,23 +73,23 @@ public interface FollowJpaRepository extends JpaRepository<FollowEntity, String>
                          on upi.user_id = uf.follower_id and upi.status = 'CONFIRMED'
       where uf.following_id = :userId
         and uf.status = 'PENDING'
-        and (:cursorFollowRequestedAt is null
-          or uf.created_at < :cursorFollowRequestedAt
-          or (uf.created_at = :cursorFollowRequestedAt and uf.follow_id < :cursorFollowId)
+        and (:cursorTimestamp is null
+          or uf.created_at < :cursorTimestamp
+          or (uf.created_at = :cursorTimestamp and uf.follow_id < :cursorId)
           )
       order by uf.created_at desc, uf.follow_id desc
       limit :limit;
       """, nativeQuery = true)
   List<FollowRequestsProjection> findFollowRequestsByCursor(@Param("userId") String userId,
-      @Param("cursorFollowRequestedAt") LocalDateTime cursorFollowRequestedAt,
-      @Param("cursorFollowId") String cursorFollowId, @Param("limit") int limit);
+      @Param("cursorTimestamp") LocalDateTime cursorTimestamp,
+      @Param("cursorId") String cursorId, @Param("limit") int limit);
 
   /**
    * 주어진 targetUserId에 해당하는 사용자의 팔로워 목록 커서 기반 조회
    *
    * @param targetUserId
-   * @param cursorFollowedAt
-   * @param cursorFollowerId
+   * @param cursorTimestamp
+   * @param cursorId
    * @param limit
    * @return
    */
@@ -105,22 +105,22 @@ public interface FollowJpaRepository extends JpaRepository<FollowEntity, String>
                join user_profile up on up.user_id = uf.follower_id
                left join user_profile_images upi on upi.user_id = uf.follower_id
       where uf.following_id = :targetUserId and uf.status = 'APPROVED'
-        and (:cursorFollowedAt is null
-          or uf.modified_at < :cursorFollowedAt or
-             (uf.modified_at = :cursorFollowedAt and uf.follower_id < :cursorFollowerId))
+        and (:cursorTimestamp is null
+          or uf.modified_at < :cursorTimestamp or
+             (uf.modified_at = :cursorTimestamp and uf.follower_id < :cursorId))
       order by uf.modified_at desc, uf.follower_id desc
       limit :limit
       """, nativeQuery = true)
   List<FollowerProjection> findFollowersByCursor(@Param("targetUserId") String targetUserId,
-      @Param("cursorFollowedAt") LocalDateTime cursorFollowedAt,
-      @Param("cursorFollowerId") String cursorFollowerId, @Param("limit") int limit);
+      @Param("cursorTimestamp") LocalDateTime cursorTimestamp,
+      @Param("cursorId") String cursorId, @Param("limit") int limit);
 
   /**
    * 주어진 targetUserId에 해당하는 사용자의 팔로잉 목록 커서 기반 조회
    *
    * @param targetUserId
-   * @param cursorFollowedAt
-   * @param cursorFollowingId
+   * @param cursorTimestamp
+   * @param cursorId
    * @param limit
    * @return
    */
@@ -136,15 +136,15 @@ public interface FollowJpaRepository extends JpaRepository<FollowEntity, String>
                join user_profile up on up.user_id = uf.following_id
                left join user_profile_images upi on upi.user_id = uf.following_id
       where uf.follower_id = :targetUserId and uf.status = 'APPROVED'
-        and (:cursorFollowedAt is null
-          or uf.modified_at < :cursorFollowedAt or
-             (uf.modified_at = :cursorFollowedAt and uf.following_id < :cursorFollowingId))
+        and (:cursorTimestamp is null
+          or uf.modified_at < :cursorTimestamp or
+             (uf.modified_at = :cursorTimestamp and uf.following_id < :cursorId))
       order by uf.modified_at desc, uf.following_id desc
       limit :limit
       """, nativeQuery = true)
   List<FollowingProjection> findFollowingsByCursor(@Param("targetUserId") String targetUserId,
-      @Param("cursorFollowedAt") LocalDateTime cursorFollowedAt,
-      @Param("cursorFollowingId") String cursorFollowingId, @Param("limit") int limit);
+      @Param("cursorTimestamp") LocalDateTime cursorTimestamp,
+      @Param("cursorId") String cursorId, @Param("limit") int limit);
 
   /**
    * 주어진 followId에 해당하는 팔로우의 주어진 status로 변경
@@ -201,7 +201,7 @@ public interface FollowJpaRepository extends JpaRepository<FollowEntity, String>
   @Query("""
       select exists (
         select f
-         from FollowEntity f 
+         from FollowEntity f
          where f.follower.userId = :followerId 
           and f.following.userId = :followingId 
             and f.statusType = :statusType)

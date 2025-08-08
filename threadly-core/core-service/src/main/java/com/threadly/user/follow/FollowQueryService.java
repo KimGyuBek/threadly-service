@@ -2,18 +2,14 @@ package com.threadly.user.follow;
 
 import com.threadly.commons.dto.UserPreview;
 import com.threadly.follow.query.FollowQueryUseCase;
-import com.threadly.follow.query.dto.GetFollowRequestsApiResponse;
-import com.threadly.follow.query.dto.GetFollowRequestsApiResponse.FollowRequestDetails;
-import com.threadly.follow.query.dto.GetFollowRequestsApiResponse.NextCursor;
+import com.threadly.follow.query.dto.FollowRequestResponse;
+import com.threadly.follow.query.dto.FollowerResponse;
+import com.threadly.follow.query.dto.FollowingApiResponse;
 import com.threadly.follow.query.dto.GetFollowRequestsQuery;
-import com.threadly.follow.query.dto.GetFollowersApiResponse;
-import com.threadly.follow.query.dto.GetFollowersApiResponse.FollowerDetails;
 import com.threadly.follow.query.dto.GetFollowersQuery;
-import com.threadly.follow.query.dto.GetFollowingsApiResponse;
-import com.threadly.follow.query.dto.GetFollowingsApiResponse.FollowingDetails;
 import com.threadly.follow.query.dto.GetFollowingsQuery;
+import com.threadly.response.CursorPageApiResponse;
 import com.threadly.validator.follow.FollowAccessValidator;
-import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,15 +28,16 @@ public class FollowQueryService implements FollowQueryUseCase {
 
   @Transactional(readOnly = true)
   @Override
-  public GetFollowRequestsApiResponse getFollowRequestsByCursor(GetFollowRequestsQuery query) {
+  public CursorPageApiResponse<FollowRequestResponse> getFollowRequestsByCursor(
+      GetFollowRequestsQuery query) {
     /*팔로우 요청 목록 조회*/
-    List<FollowRequestDetails> allFollowRequestList = followQueryPort.findFollowRequestsByCursor(
+    List<FollowRequestResponse> allFollowRequestList = followQueryPort.findFollowRequestsByCursor(
         query.userId(),
-        query.cursorFollowRequestedAt(),
-        query.cursorFollowId(),
+        query.cursorTimestamp(),
+        query.cursorId(),
         query.limit() + 1
     ).stream().map(
-        projection -> new FollowRequestDetails(
+        projection -> new FollowRequestResponse(
             projection.getFollowId(),
             new UserPreview(
                 projection.getRequesterId(),
@@ -51,38 +48,23 @@ public class FollowQueryService implements FollowQueryUseCase {
         )
     ).toList();
 
-    /*다음 페이지가 있는지 검증*/
-    boolean hasNext = allFollowRequestList.size() > query.limit();
-
-    /*리스트 분할*/
-    List<FollowRequestDetails> pagedList =
-        hasNext ? allFollowRequestList.subList(0, query.limit()) : allFollowRequestList;
-
-    /*커서 지정*/
-    LocalDateTime cursorFollowRequestedAt = hasNext ? pagedList.getLast()
-        .followRequestedAt() : null;
-    String cursorFollowId = hasNext ? pagedList.getLast().followId() : null;
-
-    return new GetFollowRequestsApiResponse(
-        pagedList,
-        new NextCursor(cursorFollowRequestedAt, cursorFollowId)
-    );
+    return CursorPageApiResponse.from(allFollowRequestList, query.limit());
   }
 
   @Transactional(readOnly = true)
   @Override
-  public GetFollowersApiResponse getFollowers(GetFollowersQuery query) {
+  public CursorPageApiResponse<FollowerResponse> getFollowers(GetFollowersQuery query) {
     /*접근 가능 여부 검증*/
     followAccessValidator.validateProfileAccessible(query.userId(), query.targetUserId());
 
     /*팔로워 목록 조회*/
-    List<FollowerDetails> allFollowerList = followQueryPort.findFollowersByCursor(
+    List<FollowerResponse> allFollowerList = followQueryPort.findFollowersByCursor(
         query.targetUserId(),
-        query.cursorFollowedAt(),
-        query.cursorFollowerId(),
+        query.cursorTimestamp(),
+        query.cursorId(),
         query.limit() + 1
     ).stream().map(
-        projection -> new FollowerDetails(
+        projection -> new FollowerResponse(
             new UserPreview(
                 projection.getFollowerId(),
                 projection.getFollowerNickname(),
@@ -92,37 +74,26 @@ public class FollowQueryService implements FollowQueryUseCase {
         )
     ).toList();
 
-    /*다음 페이지가 있는지 검증*/
-    boolean hasNext = allFollowerList.size() > query.limit();
-
-    /*리스트 분할*/
-    List<FollowerDetails> pagedList =
-        hasNext ? allFollowerList.subList(0, query.limit()) : allFollowerList;
-
-    /*커서 지정*/
-    LocalDateTime cursorFollowedAt = hasNext ? pagedList.getLast().followedAt() : null;
-    String cursorFollowerId = hasNext ? pagedList.getLast().follower().userId() : null;
-
-    return new GetFollowersApiResponse(
-        pagedList,
-        new GetFollowersApiResponse.NextCursor(
-            cursorFollowedAt,
-            cursorFollowerId));
+    return
+        CursorPageApiResponse.from(
+            allFollowerList,
+            query.limit()
+        );
   }
 
   @Override
-  public GetFollowingsApiResponse getFollowings(GetFollowingsQuery query) {
+  public CursorPageApiResponse<FollowingApiResponse> getFollowings(GetFollowingsQuery query) {
     /*접근 가능 여부 검증*/
     followAccessValidator.validateProfileAccessible(query.userId(), query.targetUserId());
 
     /*팔로워 목록 조회*/
-    List<FollowingDetails> allFollowerList = followQueryPort.findFollowingsByCursor(
+    List<FollowingApiResponse> allFollowerList = followQueryPort.findFollowingsByCursor(
         query.targetUserId(),
-        query.cursorFollowedAt(),
-        query.cursorFollowingId(),
+        query.cursorTimestamp(),
+        query.cursorId(),
         query.limit() + 1
     ).stream().map(
-        projection -> new FollowingDetails(
+        projection -> new FollowingApiResponse(
             new UserPreview(
                 projection.getFollowingId(),
                 projection.getFollowingNickname(),
@@ -132,21 +103,7 @@ public class FollowQueryService implements FollowQueryUseCase {
         )
     ).toList();
 
-    /*다음 페이지가 있는지 검증*/
-    boolean hasNext = allFollowerList.size() > query.limit();
-
-    /*리스트 분할*/
-    List<FollowingDetails> pagedList =
-        hasNext ? allFollowerList.subList(0, query.limit()) : allFollowerList;
-
-    /*커서 지정*/
-    LocalDateTime cursorFollowedAt = hasNext ? pagedList.getLast().followedAt() : null;
-    String cursorFollowerId = hasNext ? pagedList.getLast().following().userId() : null;
-
-    return new GetFollowingsApiResponse(
-        pagedList,
-        new GetFollowingsApiResponse.NextCursor(
-            cursorFollowedAt,
-            cursorFollowerId));
+    return CursorPageApiResponse.from(allFollowerList, query.limit());
   }
+
 }

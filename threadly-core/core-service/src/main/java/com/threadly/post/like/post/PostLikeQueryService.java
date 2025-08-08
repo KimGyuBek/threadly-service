@@ -4,8 +4,7 @@ import com.threadly.commons.dto.UserPreview;
 import com.threadly.exception.ErrorCode;
 import com.threadly.exception.post.PostException;
 import com.threadly.post.fetch.FetchPostPort;
-import com.threadly.post.like.post.GetPostLikersApiResponse.PostLiker;
-import java.time.LocalDateTime;
+import com.threadly.response.CursorPageApiResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,7 +23,7 @@ public class PostLikeQueryService implements GetPostLikersUseCase {
 
   @Transactional(readOnly = true)
   @Override
-  public GetPostLikersApiResponse getPostLikers(GetPostLikersQuery query) {
+  public CursorPageApiResponse<PostLiker> getPostLikers(GetPostLikersQuery query) {
     /*게시글 유효성 검증*/
     if (!fetchPostPort.existsById(query.getPostId())) {
       throw new PostException(ErrorCode.POST_NOT_FOUND);
@@ -43,31 +42,10 @@ public class PostLikeQueryService implements GetPostLikersUseCase {
                 projection.getLikerNickname(),
                 projection.getLikerProfileImageUrl()
             ),
-            projection.getLikerBio(),
             projection.getLikedAt()
         )
     ).toList();
 
-    /*다음 페이지가 있는지 검증*/
-    boolean hasNext = allLikerList.size() > query.getLimit();
-
-    /*리스트 분할*/
-    List<PostLiker> pagedLikerList = hasNext
-        ? allLikerList.subList(0, query.getLimit())
-        : allLikerList;
-
-    /*커서 지정*/
-    LocalDateTime cursorLikedAt = hasNext
-        ? pagedLikerList.getLast().likedAt()
-        : null;
-    String cursorLikerId = hasNext
-        ? pagedLikerList.getLast().liker().userId()
-        : null;
-
-    return new GetPostLikersApiResponse(
-        pagedLikerList,
-        cursorLikedAt,
-        cursorLikerId
-    );
+    return CursorPageApiResponse.from(allLikerList, query.getLimit());
   }
 }

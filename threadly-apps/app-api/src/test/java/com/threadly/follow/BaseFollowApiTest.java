@@ -6,9 +6,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.threadly.CommonResponse;
 import com.threadly.follow.command.dto.FollowUserApiResponse;
-import com.threadly.follow.query.dto.GetFollowRequestsApiResponse;
-import com.threadly.follow.query.dto.GetFollowersApiResponse;
-import com.threadly.follow.query.dto.GetFollowingsApiResponse;
+import com.threadly.follow.query.dto.FollowRequestResponse;
+import com.threadly.follow.query.dto.FollowerResponse;
+import com.threadly.response.CursorPageApiResponse;
+import com.threadly.follow.query.dto.FollowingApiResponse;
 import com.threadly.follow.request.FollowRequest;
 import com.threadly.testsupport.fixture.users.UserFollowFixtureLoader;
 import com.threadly.user.controller.profile.BaseUserProfileApiTest;
@@ -54,15 +55,15 @@ public abstract class BaseFollowApiTest extends BaseUserProfileApiTest {
    * 팔로워 목록 조회 요청
    *
    * @param accessToken
-   * @param cursorFollowedAt
-   * @param cursorFollowerId
+   * @param cursorTimestamp
+   * @param cursorId
    * @param limit
    * @param expectedStatus
    * @return
    */
-  public CommonResponse<GetFollowersApiResponse> sendGetFollowersRequest(
-      String accessToken, String targetUserId, LocalDateTime cursorFollowedAt,
-      String cursorFollowerId,
+  public CommonResponse<CursorPageApiResponse<FollowerResponse>> sendGetFollowersRequest(
+      String accessToken, String targetUserId, LocalDateTime cursorTimestamp,
+      String cursorId,
       int limit,
       ResultMatcher expectedStatus)
       throws Exception {
@@ -71,9 +72,9 @@ public abstract class BaseFollowApiTest extends BaseUserProfileApiTest {
       path += "&user_id=" + targetUserId;
     }
 
-    if (cursorFollowedAt != null || cursorFollowerId != null) {
-      path += "&cursor_followed_at=" + cursorFollowedAt + "&cursor_follower_id="
-          + cursorFollowerId;
+    if (cursorTimestamp != null || cursorId != null) {
+      path += "&cursor_timestamp=" + cursorTimestamp + "&cursor_id="
+          + cursorId;
     }
     return
         sendGetRequest(
@@ -89,15 +90,15 @@ public abstract class BaseFollowApiTest extends BaseUserProfileApiTest {
    * 팔로잉 목록 조회 요청
    *
    * @param accessToken
-   * @param cursorFollowedAt
-   * @param cursorFollowingId
+   * @param cursorTimestamp
+   * @param cursorId
    * @param limit
    * @param expectedStatus
    * @return
    */
-  public CommonResponse<GetFollowingsApiResponse> sendGetFollowingsRequest(
-      String accessToken, String targetUserId, LocalDateTime cursorFollowedAt,
-      String cursorFollowingId,
+  public CommonResponse<CursorPageApiResponse<FollowingApiResponse>> sendGetFollowingsRequest(
+      String accessToken, String targetUserId, LocalDateTime cursorTimestamp,
+      String cursorId,
       int limit,
       ResultMatcher expectedStatus)
       throws Exception {
@@ -106,9 +107,9 @@ public abstract class BaseFollowApiTest extends BaseUserProfileApiTest {
       path += "&user_id=" + targetUserId;
     }
 
-    if (cursorFollowedAt != null || cursorFollowingId != null) {
-      path += "&cursor_followed_at=" + cursorFollowedAt + "&cursor_following_id="
-          + cursorFollowingId;
+    if (cursorTimestamp != null || cursorId != null) {
+      path += "&cursor_timestamp=" + cursorTimestamp + "&cursor_id="
+          + cursorId;
     }
     return
         sendGetRequest(
@@ -124,21 +125,21 @@ public abstract class BaseFollowApiTest extends BaseUserProfileApiTest {
    * 팔로우 요청 목록 조회 요청
    *
    * @param accessToken
-   * @param cursorFollowRequestedAt
-   * @param cursorFollowId
+   * @param cursorTimestamp
+   * @param cursorId
    * @param limit
    * @param expectedStatus
    * @return
    */
-  public CommonResponse<GetFollowRequestsApiResponse> sendGetFollowRequestsRequest(
-      String accessToken, LocalDateTime cursorFollowRequestedAt, String cursorFollowId, int limit,
+  public CommonResponse<CursorPageApiResponse<FollowRequestResponse>> sendGetFollowRequestsRequest(
+      String accessToken, LocalDateTime cursorTimestamp, String cursorId, int limit,
       ResultMatcher expectedStatus)
       throws Exception {
     String path = "/api/follows/requests?limit=" + limit;
 
-    if (cursorFollowRequestedAt != null || cursorFollowId != null) {
-      path += "&cursor_follow_requested_at=" + cursorFollowRequestedAt + "&cursor_follow_id="
-          + cursorFollowId;
+    if (cursorTimestamp != null || cursorId != null) {
+      path += "&cursor_timestamp=" + cursorTimestamp + "&cursor_id="
+          + cursorId;
     }
     return
         sendGetRequest(
@@ -269,10 +270,10 @@ public abstract class BaseFollowApiTest extends BaseUserProfileApiTest {
    * @throws Exception
    */
   public void assertFollowerExists(String accessToken, String followerId) throws Exception {
-    CommonResponse<GetFollowersApiResponse> getFollowersResponse = sendGetFollowersRequest(
+    CommonResponse<CursorPageApiResponse<FollowerResponse>> getFollowersResponse = sendGetFollowersRequest(
         accessToken, null, null, null, 10, status().isOk());
     assertThat(
-        getFollowersResponse.getData().followers().getFirst().follower().userId()).isEqualTo(
+        getFollowersResponse.getData().content().getFirst().follower().userId()).isEqualTo(
         followerId);
   }
 
@@ -283,9 +284,9 @@ public abstract class BaseFollowApiTest extends BaseUserProfileApiTest {
    * @throws Exception
    */
   public void assertFollowersIsEmpty(String accessToken) throws Exception {
-    CommonResponse<GetFollowersApiResponse> getFollowersResponse = sendGetFollowersRequest(
+    CommonResponse<CursorPageApiResponse<FollowerResponse>> getFollowersResponse = sendGetFollowersRequest(
         accessToken, null, null, null, 10, status().isOk());
-    assertThat(getFollowersResponse.getData().followers()).isEmpty();
+    assertThat(getFollowersResponse.getData().content()).isEmpty();
   }
 
 }

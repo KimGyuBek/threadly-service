@@ -7,17 +7,17 @@ import com.threadly.post.create.CreatePostCommand.ImageCommand;
 import com.threadly.post.create.CreatePostUseCase;
 import com.threadly.post.delete.DeletePostCommand;
 import com.threadly.post.delete.DeletePostUseCase;
-import com.threadly.post.get.GetPostDetailApiResponse;
-import com.threadly.post.get.GetPostDetailsApiResponse;
 import com.threadly.post.get.GetPostListQuery;
 import com.threadly.post.get.GetPostQuery;
 import com.threadly.post.get.GetPostUseCase;
+import com.threadly.post.get.PostDetails;
 import com.threadly.post.request.CreatePostRequest;
 import com.threadly.post.request.UpdatePostRequest;
 import com.threadly.post.update.UpdatePostApiResponse;
 import com.threadly.post.update.UpdatePostCommand;
 import com.threadly.post.update.UpdatePostUseCase;
 import com.threadly.post.update.view.IncreaseViewCountUseCase;
+import com.threadly.response.CursorPageApiResponse;
 import jakarta.validation.Valid;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
@@ -64,12 +64,12 @@ public class PostController {
    * @return
    */
   @GetMapping("/{postId}")
-  public ResponseEntity<GetPostDetailApiResponse> getPost(
+  public ResponseEntity<PostDetails> getPost(
       @AuthenticationPrincipal JwtAuthenticationUser user,
       @PathVariable String postId) {
 
     /*게시글 조회*/
-    GetPostDetailApiResponse body = getPostUseCase.getPost(
+    PostDetails body = getPostUseCase.getPost(
         new GetPostQuery(
             postId, user.getUserId()
         )
@@ -90,16 +90,16 @@ public class PostController {
    * @return
    */
   @GetMapping("")
-  public ResponseEntity<GetPostDetailsApiResponse> getPostList(
+  public ResponseEntity<CursorPageApiResponse> getPostList(
       @AuthenticationPrincipal JwtAuthenticationUser user,
-      @RequestParam(value = "cursor_posted_at", required = false) LocalDateTime cursorPostedAt,
-      @RequestParam(value = "cursor_post_id", required = false) String cursorPostId,
+      @RequestParam(value = "cursor_timestamp", required = false) LocalDateTime cursorTimestamp,
+      @RequestParam(value = "cursor_id", required = false) String cursorId,
       @RequestParam(value = "limit", defaultValue = "10") int limit
   ) {
     return ResponseEntity.status(200).body(
         getPostUseCase.getUserVisiblePostListByCursor(
             new GetPostListQuery(
-                user.getUserId(), cursorPostedAt, cursorPostId, limit
+                user.getUserId(), cursorTimestamp, cursorId, limit
             )
         )
     );

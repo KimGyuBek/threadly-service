@@ -1,13 +1,14 @@
 package com.threadly.post.get;
 
 import com.threadly.commons.dto.UserPreview;
+import com.threadly.response.CursorSupport;
 import java.time.LocalDateTime;
 import java.util.List;
 
 /**
  * 게시글 조회 응답 APi DTO
  */
-public record GetPostDetailApiResponse(
+public record PostDetails(
     String postId,
     UserPreview author,
     String content,
@@ -17,8 +18,17 @@ public record GetPostDetailApiResponse(
     long likeCount,
     long commentCount,
     boolean liked
-) {
+) implements CursorSupport {
 
+  @Override
+  public LocalDateTime cursorTimeStamp() {
+    return postedAt;
+  }
+
+  @Override
+  public String cursorId() {
+    return postId;
+  }
 
   /**
    * 게시글 이미지 데이터

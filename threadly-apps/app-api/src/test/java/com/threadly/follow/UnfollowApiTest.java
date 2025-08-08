@@ -5,7 +5,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.threadly.CommonResponse;
 import com.threadly.exception.ErrorCode;
-import com.threadly.follow.query.dto.GetFollowingsApiResponse;
+import com.threadly.follow.query.dto.FollowingApiResponse;
+import com.threadly.response.CursorPageApiResponse;
 import com.threadly.utils.TestConstants;
 import org.junit.jupiter.api.ClassOrderer;
 import org.junit.jupiter.api.DisplayName;
@@ -62,7 +63,7 @@ public class UnfollowApiTest extends BaseFollowApiTest {
       String accessToken = getAccessToken(APPROVE_FOLLOW_FOLLOWER_EMAIL);
 
       /*팔로잉 목록 조회*/
-      CommonResponse<GetFollowingsApiResponse> getFollowingsResponse1 = sendGetFollowingsRequest(
+      CommonResponse<CursorPageApiResponse<FollowingApiResponse>> getFollowingsResponse1 = sendGetFollowingsRequest(
           accessToken, null, null, null, 10,
           status().isOk()
       );
@@ -72,14 +73,14 @@ public class UnfollowApiTest extends BaseFollowApiTest {
       sendUnfollowUser(accessToken, FOLLOWING_USER_ID, status().isOk());
 
       /*팔로잉 목록 조회*/
-      CommonResponse<GetFollowingsApiResponse> getFollowingsResponse2 = sendGetFollowingsRequest(
+      CommonResponse<CursorPageApiResponse<FollowingApiResponse>> getFollowingsResponse2 = sendGetFollowingsRequest(
           accessToken, null, null, null, 10,
           status().isOk()
       );
 
       //then
-      assertThat(getFollowingsResponse1.getData().followings().size()).isEqualTo(
-          getFollowingsResponse2.getData().followings().size() + 1);
+      assertThat(getFollowingsResponse1.getData().content().size()).isEqualTo(
+          getFollowingsResponse2.getData().content().size() + 1);
     }
 
   }

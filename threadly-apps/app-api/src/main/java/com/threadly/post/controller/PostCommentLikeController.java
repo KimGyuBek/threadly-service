@@ -1,13 +1,14 @@
 package com.threadly.post.controller;
 
 import com.threadly.auth.JwtAuthenticationUser;
-import com.threadly.post.like.comment.GetPostCommentLikersApiResponse;
+import com.threadly.post.like.comment.PostCommentLiker;
 import com.threadly.post.like.comment.GetPostCommentLikersQuery;
 import com.threadly.post.like.comment.GetPostCommentLikersUseCase;
 import com.threadly.post.like.comment.LikePostCommentApiResponse;
 import com.threadly.post.like.comment.LikePostCommentCommand;
 import com.threadly.post.like.comment.LikePostCommentUseCase;
 import com.threadly.post.like.comment.UnlikePostCommentUseCase;
+import com.threadly.response.CursorPageApiResponse;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -44,21 +45,21 @@ public class PostCommentLikeController {
    *
    * @param postId
    * @param commentId
-   * @param cursorLikedAt
-   * @param cursorLikerId
+   * @param cursorId
+   * @param cursorTimestamp
    * @return
    */
   @GetMapping("/{postId}/comments/{commentId}/likes")
-  public ResponseEntity<GetPostCommentLikersApiResponse> getPostCommentLikers(
+  public ResponseEntity<CursorPageApiResponse<PostCommentLiker>> getPostCommentLikers(
       @PathVariable("postId") String postId, @PathVariable("commentId") String commentId,
-      @RequestParam(value = "cursor_liked_at", required = false) LocalDateTime cursorLikedAt,
-      @RequestParam(value = "cursor_liker_id", required = false) String cursorLikerId,
+      @RequestParam(value = "cursor_timestamp", required = false) LocalDateTime cursorTimestamp,
+      @RequestParam(value = "cursor_id", required = false) String cursorId,
       @RequestParam(value = "limit", defaultValue = "10") int limit
   ) {
 
     return ResponseEntity.status(200).body(getPostCommentLikersUseCase.getPostCommentLikers(
             new GetPostCommentLikersQuery(
-                postId, commentId, cursorLikedAt, cursorLikerId, limit)
+                postId, commentId, cursorTimestamp, cursorId, limit)
         )
     );
   }

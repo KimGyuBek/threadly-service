@@ -7,8 +7,8 @@ import java.time.LocalDateTime;
  */
 public record GetFollowRequestsQuery(
     String userId,
-    LocalDateTime cursorFollowRequestedAt,
-    String cursorFollowId,
+    LocalDateTime cursorTimestamp,
+    String cursorId,
     int limit
 ) {
 

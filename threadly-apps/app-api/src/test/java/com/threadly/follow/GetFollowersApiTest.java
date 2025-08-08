@@ -5,7 +5,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.threadly.CommonResponse;
 import com.threadly.exception.ErrorCode;
-import com.threadly.follow.query.dto.GetFollowersApiResponse;
+import com.threadly.response.CursorPageApiResponse;
+import com.threadly.follow.query.dto.FollowerResponse;
 import com.threadly.user.UserStatusType;
 import com.threadly.utils.TestConstants;
 import java.time.LocalDateTime;
@@ -69,12 +70,12 @@ public class GetFollowersApiTest extends BaseFollowApiTest {
 
       //when
       /*팔로워 목록 조회 요청*/
-      CommonResponse<GetFollowersApiResponse> getFollowersResponse = sendGetFollowersRequest(
+      CommonResponse<CursorPageApiResponse<FollowerResponse>> getFollowersResponse = sendGetFollowersRequest(
           accessToken, null, null, null, 10, status().isOk()
       );
 
       //then
-      assertThat(getFollowersResponse.getData().followers()).isEmpty();
+      assertThat(getFollowersResponse.getData().content()).isEmpty();
     }
 
     /*[Case #2]  팔로우 요청 후 해당 사용자가 팔로워 목록에 포함되는지 검증 */
@@ -96,13 +97,13 @@ public class GetFollowersApiTest extends BaseFollowApiTest {
       String targetUserAccessToken = getAccessToken(USER2_EMAIL);
 
       /*팔로워 목록 조회 요청*/
-      CommonResponse<GetFollowersApiResponse> getFollowersResponse = sendGetFollowersRequest(
+      CommonResponse<CursorPageApiResponse<FollowerResponse>> getFollowersResponse = sendGetFollowersRequest(
           targetUserAccessToken, null, null, null, 10, status().isOk()
       );
 
       //then
       assertThat(
-          getFollowersResponse.getData().followers().getFirst().follower().userId()).isEqualTo(
+          getFollowersResponse.getData().content().getFirst().follower().userId()).isEqualTo(
           USER_ID);
     }
 
@@ -125,12 +126,12 @@ public class GetFollowersApiTest extends BaseFollowApiTest {
       String targetUserAccessToken = getAccessToken(USER2_EMAIL);
 
       /*팔로워 목록 조회 요청*/
-      CommonResponse<GetFollowersApiResponse> getFollowersResponse = sendGetFollowersRequest(
+      CommonResponse<CursorPageApiResponse<FollowerResponse>> getFollowersResponse = sendGetFollowersRequest(
           targetUserAccessToken, null, null, null, 10, status().isOk()
       );
 
       //then
-      assertThat(getFollowersResponse.getData().followers()).isEmpty();
+      assertThat(getFollowersResponse.getData().content()).isEmpty();
     }
 
     /*[Case #4] 언팔로우 후 상대방의 팔로워 목록에서 제거되는지 검증   */
@@ -148,18 +149,18 @@ public class GetFollowersApiTest extends BaseFollowApiTest {
 
       //when
       /*팔로워 목록 조회 요청*/
-      CommonResponse<GetFollowersApiResponse> getFollowersResponse1 = sendGetFollowersRequest(
+      CommonResponse<CursorPageApiResponse<FollowerResponse>> getFollowersResponse1 = sendGetFollowersRequest(
           getAccessToken(TARGET_USER_EMAIL), null, null, null, 10, status().isOk());
 
       sendUnfollowUser(getAccessToken(TEST_USER_EMAIL), TARGET_USER_ID, status().isOk());
 
       /*팔로워 목록 조회 요청*/
-      CommonResponse<GetFollowersApiResponse> getFollowersResponse2 = sendGetFollowersRequest(
+      CommonResponse<CursorPageApiResponse<FollowerResponse>> getFollowersResponse2 = sendGetFollowersRequest(
           getAccessToken(TARGET_USER_EMAIL), null, null, null, 10, status().isOk());
 
       //then
-      assertThat(getFollowersResponse1.getData().followers().size()).isEqualTo(
-          getFollowersResponse2.getData().followers().size() + 1
+      assertThat(getFollowersResponse1.getData().content().size()).isEqualTo(
+          getFollowersResponse2.getData().content().size() + 1
       );
     }
 
@@ -180,7 +181,7 @@ public class GetFollowersApiTest extends BaseFollowApiTest {
       String accessToken = getAccessToken(TARGET_USER_EMAIL);
 
       /*팔로워 목록 조회*/
-      CommonResponse<GetFollowersApiResponse> getFollowersResponse1 = sendGetFollowersRequest(
+      CommonResponse<CursorPageApiResponse<FollowerResponse>> getFollowersResponse1 = sendGetFollowersRequest(
           accessToken, null, null, null, 10, status().isOk());
 
       /*팔로워 삭제 요청*/
@@ -188,12 +189,12 @@ public class GetFollowersApiTest extends BaseFollowApiTest {
           accessToken, TEST_USER_ID, status().isOk());
 
       /*팔로워 목록 재조회*/
-      CommonResponse<GetFollowersApiResponse> getFollowersResponse2 = sendGetFollowersRequest(
+      CommonResponse<CursorPageApiResponse<FollowerResponse>> getFollowersResponse2 = sendGetFollowersRequest(
           accessToken, null, null, null, 10, status().isOk());
 
       //then
-      assertThat(getFollowersResponse1.getData().followers().size()).isEqualTo(
-          getFollowersResponse2.getData().followers().size() + 1
+      assertThat(getFollowersResponse1.getData().content().size()).isEqualTo(
+          getFollowersResponse2.getData().content().size() + 1
       );
 
     }
@@ -213,23 +214,23 @@ public class GetFollowersApiTest extends BaseFollowApiTest {
       /*로그인*/
       String accessToken = getAccessToken(TARGET_USER_EMAIL);
       //when
-      LocalDateTime cursorFollowedAt = null;
-      String cursorFollowerId = null;
+      LocalDateTime cursorTimestamp = null;
+      String cursorId = null;
       int limit = 10;
       int size = 0;
 
       while (true) {
-        CommonResponse<GetFollowersApiResponse> getFollowersResponse = sendGetFollowersRequest(
-            accessToken, null, cursorFollowedAt, cursorFollowerId, limit, status().isOk());
-        size += getFollowersResponse.getData().followers().size();
+        CommonResponse<CursorPageApiResponse<FollowerResponse>> getFollowersResponse = sendGetFollowersRequest(
+            accessToken, null, cursorTimestamp, cursorId, limit, status().isOk());
+        size += getFollowersResponse.getData().content().size();
 
         /*마지막 페이지인 경우*/
-        if (getFollowersResponse.getData().nextCursor().cursorFollowedAt() == null) {
+        if (getFollowersResponse.getData().nextCursor().cursorTimestamp() == null) {
           break;
         }
 
-        cursorFollowedAt = getFollowersResponse.getData().nextCursor().cursorFollowedAt();
-        cursorFollowerId = getFollowersResponse.getData().nextCursor().cursorFollowerId();
+        cursorTimestamp = getFollowersResponse.getData().nextCursor().cursorTimestamp();
+        cursorId = getFollowersResponse.getData().nextCursor().cursorId();
       }
 
       //then
@@ -254,11 +255,11 @@ public class GetFollowersApiTest extends BaseFollowApiTest {
 
       //when
       /*팔로워 목록 조회 요청*/
-      CommonResponse<GetFollowersApiResponse> getFollowersResponse = sendGetFollowersRequest(
+      CommonResponse<CursorPageApiResponse<FollowerResponse>> getFollowersResponse = sendGetFollowersRequest(
           accessToken, null, null, null, 10, status().isOk());
 
       //then
-      assertThat(getFollowersResponse.getData().followers()).isEmpty();
+      assertThat(getFollowersResponse.getData().content()).isEmpty();
     }
 
     /*[Case #8] 팔로워 목록에서 탈퇴처리 된 사용자가 포함되는지 검증 */
@@ -279,11 +280,11 @@ public class GetFollowersApiTest extends BaseFollowApiTest {
 
       //when
       /*팔로워 목록 조회 요청*/
-      CommonResponse<GetFollowersApiResponse> getFollowersResponse = sendGetFollowersRequest(
+      CommonResponse<CursorPageApiResponse<FollowerResponse>> getFollowersResponse = sendGetFollowersRequest(
           accessToken, null, null, null, 10, status().isOk());
 
       //then
-      assertThat(getFollowersResponse.getData().followers()).isEmpty();
+      assertThat(getFollowersResponse.getData().content()).isEmpty();
     }
 
 
@@ -302,24 +303,24 @@ public class GetFollowersApiTest extends BaseFollowApiTest {
       /*로그인*/
       String accessToken = getAccessToken(TEST_USER_EMAIL);
       //when
-      LocalDateTime cursorFollowedAt = null;
-      String cursorFollowerId = null;
+      LocalDateTime cursorTimestamp = null;
+      String cursorId = null;
       int limit = 10;
       int size = 0;
 
       while (true) {
-        CommonResponse<GetFollowersApiResponse> getFollowersResponse = sendGetFollowersRequest(
-            accessToken, TARGET_USER_ID, cursorFollowedAt, cursorFollowerId, limit,
+        CommonResponse<CursorPageApiResponse<FollowerResponse>> getFollowersResponse = sendGetFollowersRequest(
+            accessToken, TARGET_USER_ID, cursorTimestamp, cursorId, limit,
             status().isOk());
-        size += getFollowersResponse.getData().followers().size();
+        size += getFollowersResponse.getData().content().size();
 
         /*마지막 페이지인 경우*/
-        if (getFollowersResponse.getData().nextCursor().cursorFollowedAt() == null) {
+        if (getFollowersResponse.getData().nextCursor().cursorTimestamp() == null) {
           break;
         }
 
-        cursorFollowedAt = getFollowersResponse.getData().nextCursor().cursorFollowedAt();
-        cursorFollowerId = getFollowersResponse.getData().nextCursor().cursorFollowerId();
+        cursorTimestamp = getFollowersResponse.getData().nextCursor().cursorTimestamp();
+        cursorId = getFollowersResponse.getData().nextCursor().cursorId();
       }
 
       //then
@@ -344,24 +345,24 @@ public class GetFollowersApiTest extends BaseFollowApiTest {
       String accessToken = getAccessToken(TEST_USER_EMAIL);
       //when
 
-      LocalDateTime cursorFollowedAt = null;
-      String cursorFollowerId = null;
+      LocalDateTime cursorTimestamp = null;
+      String cursorId = null;
       int limit = 10;
       int size = 0;
 
       while (true) {
-        CommonResponse<GetFollowersApiResponse> getFollowersResponse = sendGetFollowersRequest(
-            accessToken, TARGET_USER_ID, cursorFollowedAt, cursorFollowerId, limit,
+        CommonResponse<CursorPageApiResponse<FollowerResponse>> getFollowersResponse = sendGetFollowersRequest(
+            accessToken, TARGET_USER_ID, cursorTimestamp, cursorId, limit,
             status().isOk());
-        size += getFollowersResponse.getData().followers().size();
+        size += getFollowersResponse.getData().content().size();
 
         /*마지막 페이지인 경우*/
-        if (getFollowersResponse.getData().nextCursor().cursorFollowedAt() == null) {
+        if (getFollowersResponse.getData().nextCursor().cursorTimestamp() == null) {
           break;
         }
 
-        cursorFollowedAt = getFollowersResponse.getData().nextCursor().cursorFollowedAt();
-        cursorFollowerId = getFollowersResponse.getData().nextCursor().cursorFollowerId();
+        cursorTimestamp = getFollowersResponse.getData().nextCursor().cursorTimestamp();
+        cursorId = getFollowersResponse.getData().nextCursor().cursorId();
       }
       //then
       assertThat(size).isEqualTo(FOLLOW_REQUESTS_SIZE + 1);
@@ -392,7 +393,7 @@ public class GetFollowersApiTest extends BaseFollowApiTest {
       String accessToken = getAccessToken(TEST_USER_EMAIL);
       //when
 
-      CommonResponse<GetFollowersApiResponse> getFollowersResponse = sendGetFollowersRequest(
+      CommonResponse<CursorPageApiResponse<FollowerResponse>> getFollowersResponse = sendGetFollowersRequest(
           accessToken, TARGET_USER_ID, null, null, 10,
           status().isForbidden());
       //then

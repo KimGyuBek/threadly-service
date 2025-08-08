@@ -5,8 +5,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.threadly.CommonResponse;
 import com.threadly.exception.ErrorCode;
-import com.threadly.post.get.GetPostDetailApiResponse;
+import com.threadly.post.get.PostDetails;
 import com.threadly.post.get.GetPostDetailsApiResponse;
+import com.threadly.response.CursorPageApiResponse;
 import com.threadly.testsupport.fixture.posts.PostFixtureLoader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.ClassOrderer;
@@ -74,18 +75,18 @@ class UpdatePostStatusApiTest extends BasePostApiTest {
             accessToken, POST_ACTIVE_ID, status().isOk());
 
         /*게시글 조회 요청 전송*/
-        CommonResponse<GetPostDetailApiResponse> getPostResponse = sendGetPostRequest(
+        CommonResponse<PostDetails> getPostResponse = sendGetPostRequest(
             accessToken, POST_ACTIVE_ID, status().isBadRequest());
 
         /*게시글 목록 조회 요청 전송*/
-        CommonResponse<GetPostDetailsApiResponse> getPostListResponse = sendGetPostListRequest(
+       CommonResponse<CursorPageApiResponse<PostDetails>> getPostListResponse = sendGetPostListRequest(
             accessToken, null, null, 10, status().isOk());
 
         assertThat(getPostResponse.isSuccess()).isFalse();
         assertThat(getPostResponse.getCode()).isEqualTo(ErrorCode.POST_ALREADY_DELETED.getCode());
 
-        assertThat(getPostListResponse.getData().posts()).extracting(
-                GetPostDetailApiResponse::postId)
+        assertThat(getPostListResponse.getData().content()).extracting(
+                PostDetails::postId)
             .doesNotContain(POST_ACTIVE_ID);
       }
     }

@@ -6,13 +6,11 @@ import com.threadly.follow.command.dto.FollowRelationCommand;
 import com.threadly.follow.command.dto.FollowUserApiResponse;
 import com.threadly.follow.command.dto.HandleFollowRequestCommand;
 import com.threadly.follow.query.FollowQueryUseCase;
-import com.threadly.follow.query.dto.GetFollowRequestsApiResponse;
 import com.threadly.follow.query.dto.GetFollowRequestsQuery;
-import com.threadly.follow.query.dto.GetFollowersApiResponse;
 import com.threadly.follow.query.dto.GetFollowersQuery;
-import com.threadly.follow.query.dto.GetFollowingsApiResponse;
 import com.threadly.follow.query.dto.GetFollowingsQuery;
 import com.threadly.follow.request.FollowRequest;
+import com.threadly.response.CursorPageApiResponse;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class FollowController {
 
   private final FollowCommandUseCase followCommandUseCase;
-  private final FollowQueryUseCase followQueryUseCas;
+  private final FollowQueryUseCase followQueryUseCase;
 
   /**
    * 사용자 팔로우 요청
@@ -91,20 +89,20 @@ public class FollowController {
    * 팔로우 요청 목록 커서 기반 조회
    *
    * @param user
-   * @param cursorFollowRequestedAt
-   * @param cursorFollowId
+   * @param cursorTimestamp
+   * @param cursorId
    * @param limit
    * @return
    */
   @GetMapping("/requests")
-  public ResponseEntity<GetFollowRequestsApiResponse> getFollowRequests(
+  public ResponseEntity<CursorPageApiResponse> getFollowRequests(
       @AuthenticationPrincipal JwtAuthenticationUser user,
-      @RequestParam(value = "cursor_follow_requested_at", required = false) LocalDateTime cursorFollowRequestedAt,
-      @RequestParam(value = "cursor_follow_id", required = false) String cursorFollowId,
+      @RequestParam(value = "cursor_timestamp", required = false) LocalDateTime cursorTimestamp,
+      @RequestParam(value = "cursor_id", required = false) String cursorId,
       @RequestParam(value = "limit", defaultValue = "10") int limit
   ) {
-    return ResponseEntity.status(200).body(followQueryUseCas.getFollowRequestsByCursor(
-        new GetFollowRequestsQuery(user.getUserId(), cursorFollowRequestedAt, cursorFollowId,
+    return ResponseEntity.status(200).body(followQueryUseCase.getFollowRequestsByCursor(
+        new GetFollowRequestsQuery(user.getUserId(), cursorTimestamp, cursorId,
             limit)));
   }
 
@@ -121,18 +119,18 @@ public class FollowController {
    * @return
    */
   @GetMapping("/followers")
-  public ResponseEntity<GetFollowersApiResponse> getFollowers(
+  public ResponseEntity<CursorPageApiResponse> getFollowers(
       @AuthenticationPrincipal JwtAuthenticationUser user,
       @RequestParam(value = "user_id", required = false) String targetUserId,
-      @RequestParam(value = "cursor_followed_at", required = false) LocalDateTime cursorFollowedAt,
-      @RequestParam(value = "cursor_follower_id", required = false) String cursorFollowerId,
+      @RequestParam(value = "cursor_timestamp", required = false) LocalDateTime cursorTimestamp,
+      @RequestParam(value = "cursor_id", required = false) String cursorId,
       @RequestParam(value = "limit", defaultValue = "10") int limit
   ) {
 
-    return ResponseEntity.status(200).body(followQueryUseCas.getFollowers(
+    return ResponseEntity.status(200).body(followQueryUseCase.getFollowers(
             new GetFollowersQuery(user.getUserId(),
                 (targetUserId != null) ? targetUserId : user.getUserId(),
-                cursorFollowedAt, cursorFollowerId, limit
+                cursorTimestamp, cursorId, limit
             )
         )
     );
@@ -151,18 +149,18 @@ public class FollowController {
    * @return
    */
   @GetMapping("/followings")
-  public ResponseEntity<GetFollowingsApiResponse> getFollowings(
+  public ResponseEntity<CursorPageApiResponse> getFollowings(
       @AuthenticationPrincipal JwtAuthenticationUser user,
       @RequestParam(value = "user_id", required = false) String targetUserId,
-      @RequestParam(value = "cursor_followed_at", required = false) LocalDateTime cursorFollowedAt,
-      @RequestParam(value = "cursor_following_id", required = false) String cursorFollowingId,
+      @RequestParam(value = "cursor_timestamp", required = false) LocalDateTime cursorTimestamp,
+      @RequestParam(value = "cursor_id", required = false) String cursorId,
       @RequestParam(value = "limit", defaultValue = "10") int limit
   ) {
 
-    return ResponseEntity.status(200).body(followQueryUseCas.getFollowings(
+    return ResponseEntity.status(200).body(followQueryUseCase.getFollowings(
             new GetFollowingsQuery(user.getUserId(),
                 (targetUserId != null) ? targetUserId : user.getUserId(),
-                cursorFollowedAt, cursorFollowingId, limit
+                cursorTimestamp, cursorId, limit
             )
         )
     );

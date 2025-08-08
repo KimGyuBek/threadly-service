@@ -9,10 +9,8 @@ import com.threadly.post.comment.get.GetPostCommentApiResponse;
 import com.threadly.post.comment.get.GetPostCommentDetailQuery;
 import com.threadly.post.comment.get.GetPostCommentListQuery;
 import com.threadly.post.comment.get.GetPostCommentUseCase;
-import com.threadly.post.comment.get.GetPostCommentsApiResponse;
-import com.threadly.post.comment.get.GetPostCommentsApiResponse.NextCursor;
 import com.threadly.post.fetch.FetchPostPort;
-import java.time.LocalDateTime;
+import com.threadly.response.CursorPageApiResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,10 +29,9 @@ public class PostCommentQueryService implements GetPostCommentUseCase {
 
   @Transactional(readOnly = true)
   @Override
-  public GetPostCommentsApiResponse getPostCommentDetailListForUser(
+  public CursorPageApiResponse<GetPostCommentApiResponse> getPostCommentDetailListForUser(
       GetPostCommentListQuery query
   ) {
-
     /*게시글 유효성 검증*/
     PostStatus posStatus = fetchPostPort.fetchPostStatusByPostId(query.postId())
         .orElseThrow(() -> new PostException(
@@ -66,23 +63,7 @@ public class PostCommentQueryService implements GetPostCommentUseCase {
         )
     ).toList();
 
-    /*다음 페이지가 있는지 검증*/
-    boolean hasNext = allCommentList.size() > query.limit();
-
-    /*리스트 분할*/
-    List<GetPostCommentApiResponse> pagedCommentList =
-        hasNext ? allCommentList.subList(0, query.limit()) : allCommentList;
-
-    /* 커서 지정*/
-    LocalDateTime cursorCommentedAt =
-        hasNext ? pagedCommentList.getLast().commentedAt() : null;
-
-    String cursorCommentId = hasNext ? pagedCommentList.getLast().commentId() : null;
-
-    return new GetPostCommentsApiResponse(
-        pagedCommentList,
-        new NextCursor(cursorCommentedAt, cursorCommentId)
-    );
+    return CursorPageApiResponse.from(allCommentList, query.limit());
   }
 
   @Override

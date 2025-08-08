@@ -6,10 +6,11 @@ import com.threadly.post.comment.create.CreatePostCommentCommand;
 import com.threadly.post.comment.create.CreatePostCommentUseCase;
 import com.threadly.post.comment.delete.DeletePostCommentCommand;
 import com.threadly.post.comment.delete.DeletePostCommentUseCase;
-import com.threadly.post.comment.get.GetPostCommentsApiResponse;
+import com.threadly.post.comment.get.GetPostCommentApiResponse;
 import com.threadly.post.comment.get.GetPostCommentListQuery;
 import com.threadly.post.comment.get.GetPostCommentUseCase;
 import com.threadly.post.request.CreatePostCommentRequest;
+import com.threadly.response.CursorPageApiResponse;
 import jakarta.validation.Valid;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
@@ -49,17 +50,17 @@ public class PostCommentController {
    * 게시글 댓글 목록 커서 기반 조회
    *
    * @param postId
-   * @param cursorCommentedAt
-   * @param cursorCommentId
+   * @param cursorTimestamp
+   * @param cursorId
    * @param limit
    * @return
    */
   @GetMapping("/{postId}/comments")
-  public ResponseEntity<GetPostCommentsApiResponse> getPostComments(
+  public ResponseEntity<CursorPageApiResponse<GetPostCommentApiResponse>> getPostComments(
       @AuthenticationPrincipal JwtAuthenticationUser user,
       @PathVariable String postId,
-      @RequestParam(value = "cursor_commented_at", required = false) LocalDateTime cursorCommentedAt,
-      @RequestParam(value = "cursor_comment_id", required = false) String cursorCommentId,
+      @RequestParam(value = "cursor_timestamp", required = false) LocalDateTime cursorTimestamp ,
+      @RequestParam(value = "cursor_id", required = false) String cursorId,
       @RequestParam(value = "limit", defaultValue = "10") int limit
   ) {
 
@@ -68,8 +69,8 @@ public class PostCommentController {
             new GetPostCommentListQuery(
                 postId,
                 user.getUserId(),
-                cursorCommentedAt,
-                cursorCommentId,
+                cursorTimestamp,
+                cursorId,
                 limit
             )
         )

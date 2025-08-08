@@ -5,7 +5,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.threadly.CommonResponse;
 import com.threadly.exception.ErrorCode;
-import com.threadly.follow.query.dto.GetFollowersApiResponse;
+import com.threadly.response.CursorPageApiResponse;
+import com.threadly.follow.query.dto.FollowerResponse;
 import com.threadly.utils.TestConstants;
 import org.junit.jupiter.api.ClassOrderer;
 import org.junit.jupiter.api.DisplayName;
@@ -62,7 +63,7 @@ public class RemoveFollowerApiTest extends BaseFollowApiTest {
       String accessToken = getAccessToken(FOLLOWING_USER_EMAIL);
 
       /*팔로워 목록 조회*/
-      CommonResponse<GetFollowersApiResponse> getFollowersResponse1 = sendGetFollowersRequest(
+      CommonResponse<CursorPageApiResponse<FollowerResponse>> getFollowersResponse1 = sendGetFollowersRequest(
           accessToken, null, null, null, 10, status().isOk()
       );
 
@@ -71,13 +72,13 @@ public class RemoveFollowerApiTest extends BaseFollowApiTest {
       sendRemoveFollower(accessToken, APPROVE_FOLLOW_FOLLOWER_ID, status().isOk());
 
       /*팔로워 목록 조회*/
-      CommonResponse<GetFollowersApiResponse> getFollowersResponse2 = sendGetFollowersRequest(
+      CommonResponse<CursorPageApiResponse<FollowerResponse>> getFollowersResponse2 = sendGetFollowersRequest(
           accessToken, null, null, null, 10, status().isOk()
       );
 
       //then
-      assertThat(getFollowersResponse1.getData().followers().size()).isEqualTo(
-          getFollowersResponse2.getData().followers().size() + 1);
+      assertThat(getFollowersResponse1.getData().content().size()).isEqualTo(
+          getFollowersResponse2.getData().content().size() + 1);
     }
 
   }

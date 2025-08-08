@@ -9,7 +9,7 @@ import java.util.List;
  * @param nextCursor(null 이면 마지막 페이지)
  */
 public record GetPostDetailsApiResponse(
-    List<GetPostDetailApiResponse> posts,
+    List<PostDetails> posts,
     NextCursor nextCursor
 ) {
 

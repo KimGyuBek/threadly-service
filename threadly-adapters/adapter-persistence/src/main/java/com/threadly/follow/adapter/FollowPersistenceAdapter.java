@@ -51,27 +51,27 @@ public class FollowPersistenceAdapter implements FollowCommandPort, FollowQueryP
 
   @Override
   public List<FollowRequestsProjection> findFollowRequestsByCursor(String userId,
-      LocalDateTime cursorFollowRequestedAt, String cursorFollowId, int limit) {
+      LocalDateTime cursorTimestamp, String cursorId, int limit) {
     return followJpaRepository.findFollowRequestsByCursor(
         userId,
-        cursorFollowRequestedAt,
-        cursorFollowId,
+        cursorTimestamp,
+        cursorId,
         limit
     );
   }
 
   @Override
   public List<FollowerProjection> findFollowersByCursor(String targetUserId,
-      LocalDateTime cursorFollowedAt, String cursorFollowerId, int limit) {
-    return followJpaRepository.findFollowersByCursor(targetUserId, cursorFollowedAt,
-        cursorFollowerId, limit);
+      LocalDateTime cursorTimestamp, String cursorId, int limit) {
+    return followJpaRepository.findFollowersByCursor(targetUserId, cursorTimestamp,
+        cursorId, limit);
   }
 
   @Override
   public List<FollowingProjection> findFollowingsByCursor(String targetUserId,
-      LocalDateTime cursorFollowedAt, String cursorFollowingId, int limit) {
-    return followJpaRepository.findFollowingsByCursor(targetUserId, cursorFollowedAt,
-        cursorFollowingId, limit);
+      LocalDateTime cursorTimestamp, String cursorId, int limit) {
+    return followJpaRepository.findFollowingsByCursor(targetUserId, cursorTimestamp,
+        cursorId, limit);
   }
 
   @Override
