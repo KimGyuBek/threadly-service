@@ -1,8 +1,8 @@
 package com.threadly.aspect.logging;
 
-import static com.threadly.utils.LogFormatUtils.debugLog;
-import static com.threadly.utils.LogFormatUtils.logFailure;
-import static com.threadly.utils.LogFormatUtils.logSuccess;
+import static com.threadly.commons.utils.LogFormatUtils.debugLog;
+import static com.threadly.commons.utils.LogFormatUtils.logFailure;
+import static com.threadly.commons.utils.LogFormatUtils.logSuccess;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -24,7 +24,7 @@ public class EmailVerificationLoggingAspect {
   /*
    * verificationEmail()
    * */
-  @Pointcut("execution(* com.threadly.verification.EmailVerificationService.verificationEmail(..))")
+  @Pointcut("execution(* com.threadly.core.service.verification.EmailVerificationService.verificationEmail(..))")
   public void verificationEmail() {
   }
 
@@ -46,7 +46,7 @@ public class EmailVerificationLoggingAspect {
   /*
   * sendVerificationEmail()
    */
-  @Pointcut("execution(* com.threadly.verification.EmailVerificationService.sendVerificationEmail(..))")
+  @Pointcut("execution(* com.threadly.core.service.verification.EmailVerificationService.sendVerificationEmail(..))")
   public void sendVerificationEmail() {
   }
 

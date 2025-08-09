@@ -12,10 +12,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.threadly.CommonResponse;
-import com.threadly.auth.token.response.LoginTokenApiResponse;
-import com.threadly.exception.ErrorCode;
-import com.threadly.user.UserGenderType;
-import com.threadly.user.profile.command.dto.RegisterMyProfileApiResponse;
+import com.threadly.core.usecase.auth.token.response.LoginTokenApiResponse;
+import com.threadly.commons.exception.ErrorCode;
+import com.threadly.core.domain.user.UserGenderType;
+import com.threadly.core.usecase.user.profile.command.dto.RegisterMyProfileApiResponse;
 import java.util.Map;
 import org.junit.jupiter.api.ClassOrderer;
 import org.junit.jupiter.api.DisplayName;

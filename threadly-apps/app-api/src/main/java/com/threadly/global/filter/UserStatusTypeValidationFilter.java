@@ -2,10 +2,10 @@ package com.threadly.global.filter;
 
 import com.google.common.base.Objects;
 import com.threadly.auth.JwtAuthenticationUser;
-import com.threadly.exception.ErrorCode;
-import com.threadly.exception.user.UserException;
+import com.threadly.commons.exception.ErrorCode;
+import com.threadly.commons.exception.user.UserException;
 import com.threadly.global.exception.UserAuthenticationException;
-import com.threadly.user.UserStatusType;
+import com.threadly.core.domain.user.UserStatusType;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

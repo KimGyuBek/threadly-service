@@ -4,10 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.threadly.CommonResponse;
-import com.threadly.exception.ErrorCode;
-import com.threadly.post.get.PostDetails;
-import com.threadly.post.get.GetPostDetailsApiResponse;
-import com.threadly.response.CursorPageApiResponse;
+import com.threadly.commons.exception.ErrorCode;
+import com.threadly.core.usecase.post.get.PostDetails;
+import com.threadly.commons.response.CursorPageApiResponse;
 import com.threadly.testsupport.fixture.posts.PostFixtureLoader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.ClassOrderer;

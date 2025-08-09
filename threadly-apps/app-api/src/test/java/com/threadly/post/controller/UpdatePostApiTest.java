@@ -6,9 +6,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.threadly.CommonResponse;
-import com.threadly.exception.ErrorCode;
-import com.threadly.post.create.CreatePostApiResponse;
-import com.threadly.post.update.UpdatePostApiResponse;
+import com.threadly.commons.exception.ErrorCode;
+import com.threadly.core.usecase.post.create.CreatePostApiResponse;
+import com.threadly.core.usecase.post.update.UpdatePostApiResponse;
 import java.util.List;
 import org.junit.jupiter.api.ClassOrderer;
 import org.junit.jupiter.api.DisplayName;

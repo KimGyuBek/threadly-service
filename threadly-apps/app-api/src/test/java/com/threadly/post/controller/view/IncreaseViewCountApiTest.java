@@ -6,9 +6,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.threadly.CommonResponse;
 import com.threadly.post.controller.BasePostApiTest;
-import com.threadly.post.get.PostDetails;
-import com.threadly.properties.TtlProperties;
-import com.threadly.repository.auth.TestRedisHelper;
+import com.threadly.core.usecase.post.get.PostDetails;
+import com.threadly.commons.properties.TtlProperties;
+import com.threadly.adapter.redis.repository.auth.TestRedisHelper;
 import com.threadly.testsupport.fixture.posts.PostFixtureLoader;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;

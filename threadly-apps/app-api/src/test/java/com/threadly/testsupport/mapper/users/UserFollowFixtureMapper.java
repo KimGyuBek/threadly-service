@@ -1,7 +1,7 @@
 package com.threadly.testsupport.mapper.users;
 
 import com.threadly.testsupport.dto.users.UserFollowFixtureDto;
-import com.threadly.follow.Follow;
+import com.threadly.core.domain.follow.Follow;
 
 /**
  * User Follow Fixture 객체 매퍼

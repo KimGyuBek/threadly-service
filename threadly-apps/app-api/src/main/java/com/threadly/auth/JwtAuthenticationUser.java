@@ -1,6 +1,6 @@
 package com.threadly.auth;
 
-import com.threadly.user.UserStatusType;
+import com.threadly.core.domain.user.UserStatusType;
 import java.util.Collection;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;

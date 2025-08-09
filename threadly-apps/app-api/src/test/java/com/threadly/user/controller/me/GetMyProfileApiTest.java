@@ -3,7 +3,7 @@ package com.threadly.user.controller.me;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.threadly.CommonResponse;
-import com.threadly.user.profile.query.dto.GetMyProfileDetailsApiResponse;
+import com.threadly.core.usecase.user.profile.query.dto.GetMyProfileDetailsApiResponse;
 import org.junit.jupiter.api.ClassOrderer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;

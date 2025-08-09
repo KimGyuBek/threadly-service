@@ -4,9 +4,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.threadly.CommonResponse;
-import com.threadly.properties.UploadProperties;
+import com.threadly.commons.properties.UploadProperties;
 import com.threadly.user.controller.me.BaseMyProfileApiTest;
-import com.threadly.user.profile.image.dto.UploadMyProfileImageApiResponse;
+import com.threadly.core.usecase.user.profile.image.dto.UploadMyProfileImageApiResponse;
 import com.threadly.utils.TestLogUtils;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;

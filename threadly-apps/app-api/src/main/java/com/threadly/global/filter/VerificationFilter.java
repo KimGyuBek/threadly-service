@@ -1,11 +1,11 @@
 package com.threadly.global.filter;
 
-import static com.threadly.utils.JwtTokenUtils.extractAccessToken;
-import static com.threadly.utils.LogFormatUtils.logFailure;
+import static com.threadly.commons.utils.JwtTokenUtils.extractAccessToken;
+import static com.threadly.commons.utils.LogFormatUtils.logFailure;
 
-import com.threadly.exception.ErrorCode;
+import com.threadly.commons.exception.ErrorCode;
 import com.threadly.global.exception.UserAuthenticationException;
-import com.threadly.security.JwtTokenProvider;
+import com.threadly.commons.security.JwtTokenProvider;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

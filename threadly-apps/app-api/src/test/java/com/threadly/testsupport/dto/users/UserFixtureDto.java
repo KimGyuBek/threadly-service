@@ -1,10 +1,10 @@
 package com.threadly.testsupport.dto.users;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.threadly.user.UserGenderType;
-import com.threadly.user.UserStatusType;
-import com.threadly.user.UserType;
-import com.threadly.user.profile.UserProfileType;
+import com.threadly.core.domain.user.UserGenderType;
+import com.threadly.core.domain.user.UserStatusType;
+import com.threadly.core.domain.user.UserType;
+import com.threadly.core.domain.user.profile.UserProfileType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

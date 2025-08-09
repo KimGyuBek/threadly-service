@@ -1,10 +1,10 @@
 package com.threadly.global.interceptor;
 
 import com.google.common.base.Objects;
-import com.threadly.exception.ErrorCode;
-import com.threadly.exception.user.UserException;
-import com.threadly.security.JwtTokenProvider;
-import com.threadly.user.UserStatusType;
+import com.threadly.commons.exception.ErrorCode;
+import com.threadly.commons.exception.user.UserException;
+import com.threadly.commons.security.JwtTokenProvider;
+import com.threadly.core.domain.user.UserStatusType;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;

@@ -1,6 +1,6 @@
 package com.threadly.global.exception;
 
-import com.threadly.exception.ErrorCode;
+import com.threadly.commons.exception.ErrorCode;
 import org.springframework.security.core.AuthenticationException;
 
 /**

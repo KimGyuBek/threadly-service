@@ -1,6 +1,6 @@
 package com.threadly.testsupport.dto.users;
 
-import com.threadly.image.ImageStatus;
+import com.threadly.core.domain.image.ImageStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

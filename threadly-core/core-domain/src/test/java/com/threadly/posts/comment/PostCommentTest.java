@@ -2,7 +2,7 @@ package com.threadly.posts.comment;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.threadly.post.Post;
+import com.threadly.core.domain.post.Post;
 
 /**
  * 게시글 댓글 도메인 테스트

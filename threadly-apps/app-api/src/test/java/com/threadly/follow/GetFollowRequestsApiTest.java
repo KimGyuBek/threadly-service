@@ -4,10 +4,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.threadly.CommonResponse;
-import com.threadly.follow.command.dto.FollowUserApiResponse;
-import com.threadly.response.CursorPageApiResponse;
-import com.threadly.follow.query.dto.FollowRequestResponse;
-import com.threadly.user.UserStatusType;
+import com.threadly.core.domain.follow.FollowStatusType;
+import com.threadly.core.usecase.follow.command.dto.FollowUserApiResponse;
+import com.threadly.commons.response.CursorPageApiResponse;
+import com.threadly.core.usecase.follow.query.dto.FollowRequestResponse;
+import com.threadly.core.domain.user.UserStatusType;
 import com.threadly.utils.TestConstants;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.ClassOrderer;

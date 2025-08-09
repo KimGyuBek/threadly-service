@@ -1,6 +1,6 @@
 package com.threadly.testsupport.mapper.posts;
 
-import com.threadly.post.Post;
+import com.threadly.core.domain.post.Post;
 import com.threadly.testsupport.dto.posts.PostFixtureDto;
 
 /**
