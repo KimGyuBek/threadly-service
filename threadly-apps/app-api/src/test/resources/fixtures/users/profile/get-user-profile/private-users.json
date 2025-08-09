@@ -1,0 +1,50 @@
+[
+  {
+    "userId": "private_user_1",
+    "userName": "비공개 계정 사용자 1",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "private_user1@threadly.com",
+    "phone": "010-1111-1111",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "private_user_1",
+      "statusMessage": "비공개 계정입니다",
+      "bio": "팔로우 승인 후 볼 수 있습니다",
+      "gender": "MALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "private_user_2",
+    "userName": "비공개 계정 사용자 2",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "private_user2@threadly.com",
+    "phone": "010-2222-2222",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "private_user_2",
+      "statusMessage": "비공개 프로필",
+      "bio": "인사이드 써클만 허용",
+      "gender": "FEMALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "private_user_3",
+    "userName": "비공개 계정 사용자 3",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "private_user3@threadly.com",
+    "phone": "010-3333-3333",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "private_user_3",
+      "statusMessage": "Private Account",
+      "bio": "Follow to see posts",
+      "gender": "MALE",
+      "profileType": "USER"
+    }
+  }
+]

@@ -55,7 +55,7 @@ public class FollowQueryService implements FollowQueryUseCase {
   @Override
   public CursorPageApiResponse<FollowerResponse> getFollowers(GetFollowersQuery query) {
     /*접근 가능 여부 검증*/
-    followAccessValidator.validateProfileAccessible(query.userId(), query.targetUserId());
+    followAccessValidator.validateProfileAccessibleWithException(query.userId(), query.targetUserId());
 
     /*팔로워 목록 조회*/
     List<FollowerResponse> allFollowerList = followQueryPort.findFollowersByCursor(
@@ -84,7 +84,7 @@ public class FollowQueryService implements FollowQueryUseCase {
   @Override
   public CursorPageApiResponse<FollowingApiResponse> getFollowings(GetFollowingsQuery query) {
     /*접근 가능 여부 검증*/
-    followAccessValidator.validateProfileAccessible(query.userId(), query.targetUserId());
+    followAccessValidator.validateProfileAccessibleWithException(query.userId(), query.targetUserId());
 
     /*팔로워 목록 조회*/
     List<FollowingApiResponse> allFollowerList = followQueryPort.findFollowingsByCursor(

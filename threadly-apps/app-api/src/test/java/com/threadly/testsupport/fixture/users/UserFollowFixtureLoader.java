@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.threadly.testsupport.dto.users.UserFollowFixtureDto;
 import com.threadly.testsupport.fixture.FixtureLoader;
 import com.threadly.testsupport.mapper.users.UserFollowFixtureMapper;
+import com.threadly.user.UserStatusType;
 import com.threadly.user.follow.FollowCommandPort;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -31,12 +32,18 @@ public class UserFollowFixtureLoader {
    * @param followDataPath
    */
   @Transactional
-  public void load(String userDataPath,String followDataPath) {
+  public void load(String userDataPath, String followDataPath) {
     userFixtureLoader.load(userDataPath);
     List<UserFollowFixtureDto> data = getData(followDataPath);
     generateData(data);
   }
 
+  @Transactional
+  public void load(String userDataPath, boolean isPrivate, String followDataPath) {
+    userFixtureLoader.load(userDataPath, UserStatusType.ACTIVE, isPrivate);
+    List<UserFollowFixtureDto> data = getData(followDataPath);
+    generateData(data);
+  }
 
   /**
    * 데이터 생성

@@ -31,7 +31,8 @@ public class FollowAccessValidator {
    * @return followStatusType
    * @throws UserException
    */
-  public FollowStatusType validateProfileAccessible(String userId, String targetUserId) {
+  public FollowStatusType validateProfileAccessibleWithException(String userId,
+      String targetUserId) {
     if (userId.equals(targetUserId)) {
       return FollowStatusType.SELF;
     }
@@ -45,6 +46,15 @@ public class FollowAccessValidator {
     }
 
     return followStatusType;
+  }
+
+  public FollowStatusType validateProfileAccessible(String userId, String targetUserId) {
+    if (userId.equals(targetUserId)) {
+      return FollowStatusType.SELF;
+    }
+
+    return followQueryPort.findFollowStatusType(userId, targetUserId)
+        .orElse(FollowStatusType.NONE);
   }
 
   /**
