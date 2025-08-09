@@ -1,6 +1,7 @@
 package com.threadly.follow.query;
 
 import com.threadly.follow.query.dto.GetFollowRequestsQuery;
+import com.threadly.follow.query.dto.GetUserFollowStatsApiResponse;
 import com.threadly.response.CursorPageApiResponse;
 import com.threadly.follow.query.dto.GetFollowersQuery;
 import com.threadly.follow.query.dto.FollowingApiResponse;
@@ -31,4 +32,11 @@ public interface FollowQueryUseCase {
    * @return
    */
   CursorPageApiResponse getFollowings(GetFollowingsQuery query);
+
+  /**
+   * 주어진 userId에 해당하는 사용자의 팔로워, 팔로잉 수 조회
+   * @param userId
+   * @return
+   */
+  GetUserFollowStatsApiResponse getUserFollowStats(String userId);
 }

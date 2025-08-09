@@ -9,6 +9,7 @@ import com.threadly.follow.query.FollowQueryUseCase;
 import com.threadly.follow.query.dto.GetFollowRequestsQuery;
 import com.threadly.follow.query.dto.GetFollowersQuery;
 import com.threadly.follow.query.dto.GetFollowingsQuery;
+import com.threadly.follow.query.dto.GetUserFollowStatsApiResponse;
 import com.threadly.follow.request.FollowRequest;
 import com.threadly.response.CursorPageApiResponse;
 import java.time.LocalDateTime;
@@ -208,6 +209,19 @@ public class FollowController {
       @AuthenticationPrincipal JwtAuthenticationUser user) {
     followCommandUseCase.removeFollower(new FollowRelationCommand(user.getUserId(), followerId));
     return ResponseEntity.status(200).build();
+  }
+
+  /**
+   * 주어진 userId에 해당하는 사용자의 팔로워, 팔로잉 수 조회
+   *
+   * @param userId
+   * @return
+   */
+  @GetMapping("/{userId}/stats")
+  public ResponseEntity<GetUserFollowStatsApiResponse> getUserFollowStats(
+      @PathVariable("userId") String userId
+  ) {
+    return ResponseEntity.ok().body(followQueryUseCase.getUserFollowStats(userId));
   }
 
 }

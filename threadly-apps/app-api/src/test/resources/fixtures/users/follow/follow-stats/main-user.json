@@ -1,0 +1,18 @@
+[
+  {
+    "userId": "main_user",
+    "userName": "메인 테스트 사용자",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "main@threadly.com",
+    "phone": "010-1000-0001",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "main_user",
+      "statusMessage": "팔로우 통계 테스트 메인 사용자",
+      "bio": "팔로워 10명, 팔로잉 20명 데이터 테스트",
+      "gender": "MALE",
+      "profileType": "USER"
+    }
+  }
+]

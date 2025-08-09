@@ -152,7 +152,7 @@ public class GetFollowersApiTest extends BaseFollowApiTest {
       CommonResponse<CursorPageApiResponse<FollowerResponse>> getFollowersResponse1 = sendGetFollowersRequest(
           getAccessToken(TARGET_USER_EMAIL), null, null, null, 10, status().isOk());
 
-      sendUnfollowUser(getAccessToken(TEST_USER_EMAIL), TARGET_USER_ID, status().isOk());
+      sendUnfollowUserRequest(getAccessToken(TEST_USER_EMAIL), TARGET_USER_ID, status().isOk());
 
       /*팔로워 목록 조회 요청*/
       CommonResponse<CursorPageApiResponse<FollowerResponse>> getFollowersResponse2 = sendGetFollowersRequest(
@@ -185,7 +185,7 @@ public class GetFollowersApiTest extends BaseFollowApiTest {
           accessToken, null, null, null, 10, status().isOk());
 
       /*팔로워 삭제 요청*/
-      CommonResponse<Void> removeFollowerResponse = sendRemoveFollower(
+      CommonResponse<Void> removeFollowerResponse = sendRemoveFollowerRequest(
           accessToken, TEST_USER_ID, status().isOk());
 
       /*팔로워 목록 재조회*/

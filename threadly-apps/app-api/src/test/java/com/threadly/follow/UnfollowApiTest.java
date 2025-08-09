@@ -70,7 +70,7 @@ public class UnfollowApiTest extends BaseFollowApiTest {
 
       //when
       /*언팔로우 요청*/
-      sendUnfollowUser(accessToken, FOLLOWING_USER_ID, status().isOk());
+      sendUnfollowUserRequest(accessToken, FOLLOWING_USER_ID, status().isOk());
 
       /*팔로잉 목록 조회*/
       CommonResponse<CursorPageApiResponse<FollowingApiResponse>> getFollowingsResponse2 = sendGetFollowingsRequest(
@@ -99,7 +99,7 @@ public class UnfollowApiTest extends BaseFollowApiTest {
       //given
       //when
       /*언팔로우 요청*/
-      CommonResponse<Void> unfollowResponse = sendUnfollowUser(
+      CommonResponse<Void> unfollowResponse = sendUnfollowUserRequest(
           getAccessToken(TestConstants.EMAIL_VERIFIED_USER_1), USER_ID, status().isNotFound());
 
       //then
@@ -125,7 +125,7 @@ public class UnfollowApiTest extends BaseFollowApiTest {
 
       //when
       /*언팔로우 요청*/
-      CommonResponse<Void> unfollowResponse = sendUnfollowUser(accessToken, FOLLOWING_USER_ID,
+      CommonResponse<Void> unfollowResponse = sendUnfollowUserRequest(accessToken, FOLLOWING_USER_ID,
           status().isNotFound());
 
       //then

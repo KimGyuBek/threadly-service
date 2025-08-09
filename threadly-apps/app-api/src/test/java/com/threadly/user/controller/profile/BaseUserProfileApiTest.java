@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.threadly.BaseApiTest;
 import com.threadly.CommonResponse;
 import com.threadly.testsupport.fixture.users.UserFixtureLoader;
+import com.threadly.user.BaseUserApiTest;
 import com.threadly.user.profile.query.dto.GetUserProfileApiResponse;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import org.springframework.test.web.servlet.ResultMatcher;
 /**
  * 사용자 프로필 관련 Base 테스트
  */
-public abstract class BaseUserProfileApiTest extends BaseApiTest {
+public abstract class BaseUserProfileApiTest extends BaseUserApiTest {
 
   @Autowired
   public UserFixtureLoader userFixtureLoader;

@@ -69,7 +69,7 @@ public class RemoveFollowerApiTest extends BaseFollowApiTest {
 
       //when
       /*팔로워 삭제 요청*/
-      sendRemoveFollower(accessToken, APPROVE_FOLLOW_FOLLOWER_ID, status().isOk());
+      sendRemoveFollowerRequest(accessToken, APPROVE_FOLLOW_FOLLOWER_ID, status().isOk());
 
       /*팔로워 목록 조회*/
       CommonResponse<CursorPageApiResponse<FollowerResponse>> getFollowersResponse2 = sendGetFollowersRequest(
@@ -97,7 +97,7 @@ public class RemoveFollowerApiTest extends BaseFollowApiTest {
       //given
       //when
       /*팔로워 삭제 요청*/
-      CommonResponse<Void> removeFollowerResponse = sendRemoveFollower(
+      CommonResponse<Void> removeFollowerResponse = sendRemoveFollowerRequest(
           getAccessToken(TestConstants.EMAIL_VERIFIED_USER_1), USER_ID, status().isNotFound());
 
       //then
@@ -123,7 +123,7 @@ public class RemoveFollowerApiTest extends BaseFollowApiTest {
 
       //when
       /*팔로워 삭제 요청*/
-      CommonResponse<Void> removeFollowerResponse = sendRemoveFollower(accessToken,
+      CommonResponse<Void> removeFollowerResponse = sendRemoveFollowerRequest(accessToken,
           PENDING_FOLLOW_FOLLOWER_ID, status().isNotFound());
 
       //then

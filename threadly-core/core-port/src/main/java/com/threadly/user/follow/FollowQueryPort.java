@@ -82,4 +82,13 @@ public interface FollowQueryPort {
    */
   boolean existsByFollowerIdAndFollowingIdAndStatusType(String followerId, String followingId,
       FollowStatusType followStatusType);
+
+  /**
+   * 주어진 userId에 해당하는 사용자의 팔로워, 팔로잉 수 조회
+   * @param userId
+   * @return
+   */
+  UserFollowStatsProjection getUserFollowStatusByUserId(String userId);
+
+
 }

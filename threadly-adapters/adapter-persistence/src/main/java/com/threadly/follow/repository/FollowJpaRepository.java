@@ -6,6 +6,7 @@ import com.threadly.user.entity.UserEntity;
 import com.threadly.user.follow.FollowRequestsProjection;
 import com.threadly.user.follow.FollowerProjection;
 import com.threadly.user.follow.FollowingProjection;
+import com.threadly.user.follow.UserFollowStatsProjection;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -209,5 +210,23 @@ public interface FollowJpaRepository extends JpaRepository<FollowEntity, String>
   boolean existsByFollowerIdAndFollowingIdAndStatusType(@Param("followerId") String followerId,
       @Param("followingId") String followingId, @Param("statusType") FollowStatusType statusType);
 
-  String follower(UserEntity follower);
+  /**
+   * 주어진 userId에 해당하는 사용자의 팔로워, 팔로잉 수 조회
+   *
+   * @param userId
+   * @return
+   */
+  @Query(value = """
+      select sum(case
+                     when uf.following_id = :userId and uf.status = 'APPROVED' then 1
+                     else 0 end)                                                                  as followerCount,
+             sum(case
+                     when uf.follower_id = :userId and uf.status = 'APPROVED' then 1
+                     else 0 end)                                                                  as followingCount
+      from user_follows uf
+            join users u1 on uf.follower_id = u1.user_id and u1.status = 'ACTIVE'
+            join users u2 on uf.following_id = u2.user_id and u2.status = 'ACTIVE'
+      where (uf.following_id = :userId or uf.follower_id = :userId)
+      """, nativeQuery = true)
+  UserFollowStatsProjection getUserFollowStatsByUserId(@Param("userId") String userId);
 }

@@ -45,6 +45,7 @@ public class UserFollowFixtureLoader {
     generateData(data);
   }
 
+
   /**
    * 데이터 생성
    *

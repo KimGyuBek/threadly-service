@@ -8,8 +8,10 @@ import com.threadly.follow.query.dto.FollowingApiResponse;
 import com.threadly.follow.query.dto.GetFollowRequestsQuery;
 import com.threadly.follow.query.dto.GetFollowersQuery;
 import com.threadly.follow.query.dto.GetFollowingsQuery;
+import com.threadly.follow.query.dto.GetUserFollowStatsApiResponse;
 import com.threadly.response.CursorPageApiResponse;
 import com.threadly.validator.follow.FollowAccessValidator;
+import com.threadly.validator.user.UserStatusValidator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,8 @@ public class FollowQueryService implements FollowQueryUseCase {
   private final FollowQueryPort followQueryPort;
 
   private final FollowAccessValidator followAccessValidator;
+  private final UserStatusValidator userStatusValidator;
+
 
   @Transactional(readOnly = true)
   @Override
@@ -55,7 +59,8 @@ public class FollowQueryService implements FollowQueryUseCase {
   @Override
   public CursorPageApiResponse<FollowerResponse> getFollowers(GetFollowersQuery query) {
     /*접근 가능 여부 검증*/
-    followAccessValidator.validateProfileAccessibleWithException(query.userId(), query.targetUserId());
+    followAccessValidator.validateProfileAccessibleWithException(query.userId(),
+        query.targetUserId());
 
     /*팔로워 목록 조회*/
     List<FollowerResponse> allFollowerList = followQueryPort.findFollowersByCursor(
@@ -84,7 +89,8 @@ public class FollowQueryService implements FollowQueryUseCase {
   @Override
   public CursorPageApiResponse<FollowingApiResponse> getFollowings(GetFollowingsQuery query) {
     /*접근 가능 여부 검증*/
-    followAccessValidator.validateProfileAccessibleWithException(query.userId(), query.targetUserId());
+    followAccessValidator.validateProfileAccessibleWithException(query.userId(),
+        query.targetUserId());
 
     /*팔로워 목록 조회*/
     List<FollowingApiResponse> allFollowerList = followQueryPort.findFollowingsByCursor(
@@ -106,4 +112,17 @@ public class FollowQueryService implements FollowQueryUseCase {
     return CursorPageApiResponse.from(allFollowerList, query.limit());
   }
 
+  @Transactional(readOnly = true)
+  @Override
+  public GetUserFollowStatsApiResponse getUserFollowStats(String userId) {
+    /*사용자 statusType 검증*/
+    userStatusValidator.validateUserStatusWithException(userId);
+
+    UserFollowStatsProjection userFollowStatsProjection = followQueryPort.getUserFollowStatusByUserId(
+        userId);
+    return new GetUserFollowStatsApiResponse(
+        userFollowStatsProjection.getFollowerCount(),
+        userFollowStatsProjection.getFollowingCount()
+    );
+  }
 }

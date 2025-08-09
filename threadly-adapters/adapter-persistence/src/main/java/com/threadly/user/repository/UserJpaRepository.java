@@ -1,7 +1,7 @@
 package com.threadly.user.repository;
 
-import com.threadly.user.entity.UserEntity;
 import com.threadly.user.UserStatusType;
+import com.threadly.user.entity.UserEntity;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -94,4 +94,15 @@ public interface UserJpaRepository extends JpaRepository<UserEntity, String> {
       select u.isPrivate from UserEntity  u where u.userId = :userId
       """)
   boolean isUserPrivate(@Param("userId") String userId);
+
+  /**
+   * 주어진 userId에 해당하는 사용자의 userStatusType 조회
+   *
+   * @param userId
+   * @return
+   */
+  @Query("""
+      select u.userStatusType from UserEntity u where u.userId = :userId
+      """)
+  Optional<UserStatusType> getUserStatusType(@Param("userId") String userId);
 }

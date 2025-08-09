@@ -9,6 +9,7 @@ import com.threadly.user.follow.FollowQueryPort;
 import com.threadly.user.follow.FollowRequestsProjection;
 import com.threadly.user.follow.FollowerProjection;
 import com.threadly.user.follow.FollowingProjection;
+import com.threadly.user.follow.UserFollowStatsProjection;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -96,5 +97,10 @@ public class FollowPersistenceAdapter implements FollowCommandPort, FollowQueryP
     return followJpaRepository.existsByFollowerIdAndFollowingIdAndStatusType(
         followerId, followingId, statusType
     );
+  }
+
+  @Override
+  public UserFollowStatsProjection getUserFollowStatusByUserId(String userId) {
+    return followJpaRepository.getUserFollowStatsByUserId(userId);
   }
 }

@@ -13,6 +13,7 @@ import com.threadly.follow.command.dto.FollowUserCommand;
 import com.threadly.follow.command.dto.HandleFollowRequestCommand;
 import com.threadly.user.FetchUserPort;
 import com.threadly.user.User;
+import com.threadly.validator.user.UserStatusValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,8 @@ public class FollowCommandService implements FollowCommandUseCase {
 
   private final FetchUserPort fetchUserPort;
 
+  private final UserStatusValidator userStatusValidator;
+
   @Transactional
   @Override
   public FollowUserApiResponse followUser(FollowUserCommand command) {
@@ -46,18 +49,7 @@ public class FollowCommandService implements FollowCommandUseCase {
             ErrorCode.USER_NOT_FOUND));
 
     /*targetUser 상태 검증*/
-    switch (targetUser.getUserStatusType()) {
-      case ACTIVE:
-        break;
-      case INACTIVE:
-        throw new UserException(ErrorCode.USER_INACTIVE);
-      case DELETED:
-        throw new UserException(ErrorCode.USER_ALREADY_DELETED);
-      case BANNED:
-        throw new UserException(ErrorCode.USER_BANNED);
-      case INCOMPLETE_PROFILE:
-        throw new UserException(ErrorCode.USER_PROFILE_NOT_SET);
-    }
+    userStatusValidator.validateUserStatusWithException(targetUser.getUserId());
 
     /*follow 도메인 생성*/
     Follow follow = Follow.createFollow(command.userId(), targetUser.getUserId());

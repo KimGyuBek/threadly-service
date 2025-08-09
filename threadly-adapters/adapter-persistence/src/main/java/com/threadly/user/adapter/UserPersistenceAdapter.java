@@ -89,4 +89,9 @@ public class UserPersistenceAdapter implements FetchUserPort, SaveUserPort,
   public boolean isUserPrivate(String userId) {
     return userJpaRepository.isUserPrivate(userId);
   }
+
+  @Override
+  public Optional<UserStatusType> getUserStatus(String userId) {
+    return userJpaRepository.getUserStatusType(userId);
+  }
 }

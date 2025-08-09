@@ -8,9 +8,10 @@ import com.threadly.CommonResponse;
 import com.threadly.follow.command.dto.FollowUserApiResponse;
 import com.threadly.follow.query.dto.FollowRequestResponse;
 import com.threadly.follow.query.dto.FollowerResponse;
-import com.threadly.response.CursorPageApiResponse;
 import com.threadly.follow.query.dto.FollowingApiResponse;
+import com.threadly.follow.query.dto.GetUserFollowStatsApiResponse;
 import com.threadly.follow.request.FollowRequest;
+import com.threadly.response.CursorPageApiResponse;
 import com.threadly.testsupport.fixture.users.UserFollowFixtureLoader;
 import com.threadly.user.controller.profile.BaseUserProfileApiTest;
 import java.time.LocalDateTime;
@@ -228,7 +229,7 @@ public abstract class BaseFollowApiTest extends BaseUserProfileApiTest {
    * @return
    * @throws Exception
    */
-  public CommonResponse<Void> sendUnfollowUser(String accessToken, String targetUserId,
+  public CommonResponse<Void> sendUnfollowUserRequest(String accessToken, String targetUserId,
       ResultMatcher expectedStatus)
       throws Exception {
     return
@@ -243,13 +244,14 @@ public abstract class BaseFollowApiTest extends BaseUserProfileApiTest {
 
   /**
    * 주어진 targetUserId에 해당하는 사용자 팔로워 삭제 요청
+   *
    * @param accessToken
    * @param targetUserId
    * @param expectedStatus
    * @return
    * @throws Exception
    */
-  public CommonResponse<Void> sendRemoveFollower(String accessToken, String targetUserId,
+  public CommonResponse<Void> sendRemoveFollowerRequest(String accessToken, String targetUserId,
       ResultMatcher expectedStatus)
       throws Exception {
     return
@@ -259,6 +261,24 @@ public abstract class BaseFollowApiTest extends BaseUserProfileApiTest {
             new TypeReference<>() {
             },
             Map.of("Authorization", "Bearer " + accessToken)
+        );
+  }
+
+  /**
+   * 주어진 targetUserId에 해당하는 사용자의 팔로워, 팔로잉 수 조회 요청
+   * @param accessToken
+   * @param targetUserId
+   * @param expectedStatus
+   * @return
+   */
+  public CommonResponse<GetUserFollowStatsApiResponse> sendGetUserFollowStatsRequest(String accessToken,
+      String targetUserId, ResultMatcher expectedStatus) throws Exception {
+    return
+        sendGetRequest(
+            accessToken, "/api/follows/" + targetUserId + "/stats",
+            expectedStatus,
+            new TypeReference<>() {
+            }
         );
   }
 

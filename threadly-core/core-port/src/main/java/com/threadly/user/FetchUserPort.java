@@ -27,4 +27,11 @@ public interface FetchUserPort {
    */
   boolean isUserPrivate(String userId);
 
+  /**
+   * 주어진 userId에 해당하는 사용자의 status 조회
+   * @param userId
+   * @return
+   */
+  Optional<UserStatusType> getUserStatus(String userId);
+
 }
