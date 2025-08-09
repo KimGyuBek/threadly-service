@@ -1,17 +1,16 @@
 package com.threadly.post.controller;
 
 import com.threadly.auth.JwtAuthenticationUser;
-import com.threadly.auth.JwtAuthenticationUser;
 import com.threadly.post.engagement.GetPostEngagementApiResponse;
 import com.threadly.post.engagement.GetPostEngagementQuery;
 import com.threadly.post.engagement.GetPostEngagementUseCase;
-import com.threadly.post.like.post.GetPostLikersApiResponse;
 import com.threadly.post.like.post.GetPostLikersQuery;
 import com.threadly.post.like.post.GetPostLikersUseCase;
 import com.threadly.post.like.post.LikePostApiResponse;
 import com.threadly.post.like.post.LikePostCommand;
 import com.threadly.post.like.post.LikePostUseCase;
 import com.threadly.post.like.post.UnlikePostUseCase;
+import com.threadly.response.CursorPageApiResponse;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -70,16 +69,16 @@ public class PostLikeController {
    * @return
    */
   @GetMapping("/{postId}/engagement/likes")
-  public ResponseEntity<GetPostLikersApiResponse> getPostLikers(
-      @RequestParam(value = "cursor_liked_at", required = false) LocalDateTime cursorLikedAt,
-      @RequestParam(value = "cursor_liker_id", required = false) String cursorLikerId,
+  public ResponseEntity<CursorPageApiResponse> getPostLikers(
+      @RequestParam(value = "cursor_timestamp", required = false) LocalDateTime cursorTimestamp,
+      @RequestParam(value = "cursor_id", required = false) String cursorId,
       @RequestParam(value = "limit", defaultValue = "10") int limit,
       @PathVariable("postId") String postId
   ) {
 
     return ResponseEntity.status(200).body(getPostLikersUseCase.getPostLikers(
         new GetPostLikersQuery(
-            postId, cursorLikedAt, cursorLikerId, limit
+            postId, cursorTimestamp, cursorId, limit
         )
     ));
   }

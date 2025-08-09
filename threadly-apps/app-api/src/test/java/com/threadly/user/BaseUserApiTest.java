@@ -10,7 +10,7 @@ import com.threadly.auth.request.PasswordVerificationRequest;
 import com.threadly.auth.token.response.TokenReissueApiResponse;
 import com.threadly.auth.verification.response.PasswordVerificationToken;
 import com.threadly.repository.TestUserRepository;
-import com.threadly.user.request.ChangePasswordRequest;
+import com.threadly.user.request.me.ChangePasswordRequest;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;

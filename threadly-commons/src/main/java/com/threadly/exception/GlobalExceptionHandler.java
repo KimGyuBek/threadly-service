@@ -1,5 +1,6 @@
 package com.threadly.exception;
 
+import com.threadly.exception.follow.FollowException;
 import com.threadly.exception.mail.EmailVerificationException;
 import com.threadly.exception.post.PostCommentException;
 import com.threadly.exception.post.PostException;
@@ -84,6 +85,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
   /*User Profile Image Exception*/
   @ExceptionHandler(UserProfileImageException.class)
   public ResponseEntity<ErrorResponse> handleUserProfileImageException(UserProfileImageException ex,
+      WebRequest request) {
+    return ResponseEntity.status(ex.getErrorCode().getHttpStatus())
+        .body(new ErrorResponse(ex.getErrorCode()));
+  }
+
+  /*Follow Exception*/
+  @ExceptionHandler(FollowException.class)
+  public ResponseEntity<ErrorResponse> handleFollowException(FollowException ex,
       WebRequest request) {
     return ResponseEntity.status(ex.getErrorCode().getHttpStatus())
         .body(new ErrorResponse(ex.getErrorCode()));

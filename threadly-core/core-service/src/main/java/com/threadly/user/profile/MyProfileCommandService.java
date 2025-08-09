@@ -4,13 +4,14 @@ import com.threadly.exception.ErrorCode;
 import com.threadly.exception.user.UserException;
 import com.threadly.user.UpdateUserPort;
 import com.threadly.user.User;
+import com.threadly.user.UserStatusType;
 import com.threadly.user.profile.fetch.FetchUserProfilePort;
-import com.threadly.user.profile.register.RegisterMyProfileCommand;
-import com.threadly.user.profile.register.RegisterMyProfileUseCase;
+import com.threadly.user.profile.command.dto.RegisterMyProfileCommand;
+import com.threadly.user.profile.command.RegisterMyProfileUseCase;
 import com.threadly.user.profile.save.SaveUserProfilePort;
-import com.threadly.user.profile.update.UpdateMyProfileCommand;
+import com.threadly.user.profile.command.dto.UpdateMyProfileCommand;
 import com.threadly.user.profile.update.UpdateMyProfilePort;
-import com.threadly.user.profile.update.UpdateMyProfileUseCase;
+import com.threadly.user.profile.command.UpdateMyProfileUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,7 @@ public class MyProfileCommandService implements RegisterMyProfileUseCase,
 
   private final UpdateUserPort updateUserPort;
 
+  @Transactional
   @Override
   public void registerMyProfile(RegisterMyProfileCommand command) {
     /*닉네임 중복 검증*/
@@ -50,6 +52,9 @@ public class MyProfileCommandService implements RegisterMyProfileUseCase,
     );
 
     saveUserProfilePort.saveUserProfile(userProfile);
+
+    /*user statusType   변경*/
+    updateUserPort.updateUserStatus(command.getUserId(), UserStatusType.ACTIVE);
     log.debug("userProfile 생성 완료");
   }
 

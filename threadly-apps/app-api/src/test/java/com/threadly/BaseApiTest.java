@@ -1,5 +1,6 @@
 package com.threadly;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
@@ -11,6 +12,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.threadly.auth.request.UserLoginRequest;
 import com.threadly.auth.token.response.LoginTokenApiResponse;
+import com.threadly.exception.ErrorCode;
 import com.threadly.testsupport.fixture.users.UserFixtureLoader;
 import com.threadly.user.UserStatusType;
 import com.threadly.utils.TestLogUtils;
@@ -276,6 +278,17 @@ public abstract class BaseApiTest {
   public <T> String generateRequestBody(T data) throws JsonProcessingException {
     return
         objectMapper.writeValueAsString(data);
+  }
+
+  /**
+   * 실패 응답 검증
+   *
+   * @param failResponse
+   * @param expectedErrorCode
+   */
+  public void validateFailResponse(CommonResponse failResponse, ErrorCode expectedErrorCode) {
+    assertThat(failResponse.isSuccess()).isFalse();
+    assertThat(failResponse.getCode()).isEqualTo(expectedErrorCode.getCode());
   }
 
 }

@@ -6,15 +6,17 @@ import com.threadly.properties.TtlProperties;
 import com.threadly.token.DeleteTokenPort;
 import com.threadly.token.InsertBlackListToken;
 import com.threadly.token.InsertTokenPort;
-import com.threadly.user.account.ChangePasswordCommand;
-import com.threadly.user.account.ChangePasswordUseCase;
-import com.threadly.user.account.DeactivateMyAccountUseCase;
-import com.threadly.user.account.WithdrawMyAccountUseCase;
-import com.threadly.user.register.RegisterUserCommand;
-import com.threadly.user.register.RegisterUserUseCase;
-import com.threadly.user.register.UserRegistrationApiResponse;
+import com.threadly.user.account.command.dto.ChangePasswordCommand;
+import com.threadly.user.account.command.ChangePasswordUseCase;
+import com.threadly.user.account.command.DeactivateMyAccountUseCase;
+import com.threadly.user.account.command.WithdrawMyAccountUseCase;
+import com.threadly.user.profile.command.dto.UpdateMyPrivacySettingCommand;
+import com.threadly.user.profile.command.UpdateMyPrivacySettingUseCase;
+import com.threadly.user.account.command.dto.RegisterUserApiResponse;
+import com.threadly.user.account.command.dto.RegisterUserCommand;
+import com.threadly.user.account.command.RegisterUserUseCase;
 import com.threadly.user.response.UserPortResponse;
-import com.threadly.user.update.UpdateUserUseCase;
+import com.threadly.user.account.command.UpdateUserUseCase;
 import com.threadly.utils.JwtTokenUtils;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +28,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Slf4j
 public class UserCommandService implements RegisterUserUseCase, UpdateUserUseCase,
-    WithdrawMyAccountUseCase, DeactivateMyAccountUseCase, ChangePasswordUseCase {
+    WithdrawMyAccountUseCase, DeactivateMyAccountUseCase, ChangePasswordUseCase,
+    UpdateMyPrivacySettingUseCase {
 
   private final SaveUserPort saveUserPort;
   private final FetchUserPort fetchUserPort;
@@ -39,7 +42,7 @@ public class UserCommandService implements RegisterUserUseCase, UpdateUserUseCas
 
   @Transactional
   @Override
-  public UserRegistrationApiResponse register(RegisterUserCommand command) {
+  public RegisterUserApiResponse register(RegisterUserCommand command) {
 
     /*email로 사용자 조회*/
     Optional<User> byEmail = fetchUserPort.findByEmail(command.getEmail());
@@ -61,7 +64,7 @@ public class UserCommandService implements RegisterUserUseCase, UpdateUserUseCas
 
     log.info("회원 가입 성공");
 
-    return UserRegistrationApiResponse.builder()
+    return RegisterUserApiResponse.builder()
         .userId(userPortResponse.getUserId())
         .userName(userPortResponse.getUserName())
         .userType(userPortResponse.getUserType())
@@ -106,6 +109,28 @@ public class UserCommandService implements RegisterUserUseCase, UpdateUserUseCas
     log.info("계정 비활성화 성공");
   }
 
+
+  @Transactional
+  @Override
+  public void changePassword(ChangePasswordCommand command) {
+    updateUserPort.changePassword(command.getUserId(), command.getNewPassword());
+  }
+
+  @Transactional
+  @Override
+  public void updatePrivacy(UpdateMyPrivacySettingCommand command) {
+
+    /*계정 공개 여부 설정*/
+    User user = User.emptyWithUserId(command.getUserId());
+    if (command.isPrivate()) {
+      user.markAsPrivate();
+    } else {
+      user.markAsPublic();
+    }
+
+    updateUserPort.updatePrivacy(user);
+  }
+
   /**
    * 주어진 bearerToken으로 accessToken 블랙리스트 등록 및 refreshToken 삭제
    *
@@ -124,11 +149,5 @@ public class UserCommandService implements RegisterUserUseCase, UpdateUserUseCas
 
     /*refreshToken 삭제*/
     deleteTokenPort.deleteRefreshToken(userId);
-  }
-
-  @Transactional
-  @Override
-  public void changePassword(ChangePasswordCommand command) {
-    updateUserPort.changePassword(command.getUserId(), command.getNewPassword());
   }
 }

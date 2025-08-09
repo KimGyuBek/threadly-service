@@ -1,5 +1,7 @@
 package com.threadly.post.get;
 
+import com.threadly.response.CursorPageApiResponse;
+
 /**
  * 게시글 조회 관련 UseCase
  */
@@ -10,7 +12,7 @@ public interface GetPostUseCase {
    * @param postId
    * @return
    */
-  GetPostDetailApiResponse getPost(GetPostQuery query);
+  PostDetails getPost(GetPostQuery query);
 
   /**
    * 사용자가 조회 가능한 게시글 목록 조회
@@ -18,6 +20,6 @@ public interface GetPostUseCase {
    *
    * @return
    */
-  GetPostDetailListApiResponse getUserVisiblePostListByCursor(GetPostListQuery query);
+  CursorPageApiResponse getUserVisiblePostListByCursor(GetPostListQuery query);
 
 }

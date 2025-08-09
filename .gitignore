@@ -56,3 +56,7 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Documentation ###
+docs/
+pr-summaries/

@@ -1,0 +1,20 @@
+[
+  {
+    "followId": "follow01",
+    "followerId": "user_with_profile_test",
+    "followingId": "public_user_1",
+    "status": "APPROVED"
+  },
+  {
+    "followId": "follow02",
+    "followerId": "user_with_profile_test",
+    "followingId": "private_user_1",
+    "status": "APPROVED"
+  },
+  {
+    "followId": "follow03",
+    "followerId": "user_with_profile_test",
+    "followingId": "private_user_2",
+    "status": "PENDING"
+  }
+]

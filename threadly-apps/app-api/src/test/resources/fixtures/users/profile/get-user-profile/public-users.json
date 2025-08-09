@@ -1,0 +1,34 @@
+[
+  {
+    "userId": "public_user_1",
+    "userName": "공개 계정 사용자 1",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "public_user1@threadly.com",
+    "phone": "010-1010-1010",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "public_user_1",
+      "statusMessage": "공개 계정입니다",
+      "bio": "누구나 볼 수 있는 프로필",
+      "gender": "MALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "public_user_2",
+    "userName": "공개 계정 사용자 2",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "public_user2@threadly.com",
+    "phone": "010-2020-2020",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "public_user_2",
+      "statusMessage": "오픈 프로필",
+      "bio": "모든 사람에게 열려있습니다",
+      "gender": "FEMALE",
+      "profileType": "USER"
+    }
+  }
+]

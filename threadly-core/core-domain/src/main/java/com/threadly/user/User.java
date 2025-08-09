@@ -23,6 +23,7 @@ public class User {
   private UserType userType;
   private UserStatusType userStatusType;
   private boolean isEmailVerified;
+  private boolean isPrivate;
 
   private UserProfile userProfile;
 
@@ -75,25 +76,31 @@ public class User {
   }
 
   /*상태 변경*/
+  /**
+   * INCOMPLETE_PROFILE 상태로 변경
+   */
+  public void markAsIncompleteProfile() {
+    this.userStatusType = UserStatusType.INCOMPLETE_PROFILE;
+  }
 
   /**
    * ACTIVE 상태로 변경
    */
-  void markAsActive() {
+  public void markAsActive() {
     this.userStatusType = UserStatusType.ACTIVE;
   }
 
   /**
    * DELETED 상태로 변경
    */
-  void markAsDeleted() {
+  public void markAsDeleted() {
     this.userStatusType = UserStatusType.DELETED;
   }
 
   /**
    * INACTIVE 상태로 변경
    */
-  void markAsInactive() {
+  public void markAsInactive() {
     if (userStatusType.equals(UserStatusType.DELETED)) {
       throw new CannotInactiveException();
     }
@@ -104,7 +111,7 @@ public class User {
   /**
    * BANNED 상태로 변경
    */
-  void markAsBanned() {
+  public void markAsBanned() {
     if (userStatusType.equals(UserStatusType.DELETED)) {
       throw new CannotBannedException();
     }
@@ -165,6 +172,28 @@ public class User {
 
   public UserGenderType getGender() {
     return userProfile.getGenderType();
+  }
+
+  /**
+   * 공개 계정 유무 설정
+   * @param isPrivate
+   */
+  public void setPrivacy(boolean isPrivate) {
+    this.isPrivate = isPrivate;
+  }
+
+  /**
+   * 계정 비공개 상태로 변경
+   */
+  public void markAsPrivate() {
+    this.isPrivate = true;
+  }
+
+  /**
+   * 계정 공개 상태로 변경
+   */
+  public void markAsPublic() {
+    this.isPrivate = false;
   }
 
   /**

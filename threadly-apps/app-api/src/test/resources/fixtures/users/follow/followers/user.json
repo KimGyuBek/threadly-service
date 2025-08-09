@@ -1,0 +1,18 @@
+[
+  {
+    "userId": "test_user",
+    "userName": "test_user",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "test_user@threadly.com",
+    "phone": "010-3178-6830",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "sunset_gazer",
+      "statusMessage": "팔로우 테스트 당할래",
+      "bio": "팔로우 부자되야지",
+      "gender": "MALE",
+      "profileType": "USER"
+    }
+  }
+]

@@ -45,8 +45,7 @@ public class UserStatusTypeValidationFilter extends OncePerRequestFilter {
     try {
       /*INCOMPLETE_PROFILE*/
       if (Objects.equal(userStatusType,
-          UserStatusType.INCOMPLETE_PROFILE) && !isWhiteListedForProfileIncomplete(
-          request.getRequestURI())) {
+          UserStatusType.INCOMPLETE_PROFILE) && !isWhiteListedForProfileIncomplete(request)) {
         log.warn("UserStatusValidationFilter: userStatusType is INCOMPLETE_PROFILE");
         throw new UserException(ErrorCode.USER_PROFILE_NOT_SET);
 
@@ -67,10 +66,11 @@ public class UserStatusTypeValidationFilter extends OncePerRequestFilter {
   /**
    * 프로필 설정용 white list
    *
-   * @param uri
+   * @param request
    * @return
    */
-  private boolean isWhiteListedForProfileIncomplete(String uri) {
-    return uri.equals("/api/me/profile");
+  private boolean isWhiteListedForProfileIncomplete(HttpServletRequest request) {
+    return request.getRequestURI().equals("/api/me/profile") && request.getMethod()
+        .equalsIgnoreCase("POST");
   }
 }
