@@ -1,0 +1,182 @@
+[
+  {
+    "followId": "follow_stats_01",
+    "followerId": "follower_01",
+    "followingId": "main_user",
+    "status": "APPROVED"
+  },
+  {
+    "followId": "follow_stats_02",
+    "followerId": "follower_02",
+    "followingId": "main_user",
+    "status": "APPROVED"
+  },
+  {
+    "followId": "follow_stats_03",
+    "followerId": "follower_03",
+    "followingId": "main_user",
+    "status": "APPROVED"
+  },
+  {
+    "followId": "follow_stats_04",
+    "followerId": "follower_04",
+    "followingId": "main_user",
+    "status": "APPROVED"
+  },
+  {
+    "followId": "follow_stats_05",
+    "followerId": "follower_05",
+    "followingId": "main_user",
+    "status": "APPROVED"
+  },
+  {
+    "followId": "follow_stats_06",
+    "followerId": "follower_06",
+    "followingId": "main_user",
+    "status": "APPROVED"
+  },
+  {
+    "followId": "follow_stats_07",
+    "followerId": "follower_07",
+    "followingId": "main_user",
+    "status": "APPROVED"
+  },
+  {
+    "followId": "follow_stats_08",
+    "followerId": "follower_08",
+    "followingId": "main_user",
+    "status": "APPROVED"
+  },
+  {
+    "followId": "follow_stats_09",
+    "followerId": "follower_09",
+    "followingId": "main_user",
+    "status": "APPROVED"
+  },
+  {
+    "followId": "follow_stats_10",
+    "followerId": "follower_10",
+    "followingId": "main_user",
+    "status": "APPROVED"
+  },
+  {
+    "followId": "follow_stats_11",
+    "followerId": "main_user",
+    "followingId": "following_01",
+    "status": "APPROVED"
+  },
+  {
+    "followId": "follow_stats_12",
+    "followerId": "main_user",
+    "followingId": "following_02",
+    "status": "APPROVED"
+  },
+  {
+    "followId": "follow_stats_13",
+    "followerId": "main_user",
+    "followingId": "following_03",
+    "status": "APPROVED"
+  },
+  {
+    "followId": "follow_stats_14",
+    "followerId": "main_user",
+    "followingId": "following_04",
+    "status": "APPROVED"
+  },
+  {
+    "followId": "follow_stats_15",
+    "followerId": "main_user",
+    "followingId": "following_05",
+    "status": "APPROVED"
+  },
+  {
+    "followId": "follow_stats_16",
+    "followerId": "main_user",
+    "followingId": "following_06",
+    "status": "APPROVED"
+  },
+  {
+    "followId": "follow_stats_17",
+    "followerId": "main_user",
+    "followingId": "following_07",
+    "status": "APPROVED"
+  },
+  {
+    "followId": "follow_stats_18",
+    "followerId": "main_user",
+    "followingId": "following_08",
+    "status": "APPROVED"
+  },
+  {
+    "followId": "follow_stats_19",
+    "followerId": "main_user",
+    "followingId": "following_09",
+    "status": "APPROVED"
+  },
+  {
+    "followId": "follow_stats_20",
+    "followerId": "main_user",
+    "followingId": "following_10",
+    "status": "APPROVED"
+  },
+  {
+    "followId": "follow_stats_21",
+    "followerId": "main_user",
+    "followingId": "following_11",
+    "status": "APPROVED"
+  },
+  {
+    "followId": "follow_stats_22",
+    "followerId": "main_user",
+    "followingId": "following_12",
+    "status": "APPROVED"
+  },
+  {
+    "followId": "follow_stats_23",
+    "followerId": "main_user",
+    "followingId": "following_13",
+    "status": "APPROVED"
+  },
+  {
+    "followId": "follow_stats_24",
+    "followerId": "main_user",
+    "followingId": "following_14",
+    "status": "APPROVED"
+  },
+  {
+    "followId": "follow_stats_25",
+    "followerId": "main_user",
+    "followingId": "following_15",
+    "status": "APPROVED"
+  },
+  {
+    "followId": "follow_stats_26",
+    "followerId": "main_user",
+    "followingId": "following_16",
+    "status": "APPROVED"
+  },
+  {
+    "followId": "follow_stats_27",
+    "followerId": "main_user",
+    "followingId": "following_17",
+    "status": "APPROVED"
+  },
+  {
+    "followId": "follow_stats_28",
+    "followerId": "main_user",
+    "followingId": "following_18",
+    "status": "APPROVED"
+  },
+  {
+    "followId": "follow_stats_29",
+    "followerId": "main_user",
+    "followingId": "following_19",
+    "status": "APPROVED"
+  },
+  {
+    "followId": "follow_stats_30",
+    "followerId": "main_user",
+    "followingId": "following_20",
+    "status": "APPROVED"
+  }
+]

@@ -1,8 +1,8 @@
 package com.threadly.testsupport.fixture.users;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.threadly.adapter.user.UserPersistenceAdapter;
-import com.threadly.adapter.user.UserProfilePersistenceAdapter;
+import com.threadly.user.adapter.UserPersistenceAdapter;
+import com.threadly.user.adapter.UserProfilePersistenceAdapter;
 import com.threadly.testsupport.dto.users.UserFixtureDto;
 import com.threadly.testsupport.fixture.FixtureLoader;
 import com.threadly.testsupport.mapper.users.UserFixtureMapper;
@@ -38,13 +38,19 @@ public class UserFixtureLoader {
   @Transactional
   public void load(String path) {
     List<UserFixtureDto> userData = getUserData(path);
-    generateUser(userData, userData.size(), UserStatusType.ACTIVE);
+    generateUser(userData, userData.size(), UserStatusType.ACTIVE, false);
   }
 
   @Transactional
   public void load(String path, UserStatusType userStatusType) {
     List<UserFixtureDto> userData = getUserData(path);
-    generateUser(userData, userData.size(), userStatusType);
+    generateUser(userData, userData.size(), userStatusType, false);
+  }
+
+  @Transactional
+  public void load(String path, UserStatusType userStatusType, boolean isPrivate) {
+    List<UserFixtureDto> userData = getUserData(path);
+    generateUser(userData, userData.size(), userStatusType, isPrivate);
   }
 
   /**
@@ -56,7 +62,7 @@ public class UserFixtureLoader {
   @Transactional
   public void load(String path, int count) {
     List<UserFixtureDto> userData = getUserData(path);
-    generateUser(userData, count, UserStatusType.ACTIVE);
+    generateUser(userData, count, UserStatusType.ACTIVE, false);
   }
 
   /**
@@ -66,7 +72,7 @@ public class UserFixtureLoader {
    * @param count
    */
   private void generateUser(List<UserFixtureDto> userFixtureDtoList, int count,
-      UserStatusType userStatusType) {
+      UserStatusType userStatusType, boolean isPrivate) {
     List<UserFixtureDto> fixtures = userFixtureDtoList;
 
     if (count > fixtures.size() || count < 1 || count == 0) {
@@ -75,17 +81,35 @@ public class UserFixtureLoader {
 
     for (int i = 0; i < count; i++) {
       UserFixtureDto dto = fixtures.get(i);
-//      User user = UserFixtureMapper.toUser(dto);
-
-//      User user = User.newTestUser(dto.getUserId(),
-//          dto.getUserName(),
-//          dto.getPassword(), dto.getEmail(), dto.getPhone());
       User user = UserFixtureMapper.toUser(dto);
 
       if (dto.isEmailVerified()) {
-        user.setEmailVerified();
+        user.verifyEmail();
       }
-      user.setUserStatusType(userStatusType);
+
+      switch (userStatusType) {
+        case ACTIVE:
+          user.markAsActive();
+          break;
+        case INACTIVE:
+          user.markAsInactive();
+          break;
+        case DELETED:
+          user.markAsDeleted();
+          break;
+        case BANNED:
+          user.markAsBanned();
+          break;
+        case INCOMPLETE_PROFILE:
+          user.markAsIncompleteProfile();
+          break;
+      }
+
+      if (isPrivate) {
+        user.markAsPrivate();
+      } else {
+        user.markAsPublic();
+      }
 
       userPersistenceAdapter.save(user);
       if (dto.getUserProfile() != null) {

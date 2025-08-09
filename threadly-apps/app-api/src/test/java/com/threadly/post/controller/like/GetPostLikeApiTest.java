@@ -8,7 +8,8 @@ import com.threadly.CommonResponse;
 import com.threadly.exception.ErrorCode;
 import com.threadly.post.controller.BasePostApiTest;
 import com.threadly.post.engagement.GetPostEngagementApiResponse;
-import com.threadly.post.like.post.GetPostLikersApiResponse;
+import com.threadly.post.like.post.PostLiker;
+import com.threadly.response.CursorPageApiResponse;
 import com.threadly.testsupport.fixture.posts.PostLikeFixtureLoader;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -97,8 +98,8 @@ public class GetPostLikeApiTest extends BasePostApiTest {
         //given
         /*로그인 요청*/
         String accessToken = getAccessToken(EMAIL_VERIFIED_USER_1);
-        LocalDateTime cursorLikedAt = null;
-        String cursorLikerId = null;
+        LocalDateTime cursorTimestamp = null;
+        String cursorId = null;
         int limit = 10;
         long size = 0;
 
@@ -106,19 +107,19 @@ public class GetPostLikeApiTest extends BasePostApiTest {
         //then
         /*조회 요청*/
         while (true) {
-          CommonResponse<GetPostLikersApiResponse> getPostLikersResponse = sendGetPostLikersRequest(
-              accessToken, POST_LIKE_TARGET_ID, cursorLikedAt, cursorLikerId, limit, status().isOk()
+          CommonResponse<CursorPageApiResponse<PostLiker>> getPostLikersResponse = sendGetPostLikersRequest(
+              accessToken, POST_LIKE_TARGET_ID, cursorTimestamp, cursorId, limit, status().isOk()
           );
-          size += getPostLikersResponse.getData().postLikers().size();
+          size += getPostLikersResponse.getData().content().size();
 
           /*마지막 페이지 일 경우*/
-          if (getPostLikersResponse.getData().cursorLikerId() == null
-              || getPostLikersResponse.getData().cursorLikerId() == null) {
+          if (getPostLikersResponse.getData().nextCursor().cursorId() == null
+              || getPostLikersResponse.getData().nextCursor().cursorTimestamp() == null) {
             break;
           }
 
-          cursorLikedAt = getPostLikersResponse.getData().cursorLikedAt();
-          cursorLikerId = getPostLikersResponse.getData().cursorLikerId();
+          cursorTimestamp = getPostLikersResponse.getData().nextCursor().cursorTimestamp();
+          cursorId = getPostLikersResponse.getData().nextCursor().cursorId();
         }
         assertThat(size).isEqualTo(POST_LIKE_COUNT);
       }
@@ -136,8 +137,8 @@ public class GetPostLikeApiTest extends BasePostApiTest {
         //when
         //then
         int likeCount = 0;
-        LocalDateTime cursorLikedAt = null;
-        String cursorLikerId = null;
+        LocalDateTime cursorTimestamp = null;
+        String cursorId = null;
         int limit = 10;
         int size = 0;
 
@@ -145,20 +146,20 @@ public class GetPostLikeApiTest extends BasePostApiTest {
         //then
         /*조회 요청*/
         while (true) {
-          CommonResponse<GetPostLikersApiResponse> getPostLikersResponse = sendGetPostLikersRequest(
-              accessToken, POST_NO_LIKE_TARGET_ID, cursorLikedAt, cursorLikerId, limit,
+          CommonResponse<CursorPageApiResponse<PostLiker>> getPostLikersResponse = sendGetPostLikersRequest(
+              accessToken, POST_NO_LIKE_TARGET_ID, cursorTimestamp, cursorId, limit,
               status().isOk()
           );
-          size += getPostLikersResponse.getData().postLikers().size();
+          size += getPostLikersResponse.getData().content().size();
 
           /*마지막 페이지 일 경우*/
-          if (getPostLikersResponse.getData().cursorLikerId() == null
-              || getPostLikersResponse.getData().cursorLikerId() == null) {
+          if (getPostLikersResponse.getData().nextCursor().cursorId() == null
+              || getPostLikersResponse.getData().nextCursor().cursorId() == null) {
             break;
           }
 
-          cursorLikedAt = getPostLikersResponse.getData().cursorLikedAt();
-          cursorLikerId = getPostLikersResponse.getData().cursorLikerId();
+          cursorTimestamp = getPostLikersResponse.getData().nextCursor().cursorTimestamp();
+          cursorId = getPostLikersResponse.getData().nextCursor().cursorId();
         }
         assertThat(size).isEqualTo(likeCount);
       }
@@ -188,7 +189,7 @@ public class GetPostLikeApiTest extends BasePostApiTest {
         String cursorLikerId = null;
         int limit = 10;
 
-        CommonResponse<GetPostLikersApiResponse> getPostLikersResponse = sendGetPostLikersRequest(
+        CommonResponse<CursorPageApiResponse<PostLiker>> getPostLikersResponse = sendGetPostLikersRequest(
             accessToken, postId, cursorLikedAt, cursorLikerId, limit, status().isNotFound()
         );
         assertThat(getPostLikersResponse.getCode()).isEqualTo(ErrorCode.POST_NOT_FOUND.getCode());

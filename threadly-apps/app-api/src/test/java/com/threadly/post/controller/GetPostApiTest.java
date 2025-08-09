@@ -8,9 +8,9 @@ import com.threadly.CommonResponse;
 import com.threadly.exception.ErrorCode;
 import com.threadly.post.create.CreatePostApiResponse;
 import com.threadly.post.engagement.GetPostEngagementApiResponse;
-import com.threadly.post.get.GetPostDetailApiResponse;
-import com.threadly.post.get.GetPostDetailListApiResponse;
+import com.threadly.post.get.PostDetails;
 import com.threadly.post.update.UpdatePostApiResponse;
+import com.threadly.response.CursorPageApiResponse;
 import com.threadly.testsupport.fixture.posts.PostFixtureLoader;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -72,10 +72,10 @@ class GetPostApiTest extends BasePostApiTest {
         //then
         /*게시글 조회*/
         String postId = "post1";
-        CommonResponse<GetPostDetailApiResponse> postDetailResponse = sendGetPostRequest(
+        CommonResponse<PostDetails> postDetailResponse = sendGetPostRequest(
             accessToken, postId, status().isOk());
 
-        assertThat(postDetailResponse.getData().postId()).isEqualTo(postId);
+        assertThat(postDetailResponse.getData().cursorId()).isEqualTo(postId);
       }
 
       /*[Case #2]  게시글 작성 후 조회시 작성한 내용과 동일해야함*/
@@ -98,11 +98,11 @@ class GetPostApiTest extends BasePostApiTest {
         //when
         /*게시글 조회*/
         String postId = createPostResponse.getData().postId();
-        CommonResponse<GetPostDetailApiResponse> postDetailResponse = sendGetPostRequest(
+        CommonResponse<PostDetails> postDetailResponse = sendGetPostRequest(
             accessToken, postId, status().isOk());
 
         //then
-        assertThat(postDetailResponse.getData().postId()).isEqualTo(postId);
+        assertThat(postDetailResponse.getData().cursorId()).isEqualTo(postId);
         assertThat(postDetailResponse.getData().content()).isEqualTo(content);
       }
 
@@ -132,11 +132,11 @@ class GetPostApiTest extends BasePostApiTest {
 
         //when
         /*게시글 조회*/
-        CommonResponse<GetPostDetailApiResponse> postDetailResponse = sendGetPostRequest(
+        CommonResponse<PostDetails> postDetailResponse = sendGetPostRequest(
             accessToken, postId, status().isOk());
 
         //then
-        assertThat(postDetailResponse.getData().postId()).isEqualTo(postId);
+        assertThat(postDetailResponse.getData().cursorId()).isEqualTo(postId);
         assertThat(postDetailResponse.getData().content()).isEqualTo(modifiedContent);
       }
     }
@@ -159,7 +159,7 @@ class GetPostApiTest extends BasePostApiTest {
         //then
         /*게시글 조회*/
         String postId = "post_not_exist_id";
-        CommonResponse<GetPostDetailApiResponse> postDetailResponse = sendGetPostRequest(
+        CommonResponse<PostDetails> postDetailResponse = sendGetPostRequest(
             accessToken, postId, status().isNotFound());
 
         assertThat(postDetailResponse.isSuccess()).isFalse();
@@ -195,23 +195,23 @@ class GetPostApiTest extends BasePostApiTest {
         //when
         //then
         /*게시글 목록 조회*/
-        LocalDateTime cursorPostedAt = null;
+        LocalDateTime cursorTimestamp = null;
         String cursorPostId = null;
 
-        CommonResponse<GetPostDetailListApiResponse> postListResponse1 = sendGetPostListRequest(
-            accessToken, cursorPostedAt, cursorPostId, 10, status().isOk());
+        CommonResponse<CursorPageApiResponse<PostDetails>> postListResponse1 = sendGetPostListRequest(
+            accessToken, cursorTimestamp, cursorPostId, 10, status().isOk());
 
-        cursorPostedAt = postListResponse1.getData().nextCursor().postedAt();
-        cursorPostId = postListResponse1.getData().nextCursor().postId();
+        cursorTimestamp = postListResponse1.getData().nextCursor().cursorTimestamp();
+        cursorPostId = postListResponse1.getData().nextCursor().cursorId();
 
-        CommonResponse<GetPostDetailListApiResponse> postListResponse2 = sendGetPostListRequest(
-            accessToken, cursorPostedAt, cursorPostId, 10, status().isOk());
+        CommonResponse<CursorPageApiResponse<PostDetails>> postListResponse2 = sendGetPostListRequest(
+            accessToken, cursorTimestamp, cursorPostId, 10, status().isOk());
 
-        assertThat(postListResponse1.getData().posts()).hasSize(10);
+        assertThat(postListResponse1.getData().content()).hasSize(10);
 
-        assertThat(postListResponse2.getData().posts()).hasSize(10);
-        assertThat(postListResponse1.getData().posts().getLast().postId()).isEqualTo(
-            postListResponse1.getData().nextCursor().postId());
+        assertThat(postListResponse2.getData().content()).hasSize(10);
+        assertThat(postListResponse1.getData().content().getLast().cursorId()).isEqualTo(
+            postListResponse1.getData().nextCursor().cursorId());
       }
 
       /*[Case #2] getPostList - 게시글 목록 전체 조회 - 커서 기반 페이징 방식으로 전체 페이지를 순회하면서 마지막 페이지까지 반복 조회하는 테스트
@@ -228,23 +228,23 @@ class GetPostApiTest extends BasePostApiTest {
         //when
         //then
         /*게시글 전체 조회 요청*/
-        LocalDateTime cursorPostedAt = null;
-        String cursorPostId = null;
+        LocalDateTime cursorTimestamp = null;
+        String cursorId = null;
         int limit = 10;
         int size = 0;
 
         while (true) {
-          CommonResponse<GetPostDetailListApiResponse> getPostListResponse = sendGetPostListRequest(
-              accessToken, cursorPostedAt, cursorPostId, limit, status().isOk());
-          size += getPostListResponse.getData().posts().size();
+          CommonResponse<CursorPageApiResponse<PostDetails>> getPostListResponse = sendGetPostListRequest(
+              accessToken, cursorTimestamp, cursorId, limit, status().isOk());
+          size += getPostListResponse.getData().content().size();
 
           /*마지막 페이지면 */
-          if (getPostListResponse.getData().nextCursor().postedAt() == null) {
+          if (getPostListResponse.getData().nextCursor().cursorTimestamp() == null) {
             break;
           }
 
-          cursorPostedAt = getPostListResponse.getData().nextCursor().postedAt();
-          cursorPostId = getPostListResponse.getData().nextCursor().postId();
+          cursorTimestamp = getPostListResponse.getData().nextCursor().cursorTimestamp();
+          cursorId = getPostListResponse.getData().nextCursor().cursorId();
         }
 
         assertThat(size).isEqualTo(POST_COUNT_ACTIVE);

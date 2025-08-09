@@ -1,0 +1,482 @@
+[
+  {
+    "userId": "follower_01",
+    "userName": "팔로워 사용자 01",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "follower01@threadly.com",
+    "phone": "010-2001-0001",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "follower_01",
+      "statusMessage": "메인 사용자를 팔로우하는 사용자",
+      "bio": "팔로워 테스트 데이터",
+      "gender": "FEMALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "follower_02",
+    "userName": "팔로워 사용자 02",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "follower02@threadly.com",
+    "phone": "010-2001-0002",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "follower_02",
+      "statusMessage": "메인 사용자를 팔로우하는 사용자",
+      "bio": "팔로워 테스트 데이터",
+      "gender": "MALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "follower_03",
+    "userName": "팔로워 사용자 03",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "follower03@threadly.com",
+    "phone": "010-2001-0003",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "follower_03",
+      "statusMessage": "메인 사용자를 팔로우하는 사용자",
+      "bio": "팔로워 테스트 데이터",
+      "gender": "FEMALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "follower_04",
+    "userName": "팔로워 사용자 04",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "follower04@threadly.com",
+    "phone": "010-2001-0004",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "follower_04",
+      "statusMessage": "메인 사용자를 팔로우하는 사용자",
+      "bio": "팔로워 테스트 데이터",
+      "gender": "MALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "follower_05",
+    "userName": "팔로워 사용자 05",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "follower05@threadly.com",
+    "phone": "010-2001-0005",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "follower_05",
+      "statusMessage": "메인 사용자를 팔로우하는 사용자",
+      "bio": "팔로워 테스트 데이터",
+      "gender": "FEMALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "follower_06",
+    "userName": "팔로워 사용자 06",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "follower06@threadly.com",
+    "phone": "010-2001-0006",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "follower_06",
+      "statusMessage": "메인 사용자를 팔로우하는 사용자",
+      "bio": "팔로워 테스트 데이터",
+      "gender": "MALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "follower_07",
+    "userName": "팔로워 사용자 07",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "follower07@threadly.com",
+    "phone": "010-2001-0007",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "follower_07",
+      "statusMessage": "메인 사용자를 팔로우하는 사용자",
+      "bio": "팔로워 테스트 데이터",
+      "gender": "FEMALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "follower_08",
+    "userName": "팔로워 사용자 08",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "follower08@threadly.com",
+    "phone": "010-2001-0008",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "follower_08",
+      "statusMessage": "메인 사용자를 팔로우하는 사용자",
+      "bio": "팔로워 테스트 데이터",
+      "gender": "MALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "follower_09",
+    "userName": "팔로워 사용자 09",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "follower09@threadly.com",
+    "phone": "010-2001-0009",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "follower_09",
+      "statusMessage": "메인 사용자를 팔로우하는 사용자",
+      "bio": "팔로워 테스트 데이터",
+      "gender": "FEMALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "follower_10",
+    "userName": "팔로워 사용자 10",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "follower10@threadly.com",
+    "phone": "010-2001-0010",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "follower_10",
+      "statusMessage": "메인 사용자를 팔로우하는 사용자",
+      "bio": "팔로워 테스트 데이터",
+      "gender": "MALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "following_01",
+    "userName": "팔로잉 사용자 01",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "following01@threadly.com",
+    "phone": "010-3001-0001",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "following_01",
+      "statusMessage": "메인 사용자가 팔로우하는 사용자",
+      "bio": "팔로잉 테스트 데이터",
+      "gender": "FEMALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "following_02",
+    "userName": "팔로잉 사용자 02",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "following02@threadly.com",
+    "phone": "010-3001-0002",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "following_02",
+      "statusMessage": "메인 사용자가 팔로우하는 사용자",
+      "bio": "팔로잉 테스트 데이터",
+      "gender": "MALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "following_03",
+    "userName": "팔로잉 사용자 03",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "following03@threadly.com",
+    "phone": "010-3001-0003",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "following_03",
+      "statusMessage": "메인 사용자가 팔로우하는 사용자",
+      "bio": "팔로잉 테스트 데이터",
+      "gender": "FEMALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "following_04",
+    "userName": "팔로잉 사용자 04",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "following04@threadly.com",
+    "phone": "010-3001-0004",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "following_04",
+      "statusMessage": "메인 사용자가 팔로우하는 사용자",
+      "bio": "팔로잉 테스트 데이터",
+      "gender": "MALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "following_05",
+    "userName": "팔로잉 사용자 05",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "following05@threadly.com",
+    "phone": "010-3001-0005",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "following_05",
+      "statusMessage": "메인 사용자가 팔로우하는 사용자",
+      "bio": "팔로잉 테스트 데이터",
+      "gender": "FEMALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "following_06",
+    "userName": "팔로잉 사용자 06",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "following06@threadly.com",
+    "phone": "010-3001-0006",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "following_06",
+      "statusMessage": "메인 사용자가 팔로우하는 사용자",
+      "bio": "팔로잉 테스트 데이터",
+      "gender": "MALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "following_07",
+    "userName": "팔로잉 사용자 07",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "following07@threadly.com",
+    "phone": "010-3001-0007",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "following_07",
+      "statusMessage": "메인 사용자가 팔로우하는 사용자",
+      "bio": "팔로잉 테스트 데이터",
+      "gender": "FEMALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "following_08",
+    "userName": "팔로잉 사용자 08",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "following08@threadly.com",
+    "phone": "010-3001-0008",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "following_08",
+      "statusMessage": "메인 사용자가 팔로우하는 사용자",
+      "bio": "팔로잉 테스트 데이터",
+      "gender": "MALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "following_09",
+    "userName": "팔로잉 사용자 09",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "following09@threadly.com",
+    "phone": "010-3001-0009",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "following_09",
+      "statusMessage": "메인 사용자가 팔로우하는 사용자",
+      "bio": "팔로잉 테스트 데이터",
+      "gender": "FEMALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "following_10",
+    "userName": "팔로잉 사용자 10",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "following10@threadly.com",
+    "phone": "010-3001-0010",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "following_10",
+      "statusMessage": "메인 사용자가 팔로우하는 사용자",
+      "bio": "팔로잉 테스트 데이터",
+      "gender": "MALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "following_11",
+    "userName": "팔로잉 사용자 11",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "following11@threadly.com",
+    "phone": "010-3001-0011",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "following_11",
+      "statusMessage": "메인 사용자가 팔로우하는 사용자",
+      "bio": "팔로잉 테스트 데이터",
+      "gender": "FEMALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "following_12",
+    "userName": "팔로잉 사용자 12",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "following12@threadly.com",
+    "phone": "010-3001-0012",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "following_12",
+      "statusMessage": "메인 사용자가 팔로우하는 사용자",
+      "bio": "팔로잉 테스트 데이터",
+      "gender": "MALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "following_13",
+    "userName": "팔로잉 사용자 13",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "following13@threadly.com",
+    "phone": "010-3001-0013",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "following_13",
+      "statusMessage": "메인 사용자가 팔로우하는 사용자",
+      "bio": "팔로잉 테스트 데이터",
+      "gender": "FEMALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "following_14",
+    "userName": "팔로잉 사용자 14",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "following14@threadly.com",
+    "phone": "010-3001-0014",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "following_14",
+      "statusMessage": "메인 사용자가 팔로우하는 사용자",
+      "bio": "팔로잉 테스트 데이터",
+      "gender": "MALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "following_15",
+    "userName": "팔로잉 사용자 15",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "following15@threadly.com",
+    "phone": "010-3001-0015",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "following_15",
+      "statusMessage": "메인 사용자가 팔로우하는 사용자",
+      "bio": "팔로잉 테스트 데이터",
+      "gender": "FEMALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "following_16",
+    "userName": "팔로잉 사용자 16",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "following16@threadly.com",
+    "phone": "010-3001-0016",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "following_16",
+      "statusMessage": "메인 사용자가 팔로우하는 사용자",
+      "bio": "팔로잉 테스트 데이터",
+      "gender": "MALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "following_17",
+    "userName": "팔로잉 사용자 17",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "following17@threadly.com",
+    "phone": "010-3001-0017",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "following_17",
+      "statusMessage": "메인 사용자가 팔로우하는 사용자",
+      "bio": "팔로잉 테스트 데이터",
+      "gender": "FEMALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "following_18",
+    "userName": "팔로잉 사용자 18",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "following18@threadly.com",
+    "phone": "010-3001-0018",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "following_18",
+      "statusMessage": "메인 사용자가 팔로우하는 사용자",
+      "bio": "팔로잉 테스트 데이터",
+      "gender": "MALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "following_19",
+    "userName": "팔로잉 사용자 19",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "following19@threadly.com",
+    "phone": "010-3001-0019",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "following_19",
+      "statusMessage": "메인 사용자가 팔로우하는 사용자",
+      "bio": "팔로잉 테스트 데이터",
+      "gender": "FEMALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "following_20",
+    "userName": "팔로잉 사용자 20",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "following20@threadly.com",
+    "phone": "010-3001-0020",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "following_20",
+      "statusMessage": "메인 사용자가 팔로우하는 사용자",
+      "bio": "팔로잉 테스트 데이터",
+      "gender": "MALE",
+      "profileType": "USER"
+    }
+  }
+]

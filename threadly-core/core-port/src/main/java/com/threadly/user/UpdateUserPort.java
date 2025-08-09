@@ -36,4 +36,11 @@ public interface UpdateUserPort {
    * @param newPassword
    */
   void changePassword(String userId, String newPassword);
+
+  /**
+   * 주어진 user 도메인에 해당하는 사용자의 isPrivate 변경
+   *
+   * @param user
+   */
+  void updatePrivacy(User user);
 }

@@ -1,0 +1,14 @@
+[
+  {
+    "followId": "approve_follow",
+    "followerId": "usr1",
+    "followingId": "usr3",
+    "status": "APPROVED"
+  },
+  {
+    "followId": "pending_follow",
+    "followerId": "usr2",
+    "followingId": "usr3",
+    "status": "PENDING"
+  }
+]

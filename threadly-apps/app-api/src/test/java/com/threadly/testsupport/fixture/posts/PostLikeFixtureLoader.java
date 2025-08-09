@@ -1,8 +1,8 @@
 package com.threadly.testsupport.fixture.posts;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.threadly.adapter.post.PostAdapter;
-import com.threadly.adapter.post.PostLikeAdapter;
+import com.threadly.post.adapter.PostPersistenceAdapter;
+import com.threadly.post.adapter.PostLikePersistenceAdapter;
 import com.threadly.post.PostLike;
 import com.threadly.testsupport.dto.posts.PostLikeFixtureDto;
 import com.threadly.testsupport.fixture.FixtureLoader;
@@ -23,14 +23,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 public class PostLikeFixtureLoader {
 
-  private final PostAdapter postAdapter;
+  private final PostPersistenceAdapter postPersistenceAdapter;
 
   private final UserFixtureLoader userFixtureLoader;
   private final PostFixtureLoader postFixtureLoader;
 
   @PersistenceContext
   private final EntityManager entityManager;
-  private final PostLikeAdapter postLikeAdapter;
+  private final PostLikePersistenceAdapter postLikePersistenceAdapter;
 
 
   /**
@@ -77,7 +77,7 @@ public class PostLikeFixtureLoader {
       PostLikeFixtureDto dto = fixtures.get(i);
       PostLike postLike = PostLikeFixtureMapper.toPostLike(dto);
 
-      postLikeAdapter.createPostLike(postLike);
+      postLikePersistenceAdapter.createPostLike(postLike);
     }
 
     /*트랜잭션 커밋 전에 insert 쿼리 강제 실행*/

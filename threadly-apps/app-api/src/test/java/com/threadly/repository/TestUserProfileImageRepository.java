@@ -1,13 +1,11 @@
 package com.threadly.repository;
 
-import com.threadly.entity.user.UserProfileImageEntity;
-import com.threadly.mapper.user.UserProfileImageMapper;
+import com.threadly.user.entity.UserProfileImageEntity;
+import com.threadly.user.mapper.UserProfileImageMapper;
 import com.threadly.user.profile.image.UserProfileImage;
 import jakarta.persistence.EntityManager;
 import java.util.Optional;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Test User ProfileImage Repository

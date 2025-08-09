@@ -1,18 +1,22 @@
 package com.threadly.user.profile;
 
+import com.threadly.commons.dto.UserPreview;
 import com.threadly.exception.ErrorCode;
 import com.threadly.exception.user.UserException;
+import com.threadly.follow.FollowStatusType;
 import com.threadly.user.UserStatusType;
 import com.threadly.user.profile.fetch.FetchUserProfilePort;
 import com.threadly.user.profile.fetch.MyProfileDetailsProjection;
 import com.threadly.user.profile.fetch.UserProfileProjection;
-import com.threadly.user.profile.get.GetMyProfileDetailsApiResponse;
-import com.threadly.user.profile.get.GetMyProfileUseCase;
-import com.threadly.user.profile.get.GetUserProfileApiResponse;
-import com.threadly.user.profile.get.GetUserProfileUseCase;
+import com.threadly.user.profile.query.dto.GetMyProfileDetailsApiResponse;
+import com.threadly.user.profile.query.GetMyProfileUseCase;
+import com.threadly.user.profile.query.dto.GetUserProfileApiResponse;
+import com.threadly.user.profile.query.GetUserProfileUseCase;
+import com.threadly.validator.follow.FollowAccessValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * userprofile 관련 조회 서비스
@@ -23,6 +27,8 @@ import org.springframework.stereotype.Service;
 public class UserProfileQueryService implements GetUserProfileUseCase, GetMyProfileUseCase {
 
   private final FetchUserProfilePort fetchUserProfilePort;
+
+  private final FollowAccessValidator followAccessValidator;
 
   @Override
   public boolean existsUserProfile(String userId) {
@@ -36,26 +42,37 @@ public class UserProfileQueryService implements GetUserProfileUseCase, GetMyProf
     }
   }
 
+  @Transactional(readOnly = true)
   @Override
-  public GetUserProfileApiResponse getUserProfile(String userId) {
+  public GetUserProfileApiResponse getUserProfile(String userId, String targetUserId) {
     UserProfileProjection userProfileProjection = fetchUserProfilePort.findUserProfileByUserId(
-        userId).orElseThrow(
+        targetUserId).orElseThrow(
         () -> new UserException(ErrorCode.USER_NOT_FOUND)
     );
 
     /*사용자 상태 검증*/
     if (userProfileProjection.getUserStatus().equals(UserStatusType.DELETED)) {
       throw new UserException(ErrorCode.USER_ALREADY_DELETED);
+    } else if (userProfileProjection.getUserStatus().equals(UserStatusType.INACTIVE)) {
+      throw new UserException(ErrorCode.USER_INACTIVE);
     }
 
+    /*팔로우 유무 검증*/
+    FollowStatusType followStatusType = followAccessValidator.validateProfileAccessible(userId,
+        targetUserId);
+
     return new GetUserProfileApiResponse(
-        userProfileProjection.getUserId(),
-        userProfileProjection.getNickname(),
+        new UserPreview(
+            userProfileProjection.getUserId(),
+            userProfileProjection.getNickname(),
+            userProfileProjection.getProfileImageUrl()
+        ),
         userProfileProjection.getStatusMessage(),
         userProfileProjection.getBio(),
-        userProfileProjection.getProfileImageUrl()
+        followStatusType
     );
   }
+
 
   @Override
   public GetMyProfileDetailsApiResponse getMyProfileDetails(String userId) {

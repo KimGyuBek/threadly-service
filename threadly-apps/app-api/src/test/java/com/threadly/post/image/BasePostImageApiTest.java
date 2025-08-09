@@ -6,7 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.threadly.CommonResponse;
-import com.threadly.entity.post.PostImageEntity;
+import com.threadly.post.entity.PostImageEntity;
 import com.threadly.post.PostCommentStatus;
 import com.threadly.image.ImageStatus;
 import com.threadly.post.controller.BasePostApiTest;
@@ -15,10 +15,10 @@ import com.threadly.post.create.CreatePostApiResponse.PostImageApiResponse;
 import com.threadly.post.image.UploadPostImagesApiResponse.PostImageResponse;
 import com.threadly.post.request.CreatePostRequest.ImageRequest;
 import com.threadly.properties.UploadProperties;
-import com.threadly.repository.post.PostImageJpaRepository;
-import com.threadly.repository.post.PostLikeJpaRepository;
-import com.threadly.repository.post.comment.CommentLikeJpaRepository;
-import com.threadly.repository.post.comment.PostCommentJpaRepository;
+import com.threadly.post.repository.PostImageJpaRepository;
+import com.threadly.post.repository.PostLikeJpaRepository;
+import com.threadly.post.repository.CommentLikeJpaRepository;
+import com.threadly.post.repository.PostCommentJpaRepository;
 import com.threadly.utils.TestLogUtils;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -288,7 +288,7 @@ public abstract class BasePostImageApiTest extends BasePostApiTest {
   }
 
   /**
-   * status, postId에 해당하는 데이터 수 검증
+   * followStatusType, postId에 해당하는 데이터 수 검증
    *
    * @param postId
    * @param expectedStatus

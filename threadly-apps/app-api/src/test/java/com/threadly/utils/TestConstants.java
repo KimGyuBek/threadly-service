@@ -27,6 +27,7 @@ public class TestConstants {
    */
 
   public static final String PROFILE_NOT_SET_USER_1 = "no_profile@threadly.com";
+  public static final String PROFILE_NOT_SET_USER_1_ID = "user3";
 
   /**
    * 비밀번호

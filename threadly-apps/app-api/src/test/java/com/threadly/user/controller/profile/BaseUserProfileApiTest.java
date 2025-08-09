@@ -6,26 +6,19 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.threadly.BaseApiTest;
 import com.threadly.CommonResponse;
 import com.threadly.testsupport.fixture.users.UserFixtureLoader;
-import com.threadly.user.profile.get.GetUserProfileApiResponse;
+import com.threadly.user.BaseUserApiTest;
+import com.threadly.user.profile.query.dto.GetUserProfileApiResponse;
 import java.util.Map;
-import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.ResultMatcher;
 
 /**
  * 사용자 프로필 관련 Base 테스트
  */
-public abstract class BaseUserProfileApiTest extends BaseApiTest {
+public abstract class BaseUserProfileApiTest extends BaseUserApiTest {
 
   @Autowired
   public UserFixtureLoader userFixtureLoader;
-
-  @BeforeEach
-  void setUp() {
-    userFixtureLoader.load(
-        "/users/profile/user.json"
-    );
-  }
 
   //userId
   public static final String USER_ID = "user_with_profile_test";
@@ -71,7 +64,7 @@ public abstract class BaseUserProfileApiTest extends BaseApiTest {
 
     return
         sendGetRequest(
-            accessToken, "/api/user/profile/" + userId, expectedStatus,
+            accessToken, "/api/users/profile/" + userId, expectedStatus,
             new TypeReference<>() {
             });
   }
@@ -96,11 +89,11 @@ public abstract class BaseUserProfileApiTest extends BaseApiTest {
    */
   public void assertUserProfileResponse(GetUserProfileApiResponse actual,
       Map<String, String> expected) {
-    assertThat(actual.userId()).isEqualTo(expected.get("userId"));
-    assertThat(actual.nickname()).isEqualTo(expected.get("nickname"));
+    assertThat(actual.user().userId()).isEqualTo(expected.get("userId"));
+    assertThat(actual.user().nickname()).isEqualTo(expected.get("nickname"));
     assertThat(actual.statusMessage()).isEqualTo(expected.get("statusMessage"));
     assertThat(actual.bio()).isEqualTo(expected.get("bio"));
-    assertThat(actual.profileImageUrl()).isEqualTo(expected.get("profileImageUrl"));
+    assertThat(actual.user().profileImageUrl()).isEqualTo(expected.get("profileImageUrl"));
   }
 
 }

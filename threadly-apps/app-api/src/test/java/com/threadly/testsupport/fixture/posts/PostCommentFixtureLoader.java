@@ -1,7 +1,7 @@
 package com.threadly.testsupport.fixture.posts;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.threadly.adapter.post.PostCommentAdapter;
+import com.threadly.post.adapter.PostCommentPersistenceAdapter;
 import com.threadly.post.comment.PostComment;
 import com.threadly.testsupport.dto.posts.PostCommentFixtureDto;
 import com.threadly.testsupport.fixture.FixtureLoader;
@@ -26,7 +26,7 @@ public class PostCommentFixtureLoader {
   @PersistenceContext
   private final EntityManager entityManager;
 
-  private final PostCommentAdapter postCommentAdapter;
+  private final PostCommentPersistenceAdapter postCommentPersistenceAdapter;
 
 
   /**
@@ -61,7 +61,7 @@ public class PostCommentFixtureLoader {
       PostCommentFixtureDto dto = fixtures.get(i);
       PostComment postComment = PostCommentFixtureMapper.toPostComment(dto);
 
-      postCommentAdapter.savePostComment(postComment);
+      postCommentPersistenceAdapter.savePostComment(postComment);
     }
 
     /*트랜잭션 커밋 전에 insert 쿼리 강제 실행*/

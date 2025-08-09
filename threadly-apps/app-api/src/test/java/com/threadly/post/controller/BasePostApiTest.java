@@ -5,23 +5,23 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.threadly.BaseApiTest;
 import com.threadly.CommonResponse;
-import com.threadly.entity.post.PostEntity;
 import com.threadly.post.PostStatus;
 import com.threadly.post.comment.create.CreatePostCommentApiResponse;
-import com.threadly.post.comment.get.GetPostCommentListApiResponse;
+import com.threadly.post.comment.get.GetPostCommentApiResponse;
 import com.threadly.post.create.CreatePostApiResponse;
 import com.threadly.post.engagement.GetPostEngagementApiResponse;
-import com.threadly.post.get.GetPostDetailApiResponse;
-import com.threadly.post.get.GetPostDetailListApiResponse;
-import com.threadly.post.like.comment.GetPostCommentLikersApiResponse;
+import com.threadly.post.entity.PostEntity;
+import com.threadly.post.get.PostDetails;
 import com.threadly.post.like.comment.LikePostCommentApiResponse;
-import com.threadly.post.like.post.GetPostLikersApiResponse;
+import com.threadly.post.like.comment.PostCommentLiker;
 import com.threadly.post.like.post.LikePostApiResponse;
+import com.threadly.post.like.post.PostLiker;
+import com.threadly.post.repository.PostJpaRepository;
 import com.threadly.post.request.CreatePostCommentRequest;
 import com.threadly.post.request.CreatePostRequest;
 import com.threadly.post.request.UpdatePostRequest;
 import com.threadly.post.update.UpdatePostApiResponse;
-import com.threadly.repository.post.PostJpaRepository;
+import com.threadly.response.CursorPageApiResponse;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -91,7 +91,7 @@ public abstract class BasePostApiTest extends BaseApiTest {
    * @param expectedStatus
    * @return
    */
-  public CommonResponse<GetPostDetailApiResponse> sendGetPostRequest(String accessToken,
+  public CommonResponse<PostDetails> sendGetPostRequest(String accessToken,
       String postId, ResultMatcher expectedStatus) throws Exception {
     return
         sendGetRequest(
@@ -127,22 +127,21 @@ public abstract class BasePostApiTest extends BaseApiTest {
    * @param expectedStatus
    * @return
    */
-  public CommonResponse<GetPostLikersApiResponse> sendGetPostLikersRequest(String accessToken,
-      String postId, LocalDateTime cursorLikedAt, String cursorLikerId, int limit,
+  public CommonResponse<CursorPageApiResponse<PostLiker>> sendGetPostLikersRequest(
+      String accessToken,
+      String postId, LocalDateTime cursorTimestamp, String cursorLikerId, int limit,
       ResultMatcher expectedStatus) throws Exception {
     String path = "/api/posts/" + postId + "/engagement/likes";
 
-    if (cursorLikedAt != null && cursorLikerId != null && cursorLikedAt != null) {
-      path += "?cursor_liked_at=" + cursorLikedAt + "&cursor_liker_id=" + cursorLikerId + "&limit="
+    if (cursorTimestamp != null && cursorLikerId != null && cursorTimestamp != null) {
+      path += "?cursor_timestamp=" + cursorTimestamp + "&cursor_id=" + cursorLikerId + "&limit="
           + limit;
 
     }
-    CommonResponse<GetPostLikersApiResponse> response = sendGetRequest(
+    return sendGetRequest(
         accessToken, path, expectedStatus,
         new TypeReference<>() {
         });
-
-    return response;
   }
 
   /**
@@ -152,14 +151,15 @@ public abstract class BasePostApiTest extends BaseApiTest {
    * @param expectedStatus
    * @return
    */
-  public CommonResponse<GetPostDetailListApiResponse> sendGetPostListRequest(String accessToken,
-      LocalDateTime cursorPostedAt, String cursorPostId, int limit,
+  public CommonResponse<CursorPageApiResponse<PostDetails>> sendGetPostListRequest(
+      String accessToken,
+      LocalDateTime cursorTimestamp, String cursorId, int limit,
       ResultMatcher expectedStatus) throws Exception {
     String path =
         "/api/posts?limit=" + limit;
 
-    if (cursorPostedAt != null || cursorPostId != null) {
-      path += "&cursor_posted_at=" + cursorPostedAt + "&cursor_post_id=" + cursorPostId;
+    if (cursorTimestamp != null || cursorId != null) {
+      path += "&cursor_timestamp=" + cursorTimestamp + "&cursor_id=" + cursorId;
     }
 
     return
@@ -232,24 +232,22 @@ public abstract class BasePostApiTest extends BaseApiTest {
    * @param expectedStatus
    * @return
    */
-  public CommonResponse<GetPostCommentListApiResponse> sendGetPostCommentListRequest(
+  public CommonResponse<CursorPageApiResponse<GetPostCommentApiResponse>> sendGetPostCommentListRequest(
       String accessToken,
-      String postId, LocalDateTime cursorLikedAt, String cursorLikerId, int limit,
+      String postId, LocalDateTime cursorTimestamp, String cursorId, int limit,
       ResultMatcher expectedStatus) throws Exception {
     String path = "/api/posts/" + postId + "/comments";
 
-    if (cursorLikedAt != null && cursorLikerId != null && cursorLikedAt != null) {
-      path += "?cursor_commented_at=" + cursorLikedAt + "&cursor_comment_id=" + cursorLikerId
+    if (cursorTimestamp != null && cursorId != null && cursorTimestamp != null) {
+      path += "?cursor_timestamp=" + cursorTimestamp + "&cursor_id=" + cursorId
           + "&limit="
           + limit;
 
     }
-    CommonResponse<GetPostCommentListApiResponse> response = sendGetRequest(
+    return sendGetRequest(
         accessToken, path, expectedStatus,
         new TypeReference<>() {
         });
-
-    return response;
   }
 
   /**
@@ -300,23 +298,21 @@ public abstract class BasePostApiTest extends BaseApiTest {
    * @param expectedStatus
    * @return
    */
-  public CommonResponse<GetPostCommentLikersApiResponse> sendGetPostCommentLikersRequest(
+  public CommonResponse<CursorPageApiResponse<PostCommentLiker>> sendGetPostCommentLikersRequest(
       String accessToken,
-      String postId, String commentId, LocalDateTime cursorLikedAt, String cursorLikerId, int limit,
+      String postId, String commentId, LocalDateTime cursorTimestamp, String cursorId, int limit,
       ResultMatcher expectedStatus) throws Exception {
     String path = "/api/posts/" + postId + "/comments/" + commentId + "/likes";
 
-    if (cursorLikedAt != null && cursorLikerId != null && cursorLikedAt != null) {
-      path += "?cursor_liked_at=" + cursorLikedAt + "&cursor_liker_id=" + cursorLikerId + "&limit="
+    if (cursorTimestamp != null && cursorId != null && cursorTimestamp != null) {
+      path += "?cursor_timestamp=" + cursorTimestamp + "&cursor_id=" + cursorId + "&limit="
           + limit;
 
     }
-    CommonResponse<GetPostCommentLikersApiResponse> response = sendGetRequest(
+    return sendGetRequest(
         accessToken, path, expectedStatus,
         new TypeReference<>() {
         });
-
-    return response;
   }
 
   /**
@@ -360,6 +356,7 @@ public abstract class BasePostApiTest extends BaseApiTest {
 
   /**
    * 게시글 이미지 상태 검증
+   *
    * @param postId
    * @param expectedStatus
    */

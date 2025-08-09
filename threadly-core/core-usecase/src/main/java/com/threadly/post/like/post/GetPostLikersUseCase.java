@@ -1,5 +1,7 @@
 package com.threadly.post.like.post;
 
+import com.threadly.response.CursorPageApiResponse;
+
 /**
  * 게시글 좋아요 누른 사용자 조회 관련 UseCase
  */
@@ -10,7 +12,7 @@ public interface GetPostLikersUseCase {
    * @param query
    * @return
    */
-  GetPostLikersApiResponse getPostLikers(GetPostLikersQuery query);
+  CursorPageApiResponse getPostLikers(GetPostLikersQuery query);
 
 
 
