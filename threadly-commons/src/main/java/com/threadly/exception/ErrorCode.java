@@ -12,6 +12,23 @@ public enum ErrorCode {
   INVALID_REQUEST("TLY0001", "잘못된 요청입니다.", HttpStatus.BAD_REQUEST),
   ACCESS_DENIED("TLY0002", "접근이 거부되었습니다.", HttpStatus.FORBIDDEN),
 
+  /*인증/보안*/
+  /*Token*/
+  TOKEN_EXPIRED("TLY1000", "토큰이 만료되었습니다.", HttpStatus.UNAUTHORIZED),
+  TOKEN_INVALID("TLY1001", "유효하지 않은 토큰입니다.", HttpStatus.BAD_REQUEST),
+  TOKEN_MISSING("TLY1002", "토큰이 존재하지 않습니다.", HttpStatus.BAD_REQUEST),
+
+  /*Email*/
+  EMAIL_SENDING_FAILED("TLY1100", "메일 전송중 오류 발생", HttpStatus.BAD_GATEWAY),
+  EMAIL_CODE_NOT_PROVIDED("TLY1101", "인증 코드가 제공되지 않았습니다.", HttpStatus.BAD_REQUEST),
+  EMAIL_CODE_INVALID("TLY1102", "유효하지 않은 인증 코드입니다.", HttpStatus.BAD_REQUEST),
+  EMAIL_CODE_EXPIRED("TLY1103", "인증 코드가 만료되었습니다.", HttpStatus.GONE),
+  EMAIL_ALREADY_VERIFIED("TLY1104", "이미 인증이 완료된 이메일입니다.", HttpStatus.CONFLICT),
+  EMAIL_USER_NOT_FOUND("TLY1105", "해당 이메일에 대한 사용자를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+  EMAIL_FORMAT_INVALID("TLY1106", "이메일 형식이 올바르지 않습니다.", HttpStatus.BAD_REQUEST),
+  EMAIL_REQUEST_INVALID("TLY1107", "잘못된 인증 요청입니다.", HttpStatus.BAD_REQUEST),
+
+  /*사용자 도메인*/
   /*User*/
   USER_NOT_FOUND("TLY2000", "사용자가 존재하지 않습니다.", HttpStatus.NOT_FOUND),
   USER_ALREADY_EXISTS("TLY2001", "이미 존재하는 사용자입니다.", HttpStatus.CONFLICT),
@@ -30,92 +47,79 @@ public enum ErrorCode {
   EMAIL_VERIFICATION_FAILED("TLY2014", "이메일 인증에 실패했습니다.", HttpStatus.BAD_REQUEST),
   SECOND_VERIFICATION_FAILED("TLY2015", "2차 인증에 실패했습니다.", HttpStatus.BAD_REQUEST),
   LOGIN_ATTEMPT_EXCEEDED("TLY2016", "로그인 시도 횟수를 초과하였습니다.", HttpStatus.TOO_MANY_REQUESTS),
-  USER_PROFILE_NOT_FOUND("TLY2017", "사용자 프로필을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
-  USER_PROFILE_NOT_SET("TLY2018", "사용자 프로필이 설정되지 않았습니다.", HttpStatus.FORBIDDEN),
-  USER_PROFILE_ALREADY_SET("TLY2019", "이미 프로필을 설정한 사용자입니다.", HttpStatus.CONFLICT),
-  USER_NICKNAME_DUPLICATED("TLY2020", "이미 존재하는 닉네임입니다.", HttpStatus.CONFLICT),
-  USER_PROFILE_PRIVATE("TLY2021", "비공개 계정입니다.", HttpStatus.FORBIDDEN),
-  USER_BANNED("TLY2022", "운영자에 의해 차단된 계정입니다.", HttpStatus.FORBIDDEN),
+  USER_BANNED("TLY2017", "운영자에 의해 차단된 계정입니다.", HttpStatus.FORBIDDEN),
 
-  /*User Profile*/
+  /*UserProfile*/
+  USER_PROFILE_NOT_FOUND("TLY2100", "사용자 프로필을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+  USER_PROFILE_NOT_SET("TLY2101", "사용자 프로필이 설정되지 않았습니다.", HttpStatus.FORBIDDEN),
+  USER_PROFILE_ALREADY_SET("TLY2102", "이미 프로필을 설정한 사용자입니다.", HttpStatus.CONFLICT),
+  USER_NICKNAME_DUPLICATED("TLY2103", "이미 존재하는 닉네임입니다.", HttpStatus.CONFLICT),
+  USER_PROFILE_PRIVATE("TLY2104", "비공개 계정입니다.", HttpStatus.FORBIDDEN),
 
   /*Follow*/
-  SELF_FOLLOW_REQUEST_NOT_ALLOWED("TLY2023", "자신에게는 팔로우 요청을 할 수 없습니다.", HttpStatus.BAD_REQUEST),
-  FOLLOW_RELATION_NOT_FOUND("TLY2024", "팔로우 관계가 존재하지 않습니다.", HttpStatus.NOT_FOUND),
-  FOLLOW_REQUEST_FORBIDDEN("TLY2025", "팔로우 요청에 대한 권한이 없습니다.", HttpStatus.FORBIDDEN),
+  SELF_FOLLOW_REQUEST_NOT_ALLOWED("TLY2200", "자신에게는 팔로우 요청을 할 수 없습니다.", HttpStatus.BAD_REQUEST),
+  FOLLOW_RELATION_NOT_FOUND("TLY2201", "팔로우 관계가 존재하지 않습니다.", HttpStatus.NOT_FOUND),
+  FOLLOW_REQUEST_FORBIDDEN("TLY2202", "팔로우 요청에 대한 권한이 없습니다.", HttpStatus.FORBIDDEN),
 
-  /*Token*/
-  TOKEN_EXPIRED("TLY3000", "토큰이 만료되었습니다.", HttpStatus.UNAUTHORIZED),
-  TOKEN_INVALID("TLY3001", "유효하지 않은 토큰입니다.", HttpStatus.BAD_REQUEST),
-  TOKEN_MISSING("TLY3002", "토큰이 존재하지 않습니다.", HttpStatus.BAD_REQUEST),
-
-  /*Email*/
-  EMAIL_SENDING_FAILED("TLY4000", "메일 전송중 오류 발생", HttpStatus.BAD_GATEWAY),
-  EMAIL_CODE_NOT_PROVIDED("TLY4001", "인증 코드가 제공되지 않았습니다.", HttpStatus.BAD_REQUEST),
-  EMAIL_CODE_INVALID("TLY4002", "유효하지 않은 인증 코드입니다.", HttpStatus.BAD_REQUEST),
-  EMAIL_CODE_EXPIRED("TLY4003", "인증 코드가 만료되었습니다.", HttpStatus.GONE),
-  EMAIL_ALREADY_VERIFIED("TLY4004", "이미 인증이 완료된 이메일입니다.", HttpStatus.CONFLICT),
-  EMAIL_USER_NOT_FOUND("TLY4005", "해당 이메일에 대한 사용자를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
-  EMAIL_FORMAT_INVALID("TLY4006", "이메일 형식이 올바르지 않습니다.", HttpStatus.BAD_REQUEST),
-  EMAIL_REQUEST_INVALID("TLY4007", "잘못된 인증 요청입니다.", HttpStatus.BAD_REQUEST),
-
+  /*게시글 도메인*/
   /*Post*/
-  POST_NOT_FOUND("TLY5000", "게시글을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
-  POST_ALREADY_DELETED("TLY5001", "이미 삭제된 게시글입니다.", HttpStatus.BAD_REQUEST),
-  POST_UPDATE_FORBIDDEN("TLY5002", "게시글을 수정할 권한이 없습니다.", HttpStatus.FORBIDDEN),
-  POST_DELETE_FORBIDDEN("TLY5003", "게시글을 삭제할 권한이 없습니다.", HttpStatus.FORBIDDEN),
-  POST_LIKE_DUPLICATED("TLY5004", "이미 좋아요를 누른 게시글입니다.", HttpStatus.CONFLICT),
-  POST_LIKE_NOT_FOUND("TLY5005", "좋아요를 누르지 않은 게시글입니다.", HttpStatus.BAD_REQUEST),
-  POST_DELETE_BLOCKED("TLY5006", "차단된 게시글은 삭제할 수 없습니다.", HttpStatus.BAD_REQUEST),
-  POST_ALREADY_DELETED_ACTION("TLY5007", "이미 삭제된 게시글은 다시 삭제할 수 없습니다.", HttpStatus.BAD_REQUEST),
-  POST_BLOCKED("TLY5008", "블라인드 된 게시글입니다.", HttpStatus.BAD_REQUEST),
-  POST_ARCHIVED("TLY5009", "비공개 처리된 게시글입니다.", HttpStatus.BAD_REQUEST),
-  POST_LIKE_NOT_ALLOWED("TLY5010", "삭제되었거나 차단된 게시글에는 좋아요를 누를 수 없습니다.",
+  POST_NOT_FOUND("TLY3000", "게시글을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+  POST_ALREADY_DELETED("TLY3001", "이미 삭제된 게시글입니다.", HttpStatus.BAD_REQUEST),
+  POST_UPDATE_FORBIDDEN("TLY3002", "게시글을 수정할 권한이 없습니다.", HttpStatus.FORBIDDEN),
+  POST_DELETE_FORBIDDEN("TLY3003", "게시글을 삭제할 권한이 없습니다.", HttpStatus.FORBIDDEN),
+  POST_LIKE_DUPLICATED("TLY3004", "이미 좋아요를 누른 게시글입니다.", HttpStatus.CONFLICT),
+  POST_LIKE_NOT_FOUND("TLY3005", "좋아요를 누르지 않은 게시글입니다.", HttpStatus.BAD_REQUEST),
+  POST_DELETE_BLOCKED("TLY3006", "차단된 게시글은 삭제할 수 없습니다.", HttpStatus.BAD_REQUEST),
+  POST_ALREADY_DELETED_ACTION("TLY3007", "이미 삭제된 게시글은 다시 삭제할 수 없습니다.", HttpStatus.BAD_REQUEST),
+  POST_BLOCKED("TLY3008", "블라인드 된 게시글입니다.", HttpStatus.BAD_REQUEST),
+  POST_ARCHIVED("TLY3009", "비공개 처리된 게시글입니다.", HttpStatus.BAD_REQUEST),
+  POST_LIKE_NOT_ALLOWED("TLY3010", "삭제되었거나 차단된 게시글에는 좋아요를 누를 수 없습니다.",
       HttpStatus.BAD_REQUEST),
-  POST_NOT_ACCESSIBLE("TLY5011", "이 게시글은 볼 수 없습니다.",
+  POST_NOT_ACCESSIBLE("TLY3011", "이 게시글은 볼 수 없습니다.",
       HttpStatus.BAD_REQUEST),
 
   /*PostComment*/
-  POST_COMMENT_NOT_FOUND("TLY5100", "댓글을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
-  POST_COMMENT_ALREADY_DELETED("TLY5101", "이미 삭제된 댓글입니다.", HttpStatus.BAD_REQUEST),
-  POST_COMMENT_DELETE_FORBIDDEN("TLY5102", "댓글을 삭제할 권한이 없습니다.", HttpStatus.FORBIDDEN),
-  POST_COMMENT_WRITE_FORBIDDEN("TLY5103", "댓글을 작성할 권한이 없습니다.", HttpStatus.FORBIDDEN),
-  POST_COMMENT_CONTENT_EMPTY("TLY5104", "댓글 내용이 비어있습니다.", HttpStatus.BAD_REQUEST),
-  POST_COMMENT_LIKE_DUPLICATED("TLY5105", "이미 좋아요를 누른 댓글입니다.", HttpStatus.CONFLICT),
-  POST_COMMENT_LIKE_NOT_FOUND("TLY5106", "좋아요를 누르지 않은 댓글입니다.", HttpStatus.BAD_REQUEST),
-  POST_COMMENT_DELETE_BLOCKED("TLY5107", "차단된 댓글은 삭제할 수 없습니다.", HttpStatus.BAD_REQUEST),
-  POST_COMMENT_PARENT_POST_INACTIVE("TLY5108", "댓글이 속한 게시글은 현재 수정/삭제할 수 없습니다.",
+  POST_COMMENT_NOT_FOUND("TLY3100", "댓글을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+  POST_COMMENT_ALREADY_DELETED("TLY3101", "이미 삭제된 댓글입니다.", HttpStatus.BAD_REQUEST),
+  POST_COMMENT_DELETE_FORBIDDEN("TLY3102", "댓글을 삭제할 권한이 없습니다.", HttpStatus.FORBIDDEN),
+  POST_COMMENT_WRITE_FORBIDDEN("TLY3103", "댓글을 작성할 권한이 없습니다.", HttpStatus.FORBIDDEN),
+  POST_COMMENT_CONTENT_EMPTY("TLY3104", "댓글 내용이 비어있습니다.", HttpStatus.BAD_REQUEST),
+  POST_COMMENT_LIKE_DUPLICATED("TLY3105", "이미 좋아요를 누른 댓글입니다.", HttpStatus.CONFLICT),
+  POST_COMMENT_LIKE_NOT_FOUND("TLY3106", "좋아요를 누르지 않은 댓글입니다.", HttpStatus.BAD_REQUEST),
+  POST_COMMENT_DELETE_BLOCKED("TLY3107", "차단된 댓글은 삭제할 수 없습니다.", HttpStatus.BAD_REQUEST),
+  POST_COMMENT_PARENT_POST_INACTIVE("TLY3108", "댓글이 속한 게시글은 현재 수정/삭제할 수 없습니다.",
       HttpStatus.BAD_REQUEST),
-  POST_COMMENT_LIKE_NOT_ALLOWED("TLY5109", "삭제되었거나 차단된 댓글에는 좋아요를 누를 수 없습니다.",
+  POST_COMMENT_LIKE_NOT_ALLOWED("TLY3109", "삭제되었거나 차단된 댓글에는 좋아요를 누를 수 없습니다.",
       HttpStatus.BAD_REQUEST),
-  POST_COMMENT_BLOCKED("TLY5110", "차단된 댓글입니다.",
+  POST_COMMENT_BLOCKED("TLY3110", "차단된 댓글입니다.",
       HttpStatus.BAD_REQUEST),
-  POST_COMMENT_DELETED("TLY5111", "삭제된 댓글입니다.",
+  POST_COMMENT_DELETED("TLY3111", "삭제된 댓글입니다.",
       HttpStatus.BAD_REQUEST),
-  POST_COMMENT_NOT_ACCESSIBLE("TLY5112", "이 댓글은 볼 수 없습니다.",
+  POST_COMMENT_NOT_ACCESSIBLE("TLY3112", "이 댓글은 볼 수 없습니다.",
       HttpStatus.BAD_REQUEST),
 
+  /*이미지 도메인*/
   /*Image*/
-  IMAGE_NOT_FOUND("TLY6001", "이미지를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
-  IMAGE_INVALID_EXTENSION("TLY6002", "허용되지 않는 파일 확장자입니다.", HttpStatus.BAD_REQUEST),
-  IMAGE_INVALID_MIME_TYPE("TLY6003", "유효하지 않은 이미지 MIME 타입입니다.", HttpStatus.BAD_REQUEST),
-  IMAGE_TOO_LARGE("TLY6004", "이미지 파일 크기가 너무 큽니다.", HttpStatus.BAD_REQUEST),
-  IMAGE_UPLOAD_FAILED("TLY6005", "이미지 업로드에 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
-  IMAGE_INVALID_IMAGE("TLY6006", "잘못된 이미지 파일 입니다.", HttpStatus.FORBIDDEN),
-  IMAGE_EXTENSION_MISMATCH("TLY6007", "확장자가 일치하지 않습니다.", HttpStatus.BAD_REQUEST),
-  IMAGE_ASPECT_RATIO_INVALID("TLY6008", "허용되지 않는 이미지 비율입니다.", HttpStatus.BAD_REQUEST),
+  IMAGE_NOT_FOUND("TLY4000", "이미지를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+  IMAGE_INVALID_EXTENSION("TLY4001", "허용되지 않는 파일 확장자입니다.", HttpStatus.BAD_REQUEST),
+  IMAGE_INVALID_MIME_TYPE("TLY4002", "유효하지 않은 이미지 MIME 타입입니다.", HttpStatus.BAD_REQUEST),
+  IMAGE_TOO_LARGE("TLY4003", "이미지 파일 크기가 너무 큽니다.", HttpStatus.BAD_REQUEST),
+  IMAGE_UPLOAD_FAILED("TLY4004", "이미지 업로드에 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
+  IMAGE_INVALID_IMAGE("TLY4005", "잘못된 이미지 파일 입니다.", HttpStatus.FORBIDDEN),
+  IMAGE_EXTENSION_MISMATCH("TLY4006", "확장자가 일치하지 않습니다.", HttpStatus.BAD_REQUEST),
+  IMAGE_ASPECT_RATIO_INVALID("TLY4007", "허용되지 않는 이미지 비율입니다.", HttpStatus.BAD_REQUEST),
 
-  /*Post Image*/
-  POST_IMAGE_UPLOAD_LIMIT_EXCEEDED("TLY6101", "최대 업로드 가능한 이미지 수를 초과했습니다.",
+  /*PostImage*/
+  POST_IMAGE_UPLOAD_LIMIT_EXCEEDED("TLY4100", "최대 업로드 가능한 이미지 수를 초과했습니다.",
       HttpStatus.BAD_REQUEST),
-  POST_IMAGE_OWNER_MISMATCH("TLY6102", "사용자에게 해당 게시글 이미지에 대한 권한이 없습니다.", HttpStatus.FORBIDDEN),
-  POST_IMAGE_ALREADY_ATTACHED("TLY6103", "이미 게시글에 첨부된 이미지입니다.", HttpStatus.BAD_REQUEST),
-  POST_IMAGE_TEMP_EXPIRED("TLY6104", "임시 업로드 이미지의 유효 시간이 만료되었습니다.", HttpStatus.GONE),
-  POST_IMAGE_EMPTY("TLY6105", "게시글에는 최소 한 장의 이미지를 첨부해야 합니다.", HttpStatus.BAD_REQUEST),
-  POST_IMAGE_UPLOAD_FORBIDDEN("TLY6106", "게시글 이미지 업로드 권한이 없습니다.", HttpStatus.FORBIDDEN),
+  POST_IMAGE_OWNER_MISMATCH("TLY4101", "사용자에게 해당 게시글 이미지에 대한 권한이 없습니다.", HttpStatus.FORBIDDEN),
+  POST_IMAGE_ALREADY_ATTACHED("TLY4102", "이미 게시글에 첨부된 이미지입니다.", HttpStatus.BAD_REQUEST),
+  POST_IMAGE_TEMP_EXPIRED("TLY4103", "임시 업로드 이미지의 유효 시간이 만료되었습니다.", HttpStatus.GONE),
+  POST_IMAGE_EMPTY("TLY4104", "게시글에는 최소 한 장의 이미지를 첨부해야 합니다.", HttpStatus.BAD_REQUEST),
+  POST_IMAGE_UPLOAD_FORBIDDEN("TLY4105", "게시글 이미지 업로드 권한이 없습니다.", HttpStatus.FORBIDDEN),
 
-  /*UserProfile Image*/
-  USER_PROFILE_IMAGE_NOT_EXISTS("TLY6201", "존재하지 않는 이미지입니다.", HttpStatus.NOT_FOUND);
+  /*UserProfileImage*/
+  USER_PROFILE_IMAGE_NOT_EXISTS("TLY4200", "존재하지 않는 이미지입니다.", HttpStatus.NOT_FOUND);
 
 
   private final String code;
