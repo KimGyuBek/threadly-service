@@ -1,0 +1,14 @@
+spring:
+  batch:
+    job:
+      enabled: true
+  config:
+    import:
+      - "classpath:application-persistence-dev.yml"
+logging:
+  level:
+    root: info
+    com.threadly.batch: debug
+    org.hibernate.SQL: debug
+    org.hibernate.orm.jdbc.bind: trace
+

@@ -6,10 +6,12 @@ import com.threadly.core.domain.image.ImageStatus;
 import com.threadly.core.port.post.image.fetch.PostImageProjection;
 import java.time.LocalDateTime;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 public interface PostImageJpaRepository extends JpaRepository<PostImageEntity, String> {
 
