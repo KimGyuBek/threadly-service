@@ -1,29 +1,37 @@
 package com.threadly.batch;
 
 import com.threadly.adapter.persistence.post.repository.PostImageJpaRepository;
-import com.threadly.batch.properties.ImagePurgeProperties;
+import com.threadly.batch.properties.RetentionProperties;
 import com.threadly.core.domain.image.ImageStatus;
 import com.threadly.core.domain.post.PostImage;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.springframework.batch.test.JobLauncherTestUtils;
 import org.springframework.batch.test.JobRepositoryTestUtils;
 import org.springframework.batch.test.context.SpringBatchTest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.actuate.observability.AutoConfigureObservability;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 @SpringBatchTest
-@SpringBootTest
+@SpringBootTest(
+    classes = SpringBootTest.class,
+    webEnvironment = WebEnvironment.NONE
+)
 @ActiveProfiles("test")
+@SpringJUnitConfig(classes = {BatchApplication.class})
 @TestPropertySource(properties = {
     "jwt.enabled=false",
-    "ttl.enabled=false"
+    "ttl.enabled=false",
+    "spring.batch.job.enabled=false"
 })
-@DisplayName("DeleteJobConfig 배치 작업 테스트")
+//@DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 public abstract class BaseBatchTest {
 
   @Autowired
@@ -39,7 +47,7 @@ public abstract class BaseBatchTest {
   public PostImageJpaRepository postImageRepository;
 
   @Autowired
-  public ImagePurgeProperties imagePurgeProperties;
+  public RetentionProperties retentionProperties;
 
   @BeforeEach
   void setUp() {
@@ -57,8 +65,14 @@ public abstract class BaseBatchTest {
    * @param isDeletion  true면 threshold 이전(삭제 대상)으로, false면 현재시각(비 삭제 대상)
    */
   public void createTestData(int imageId, ImageStatus imageStatus, boolean isDeletion) {
+    Duration retention;
+    if (imageStatus.equals(ImageStatus.DELETED)) {
+      retention = retentionProperties.getImage().getDeleted();
+    } else {
+      retention = retentionProperties.getImage().getTemporary();
+    }
     LocalDateTime now = LocalDateTime.now();
-    LocalDateTime threshold = now.minus(imagePurgeProperties.retention());
+    LocalDateTime threshold = now.minus(retention);
 
     LocalDateTime modifiedAt = isDeletion ? threshold.minusMinutes(1)
         : threshold.plusMinutes(1);
@@ -78,6 +92,7 @@ public abstract class BaseBatchTest {
 
   /**
    * 데이터 삽입
+   *
    * @param postImage
    * @param modifiedAt
    */

@@ -4,3 +4,13 @@ spring:
       - "classpath:application-persistence-prod.yml"
 #      - "classpath:application-redis-prod.yml"
 #      - "classpath:application-port.yml"
+
+properties:
+  retention:
+    image:
+      deleted: PT72H
+      temporary: PT24H
+    post:
+      deleted: P30D
+    user:
+      deleted: P180D

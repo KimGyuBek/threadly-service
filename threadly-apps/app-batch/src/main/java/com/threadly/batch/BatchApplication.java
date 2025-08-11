@@ -1,7 +1,7 @@
 package com.threadly.batch;
 
 import com.threadly.adapter.persistence.PersistenceModule;
-import com.threadly.batch.properties.ImagePurgeProperties;
+import com.threadly.batch.properties.RetentionProperties;
 import com.threadly.commons.CommonModule;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.boot.SpringApplication;
@@ -26,7 +26,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
     PersistenceModule.class
 })
 @EnableBatchProcessing
-@EnableConfigurationProperties(ImagePurgeProperties.class)
+@EnableConfigurationProperties(RetentionProperties.class)
 public class BatchApplication {
 
   public static void main(String[] args) {

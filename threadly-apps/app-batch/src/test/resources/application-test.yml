@@ -7,7 +7,7 @@ spring:
     job:
       enabled: false
     jdbc:
-      initialize-schema: always
+      initialize-schema: embedded
       table-prefix: BATCH_
   
   flyway:
@@ -27,5 +27,11 @@ logging:
     org.hibernate.SQL: DEBUG
 
 properties:
-  image:
-    retention: PT72H
+  retention:
+    image:
+      deleted: PT72H
+      temporary: PT24H
+    post:
+      deleted: P30D
+    user:
+      deleted: P180D

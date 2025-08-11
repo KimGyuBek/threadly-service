@@ -9,6 +9,13 @@ drop table if exists users cascade;
 drop table if exists post_images;
 drop table if exists user_profile_images;
 
+drop table if exists BATCH_JOB_INSTANCE;
+drop table if exists BATCH_JOB_EXECUTION;
+drop table if exists BATCH_JOB_EXECUTION_PARAMS;
+drop table if exists BATCH_STEP_EXECUTION;
+drop table if exists BATCH_STEP_EXECUTION_CONTEXT;
+drop table if exists BATCH_JOB_EXECUTION_CONTEXT;
+
 --users
 create table users
 (

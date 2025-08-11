@@ -13,5 +13,11 @@ logging:
     org.hibernate.orm.jdbc.bind: trace
 
 properties:
-  image:
-    retention: PT72H
+  retention:
+    image:
+      deleted: PT72H
+      temporary: PT24H
+    post:
+      deleted: P30D
+    user:
+      deleted: P180D
