@@ -1,12 +1,14 @@
 package com.threadly.batch;
 
 import com.threadly.adapter.persistence.PersistenceModule;
+import com.threadly.batch.properties.ImagePurgeProperties;
 import com.threadly.commons.CommonModule;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
@@ -24,6 +26,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
     PersistenceModule.class
 })
 @EnableBatchProcessing
+@EnableConfigurationProperties(ImagePurgeProperties.class)
 public class BatchApplication {
 
   public static void main(String[] args) {

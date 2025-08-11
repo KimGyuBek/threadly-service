@@ -1,9 +1,11 @@
 package com.threadly.batch.job;
 
 import com.threadly.adapter.persistence.post.entity.PostImageEntity;
+import com.threadly.batch.properties.ImagePurgeProperties;
 import com.threadly.core.domain.image.ImageStatus;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import java.time.LocalDateTime;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
@@ -26,6 +28,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 @Configuration
 @RequiredArgsConstructor
 public class DeleteJobConfig {
+
+  private final ImagePurgeProperties imagePurgeProperties;
 
   @Bean
   public Job hardDeletePostImageJob(
@@ -58,16 +62,20 @@ public class DeleteJobConfig {
 
   @StepScope
   @Bean
-  public JpaPagingItemReader deleteImageReader(
+  public JpaPagingItemReader<PostImageEntity> deleteImageReader(
       EntityManagerFactory entityManagerFactory
   ) {
-    return new JpaPagingItemReaderBuilder()
+    return new JpaPagingItemReaderBuilder<PostImageEntity>()
         .name("deletedPostImagesReader")
         .entityManagerFactory(entityManagerFactory)
         .queryString("""
-            select pi from PostImageEntity pi where pi.status = :status
+            select pi
+            from PostImageEntity pi
+            where pi.status = :status
+            and pi.modifiedAt < :threshold
+            order by pi.modifiedAt asc
             """)
-        .parameterValues(Map.of("status", ImageStatus.DELETED))
+        .parameterValues(Map.of("status", ImageStatus.DELETED, "threshold", getThreshold()))
         .pageSize(10)
         .build();
   }
@@ -75,10 +83,7 @@ public class DeleteJobConfig {
   @StepScope
   @Bean
   public ItemProcessor<PostImageEntity, String> postImageToIdProcessor() {
-    return entity -> {
-      System.out.println("Processing entity: " + entity.getPostImageId());
-      return entity.getPostImageId();
-    };
+    return PostImageEntity::getPostImageId;
   }
 
   @StepScope
@@ -90,13 +95,25 @@ public class DeleteJobConfig {
         return;
       }
       em.createQuery("""
-              delete from PostImageEntity pi 
+              delete from PostImageEntity pi
               where pi.postImageId in :ids
+              and pi.status = :status
+              and pi.modifiedAt < :threshold
               """)
           .setParameter("ids", ids)
+          .setParameter("status", ImageStatus.DELETED)
+          .setParameter("threshold", getThreshold())
           .executeUpdate();
-
       em.clear();
     };
+  }
+
+  /**
+   * 삭제 기준 시간 추출
+   *
+   * @return
+   */
+  private LocalDateTime getThreshold() {
+    return LocalDateTime.now().minus(imagePurgeProperties.retention());
   }
 }

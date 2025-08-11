@@ -1,0 +1,31 @@
+spring:
+  config:
+    import:
+      - "classpath:application-persistence-test.yml"
+
+  batch:
+    job:
+      enabled: false
+    jdbc:
+      initialize-schema: always
+      table-prefix: BATCH_
+  
+  flyway:
+    enabled: false
+
+# 배치 모듈에서 필요없는 설정들 비활성화
+jwt:
+  enabled: false
+
+ttl:
+  enabled: false
+
+logging:
+  level:
+    org.springframework.batch: DEBUG
+    com.threadly.batch: DEBUG
+    org.hibernate.SQL: DEBUG
+
+properties:
+  image:
+    retention: PT72H

@@ -6,12 +6,10 @@ import com.threadly.core.domain.image.ImageStatus;
 import com.threadly.core.port.post.image.fetch.PostImageProjection;
 import java.time.LocalDateTime;
 import java.util.List;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
 
 public interface PostImageJpaRepository extends JpaRepository<PostImageEntity, String> {
 
@@ -131,7 +129,11 @@ public interface PostImageJpaRepository extends JpaRepository<PostImageEntity, S
   void finalizePostImage(@Param("imageId") String imageId, @Param("post") PostEntity postEntity,
       @Param("order") int order, @Param("status") ImageStatus status);
 
-  List<PostImageEntity> findAllByPostImageId(String postImageId);
+  /**
+   * 주어진 status에 해당하는 데이터 조회
+   * @param status
+   * @return
+   */
+  List<PostImageEntity> findAllByStatus(ImageStatus status);
 
-  List<PostImageEntity> findAllByPost_PostId(String postPostId);
 }
