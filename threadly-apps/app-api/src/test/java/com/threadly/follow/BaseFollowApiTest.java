@@ -10,7 +10,7 @@ import com.threadly.core.usecase.follow.query.dto.FollowRequestResponse;
 import com.threadly.core.usecase.follow.query.dto.FollowerResponse;
 import com.threadly.core.usecase.follow.query.dto.FollowingApiResponse;
 import com.threadly.core.usecase.follow.query.dto.GetUserFollowStatsApiResponse;
-import com.threadly.adapter.persistence.core.follow.request.FollowRequest;
+import com.threadly.follow.request.FollowRequest;
 import com.threadly.commons.response.CursorPageApiResponse;
 import com.threadly.testsupport.fixture.users.UserFollowFixtureLoader;
 import com.threadly.user.controller.profile.BaseUserProfileApiTest;

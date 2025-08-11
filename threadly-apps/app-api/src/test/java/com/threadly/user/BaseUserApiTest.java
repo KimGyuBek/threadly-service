@@ -10,7 +10,7 @@ import com.threadly.auth.request.PasswordVerificationRequest;
 import com.threadly.core.usecase.auth.token.response.TokenReissueApiResponse;
 import com.threadly.core.usecase.auth.verification.response.PasswordVerificationToken;
 import com.threadly.repository.TestUserRepository;
-import com.threadly.adapter.persistence.core.user.request.me.ChangePasswordRequest;
+import com.threadly.user.request.me.ChangePasswordRequest;
 import com.threadly.core.domain.user.UserStatusType;
 import java.util.HashMap;
 import java.util.Map;

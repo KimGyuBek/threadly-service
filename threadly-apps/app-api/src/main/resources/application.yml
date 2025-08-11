@@ -1,7 +1,10 @@
 jwt:
+  enabled: true
   secret: ${JWT.SECRET}
 app:
   version: ${{APP_VERSION:unknown}}
+ttl:
+  enabled: true
 
 server:
   port: 8080

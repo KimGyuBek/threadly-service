@@ -44,14 +44,13 @@ public class DeleteJobConfig {
   public Step hardDeletePostImageStep(
       JobRepository jobRepository,
       PlatformTransactionManager transactionManager,
-      ItemReader<PostImageEntity> deletePostImageReader,
+      ItemReader<PostImageEntity> deleteImageReader,
       ItemProcessor<PostImageEntity, String> postImageToIdProcessor,
       ItemWriter<String> deletePostImageWriter
   ) {
-    System.out.println("hardDeletePostImageStep");
     return new StepBuilder("hardDeletePostImageStep", jobRepository)
         .<PostImageEntity, String>chunk(10, transactionManager)
-        .reader(deletePostImageReader)
+        .reader(deleteImageReader)
         .processor(postImageToIdProcessor)
         .writer(deletePostImageWriter)
         .build();
@@ -59,11 +58,10 @@ public class DeleteJobConfig {
 
   @StepScope
   @Bean
-  public JpaPagingItemReader<PostImageEntity> deletePostImageReader(
+  public JpaPagingItemReader deleteImageReader(
       EntityManagerFactory entityManagerFactory
   ) {
-    System.out.println("Creating deletePostImageReader with status: " + ImageStatus.DELETED);
-    return new JpaPagingItemReaderBuilder<PostImageEntity>()
+    return new JpaPagingItemReaderBuilder()
         .name("deletedPostImagesReader")
         .entityManagerFactory(entityManagerFactory)
         .queryString("""

@@ -53,8 +53,6 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
   private final JwtTokenProvider jwtTokenProvider;
   private final TtlProperties ttlProperties;
 
-  private final FetchUserProfilePort fetchUserProfilePort;
-
   public Authentication getAuthentication(String accessToken) {
     /*accessToken으로 사용자 조회*/
     String userId = jwtTokenProvider.getUserId(accessToken);

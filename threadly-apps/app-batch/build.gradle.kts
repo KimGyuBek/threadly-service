@@ -9,6 +9,7 @@ dependencies {
 
     implementation(project(":threadly-adapters:adapter-persistence"))
     implementation(project(":threadly-core:core-domain"))
+    implementation(project(":threadly-commons"))
 
     // 테스트
     testImplementation("org.springframework.boot:spring-boot-starter-test")

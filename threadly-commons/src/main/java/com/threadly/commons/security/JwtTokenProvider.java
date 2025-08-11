@@ -20,8 +20,10 @@ import java.util.UUID;
 import javax.crypto.SecretKey;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
+@ConditionalOnProperty(name = "jwt.enabled", havingValue = "true", matchIfMissing = false)
 @Component
 @RequiredArgsConstructor
 public class JwtTokenProvider {

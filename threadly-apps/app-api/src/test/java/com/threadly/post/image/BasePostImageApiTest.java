@@ -14,7 +14,7 @@ import com.threadly.core.usecase.post.create.CreatePostApiResponse;
 import com.threadly.core.usecase.post.create.CreatePostApiResponse.PostImageApiResponse;
 import com.threadly.core.usecase.post.image.UploadPostImagesApiResponse;
 import com.threadly.core.usecase.post.image.UploadPostImagesApiResponse.PostImageResponse;
-import com.threadly.adapter.persistence.core.post.request.CreatePostRequest.ImageRequest;
+import com.threadly.post.request.CreatePostRequest.ImageRequest;
 import com.threadly.commons.properties.UploadProperties;
 import com.threadly.adapter.persistence.post.repository.PostImageJpaRepository;
 import com.threadly.adapter.persistence.post.repository.PostLikeJpaRepository;
