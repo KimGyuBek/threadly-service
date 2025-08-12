@@ -35,8 +35,8 @@ public class RetentionThresholdProvider {
     return switch (thresholdTargetType) {
       case IMAGE_DELETED -> now.minus(retentionProperties.getImage().getDeleted());
       case IMAGE_TEMPORARY -> now.minus(retentionProperties.getImage().getTemporary());
-      case USER_DELETED -> now.minus(retentionProperties.getUserDeleted());
-      case POST_DELETED -> now.minus(retentionProperties.getPostDeleted());
+      case USER_DELETED -> now.minus(retentionProperties.getUser().getDeleted());
+      case POST_DELETED -> now.minus(retentionProperties.getPost().getDeleted());
     };
   }
 }

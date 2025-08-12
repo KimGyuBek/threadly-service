@@ -1,9 +1,14 @@
 package com.threadly.batch;
 
 import com.threadly.adapter.persistence.post.repository.PostImageJpaRepository;
+import com.threadly.adapter.persistence.user.entity.UserEntity;
+import com.threadly.adapter.persistence.user.repository.UserJpaRepository;
 import com.threadly.batch.properties.RetentionProperties;
 import com.threadly.core.domain.image.ImageStatus;
 import com.threadly.core.domain.post.PostImage;
+import com.threadly.core.domain.user.User;
+import com.threadly.core.domain.user.UserStatusType;
+import com.threadly.core.domain.user.UserType;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
@@ -51,6 +56,9 @@ public abstract class BaseBatchTest {
   public PostImageJpaRepository postImageRepository;
 
   @Autowired
+  public UserJpaRepository userRepository;
+
+  @Autowired
   public RetentionProperties retentionProperties;
 
   @BeforeEach
@@ -59,6 +67,7 @@ public abstract class BaseBatchTest {
     jobRepositoryTestUtils.removeJobExecutions();
     // 테스트 데이터 정리
     postImageRepository.deleteAll();
+    userRepository.deleteAll();
   }
 
   /**
@@ -111,6 +120,63 @@ public abstract class BaseBatchTest {
         1,
         postImage.getImageUrl(),
         postImage.getStatus().name(),
+        LocalDateTime.now(),
+        modifiedAt
+    );
+  }
+
+  /**
+   * 주어진 파라미터에 해당하는 User 데이터 생성
+   *
+   * @param userId
+   * @param userStatusType
+   * @param isDeletion  true면 threshold 이전(삭제 대상)으로, false면 현재시각(비 삭제 대상)
+   */
+  public void createUserTestData(String userId, UserStatusType userStatusType, boolean isDeletion) {
+    Duration retention = retentionProperties.getUser().getDeleted();
+    LocalDateTime now = LocalDateTime.now();
+    LocalDateTime threshold = now.minus(retention);
+
+    LocalDateTime modifiedAt = isDeletion ? threshold.minusMinutes(1)
+        : threshold.plusMinutes(1);
+
+    saveUserData(createUser(userId, userStatusType), modifiedAt);
+  }
+
+  public UserEntity createUser(String userId, UserStatusType statusType) {
+    return new UserEntity(
+        userId, // userId
+        "Test User " + userId, // userName
+        "password123", // password
+        userId + "@test.com", // email
+        "010-1234-5678", // phone
+        UserType.USER, // userType
+        statusType, // userStatusType
+        false, // isEmailVerified
+        false // isPrivate
+    );
+  }
+
+  /**
+   * User 데이터 삽입
+   *
+   * @param user
+   * @param modifiedAt
+   */
+  private void saveUserData(UserEntity user, LocalDateTime modifiedAt) {
+    jdbcTemplate.update("""
+            insert into users(user_id, user_name, password, email, phone, user_type, status, is_email_verified, is_private, created_at, modified_at)
+            values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+        user.getUserId(),
+        user.getUserName(),
+        user.getPassword(),
+        user.getEmail(),
+        user.getPhone(),
+        user.getUserType() != null ? user.getUserType().name() : null,
+        user.getUserStatusType().name(),
+        user.isEmailVerified(),
+        user.isPrivate(),
         LocalDateTime.now(),
         modifiedAt
     );

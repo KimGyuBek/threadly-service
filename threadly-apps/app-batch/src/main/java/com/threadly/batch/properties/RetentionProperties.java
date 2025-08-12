@@ -11,8 +11,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class RetentionProperties {
 
   ImageRetention image;
-  Duration postDeleted;
-  Duration userDeleted;
+  UserRetention user;
+  PostRetention post;
 
   /**
    * Image Retention
@@ -23,7 +23,16 @@ public class RetentionProperties {
 
     private Duration deleted;
     private Duration temporary;
+  }
 
-
+  @Getter
+  @Setter
+  public static class UserRetention {
+    private Duration deleted;
+  }
+  @Getter
+  @Setter
+  public static class PostRetention {
+    private Duration deleted;
   }
 }

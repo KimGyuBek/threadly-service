@@ -31,47 +31,6 @@ public class PostImageDeleteJobFactory {
   private final RetentionThresholdProvider retentionThresholdProvider;
 
   /**
-   * PostImage Delete job 생성
-   *
-   * @param jobRepository
-   * @param jobName
-   * @param stepName
-   * @param targetStatus
-   * @param listener
-   * @param transactionManager
-   * @param entityManagerFactory
-   * @param entityManager
-   * @return
-   */
-  public Job createPostImageJob(
-      JobRepository jobRepository,
-      String jobName,
-      String stepName,
-      ImageStatus targetStatus,
-      ThresholdTargetType thresholdTargetType,
-      JobExecutionListener listener,
-      PlatformTransactionManager transactionManager,
-      EntityManagerFactory entityManagerFactory,
-      EntityManager entityManager
-  ) {
-    Step step = createPostImageDeleteStep(
-        jobRepository,
-        stepName,
-        targetStatus,
-        thresholdTargetType,
-        transactionManager,
-        entityManagerFactory,
-        entityManager
-    );
-
-    return new JobBuilder(jobName, jobRepository)
-        .start(step)
-        .incrementer(new RunIdIncrementer())
-        .listener(listener)
-        .build();
-  }
-
-  /**
    * PostImageDelete Step 생성
    *
    * @param jobRepository
