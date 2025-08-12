@@ -2,11 +2,13 @@ package com.threadly.batch.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.configuration.JobRegistry;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-@Profile("!test")
+@Profile({"!test", "!data-insert"})
+@ConditionalOnProperty(name = "spring.batch.job.enabled", matchIfMissing = true)
 @Configuration
 @RequiredArgsConstructor
 public class BatchRunnerConfig {

@@ -18,16 +18,19 @@ import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemWriter;
+import org.springframework.batch.item.database.JpaCursorItemReader;
 import org.springframework.batch.item.database.JpaPagingItemReader;
-import org.springframework.batch.item.database.builder.JpaPagingItemReaderBuilder;
+import org.springframework.batch.item.database.builder.JpaCursorItemReaderBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.transaction.PlatformTransactionManager;
 
 /**
  * DELETED 상태의 User 하드 딜리트  job.
  */
 @Configuration
+@Profile("!data-insert")
 @RequiredArgsConstructor
 public class UserHardDeleteDeletedJobConfig {
 
@@ -49,7 +52,7 @@ public class UserHardDeleteDeletedJobConfig {
   @Bean
   public Step userHardDeleteStep(JobRepository jobRepository, StepListener stepListener,
       PlatformTransactionManager platformTransactionManager,
-      JpaPagingItemReader<UserEntity> userItemReader,
+      JpaCursorItemReader<UserEntity> userItemReader,
       ItemProcessor<UserEntity, String> userItemProcessor,
       ItemWriter<String> userItemWriter
   ) {
@@ -64,10 +67,10 @@ public class UserHardDeleteDeletedJobConfig {
   }
 
   @Bean
-  public JpaPagingItemReader<UserEntity> userItemReader(
+  public JpaCursorItemReader<UserEntity> userItemReader(
       EntityManagerFactory entityManagerFactory
   ) {
-    return new JpaPagingItemReaderBuilder<UserEntity>()
+    return new JpaCursorItemReaderBuilder<UserEntity>()
         .name("userItemReader")
         .entityManagerFactory(entityManagerFactory)
         .queryString("""
@@ -75,14 +78,13 @@ public class UserHardDeleteDeletedJobConfig {
             from UserEntity e
             where e.userStatusType = :status
             and e.modifiedAt < :threshold
-            order by e.modifiedAt asc
+            order by e.modifiedAt asc, e.userId asc
             """)
         .parameterValues(
             Map.of("status", UserStatusType.DELETED,
                 "threshold",
                 retentionThresholdProvider.thresholdFor(ThresholdTargetType.USER_DELETED))
         )
-        .pageSize(1000)
         .build();
   }
 
@@ -111,7 +113,6 @@ public class UserHardDeleteDeletedJobConfig {
           .executeUpdate();
       em.clear();
     };
-
   }
 
 

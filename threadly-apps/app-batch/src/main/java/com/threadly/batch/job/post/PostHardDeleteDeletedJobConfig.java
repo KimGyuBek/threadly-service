@@ -22,12 +22,14 @@ import org.springframework.batch.item.database.JpaPagingItemReader;
 import org.springframework.batch.item.database.builder.JpaPagingItemReaderBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.transaction.PlatformTransactionManager;
 
 /**
  * DELETED 상태의 Post 하드 딜리트 job.
  */
 @Configuration
+@Profile("!data-insert")
 @RequiredArgsConstructor
 public class PostHardDeleteDeletedJobConfig {
 

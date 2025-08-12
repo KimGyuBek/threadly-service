@@ -3,6 +3,7 @@ package com.threadly.batch.utils;
 import com.threadly.batch.properties.RetentionProperties;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 /**
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class RetentionThresholdProvider {
 
   private final RetentionProperties retentionProperties;
@@ -32,11 +34,14 @@ public class RetentionThresholdProvider {
    */
   public LocalDateTime thresholdFor(ThresholdTargetType thresholdTargetType) {
     LocalDateTime now = LocalDateTime.now();
-    return switch (thresholdTargetType) {
+    LocalDateTime threshold = switch (thresholdTargetType) {
       case IMAGE_DELETED -> now.minus(retentionProperties.getImage().getDeleted());
       case IMAGE_TEMPORARY -> now.minus(retentionProperties.getImage().getTemporary());
       case USER_DELETED -> now.minus(retentionProperties.getUser().getDeleted());
       case POST_DELETED -> now.minus(retentionProperties.getPost().getDeleted());
     };
+
+    log.info("Threshold time: {}", threshold);
+    return threshold;
   }
 }

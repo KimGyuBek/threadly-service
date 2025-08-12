@@ -1,0 +1,19 @@
+spring:
+  batch:
+    job:
+      enabled: false  # BatchTestDataInsert만 실행하고 싶으므로 배치 Job은 비활성화
+    jdbc:
+      initialize-schema: never
+  config:
+    import: classpath:application-persistence-dev.yml
+
+# 데이터 삽입 설정
+data-insert:
+  user-count: ${USER_COUNT:10000000}    # 기본값 1만
+  post-count: ${POST_COUNT:0}    # 기본값 4만
+  image-count: ${IMAGE_COUNT:0}  # 기본값 10만
+
+logging:
+  level:
+    com.threadly: DEBUG
+    org.springframework.batch: INFO

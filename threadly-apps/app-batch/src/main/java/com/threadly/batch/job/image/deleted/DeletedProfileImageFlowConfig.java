@@ -13,10 +13,12 @@ import org.springframework.batch.core.job.flow.support.SimpleFlow;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
 @RequiredArgsConstructor
+@Profile("!data-insert")
 public class DeletedProfileImageFlowConfig {
 
   private final ProfileImageDeleteJobFactory profileImageDeleteJobFactory;

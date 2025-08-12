@@ -16,9 +16,9 @@ logging:
 properties:
   retention:
     image:
-      deleted: PT72H
-      temporary: PT24H
+      deleted: 0
+      temporary: 0
     post:
-      deleted: P30D
+      deleted: 0
     user:
-      deleted: P180D
+      deleted: 0

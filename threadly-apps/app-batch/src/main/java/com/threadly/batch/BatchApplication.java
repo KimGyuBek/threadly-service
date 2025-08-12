@@ -25,7 +25,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EntityScan(basePackageClasses = {
     PersistenceModule.class
 })
-@EnableBatchProcessing
 @EnableConfigurationProperties(RetentionProperties.class)
 public class BatchApplication {
 
