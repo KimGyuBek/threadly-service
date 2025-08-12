@@ -21,10 +21,8 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 
 @TestPropertySource(properties = {
-    "spring.batch.job.name=userHardDeleteDeletedJob",
-    "spring.datasource.url=jdbc:h2:mem:user-deleted-step-test-db;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE"
+    "spring.batch.job.name=userHardDeleteDeletedJob"
 })
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 @DisplayName("userHardDeleteStep")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class UserHardDeleteDeletedStatusJobConfigTest extends BaseBatchTest {

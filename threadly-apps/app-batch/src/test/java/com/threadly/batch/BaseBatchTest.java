@@ -1,11 +1,14 @@
 package com.threadly.batch;
 
+import com.threadly.adapter.persistence.post.entity.PostEntity;
 import com.threadly.adapter.persistence.post.repository.PostImageJpaRepository;
+import com.threadly.adapter.persistence.post.repository.PostJpaRepository;
 import com.threadly.adapter.persistence.user.entity.UserEntity;
 import com.threadly.adapter.persistence.user.repository.UserJpaRepository;
 import com.threadly.batch.properties.RetentionProperties;
 import com.threadly.core.domain.image.ImageStatus;
 import com.threadly.core.domain.post.PostImage;
+import com.threadly.core.domain.post.PostStatus;
 import com.threadly.core.domain.user.User;
 import com.threadly.core.domain.user.UserStatusType;
 import com.threadly.core.domain.user.UserType;
@@ -59,6 +62,9 @@ public abstract class BaseBatchTest {
   public UserJpaRepository userRepository;
 
   @Autowired
+  public PostJpaRepository postRepository;
+
+  @Autowired
   public RetentionProperties retentionProperties;
 
   @BeforeEach
@@ -68,6 +74,7 @@ public abstract class BaseBatchTest {
     // 테스트 데이터 정리
     postImageRepository.deleteAll();
     userRepository.deleteAll();
+    postRepository.deleteAll();
   }
 
   /**
@@ -177,6 +184,61 @@ public abstract class BaseBatchTest {
         user.getUserStatusType().name(),
         user.isEmailVerified(),
         user.isPrivate(),
+        LocalDateTime.now(),
+        modifiedAt
+    );
+  }
+
+  /**
+   * 주어진 파라미터에 해당하는 Post 데이터 생성
+   *
+   * @param postId
+   * @param postStatus
+   * @param isDeletion  true면 threshold 이전(삭제 대상)으로, false면 현재시각(비 삭제 대상)
+   */
+  public void createPostTestData(String postId, PostStatus postStatus, boolean isDeletion) {
+    Duration retention = retentionProperties.getPost().getDeleted();
+    LocalDateTime now = LocalDateTime.now();
+    LocalDateTime threshold = now.minus(retention);
+
+    LocalDateTime modifiedAt = isDeletion ? threshold.minusMinutes(1)
+        : threshold.plusMinutes(1);
+
+    // Create a test user for the post if it doesn't exist
+    String testUserId = "test-user-" + postId;
+    if (userRepository.findById(testUserId).isEmpty()) {
+      createUserTestData(testUserId, UserStatusType.ACTIVE, false);
+    }
+
+    savePostData(createPost(postId, postStatus, testUserId), modifiedAt);
+  }
+
+  public PostEntity createPost(String postId, PostStatus status, String userId) {
+    return new PostEntity(
+        postId, // postId
+        UserEntity.fromId(userId), // user (create from userId)
+        "Test content for " + postId, // content
+        0, // viewCount
+        status // status
+    );
+  }
+
+  /**
+   * Post 데이터 삽입
+   *
+   * @param post
+   * @param modifiedAt
+   */
+  private void savePostData(PostEntity post, LocalDateTime modifiedAt) {
+    jdbcTemplate.update("""
+            insert into posts(post_id, user_id, content, view_count, status, created_at, modified_at)
+            values(?, ?, ?, ?, ?, ?, ?)
+            """,
+        post.getPostId(),
+        post.getUser().getUserId(), // get user_id from User entity
+        post.getContent(),
+        post.getViewCount(),
+        post.getStatus().name(),
         LocalDateTime.now(),
         modifiedAt
     );

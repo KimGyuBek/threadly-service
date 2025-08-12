@@ -1,9 +1,9 @@
-package com.threadly.batch.job.user;
+package com.threadly.batch.job.post;
 
-import com.threadly.adapter.persistence.user.entity.UserEntity;
+import com.threadly.adapter.persistence.post.entity.PostEntity;
 import com.threadly.batch.utils.RetentionThresholdProvider;
 import com.threadly.batch.utils.RetentionThresholdProvider.ThresholdTargetType;
-import com.threadly.core.domain.user.UserStatusType;
+import com.threadly.core.domain.post.PostStatus;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import java.util.Map;
@@ -25,89 +25,89 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 
 /**
- * DELETED 상태의 User 하드 딜리트  job.
+ * DELETED 상태의 Post 하드 딜리트 job.
  */
 @Configuration
 @RequiredArgsConstructor
-public class UserHardDeleteDeletedJobConfig {
+public class PostHardDeleteDeletedJobConfig {
 
   private final RetentionThresholdProvider retentionThresholdProvider;
 
   @Bean
-  public Job userHardDeleteDeletedJob(
+  public Job postHardDeleteDeletedJob(
       JobExecutionListener listener,
       JobRepository jobRepository,
-      Step userHardDeleteStep
+      Step postHardDeleteStep
   ) {
-    return new JobBuilder("userHardDeleteDeletedJob", jobRepository)
+    return new JobBuilder("postHardDeleteDeletedJob", jobRepository)
         .incrementer(new RunIdIncrementer())
-        .start(userHardDeleteStep)
+        .start(postHardDeleteStep)
         .listener(listener)
         .build();
   }
 
   @Bean
-  public Step userHardDeleteStep(JobRepository jobRepository, StepListener stepListener,
+  public Step postHardDeleteStep(JobRepository jobRepository, StepListener stepListener,
       PlatformTransactionManager platformTransactionManager,
-      JpaPagingItemReader<UserEntity> userItemReader,
-      ItemProcessor<UserEntity, String> userItemProcessor,
-      ItemWriter<String> userItemWriter
+      JpaPagingItemReader<PostEntity> postItemReader,
+      ItemProcessor<PostEntity, String> postItemProcessor,
+      ItemWriter<String> postItemWriter
   ) {
-    return new StepBuilder("userHardDeleteStep", jobRepository)
-        .<UserEntity, String>chunk(1000, platformTransactionManager)
+    return new StepBuilder("postHardDeleteStep", jobRepository)
+        .<PostEntity, String>chunk(1000, platformTransactionManager)
         .listener(stepListener)
         .allowStartIfComplete(true)
-        .reader(userItemReader)
-        .processor(userItemProcessor)
-        .writer(userItemWriter)
+        .reader(postItemReader)
+        .processor(postItemProcessor)
+        .writer(postItemWriter)
         .build();
   }
 
   @Bean
-  public JpaPagingItemReader<UserEntity> userItemReader(
+  public JpaPagingItemReader<PostEntity> postItemReader(
       EntityManagerFactory entityManagerFactory
   ) {
-    return new JpaPagingItemReaderBuilder<UserEntity>()
-        .name("userItemReader")
+    return new JpaPagingItemReaderBuilder<PostEntity>()
+        .name("postItemReader")
         .entityManagerFactory(entityManagerFactory)
         .queryString("""
             select e
-            from UserEntity e
-            where e.userStatusType = :status
+            from PostEntity e
+            where e.status = :status
             and e.modifiedAt < :threshold
             order by e.modifiedAt asc
             """)
         .parameterValues(
-            Map.of("status", UserStatusType.DELETED,
+            Map.of("status", PostStatus.DELETED,
                 "threshold",
-                retentionThresholdProvider.thresholdFor(ThresholdTargetType.USER_DELETED))
+                retentionThresholdProvider.thresholdFor(ThresholdTargetType.POST_DELETED))
         )
         .pageSize(1000)
         .build();
   }
 
   @Bean
-  public ItemProcessor<UserEntity, String> userItemProcessor() {
-    return UserEntity::getUserId;
+  public ItemProcessor<PostEntity, String> postItemProcessor() {
+    return PostEntity::getPostId;
   }
 
   @Bean
-  public ItemWriter<String> userItemWriter(EntityManager em) {
+  public ItemWriter<String> postItemWriter(EntityManager em) {
     return chunk -> {
       var ids = chunk.getItems();
       if (ids == null || ids.isEmpty()) {
         return;
       }
       em.createQuery("""
-              delete from UserEntity e
-              where  e.userId in :ids 
-              and e.userStatusType = :status
+              delete from PostEntity e
+              where  e.postId in :ids 
+              and e.status = :status
               and e.modifiedAt < :threshold
               """)
           .setParameter("ids", ids)
-          .setParameter("status", UserStatusType.DELETED)
+          .setParameter("status", PostStatus.DELETED)
           .setParameter("threshold",
-              retentionThresholdProvider.thresholdFor(ThresholdTargetType.USER_DELETED))
+              retentionThresholdProvider.thresholdFor(ThresholdTargetType.POST_DELETED))
           .executeUpdate();
       em.clear();
     };
