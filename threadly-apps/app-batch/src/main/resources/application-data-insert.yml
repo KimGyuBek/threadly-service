@@ -9,7 +9,8 @@ spring:
 
 # 데이터 삽입 설정
 data-insert:
-  user-count: ${USER_COUNT:10000000}    # 기본값 1만
+#  user-count: ${USER_COUNT:10000000}    # 기본값 1만
+  user-count: ${USER_COUNT:100}    # 기본값 1만
   post-count: ${POST_COUNT:0}    # 기본값 4만
   image-count: ${IMAGE_COUNT:0}  # 기본값 10만
 

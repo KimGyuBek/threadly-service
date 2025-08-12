@@ -7,11 +7,10 @@ import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.stereotype.Component;
 
-@Component
+@Component(value = "stepListener")
 @Slf4j
 public class StepExecutionListener implements org.springframework.batch.core.StepExecutionListener,
     ChunkListener {
-
 
   @Override
   public void beforeStep(StepExecution stepExecution) {
@@ -24,8 +23,4 @@ public class StepExecutionListener implements org.springframework.batch.core.Ste
     return ExitStatus.COMPLETED;
   }
 
-//  @Override
-//  public void afterChunk(ChunkContext context) {
-//    log.info("afterChunk");
-//  }
 }

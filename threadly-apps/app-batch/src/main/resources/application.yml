@@ -5,4 +5,10 @@ spring:
     jdbc:
       initialize-schema: never
 
+logging:
+  level:
+    com.threadly.batch.listener: INFO
+    com.threadly.batch: DEBUG
+    org.springframework.batch: INFO
+
 
