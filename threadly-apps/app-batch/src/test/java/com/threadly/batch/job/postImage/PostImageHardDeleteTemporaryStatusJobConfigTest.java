@@ -6,6 +6,7 @@ import com.threadly.adapter.persistence.post.entity.PostImageEntity;
 import com.threadly.batch.BaseBatchTest;
 import com.threadly.core.domain.image.ImageStatus;
 import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -16,22 +17,30 @@ import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 
 @TestPropertySource(properties = {
-    "spring.batch.job.name=postImageHardDeleteTemporaryJob",
-    "spring.datasource.url=jdbc:h2:mem:temporary-test-db;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE"
+    "spring.batch.job.name=imageHardDeleteTemporaryJob"
 })
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
-@DisplayName("postImageHardDeleteTemporaryJob")
+@DisplayName("postImageHardDeleteTemporaryStep")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class PostImageHardDeleteTemporaryStatusJobConfigTest extends BaseBatchTest {
+
+  @Autowired
+  @Qualifier("imageHardDeleteTemporaryJob")
+  private Job imageHardDeleteTemporaryJob;
+
+  @BeforeEach
+  void setUpJob() {
+    jobLauncherTestUtils.setJob(imageHardDeleteTemporaryJob);
+  }
 
   /*
    * 1. TEMPORARY 상태의 PostImage가 삭제기준시각 이전에 수정되었으면 정상적으로 삭제 되는지 검증
    * 2. TEMPORARY 상태의 PostImage가 삭제 기준 시각 적용되지 않으면 삭제 되지 않는지 검증
-   * 3. TEMPORARY 상태의 PostImage가 없으면 아무 데이터를 삭제 하지 않는지 검증
+   * 3. TEMPORARY 상태의 PostImage가 없으면 아무 데이터를 삭제 하지 않는지 겄증
    * 4. Step 만 실행해도 정상 동작하는지 검증
    * */
 
@@ -39,7 +48,7 @@ class PostImageHardDeleteTemporaryStatusJobConfigTest extends BaseBatchTest {
   @Order(1)
   @Test
   @DisplayName("1. TEMPORARY 상태의 PostImage가 삭제 기준 시각 이전에 수정 되었으면 정상적으로 삭제 되는지 검증")
-  void shouldDeletePostImagesWithDeletedStatus(@Autowired Job postImageHardDeleteTemporaryJob)
+  void shouldDeletePostImagesWithDeletedStatus()
       throws Exception {
     // given
     /*DELETED, 삭제 기준 시간 전 데이터 삽입*/
@@ -67,10 +76,7 @@ class PostImageHardDeleteTemporaryStatusJobConfigTest extends BaseBatchTest {
     assertThat(confirmedImages).hasSize(ALL_SIZE - TEMPORARY_STATUS_SIZE);
 
     // when
-
-    JobParameters jobParameters = new JobParameters();
-    jobLauncherTestUtils.setJob(postImageHardDeleteTemporaryJob);
-    JobExecution jobExecution = jobLauncherTestUtils.launchJob(jobParameters);
+    JobExecution jobExecution = jobLauncherTestUtils.launchStep("postImageHardDeleteTemporaryStep");
 
     // then
     assertThat(jobExecution.getExitStatus()).isEqualTo(ExitStatus.COMPLETED);
@@ -92,7 +98,7 @@ class PostImageHardDeleteTemporaryStatusJobConfigTest extends BaseBatchTest {
   @Order(2)
   @Test
   @DisplayName("2. TEMPORARY 상태의 postImage가 삭제 기준 시각에 적용되지 않으면 삭제 되지 않는지 검증")
-  void shouldDeletePostImagesWithDeletedStatus_02(@Autowired Job postImageHardDeleteTemporaryJob)
+  void shouldDeletePostImagesWithDeletedStatus_02()
       throws Exception {
     // given
     /* 데이터 삽입*/
@@ -110,10 +116,7 @@ class PostImageHardDeleteTemporaryStatusJobConfigTest extends BaseBatchTest {
     assertThat(temporaryImages).hasSize(TEMPORARY_STATUS_SIZE);
 
     // when
-
-    JobParameters jobParameters = new JobParameters();
-    jobLauncherTestUtils.setJob(postImageHardDeleteTemporaryJob);
-    JobExecution jobExecution = jobLauncherTestUtils.launchJob(jobParameters);
+    JobExecution jobExecution = jobLauncherTestUtils.launchStep("postImageHardDeleteTemporaryStep");
 
     // then
     assertThat(jobExecution.getExitStatus()).isEqualTo(ExitStatus.COMPLETED);
@@ -130,7 +133,7 @@ class PostImageHardDeleteTemporaryStatusJobConfigTest extends BaseBatchTest {
   @Order(3)
   @Test
   @DisplayName("3. TEMPORARY 상태의 PostImage가 없으면 배치 작업이 성공하며 아무것도 삭제하지 않는다")
-  void shouldCompleteSuccessfullyWhenNoDeletedImages(@Autowired Job postImageHardDeleteTemporaryJob)
+  void shouldCompleteSuccessfullyWhenNoDeletedImages()
       throws Exception {
     // given
     /*CONFIRMED 상태의 이미지 데이터 생성*/
@@ -144,9 +147,7 @@ class PostImageHardDeleteTemporaryStatusJobConfigTest extends BaseBatchTest {
     assertThat(beforeImages).allMatch(image -> image.getStatus() == ImageStatus.CONFIRMED);
 
     // when
-    JobParameters jobParameters = new JobParameters();
-    jobLauncherTestUtils.setJob(postImageHardDeleteTemporaryJob);
-    JobExecution jobExecution = jobLauncherTestUtils.launchJob(jobParameters);
+    JobExecution jobExecution = jobLauncherTestUtils.launchStep("postImageHardDeleteTemporaryStep");
 
     // then
     assertThat(jobExecution.getExitStatus()).isEqualTo(ExitStatus.COMPLETED);

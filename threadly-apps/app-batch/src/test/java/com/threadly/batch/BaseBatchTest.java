@@ -11,6 +11,8 @@ import org.springframework.batch.test.JobLauncherTestUtils;
 import org.springframework.batch.test.JobRepositoryTestUtils;
 import org.springframework.batch.test.context.SpringBatchTest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -20,19 +22,20 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
+@ActiveProfiles("test")
 @SpringBatchTest
 @SpringBootTest(
-    classes = SpringBootTest.class,
-    webEnvironment = WebEnvironment.NONE
+    classes = {
+        BatchApplication.class,
+    }
 )
-@ActiveProfiles("test")
 @SpringJUnitConfig(classes = {BatchApplication.class})
 @TestPropertySource(properties = {
     "jwt.enabled=false",
     "ttl.enabled=false",
     "spring.batch.job.enabled=false"
 })
-@DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
+@DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 public abstract class BaseBatchTest {
 
   @Autowired

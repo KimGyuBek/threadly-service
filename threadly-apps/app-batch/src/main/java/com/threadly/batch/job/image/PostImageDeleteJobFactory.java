@@ -1,4 +1,4 @@
-package com.threadly.batch.job.postImage;
+package com.threadly.batch.job.image;
 
 import com.threadly.adapter.persistence.post.entity.PostImageEntity;
 import com.threadly.batch.utils.RetentionThresholdProvider;
@@ -99,6 +99,7 @@ public class PostImageDeleteJobFactory {
 
     return new StepBuilder(stepName, jobRepository)
         .<PostImageEntity, String>chunk(10000, transactionManager)
+        .allowStartIfComplete(true)
         .reader(reader)
         .processor(processor)
         .writer(writer)

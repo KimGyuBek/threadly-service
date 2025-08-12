@@ -1,44 +1,48 @@
-package com.threadly.batch.job.postImage;
+package com.threadly.batch.job.image.deleted;
 
+import com.threadly.batch.job.image.PostImageDeleteJobFactory;
 import com.threadly.batch.utils.RetentionThresholdProvider.ThresholdTargetType;
 import com.threadly.core.domain.image.ImageStatus;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import lombok.RequiredArgsConstructor;
-import org.springframework.batch.core.Job;
-import org.springframework.batch.core.JobExecutionListener;
+import org.springframework.batch.core.Step;
+import org.springframework.batch.core.job.builder.FlowBuilder;
+import org.springframework.batch.core.job.flow.Flow;
+import org.springframework.batch.core.job.flow.support.SimpleFlow;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 
-/**
- * PostImage의 Status가 DELETED 상태인 데이터 하드 딜리트
- */
 @Configuration
 @RequiredArgsConstructor
-public class PostImageHardDeleteDeletedStatusJobConfig {
+public class DeletedPostImageFlowConfig {
 
   private final PostImageDeleteJobFactory postImageDeleteJobFactory;
 
   @Bean
-  public Job postImageHardDeleteDeletedJob(
-      JobRepository jobRepository,
-      JobExecutionListener listener,
+  public Flow postImageHardDeleteDeletedFlow(
+      Step postImageHardDeleteDeletedStep) {
+    return new FlowBuilder<SimpleFlow>("postImageHardDeleteDeletedFlow")
+        .start(postImageHardDeleteDeletedStep)
+        .build();
+  }
+
+  @Bean
+  public Step postImageHardDeleteDeletedStep(JobRepository jobRepository,
       PlatformTransactionManager transactionManager,
-      EntityManagerFactory entityManagerFactory,
+      EntityManagerFactory entityMangerFactory,
       EntityManager entityManager
   ) {
-    return postImageDeleteJobFactory.createPostImageJob(
+    return postImageDeleteJobFactory.createPostImageDeleteStep(
         jobRepository,
-        "postImageHardDeleteDeletedJob",
         "postImageHardDeleteDeletedStep",
         ImageStatus.DELETED,
         ThresholdTargetType.IMAGE_DELETED,
-        listener,
         transactionManager,
-        entityManagerFactory,
-        entityManager
-    );
+        entityMangerFactory,
+        entityManager);
   }
+
 }

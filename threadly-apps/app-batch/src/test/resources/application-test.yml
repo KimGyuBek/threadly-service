@@ -5,15 +5,14 @@ spring:
 
   batch:
     job:
-      enabled: false
+      enabled: true
     jdbc:
-      initialize-schema: embedded
+      initialize-schema: never
       table-prefix: BATCH_
   
   flyway:
     enabled: false
 
-# 배치 모듈에서 필요없는 설정들 비활성화
 jwt:
   enabled: false
 
