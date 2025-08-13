@@ -19,7 +19,9 @@ import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
+import org.springframework.batch.item.database.JpaCursorItemReader;
 import org.springframework.batch.item.database.JpaPagingItemReader;
+import org.springframework.batch.item.database.builder.JpaCursorItemReaderBuilder;
 import org.springframework.batch.item.database.builder.JpaPagingItemReaderBuilder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -66,12 +68,12 @@ public class PostImageDeleteJobFactory {
   }
 
   @StepScope
-  public JpaPagingItemReader<PostImageEntity> creatPostImageDeleteItemReader(
+  public JpaCursorItemReader<PostImageEntity> creatPostImageDeleteItemReader(
       ImageStatus targetStatus,
       ThresholdTargetType thresholdTargetType,
       EntityManagerFactory entityManagerFactory
   ) {
-    return new JpaPagingItemReaderBuilder<PostImageEntity>()
+    return new JpaCursorItemReaderBuilder<PostImageEntity>()
         .name(targetStatus.name().toLowerCase() + "PostImagesReader")
         .entityManagerFactory(entityManagerFactory)
         .queryString("""
@@ -84,7 +86,6 @@ public class PostImageDeleteJobFactory {
         .parameterValues(
             Map.of("status", targetStatus, "threshold",
                 retentionThresholdProvider.thresholdFor(thresholdTargetType)))
-        .pageSize(10000)
         .build();
   }
 

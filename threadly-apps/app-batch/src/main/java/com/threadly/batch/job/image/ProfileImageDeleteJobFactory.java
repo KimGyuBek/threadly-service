@@ -19,7 +19,9 @@ import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
+import org.springframework.batch.item.database.JpaCursorItemReader;
 import org.springframework.batch.item.database.JpaPagingItemReader;
+import org.springframework.batch.item.database.builder.JpaCursorItemReaderBuilder;
 import org.springframework.batch.item.database.builder.JpaPagingItemReaderBuilder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -66,12 +68,12 @@ public class ProfileImageDeleteJobFactory {
   }
 
   @StepScope
-  public JpaPagingItemReader<UserProfileImageEntity> createProfileImagReader(
+  public JpaCursorItemReader<UserProfileImageEntity> createProfileImagReader(
       ImageStatus targetStatus,
       ThresholdTargetType thresholdTargetType,
       EntityManagerFactory entityManagerFactory
   ) {
-    return new JpaPagingItemReaderBuilder<UserProfileImageEntity>()
+    return new JpaCursorItemReaderBuilder<UserProfileImageEntity>()
         .name(targetStatus.name().toLowerCase() + "UserProfileImageReader")
         .entityManagerFactory(entityManagerFactory)
         .queryString("""
@@ -84,7 +86,6 @@ public class ProfileImageDeleteJobFactory {
         .parameterValues(
             Map.of("status", targetStatus, "threshold",
                 retentionThresholdProvider.thresholdFor(thresholdTargetType)))
-        .pageSize(10000)
         .build();
   }
 

@@ -4,15 +4,14 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-batch")
 
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    // or JDBC만 쓰면
-
 
     implementation(project(":threadly-adapters:adapter-persistence"))
     implementation(project(":threadly-core:core-domain"))
     implementation(project(":threadly-commons"))
 
     implementation("org.apache.commons:commons-csv:1.10.0")
-
+    
+    implementation("net.logstash.logback:logstash-logback-encoder:7.4")
 
     // 테스트
     testImplementation("org.springframework.boot:spring-boot-starter-test")

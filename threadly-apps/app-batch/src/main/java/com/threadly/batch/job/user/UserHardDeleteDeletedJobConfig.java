@@ -1,10 +1,8 @@
 package com.threadly.batch.job.user;
 
 import com.threadly.adapter.persistence.user.entity.UserEntity;
-import com.threadly.batch.listener.DeleteLoggingItemWriteListener;
 import com.threadly.batch.utils.RetentionThresholdProvider;
 import com.threadly.batch.utils.RetentionThresholdProvider.ThresholdTargetType;
-import com.threadly.core.domain.image.ImageStatus;
 import com.threadly.core.domain.user.UserStatusType;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -52,7 +50,6 @@ public class UserHardDeleteDeletedJobConfig {
 
   @Bean
   public Step userHardDeleteStep(JobRepository jobRepository, StepListener stepListener,
-      DeleteLoggingItemWriteListener deleteLoggingItemWriteListener,
       PlatformTransactionManager platformTransactionManager,
       JpaCursorItemReader<UserEntity> userItemReader,
       ItemProcessor<UserEntity, String> userItemProcessor,
@@ -61,8 +58,6 @@ public class UserHardDeleteDeletedJobConfig {
     return new StepBuilder("userHardDeleteStep", jobRepository)
         .<UserEntity, String>chunk(1000, platformTransactionManager)
         .listener(stepListener)
-        .listener(new DeleteLoggingItemWriteListener(UserEntity.class.getName(),
-            ImageStatus.DELETED.name()))
         .allowStartIfComplete(true)
         .reader(userItemReader)
         .processor(userItemProcessor)
