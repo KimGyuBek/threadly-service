@@ -21,6 +21,7 @@ import org.springframework.stereotype.Component;
 public class BatchJobExecutionListener implements JobExecutionListener {
 
   private final BatchJobLogger batchJobLogger;
+  private final com.threadly.batch.service.metrics.PerformanceLogger performanceLogger;
 
   @Override
   public void beforeJob(JobExecution jobExecution) {
@@ -48,6 +49,9 @@ public class BatchJobExecutionListener implements JobExecutionListener {
     }
     
 //    batchJobLogger.logJobStart(logData);
+    
+    // dev 환경에서 성능 메트릭 로깅
+    performanceLogger.logPerformanceMetrics(jobExecution, "START");
   }
 
   @Override
@@ -139,6 +143,9 @@ public class BatchJobExecutionListener implements JobExecutionListener {
     }
     
     batchJobLogger.logJobComplete(logData);
+    
+    // dev 환경에서 성능 메트릭 로깅
+    performanceLogger.logPerformanceMetrics(jobExecution, "COMPLETE");
   }
   
   private String getHostName() {
