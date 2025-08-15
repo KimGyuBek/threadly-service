@@ -72,7 +72,7 @@ public class UserHardDeleteDeletedJobConfig {
     return new JpaCursorItemReaderBuilder<UserEntity>()
         .name("userItemReader")
         .entityManagerFactory(entityManagerFactory)
-        .maxItemCount(1000000)
+//        .maxItemCount(1000000)
         .queryString("""
             select e
             from UserEntity e
