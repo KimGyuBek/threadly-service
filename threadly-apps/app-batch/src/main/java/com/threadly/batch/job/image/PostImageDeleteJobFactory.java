@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.Step;
+import org.springframework.batch.core.StepListener;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
@@ -31,6 +32,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 public class PostImageDeleteJobFactory {
 
   private final RetentionThresholdProvider retentionThresholdProvider;
+
+  private final StepListener stepListener;
 
   /**
    * PostImageDelete Step 생성
@@ -61,6 +64,7 @@ public class PostImageDeleteJobFactory {
     return new StepBuilder(stepName, jobRepository)
         .<PostImageEntity, String>chunk(10000, transactionManager)
         .allowStartIfComplete(true)
+        .listener(stepListener)
         .reader(reader)
         .processor(processor)
         .writer(writer)

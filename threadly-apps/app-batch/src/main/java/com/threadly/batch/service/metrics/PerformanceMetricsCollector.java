@@ -103,6 +103,19 @@ public class PerformanceMetricsCollector {
             stepMetric.put("skipCount", stepExecution.getSkipCount());
             stepMetric.put("commitCount", stepExecution.getCommitCount());
             
+            // Chunk Size 정보 추가 (Step Configuration에서 추출)
+            try {
+                // ExecutionContext에서 chunk size 정보를 찾거나 기본값 설정
+                String stepName = stepExecution.getStepName();
+                Integer chunkSize = extractChunkSizeFromStepExecution(stepExecution);
+                if (chunkSize != null) {
+                    stepMetric.put("chunkSize", chunkSize);
+                }
+            } catch (Exception e) {
+                // chunk size 정보를 얻을 수 없는 경우 로그만 남기고 계속 진행
+                stepMetric.put("chunkSize", "unknown");
+            }
+            
             // Step 실행 시간
             if (stepExecution.getStartTime() != null && stepExecution.getEndTime() != null) {
                 long stepDurationMs = java.time.Duration.between(
@@ -181,6 +194,51 @@ public class PerformanceMetricsCollector {
             }
         }
         
+        // Configuration 정보 추가
+        Map<String, Object> configuration = new HashMap<>();
+        
+        // 주요 Step의 chunk size 추출
+        for (StepExecution stepExecution : jobExecution.getStepExecutions()) {
+            Integer chunkSize = extractChunkSizeFromStepExecution(stepExecution);
+            if (chunkSize != null) {
+                configuration.put("chunkSize", chunkSize);
+                break; // 첫 번째 step의 chunk size 사용
+            }
+        }
+        
+        // maxItemCount 정보 (userHardDeleteDeletedJob의 경우)
+        if (jobName.contains("userHardDeleteDeletedJob")) {
+            configuration.put("maxItemCount", 1000000);
+        }
+        
+        if (!configuration.isEmpty()) {
+            business.put("configuration", configuration);
+        }
+        
         return business;
+    }
+    
+    private Integer extractChunkSizeFromStepExecution(StepExecution stepExecution) {
+        try {
+            // ExecutionContext에서 chunk size를 찾거나
+            if (stepExecution.getExecutionContext().containsKey("batch.chunkSize")) {
+                return stepExecution.getExecutionContext().getInt("batch.chunkSize");
+            }
+            
+            // Job 이름을 기반으로 추정 (실제 설정값과 매핑)
+            String jobName = stepExecution.getJobExecution().getJobInstance().getJobName();
+            if (jobName != null && jobName.contains("userHardDeleteDeletedJob")) {
+                return 500; // UserHardDeleteDeletedJobConfig 실제값
+            } else if (jobName != null && jobName.contains("postHardDeleteDeletedJob")) {
+                return 1000; // PostHardDeleteDeletedJobConfig 실제값
+            } else if (jobName != null && jobName.contains("imageHardDelete")) {
+                return 10000; // Image 관련 Job들 실제값
+            }
+            
+            // 기본값 반환
+            return 1000;
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

@@ -1,8 +1,8 @@
 package com.threadly.batch.service.listener;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.threadly.batch.service.metrics.PerformanceLogger;
+import com.threadly.batch.service.monitoring.CustomPrometheusPushGatewayManager;
 import com.threadly.commons.utils.TimeUtils;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.StepExecution;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -21,13 +22,16 @@ import org.springframework.stereotype.Component;
 public class BatchJobExecutionListener implements JobExecutionListener {
 
   private final BatchJobLogger batchJobLogger;
-  private final com.threadly.batch.service.metrics.PerformanceLogger performanceLogger;
+  private final PerformanceLogger performanceLogger;
+
+  private final CustomPrometheusPushGatewayManager pushGatewayManager;
 
   @Override
   public void beforeJob(JobExecution jobExecution) {
     String jobName = jobExecution.getJobInstance().getJobName();
-    String startTime = jobExecution.getStartTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) + "+09:00";
-    
+    String startTime =
+        jobExecution.getStartTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) + "+09:00";
+
     Map<String, Object> logData = new HashMap<>();
     logData.put("jobName", jobName);
     logData.put("executionId", jobExecution.getId());
@@ -36,7 +40,7 @@ public class BatchJobExecutionListener implements JobExecutionListener {
     logData.put("startTime", startTime);
     logData.put("host", getHostName());
     logData.put("env", getEnvironment());
-    
+
     // Job Parameters 추가
     Map<String, Object> jobParams = new HashMap<>();
     jobExecution.getJobParameters().getParameters().forEach((key, value) -> {
@@ -47,21 +51,28 @@ public class BatchJobExecutionListener implements JobExecutionListener {
     if (!jobParams.isEmpty()) {
       logData.put("jobParameters", jobParams);
     }
-    
+
 //    batchJobLogger.logJobStart(logData);
-    
+
     // dev 환경에서 성능 메트릭 로깅
     performanceLogger.logPerformanceMetrics(jobExecution, "START");
+
+    pushGatewayManager.pushMetrics(
+        Map.of("job_name", jobExecution.getJobInstance().getJobName())
+    );
+
   }
 
   @Override
   public void afterJob(JobExecution jobExecution) {
     String jobName = jobExecution.getJobInstance().getJobName();
-    String startTime = jobExecution.getStartTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) + "+09:00";
-    String endTime = jobExecution.getEndTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) + "+09:00";
+    String startTime =
+        jobExecution.getStartTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) + "+09:00";
+    String endTime =
+        jobExecution.getEndTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) + "+09:00";
     String executionTime = TimeUtils.getExecutionTimeFormatted(
         jobExecution.getStartTime(), jobExecution.getEndTime());
-    
+
     // Step별 처리 통계 집계
     long totalReadCount = 0;
     long totalWriteCount = 0;
@@ -69,10 +80,10 @@ public class BatchJobExecutionListener implements JobExecutionListener {
     long totalSkipCount = 0;
     long totalRollbackCount = 0;
     long totalCommitCount = 0;
-    
+
     // Steps 배열 생성
     List<Map<String, Object>> steps = new ArrayList<>();
-    
+
     for (StepExecution stepExecution : jobExecution.getStepExecutions()) {
       totalReadCount += stepExecution.getReadCount();
       totalWriteCount += stepExecution.getWriteCount();
@@ -80,7 +91,7 @@ public class BatchJobExecutionListener implements JobExecutionListener {
       totalSkipCount += stepExecution.getSkipCount();
       totalRollbackCount += stepExecution.getRollbackCount();
       totalCommitCount += stepExecution.getCommitCount();
-      
+
       // 각 Step 정보
       Map<String, Object> step = new HashMap<>();
       step.put("name", stepExecution.getStepName());
@@ -90,16 +101,20 @@ public class BatchJobExecutionListener implements JobExecutionListener {
       step.put("filterCount", stepExecution.getFilterCount());
       step.put("skipCount", stepExecution.getSkipCount());
       step.put("commitCount", stepExecution.getCommitCount());
-      step.put("startTime", stepExecution.getStartTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) + "+09:00");
-      step.put("endTime", stepExecution.getEndTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) + "+09:00");
-      
+      step.put("startTime",
+          stepExecution.getStartTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) + "+09:00");
+      step.put("endTime",
+          stepExecution.getEndTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) + "+09:00");
+
       steps.add(step);
     }
-    
+
     // 처리량 계산 (초당 아이템 수)
-    long executionTimeMs = java.time.Duration.between(jobExecution.getStartTime(), jobExecution.getEndTime()).toMillis();
-    double throughputItemsPerSec = executionTimeMs > 0 ? (totalWriteCount * 1000.0) / executionTimeMs : 0;
-    
+    long executionTimeMs = java.time.Duration.between(jobExecution.getStartTime(),
+        jobExecution.getEndTime()).toMillis();
+    double throughputItemsPerSec =
+        executionTimeMs > 0 ? (totalWriteCount * 1000.0) / executionTimeMs : 0;
+
     Map<String, Object> logData = new HashMap<>();
     logData.put("jobName", jobName);
     logData.put("executionId", jobExecution.getId());
@@ -110,7 +125,7 @@ public class BatchJobExecutionListener implements JobExecutionListener {
     logData.put("executionTime", executionTime);
     logData.put("host", getHostName());
     logData.put("env", getEnvironment());
-    
+
     // Job Parameters 추가
     Map<String, Object> jobParams = new HashMap<>();
     jobExecution.getJobParameters().getParameters().forEach((key, value) -> {
@@ -121,7 +136,7 @@ public class BatchJobExecutionListener implements JobExecutionListener {
     if (!jobParams.isEmpty()) {
       logData.put("jobParameters", jobParams);
     }
-    
+
     // Totals 객체
     Map<String, Object> totals = new HashMap<>();
     totals.put("readCount", totalReadCount);
@@ -133,21 +148,21 @@ public class BatchJobExecutionListener implements JobExecutionListener {
     totals.put("processed", totalReadCount);
     totals.put("deleted", totalWriteCount);
     totals.put("throughputItemsPerSec", Math.round(throughputItemsPerSec * 100.0) / 100.0);
-    
+
     logData.put("totals", totals);
     logData.put("steps", steps);
-    
+
     // 에러 정보 추가
     if (!jobExecution.getAllFailureExceptions().isEmpty()) {
       logData.put("errorMessage", jobExecution.getAllFailureExceptions().get(0).getMessage());
     }
-    
+
     batchJobLogger.logJobComplete(logData);
-    
+
     // dev 환경에서 성능 메트릭 로깅
     performanceLogger.logPerformanceMetrics(jobExecution, "COMPLETE");
   }
-  
+
   private String getHostName() {
     try {
       return java.net.InetAddress.getLocalHost().getHostName();
@@ -155,9 +170,9 @@ public class BatchJobExecutionListener implements JobExecutionListener {
       return "unknown-host";
     }
   }
-  
+
   private String getEnvironment() {
     return System.getProperty("spring.profiles.active", "dev");
   }
-  
+
 }

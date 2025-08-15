@@ -5,6 +5,12 @@ spring:
     jdbc:
       initialize-schema: never
 
+prometheus:
+  job:
+    name: pushgateway
+  pushgateway:
+    url: localhost:9091
+
 logging:
   level:
     com.threadly.batch.listener: INFO

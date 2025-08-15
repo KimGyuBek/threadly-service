@@ -3,7 +3,13 @@
     "allow": [
       "Bash(mkdir:*)",
       "Bash(find:*)",
-      "Bash(chmod:*)"
+      "Bash(chmod:*)",
+      "Bash(curl:*)",
+      "Bash(jps:*)",
+      "Bash(grep:*)",
+      "Bash(mv:*)",
+      "Bash(./gradlew:*)",
+      "Bash(docker exec:*)"
     ],
     "deny": []
   }

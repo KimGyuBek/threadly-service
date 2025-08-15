@@ -13,6 +13,12 @@ logging:
     org.hibernate.SQL: debug
     org.hibernate.orm.jdbc.bind: trace
 
+#prometheus:
+#  job:
+#    name: threadly-batch
+#  pushgateway:
+#    url: localhost:9091
+
 properties:
   retention:
     image:

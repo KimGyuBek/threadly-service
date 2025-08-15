@@ -72,12 +72,13 @@ public class UserHardDeleteDeletedJobConfig {
     return new JpaCursorItemReaderBuilder<UserEntity>()
         .name("userItemReader")
         .entityManagerFactory(entityManagerFactory)
+        .maxItemCount(1000000)
         .queryString("""
             select e
             from UserEntity e
             where e.userStatusType = :status
             and e.modifiedAt < :threshold
-            order by e.modifiedAt asc, e.userId asc
+            order by e.userId asc
             """)
         .parameterValues(
             Map.of("status", UserStatusType.DELETED,
@@ -101,7 +102,7 @@ public class UserHardDeleteDeletedJobConfig {
       }
       em.createQuery("""
               delete from UserEntity e
-              where  e.userId in :ids 
+              where  e.userId in :ids
               and e.userStatusType = :status
               and e.modifiedAt < :threshold
               """)
