@@ -32,6 +32,12 @@ public class PerformanceLogger {
       Map<String, Object> performanceData = new HashMap<>();
 
       // 기본 Job 정보
+
+      if (jobExecution.getStartTime() != null) {
+        performanceData.put("startTime",
+            jobExecution.getStartTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) + "+09:00");
+      }
+
       performanceData.put("timestamp",
           LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) + "+09:00");
       performanceData.put("jobName", jobExecution.getJobInstance().getJobName());
@@ -39,16 +45,6 @@ public class PerformanceLogger {
       performanceData.put("phase", phase); // "START" or "COMPLETE"
       performanceData.put("status", jobExecution.getExitStatus().getExitCode());
 
-      if (jobExecution.getStartTime() != null && jobExecution.getEndTime() != null) {
-        performanceData.put("executionTime",
-            TimeUtils.getExecutionTimeFormatted(jobExecution.getStartTime(),
-                jobExecution.getEndTime()));
-      }
-
-      if (jobExecution.getStartTime() != null) {
-        performanceData.put("startTime",
-            jobExecution.getStartTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) + "+09:00");
-      }
 
       if (jobExecution.getEndTime() != null) {
         performanceData.put("endTime",
