@@ -131,7 +131,6 @@ public class UserHardDeleteDeletedJobConfig {
       if (ids == null || ids.isEmpty()) {
         return;
       }
-
       String query = """
           delete from users
           where user_id = any(?)
@@ -140,8 +139,6 @@ public class UserHardDeleteDeletedJobConfig {
           """;
       jdbcTemplate.execute((Connection con) -> {
         try (PreparedStatement ps = con.prepareStatement(query)) {
-          // user_id 컬럼 타입에 맞춰 elementType 지정: text | uuid
-          // 예) UUID면 "uuid", TEXT면 "text"
           java.sql.Array idArray = con.createArrayOf("text", ids.getItems().toArray(new String[0]));
           try {
             ps.setArray(1, idArray);
@@ -154,7 +151,6 @@ public class UserHardDeleteDeletedJobConfig {
             );
             ps.executeUpdate();
           } finally {
-            // 드라이버에 따라 누수 방지
             idArray.free();
           }
         }

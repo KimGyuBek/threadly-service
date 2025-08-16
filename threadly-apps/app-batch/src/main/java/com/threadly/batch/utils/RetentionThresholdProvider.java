@@ -41,7 +41,7 @@ public class RetentionThresholdProvider {
       case POST_DELETED -> now.minus(retentionProperties.getPost().getDeleted());
     };
 
-    log.info("Threshold time: {}", threshold);
+//    log.info("Threshold time: {}", threshold);
     return threshold;
   }
 }
