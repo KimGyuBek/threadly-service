@@ -1,7 +1,8 @@
 package com.threadly.adapter.persistence.user.repository;
 
-import com.threadly.core.domain.user.UserStatusType;
 import com.threadly.adapter.persistence.user.entity.UserEntity;
+import com.threadly.core.domain.user.UserStatusType;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

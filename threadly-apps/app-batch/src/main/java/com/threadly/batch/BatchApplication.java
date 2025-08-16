@@ -12,7 +12,9 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 @SpringBootApplication(
     scanBasePackageClasses = {
@@ -35,6 +37,19 @@ public class BatchApplication {
     app.setWebApplicationType(WebApplicationType.NONE);
     ConfigurableApplicationContext context = app.run(args);
     System.exit(SpringApplication.exit(context));
+  }
+
+  @Bean(name = "taskExecutor")
+  public TaskExecutor taskExecutor() {
+    ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+    executor.setCorePoolSize(128);
+    executor.setMaxPoolSize(128);
+    executor.setQueueCapacity(128);
+    executor.setAllowCoreThreadTimeOut(true);
+    executor.setWaitForTasksToCompleteOnShutdown(true);
+    executor.setAwaitTerminationSeconds(10);
+
+    return executor;
   }
 
   @Bean
