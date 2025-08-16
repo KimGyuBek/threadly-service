@@ -42,13 +42,14 @@ public class BatchApplication {
   @Bean(name = "taskExecutor")
   public TaskExecutor taskExecutor() {
     ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-    executor.setCorePoolSize(128);
-    executor.setMaxPoolSize(128);
-    executor.setQueueCapacity(128);
+    executor.setCorePoolSize(20);
+    executor.setMaxPoolSize(20);
+    executor.setQueueCapacity(0);
+    executor.setThreadNamePrefix("part-");
     executor.setAllowCoreThreadTimeOut(true);
     executor.setWaitForTasksToCompleteOnShutdown(true);
-    executor.setAwaitTerminationSeconds(10);
-
+    executor.setAwaitTerminationSeconds(120);
+    executor.initialize();
     return executor;
   }
 

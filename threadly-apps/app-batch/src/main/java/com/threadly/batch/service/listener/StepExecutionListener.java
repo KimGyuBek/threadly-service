@@ -51,10 +51,11 @@ public class StepExecutionListener implements org.springframework.batch.core.Ste
     try {
       String stepName = stepExecution.getStepName();
       String jobName = stepExecution.getJobExecution().getJobInstance().getJobName();
-      
+
+
       // Job별 chunk size 매핑 (실제 설정값과 동일하게)
       if (jobName.contains("userHardDeleteDeletedJob")) {
-        return 500; // UserHardDeleteDeletedJobConfig에서 설정한 값
+        return 2000; // UserHardDeleteDeletedJobConfig에서 설정한 값
       } else if (jobName.contains("postHardDeleteDeletedJob")) {
         return 1000; // PostHardDeleteDeletedJobConfig 실제값
       } else if (jobName.contains("imageHardDelete")) {

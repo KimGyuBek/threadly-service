@@ -131,6 +131,7 @@ public class UserHardDeleteDeletedJobConfig {
       if (ids == null || ids.isEmpty()) {
         return;
       }
+
       String query = """
           delete from users
           where user_id = any(?)

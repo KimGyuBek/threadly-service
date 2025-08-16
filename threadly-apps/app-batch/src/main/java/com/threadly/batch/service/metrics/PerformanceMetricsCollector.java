@@ -167,12 +167,14 @@ public class PerformanceMetricsCollector {
       }
     }
 
-    // 전체 처리 통계
+    // 전체 처리 통계 (Master Step 제외하고 실제 Work Step들만 카운트)
     long totalProcessed = jobExecution.getStepExecutions().stream()
+        .filter(step -> !step.getStepName().contains("Master") && !step.getStepName().contains("master"))
         .mapToLong(StepExecution::getWriteCount)
         .sum();
 
     long totalRead = jobExecution.getStepExecutions().stream()
+        .filter(step -> !step.getStepName().contains("Master") && !step.getStepName().contains("master"))
         .mapToLong(StepExecution::getReadCount)
         .sum();
 
@@ -204,12 +206,14 @@ public class PerformanceMetricsCollector {
     // Configuration 정보 추가
     Map<String, Object> configuration = new HashMap<>();
 
-    // 주요 Step의 chunk size 추출
+    // 주요 Work Step의 chunk size 추출 (Master Step 제외)
     for (StepExecution stepExecution : jobExecution.getStepExecutions()) {
-      Integer chunkSize = extractChunkSizeFromStepExecution(stepExecution);
-      if (chunkSize != null) {
-        configuration.put("chunkSize", chunkSize);
-        break; // 첫 번째 step의 chunk size 사용
+      if (!stepExecution.getStepName().contains("Master") && !stepExecution.getStepName().contains("master")) {
+        Integer chunkSize = extractChunkSizeFromStepExecution(stepExecution);
+        if (chunkSize != null) {
+          configuration.put("chunkSize", chunkSize);
+          break; // 첫 번째 work step의 chunk size 사용
+        }
       }
     }
 
@@ -232,18 +236,17 @@ public class PerformanceMetricsCollector {
         return stepExecution.getExecutionContext().getInt("batch.chunkSize");
       }
 
-      // Job 이름을 기반으로 추정 (실제 설정값과 매핑)
-      String jobName = stepExecution.getJobExecution().getJobInstance().getJobName();
-      if (jobName != null && jobName.contains("userHardDeleteDeletedJob")) {
-        return 500; // UserHardDeleteDeletedJobConfig 실제값
-      } else if (jobName != null && jobName.contains("postHardDeleteDeletedJob")) {
-        return 1000; // PostHardDeleteDeletedJobConfig 실제값
-      } else if (jobName != null && jobName.contains("imageHardDelete")) {
-        return 10000; // Image 관련 Job들 실제값
+      // Commit Count 기반으로 chunk size 추정
+      if (stepExecution.getCommitCount() > 0 && stepExecution.getWriteCount() > 0) {
+        int estimatedChunkSize = (int) Math.ceil((double) stepExecution.getWriteCount() / stepExecution.getCommitCount());
+        // 유효한 범위 내에서만 반환 (100~10000)
+        if (estimatedChunkSize >= 100 && estimatedChunkSize <= 10000) {
+          return estimatedChunkSize;
+        }
       }
 
       // 기본값 반환
-      return 1000;
+      return null;
     } catch (Exception e) {
       return null;
     }

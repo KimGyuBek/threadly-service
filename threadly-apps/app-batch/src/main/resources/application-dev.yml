@@ -4,7 +4,7 @@ spring:
       enabled: true
   config:
     import:
-      - "classpath:application-persistence-dev.yml"
+      - "classpath:application-persistence-batch-dev.yml"
 logging:
   level:
     root: info
