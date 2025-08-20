@@ -53,11 +53,11 @@ public class BatchApplication {
     return executor;
   }
 
-  @Bean
-  public PushGateway pushGateway(
-      @Value("${prometheus.pushgateway.url}") String url
-  ) {
-    return new PushGateway(url);
-  }
+//  @Bean
+//  public PushGateway pushGateway(
+//      @Value("${prometheus.pushgateway.url}") String url
+//  ) {
+//    return new PushGateway(url);
+//  }
 }
 

@@ -21,7 +21,6 @@ infra/loki-stack/promtail/*
 infra/image_tag.txt
 infra/LOG_FILE
 infra/volumes
-/logs/
 .env
 
 

@@ -12,5 +12,6 @@
       "Bash(docker exec:*)"
     ],
     "deny": []
-  }
+  },
+  "outputStyle": "Explanatory"
 }
