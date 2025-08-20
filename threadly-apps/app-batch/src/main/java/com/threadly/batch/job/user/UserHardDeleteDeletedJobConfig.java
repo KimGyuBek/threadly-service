@@ -42,8 +42,6 @@ import org.springframework.transaction.PlatformTransactionManager;
 @RequiredArgsConstructor
 public class UserHardDeleteDeletedJobConfig {
 
-  private final RetentionThresholdProvider retentionThresholdProvider;
-
   @Bean
   public Job userHardDeleteDeletedJob(
       JobExecutionListener listener,
@@ -62,7 +60,7 @@ public class UserHardDeleteDeletedJobConfig {
   public Step userShardMasterStep(JobRepository jobRepository, HashPartitioner hashPartitioner,
       Step userShardWorkStep,
       @Qualifier("taskExecutor") TaskExecutor taskExecutor,
-      @Value("#{jobParameters['gridSize']}") int gridSize
+      @Value("#{jobParameters['gridSize']}") Integer gridSize
   ) {
     var handler = new TaskExecutorPartitionHandler();
     handler.setGridSize(gridSize);
