@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  threadly-batch:
+    image: ${DOCKER_IMAGE_NAME_BATCH:-your-dockerhub/threadly-batch}:${IMAGE_TAG:-latest}
+    container_name: threadly-batch
+    restart: "no"  # systemd가 관리하므로 Docker 자동 재시작 비활성화
+    environment:
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-prod,batch,metrics}
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
+      - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
+      - PROMETHEUS_PUSHGATEWAY_URL=${PROMETHEUS_PUSHGATEWAY_URL}
+      - JAVA_OPTS=-Xms2g -Xmx4g -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/app/logs/
+    volumes:
+      - ./logs:/app/logs
+      - ./config:/app/config:ro
+    networks:
+      - batch-network
+    deploy:
+      resources:
+        limits:
+          memory: 4.5G
+          cpus: '2.0'
+        reservations:
+          memory: 2G
+          cpus: '1.0'
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "5"
+
+networks:
+  batch-network:
+    driver: bridge
