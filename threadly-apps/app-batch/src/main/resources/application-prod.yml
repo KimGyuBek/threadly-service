@@ -1,16 +1,81 @@
 spring:
-  config:
-    import:
-      - "classpath:application-persistence-prod.yml"
-#      - "classpath:application-redis-prod.yml"
-#      - "classpath:application-port.yml"
+  profiles:
+    active: prod,batch,metrics
+  
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME} 
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+      connection-timeout: 20000
+      idle-timeout: 300000
+      max-lifetime: 1800000
+      
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: false
+        jdbc:
+          batch_size: 1000
+          batch_versioned_data: true
+        order_inserts: true
+        order_updates: true
 
-properties:
-  retention:
-    image:
-      deleted: PT72H
-      temporary: PT24H
-    post:
-      deleted: P30D
-    user:
-      deleted: P180D
+  batch:
+    job:
+      enabled: false  # 수동 실행만 허용
+    jdbc:
+      initialize-schema: never
+      
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      enabled: true
+    prometheus:
+      enabled: true
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+        pushgateway:
+          enabled: true
+          base-url: ${PROMETHEUS_PUSHGATEWAY_URL:http://localhost:9091}
+          job: threadly-batch
+          push-rate: 30s
+
+logging:
+  level:
+    com.threadly.batch: INFO
+    org.springframework.batch: INFO
+    org.springframework.jdbc: WARN
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: /app/logs/batch.log
+    max-size: 100MB
+    max-history: 10
+
+# 배치 설정
+batch:
+  chunk-size:
+    user: 1000
+    post: 800  
+    image: 500
+  partition:
+    grid-size: 8
+  thread-pool:
+    core-size: 10
+    max-size: 20
+    queue-capacity: 50

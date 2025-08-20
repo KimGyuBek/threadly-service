@@ -47,7 +47,7 @@ else
 fi
 
 echo ""
-echo "🔧 수동 명령어:"
+echo " 수동 명령어:"
 echo "  타이머 시작: sudo systemctl start threadly-batch.timer"
 echo "  타이머 중지: sudo systemctl stop threadly-batch.timer"  
 echo "  수동 실행: sudo systemctl start threadly-batch.service"

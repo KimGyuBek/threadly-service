@@ -2,7 +2,7 @@ name: Batch CD
 
 on:
   push:
-    branches: [ feature/TLY-97-batch ]
+    branches: [ feature/TLY-97 batch ]
     paths:
       - 'threadly-apps/app-batch/**'
       - 'infra/batch/**'

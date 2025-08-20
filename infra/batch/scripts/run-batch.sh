@@ -29,14 +29,14 @@ if ! docker images | grep -q "${DOCKER_IMAGE_NAME_BATCH:-threadly-batch}"; then
 fi
 
 # 데이터베이스 연결 확인 (간단한 ping)
-echo "🔌 데이터베이스 연결 확인..." | tee -a $LOG_FILE
+echo " 데이터베이스 연결 확인..." | tee -a $LOG_FILE
 
 # 이전 컨테이너 정리
-echo "🧹 이전 컨테이너 정리..." | tee -a $LOG_FILE
+echo " 이전 컨테이너 정리..." | tee -a $LOG_FILE
 docker compose down --remove-orphans 2>/dev/null || true
 
 # 배치 실행
-echo "⚡ 배치 작업 실행..." | tee -a $LOG_FILE
+echo " 배치 작업 실행..." | tee -a $LOG_FILE
 START_TIME=$(date +%s)
 
 # Docker compose로 배치 실행 (detached 모드가 아닌 foreground)

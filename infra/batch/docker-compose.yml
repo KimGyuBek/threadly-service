@@ -2,9 +2,9 @@ version: '3.8'
 
 services:
   threadly-batch:
-    image: ${DOCKER_IMAGE_NAME_BATCH:-your-dockerhub/threadly-batch}:${IMAGE_TAG:-latest}
+    image: ${DOCKER_IMAGE_NAME_BATCH:-kimgyubek/threadly-batch}:${IMAGE_TAG:-latest}
     container_name: threadly-batch
-    restart: "no"  # systemd가 관리하므로 Docker 자동 재시작 비활성화
+    restart: "no"
     environment:
       - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-prod,batch,metrics}
       - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
@@ -14,7 +14,6 @@ services:
       - JAVA_OPTS=-Xms2g -Xmx4g -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/app/logs/
     volumes:
       - ./logs:/app/logs
-      - ./config:/app/config:ro
     networks:
       - batch-network
     deploy:
