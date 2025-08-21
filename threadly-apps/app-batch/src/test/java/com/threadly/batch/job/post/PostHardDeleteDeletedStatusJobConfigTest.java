@@ -15,6 +15,8 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.JobParameters;
+import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.annotation.DirtiesContext;
@@ -24,7 +26,7 @@ import org.springframework.test.context.TestPropertySource;
     "spring.batch.job.name=postHardDeleteDeletedJob",
 })
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
-@DisplayName("postHardDeleteStep")
+@DisplayName("postHardDeleteDeletedJob")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class PostHardDeleteDeletedStatusJobConfigTest extends BaseBatchTest {
 
@@ -78,7 +80,14 @@ class PostHardDeleteDeletedStatusJobConfigTest extends BaseBatchTest {
     assertThat(activePosts).hasSize(ALL_SIZE - DELETE_STATUS_SIZE);
 
     // when
-    JobExecution jobExecution = jobLauncherTestUtils.launchStep("postHardDeleteStep");
+    /*배치 실행*/
+    JobParametersBuilder jobParameter = new JobParametersBuilder()
+        .addJobParameter(
+            "gridSize", GRID_SIZE, Integer.class, false
+        );
+    JobParameters jobParameters = jobParameter.toJobParameters();
+    jobLauncherTestUtils.setJob(postHardDeleteDeletedJob);
+    JobExecution jobExecution = jobLauncherTestUtils.launchJob(jobParameters);
 
     // then
     assertThat(jobExecution.getExitStatus()).isEqualTo(ExitStatus.COMPLETED);
@@ -120,7 +129,14 @@ class PostHardDeleteDeletedStatusJobConfigTest extends BaseBatchTest {
     assertThat(deletedPosts).hasSize(DELETE_STATUS_SIZE);
 
     // when
-    JobExecution jobExecution = jobLauncherTestUtils.launchStep("postHardDeleteStep");
+    /*배치 실행*/
+    JobParametersBuilder jobParameter = new JobParametersBuilder()
+        .addJobParameter(
+            "gridSize", GRID_SIZE, Integer.class, false
+        );
+    JobParameters jobParameters = jobParameter.toJobParameters();
+    jobLauncherTestUtils.setJob(postHardDeleteDeletedJob);
+    JobExecution jobExecution = jobLauncherTestUtils.launchJob(jobParameters);
 
     // then
     assertThat(jobExecution.getExitStatus()).isEqualTo(ExitStatus.COMPLETED);
@@ -151,7 +167,14 @@ class PostHardDeleteDeletedStatusJobConfigTest extends BaseBatchTest {
     assertThat(beforePosts).allMatch(post -> post.getStatus() == PostStatus.ACTIVE);
 
     // when
-    JobExecution jobExecution = jobLauncherTestUtils.launchStep("postHardDeleteStep");
+    /*배치 실행*/
+    JobParametersBuilder jobParameter = new JobParametersBuilder()
+        .addJobParameter(
+            "gridSize", GRID_SIZE, Integer.class, false
+        );
+    JobParameters jobParameters = jobParameter.toJobParameters();
+    jobLauncherTestUtils.setJob(postHardDeleteDeletedJob);
+    JobExecution jobExecution = jobLauncherTestUtils.launchJob(jobParameters);
 
     // then
     assertThat(jobExecution.getExitStatus()).isEqualTo(ExitStatus.COMPLETED);
@@ -159,28 +182,6 @@ class PostHardDeleteDeletedStatusJobConfigTest extends BaseBatchTest {
     List<PostEntity> afterPosts = postRepository.findAll();
     assertThat(afterPosts).hasSize(SIZE); // 그대로 유지
     assertThat(afterPosts).allMatch(post -> post.getStatus() == PostStatus.ACTIVE);
-  }
-
-  /*[Case #4] Step만 실행해도 정상 동작한다*/
-  @Order(4)
-  @Test
-  @DisplayName("4. Step만 실행해도 정상 동작한다")
-  void shouldExecuteStepSuccessfully() throws Exception {
-    // given
-    /*테스트 데이터 삽입*/
-    int SIZE = 10;
-    for (int i = 0; i < SIZE; i++) {
-      createPostTestData("post" + i, PostStatus.ACTIVE, true);
-    }
-
-    // when
-    JobExecution jobExecution = jobLauncherTestUtils.launchStep("postHardDeleteStep");
-
-    // then
-    assertThat(jobExecution.getExitStatus()).isEqualTo(ExitStatus.COMPLETED);
-
-    List<PostEntity> remainingPosts = postRepository.findAll();
-    assertThat(remainingPosts).hasSize(SIZE); // ACTIVE 상태만 남음
   }
 
 }

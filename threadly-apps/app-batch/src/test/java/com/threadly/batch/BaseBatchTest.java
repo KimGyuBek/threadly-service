@@ -9,7 +9,6 @@ import com.threadly.batch.properties.RetentionProperties;
 import com.threadly.core.domain.image.ImageStatus;
 import com.threadly.core.domain.post.PostImage;
 import com.threadly.core.domain.post.PostStatus;
-import com.threadly.core.domain.user.User;
 import com.threadly.core.domain.user.UserStatusType;
 import com.threadly.core.domain.user.UserType;
 import java.time.Duration;
@@ -19,10 +18,7 @@ import org.springframework.batch.test.JobLauncherTestUtils;
 import org.springframework.batch.test.JobRepositoryTestUtils;
 import org.springframework.batch.test.context.SpringBatchTest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
@@ -45,6 +41,8 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 })
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 public abstract class BaseBatchTest {
+
+  public static final Integer GRID_SIZE = 20;
 
   @Autowired
   private JdbcTemplate jdbcTemplate;
@@ -75,6 +73,23 @@ public abstract class BaseBatchTest {
     postImageRepository.deleteAll();
     userRepository.deleteAll();
     postRepository.deleteAll();
+  }
+
+  /**
+   * db 초기화
+   */
+  public void cleanUp() {
+    jdbcTemplate.execute("""
+        delete
+        from post_images;
+        delete
+        from user_profile_images;
+        delete
+        from posts;
+        delete
+        from users;
+        
+        """);
   }
 
   /**
@@ -137,7 +152,7 @@ public abstract class BaseBatchTest {
    *
    * @param userId
    * @param userStatusType
-   * @param isDeletion  true면 threshold 이전(삭제 대상)으로, false면 현재시각(비 삭제 대상)
+   * @param isDeletion     true면 threshold 이전(삭제 대상)으로, false면 현재시각(비 삭제 대상)
    */
   public void createUserTestData(String userId, UserStatusType userStatusType, boolean isDeletion) {
     Duration retention = retentionProperties.getUser().getDeleted();
@@ -194,7 +209,7 @@ public abstract class BaseBatchTest {
    *
    * @param postId
    * @param postStatus
-   * @param isDeletion  true면 threshold 이전(삭제 대상)으로, false면 현재시각(비 삭제 대상)
+   * @param isDeletion true면 threshold 이전(삭제 대상)으로, false면 현재시각(비 삭제 대상)
    */
   public void createPostTestData(String postId, PostStatus postStatus, boolean isDeletion) {
     Duration retention = retentionProperties.getPost().getDeleted();
@@ -243,4 +258,6 @@ public abstract class BaseBatchTest {
         modifiedAt
     );
   }
+
+
 }

@@ -1,7 +1,7 @@
 spring:
   config:
     import:
-      - "classpath:application-persistence-test.yml"
+      - "classpath:application-persistence-batch-test.yml"
 
   batch:
     job:
@@ -11,7 +11,7 @@ spring:
       table-prefix: BATCH_
   
   flyway:
-    enabled: false
+    enabled: true
 
 jwt:
   enabled: false

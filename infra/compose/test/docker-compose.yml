@@ -1,5 +1,18 @@
 #TEST
 services:
+  postgresql:
+    container_name: threadly-postgresql-test
+    image:
+      postgres:16
+    restart: always
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: threadly_test
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: test
+    volumes:
+      - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly/infra/volumes/postgres_test/data:/var/lib/postgresql/data
   h2:
     container_name: threadly-h2-test
     image: oscarfonts/h2

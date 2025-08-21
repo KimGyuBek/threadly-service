@@ -15,15 +15,16 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.JobParameters;
+import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 
 @TestPropertySource(properties = {
     "spring.batch.job.name=userHardDeleteDeletedJob"
 })
-@DisplayName("userHardDeleteStep")
+@DisplayName("userHardDeleteDeletedJob")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class UserHardDeleteDeletedStatusJobConfigTest extends BaseBatchTest {
 
@@ -31,10 +32,13 @@ class UserHardDeleteDeletedStatusJobConfigTest extends BaseBatchTest {
   @Qualifier("userHardDeleteDeletedJob")
   private Job userHardDeleteDeletedJob;
 
+
   @BeforeEach
   void setUpJob() {
+    cleanUp();
     jobLauncherTestUtils.setJob(userHardDeleteDeletedJob);
   }
+
 
   /*
    * 1. DELETED 상태의 User가 삭제기준시각 이전에 수정되었으면 정상적으로 삭제 되는지 검증
@@ -77,7 +81,14 @@ class UserHardDeleteDeletedStatusJobConfigTest extends BaseBatchTest {
     assertThat(activeUsers).hasSize(ALL_SIZE - DELETE_STATUS_SIZE);
 
     // when
-    JobExecution jobExecution = jobLauncherTestUtils.launchStep("userHardDeleteStep");
+    /*배치 실행*/
+    JobParametersBuilder jobParameter = new JobParametersBuilder()
+        .addJobParameter(
+            "gridSize", GRID_SIZE, Integer.class, false
+        );
+    JobParameters jobParameters = jobParameter.toJobParameters();
+    jobLauncherTestUtils.setJob(userHardDeleteDeletedJob);
+    JobExecution jobExecution = jobLauncherTestUtils.launchJob(jobParameters);
 
     // then
     assertThat(jobExecution.getExitStatus()).isEqualTo(ExitStatus.COMPLETED);
@@ -119,7 +130,13 @@ class UserHardDeleteDeletedStatusJobConfigTest extends BaseBatchTest {
     assertThat(deletedUsers).hasSize(DELETE_STATUS_SIZE);
 
     // when
-    JobExecution jobExecution = jobLauncherTestUtils.launchStep("userHardDeleteStep");
+    JobParametersBuilder jobParameter = new JobParametersBuilder()
+        .addJobParameter(
+            "gridSize", GRID_SIZE, Integer.class, false
+        );
+    JobParameters jobParameters = jobParameter.toJobParameters();
+    jobLauncherTestUtils.setJob(userHardDeleteDeletedJob);
+    JobExecution jobExecution = jobLauncherTestUtils.launchJob(jobParameters);
 
     // then
     assertThat(jobExecution.getExitStatus()).isEqualTo(ExitStatus.COMPLETED);
@@ -150,7 +167,13 @@ class UserHardDeleteDeletedStatusJobConfigTest extends BaseBatchTest {
     assertThat(beforeUsers).allMatch(user -> user.getUserStatusType() == UserStatusType.ACTIVE);
 
     // when
-    JobExecution jobExecution = jobLauncherTestUtils.launchStep("userHardDeleteStep");
+    JobParametersBuilder jobParameter = new JobParametersBuilder()
+        .addJobParameter(
+            "gridSize", GRID_SIZE, Integer.class, false
+        );
+    JobParameters jobParameters = jobParameter.toJobParameters();
+    jobLauncherTestUtils.setJob(userHardDeleteDeletedJob);
+    JobExecution jobExecution = jobLauncherTestUtils.launchJob(jobParameters);
 
     // then
     assertThat(jobExecution.getExitStatus()).isEqualTo(ExitStatus.COMPLETED);
@@ -158,28 +181,6 @@ class UserHardDeleteDeletedStatusJobConfigTest extends BaseBatchTest {
     List<UserEntity> afterUsers = userRepository.findAll();
     assertThat(afterUsers).hasSize(SIZE); // 그대로 유지
     assertThat(afterUsers).allMatch(user -> user.getUserStatusType() == UserStatusType.ACTIVE);
-  }
-
-  /*[Case #4] Step만 실행해도 정상 동작한다*/
-  @Order(4)
-  @Test
-  @DisplayName("4. Step만 실행해도 정상 동작한다")
-  void shouldExecuteStepSuccessfully() throws Exception {
-    // given
-    /*테스트 데이터 삽입*/
-    int SIZE = 10;
-    for (int i = 0; i < SIZE; i++) {
-      createUserTestData("user" + i, UserStatusType.ACTIVE, true);
-    }
-
-    // when
-    JobExecution jobExecution = jobLauncherTestUtils.launchStep("userHardDeleteStep");
-
-    // then
-    assertThat(jobExecution.getExitStatus()).isEqualTo(ExitStatus.COMPLETED);
-
-    List<UserEntity> remainingUsers = userRepository.findAll();
-    assertThat(remainingUsers).hasSize(SIZE); // ACTIVE 상태만 남음
   }
 
 }

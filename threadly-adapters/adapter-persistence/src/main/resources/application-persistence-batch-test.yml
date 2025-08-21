@@ -1,8 +1,8 @@
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5433/postgres?profileSQL=true
-    username: threadly
-    password: localpwd
+    username: test
+    password: test
     hikari:
       maximum-pool-size: 25
       minimum-idle: 0
@@ -11,7 +11,7 @@ spring:
       idle-timeout: 300000
       max-lifetime: 1700000
       keepalive-time: 120000
-      auto-commit: false
+      auto-commit: true
 
   jpa:
     properties:
