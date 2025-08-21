@@ -9,6 +9,7 @@ import org.springframework.boot.actuate.autoconfigure.metrics.MeterRegistryCusto
 import org.springframework.boot.actuate.metrics.export.prometheus.PrometheusPushGatewayManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 
 import java.time.Duration;
@@ -20,6 +21,7 @@ import java.util.Map;
  * 
  * 이 클래스는 Spring Batch 메트릭이 올바르게 Prometheus로 전송되도록 보장합니다.
  */
+@Profile("!test")
 @Configuration
 public class BatchMetricsConfiguration {
 

@@ -5,11 +5,12 @@ import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.ChunkListener;
-import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.scope.context.ChunkContext;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+@Profile("!test")
 @Component(value = "stepListener")
 @Slf4j
 @RequiredArgsConstructor
@@ -52,7 +53,6 @@ public class StepExecutionListener implements org.springframework.batch.core.Ste
       String stepName = stepExecution.getStepName();
       String jobName = stepExecution.getJobExecution().getJobInstance().getJobName();
 
-
       // Job별 chunk size 매핑 (실제 설정값과 동일하게)
       if (jobName.contains("userHardDeleteDeletedJob")) {
         return 2000; // UserHardDeleteDeletedJobConfig에서 설정한 값
@@ -61,7 +61,7 @@ public class StepExecutionListener implements org.springframework.batch.core.Ste
       } else if (jobName.contains("imageHardDelete")) {
         return 10000; // Image 관련 Job들은 10000 chunk size 사용  
       }
-      
+
       return 1000; // 기본값
     } catch (Exception e) {
       return null;
