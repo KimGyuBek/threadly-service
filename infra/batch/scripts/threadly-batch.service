@@ -1,0 +1,30 @@
+[Unit]
+Description=Threadly Batch Job Service
+After=network.target docker.service
+Requires=docker.service
+Wants=threadly-batch.timer
+
+[Service]
+Type=oneshot
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/home/ubuntu/threadly-batch
+ExecStart=/home/ubuntu/threadly-batch/scripts/run-batch.sh
+StandardOutput=journal
+StandardError=journal
+TimeoutStartSec=1800
+RemainAfterExit=no
+
+# 환경변수
+Environment="PATH=/usr/local/bin:/usr/bin:/bin"
+Environment="DOCKER_COMPOSE_VERSION=2"
+
+# 실행 전 대기시간 (중복 실행 방지)
+ExecStartPre=/bin/sleep 5
+
+# 리소스 제한
+MemoryMax=6G
+CPUQuota=250%
+
+[Install]
+WantedBy=multi-user.target

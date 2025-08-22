@@ -1,6 +1,6 @@
 package com.threadly.testsupport.mapper.posts;
 
-import com.threadly.post.comment.CommentLike;
+import com.threadly.core.domain.post.comment.CommentLike;
 import com.threadly.testsupport.dto.posts.PostCommentLikeFixtureDto;
 
 /**

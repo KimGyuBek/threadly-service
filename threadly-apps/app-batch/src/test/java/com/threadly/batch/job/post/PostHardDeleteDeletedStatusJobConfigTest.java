@@ -1,0 +1,187 @@
+package com.threadly.batch.job.post;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+import com.threadly.adapter.persistence.post.entity.PostEntity;
+import com.threadly.batch.BaseBatchTest;
+import com.threadly.core.domain.post.PostStatus;
+import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.springframework.batch.core.ExitStatus;
+import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.JobParameters;
+import org.springframework.batch.core.JobParametersBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.TestPropertySource;
+
+@TestPropertySource(properties = {
+    "spring.batch.job.name=postHardDeleteDeletedJob",
+})
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
+@DisplayName("postHardDeleteDeletedJob")
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+class PostHardDeleteDeletedStatusJobConfigTest extends BaseBatchTest {
+
+  @Autowired
+  @Qualifier("postHardDeleteDeletedJob")
+  private Job postHardDeleteDeletedJob;
+
+  @BeforeEach
+  void setUpJob() {
+    jobLauncherTestUtils.setJob(postHardDeleteDeletedJob);
+  }
+
+  /*
+   * 1. DELETED 상태의 Post가 삭제기준시각 이전에 수정되었으면 정상적으로 삭제 되는지 검증
+   * 2. DELETED 상태의 Post가 삭제 기준 시각 적용되지 않으면 삭제 되지 않는지 검증
+   * 3. DELETED 상태의 Post가 없으면 아무 데이터를 삭제 하지 않는지 검증
+   * 4. Step 만 실행해도 정상 동작하는지 검증
+   * */
+
+  /*[Case #1] DELETED 상태의 Post가 삭제 기준 시각 이전에 수정 되었으면 정상적으로 삭제 되는지 검증*/
+  @Order(1)
+  @Test
+  @DisplayName("1. DELETED 상태의 Post가 삭제 기준 시각 이전에 수정 되었으면 정상적으로 삭제 되는지 검증")
+  void shouldDeletePostsWithDeletedStatus()
+      throws Exception {
+    // given
+    /*DELETED, 삭제 기준 시간 전 데이터 삽입*/
+    int DELETE_STATUS_SIZE = 3;
+    int ALL_SIZE = 6;
+    int i = 1;
+    for (; i <= DELETE_STATUS_SIZE; i++) {
+      createPostTestData("post" + i, PostStatus.DELETED, true);
+    }
+
+    /*ACTIVE 데이터 삽입*/
+    for (; i <= ALL_SIZE; i++) {
+      createPostTestData("post" + i, PostStatus.ACTIVE, false);
+    }
+
+    // 배치 실행 전 데이터 확인
+    List<PostEntity> allPosts = postRepository.findAll();
+    List<PostEntity> deletedPosts = allPosts.stream()
+        .filter(post -> post.getStatus() == PostStatus.DELETED)
+        .toList();
+    List<PostEntity> activePosts = allPosts.stream()
+        .filter(post -> post.getStatus() == PostStatus.ACTIVE)
+        .toList();
+
+    assertThat(allPosts).hasSize(ALL_SIZE);
+    assertThat(deletedPosts).hasSize(DELETE_STATUS_SIZE);
+    assertThat(activePosts).hasSize(ALL_SIZE - DELETE_STATUS_SIZE);
+
+    // when
+    /*배치 실행*/
+    JobParametersBuilder jobParameter = new JobParametersBuilder()
+        .addJobParameter(
+            "gridSize", GRID_SIZE, Integer.class, false
+        );
+    JobParameters jobParameters = jobParameter.toJobParameters();
+    jobLauncherTestUtils.setJob(postHardDeleteDeletedJob);
+    JobExecution jobExecution = jobLauncherTestUtils.launchJob(jobParameters);
+
+    // then
+    assertThat(jobExecution.getExitStatus()).isEqualTo(ExitStatus.COMPLETED);
+
+    // DELETED 상태의 게시글들이 삭제되었는지 확인
+    List<PostEntity> remainingPosts = postRepository.findAll();
+    List<PostEntity> remainingDeletedPosts = remainingPosts.stream()
+        .filter(post -> post.getStatus() == PostStatus.DELETED)
+        .toList();
+    List<PostEntity> remainingActivePosts = remainingPosts.stream()
+        .filter(post -> post.getStatus() == PostStatus.ACTIVE)
+        .toList();
+
+    assertThat(remainingPosts).hasSize(ALL_SIZE - DELETE_STATUS_SIZE); // ACTIVE 상태만 남음
+    assertThat(remainingDeletedPosts).hasSize(0); // DELETED 상태는 모두 삭제됨
+    assertThat(remainingActivePosts).hasSize(ALL_SIZE - DELETE_STATUS_SIZE); // ACTIVE 상태는 유지
+  }
+
+  /* [Case #2] DELETED 상태의 Post가 삭제 기준 시각 적용되지 않으면 삭제 되지 않는지 검증 */
+  @Order(2)
+  @Test
+  @DisplayName("2. DELETED 상태의 Post가 삭제 기준 시각에 적용되지 않으면 삭제 되지 않는지 검증")
+  void shouldNotDeletePostsWithDeletedStatus_whenNotExpired()
+      throws Exception {
+    // given
+    /* 데이터 삽입*/
+    int DELETE_STATUS_SIZE = 3;
+    for (int i = 0; i < DELETE_STATUS_SIZE; i++) {
+      createPostTestData("post" + i, PostStatus.DELETED, false);
+    }
+
+    // 배치 실행 전 데이터 확인
+    List<PostEntity> allPosts = postRepository.findAll();
+    List<PostEntity> deletedPosts = allPosts.stream()
+        .filter(post -> post.getStatus() == PostStatus.DELETED)
+        .toList();
+
+    assertThat(allPosts).hasSize(DELETE_STATUS_SIZE);
+    assertThat(deletedPosts).hasSize(DELETE_STATUS_SIZE);
+
+    // when
+    /*배치 실행*/
+    JobParametersBuilder jobParameter = new JobParametersBuilder()
+        .addJobParameter(
+            "gridSize", GRID_SIZE, Integer.class, false
+        );
+    JobParameters jobParameters = jobParameter.toJobParameters();
+    jobLauncherTestUtils.setJob(postHardDeleteDeletedJob);
+    JobExecution jobExecution = jobLauncherTestUtils.launchJob(jobParameters);
+
+    // then
+    assertThat(jobExecution.getExitStatus()).isEqualTo(ExitStatus.COMPLETED);
+
+    // DELETED 상태의 게시글들이 삭제되지 않았는지 확인
+    List<PostEntity> remainingDeletedPosts = postRepository.findAll().stream()
+        .filter(post -> post.getStatus() == PostStatus.DELETED)
+        .toList();
+
+    assertThat(remainingDeletedPosts).hasSize(DELETE_STATUS_SIZE);
+  }
+
+  /* [Case #3]. DELETED 상태의 Post가 없으면 아무 데이터를 삭제 하지 않는지 검증  */
+  @Order(3)
+  @Test
+  @DisplayName("3. DELETED 상태의 Post가 없으면 배치 작업이 성공하며 아무것도 삭제하지 않는다")
+  void shouldCompleteSuccessfullyWhenNoDeletedPosts()
+      throws Exception {
+    // given
+    /*ACTIVE 상태의 게시글 데이터 생성*/
+    int SIZE = 10;
+    for (int i = 0; i < SIZE; i++) {
+      createPostTestData("post" + i, PostStatus.ACTIVE, true);
+    }
+
+    List<PostEntity> beforePosts = postRepository.findAll();
+    assertThat(beforePosts).hasSize(SIZE);
+    assertThat(beforePosts).allMatch(post -> post.getStatus() == PostStatus.ACTIVE);
+
+    // when
+    /*배치 실행*/
+    JobParametersBuilder jobParameter = new JobParametersBuilder()
+        .addJobParameter(
+            "gridSize", GRID_SIZE, Integer.class, false
+        );
+    JobParameters jobParameters = jobParameter.toJobParameters();
+    jobLauncherTestUtils.setJob(postHardDeleteDeletedJob);
+    JobExecution jobExecution = jobLauncherTestUtils.launchJob(jobParameters);
+
+    // then
+    assertThat(jobExecution.getExitStatus()).isEqualTo(ExitStatus.COMPLETED);
+
+    List<PostEntity> afterPosts = postRepository.findAll();
+    assertThat(afterPosts).hasSize(SIZE); // 그대로 유지
+    assertThat(afterPosts).allMatch(post -> post.getStatus() == PostStatus.ACTIVE);
+  }
+
+}

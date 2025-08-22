@@ -1,6 +1,6 @@
 package com.threadly.repository;
 
-import com.threadly.user.UserStatusType;
+import com.threadly.core.domain.user.UserStatusType;
 import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Repository;
 

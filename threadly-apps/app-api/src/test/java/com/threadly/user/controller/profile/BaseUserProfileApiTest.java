@@ -3,11 +3,10 @@ package com.threadly.user.controller.profile;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.threadly.BaseApiTest;
 import com.threadly.CommonResponse;
 import com.threadly.testsupport.fixture.users.UserFixtureLoader;
 import com.threadly.user.BaseUserApiTest;
-import com.threadly.user.profile.query.dto.GetUserProfileApiResponse;
+import com.threadly.core.usecase.user.profile.query.dto.GetUserProfileApiResponse;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.ResultMatcher;

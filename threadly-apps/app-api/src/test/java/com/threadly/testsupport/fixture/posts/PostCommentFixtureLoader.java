@@ -1,8 +1,8 @@
 package com.threadly.testsupport.fixture.posts;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.threadly.post.adapter.PostCommentPersistenceAdapter;
-import com.threadly.post.comment.PostComment;
+import com.threadly.adapter.persistence.post.adapter.PostCommentPersistenceAdapter;
+import com.threadly.core.domain.post.comment.PostComment;
 import com.threadly.testsupport.dto.posts.PostCommentFixtureDto;
 import com.threadly.testsupport.fixture.FixtureLoader;
 import com.threadly.testsupport.mapper.posts.PostCommentFixtureMapper;

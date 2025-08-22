@@ -6,12 +6,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.threadly.BaseApiTest;
 import com.threadly.CommonResponse;
-import com.threadly.exception.ErrorCode;
+import com.threadly.commons.exception.ErrorCode;
 import com.threadly.testsupport.fixture.users.UserFixtureLoader;
-import com.threadly.user.UserGenderType;
-import com.threadly.user.profile.query.dto.GetMyProfileDetailsApiResponse;
-import com.threadly.user.profile.query.dto.GetUserProfileApiResponse;
-import com.threadly.user.profile.command.dto.RegisterMyProfileApiResponse;
+import com.threadly.core.domain.user.UserGenderType;
+import com.threadly.core.usecase.user.profile.query.dto.GetMyProfileDetailsApiResponse;
+import com.threadly.core.usecase.user.profile.query.dto.GetUserProfileApiResponse;
+import com.threadly.core.usecase.user.profile.command.dto.RegisterMyProfileApiResponse;
 import com.threadly.user.request.me.RegisterUserProfileRequest;
 import com.threadly.user.request.me.UpdateMyProfileRequest;
 import java.util.HashMap;

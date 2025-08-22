@@ -1,16 +1,16 @@
 package com.threadly.post.controller;
 
 import com.threadly.auth.JwtAuthenticationUser;
-import com.threadly.post.comment.create.CreatePostCommentApiResponse;
-import com.threadly.post.comment.create.CreatePostCommentCommand;
-import com.threadly.post.comment.create.CreatePostCommentUseCase;
-import com.threadly.post.comment.delete.DeletePostCommentCommand;
-import com.threadly.post.comment.delete.DeletePostCommentUseCase;
-import com.threadly.post.comment.get.GetPostCommentApiResponse;
-import com.threadly.post.comment.get.GetPostCommentListQuery;
-import com.threadly.post.comment.get.GetPostCommentUseCase;
+import com.threadly.core.usecase.post.comment.create.CreatePostCommentApiResponse;
+import com.threadly.core.usecase.post.comment.create.CreatePostCommentCommand;
+import com.threadly.core.usecase.post.comment.create.CreatePostCommentUseCase;
+import com.threadly.core.usecase.post.comment.delete.DeletePostCommentCommand;
+import com.threadly.core.usecase.post.comment.delete.DeletePostCommentUseCase;
+import com.threadly.core.usecase.post.comment.get.GetPostCommentApiResponse;
+import com.threadly.core.usecase.post.comment.get.GetPostCommentListQuery;
+import com.threadly.core.usecase.post.comment.get.GetPostCommentUseCase;
 import com.threadly.post.request.CreatePostCommentRequest;
-import com.threadly.response.CursorPageApiResponse;
+import com.threadly.commons.response.CursorPageApiResponse;
 import jakarta.validation.Valid;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;

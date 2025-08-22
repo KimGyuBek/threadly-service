@@ -1,8 +1,8 @@
 package com.threadly.repository;
 
-import com.threadly.user.entity.UserProfileImageEntity;
-import com.threadly.user.mapper.UserProfileImageMapper;
-import com.threadly.user.profile.image.UserProfileImage;
+import com.threadly.adapter.persistence.user.entity.UserProfileImageEntity;
+import com.threadly.adapter.persistence.user.mapper.UserProfileImageMapper;
+import com.threadly.core.domain.user.profile.image.UserProfileImage;
 import jakarta.persistence.EntityManager;
 import java.util.Optional;
 import org.springframework.stereotype.Repository;

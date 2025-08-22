@@ -1,7 +1,7 @@
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5433/postgres?profileSQL=true
-    username: postgres
+    username: ${SPRING_DATASOURCE_USERNAME}
     password: ${SPRING_DATASOURCE_PASSWORD}
   #    hikari:
   #      maximum-pool-size: 100

@@ -11,8 +11,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.threadly.BaseApiTest;
 import com.threadly.CommonResponse;
-import com.threadly.exception.ErrorCode;
-import com.threadly.auth.token.response.LoginTokenApiResponse;
+import com.threadly.commons.exception.ErrorCode;
+import com.threadly.core.usecase.auth.token.response.LoginTokenApiResponse;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;

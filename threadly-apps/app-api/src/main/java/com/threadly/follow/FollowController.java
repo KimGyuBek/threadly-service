@@ -1,17 +1,17 @@
 package com.threadly.follow;
 
 import com.threadly.auth.JwtAuthenticationUser;
-import com.threadly.follow.command.FollowCommandUseCase;
-import com.threadly.follow.command.dto.FollowRelationCommand;
-import com.threadly.follow.command.dto.FollowUserApiResponse;
-import com.threadly.follow.command.dto.HandleFollowRequestCommand;
-import com.threadly.follow.query.FollowQueryUseCase;
-import com.threadly.follow.query.dto.GetFollowRequestsQuery;
-import com.threadly.follow.query.dto.GetFollowersQuery;
-import com.threadly.follow.query.dto.GetFollowingsQuery;
-import com.threadly.follow.query.dto.GetUserFollowStatsApiResponse;
+import com.threadly.core.usecase.follow.command.FollowCommandUseCase;
+import com.threadly.core.usecase.follow.command.dto.FollowRelationCommand;
+import com.threadly.core.usecase.follow.command.dto.FollowUserApiResponse;
+import com.threadly.core.usecase.follow.command.dto.HandleFollowRequestCommand;
+import com.threadly.core.usecase.follow.query.FollowQueryUseCase;
+import com.threadly.core.usecase.follow.query.dto.GetFollowRequestsQuery;
+import com.threadly.core.usecase.follow.query.dto.GetFollowersQuery;
+import com.threadly.core.usecase.follow.query.dto.GetFollowingsQuery;
+import com.threadly.core.usecase.follow.query.dto.GetUserFollowStatsApiResponse;
 import com.threadly.follow.request.FollowRequest;
-import com.threadly.response.CursorPageApiResponse;
+import com.threadly.commons.response.CursorPageApiResponse;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

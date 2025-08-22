@@ -3,10 +3,10 @@ package com.threadly.user.controller.me;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.threadly.CommonResponse;
-import com.threadly.exception.ErrorCode;
+import com.threadly.commons.exception.ErrorCode;
 import com.threadly.testsupport.fixture.users.UserProfileImageFixtureLoader;
-import com.threadly.user.profile.query.dto.GetMyProfileDetailsApiResponse;
-import com.threadly.user.profile.query.dto.GetUserProfileApiResponse;
+import com.threadly.core.usecase.user.profile.query.dto.GetMyProfileDetailsApiResponse;
+import com.threadly.core.usecase.user.profile.query.dto.GetUserProfileApiResponse;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.ClassOrderer;

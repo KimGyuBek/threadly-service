@@ -11,11 +11,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.threadly.BaseApiTest;
 import com.threadly.CommonResponse;
-import com.threadly.exception.ErrorCode;
-import com.threadly.auth.token.response.LoginTokenApiResponse;
-import com.threadly.auth.token.response.TokenReissueApiResponse;
+import com.threadly.commons.exception.ErrorCode;
+import com.threadly.core.usecase.auth.token.response.LoginTokenApiResponse;
+import com.threadly.core.usecase.auth.token.response.TokenReissueApiResponse;
 import com.threadly.auth.request.UserLoginRequest;
-import com.threadly.repository.auth.TestRedisHelper;
+import com.threadly.adapter.redis.repository.auth.TestRedisHelper;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;

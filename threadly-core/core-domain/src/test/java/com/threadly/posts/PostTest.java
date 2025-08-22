@@ -4,8 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-import com.threadly.post.Post;
-import com.threadly.post.comment.PostComment;
+import com.threadly.core.domain.post.Post;
+import com.threadly.core.domain.post.comment.PostComment;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;

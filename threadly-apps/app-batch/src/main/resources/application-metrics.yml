@@ -1,0 +1,42 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info,metrics,prometheus"
+      base-path: "/actuator"
+  endpoint:
+    health:
+      show-details: always
+    prometheus:
+      enabled: true
+  metrics:
+    enable:
+      spring.batch: true
+      jvm: true
+      system: true
+      executor: true
+      hikaricp: true
+    export:
+      prometheus:
+        enabled: true
+        pushgateway:
+          enabled: true
+          base-url: ${prometheus.pushgateway.url:http://localhost:9091}
+          job: ${prometheus.job.name:pushgateway}
+          push-rate: 2s
+          push-on-shutdown: true
+    tags:
+      application: threadly-batch
+      environment: ${spring.profiles.active:dev}
+
+# Ensure Spring Batch metrics are enabled
+spring:
+  batch:
+    metrics:
+      enabled: true
+
+# Logging for debugging metrics issues
+logging:
+  level:
+    io.micrometer: INFO
+    org.springframework.boot.actuate: INFO
