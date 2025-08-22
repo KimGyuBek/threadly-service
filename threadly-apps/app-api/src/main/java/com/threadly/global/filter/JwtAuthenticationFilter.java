@@ -1,13 +1,13 @@
 package com.threadly.global.filter;
 
 import com.threadly.auth.AuthManager;
-import com.threadly.exception.ErrorCode;
-import com.threadly.exception.token.TokenException;
-import com.threadly.exception.user.UserException;
+import com.threadly.commons.exception.ErrorCode;
+import com.threadly.commons.exception.token.TokenException;
+import com.threadly.commons.exception.user.UserException;
 import com.threadly.global.exception.TokenAuthenticationException;
 import com.threadly.global.exception.UserAuthenticationException;
-import com.threadly.security.JwtTokenProvider;
-import com.threadly.utils.JwtTokenUtils;
+import com.threadly.commons.security.JwtTokenProvider;
+import com.threadly.commons.utils.JwtTokenUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

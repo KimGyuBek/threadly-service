@@ -2,7 +2,6 @@ package com.threadly;
 
 
 import com.threadly.post.controller.BasePostApiTest;
-import com.threadly.testsupport.fixture.posts.PostCommentFixtureLoader;
 import com.threadly.testsupport.fixture.posts.PostCommentLikeFixtureLoader;
 import com.threadly.testsupport.fixture.posts.PostLikeFixtureLoader;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,5 +1,6 @@
 package com.threadly;
 
+import com.threadly.adapter.persistence.PersistenceModule;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication(

@@ -4,9 +4,10 @@ import static com.threadly.utils.TestConstants.EMAIL_VERIFIED_USER_1;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.threadly.CommonResponse;
-import com.threadly.image.ImageStatus;
-import com.threadly.post.create.CreatePostApiResponse;
-import com.threadly.post.repository.PostImageJpaRepository;
+import com.threadly.core.domain.image.ImageStatus;
+import com.threadly.core.usecase.post.create.CreatePostApiResponse;
+import com.threadly.adapter.persistence.post.repository.PostImageJpaRepository;
+import com.threadly.core.usecase.post.image.UploadPostImagesApiResponse;
 import java.io.IOException;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;

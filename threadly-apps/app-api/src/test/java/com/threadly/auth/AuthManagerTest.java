@@ -5,10 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import com.threadly.properties.TtlProperties;
-import com.threadly.repository.auth.TestRedisHelper;
-import com.threadly.security.JwtTokenProvider;
-import com.threadly.token.FetchTokenPort;
+import com.threadly.commons.properties.TtlProperties;
+import com.threadly.adapter.redis.repository.auth.TestRedisHelper;
+import com.threadly.commons.security.JwtTokenProvider;
+import com.threadly.core.port.token.FetchTokenPort;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

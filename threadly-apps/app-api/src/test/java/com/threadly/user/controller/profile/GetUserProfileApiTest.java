@@ -4,11 +4,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.threadly.CommonResponse;
-import com.threadly.exception.ErrorCode;
+import com.threadly.commons.exception.ErrorCode;
 import com.threadly.follow.BaseFollowApiTest;
-import com.threadly.follow.FollowStatusType;
-import com.threadly.user.UserStatusType;
-import com.threadly.user.profile.query.dto.GetUserProfileApiResponse;
+import com.threadly.core.domain.follow.FollowStatusType;
+import com.threadly.core.domain.user.UserStatusType;
+import com.threadly.core.usecase.user.profile.query.dto.GetUserProfileApiResponse;
 import com.threadly.utils.TestConstants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.ClassOrderer;

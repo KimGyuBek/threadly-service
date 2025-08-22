@@ -1,6 +1,6 @@
 package com.threadly.user.request.me;
 
-import com.threadly.user.profile.command.dto.UpdateMyProfileCommand;
+import com.threadly.core.usecase.user.profile.command.dto.UpdateMyProfileCommand;
 
 /**
  * 사용자 프로필 업데이트 요청 객체

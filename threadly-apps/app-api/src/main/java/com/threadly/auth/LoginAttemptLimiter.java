@@ -1,6 +1,10 @@
 package com.threadly.auth;
 
-import com.threadly.properties.TtlProperties;
+import com.threadly.core.port.auth.DeleteLoginAttemptPort;
+import com.threadly.core.port.auth.FetchLoginAttemptPort;
+import com.threadly.core.port.auth.InsertLoginAttempt;
+import com.threadly.core.port.auth.UpsertLoginAttemptPort;
+import com.threadly.commons.properties.TtlProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

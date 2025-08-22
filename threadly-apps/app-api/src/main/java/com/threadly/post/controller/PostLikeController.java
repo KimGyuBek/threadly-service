@@ -1,16 +1,16 @@
 package com.threadly.post.controller;
 
 import com.threadly.auth.JwtAuthenticationUser;
-import com.threadly.post.engagement.GetPostEngagementApiResponse;
-import com.threadly.post.engagement.GetPostEngagementQuery;
-import com.threadly.post.engagement.GetPostEngagementUseCase;
-import com.threadly.post.like.post.GetPostLikersQuery;
-import com.threadly.post.like.post.GetPostLikersUseCase;
-import com.threadly.post.like.post.LikePostApiResponse;
-import com.threadly.post.like.post.LikePostCommand;
-import com.threadly.post.like.post.LikePostUseCase;
-import com.threadly.post.like.post.UnlikePostUseCase;
-import com.threadly.response.CursorPageApiResponse;
+import com.threadly.core.usecase.post.engagement.GetPostEngagementApiResponse;
+import com.threadly.core.usecase.post.engagement.GetPostEngagementQuery;
+import com.threadly.core.usecase.post.engagement.GetPostEngagementUseCase;
+import com.threadly.core.usecase.post.like.post.GetPostLikersQuery;
+import com.threadly.core.usecase.post.like.post.GetPostLikersUseCase;
+import com.threadly.core.usecase.post.like.post.LikePostApiResponse;
+import com.threadly.core.usecase.post.like.post.LikePostCommand;
+import com.threadly.core.usecase.post.like.post.LikePostUseCase;
+import com.threadly.core.usecase.post.like.post.UnlikePostUseCase;
+import com.threadly.commons.response.CursorPageApiResponse;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

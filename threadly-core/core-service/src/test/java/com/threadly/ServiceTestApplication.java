@@ -1,6 +1,7 @@
 package com.threadly;
 
 
+import com.threadly.core.service.ServiceModule;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication(

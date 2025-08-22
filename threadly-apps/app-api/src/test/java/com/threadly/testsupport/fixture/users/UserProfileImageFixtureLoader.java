@@ -5,7 +5,7 @@ import com.threadly.repository.TestUserProfileImageRepository;
 import com.threadly.testsupport.dto.users.UserProfileImageFixtureDto;
 import com.threadly.testsupport.fixture.FixtureLoader;
 import com.threadly.testsupport.mapper.users.UserProfileImageFixtureMapper;
-import com.threadly.user.profile.image.UserProfileImage;
+import com.threadly.core.domain.user.profile.image.UserProfileImage;
 import com.threadly.utils.TestLogUtils;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;

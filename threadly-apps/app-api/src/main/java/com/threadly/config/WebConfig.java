@@ -1,7 +1,7 @@
 package com.threadly.config;
 
 import com.threadly.global.interceptor.UserProfileSettingInterceptor;
-import com.threadly.properties.UploadProperties;
+import com.threadly.commons.properties.UploadProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;

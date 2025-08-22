@@ -1,8 +1,8 @@
 package com.threadly.testsupport.mapper.users;
 
 import com.threadly.testsupport.dto.users.UserFixtureDto;
-import com.threadly.user.User;
-import com.threadly.user.profile.UserProfile;
+import com.threadly.core.domain.user.User;
+import com.threadly.core.domain.user.profile.UserProfile;
 
 /**
  * User, UserProfile Fixture 객체 매퍼

@@ -5,11 +5,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.threadly.CommonResponse;
-import com.threadly.exception.ErrorCode;
-import com.threadly.post.comment.get.GetPostCommentApiResponse;
+import com.threadly.commons.exception.ErrorCode;
+import com.threadly.core.usecase.post.comment.get.GetPostCommentApiResponse;
 import com.threadly.post.controller.BasePostApiTest;
-import com.threadly.post.like.comment.PostCommentLiker;
-import com.threadly.response.CursorPageApiResponse;
+import com.threadly.core.usecase.post.like.comment.PostCommentLiker;
+import com.threadly.commons.response.CursorPageApiResponse;
 import com.threadly.testsupport.fixture.posts.PostCommentLikeFixtureLoader;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;

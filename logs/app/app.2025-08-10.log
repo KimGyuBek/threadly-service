@@ -1,0 +1,870 @@
+2025-08-10 00:00:37.630 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2025-08-10 00:00:37.652 [restartedMain] INFO  com.threadly.ThreadlyApplication - Starting ThreadlyApplication using Java 17.0.14 with PID 54411 (/Users/gimgyubaeg/workspace/java/project/ecommerce/threadly/threadly-apps/app-api/build/classes/java/main started by gimgyubaeg in /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly)
+2025-08-10 00:00:37.652 [restartedMain] DEBUG com.threadly.ThreadlyApplication - Running with Spring Boot v3.3.3, Spring v6.1.12
+2025-08-10 00:00:37.652 [restartedMain] INFO  com.threadly.ThreadlyApplication - The following 1 profile is active: "dev"
+2025-08-10 00:00:37.675 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-08-10 00:00:37.675 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-08-10 00:00:38.376 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-10 00:00:38.377 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-08-10 00:00:38.466 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 86 ms. Found 9 JPA repository interfaces.
+2025-08-10 00:00:38.474 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-10 00:00:38.475 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-08-10 00:00:38.486 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.follow.repository.FollowJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 00:00:38.486 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.post.repository.CommentLikeJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 00:00:38.486 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.post.repository.PostCommentJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 00:00:38.486 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.post.repository.PostImageJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 00:00:38.486 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.post.repository.PostJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 00:00:38.486 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.post.repository.PostLikeJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 00:00:38.486 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.user.repository.UserJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 00:00:38.486 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.user.repository.UserProfileImageJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 00:00:38.486 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.user.repository.UserProfileJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 00:00:38.486 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 7 ms. Found 0 Redis repository interfaces.
+2025-08-10 00:00:38.863 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-08-10 00:00:38.868 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2025-08-10 00:00:38.869 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-08-10 00:00:38.869 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.28]
+2025-08-10 00:00:38.888 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-08-10 00:00:38.888 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1212 ms
+2025-08-10 00:00:38.976 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-08-10 00:00:39.050 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@29b361dc
+2025-08-10 00:00:39.051 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-08-10 00:00:39.055 [restartedMain] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://localhost:5433/postgres?profileSQL=true'
+2025-08-10 00:00:39.250 [restartedMain] INFO  org.flywaydb.core.FlywayExecutor - Database: jdbc:postgresql://localhost:5433/postgres (PostgreSQL 16.9)
+2025-08-10 00:00:39.288 [restartedMain] INFO  o.f.core.internal.command.DbValidate - Successfully validated 18 migrations (execution time 00:00.023s)
+2025-08-10 00:00:39.297 [restartedMain] INFO  o.f.core.internal.command.DbMigrate - Current version of schema "public": 18
+2025-08-10 00:00:39.299 [restartedMain] INFO  o.f.core.internal.command.DbMigrate - Schema "public" is up to date. No migration necessary.
+2025-08-10 00:00:39.356 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-08-10 00:00:39.387 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.5.2.Final
+2025-08-10 00:00:39.403 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-08-10 00:00:39.555 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-08-10 00:00:39.750 [restartedMain] WARN  org.hibernate.mapping.RootClass - HHH000038: Composite-id class does not override equals(): com.threadly.adapter.persistence.post.entity.PostIdAndUserId
+2025-08-10 00:00:39.750 [restartedMain] WARN  org.hibernate.mapping.RootClass - HHH000039: Composite-id class does not override hashCode(): com.threadly.adapter.persistence.post.entity.PostIdAndUserId
+2025-08-10 00:00:39.750 [restartedMain] WARN  org.hibernate.mapping.RootClass - HHH000038: Composite-id class does not override equals(): com.threadly.adapter.persistence.post.entity.UserIdAndCommentId
+2025-08-10 00:00:39.750 [restartedMain] WARN  org.hibernate.mapping.RootClass - HHH000039: Composite-id class does not override hashCode(): com.threadly.adapter.persistence.post.entity.UserIdAndCommentId
+2025-08-10 00:00:40.026 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-08-10 00:00:40.059 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-08-10 00:00:40.188 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-08-10 00:00:40.631 [restartedMain] DEBUG c.t.g.filter.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2025-08-10 00:00:40.631 [restartedMain] DEBUG c.t.global.filter.VerificationFilter - Filter 'verificationFilter' configured for use
+2025-08-10 00:00:40.632 [restartedMain] DEBUG c.t.g.f.UserStatusTypeValidationFilter - Filter 'userStatusTypeValidationFilter' configured for use
+2025-08-10 00:00:41.102 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailService
+2025-08-10 00:00:41.338 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 3 endpoints beneath base path '/actuator'
+2025-08-10 00:00:41.825 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-08-10 00:00:41.856 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2025-08-10 00:00:41.863 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-08-10 00:00:41.870 [restartedMain] INFO  com.threadly.ThreadlyApplication - Started ThreadlyApplication in 4.465 seconds (process running for 4.809)
+2025-08-10 00:00:42.175 [RMI TCP Connection(3)-127.0.0.1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-08-10 00:00:42.175 [RMI TCP Connection(3)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-08-10 00:00:42.176 [RMI TCP Connection(3)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-08-10 00:00:49.578 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-08-10 00:00:49.580 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-08-10 00:00:49.581 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-08-10 00:11:59.802 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2025-08-10 00:11:59.820 [restartedMain] INFO  com.threadly.ThreadlyApplication - Starting ThreadlyApplication using Java 17.0.14 with PID 54617 (/Users/gimgyubaeg/workspace/java/project/ecommerce/threadly/threadly-apps/app-api/build/classes/java/main started by gimgyubaeg in /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly)
+2025-08-10 00:11:59.820 [restartedMain] DEBUG com.threadly.ThreadlyApplication - Running with Spring Boot v3.3.3, Spring v6.1.12
+2025-08-10 00:11:59.820 [restartedMain] INFO  com.threadly.ThreadlyApplication - The following 1 profile is active: "dev"
+2025-08-10 00:11:59.836 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-08-10 00:11:59.836 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-08-10 00:12:00.421 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-10 00:12:00.422 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-08-10 00:12:00.501 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 77 ms. Found 9 JPA repository interfaces.
+2025-08-10 00:12:00.509 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-10 00:12:00.511 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-08-10 00:12:00.522 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.follow.repository.FollowJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 00:12:00.522 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.post.repository.CommentLikeJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 00:12:00.522 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.post.repository.PostCommentJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 00:12:00.522 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.post.repository.PostImageJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 00:12:00.522 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.post.repository.PostJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 00:12:00.522 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.post.repository.PostLikeJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 00:12:00.522 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.user.repository.UserJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 00:12:00.522 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.user.repository.UserProfileImageJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 00:12:00.522 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.user.repository.UserProfileJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 00:12:00.522 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 7 ms. Found 0 Redis repository interfaces.
+2025-08-10 00:12:00.896 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-08-10 00:12:00.901 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2025-08-10 00:12:00.902 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-08-10 00:12:00.902 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.28]
+2025-08-10 00:12:00.919 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-08-10 00:12:00.920 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1083 ms
+2025-08-10 00:12:01.010 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-08-10 00:12:01.078 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6b7434e9
+2025-08-10 00:12:01.079 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-08-10 00:12:01.083 [restartedMain] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://localhost:5433/postgres?profileSQL=true'
+2025-08-10 00:12:01.304 [restartedMain] INFO  org.flywaydb.core.FlywayExecutor - Database: jdbc:postgresql://localhost:5433/postgres (PostgreSQL 16.9)
+2025-08-10 00:12:01.336 [restartedMain] INFO  o.f.core.internal.command.DbValidate - Successfully validated 18 migrations (execution time 00:00.019s)
+2025-08-10 00:12:01.343 [restartedMain] INFO  o.f.core.internal.command.DbMigrate - Current version of schema "public": 18
+2025-08-10 00:12:01.345 [restartedMain] INFO  o.f.core.internal.command.DbMigrate - Schema "public" is up to date. No migration necessary.
+2025-08-10 00:12:01.398 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-08-10 00:12:01.424 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.5.2.Final
+2025-08-10 00:12:01.439 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-08-10 00:12:01.581 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-08-10 00:12:01.778 [restartedMain] WARN  org.hibernate.mapping.RootClass - HHH000038: Composite-id class does not override equals(): com.threadly.adapter.persistence.post.entity.PostIdAndUserId
+2025-08-10 00:12:01.779 [restartedMain] WARN  org.hibernate.mapping.RootClass - HHH000039: Composite-id class does not override hashCode(): com.threadly.adapter.persistence.post.entity.PostIdAndUserId
+2025-08-10 00:12:01.779 [restartedMain] WARN  org.hibernate.mapping.RootClass - HHH000038: Composite-id class does not override equals(): com.threadly.adapter.persistence.post.entity.UserIdAndCommentId
+2025-08-10 00:12:01.779 [restartedMain] WARN  org.hibernate.mapping.RootClass - HHH000039: Composite-id class does not override hashCode(): com.threadly.adapter.persistence.post.entity.UserIdAndCommentId
+2025-08-10 00:12:02.044 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-08-10 00:12:02.071 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-08-10 00:12:02.198 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-08-10 00:12:02.624 [restartedMain] DEBUG c.t.g.filter.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2025-08-10 00:12:02.624 [restartedMain] DEBUG c.t.global.filter.VerificationFilter - Filter 'verificationFilter' configured for use
+2025-08-10 00:12:02.625 [restartedMain] DEBUG c.t.g.f.UserStatusTypeValidationFilter - Filter 'userStatusTypeValidationFilter' configured for use
+2025-08-10 00:12:03.082 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailService
+2025-08-10 00:12:03.310 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 3 endpoints beneath base path '/actuator'
+2025-08-10 00:12:03.781 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-08-10 00:12:03.807 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2025-08-10 00:12:03.816 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-08-10 00:12:03.824 [restartedMain] INFO  com.threadly.ThreadlyApplication - Started ThreadlyApplication in 4.208 seconds (process running for 4.557)
+2025-08-10 00:12:03.904 [RMI TCP Connection(3)-127.0.0.1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-08-10 00:12:03.904 [RMI TCP Connection(3)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-08-10 00:12:03.905 [RMI TCP Connection(3)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-08-10 00:12:11.751 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-08-10 00:12:11.753 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-08-10 00:12:11.755 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-08-10 01:14:09.149 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2025-08-10 01:14:09.164 [restartedMain] INFO  com.threadly.ThreadlyApplication - Starting ThreadlyApplication using Java 21.0.6 with PID 56029 (/Users/gimgyubaeg/workspace/java/project/ecommerce/threadly/threadly-apps/app-api/build/classes/java/main started by gimgyubaeg in /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly)
+2025-08-10 01:14:09.164 [restartedMain] INFO  com.threadly.ThreadlyApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-10 01:14:09.178 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-08-10 01:14:09.178 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-08-10 01:14:09.743 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-10 01:14:09.744 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-08-10 01:14:09.823 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 76 ms. Found 9 JPA repository interfaces.
+2025-08-10 01:14:09.831 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-10 01:14:09.831 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-08-10 01:14:09.843 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.follow.repository.FollowJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 01:14:09.843 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.post.repository.CommentLikeJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 01:14:09.843 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.post.repository.PostCommentJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 01:14:09.843 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.post.repository.PostImageJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 01:14:09.843 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.post.repository.PostJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 01:14:09.843 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.post.repository.PostLikeJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 01:14:09.843 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.user.repository.UserJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 01:14:09.843 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.user.repository.UserProfileImageJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 01:14:09.843 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.user.repository.UserProfileJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 01:14:09.843 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 8 ms. Found 0 Redis repository interfaces.
+2025-08-10 01:14:10.233 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-08-10 01:14:10.238 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2025-08-10 01:14:10.239 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-08-10 01:14:10.239 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.28]
+2025-08-10 01:14:10.255 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-08-10 01:14:10.256 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1077 ms
+2025-08-10 01:14:10.343 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-08-10 01:14:10.421 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:5d4b24d4-21bb-4bdc-8819-84ff66e0f036 user=SA
+2025-08-10 01:14:10.421 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-08-10 01:14:10.425 [restartedMain] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:5d4b24d4-21bb-4bdc-8819-84ff66e0f036'
+2025-08-10 01:14:10.461 [restartedMain] ERROR o.s.b.w.e.tomcat.TomcatStarter - Error starting Tomcat context. Exception: org.springframework.beans.factory.UnsatisfiedDependencyException. Message: Error creating bean with name 'jwtAuthenticationFilter' defined in file [/Users/gimgyubaeg/workspace/java/project/ecommerce/threadly/threadly-apps/app-api/build/classes/java/main/com/threadly/global/filter/JwtAuthenticationFilter.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'jwtTokenProvider': Injection of autowired dependencies failed
+2025-08-10 01:14:10.473 [restartedMain] INFO  o.a.catalina.core.StandardService - Stopping service [Tomcat]
+2025-08-10 01:14:10.475 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Unable to start web server
+2025-08-10 01:14:10.475 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-08-10 01:14:10.475 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-08-10 01:14:10.482 [restartedMain] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-08-10 01:14:10.491 [restartedMain] ERROR o.s.boot.SpringApplication - Application run failed
+org.springframework.context.ApplicationContextException: Unable to start web server
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:165)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:619)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:335)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1363)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1352)
+	at com.threadly.ThreadlyApplication.main(ThreadlyApplication.java:10)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50)
+Caused by: org.springframework.boot.web.server.WebServerException: Unable to start embedded Tomcat
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize(TomcatWebServer.java:147)
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.<init>(TomcatWebServer.java:107)
+	at org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory.getTomcatWebServer(TomcatServletWebServerFactory.java:516)
+	at org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory.getWebServer(TomcatServletWebServerFactory.java:222)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.createWebServer(ServletWebServerApplicationContext.java:188)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:162)
+	... 11 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'jwtAuthenticationFilter' defined in file [/Users/gimgyubaeg/workspace/java/project/ecommerce/threadly/threadly-apps/app-api/build/classes/java/main/com/threadly/global/filter/JwtAuthenticationFilter.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'jwtTokenProvider': Injection of autowired dependencies failed
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:795)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:237)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1375)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1212)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:205)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.getOrderedBeansOfType(ServletContextInitializerBeans.java:211)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAsRegistrationBean(ServletContextInitializerBeans.java:174)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAsRegistrationBean(ServletContextInitializerBeans.java:169)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAdaptableBeans(ServletContextInitializerBeans.java:154)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.<init>(ServletContextInitializerBeans.java:87)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.getServletContextInitializerBeans(ServletWebServerApplicationContext.java:266)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.selfInitialize(ServletWebServerApplicationContext.java:240)
+	at org.springframework.boot.web.embedded.tomcat.TomcatStarter.onStartup(TomcatStarter.java:52)
+	at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:4414)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1203)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1193)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:75)
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:145)
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:749)
+	at org.apache.catalina.core.StandardHost.startInternal(StandardHost.java:772)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1203)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1193)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:75)
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:145)
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:749)
+	at org.apache.catalina.core.StandardEngine.startInternal(StandardEngine.java:203)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.core.StandardService.startInternal(StandardService.java:415)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.core.StandardServer.startInternal(StandardServer.java:874)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.startup.Tomcat.start(Tomcat.java:437)
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize(TomcatWebServer.java:128)
+	... 16 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'jwtTokenProvider': Injection of autowired dependencies failed
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:515)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1439)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:599)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:904)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:782)
+	... 57 common frames omitted
+Caused by: java.lang.IllegalArgumentException: Could not resolve placeholder 'JWT.SECRET' in value "${JWT.SECRET}"
+	at org.springframework.util.PropertyPlaceholderHelper.parseStringValue(PropertyPlaceholderHelper.java:180)
+	at org.springframework.util.PropertyPlaceholderHelper.replacePlaceholders(PropertyPlaceholderHelper.java:126)
+	at org.springframework.core.env.AbstractPropertyResolver.doResolvePlaceholders(AbstractPropertyResolver.java:239)
+	at org.springframework.core.env.AbstractPropertyResolver.resolveRequiredPlaceholders(AbstractPropertyResolver.java:210)
+	at org.springframework.core.env.AbstractPropertyResolver.resolveNestedPlaceholders(AbstractPropertyResolver.java:230)
+	at org.springframework.boot.context.properties.source.ConfigurationPropertySourcesPropertyResolver.getProperty(ConfigurationPropertySourcesPropertyResolver.java:80)
+	at org.springframework.boot.context.properties.source.ConfigurationPropertySourcesPropertyResolver.getProperty(ConfigurationPropertySourcesPropertyResolver.java:61)
+	at org.springframework.core.env.AbstractEnvironment.getProperty(AbstractEnvironment.java:552)
+	at org.springframework.context.support.PropertySourcesPlaceholderConfigurer$1.getProperty(PropertySourcesPlaceholderConfigurer.java:153)
+	at org.springframework.context.support.PropertySourcesPlaceholderConfigurer$1.getProperty(PropertySourcesPlaceholderConfigurer.java:149)
+	at org.springframework.core.env.PropertySourcesPropertyResolver.getProperty(PropertySourcesPropertyResolver.java:85)
+	at org.springframework.core.env.PropertySourcesPropertyResolver.getPropertyAsRawString(PropertySourcesPropertyResolver.java:74)
+	at org.springframework.util.PropertyPlaceholderHelper.parseStringValue(PropertyPlaceholderHelper.java:153)
+	at org.springframework.util.PropertyPlaceholderHelper.replacePlaceholders(PropertyPlaceholderHelper.java:126)
+	at org.springframework.core.env.AbstractPropertyResolver.doResolvePlaceholders(AbstractPropertyResolver.java:239)
+	at org.springframework.core.env.AbstractPropertyResolver.resolveRequiredPlaceholders(AbstractPropertyResolver.java:210)
+	at org.springframework.context.support.PropertySourcesPlaceholderConfigurer.lambda$processProperties$0(PropertySourcesPlaceholderConfigurer.java:200)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.resolveEmbeddedValue(AbstractBeanFactory.java:964)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1374)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:785)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:768)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:145)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:509)
+	... 69 common frames omitted
+2025-08-10 01:14:28.251 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2025-08-10 01:14:28.268 [restartedMain] INFO  com.threadly.ThreadlyApplication - Starting ThreadlyApplication using Java 17.0.14 with PID 56035 (/Users/gimgyubaeg/workspace/java/project/ecommerce/threadly/threadly-apps/app-api/build/classes/java/main started by gimgyubaeg in /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly)
+2025-08-10 01:14:28.268 [restartedMain] DEBUG com.threadly.ThreadlyApplication - Running with Spring Boot v3.3.3, Spring v6.1.12
+2025-08-10 01:14:28.268 [restartedMain] INFO  com.threadly.ThreadlyApplication - The following 1 profile is active: "dev"
+2025-08-10 01:14:28.283 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-08-10 01:14:28.283 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-08-10 01:14:28.864 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-10 01:14:28.865 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-08-10 01:14:28.949 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 81 ms. Found 9 JPA repository interfaces.
+2025-08-10 01:14:28.956 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-10 01:14:28.957 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-08-10 01:14:28.968 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.follow.repository.FollowJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 01:14:28.968 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.post.repository.CommentLikeJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 01:14:28.968 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.post.repository.PostCommentJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 01:14:28.968 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.post.repository.PostImageJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 01:14:28.968 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.post.repository.PostJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 01:14:28.968 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.post.repository.PostLikeJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 01:14:28.968 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.user.repository.UserJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 01:14:28.968 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.user.repository.UserProfileImageJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 01:14:28.968 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.user.repository.UserProfileJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 01:14:28.968 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 7 ms. Found 0 Redis repository interfaces.
+2025-08-10 01:14:29.362 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-08-10 01:14:29.366 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2025-08-10 01:14:29.368 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-08-10 01:14:29.368 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.28]
+2025-08-10 01:14:29.385 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-08-10 01:14:29.385 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1102 ms
+2025-08-10 01:14:29.467 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-08-10 01:14:29.535 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@3e85254c
+2025-08-10 01:14:29.536 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-08-10 01:14:29.540 [restartedMain] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://localhost:5433/postgres?profileSQL=true'
+2025-08-10 01:14:29.747 [restartedMain] INFO  org.flywaydb.core.FlywayExecutor - Database: jdbc:postgresql://localhost:5433/postgres (PostgreSQL 16.9)
+2025-08-10 01:14:29.782 [restartedMain] INFO  o.f.core.internal.command.DbValidate - Successfully validated 19 migrations (execution time 00:00.021s)
+2025-08-10 01:14:29.790 [restartedMain] INFO  o.f.core.internal.command.DbMigrate - Current version of schema "public": 19
+2025-08-10 01:14:29.792 [restartedMain] INFO  o.f.core.internal.command.DbMigrate - Schema "public" is up to date. No migration necessary.
+2025-08-10 01:14:29.852 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-08-10 01:14:29.885 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.5.2.Final
+2025-08-10 01:14:29.904 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-08-10 01:14:30.055 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-08-10 01:14:30.273 [restartedMain] WARN  org.hibernate.mapping.RootClass - HHH000038: Composite-id class does not override equals(): com.threadly.adapter.persistence.post.entity.PostIdAndUserId
+2025-08-10 01:14:30.273 [restartedMain] WARN  org.hibernate.mapping.RootClass - HHH000039: Composite-id class does not override hashCode(): com.threadly.adapter.persistence.post.entity.PostIdAndUserId
+2025-08-10 01:14:30.273 [restartedMain] WARN  org.hibernate.mapping.RootClass - HHH000038: Composite-id class does not override equals(): com.threadly.adapter.persistence.post.entity.UserIdAndCommentId
+2025-08-10 01:14:30.273 [restartedMain] WARN  org.hibernate.mapping.RootClass - HHH000039: Composite-id class does not override hashCode(): com.threadly.adapter.persistence.post.entity.UserIdAndCommentId
+2025-08-10 01:14:30.547 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-08-10 01:14:30.577 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-08-10 01:14:30.703 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-08-10 01:14:31.121 [restartedMain] DEBUG c.t.g.filter.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2025-08-10 01:14:31.121 [restartedMain] DEBUG c.t.global.filter.VerificationFilter - Filter 'verificationFilter' configured for use
+2025-08-10 01:14:31.122 [restartedMain] DEBUG c.t.g.f.UserStatusTypeValidationFilter - Filter 'userStatusTypeValidationFilter' configured for use
+2025-08-10 01:14:31.597 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailService
+2025-08-10 01:14:31.827 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 3 endpoints beneath base path '/actuator'
+2025-08-10 01:14:32.289 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-08-10 01:14:32.316 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2025-08-10 01:14:32.324 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-08-10 01:14:32.331 [restartedMain] INFO  com.threadly.ThreadlyApplication - Started ThreadlyApplication in 4.253 seconds (process running for 4.588)
+2025-08-10 01:14:32.873 [RMI TCP Connection(1)-127.0.0.1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-08-10 01:14:32.873 [RMI TCP Connection(1)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-08-10 01:14:32.874 [RMI TCP Connection(1)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-08-10 01:14:38.226 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-08-10 01:14:38.228 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-08-10 01:14:38.230 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-08-10 01:16:16.067 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2025-08-10 01:16:16.086 [restartedMain] INFO  com.threadly.ThreadlyApplication - Starting ThreadlyApplication using Java 17.0.14 with PID 56072 (/Users/gimgyubaeg/workspace/java/project/ecommerce/threadly/threadly-apps/app-api/build/classes/java/main started by gimgyubaeg in /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly)
+2025-08-10 01:16:16.087 [restartedMain] DEBUG com.threadly.ThreadlyApplication - Running with Spring Boot v3.3.3, Spring v6.1.12
+2025-08-10 01:16:16.087 [restartedMain] INFO  com.threadly.ThreadlyApplication - The following 1 profile is active: "dev"
+2025-08-10 01:16:16.104 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-08-10 01:16:16.104 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-08-10 01:16:16.720 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-10 01:16:16.721 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-08-10 01:16:16.804 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 81 ms. Found 9 JPA repository interfaces.
+2025-08-10 01:16:16.812 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-10 01:16:16.813 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-08-10 01:16:16.825 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.follow.repository.FollowJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 01:16:16.825 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.post.repository.CommentLikeJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 01:16:16.825 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.post.repository.PostCommentJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 01:16:16.825 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.post.repository.PostImageJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 01:16:16.825 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.post.repository.PostJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 01:16:16.825 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.post.repository.PostLikeJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 01:16:16.825 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.user.repository.UserJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 01:16:16.825 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.user.repository.UserProfileImageJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 01:16:16.825 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.user.repository.UserProfileJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 01:16:16.825 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 8 ms. Found 0 Redis repository interfaces.
+2025-08-10 01:16:17.228 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-08-10 01:16:17.232 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2025-08-10 01:16:17.234 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-08-10 01:16:17.234 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.28]
+2025-08-10 01:16:17.253 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-08-10 01:16:17.253 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1148 ms
+2025-08-10 01:16:17.342 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-08-10 01:16:17.421 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@24ce075
+2025-08-10 01:16:17.422 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-08-10 01:16:17.425 [restartedMain] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://localhost:5433/postgres?profileSQL=true'
+2025-08-10 01:16:17.640 [restartedMain] INFO  org.flywaydb.core.FlywayExecutor - Database: jdbc:postgresql://localhost:5433/postgres (PostgreSQL 16.9)
+2025-08-10 01:16:17.680 [restartedMain] INFO  o.f.core.internal.command.DbValidate - Successfully validated 19 migrations (execution time 00:00.027s)
+2025-08-10 01:16:17.689 [restartedMain] INFO  o.f.core.internal.command.DbMigrate - Current version of schema "public": 19
+2025-08-10 01:16:17.691 [restartedMain] INFO  o.f.core.internal.command.DbMigrate - Schema "public" is up to date. No migration necessary.
+2025-08-10 01:16:17.750 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-08-10 01:16:17.786 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.5.2.Final
+2025-08-10 01:16:17.804 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-08-10 01:16:17.952 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-08-10 01:16:18.156 [restartedMain] WARN  org.hibernate.mapping.RootClass - HHH000038: Composite-id class does not override equals(): com.threadly.adapter.persistence.post.entity.PostIdAndUserId
+2025-08-10 01:16:18.156 [restartedMain] WARN  org.hibernate.mapping.RootClass - HHH000039: Composite-id class does not override hashCode(): com.threadly.adapter.persistence.post.entity.PostIdAndUserId
+2025-08-10 01:16:18.156 [restartedMain] WARN  org.hibernate.mapping.RootClass - HHH000038: Composite-id class does not override equals(): com.threadly.adapter.persistence.post.entity.UserIdAndCommentId
+2025-08-10 01:16:18.156 [restartedMain] WARN  org.hibernate.mapping.RootClass - HHH000039: Composite-id class does not override hashCode(): com.threadly.adapter.persistence.post.entity.UserIdAndCommentId
+2025-08-10 01:16:18.422 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-08-10 01:16:18.452 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-08-10 01:16:18.576 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-08-10 01:16:19.009 [restartedMain] DEBUG c.t.g.filter.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2025-08-10 01:16:19.010 [restartedMain] DEBUG c.t.global.filter.VerificationFilter - Filter 'verificationFilter' configured for use
+2025-08-10 01:16:19.010 [restartedMain] DEBUG c.t.g.f.UserStatusTypeValidationFilter - Filter 'userStatusTypeValidationFilter' configured for use
+2025-08-10 01:16:19.483 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailService
+2025-08-10 01:16:19.710 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 3 endpoints beneath base path '/actuator'
+2025-08-10 01:16:20.185 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-08-10 01:16:20.211 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2025-08-10 01:16:20.218 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-08-10 01:16:20.226 [restartedMain] INFO  com.threadly.ThreadlyApplication - Started ThreadlyApplication in 4.335 seconds (process running for 4.666)
+2025-08-10 01:16:20.694 [RMI TCP Connection(4)-127.0.0.1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-08-10 01:16:20.694 [RMI TCP Connection(4)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-08-10 01:16:20.696 [RMI TCP Connection(4)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-08-10 01:16:23.624 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-08-10 01:16:23.626 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-08-10 01:16:23.627 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-08-10 02:00:37.941 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2025-08-10 02:00:37.962 [restartedMain] INFO  com.threadly.ThreadlyApplication - Starting ThreadlyApplication using Java 17.0.14 with PID 57062 (/Users/gimgyubaeg/workspace/java/project/ecommerce/threadly/threadly-apps/app-api/build/classes/java/main started by gimgyubaeg in /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly)
+2025-08-10 02:00:37.962 [restartedMain] DEBUG com.threadly.ThreadlyApplication - Running with Spring Boot v3.3.3, Spring v6.1.12
+2025-08-10 02:00:37.962 [restartedMain] INFO  com.threadly.ThreadlyApplication - The following 1 profile is active: "dev"
+2025-08-10 02:00:37.980 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-08-10 02:00:37.980 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-08-10 02:00:38.659 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-10 02:00:38.660 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-08-10 02:00:38.759 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 95 ms. Found 9 JPA repository interfaces.
+2025-08-10 02:00:38.767 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-10 02:00:38.768 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-08-10 02:00:38.780 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.follow.repository.FollowJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 02:00:38.780 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.post.repository.CommentLikeJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 02:00:38.780 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.post.repository.PostCommentJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 02:00:38.780 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.post.repository.PostImageJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 02:00:38.780 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.post.repository.PostJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 02:00:38.780 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.post.repository.PostLikeJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 02:00:38.780 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.user.repository.UserJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 02:00:38.780 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.user.repository.UserProfileImageJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 02:00:38.780 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.user.repository.UserProfileJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 02:00:38.780 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 8 ms. Found 0 Redis repository interfaces.
+2025-08-10 02:00:39.193 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-08-10 02:00:39.198 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2025-08-10 02:00:39.200 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-08-10 02:00:39.200 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.28]
+2025-08-10 02:00:39.220 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-08-10 02:00:39.220 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1240 ms
+2025-08-10 02:00:39.310 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-08-10 02:00:39.392 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@534f3a25
+2025-08-10 02:00:39.392 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-08-10 02:00:39.396 [restartedMain] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://localhost:5433/postgres?profileSQL=true'
+2025-08-10 02:00:39.624 [restartedMain] INFO  org.flywaydb.core.FlywayExecutor - Database: jdbc:postgresql://localhost:5433/postgres (PostgreSQL 16.9)
+2025-08-10 02:00:39.655 [restartedMain] INFO  o.f.core.internal.command.DbValidate - Successfully validated 20 migrations (execution time 00:00.019s)
+2025-08-10 02:00:39.663 [restartedMain] INFO  o.f.core.internal.command.DbMigrate - Current version of schema "public": 20
+2025-08-10 02:00:39.663 [restartedMain] WARN  o.f.core.internal.command.DbMigrate - Schema "public" has a version (20) that is newer than the latest available migration (19) !
+2025-08-10 02:00:39.664 [restartedMain] INFO  o.f.core.internal.command.DbMigrate - Schema "public" is up to date. No migration necessary.
+2025-08-10 02:00:39.723 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-08-10 02:00:39.755 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.5.2.Final
+2025-08-10 02:00:39.772 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-08-10 02:00:39.931 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-08-10 02:00:40.166 [restartedMain] WARN  org.hibernate.mapping.RootClass - HHH000038: Composite-id class does not override equals(): com.threadly.adapter.persistence.post.entity.PostIdAndUserId
+2025-08-10 02:00:40.166 [restartedMain] WARN  org.hibernate.mapping.RootClass - HHH000039: Composite-id class does not override hashCode(): com.threadly.adapter.persistence.post.entity.PostIdAndUserId
+2025-08-10 02:00:40.166 [restartedMain] WARN  org.hibernate.mapping.RootClass - HHH000038: Composite-id class does not override equals(): com.threadly.adapter.persistence.post.entity.UserIdAndCommentId
+2025-08-10 02:00:40.166 [restartedMain] WARN  org.hibernate.mapping.RootClass - HHH000039: Composite-id class does not override hashCode(): com.threadly.adapter.persistence.post.entity.UserIdAndCommentId
+2025-08-10 02:00:40.505 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-08-10 02:00:40.537 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-08-10 02:00:40.677 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-08-10 02:00:41.138 [restartedMain] DEBUG c.t.g.filter.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2025-08-10 02:00:41.138 [restartedMain] DEBUG c.t.global.filter.VerificationFilter - Filter 'verificationFilter' configured for use
+2025-08-10 02:00:41.138 [restartedMain] DEBUG c.t.g.f.UserStatusTypeValidationFilter - Filter 'userStatusTypeValidationFilter' configured for use
+2025-08-10 02:00:41.617 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailService
+2025-08-10 02:00:41.855 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 3 endpoints beneath base path '/actuator'
+2025-08-10 02:00:42.341 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-08-10 02:00:42.369 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2025-08-10 02:00:42.376 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-08-10 02:00:42.384 [restartedMain] INFO  com.threadly.ThreadlyApplication - Started ThreadlyApplication in 4.624 seconds (process running for 5.022)
+2025-08-10 02:00:42.532 [RMI TCP Connection(2)-127.0.0.1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-08-10 02:00:42.532 [RMI TCP Connection(2)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-08-10 02:00:42.533 [RMI TCP Connection(2)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-08-10 02:00:51.938 [http-nio-8080-exec-2] DEBUG c.t.commons.utils.LogFormatUtils - 
+
+========== [Request] ==========
+Location : com.threadly.auth.controller.AuthController.login()
+Args : [com.threadly.auth.request.UserLoginRequest@666b9add]
+Headers : accept=application/json, content-type=application/json, user-agent=PostmanRuntime/7.45.0, postman-token=0012169c-5203-4ca6-80ec-5d54c5817974, host=localhost:8080, accept-encoding=gzip, deflate, br, connection=keep-alive, content-length=55
+Desc : {"className":"com.threadly.auth.controller.AuthController","methodName":"login","args":[{"email":"usr01@gmail.comm","password":"1234"}]}
+
+
+2025-08-10 02:00:51.989 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        ue1_0.user_id,
+        ue1_0.created_at,
+        ue1_0.email,
+        ue1_0.is_email_verified,
+        ue1_0.is_private,
+        ue1_0.modified_at,
+        ue1_0.password,
+        ue1_0.phone,
+        ue1_0.user_name,
+        ue1_0.status,
+        ue1_0.user_type 
+    from
+        users ue1_0 
+    where
+        ue1_0.email=?
+2025-08-10 02:00:51.991 [http-nio-8080-exec-2] TRACE org.hibernate.orm.jdbc.bind - binding parameter (1:VARCHAR) <- [usr01@gmail.comm]
+2025-08-10 02:00:52.079 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        ue1_0.user_id,
+        ue1_0.created_at,
+        ue1_0.email,
+        ue1_0.is_email_verified,
+        ue1_0.is_private,
+        ue1_0.modified_at,
+        ue1_0.password,
+        ue1_0.phone,
+        ue1_0.user_name,
+        ue1_0.status,
+        ue1_0.user_type 
+    from
+        users ue1_0 
+    where
+        ue1_0.user_id=?
+2025-08-10 02:00:52.080 [http-nio-8080-exec-2] TRACE org.hibernate.orm.jdbc.bind - binding parameter (1:VARCHAR) <- [-bz4ROdO7KQyNh6q]
+2025-08-10 02:00:52.171 [http-nio-8080-exec-2] DEBUG c.t.a.r.r.token.TokenPortRepository - 신규 토큰 저장 완료
+2025-08-10 02:00:52.173 [http-nio-8080-exec-2] DEBUG c.t.commons.utils.LogFormatUtils - 
+
+========== DEBUG ==========
+Location : com.threadly.auth.AuthManager.login()
+args : [usr01@gmail.comm, 1234]
+Message  : 로그인 성공
+
+
+2025-08-10 02:00:52.173 [http-nio-8080-exec-2] INFO  c.t.commons.utils.LogFormatUtils - SUCCESS: com.threadly.aspect.logging.AuthLoggingAspect.logLoginSuccess() | args=[usr01@gmail.comm, 1234]
+2025-08-10 02:01:01.722 [http-nio-8080-exec-3] INFO  c.t.commons.utils.LogFormatUtils - SUCCESS: com.threadly.commons.security.JwtTokenProvider.validateToken() | 토큰 검증됨
+2025-08-10 02:01:01.725 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        ue1_0.user_id,
+        ue1_0.created_at,
+        ue1_0.email,
+        ue1_0.is_email_verified,
+        ue1_0.is_private,
+        ue1_0.modified_at,
+        ue1_0.password,
+        ue1_0.phone,
+        ue1_0.user_name,
+        ue1_0.status,
+        ue1_0.user_type 
+    from
+        users ue1_0 
+    where
+        ue1_0.user_id=?
+2025-08-10 02:01:01.725 [http-nio-8080-exec-3] TRACE org.hibernate.orm.jdbc.bind - binding parameter (1:VARCHAR) <- [-bz4ROdO7KQyNh6q]
+2025-08-10 02:01:01.753 [http-nio-8080-exec-3] DEBUG c.t.commons.utils.LogFormatUtils - 
+
+========== [Request] ==========
+Location : com.threadly.adapter.persistence.core.post.controller.PostImageUploadController.uploadImage()
+Args : [com.threadly.auth.JwtAuthenticationUser@574911c7, [org.springframework.web.multipart.support.StandardMultipartHttpServletRequest$StandardMultipartFile@7bbfebff, org.springframework.web.multipart.support.StandardMultipartHttpServletRequest$StandardMultipartFile@5d002e4e]]
+Headers : authorization=Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiItYno0Uk9kTzdLUXlOaDZxIiwidXNlclR5cGUiOiJVU0VSIiwidXNlclN0YXR1c1R5cGUiOiJBQ1RJVkUiLCJqdGkiOiJjOTkxYmM3YiIsImlhdCI6MTc1NDc1ODg1MiwiZXhwIjoxNzU0NzU5NDUyfQ.eVeqm2hpLJcY8RnKdUx_UYL6vIxp6GT7cEZ4stp2q60, user-agent=PostmanRuntime/7.45.0, accept=*/*, postman-token=e8453312-0200-4dab-bfd4-431a01618434, host=localhost:8080, accept-encoding=gzip, deflate, br, connection=keep-alive, content-type=multipart/form-data; boundary=--------------------------942248657745833085750508, content-length=191707
+Desc : RequestLog[className=com.threadly.adapter.persistence.core.post.controller.PostImageUploadController, methodName=uploadImage, args=[Ljava.lang.Object;@b995c9b]
+
+
+2025-08-10 02:01:01.768 [http-nio-8080-exec-3] DEBUG c.t.a.s.p.i.LocalImageUploadAdapter - fullPath ./local-storage/uploads/posts/C-lh5D50t5-s9XIT.webp
+2025-08-10 02:01:01.769 [http-nio-8080-exec-3] DEBUG c.t.a.s.p.i.LocalImageUploadAdapter - fullPath ./local-storage/uploads/posts/eh1nxPDUVRKjlMUs.webp
+2025-08-10 02:01:01.770 [http-nio-8080-exec-3] INFO  c.t.c.s.p.i.PostImageUploadService - 이미지 업로드 완료: [UploadImageResponse{storedName='C-lh5D50t5-s9XIT.webp', imageUrl='http://localhost:8080/images/posts/C-lh5D50t5-s9XIT.webp'}, UploadImageResponse{storedName='eh1nxPDUVRKjlMUs.webp', imageUrl='http://localhost:8080/images/posts/eh1nxPDUVRKjlMUs.webp'}]
+2025-08-10 02:01:01.773 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        pie1_0.post_image_id,
+        pie1_0.created_at,
+        pie1_0.image_order,
+        pie1_0.image_url,
+        pie1_0.modified_at,
+        pie1_0.post_id,
+        pie1_0.status,
+        pie1_0.stored_file_name 
+    from
+        post_images pie1_0 
+    where
+        pie1_0.post_image_id=?
+2025-08-10 02:01:01.774 [http-nio-8080-exec-3] TRACE org.hibernate.orm.jdbc.bind - binding parameter (1:VARCHAR) <- [HI-0FPbNx-DISbYA]
+2025-08-10 02:01:01.795 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        post_images
+        (created_at, image_order, image_url, modified_at, post_id, status, stored_file_name, post_image_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+2025-08-10 02:01:01.796 [http-nio-8080-exec-3] TRACE org.hibernate.orm.jdbc.bind - binding parameter (1:TIMESTAMP) <- [2025-08-10T02:01:01.785670]
+2025-08-10 02:01:01.796 [http-nio-8080-exec-3] TRACE org.hibernate.orm.jdbc.bind - binding parameter (2:INTEGER) <- [-1]
+2025-08-10 02:01:01.796 [http-nio-8080-exec-3] TRACE org.hibernate.orm.jdbc.bind - binding parameter (3:VARCHAR) <- [http://localhost:8080/images/posts/C-lh5D50t5-s9XIT.webp]
+2025-08-10 02:01:01.796 [http-nio-8080-exec-3] TRACE org.hibernate.orm.jdbc.bind - binding parameter (4:TIMESTAMP) <- [2025-08-10T02:01:01.785670]
+2025-08-10 02:01:01.796 [http-nio-8080-exec-3] TRACE org.hibernate.orm.jdbc.bind - binding parameter (5:VARCHAR) <- [null]
+2025-08-10 02:01:01.796 [http-nio-8080-exec-3] TRACE org.hibernate.orm.jdbc.bind - binding parameter (6:VARCHAR) <- [TEMPORARY]
+2025-08-10 02:01:01.796 [http-nio-8080-exec-3] TRACE org.hibernate.orm.jdbc.bind - binding parameter (7:VARCHAR) <- [C-lh5D50t5-s9XIT.webp]
+2025-08-10 02:01:01.796 [http-nio-8080-exec-3] TRACE org.hibernate.orm.jdbc.bind - binding parameter (8:VARCHAR) <- [HI-0FPbNx-DISbYA]
+2025-08-10 02:01:01.802 [http-nio-8080-exec-3] DEBUG c.t.c.s.p.i.PostImageUploadService - 이미지 메타 데이터 저장 완료: PostImage{postImageId='HI-0FPbNx-DISbYA', storedName='C-lh5D50t5-s9XIT.webp', imageUrl='http://localhost:8080/images/posts/C-lh5D50t5-s9XIT.webp', imageOrder=-1}
+2025-08-10 02:01:01.803 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        pie1_0.post_image_id,
+        pie1_0.created_at,
+        pie1_0.image_order,
+        pie1_0.image_url,
+        pie1_0.modified_at,
+        pie1_0.post_id,
+        pie1_0.status,
+        pie1_0.stored_file_name 
+    from
+        post_images pie1_0 
+    where
+        pie1_0.post_image_id=?
+2025-08-10 02:01:01.803 [http-nio-8080-exec-3] TRACE org.hibernate.orm.jdbc.bind - binding parameter (1:VARCHAR) <- [sl8iDPxC-1J8d1S4]
+2025-08-10 02:01:01.804 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        post_images
+        (created_at, image_order, image_url, modified_at, post_id, status, stored_file_name, post_image_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+2025-08-10 02:01:01.804 [http-nio-8080-exec-3] TRACE org.hibernate.orm.jdbc.bind - binding parameter (1:TIMESTAMP) <- [2025-08-10T02:01:01.804449]
+2025-08-10 02:01:01.804 [http-nio-8080-exec-3] TRACE org.hibernate.orm.jdbc.bind - binding parameter (2:INTEGER) <- [-1]
+2025-08-10 02:01:01.804 [http-nio-8080-exec-3] TRACE org.hibernate.orm.jdbc.bind - binding parameter (3:VARCHAR) <- [http://localhost:8080/images/posts/eh1nxPDUVRKjlMUs.webp]
+2025-08-10 02:01:01.804 [http-nio-8080-exec-3] TRACE org.hibernate.orm.jdbc.bind - binding parameter (4:TIMESTAMP) <- [2025-08-10T02:01:01.804449]
+2025-08-10 02:01:01.804 [http-nio-8080-exec-3] TRACE org.hibernate.orm.jdbc.bind - binding parameter (5:VARCHAR) <- [null]
+2025-08-10 02:01:01.804 [http-nio-8080-exec-3] TRACE org.hibernate.orm.jdbc.bind - binding parameter (6:VARCHAR) <- [TEMPORARY]
+2025-08-10 02:01:01.804 [http-nio-8080-exec-3] TRACE org.hibernate.orm.jdbc.bind - binding parameter (7:VARCHAR) <- [eh1nxPDUVRKjlMUs.webp]
+2025-08-10 02:01:01.804 [http-nio-8080-exec-3] TRACE org.hibernate.orm.jdbc.bind - binding parameter (8:VARCHAR) <- [sl8iDPxC-1J8d1S4]
+2025-08-10 02:01:01.807 [http-nio-8080-exec-3] DEBUG c.t.c.s.p.i.PostImageUploadService - 이미지 메타 데이터 저장 완료: PostImage{postImageId='sl8iDPxC-1J8d1S4', storedName='eh1nxPDUVRKjlMUs.webp', imageUrl='http://localhost:8080/images/posts/eh1nxPDUVRKjlMUs.webp', imageOrder=-1}
+2025-08-10 02:01:21.820 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-08-10 02:01:21.822 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-08-10 02:01:21.824 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-08-10 02:02:11.164 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2025-08-10 02:02:11.183 [restartedMain] INFO  com.threadly.ThreadlyApplication - Starting ThreadlyApplication using Java 17.0.14 with PID 57105 (/Users/gimgyubaeg/workspace/java/project/ecommerce/threadly/threadly-apps/app-api/build/classes/java/main started by gimgyubaeg in /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly)
+2025-08-10 02:02:11.183 [restartedMain] DEBUG com.threadly.ThreadlyApplication - Running with Spring Boot v3.3.3, Spring v6.1.12
+2025-08-10 02:02:11.184 [restartedMain] INFO  com.threadly.ThreadlyApplication - The following 1 profile is active: "dev"
+2025-08-10 02:02:11.201 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-08-10 02:02:11.201 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-08-10 02:02:11.826 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-10 02:02:11.827 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-08-10 02:02:11.910 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 80 ms. Found 9 JPA repository interfaces.
+2025-08-10 02:02:11.918 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-10 02:02:11.918 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-08-10 02:02:11.930 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.follow.repository.FollowJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 02:02:11.930 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.post.repository.CommentLikeJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 02:02:11.930 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.post.repository.PostCommentJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 02:02:11.930 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.post.repository.PostImageJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 02:02:11.930 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.post.repository.PostJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 02:02:11.930 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.post.repository.PostLikeJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 02:02:11.930 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.user.repository.UserJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 02:02:11.930 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.user.repository.UserProfileImageJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 02:02:11.930 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.user.repository.UserProfileJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 02:02:11.930 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 8 ms. Found 0 Redis repository interfaces.
+2025-08-10 02:02:12.323 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-08-10 02:02:12.328 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2025-08-10 02:02:12.330 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-08-10 02:02:12.330 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.28]
+2025-08-10 02:02:12.349 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-08-10 02:02:12.349 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1148 ms
+2025-08-10 02:02:12.432 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-08-10 02:02:12.517 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@2bf66b11
+2025-08-10 02:02:12.517 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-08-10 02:02:12.521 [restartedMain] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://localhost:5433/postgres?profileSQL=true'
+2025-08-10 02:02:12.725 [restartedMain] INFO  org.flywaydb.core.FlywayExecutor - Database: jdbc:postgresql://localhost:5433/postgres (PostgreSQL 16.9)
+2025-08-10 02:02:12.761 [restartedMain] INFO  o.f.core.internal.command.DbValidate - Successfully validated 20 migrations (execution time 00:00.023s)
+2025-08-10 02:02:12.770 [restartedMain] INFO  o.f.core.internal.command.DbMigrate - Current version of schema "public": 20
+2025-08-10 02:02:12.770 [restartedMain] WARN  o.f.core.internal.command.DbMigrate - Schema "public" has a version (20) that is newer than the latest available migration (19) !
+2025-08-10 02:02:12.772 [restartedMain] INFO  o.f.core.internal.command.DbMigrate - Schema "public" is up to date. No migration necessary.
+2025-08-10 02:02:12.828 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-08-10 02:02:12.860 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.5.2.Final
+2025-08-10 02:02:12.877 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-08-10 02:02:13.031 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-08-10 02:02:13.235 [restartedMain] WARN  org.hibernate.mapping.RootClass - HHH000038: Composite-id class does not override equals(): com.threadly.adapter.persistence.post.entity.PostIdAndUserId
+2025-08-10 02:02:13.235 [restartedMain] WARN  org.hibernate.mapping.RootClass - HHH000039: Composite-id class does not override hashCode(): com.threadly.adapter.persistence.post.entity.PostIdAndUserId
+2025-08-10 02:02:13.235 [restartedMain] WARN  org.hibernate.mapping.RootClass - HHH000038: Composite-id class does not override equals(): com.threadly.adapter.persistence.post.entity.UserIdAndCommentId
+2025-08-10 02:02:13.235 [restartedMain] WARN  org.hibernate.mapping.RootClass - HHH000039: Composite-id class does not override hashCode(): com.threadly.adapter.persistence.post.entity.UserIdAndCommentId
+2025-08-10 02:02:13.524 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-08-10 02:02:13.557 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-08-10 02:02:13.692 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-08-10 02:02:14.130 [restartedMain] DEBUG c.t.g.filter.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2025-08-10 02:02:14.130 [restartedMain] DEBUG c.t.global.filter.VerificationFilter - Filter 'verificationFilter' configured for use
+2025-08-10 02:02:14.130 [restartedMain] DEBUG c.t.g.f.UserStatusTypeValidationFilter - Filter 'userStatusTypeValidationFilter' configured for use
+2025-08-10 02:02:14.592 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailService
+2025-08-10 02:02:14.823 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 3 endpoints beneath base path '/actuator'
+2025-08-10 02:02:15.317 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-08-10 02:02:15.343 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2025-08-10 02:02:15.351 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-08-10 02:02:15.358 [restartedMain] INFO  com.threadly.ThreadlyApplication - Started ThreadlyApplication in 4.395 seconds (process running for 4.732)
+2025-08-10 02:02:15.835 [RMI TCP Connection(1)-127.0.0.1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-08-10 02:02:15.835 [RMI TCP Connection(1)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-08-10 02:02:15.836 [RMI TCP Connection(1)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-08-10 02:02:18.706 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-08-10 02:02:18.708 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-08-10 02:02:18.710 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-08-10 02:14:08.777 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2025-08-10 02:14:08.793 [restartedMain] INFO  com.threadly.ThreadlyApplication - Starting ThreadlyApplication using Java 17.0.14 with PID 57498 (/Users/gimgyubaeg/workspace/java/project/ecommerce/threadly/threadly-apps/app-api/build/classes/java/main started by gimgyubaeg in /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly)
+2025-08-10 02:14:08.793 [restartedMain] DEBUG com.threadly.ThreadlyApplication - Running with Spring Boot v3.3.3, Spring v6.1.12
+2025-08-10 02:14:08.793 [restartedMain] INFO  com.threadly.ThreadlyApplication - The following 1 profile is active: "dev"
+2025-08-10 02:14:08.810 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-08-10 02:14:08.810 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-08-10 02:14:09.407 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-10 02:14:09.408 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-08-10 02:14:09.512 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 101 ms. Found 9 JPA repository interfaces.
+2025-08-10 02:14:09.530 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-10 02:14:09.530 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-08-10 02:14:09.543 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.follow.repository.FollowJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 02:14:09.543 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.post.repository.CommentLikeJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 02:14:09.543 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.post.repository.PostCommentJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 02:14:09.543 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.post.repository.PostImageJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 02:14:09.543 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.post.repository.PostJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 02:14:09.543 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.post.repository.PostLikeJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 02:14:09.543 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.user.repository.UserJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 02:14:09.544 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.user.repository.UserProfileImageJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 02:14:09.544 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.threadly.adapter.persistence.user.repository.UserProfileJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-10 02:14:09.544 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 8 ms. Found 0 Redis repository interfaces.
+2025-08-10 02:14:09.968 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-08-10 02:14:09.972 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2025-08-10 02:14:09.974 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-08-10 02:14:09.974 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.28]
+2025-08-10 02:14:09.993 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-08-10 02:14:09.993 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1183 ms
+2025-08-10 02:14:10.080 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-08-10 02:14:10.160 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@3aba1f27
+2025-08-10 02:14:10.161 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-08-10 02:14:10.165 [restartedMain] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://localhost:5433/postgres?profileSQL=true'
+2025-08-10 02:14:10.370 [restartedMain] INFO  org.flywaydb.core.FlywayExecutor - Database: jdbc:postgresql://localhost:5433/postgres (PostgreSQL 16.9)
+2025-08-10 02:14:10.401 [restartedMain] INFO  o.f.core.internal.command.DbValidate - Successfully validated 19 migrations (execution time 00:00.020s)
+2025-08-10 02:14:10.408 [restartedMain] INFO  o.f.core.internal.command.DbMigrate - Current version of schema "public": 19
+2025-08-10 02:14:10.410 [restartedMain] INFO  o.f.core.internal.command.DbMigrate - Schema "public" is up to date. No migration necessary.
+2025-08-10 02:14:10.468 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-08-10 02:14:10.502 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.5.2.Final
+2025-08-10 02:14:10.519 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-08-10 02:14:10.663 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-08-10 02:14:10.881 [restartedMain] WARN  org.hibernate.mapping.RootClass - HHH000038: Composite-id class does not override equals(): com.threadly.adapter.persistence.post.entity.PostIdAndUserId
+2025-08-10 02:14:10.881 [restartedMain] WARN  org.hibernate.mapping.RootClass - HHH000039: Composite-id class does not override hashCode(): com.threadly.adapter.persistence.post.entity.PostIdAndUserId
+2025-08-10 02:14:10.881 [restartedMain] WARN  org.hibernate.mapping.RootClass - HHH000038: Composite-id class does not override equals(): com.threadly.adapter.persistence.post.entity.UserIdAndCommentId
+2025-08-10 02:14:10.881 [restartedMain] WARN  org.hibernate.mapping.RootClass - HHH000039: Composite-id class does not override hashCode(): com.threadly.adapter.persistence.post.entity.UserIdAndCommentId
+2025-08-10 02:14:11.175 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-08-10 02:14:11.206 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-08-10 02:14:11.340 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-08-10 02:14:11.786 [restartedMain] DEBUG c.t.g.filter.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2025-08-10 02:14:11.786 [restartedMain] DEBUG c.t.global.filter.VerificationFilter - Filter 'verificationFilter' configured for use
+2025-08-10 02:14:11.787 [restartedMain] DEBUG c.t.g.f.UserStatusTypeValidationFilter - Filter 'userStatusTypeValidationFilter' configured for use
+2025-08-10 02:14:12.330 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailService
+2025-08-10 02:14:12.604 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 3 endpoints beneath base path '/actuator'
+2025-08-10 02:14:13.145 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-08-10 02:14:13.173 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2025-08-10 02:14:13.182 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-08-10 02:14:13.189 [restartedMain] INFO  com.threadly.ThreadlyApplication - Started ThreadlyApplication in 4.592 seconds (process running for 4.949)
+2025-08-10 02:14:13.473 [RMI TCP Connection(1)-127.0.0.1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-08-10 02:14:13.473 [RMI TCP Connection(1)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-08-10 02:14:13.474 [RMI TCP Connection(1)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-08-10 02:14:16.322 [http-nio-8080-exec-2] DEBUG c.t.commons.utils.LogFormatUtils - 
+
+========== [Request] ==========
+Location : com.threadly.auth.controller.AuthController.login()
+Args : [com.threadly.auth.request.UserLoginRequest@2c5ba491]
+Headers : accept=application/json, content-type=application/json, user-agent=PostmanRuntime/7.45.0, postman-token=94246fb9-f5c0-4f75-9216-755a89c47fcf, host=localhost:8080, accept-encoding=gzip, deflate, br, connection=keep-alive, content-length=55
+Desc : {"className":"com.threadly.auth.controller.AuthController","methodName":"login","args":[{"email":"usr01@gmail.comm","password":"1234"}]}
+
+
+2025-08-10 02:14:16.369 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        ue1_0.user_id,
+        ue1_0.created_at,
+        ue1_0.email,
+        ue1_0.is_email_verified,
+        ue1_0.is_private,
+        ue1_0.modified_at,
+        ue1_0.password,
+        ue1_0.phone,
+        ue1_0.user_name,
+        ue1_0.status,
+        ue1_0.user_type 
+    from
+        users ue1_0 
+    where
+        ue1_0.email=?
+2025-08-10 02:14:16.371 [http-nio-8080-exec-2] TRACE org.hibernate.orm.jdbc.bind - binding parameter (1:VARCHAR) <- [usr01@gmail.comm]
+2025-08-10 02:14:16.454 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        ue1_0.user_id,
+        ue1_0.created_at,
+        ue1_0.email,
+        ue1_0.is_email_verified,
+        ue1_0.is_private,
+        ue1_0.modified_at,
+        ue1_0.password,
+        ue1_0.phone,
+        ue1_0.user_name,
+        ue1_0.status,
+        ue1_0.user_type 
+    from
+        users ue1_0 
+    where
+        ue1_0.user_id=?
+2025-08-10 02:14:16.454 [http-nio-8080-exec-2] TRACE org.hibernate.orm.jdbc.bind - binding parameter (1:VARCHAR) <- [-bz4ROdO7KQyNh6q]
+2025-08-10 02:14:16.541 [http-nio-8080-exec-2] DEBUG c.t.a.r.r.token.TokenPortRepository - 신규 토큰 저장 완료
+2025-08-10 02:14:16.544 [http-nio-8080-exec-2] DEBUG c.t.commons.utils.LogFormatUtils - 
+
+========== DEBUG ==========
+Location : com.threadly.auth.AuthManager.login()
+args : [usr01@gmail.comm, 1234]
+Message  : 로그인 성공
+
+
+2025-08-10 02:14:16.544 [http-nio-8080-exec-2] INFO  c.t.commons.utils.LogFormatUtils - SUCCESS: com.threadly.aspect.logging.AuthLoggingAspect.logLoginSuccess() | args=[usr01@gmail.comm, 1234]
+2025-08-10 02:14:21.951 [http-nio-8080-exec-3] INFO  c.t.commons.utils.LogFormatUtils - SUCCESS: com.threadly.commons.security.JwtTokenProvider.validateToken() | 토큰 검증됨
+2025-08-10 02:14:21.954 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        ue1_0.user_id,
+        ue1_0.created_at,
+        ue1_0.email,
+        ue1_0.is_email_verified,
+        ue1_0.is_private,
+        ue1_0.modified_at,
+        ue1_0.password,
+        ue1_0.phone,
+        ue1_0.user_name,
+        ue1_0.status,
+        ue1_0.user_type 
+    from
+        users ue1_0 
+    where
+        ue1_0.user_id=?
+2025-08-10 02:14:21.954 [http-nio-8080-exec-3] TRACE org.hibernate.orm.jdbc.bind - binding parameter (1:VARCHAR) <- [-bz4ROdO7KQyNh6q]
+2025-08-10 02:14:21.978 [http-nio-8080-exec-3] DEBUG c.t.commons.utils.LogFormatUtils - 
+
+========== [Request] ==========
+Location : com.threadly.adapter.persistence.core.post.controller.PostImageUploadController.uploadImage()
+Args : [com.threadly.auth.JwtAuthenticationUser@20f7e492, [org.springframework.web.multipart.support.StandardMultipartHttpServletRequest$StandardMultipartFile@3d22a68e, org.springframework.web.multipart.support.StandardMultipartHttpServletRequest$StandardMultipartFile@6f9f4855]]
+Headers : authorization=Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiItYno0Uk9kTzdLUXlOaDZxIiwidXNlclR5cGUiOiJVU0VSIiwidXNlclN0YXR1c1R5cGUiOiJBQ1RJVkUiLCJqdGkiOiJmZmRiZGZlYiIsImlhdCI6MTc1NDc1OTY1NiwiZXhwIjoxNzU0NzYwMjU2fQ.tqbDfQ4cLGrsrPKaeiACyr0fWNEh1hijo3Sb5Gun67Y, user-agent=PostmanRuntime/7.45.0, accept=*/*, postman-token=08896bc3-8b3b-4af4-8608-6ab0b2550024, host=localhost:8080, accept-encoding=gzip, deflate, br, connection=keep-alive, content-type=multipart/form-data; boundary=--------------------------963401613611461962422552, content-length=191707
+Desc : RequestLog[className=com.threadly.adapter.persistence.core.post.controller.PostImageUploadController, methodName=uploadImage, args=[Ljava.lang.Object;@4c3502cb]
+
+
+2025-08-10 02:14:21.992 [http-nio-8080-exec-3] DEBUG c.t.a.s.p.i.LocalImageUploadAdapter - fullPath ./local-storage/uploads/posts/wrU0YOd2zcrmEIon.webp
+2025-08-10 02:14:21.993 [http-nio-8080-exec-3] DEBUG c.t.a.s.p.i.LocalImageUploadAdapter - fullPath ./local-storage/uploads/posts/q03XYZfoc3LeQ_-J.webp
+2025-08-10 02:14:21.993 [http-nio-8080-exec-3] INFO  c.t.c.s.p.i.PostImageUploadService - 이미지 업로드 완료: [UploadImageResponse{storedName='wrU0YOd2zcrmEIon.webp', imageUrl='http://localhost:8080/images/posts/wrU0YOd2zcrmEIon.webp'}, UploadImageResponse{storedName='q03XYZfoc3LeQ_-J.webp', imageUrl='http://localhost:8080/images/posts/q03XYZfoc3LeQ_-J.webp'}]
+2025-08-10 02:14:21.997 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        pie1_0.post_image_id,
+        pie1_0.created_at,
+        pie1_0.image_order,
+        pie1_0.image_url,
+        pie1_0.modified_at,
+        pie1_0.post_id,
+        pie1_0.status,
+        pie1_0.stored_file_name 
+    from
+        post_images pie1_0 
+    where
+        pie1_0.post_image_id=?
+2025-08-10 02:14:21.997 [http-nio-8080-exec-3] TRACE org.hibernate.orm.jdbc.bind - binding parameter (1:VARCHAR) <- [6q-s4JybNjMUvwJF]
+2025-08-10 02:14:22.020 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        post_images
+        (created_at, image_order, image_url, modified_at, post_id, status, stored_file_name, post_image_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+2025-08-10 02:14:22.021 [http-nio-8080-exec-3] TRACE org.hibernate.orm.jdbc.bind - binding parameter (1:TIMESTAMP) <- [2025-08-10T02:14:22.011125]
+2025-08-10 02:14:22.021 [http-nio-8080-exec-3] TRACE org.hibernate.orm.jdbc.bind - binding parameter (2:INTEGER) <- [-1]
+2025-08-10 02:14:22.021 [http-nio-8080-exec-3] TRACE org.hibernate.orm.jdbc.bind - binding parameter (3:VARCHAR) <- [http://localhost:8080/images/posts/wrU0YOd2zcrmEIon.webp]
+2025-08-10 02:14:22.021 [http-nio-8080-exec-3] TRACE org.hibernate.orm.jdbc.bind - binding parameter (4:TIMESTAMP) <- [2025-08-10T02:14:22.011125]
+2025-08-10 02:14:22.021 [http-nio-8080-exec-3] TRACE org.hibernate.orm.jdbc.bind - binding parameter (5:VARCHAR) <- [null]
+2025-08-10 02:14:22.021 [http-nio-8080-exec-3] TRACE org.hibernate.orm.jdbc.bind - binding parameter (6:VARCHAR) <- [TEMPORARY]
+2025-08-10 02:14:22.021 [http-nio-8080-exec-3] TRACE org.hibernate.orm.jdbc.bind - binding parameter (7:VARCHAR) <- [wrU0YOd2zcrmEIon.webp]
+2025-08-10 02:14:22.021 [http-nio-8080-exec-3] TRACE org.hibernate.orm.jdbc.bind - binding parameter (8:VARCHAR) <- [6q-s4JybNjMUvwJF]
+2025-08-10 02:14:22.027 [http-nio-8080-exec-3] DEBUG c.t.c.s.p.i.PostImageUploadService - 이미지 메타 데이터 저장 완료: PostImage{postImageId='6q-s4JybNjMUvwJF', storedName='wrU0YOd2zcrmEIon.webp', imageUrl='http://localhost:8080/images/posts/wrU0YOd2zcrmEIon.webp', imageOrder=-1}
+2025-08-10 02:14:22.027 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        pie1_0.post_image_id,
+        pie1_0.created_at,
+        pie1_0.image_order,
+        pie1_0.image_url,
+        pie1_0.modified_at,
+        pie1_0.post_id,
+        pie1_0.status,
+        pie1_0.stored_file_name 
+    from
+        post_images pie1_0 
+    where
+        pie1_0.post_image_id=?
+2025-08-10 02:14:22.027 [http-nio-8080-exec-3] TRACE org.hibernate.orm.jdbc.bind - binding parameter (1:VARCHAR) <- [TtHqVPnA-HMByz68]
+2025-08-10 02:14:22.029 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        post_images
+        (created_at, image_order, image_url, modified_at, post_id, status, stored_file_name, post_image_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+2025-08-10 02:14:22.029 [http-nio-8080-exec-3] TRACE org.hibernate.orm.jdbc.bind - binding parameter (1:TIMESTAMP) <- [2025-08-10T02:14:22.029184]
+2025-08-10 02:14:22.029 [http-nio-8080-exec-3] TRACE org.hibernate.orm.jdbc.bind - binding parameter (2:INTEGER) <- [-1]
+2025-08-10 02:14:22.029 [http-nio-8080-exec-3] TRACE org.hibernate.orm.jdbc.bind - binding parameter (3:VARCHAR) <- [http://localhost:8080/images/posts/q03XYZfoc3LeQ_-J.webp]
+2025-08-10 02:14:22.029 [http-nio-8080-exec-3] TRACE org.hibernate.orm.jdbc.bind - binding parameter (4:TIMESTAMP) <- [2025-08-10T02:14:22.029184]
+2025-08-10 02:14:22.029 [http-nio-8080-exec-3] TRACE org.hibernate.orm.jdbc.bind - binding parameter (5:VARCHAR) <- [null]
+2025-08-10 02:14:22.029 [http-nio-8080-exec-3] TRACE org.hibernate.orm.jdbc.bind - binding parameter (6:VARCHAR) <- [TEMPORARY]
+2025-08-10 02:14:22.029 [http-nio-8080-exec-3] TRACE org.hibernate.orm.jdbc.bind - binding parameter (7:VARCHAR) <- [q03XYZfoc3LeQ_-J.webp]
+2025-08-10 02:14:22.029 [http-nio-8080-exec-3] TRACE org.hibernate.orm.jdbc.bind - binding parameter (8:VARCHAR) <- [TtHqVPnA-HMByz68]
+2025-08-10 02:14:22.031 [http-nio-8080-exec-3] DEBUG c.t.c.s.p.i.PostImageUploadService - 이미지 메타 데이터 저장 완료: PostImage{postImageId='TtHqVPnA-HMByz68', storedName='q03XYZfoc3LeQ_-J.webp', imageUrl='http://localhost:8080/images/posts/q03XYZfoc3LeQ_-J.webp', imageOrder=-1}
+2025-08-10 02:14:25.318 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-08-10 02:14:25.320 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-08-10 02:14:25.322 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

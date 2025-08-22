@@ -1,6 +1,7 @@
 package com.threadly;
 
 
+import com.threadly.adapter.redis.RedisModule;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication(

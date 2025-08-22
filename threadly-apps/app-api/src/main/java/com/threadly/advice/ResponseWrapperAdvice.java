@@ -1,7 +1,7 @@
 package com.threadly.advice;
 
-import com.threadly.exception.ErrorResponse;
-import com.threadly.response.ApiResponse;
+import com.threadly.commons.exception.ErrorResponse;
+import com.threadly.commons.response.ApiResponse;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;

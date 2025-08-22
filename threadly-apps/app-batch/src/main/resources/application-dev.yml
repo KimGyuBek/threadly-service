@@ -1,0 +1,30 @@
+spring:
+  batch:
+    job:
+      enabled: true
+  config:
+    import:
+      - "classpath:application-persistence-batch-dev.yml"
+logging:
+  level:
+    root: info
+    org.springframework.boot.autoconfigure.batch: debug
+    com.threadly.batch: debug
+    org.hibernate.SQL: debug
+    org.hibernate.orm.jdbc.bind: trace
+
+#prometheus:
+#  job:
+#    name: threadly-batch
+#  pushgateway:
+#    url: localhost:9091
+
+properties:
+  retention:
+    image:
+      deleted: 0
+      temporary: 0
+    post:
+      deleted: 0
+    user:
+      deleted: 0

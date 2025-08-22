@@ -1,6 +1,6 @@
 package com.threadly.testsupport.dto.posts;
 
-import com.threadly.post.PostStatus;
+import com.threadly.core.domain.post.PostStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

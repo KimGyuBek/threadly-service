@@ -1,6 +1,6 @@
 package com.threadly.post.mapper;
 
-import com.threadly.file.UploadImage;
+import com.threadly.commons.file.UploadImage;
 import java.io.IOException;
 import org.springframework.web.multipart.MultipartFile;
 

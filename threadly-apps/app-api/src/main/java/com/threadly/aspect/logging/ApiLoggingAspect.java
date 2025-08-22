@@ -1,6 +1,6 @@
 package com.threadly.aspect.logging;
 
-import static com.threadly.utils.LogFormatUtils.debugLog;
+import static com.threadly.commons.utils.LogFormatUtils.debugLog;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;

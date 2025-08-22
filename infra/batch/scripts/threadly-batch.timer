@@ -1,0 +1,16 @@
+[Unit]
+Description=Threadly Batch Job Timer (Every 30 minutes)
+Requires=threadly-batch.service
+
+[Timer]
+# 매 30분마다 실행 (정각과 30분)
+OnCalendar=*:00/30
+# 시스템 부팅 후 타이머 지속성 보장
+Persistent=true
+# 실행 시간에 최대 5분 랜덤 지연 (동시 실행 부하 분산)
+RandomizedDelaySec=300
+# 정확성보다 효율성 우선
+AccuracySec=1min
+
+[Install]
+WantedBy=timers.target

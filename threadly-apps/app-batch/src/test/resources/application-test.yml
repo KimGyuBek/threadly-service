@@ -1,0 +1,36 @@
+spring:
+  config:
+    import:
+      - "classpath:application-persistence-batch-test.yml"
+
+  batch:
+    job:
+      enabled: true
+    jdbc:
+      initialize-schema: never
+      table-prefix: BATCH_
+  
+  flyway:
+    enabled: true
+
+jwt:
+  enabled: false
+
+ttl:
+  enabled: false
+
+logging:
+  level:
+    org.springframework.batch: DEBUG
+    com.threadly.batch: DEBUG
+    org.hibernate.SQL: DEBUG
+
+properties:
+  retention:
+    image:
+      deleted: PT72H
+      temporary: PT24H
+    post:
+      deleted: P30D
+    user:
+      deleted: P180D
