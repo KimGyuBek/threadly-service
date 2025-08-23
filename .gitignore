@@ -23,6 +23,10 @@ infra/LOG_FILE
 infra/volumes
 .env
 
+logs/
+.claude/
+package-lock.json
+package.json
 
 
 ### STS ###
