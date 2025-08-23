@@ -1,4 +1,4 @@
-package com.threadly.batch.job.image.deleted;
+package com.threadly.batch.job.image.temporary;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

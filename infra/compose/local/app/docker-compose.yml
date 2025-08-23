@@ -3,7 +3,7 @@ services:
     image: threadly-app-local:latest
     build:
       context: /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly
-      dockerfile: /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly/infra/docker/app/Dockerfile
+      dockerfile: /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly-service/infra/docker/app/Dockerfile
       args:
         CACHE_BREAKER: 1
     working_dir: /app
@@ -13,7 +13,7 @@ services:
     env_file:
       - .env.local
     volumes:
-      - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly/logs/app:/app/logs
+      - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly-service/logs/app:/app/logs
     logging:
       driver: json-file
       options:

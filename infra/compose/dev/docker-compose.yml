@@ -12,8 +12,8 @@ services:
       POSTGRES_USER: threadly
       POSTGRES_PASSWORD: localpwd
     volumes:
-      - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly/infra/volumes/postgres_dev/data:/var/lib/postgresql/data
-      - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly/logs/postgres:/var/log
+      - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly-service/infra/volumes/postgres_dev/data:/var/lib/postgresql/data
+      - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly-service/logs/postgres:/var/log
 
 
 #  h2:
@@ -32,8 +32,8 @@ services:
     image: redis:latest
     command: [ "redis-server", "--logfile", "/var/log/redis.log" ]
     volumes:
-      - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly/infra/volumes/redis/data:/data
-      - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly/logs/redis:/var/log
+      - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly-service/infra/volumes/redis/data:/data
+      - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly-service/logs/redis:/var/log
     ports:
       - "6380:6379"
 
@@ -52,7 +52,7 @@ services:
     ports:
       - "9090:9090"
     volumes:
-      - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly/infra/config/prometheus.yml:/etc/prometheus/prometheus.yml
+      - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly-service/infra/config/prometheus.yml:/etc/prometheus/prometheus.yml
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
     networks:

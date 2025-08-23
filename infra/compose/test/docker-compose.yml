@@ -12,7 +12,7 @@ services:
       POSTGRES_USER: test
       POSTGRES_PASSWORD: test
     volumes:
-      - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly/infra/volumes/postgres_test/data:/var/lib/postgresql/data
+      - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly-service/infra/volumes/postgres_test/data:/var/lib/postgresql/data
   h2:
     container_name: threadly-h2-test
     image: oscarfonts/h2
