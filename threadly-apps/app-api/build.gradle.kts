@@ -1,8 +1,6 @@
 dependencies {
     implementation(project(":threadly-core:core-usecase"))
     implementation(project(":threadly-commons"))
-
-
     implementation(project(":threadly-core:core-port"))
     implementation(project(":threadly-core:core-service"))
     implementation(project(":threadly-adapters:adapter-http"))
@@ -18,24 +16,12 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
     implementation("org.springframework.security:spring-security-oauth2-client")
     implementation("org.springframework.data:spring-data-commons")
-    implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework:spring-tx")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("io.micrometer:micrometer-registry-prometheus")
-
-
     implementation("org.springframework.boot:spring-boot-starter-web")
-
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
-
     implementation("org.springframework.boot:spring-boot-devtools")
-
-    implementation("io.jsonwebtoken:jjwt-api:0.11.5")
-    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
-    runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
-
-
-    /*jakarta*/
     implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
 
     testImplementation("org.springframework.boot:spring-boot-starter-data-jpa")
