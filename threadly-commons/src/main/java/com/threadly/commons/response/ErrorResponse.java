@@ -1,5 +1,6 @@
-package com.threadly.commons.exception;
+package com.threadly.commons.response;
 
+import com.threadly.commons.exception.ErrorCode;
 import lombok.Getter;
 
 @Getter
