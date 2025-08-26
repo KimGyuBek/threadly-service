@@ -80,7 +80,7 @@ public class SecurityConfig {
     http.authorizeHttpRequests(
         auth -> auth.requestMatchers(
                 "/actuator/**",
-                "/api/user",
+                "/api/users",
                 "/api/auth/verify-email",
                 "/api/auth/login",
                 "/api/auth/reissue",

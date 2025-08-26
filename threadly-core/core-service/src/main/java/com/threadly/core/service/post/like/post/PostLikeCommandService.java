@@ -9,6 +9,7 @@ import com.threadly.core.domain.post.PostLike;
 import com.threadly.core.port.post.like.post.CreatePostLikePort;
 import com.threadly.core.port.post.like.post.DeletePostLikePort;
 import com.threadly.core.port.post.like.post.FetchPostLikePort;
+import com.threadly.core.service.notification.NotificationService;
 import com.threadly.core.usecase.post.like.post.LikePostApiResponse;
 import com.threadly.core.usecase.post.like.post.LikePostCommand;
 import com.threadly.core.usecase.post.like.post.LikePostUseCase;
@@ -29,6 +30,7 @@ public class PostLikeCommandService implements LikePostUseCase, UnlikePostUseCas
   private final FetchPostLikePort fetchPostLikePort;
   private final CreatePostLikePort createPostLikePort;
   private final DeletePostLikePort deletePostLikePort;
+  private final NotificationService notificationService;
 
   @Override
   public LikePostApiResponse likePost(LikePostCommand command) {
@@ -48,6 +50,11 @@ public class PostLikeCommandService implements LikePostUseCase, UnlikePostUseCas
     }
 
     long likeCount = getLikeCount(command);
+
+    /*알림 발행*/
+    notificationService.sendPostLikeNotification(
+        "targetUserId",command.getUserId(), command.getPostId()
+    );
 
     return new LikePostApiResponse(
         post.getPostId(),

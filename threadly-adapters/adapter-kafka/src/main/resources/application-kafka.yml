@@ -1,0 +1,13 @@
+spring:
+  cloud:
+    function:
+      definition: notification;
+    stream:
+      binder:
+        brokers: localhost:9092
+      bindings:
+        notification-in-0:
+          destination: notification
+          content-type: application/json
+          group: notification-consumer
+          consumer.max-attempts: 2
