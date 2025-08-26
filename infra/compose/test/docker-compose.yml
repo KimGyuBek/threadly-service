@@ -13,16 +13,6 @@ services:
       POSTGRES_PASSWORD: test
     volumes:
       - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly-service/infra/volumes/postgres_test/data:/var/lib/postgresql/data
-  h2:
-    container_name: threadly-h2-test
-    image: oscarfonts/h2
-    platform: linux/amd64
-    environment:
-      - H2_OPTIONS=-mem -tcp -tcpAllowOthers -webAllowOthers
-    ports:
-      - "9092:9092"
-      - "8082:8082"  # H2 웹 콘솔 포트
-    restart: unless-stopped
 
   redis-test:
     container_name: threadly-redis-test
