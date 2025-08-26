@@ -7,6 +7,7 @@ dependencies {
     implementation(project(":threadly-adapters:adapter-persistence"))
     implementation(project(":threadly-adapters:adapter-redis"))
     implementation(project(":threadly-adapters:adapter-storage"))
+    implementation(project(":threadly-adapters:adapter-kafka"))
     implementation(project(":threadly-core:core-domain:"))
 
 

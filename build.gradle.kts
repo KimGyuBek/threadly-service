@@ -46,6 +46,7 @@ configureByLabels("java") {
     the<io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension>().apply {
         imports {
             mavenBom("org.springframework.boot:spring-boot-dependencies:${Versions.springBoot}")
+            mavenBom("org.springframework.cloud:spring-cloud-dependencies:${Versions.springCloud}")
             mavenBom("com.google.guava:guava-bom:${Versions.guava}")
         }
 

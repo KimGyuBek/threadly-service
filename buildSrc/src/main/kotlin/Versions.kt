@@ -19,4 +19,6 @@ object Versions {
     const val junit = "5.8.1"
     const val assertjCore = "3.25.1"
     const val mockitoCore = "5.1.1"
+    
+    const val springCloud = "2023.0.3"
 }
