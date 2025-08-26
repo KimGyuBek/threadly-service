@@ -31,9 +31,9 @@ public class NotificationProducer implements NotificationEventPublisherPort {
         event
     ).whenComplete((result, ex) -> {
       if (ex == null) {
-        log.info("Notification event published successfully: {}", event.getEventId());
+        log.info("Notification event 발행: eventId={}", event.getEventId());
       } else {
-        log.error("Notification event publishing failed", ex);
+        log.error("Notification event 발행 실패", ex);
       }
     });
   }
