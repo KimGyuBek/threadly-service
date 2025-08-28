@@ -1,4 +1,4 @@
-package com.threadly.core.service.user.follow;
+package com.threadly.core.service.follow;
 
 import com.google.common.base.Objects;
 import com.threadly.commons.exception.ErrorCode;
@@ -6,16 +6,22 @@ import com.threadly.commons.exception.follow.FollowException;
 import com.threadly.commons.exception.user.UserException;
 import com.threadly.core.domain.follow.Follow;
 import com.threadly.core.domain.follow.FollowStatusType;
+import com.threadly.core.domain.notification.NotificationType;
+import com.threadly.core.domain.notification.metadata.FollowAcceptMeta;
+import com.threadly.core.domain.notification.metadata.FollowMeta;
+import com.threadly.core.domain.notification.metadata.FollowRequestMeta;
+import com.threadly.core.domain.user.User;
+import com.threadly.core.port.user.FetchUserPort;
+import com.threadly.core.port.user.follow.FollowCommandPort;
+import com.threadly.core.port.user.follow.FollowQueryPort;
+import com.threadly.core.service.notification.NotificationService;
+import com.threadly.core.service.notification.dto.NotificationPublishCommand;
+import com.threadly.core.service.validator.user.UserStatusValidator;
 import com.threadly.core.usecase.follow.command.FollowCommandUseCase;
 import com.threadly.core.usecase.follow.command.dto.FollowRelationCommand;
 import com.threadly.core.usecase.follow.command.dto.FollowUserApiResponse;
 import com.threadly.core.usecase.follow.command.dto.FollowUserCommand;
 import com.threadly.core.usecase.follow.command.dto.HandleFollowRequestCommand;
-import com.threadly.core.port.user.FetchUserPort;
-import com.threadly.core.domain.user.User;
-import com.threadly.core.service.validator.user.UserStatusValidator;
-import com.threadly.core.port.user.follow.FollowCommandPort;
-import com.threadly.core.port.user.follow.FollowQueryPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -35,6 +41,8 @@ public class FollowCommandService implements FollowCommandUseCase {
   private final FetchUserPort fetchUserPort;
 
   private final UserStatusValidator userStatusValidator;
+
+  private final NotificationService notificationService;
 
   @Transactional
   @Override
@@ -56,8 +64,9 @@ public class FollowCommandService implements FollowCommandUseCase {
     /*follow 도메인 생성*/
     Follow follow = Follow.createFollow(command.userId(), targetUser.getUserId());
 
-    /*targetUser가 공개 개정일 경우 APPROVED 처리*/
+    /*targetUser가 공개 계정인 경우*/
     if (!targetUser.isPrivate()) {
+      /*APPROVED 처리*/
       follow.markAsApproved();
     }
 
@@ -65,6 +74,17 @@ public class FollowCommandService implements FollowCommandUseCase {
     followCommandPort.createFollow(follow);
 
     log.info("팔로우 요청 : {} -> {}", follow.getFollowerId(), follow.getFollowingId());
+
+
+    /*알림 이벤트 발행*/
+    notificationService.publish(
+        new NotificationPublishCommand(
+            follow.getFollowingId(),
+            follow.getFollowerId(),
+            targetUser.isPrivate() ? NotificationType.FOLLOW_REQUEST : NotificationType.FOLLOW,
+            targetUser.isPrivate() ? new FollowRequestMeta() : new FollowMeta()
+        )
+    );
 
     /*응답 리턴*/
     return new FollowUserApiResponse(
@@ -91,6 +111,16 @@ public class FollowCommandService implements FollowCommandUseCase {
     /*업데이트*/
     followCommandPort.updateFollowStatus(follow);
     log.info("팔로우 요청 수락 : {} -> {}", follow.getFollowerId(), follow.getFollowingId());
+
+    /*알림 이벤트 발행*/
+    notificationService.publish(
+        new NotificationPublishCommand(
+            follow.getFollowingId(),
+            follow.getFollowerId(),
+            NotificationType.FOLLOW_ACCEPT,
+            new FollowAcceptMeta()
+        )
+    );
 
   }
 

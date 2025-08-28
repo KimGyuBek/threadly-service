@@ -1,4 +1,4 @@
-package com.threadly.core.service.user.follow;
+package com.threadly.core.service.follow;
 
 import com.threadly.core.usecase.commons.dto.UserPreview;
 import com.threadly.core.usecase.follow.query.FollowQueryUseCase;

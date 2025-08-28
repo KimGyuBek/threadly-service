@@ -53,7 +53,7 @@ public interface UserProfileJpaRepository extends JpaRepository<UserProfileEntit
              up.status_message as statusMessage,
              up.bio            as bio,
              u.phone           as phone,
-             upi.image_url     as profileImageurl,
+             coalesce(upi.image_url, '/')     as profileImageurl,
              u.status          as userStatus,
              u.is_private      as isPrivate
       from user_profile up

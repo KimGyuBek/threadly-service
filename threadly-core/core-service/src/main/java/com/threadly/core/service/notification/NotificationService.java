@@ -4,11 +4,11 @@ import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.exception.user.UserException;
 import com.threadly.core.domain.notification.Notification;
 import com.threadly.core.domain.notification.Notification.ActorProfile;
-import com.threadly.core.domain.notification.NotificationType;
-import com.threadly.core.domain.notification.metadata.PostLikeMeta;
+import com.threadly.core.domain.notification.metadata.NotificationMetaData;
 import com.threadly.core.port.notification.NotificationEventPublisherPort;
 import com.threadly.core.port.user.profile.fetch.FetchUserProfilePort;
 import com.threadly.core.port.user.profile.fetch.UserProfileProjection;
+import com.threadly.core.service.notification.dto.NotificationPublishCommand;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,33 +19,63 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class NotificationService {
 
-  private final FetchUserProfilePort fetchUserProfilePort;
   private final NotificationEventPublisherPort notificationEventPublisherPort;
 
-  public void sendPostLikeNotification(String targetUserId, String actorUserId, String postId) {
+  private final FetchUserProfilePort fetchUserProfilePort;
+
+  /**
+   * 알림 발행
+   *
+   * @param command
+   */
+  public void publish(NotificationPublishCommand command) {
+    /*이벤트 발행*/
+    notificationEventPublisherPort.publish(generateNotification(
+        command.receiverId(),
+        command.actorId(),
+        command.notificationMetaData()
+    ));
+  }
+
+  /**
+   * 행위자 조회 후 Notification 도메인 생성
+   *
+   * @param targetUserId
+   * @param actorUserId
+   * @param metadata
+   * @param <T>
+   * @return
+   */
+  private <T extends NotificationMetaData> Notification generateNotification(String targetUserId,
+      String actorUserId, T metadata) {
     /*사용자 조회*/
-    UserProfileProjection actorUserProfile = fetchUserProfilePort.findUserProfileByUserId(
-        actorUserId).orElseThrow(() -> new UserException(
-        ErrorCode.USER_NOT_FOUND));
+    UserProfileProjection actorUserProfile = getActorProfile(
+        actorUserId);
 
     /*NotificationEvent 생성*/
-    Notification notification = Notification.newNotification(
+    return Notification.newNotification(
         targetUserId,
-        NotificationType.POST_LIKE,
+        metadata.notificationType(),
         LocalDateTime.now(),
         new ActorProfile(
             actorUserProfile.getUserId(),
             actorUserProfile.getNickname(),
             actorUserProfile.getProfileImageUrl()
         ),
-        new PostLikeMeta(
-            postId,
-            actorUserId
-        )
-    );
+        metadata);
+  }
 
-    /*이벤트 발행*/
-    notificationEventPublisherPort.publish(notification);
+  /**
+   * 행위자 프로필 조회
+   *
+   * @param actorUserId
+   * @return
+   */
+  private UserProfileProjection getActorProfile(String actorUserId) {
+    UserProfileProjection actorUserProfile = fetchUserProfilePort.findUserProfileByUserId(
+        actorUserId).orElseThrow(() -> new UserException(
+        ErrorCode.USER_NOT_FOUND));
+    return actorUserProfile;
   }
 
 }

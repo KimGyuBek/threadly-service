@@ -3,16 +3,14 @@ package com.threadly.core.domain.notification.metadata;
 import com.threadly.core.domain.notification.NotificationType;
 
 /**
- * 게시글 좋아요 메타 데이터
+ * 팔로우 메타 데이터
  *
- * @param postId
  */
-public record PostLikeMeta(
-    String postId
+public record FollowMeta(
 ) implements NotificationMetaData {
 
   @Override
   public NotificationType notificationType() {
-    return NotificationType.POST_LIKE;
+    return NotificationType.FOLLOW_REQUEST;
   }
 }

@@ -24,7 +24,6 @@ public class Notification {
   /**
    * 새로운 Notification 도메인 생성
    *
-   * @param eventId
    * @param receiverId
    * @param notificationType
    * @param occurredAt
@@ -37,13 +36,6 @@ public class Notification {
     return new Notification(RandomUtils.generateNanoId(), receiverId, notificationType, occurredAt,
         actorProfile, false,
         metadata);
-  }
-
-  /**
-   * 알림 데이터 읽음 처리
-   */
-  public void markAsRead() {
-    isRead = true;
   }
 
   /**
