@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.util.HashMap;
 import java.util.Map;
+import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.context.annotation.Bean;
@@ -12,21 +13,10 @@ import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
-import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 
 @Configuration
+@RequiredArgsConstructor
 public class KafkaConfig {
-
-  @Bean
-  public MappingJackson2MessageConverter messageConverter() {
-    ObjectMapper objectMapper = new ObjectMapper();
-    objectMapper.registerModule(new JavaTimeModule());
-
-    MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
-    converter.setObjectMapper(objectMapper);
-
-    return converter;
-  }
 
   @Bean
   public ProducerFactory<String, Object> producerFactory() {
@@ -37,6 +27,20 @@ public class KafkaConfig {
 
     // JSON 직렬화 설정
     configProps.put(JsonSerializer.ADD_TYPE_INFO_HEADERS, false);
+
+    // 파티셔닝 전략 설정 (키 기반 파티셔닝 - 기본값)
+    configProps.put(ProducerConfig.PARTITIONER_CLASS_CONFIG,
+        "org.apache.kafka.clients.producer.internals.DefaultPartitioner");
+
+    // 프로듀서 성능 및 안정성 설정
+    configProps.put(ProducerConfig.ACKS_CONFIG, "all"); // idempotence를 위해 all 필수
+    configProps.put(ProducerConfig.RETRIES_CONFIG, 3); // 재시도 횟수
+    configProps.put(ProducerConfig.RETRY_BACKOFF_MS_CONFIG, 1000); // 재시도 간격
+    configProps.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, true); // 멱등성 보장
+
+    // idempotence 활성화 시 권장 설정들
+    configProps.put(ProducerConfig.MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION, 5); // 동시 요청 수
+    configProps.put(ProducerConfig.DELIVERY_TIMEOUT_MS_CONFIG, 120000); // 전송 타임아웃 (2분)
 
     // ObjectMapper 설정을 위한 JsonSerializer 커스터마이징
     ObjectMapper objectMapper = new ObjectMapper();

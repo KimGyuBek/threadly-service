@@ -9,7 +9,8 @@
       "Bash(grep:*)",
       "Bash(mv:*)",
       "Bash(./gradlew:*)",
-      "Bash(docker exec:*)"
+      "Bash(docker exec:*)",
+      "WebFetch(domain:wakeful-fennel-f81.notion.site)"
     ],
     "deny": []
   },

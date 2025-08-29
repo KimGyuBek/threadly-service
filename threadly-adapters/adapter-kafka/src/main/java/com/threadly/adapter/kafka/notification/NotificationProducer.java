@@ -1,5 +1,6 @@
 package com.threadly.adapter.kafka.notification;
 
+import com.threadly.adapter.kafka.config.KafkaErrorHandler;
 import com.threadly.adapter.kafka.notification.dto.NotificationEvent;
 import com.threadly.core.domain.notification.Notification;
 import com.threadly.core.port.notification.NotificationEventPublisherPort;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
 public class NotificationProducer implements NotificationEventPublisherPort {
 
   private final KafkaTemplate<String, Object> kafkaTemplate;
+  private final KafkaErrorHandler kafkaErrorHandler;
 
   @Override
   public void publish(Notification notification) {
@@ -26,14 +28,17 @@ public class NotificationProducer implements NotificationEventPublisherPort {
         notification.getMetadata()
     );
 
+    String kafkaKey = notification.getReceiverId();
+
     kafkaTemplate.send(
         "notification",
+        kafkaKey,
         event
     ).whenComplete((result, ex) -> {
       if (ex == null) {
-        log.info("Notification event 발행: eventId={}", event.getEventId());
+        kafkaErrorHandler.successCallback(event.getEventId(), kafkaKey).onSuccess(result);
       } else {
-        log.error("Notification event 발행 실패", ex);
+        kafkaErrorHandler.failureCallback(event.getEventId(), kafkaKey).onFailure(ex);
       }
     });
   }

@@ -35,6 +35,7 @@ public class PostLikeCommandService implements LikePostUseCase, UnlikePostUseCas
   private final DeletePostLikePort deletePostLikePort;
   private final NotificationService notificationService;
 
+  @Transactional
   @Override
   public LikePostApiResponse likePost(LikePostCommand command) {
     /*게시글 조회*/

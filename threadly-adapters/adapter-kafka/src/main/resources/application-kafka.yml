@@ -1,13 +1,24 @@
-spring:
-  cloud:
-    function:
-      definition: notification;
-    stream:
-      binder:
-        brokers: localhost:9092
-      bindings:
-        notification-in-0:
-          destination: notification
-          content-type: application/json
-          group: notification-consumer
-          consumer.max-attempts: 2
+#spring:
+#  cloud:
+#    function:
+#      definition: notification
+#    stream:
+#      bindings:
+#        notification-out-0:
+#          destination: notification
+#          producer:
+#            use-native-encoding: true
+#      kafka:
+#        binder:
+#          brokers: localhost:9092
+#        bindings:
+#          notification-out-0:
+#            producer:
+#              configuration:
+#                key.serializer: org.apache.kafka.common.serialization.StringSerializer
+#                value.serializer: org.springframework.kafka.support.serializer.JsonSerializer
+#                spring.json.add.type.headers: false
+#                acks: all
+#                enable.idempotence: true
+#                max.in.flight.requests.per.connection: 5
+#                delivery.timeout.ms: 120000
