@@ -2,7 +2,7 @@ services:
   app:
     image: threadly-app-local:latest
     build:
-      context: /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly
+      context: /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly-service
       dockerfile: /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly-service/infra/docker/app/Dockerfile
       args:
         CACHE_BREAKER: 1
@@ -25,7 +25,19 @@ services:
       TZ: "Asia/Seoul"
     networks:
       - service-network
+      - monitoring-network
+
+  pushgateway:
+    image: prom/pushgateway:latest
+    platform: linux/arm64
+    restart: always
+    ports:
+      - '9091:9091'
+    networks:
+      - monitoring-network
 
 networks:
   service-network:
+    external: true
+  monitoring-network:
     external: true

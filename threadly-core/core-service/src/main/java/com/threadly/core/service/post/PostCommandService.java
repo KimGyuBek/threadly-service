@@ -51,8 +51,6 @@ public class PostCommandService implements CreatePostUseCase, UpdatePostUseCase,
 
   private final DeletePostLikePort deletePostLikePort;
 
-  private final FetchUserPort fetchUserPort;
-
   private final RecordPostViewPort recordPostViewPort;
 
   private final UpdatePostImagePort updatePostImagePort;

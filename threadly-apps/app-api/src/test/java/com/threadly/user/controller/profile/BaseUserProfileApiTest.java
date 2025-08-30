@@ -92,7 +92,7 @@ public abstract class BaseUserProfileApiTest extends BaseUserApiTest {
     assertThat(actual.user().nickname()).isEqualTo(expected.get("nickname"));
     assertThat(actual.statusMessage()).isEqualTo(expected.get("statusMessage"));
     assertThat(actual.bio()).isEqualTo(expected.get("bio"));
-    assertThat(actual.user().profileImageUrl()).isEqualTo(expected.get("profileImageUrl"));
+    assertThat(actual.user().profileImageUrl()).isEqualTo(expected.get("profileImageUrl") == null ? "/" : expected.get("profileImageUrl"));
   }
 
 }

@@ -2,7 +2,7 @@ jwt:
   enabled: true
   secret: ${JWT.SECRET}
 app:
-  version: ${{APP_VERSION:unknown}}
+  version: ${APP_VERSION:unknown}
 ttl:
   enabled: true
 
@@ -20,3 +20,8 @@ management:
   endpoint:
     health:
       show-details: always
+spring:
+
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+

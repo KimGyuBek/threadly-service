@@ -2,13 +2,17 @@ package com.threadly.core.service.post.like.post;
 
 import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.exception.post.PostException;
-import com.threadly.core.port.post.fetch.FetchPostPort;
+import com.threadly.core.domain.notification.NotificationType;
+import com.threadly.core.domain.notification.metadata.PostLikeMeta;
 import com.threadly.core.domain.post.CannotLikePostException;
 import com.threadly.core.domain.post.Post;
 import com.threadly.core.domain.post.PostLike;
+import com.threadly.core.port.post.fetch.FetchPostPort;
 import com.threadly.core.port.post.like.post.CreatePostLikePort;
 import com.threadly.core.port.post.like.post.DeletePostLikePort;
 import com.threadly.core.port.post.like.post.FetchPostLikePort;
+import com.threadly.core.service.notification.NotificationService;
+import com.threadly.core.service.notification.dto.NotificationPublishCommand;
 import com.threadly.core.usecase.post.like.post.LikePostApiResponse;
 import com.threadly.core.usecase.post.like.post.LikePostCommand;
 import com.threadly.core.usecase.post.like.post.LikePostUseCase;
@@ -29,10 +33,11 @@ public class PostLikeCommandService implements LikePostUseCase, UnlikePostUseCas
   private final FetchPostLikePort fetchPostLikePort;
   private final CreatePostLikePort createPostLikePort;
   private final DeletePostLikePort deletePostLikePort;
+  private final NotificationService notificationService;
 
+  @Transactional
   @Override
   public LikePostApiResponse likePost(LikePostCommand command) {
-
     /*게시글 조회*/
     Post post = getPost(command);
 
@@ -45,6 +50,14 @@ public class PostLikeCommandService implements LikePostUseCase, UnlikePostUseCas
 
       /*좋아요 저장*/
       createPostLikePort.createPostLike(newLike);
+
+      /*알림 발행*/
+      notificationService.publish(
+          new NotificationPublishCommand(
+              post.getUserId(),
+              command.getUserId(),
+              NotificationType.POST_LIKE,
+              new PostLikeMeta(post.getPostId())));
     }
 
     long likeCount = getLikeCount(command);

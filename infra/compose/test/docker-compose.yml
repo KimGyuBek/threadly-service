@@ -13,19 +13,30 @@ services:
       POSTGRES_PASSWORD: test
     volumes:
       - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly-service/infra/volumes/postgres_test/data:/var/lib/postgresql/data
-  h2:
-    container_name: threadly-h2-test
-    image: oscarfonts/h2
-    platform: linux/amd64
-    environment:
-      - H2_OPTIONS=-mem -tcp -tcpAllowOthers -webAllowOthers
-    ports:
-      - "9092:9092"
-      - "8082:8082"  # H2 웹 콘솔 포트
-    restart: unless-stopped
 
   redis-test:
     container_name: threadly-redis-test
     image: redis:latest
     ports:
       - "6380:6379"
+
+  zookeeper:
+    container_name: zookeeper-test
+    image: confluentinc/cp-zookeeper:7.4.0
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+    ports:
+      - "2181:2181"
+
+  kafka:
+    container_name: kafka-test
+    image: confluentinc/cp-kafka:7.4.0
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1

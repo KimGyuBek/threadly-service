@@ -7,6 +7,7 @@ dependencies {
     implementation(project(":threadly-adapters:adapter-persistence"))
     implementation(project(":threadly-adapters:adapter-redis"))
     implementation(project(":threadly-adapters:adapter-storage"))
+    implementation(project(":threadly-adapters:adapter-kafka"))
     implementation(project(":threadly-core:core-domain:"))
 
 
@@ -23,6 +24,8 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
     implementation("org.springframework.boot:spring-boot-devtools")
     implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
+    implementation("io.micrometer:micrometer-core")
+
 
     testImplementation("org.springframework.boot:spring-boot-starter-data-jpa")
 
