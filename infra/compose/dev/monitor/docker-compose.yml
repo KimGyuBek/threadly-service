@@ -1,5 +1,5 @@
 services:
-  loki:
+  loki-dev:
     image: grafana/loki:2.9.0
     container_name: loki
     ports:
@@ -12,7 +12,7 @@ services:
     networks:
       - monitoring-network
 
-  promtail:
+  promtail-dev:
     image: grafana/promtail:2.9.0
     container_name: promtail
     volumes:
@@ -22,13 +22,13 @@ services:
     networks:
       - monitoring-network
 
-  grafana:
+  grafana-dev:
     image: grafana/grafana:10.0.3
     container_name: grafana
     ports:
       - "3000:3000"
     depends_on:
-      - loki
+      - loki-dev
     environment:
       - GF_SERVER_HTTP_ADDR=0.0.0.0
       - GF_SECURITY_ADMIN_USER=admin
@@ -38,13 +38,13 @@ services:
     networks:
       - monitoring-network
 
-  prometheus:
+  prometheus-dev:
     image: prom/prometheus:latest
     container_name: prometheus
     ports:
       - "9090:9090"
     volumes:
-      - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly-service/infra/config/prometheus-local.yml:/etc/prometheus/prometheus.yml
+      - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly-service/infra/config/prometheus-dev.yml:/etc/prometheus/prometheus.yml
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
     networks:

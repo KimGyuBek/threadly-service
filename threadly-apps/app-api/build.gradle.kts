@@ -24,6 +24,8 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
     implementation("org.springframework.boot:spring-boot-devtools")
     implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
+    implementation("io.micrometer:micrometer-core")
+
 
     testImplementation("org.springframework.boot:spring-boot-starter-data-jpa")
 

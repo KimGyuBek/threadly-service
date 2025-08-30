@@ -2,7 +2,7 @@ jwt:
   enabled: true
   secret: ${JWT.SECRET}
 app:
-  version: ${{APP_VERSION:unknown}}
+  version: ${APP_VERSION:unknown}
 ttl:
   enabled: true
 
