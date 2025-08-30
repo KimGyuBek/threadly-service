@@ -28,6 +28,9 @@ logs/
 .claude/
 package-lock.json
 package.json
+node_modules/
+.claude/
+docs/
 
 
 ### STS ###
@@ -62,4 +65,4 @@ out/
 .vscode/
 
 ### Documentation ###
-pr-summaries/
+docs/pr-summaries/
