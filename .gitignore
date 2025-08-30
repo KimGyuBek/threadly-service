@@ -22,6 +22,7 @@ infra/image_tag.txt
 infra/LOG_FILE
 infra/volumes
 .env
+docs/
 
 logs/
 .claude/

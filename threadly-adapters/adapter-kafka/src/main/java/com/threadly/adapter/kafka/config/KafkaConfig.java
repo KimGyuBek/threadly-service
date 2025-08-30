@@ -32,12 +32,6 @@ public class KafkaConfig {
     configProps.put(ProducerConfig.PARTITIONER_CLASS_CONFIG,
         "org.apache.kafka.clients.producer.internals.DefaultPartitioner");
 
-    // 프로듀서 성능 및 안정성 설정
-    configProps.put(ProducerConfig.ACKS_CONFIG, "all"); // idempotence를 위해 all 필수
-    configProps.put(ProducerConfig.RETRIES_CONFIG, 3); // 재시도 횟수
-    configProps.put(ProducerConfig.RETRY_BACKOFF_MS_CONFIG, 1000); // 재시도 간격
-    configProps.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, true); // 멱등성 보장
-
     // idempotence 활성화 시 권장 설정들
     configProps.put(ProducerConfig.MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION, 5); // 동시 요청 수
     configProps.put(ProducerConfig.DELIVERY_TIMEOUT_MS_CONFIG, 120000); // 전송 타임아웃 (2분)
