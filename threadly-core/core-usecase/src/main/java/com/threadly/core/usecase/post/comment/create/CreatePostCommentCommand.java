@@ -11,7 +11,7 @@ import lombok.Getter;
 public class CreatePostCommentCommand {
 
   private String postId;
-  private String userId;
+  private String commenterId;
   private String content;
 
 }

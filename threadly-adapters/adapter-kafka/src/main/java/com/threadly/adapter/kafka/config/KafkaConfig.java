@@ -1,7 +1,5 @@
 package com.threadly.adapter.kafka.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
@@ -41,13 +39,13 @@ public class KafkaConfig {
 //    configProps.put(ProducerConfig.DELIVERY_TIMEOUT_MS_CONFIG, 120000); // 전송 타임아웃 (2분)
 //
     // ObjectMapper 설정을 위한 JsonSerializer 커스터마이징
-    ObjectMapper objectMapper = new ObjectMapper();
-    objectMapper.registerModule(new JavaTimeModule());
-    objectMapper.findAndRegisterModules();
-
+//    ObjectMapper objectMapper = new ObjectMapper();
+//    objectMapper.registerModule(new JavaTimeModule());
+//    objectMapper.findAndRegisterModules();
+//
     DefaultKafkaProducerFactory<String, Object> factory = new DefaultKafkaProducerFactory<>(
         configProps);
-    factory.setValueSerializer(new JsonSerializer<>(objectMapper));
+//    factory.setValueSerializer(new JsonSerializer<>(objectMapper));
 
     return factory;
   }
