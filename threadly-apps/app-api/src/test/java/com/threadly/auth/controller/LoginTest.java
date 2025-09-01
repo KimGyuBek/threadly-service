@@ -85,7 +85,7 @@ class LoginTest extends BaseApiTest {
       /*로그인 요청*/
       CommonResponse<Object> loginResponse = sendLoginRequest(invalidEmail, PASSWORD,
           new TypeReference<CommonResponse<Object>>() {
-          }, status().isNotFound());
+          }, status().isUnauthorized());
 
       //then
       assertAll(
