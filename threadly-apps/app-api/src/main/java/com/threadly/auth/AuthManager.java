@@ -116,10 +116,6 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
       throw new UserAuthenticationException(ErrorCode.USER_ALREADY_DELETED);
     }
 
-//    /*비활성화된 사용자인경우*/
-//    if (user.getUserStatusType().equals(UserStatusType.INACTIVE)) {
-//      throw new UserAuthenticationException(ErrorCode.USER_INACTIVE);
-//    }
     String userId = user.getUserId();
 
     /*로그인 횟수 제한이 걸려있는지 검증*/
