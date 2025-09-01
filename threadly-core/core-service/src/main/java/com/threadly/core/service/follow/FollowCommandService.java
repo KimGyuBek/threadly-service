@@ -14,7 +14,6 @@ import com.threadly.core.domain.user.User;
 import com.threadly.core.port.user.FetchUserPort;
 import com.threadly.core.port.user.follow.FollowCommandPort;
 import com.threadly.core.port.user.follow.FollowQueryPort;
-import com.threadly.core.service.notification.NotificationService;
 import com.threadly.core.service.notification.dto.NotificationPublishCommand;
 import com.threadly.core.service.validator.user.UserStatusValidator;
 import com.threadly.core.usecase.follow.command.FollowCommandUseCase;
@@ -24,6 +23,7 @@ import com.threadly.core.usecase.follow.command.dto.FollowUserCommand;
 import com.threadly.core.usecase.follow.command.dto.HandleFollowRequestCommand;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,7 +42,7 @@ public class FollowCommandService implements FollowCommandUseCase {
 
   private final UserStatusValidator userStatusValidator;
 
-  private final NotificationService notificationService;
+  private final ApplicationEventPublisher applicationEventPublisher;
 
   @Transactional
   @Override
@@ -77,7 +77,7 @@ public class FollowCommandService implements FollowCommandUseCase {
 
 
     /*알림 이벤트 발행*/
-    notificationService.publish(
+    applicationEventPublisher.publishEvent(
         new NotificationPublishCommand(
             follow.getFollowingId(),
             follow.getFollowerId(),
@@ -113,7 +113,7 @@ public class FollowCommandService implements FollowCommandUseCase {
     log.info("팔로우 요청 수락 : {} -> {}", follow.getFollowerId(), follow.getFollowingId());
 
     /*알림 이벤트 발행*/
-    notificationService.publish(
+    applicationEventPublisher.publishEvent(
         new NotificationPublishCommand(
             follow.getFollowingId(),
             follow.getFollowerId(),

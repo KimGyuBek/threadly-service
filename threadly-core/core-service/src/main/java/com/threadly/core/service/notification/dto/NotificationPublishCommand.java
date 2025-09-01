@@ -13,5 +13,4 @@ public record NotificationPublishCommand(
     NotificationMetaData notificationMetaData
 ) {
 
-
 }

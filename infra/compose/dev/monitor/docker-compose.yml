@@ -47,6 +47,8 @@ services:
       - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly-service/infra/config/prometheus-dev.yml:/etc/prometheus/prometheus.yml
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.retention.time=24h'
+      - '--storage.tsdb.retention.size=2GB'
     networks:
       - monitoring-network
 

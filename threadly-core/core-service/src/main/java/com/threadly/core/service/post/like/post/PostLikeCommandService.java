@@ -18,6 +18,7 @@ import com.threadly.core.usecase.post.like.post.LikePostCommand;
 import com.threadly.core.usecase.post.like.post.LikePostUseCase;
 import com.threadly.core.usecase.post.like.post.UnlikePostUseCase;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,7 +34,9 @@ public class PostLikeCommandService implements LikePostUseCase, UnlikePostUseCas
   private final FetchPostLikePort fetchPostLikePort;
   private final CreatePostLikePort createPostLikePort;
   private final DeletePostLikePort deletePostLikePort;
-  private final NotificationService notificationService;
+
+  private final ApplicationEventPublisher applicationEventPublisher;
+
 
   @Transactional
   @Override
@@ -52,12 +55,13 @@ public class PostLikeCommandService implements LikePostUseCase, UnlikePostUseCas
       createPostLikePort.createPostLike(newLike);
 
       /*알림 발행*/
-      notificationService.publish(
+      applicationEventPublisher.publishEvent(
           new NotificationPublishCommand(
               post.getUserId(),
               command.getUserId(),
               NotificationType.POST_LIKE,
-              new PostLikeMeta(post.getPostId())));
+              new PostLikeMeta(post.getPostId()))
+      );
     }
 
     long likeCount = getLikeCount(command);

@@ -5,11 +5,11 @@ import static com.threadly.commons.utils.LogFormatUtils.logFailure;
 import static com.threadly.commons.utils.LogFormatUtils.logSuccess;
 
 import com.threadly.commons.exception.ErrorCode;
-import com.threadly.global.exception.UserAuthenticationException;
+import com.threadly.commons.exception.user.UserException;
 import com.threadly.core.usecase.auth.token.response.LoginTokenApiResponse;
 import com.threadly.core.usecase.auth.token.response.TokenReissueApiResponse;
 import com.threadly.core.usecase.auth.verification.response.PasswordVerificationToken;
-import com.threadly.commons.exception.user.UserException;
+import com.threadly.global.exception.UserAuthenticationException;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -59,10 +59,11 @@ public class AuthLoggingAspect {
     } else if (exception instanceof UserException) {
       log.error(exception.getMessage(), exception);
       logFailure(joinPoint, exception);
-      throw new UserException(
-          ((UserException) exception).getErrorCode());
+//      throw new UserException(
+//          ((UserException) exception).getErrorCode());
 //      throw new UserAuthenticationException(ErrorCode.USER_NOT_FOUND);
 
+      throw new UserAuthenticationException(ErrorCode.USER_AUTHENTICATION_FAILED);
     } else if (exception instanceof UsernameNotFoundException
         || exception instanceof BadCredentialsException) {
       log.error(exception.getMessage(), exception);

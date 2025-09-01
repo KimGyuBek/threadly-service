@@ -20,7 +20,6 @@ import com.threadly.core.port.post.fetch.FetchPostPort;
 import com.threadly.core.port.post.like.comment.DeletePostCommentLikePort;
 import com.threadly.core.port.user.profile.fetch.FetchUserProfilePort;
 import com.threadly.core.port.user.profile.fetch.UserPreviewProjection;
-import com.threadly.core.service.notification.NotificationService;
 import com.threadly.core.service.notification.dto.NotificationPublishCommand;
 import com.threadly.core.usecase.post.comment.create.CreatePostCommentApiResponse;
 import com.threadly.core.usecase.post.comment.create.CreatePostCommentCommand;
@@ -28,6 +27,7 @@ import com.threadly.core.usecase.post.comment.create.CreatePostCommentUseCase;
 import com.threadly.core.usecase.post.comment.delete.DeletePostCommentCommand;
 import com.threadly.core.usecase.post.comment.delete.DeletePostCommentUseCase;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,9 +49,10 @@ public class PostCommentCommandService implements CreatePostCommentUseCase,
 
   private final FetchUserProfilePort fetchUserProfilePort;
 
-  private final NotificationService notificationService;
+  private final ApplicationEventPublisher applicationEventPublisher;
 
 
+  @Transactional
   @Override
   public CreatePostCommentApiResponse createPostComment(CreatePostCommentCommand command) {
     /* 게시글 조회*/
@@ -68,7 +69,7 @@ public class PostCommentCommandService implements CreatePostCommentUseCase,
     }
 
     /*게시글 생성*/
-    PostComment newComment = post.addComment(command.getUserId(), command.getContent());
+    PostComment newComment = post.addComment(command.getCommenterId(), command.getContent());
 
     /*댓글 저장*/
     createPostCommentPort.savePostComment(newComment);
@@ -78,7 +79,7 @@ public class PostCommentCommandService implements CreatePostCommentUseCase,
         newComment.getUserId());
 
     /*Notification 발행*/
-    notificationService.publish(
+    applicationEventPublisher.publishEvent(
         new NotificationPublishCommand(
             post.getUserId(),
             newComment.getUserId(),

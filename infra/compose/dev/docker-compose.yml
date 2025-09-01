@@ -1,7 +1,7 @@
 #DEV
 services:
-  postgresql:
-    container_name: threadly-postgresql-test
+  postgresql-dev:
+    container_name: postgresql
     image:
       postgres:16
     restart: always
@@ -15,8 +15,8 @@ services:
       - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly-service/infra/volumes/postgres_dev/data:/var/lib/postgresql/data
       - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly-service/logs/postgres:/var/log
 
-  redis-test:
-    container_name: threadly-redis-test
+  redis-dev:
+    container_name: redis-dev
     image: redis:latest
     command: [ "redis-server", "--logfile", "/var/log/redis.log" ]
     volumes:
