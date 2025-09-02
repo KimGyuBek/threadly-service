@@ -14,7 +14,6 @@ pluginManagement {
 }
 
 include("threadly-adapters:adapter-persistence")
-include("threadly-adapters:adapter-http")
 include("threadly-adapters:adapter-redis")
 include("threadly-adapters:adapter-storage")
 include("threadly-adapters:adapter-kafka")
