@@ -3,15 +3,10 @@ package com.threadly.core.usecase.auth.verification;
 public interface EmailVerificationUseCase {
 
   /**
-   * code로 이메일 인증
+   * 인증 메일 검증
+   *
    * @param code
    */
-  void verificationEmail(String code);
-
-  /**
-   * 인증 메일 전송
-   * @param userId
-   */
-  void sendVerificationEmail(String userId);
+  void verifyEmail(String code);
 
 }

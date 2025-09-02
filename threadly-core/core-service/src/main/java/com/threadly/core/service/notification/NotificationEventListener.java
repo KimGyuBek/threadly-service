@@ -9,18 +9,18 @@ import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
 /**
- * 알림 발행 이벤트 핸들러
+ * 알림 발행 이벤트 listener
  */
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class NotificationEventHandler {
+public class NotificationEventListener {
 
   private final NotificationService notificationService;
 
   @Async("eventExecutor")
   @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
-  public void handleNotificationEvent(NotificationPublishCommand command) {
+  public void onNotificationPublished(NotificationPublishCommand command) {
 
     try {
       notificationService.publish(command);

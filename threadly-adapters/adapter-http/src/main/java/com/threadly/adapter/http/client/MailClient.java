@@ -44,7 +44,7 @@ public class MailClient implements SendMailPort {
       sendMail(subject, context);
 
       log.info("인증 메일 전송 완료");
-      log.debug("verifyUrl : " + verifyUrl);
+      log.debug("verificationUrl : " + verifyUrl);
 
     } catch (Exception e) {
       throw new EmailVerificationException(ErrorCode.EMAIL_SENDING_FAILED);
@@ -53,7 +53,7 @@ public class MailClient implements SendMailPort {
   }
 
   @Override
-  public void sendVerificationCompleteMail(String to, String userName) {
+  public void sendWelcomeMail(String to, String userName) {
     try {
       String subject = "[" + userName + "] 님 가입을 진심으로 환영합니다.";
       String context = getContext(null, "signup-complete-mail");

@@ -3,28 +3,31 @@ package com.threadly.core.service.user;
 import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.exception.user.UserException;
 import com.threadly.commons.properties.TtlProperties;
+import com.threadly.commons.utils.JwtTokenUtils;
+import com.threadly.core.domain.mail.MailType;
+import com.threadly.core.domain.user.User;
 import com.threadly.core.port.token.DeleteTokenPort;
 import com.threadly.core.port.token.InsertBlackListToken;
 import com.threadly.core.port.token.InsertTokenPort;
-import com.threadly.core.usecase.user.account.command.dto.ChangePasswordCommand;
-import com.threadly.core.usecase.user.account.command.ChangePasswordUseCase;
-import com.threadly.core.usecase.user.account.command.DeactivateMyAccountUseCase;
-import com.threadly.core.usecase.user.account.command.WithdrawMyAccountUseCase;
-import com.threadly.core.usecase.user.profile.command.dto.UpdateMyPrivacySettingCommand;
-import com.threadly.core.usecase.user.profile.command.UpdateMyPrivacySettingUseCase;
-import com.threadly.core.usecase.user.account.command.dto.RegisterUserApiResponse;
-import com.threadly.core.usecase.user.account.command.dto.RegisterUserCommand;
-import com.threadly.core.usecase.user.account.command.RegisterUserUseCase;
 import com.threadly.core.port.user.FetchUserPort;
 import com.threadly.core.port.user.SaveUserPort;
 import com.threadly.core.port.user.UpdateUserPort;
 import com.threadly.core.port.user.response.UserPortResponse;
+import com.threadly.core.usecase.mail.SendMailCommand;
+import com.threadly.core.usecase.user.account.command.ChangePasswordUseCase;
+import com.threadly.core.usecase.user.account.command.DeactivateMyAccountUseCase;
+import com.threadly.core.usecase.user.account.command.RegisterUserUseCase;
 import com.threadly.core.usecase.user.account.command.UpdateUserUseCase;
-import com.threadly.commons.utils.JwtTokenUtils;
-import com.threadly.core.domain.user.User;
+import com.threadly.core.usecase.user.account.command.WithdrawMyAccountUseCase;
+import com.threadly.core.usecase.user.account.command.dto.ChangePasswordCommand;
+import com.threadly.core.usecase.user.account.command.dto.RegisterUserApiResponse;
+import com.threadly.core.usecase.user.account.command.dto.RegisterUserCommand;
+import com.threadly.core.usecase.user.profile.command.UpdateMyPrivacySettingUseCase;
+import com.threadly.core.usecase.user.profile.command.dto.UpdateMyPrivacySettingCommand;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,6 +44,8 @@ public class UserCommandService implements RegisterUserUseCase, UpdateUserUseCas
 
   private final InsertTokenPort insertTokenPort;
   private final DeleteTokenPort deleteTokenPort;
+
+  private final ApplicationEventPublisher applicationEventPublisher;
 
   private final TtlProperties ttlProperties;
 
@@ -67,6 +72,16 @@ public class UserCommandService implements RegisterUserUseCase, UpdateUserUseCas
     UserPortResponse userPortResponse = saveUserPort.save(user);
 
     log.info("회원 가입 성공");
+
+    /*인증 메일 전송 이벤트 발행*/
+    applicationEventPublisher.publishEvent(
+        new SendMailCommand(
+            user.getUserId(),
+            user.getEmail(),
+            user.getUserName(),
+            MailType.VERIFICATION
+        )
+    );
 
     return RegisterUserApiResponse.builder()
         .userId(userPortResponse.getUserId())

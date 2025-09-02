@@ -71,7 +71,7 @@ public class AuthController {
    */
   @GetMapping("/verify-email")
   public void verifyMail(@RequestParam String code) {
-    emailVerificationUseCase.verificationEmail(code);
+    emailVerificationUseCase.verifyEmail(code);
   }
 
   /**

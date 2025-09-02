@@ -24,7 +24,7 @@ public class EmailVerificationLoggingAspect {
   /*
    * verificationEmail()
    * */
-  @Pointcut("execution(* com.threadly.core.service.verification.EmailVerificationService.verificationEmail(..))")
+  @Pointcut("execution(* com.threadly.core.service.verification.EmailVerificationService.verifyEmail(..))")
   public void verificationEmail() {
   }
 
@@ -39,28 +39,6 @@ public class EmailVerificationLoggingAspect {
   @AfterThrowing(pointcut = "verificationEmail()", throwing = "exception")
   public void logVerificationEmailFailed(JoinPoint joinPoint, Exception exception) {
     debugLog(joinPoint, "인증 메일 검증 실패");
-    logFailure(joinPoint, exception);
-
-  }
-
-  /*
-  * sendVerificationEmail()
-   */
-  @Pointcut("execution(* com.threadly.core.service.verification.EmailVerificationService.sendVerificationEmail(..))")
-  public void sendVerificationEmail() {
-  }
-
-  /*성공*/
-  @AfterReturning(pointcut = "sendVerificationEmail()")
-  public void logSendVerificationEmail(JoinPoint joinPoint) {
-    debugLog(joinPoint, "인증 메일 전송 성공");
-    logSuccess(joinPoint);
-  }
-
-  /*실패*/
-  @AfterThrowing(pointcut = "sendVerificationEmail()", throwing = "exception")
-  public void logSendVerificationEmailFailed(JoinPoint joinPoint, Exception exception) {
-    debugLog(joinPoint, "인증 메일 전송 실패");
     logFailure(joinPoint, exception);
 
   }

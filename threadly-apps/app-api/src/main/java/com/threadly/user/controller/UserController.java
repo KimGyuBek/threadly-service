@@ -1,11 +1,11 @@
 package com.threadly.user.controller;
 
-import com.threadly.core.usecase.auth.verification.EmailVerificationUseCase;
-import com.threadly.core.usecase.user.account.command.dto.RegisterUserApiResponse;
 import com.threadly.core.usecase.user.account.command.RegisterUserUseCase;
+import com.threadly.core.usecase.user.account.command.dto.RegisterUserApiResponse;
 import com.threadly.user.request.UserRegisterRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,8 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
   private final RegisterUserUseCase registerUserUseCase;
-  private final EmailVerificationUseCase emailVerificationUseCase;
-
 
   /**
    * 회원 가입
@@ -30,15 +28,12 @@ public class UserController {
    * @return
    */
   @PostMapping("")
-  public RegisterUserApiResponse register(
+  public ResponseEntity<RegisterUserApiResponse> register(
       @Valid @RequestBody UserRegisterRequest request
   ) {
     /*회원 가입*/
-    RegisterUserApiResponse response = registerUserUseCase.register(request.toCommand());
-
-    /*인증 메일 전송*/
-    emailVerificationUseCase.sendVerificationEmail(response.getUserId());
-
-    return response;
+    return ResponseEntity.ok().body(
+        registerUserUseCase.register(request.toCommand())
+    );
   }
 }

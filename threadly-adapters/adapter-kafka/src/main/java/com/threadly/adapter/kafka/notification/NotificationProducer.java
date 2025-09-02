@@ -9,6 +9,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
+/**
+ * Kafka 알림 producer
+ */
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -28,7 +31,7 @@ public class NotificationProducer implements NotificationEventPublisherPort {
         notification.getMetadata()
     );
 
-    String kafkaKey = notification.getReceiverId();
+    String kafkaKey = event.getReceiverUserId();
 
     kafkaTemplate.send(
         "notification",
