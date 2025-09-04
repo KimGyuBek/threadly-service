@@ -8,6 +8,7 @@ import com.threadly.commons.exception.post.PostImageException;
 import com.threadly.commons.exception.token.TokenException;
 import com.threadly.commons.exception.user.UserException;
 import com.threadly.commons.exception.user.UserProfileImageException;
+import com.threadly.commons.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;

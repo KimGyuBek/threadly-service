@@ -1,0 +1,59 @@
+server:
+  forward-headers-strategy: framework
+
+spring:
+  kafka:
+    bootstrap-servers: kafka:9092
+  config:
+    import:
+      - "classpath:application-persistence-prod.yml"
+      - "classpath:application-redis-prod.yml"
+#logging:
+#  level:
+#    root: warn
+#    com.threadly: info
+#    org.springframework: warn
+#    org.hibernate.SQL: warn
+#    org.hibernate.type.descriptor.sql.BasicBinder: warn
+
+logging:
+  level:
+    root: info
+    com.threadly: debug
+    org.hibernate.SQL: debug
+    org.hibernate.orm.jdbc.bind: trace
+
+properties:
+  ttl:
+    access-token: 900
+    refresh-token: 1209600
+    blacklist-token: 900
+    email-verification: 600
+    password-verification: 600
+    login-attempt: 300
+    post-view: 3600
+  file:
+    upload:
+      location:
+        post-image: ./local-storage/uploads/images/posts/
+        profile-image: ./local-storage/uploads/images/profiles/
+      access-url:
+        post-image: https://api.threadly.kr/images/posts/
+        profile-image: https://api.threadly.kr/images/profiles/
+      max-image-count: 20
+      max-size: 5MB
+      allow-types:
+        jpeg: image/jpeg
+        jpg: image/jpeg
+        png: image/png
+        webp: image/webp
+      allow-extensions:
+        - jpg
+        - jpeg
+        - png
+        - webp
+      aspect-ratio:
+        target: RATIO_3_4
+        tolerance: 0.05 # 허용 오차 비율
+  email:
+    verification-url: http://localhost:8080

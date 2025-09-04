@@ -22,7 +22,16 @@ infra/image_tag.txt
 infra/LOG_FILE
 infra/volumes
 .env
+docs/
 
+logs/
+.claude/
+package-lock.json
+package.json
+node_modules/
+.claude/
+docs/
+load-test/
 
 
 ### STS ###
@@ -57,4 +66,4 @@ out/
 .vscode/
 
 ### Documentation ###
-pr-summaries/
+docs/pr/

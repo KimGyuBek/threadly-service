@@ -1,10 +1,10 @@
 spring:
+  kafka:
+    bootstrap-servers: localhost:9092
   config:
     import:
       - application-redis-test.yml
       - application-persistence-test.yml
-      - application-port-test.yml
-
 
 logging:
   level:

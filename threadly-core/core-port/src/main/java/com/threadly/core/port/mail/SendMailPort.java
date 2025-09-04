@@ -13,6 +13,12 @@ public interface SendMailPort {
    */
   void sendVerificationMail(String to, String code);
 
-  void sendVerificationCompleteMail(String to, String userName);
+  /**
+   * 환영 메일 전송
+   *
+   * @param to
+   * @param userName
+   */
+  void sendWelcomeMail(String to, String userName);
 
 }

@@ -3,6 +3,8 @@ package com.threadly.core.service.post.comment;
 import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.exception.post.PostCommentException;
 import com.threadly.commons.exception.post.PostException;
+import com.threadly.core.domain.notification.NotificationType;
+import com.threadly.core.domain.notification.metadata.PostCommentMeta;
 import com.threadly.core.domain.post.Post;
 import com.threadly.core.domain.post.PostCommentStatus;
 import com.threadly.core.domain.post.PostStatus;
@@ -11,19 +13,21 @@ import com.threadly.core.domain.post.comment.CannotDeleteCommentException.Blocke
 import com.threadly.core.domain.post.comment.CannotDeleteCommentException.ParentPostInactiveException;
 import com.threadly.core.domain.post.comment.CannotDeleteCommentException.WriteMismatchException;
 import com.threadly.core.domain.post.comment.PostComment;
-import com.threadly.core.usecase.post.comment.create.CreatePostCommentApiResponse;
-import com.threadly.core.usecase.post.comment.create.CreatePostCommentCommand;
 import com.threadly.core.port.post.comment.create.CreatePostCommentPort;
-import com.threadly.core.usecase.post.comment.create.CreatePostCommentUseCase;
-import com.threadly.core.usecase.post.comment.delete.DeletePostCommentCommand;
-import com.threadly.core.usecase.post.comment.delete.DeletePostCommentUseCase;
 import com.threadly.core.port.post.comment.fetch.FetchPostCommentPort;
 import com.threadly.core.port.post.comment.update.UpdatePostCommentPort;
 import com.threadly.core.port.post.fetch.FetchPostPort;
 import com.threadly.core.port.post.like.comment.DeletePostCommentLikePort;
 import com.threadly.core.port.user.profile.fetch.FetchUserProfilePort;
 import com.threadly.core.port.user.profile.fetch.UserPreviewProjection;
+import com.threadly.core.service.notification.dto.NotificationPublishCommand;
+import com.threadly.core.usecase.post.comment.create.CreatePostCommentApiResponse;
+import com.threadly.core.usecase.post.comment.create.CreatePostCommentCommand;
+import com.threadly.core.usecase.post.comment.create.CreatePostCommentUseCase;
+import com.threadly.core.usecase.post.comment.delete.DeletePostCommentCommand;
+import com.threadly.core.usecase.post.comment.delete.DeletePostCommentUseCase;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,7 +49,10 @@ public class PostCommentCommandService implements CreatePostCommentUseCase,
 
   private final FetchUserProfilePort fetchUserProfilePort;
 
+  private final ApplicationEventPublisher applicationEventPublisher;
 
+
+  @Transactional
   @Override
   public CreatePostCommentApiResponse createPostComment(CreatePostCommentCommand command) {
     /* 게시글 조회*/
@@ -62,7 +69,7 @@ public class PostCommentCommandService implements CreatePostCommentUseCase,
     }
 
     /*게시글 생성*/
-    PostComment newComment = post.addComment(command.getUserId(), command.getContent());
+    PostComment newComment = post.addComment(command.getCommenterId(), command.getContent());
 
     /*댓글 저장*/
     createPostCommentPort.savePostComment(newComment);
@@ -70,6 +77,20 @@ public class PostCommentCommandService implements CreatePostCommentUseCase,
     /*comment preview 조회*/
     UserPreviewProjection userCommentPreview = fetchUserProfilePort.findUserPreviewByUserId(
         newComment.getUserId());
+
+    /*Notification 발행*/
+    applicationEventPublisher.publishEvent(
+        new NotificationPublishCommand(
+            post.getUserId(),
+            newComment.getUserId(),
+            NotificationType.COMMENT_ADDED,
+            new PostCommentMeta(
+                post.getPostId(),
+                newComment.getCommentId(),
+                newComment.getContent()
+            )
+        )
+    );
 
     return new CreatePostCommentApiResponse(
         newComment.getCommentId(),

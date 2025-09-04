@@ -1,19 +1,19 @@
 package com.threadly.core.service.verification;
 
-import com.threadly.core.usecase.auth.verification.EmailVerificationUseCase;
 import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.exception.mail.EmailVerificationException;
 import com.threadly.commons.exception.user.UserException;
-import com.threadly.core.port.mail.SendMailPort;
-import com.threadly.commons.properties.TtlProperties;
+import com.threadly.core.domain.mail.MailType;
+import com.threadly.core.domain.user.User;
 import com.threadly.core.port.user.FetchUserPort;
 import com.threadly.core.port.user.UpdateUserPort;
-import com.threadly.core.domain.user.User;
 import com.threadly.core.port.verification.EmailVerificationPort;
+import com.threadly.core.usecase.auth.verification.EmailVerificationUseCase;
+import com.threadly.core.usecase.mail.SendMailCommand;
 import java.util.Optional;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,16 +26,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class EmailVerificationService implements EmailVerificationUseCase {
 
   private final EmailVerificationPort emailVerificationPort;
-  private final SendMailPort sendMailPort;
   private final UpdateUserPort updateUserPort;
   private final FetchUserPort fetchUserPort;
 
-  private final TtlProperties ttlProperties;
-
+  private final ApplicationEventPublisher eventPublisher;
 
   @Transactional
   @Override
-  public void verificationEmail(String code) {
+  public void verifyEmail(String code) {
     /*code로 userId 조회*/
     String userId = emailVerificationPort.getUserId(code);
 
@@ -59,23 +57,14 @@ public class EmailVerificationService implements EmailVerificationUseCase {
     /*redis에서 코드 삭제*/
     emailVerificationPort.deleteCode(code);
 
-
     /*가입 환영 메일 전송*/
-    sendMailPort.sendVerificationCompleteMail(userId, user.getUserName());
-  }
-
-  @Override
-  public void sendVerificationEmail(String userId) {
-
-    /*인증 코드 생성*/
-    String code = UUID.randomUUID().toString().substring(0, 6);
-
-    log.debug("인증 코드 : {}", code);
-
-    /*인증 코드 저장*/
-    emailVerificationPort.saveCode(userId, code, ttlProperties.getAccessToken());
-
-    /*메일 전송*/
-    sendMailPort.sendVerificationMail(userId, code);
+    eventPublisher.publishEvent(
+        new SendMailCommand(
+            user.getUserId(),
+            user.getEmail(),
+            user.getUserName(),
+            MailType.WELCOME
+        )
+    );
   }
 }

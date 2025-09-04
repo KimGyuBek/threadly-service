@@ -10,6 +10,15 @@ services:
       - ./.env
     environment:
       TZ: "Asia/Seoul"
+      JAVA_TOOL_OPTIONS: "-Xms256m -Xmx512m -XX:+UseG1GC -XX:MaxGCPauseMillis=200"
+    mem_limit: 600m
+    cpus: 0.8
+    healthcheck:
+      test: [ "CMD-SHELL", "wget -qO- http://localhost:8080/actuator/health >/dev/null 2>&1 || exit 1" ]
+      interval: 15s
+      timeout: 3s
+      retries: 10
+      start_period: 30s
     logging:
       driver: json-file
       options:
@@ -19,9 +28,13 @@ services:
       - /home/ubuntu/threadly/logs/services/app/green:/app/logs
     networks:
       - service-network
+      - kafka-network
 
 networks:
   monitoring-network:
     external: true
   service-network:
     external: true
+  kafka-network:
+    external: true
+

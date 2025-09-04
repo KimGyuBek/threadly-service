@@ -2,17 +2,21 @@ package com.threadly.core.service.post.like.comment;
 
 import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.exception.post.PostCommentException;
-import com.threadly.core.port.post.comment.fetch.FetchPostCommentPort;
+import com.threadly.core.domain.notification.NotificationType;
+import com.threadly.core.domain.notification.metadata.CommentLikeMeta;
 import com.threadly.core.domain.post.comment.CannotLikePostCommentException;
 import com.threadly.core.domain.post.comment.PostComment;
+import com.threadly.core.port.post.comment.fetch.FetchPostCommentPort;
 import com.threadly.core.port.post.like.comment.CreatePostCommentLikePort;
 import com.threadly.core.port.post.like.comment.DeletePostCommentLikePort;
 import com.threadly.core.port.post.like.comment.FetchPostCommentLikePort;
+import com.threadly.core.service.notification.dto.NotificationPublishCommand;
 import com.threadly.core.usecase.post.like.comment.LikePostCommentApiResponse;
 import com.threadly.core.usecase.post.like.comment.LikePostCommentCommand;
 import com.threadly.core.usecase.post.like.comment.LikePostCommentUseCase;
 import com.threadly.core.usecase.post.like.comment.UnlikePostCommentUseCase;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +33,8 @@ public class PostCommentLikeCommandService implements LikePostCommentUseCase,
   private final FetchPostCommentLikePort fetchPostCommentLikePort;
   private final CreatePostCommentLikePort createPostCommentLikePort;
   private final DeletePostCommentLikePort deletePostCommentLikePort;
+
+  private final ApplicationEventPublisher applicationEventPublisher;
 
   @Transactional
   @Override
@@ -47,7 +53,19 @@ public class PostCommentLikeCommandService implements LikePostCommentUseCase,
           postComment.like(command.getUserId()));
     }
 
-    /*좋아요 수 조회*/
+    /*알림 이벤트 발행*/
+    applicationEventPublisher.publishEvent(
+        new NotificationPublishCommand(
+            postComment.getUserId(),
+            command.getUserId(),
+            NotificationType.COMMENT_LIKE,
+            new CommentLikeMeta(
+                postComment.getPostId(),
+                postComment.getCommentId(),
+                postComment.getContent()
+            )
+        )
+    );
 
     return new LikePostCommentApiResponse(
         postComment.getCommentId(),

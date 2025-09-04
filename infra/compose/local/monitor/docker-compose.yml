@@ -5,9 +5,9 @@ services:
     ports:
       - "3100:3100"
     volumes:
-      - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly/infra/loki-stack/loki/config.yml:/etc/loki/config.yml
-      - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly/infra/loki-stack/loki/data:/tmp/loki
-      - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly/infra/loki-stack/loki/wal:/wal
+      - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly-service/infra/loki-stack/loki/config.yml:/etc/loki/config.yml
+      - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly-service/infra/loki-stack/loki/data:/tmp/loki
+      - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly-service/infra/loki-stack/loki/wal:/wal
     command: -config.file=/etc/loki/config.yml
     networks:
       - monitoring-network
@@ -16,8 +16,8 @@ services:
     image: grafana/promtail:2.9.0
     container_name: promtail
     volumes:
-      - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly/logs:/var/logs
-      - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly/infra/loki-stack/promtail/config_local.yml:/etc/promtail/config.yml
+      - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly-service/logs:/var/logs
+      - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly-service/infra/loki-stack/promtail/config_local.yml:/etc/promtail/config.yml
     command: -config.file=/etc/promtail/config.yml
     networks:
       - monitoring-network
@@ -35,6 +35,18 @@ services:
       - GF_SECURITY_PASSWORD=admin
     volumes:
       - grafana-storage:/var/lib/grafana
+    networks:
+      - monitoring-network
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly-service/infra/config/prometheus-local.yml:/etc/prometheus/prometheus.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
     networks:
       - monitoring-network
 

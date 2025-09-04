@@ -7,7 +7,7 @@ object Versions {
     const val asciidoctorPlugin = "3.3.2"
     const val lineRecipePlugin = "1.1.1"
 
-    const val jwt = "0.12.6"
+    const val jwt = "0.11.5"
 
     const val apacheCommonsLang = "3.12.0"
     const val apacheCommonsCollections = "4.4"
@@ -15,9 +15,10 @@ object Versions {
     const val guava = "31.1-jre"
     const val mapstruct = "1.5.3.Final"
     const val jacksonCore = "2.17.1"
-    const val querydsl = "5.0.0"
 
     const val junit = "5.8.1"
     const val assertjCore = "3.25.1"
     const val mockitoCore = "5.1.1"
+    
+    const val springCloud = "2023.0.3"
 }

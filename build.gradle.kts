@@ -31,10 +31,6 @@ subprojects {
     }
 }
 
-dependencies {
-    testImplementation(platform("org.junit:junit-bom:5.10.2"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
-}
 
 configureByLabels("java") {
     apply(plugin = "org.gradle.java")
@@ -50,6 +46,7 @@ configureByLabels("java") {
     the<io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension>().apply {
         imports {
             mavenBom("org.springframework.boot:spring-boot-dependencies:${Versions.springBoot}")
+            mavenBom("org.springframework.cloud:spring-cloud-dependencies:${Versions.springCloud}")
             mavenBom("com.google.guava:guava-bom:${Versions.guava}")
         }
 
@@ -152,28 +149,3 @@ configureByLabels("restdocs") {
     apply(plugin = "com.epages.restdocs-api-spec")
 }
 
-configureByLabels("querydsl") {
-    the<io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension>().apply {
-        imports {
-            mavenBom("com.querydsl:querydsl-bom:${Versions.querydsl}")
-        }
-
-        dependencies {
-            dependency("com.querydsl:querydsl-core:${Versions.querydsl}")
-            dependency("com.querydsl:querydsl-jpa:${Versions.querydsl}")
-            dependency("com.querydsl:querydsl-apt:${Versions.querydsl}")
-        }
-    }
-
-    dependencies {
-        val implementation by configurations
-        val annotationProcessor by configurations
-
-        implementation("com.querydsl:querydsl-jpa:${Versions.querydsl}:jakarta")
-        implementation("com.querydsl:querydsl-core:${Versions.querydsl}")
-
-        annotationProcessor("com.querydsl:querydsl-apt:${Versions.querydsl}:jakarta")
-        annotationProcessor("jakarta.persistence:jakarta.persistence-api")
-        annotationProcessor("jakarta.annotation:jakarta.annotation-api")
-    }
-}
