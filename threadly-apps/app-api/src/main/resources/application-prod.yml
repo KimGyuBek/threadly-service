@@ -17,7 +17,6 @@ spring:
     import:
       - "classpath:application-persistence-prod.yml"
       - "classpath:application-redis-prod.yml"
-      - "classpath:application-port.yml"
 #logging:
 #  level:
 #    root: warn
