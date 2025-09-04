@@ -13,6 +13,9 @@ services:
     user: "999:999"
     ports:
       - "5432:5432"
+    command: [ "postgres","-c","shared_buffers=128MB","-c","work_mem=4MB","-c","max_connections=80" ]
+    mem_limit: 512m
+    cpus: 0.5
     networks:
       - service-network
       - monitoring-network
@@ -27,7 +30,13 @@ services:
     user: "999:999"
     ports:
       - "6379:6379"
-    command: [ "redis-server", "--logfile", "/var/log/redis.log" ]
+    command: [
+      "redis-server",
+      "--logfile", "/var/log/redis.log",
+      "--maxmemory", "128mb",
+      "--maxmemory-policy", "allkeys-lru"
+    ]
+    mem_limit: 160m
     networks:
       - service-network
 

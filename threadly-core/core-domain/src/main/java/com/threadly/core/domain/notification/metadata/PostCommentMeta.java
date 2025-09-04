@@ -14,6 +14,6 @@ public record PostCommentMeta(
 
   @Override
   public NotificationType notificationType() {
-    return null;
+    return NotificationType.COMMENT_ADDED;
   }
 }

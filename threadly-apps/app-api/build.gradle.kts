@@ -3,7 +3,6 @@ dependencies {
     implementation(project(":threadly-commons"))
     implementation(project(":threadly-core:core-port"))
     implementation(project(":threadly-core:core-service"))
-    implementation(project(":threadly-adapters:adapter-http"))
     implementation(project(":threadly-adapters:adapter-persistence"))
     implementation(project(":threadly-adapters:adapter-redis"))
     implementation(project(":threadly-adapters:adapter-storage"))
