@@ -19,9 +19,13 @@ services:
       - /home/ubuntu/threadly/logs/services/app/green:/app/logs
     networks:
       - service-network
+      - kafka-network
 
 networks:
   monitoring-network:
     external: true
   service-network:
     external: true
+  kafka-network:
+    external: true
+
