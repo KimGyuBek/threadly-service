@@ -1,8 +1,17 @@
 server:
   forward-headers-strategy: framework
+  tomcat:
+    max-threads: 100
 
 spring:
+  task:
+    execution:
+      pool:
+        core-size: 8
+        max-size: 16
   kafka:
+    listener:
+      concurrency: 1
     bootstrap-servers: kafka:9092
   config:
     import:
