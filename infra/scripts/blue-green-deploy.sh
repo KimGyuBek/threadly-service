@@ -60,7 +60,7 @@ until curl -fs "http://localhost:$NEXT_PORT/actuator/health" > /dev/null; do
     exit 1
   fi
   log "Health Check 대기 중... 재시도 $RETRY_COUNT"
-  sleep 3
+  sleep 10
 done
 
 log "Health Check 성공!"
