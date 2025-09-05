@@ -1,12 +1,19 @@
 name: CD
 
 on:
-  pull_request:
+  push:
     branches: [ master ]
+    paths-ignore:
+      - 'README.md'
+      - 'docs/**'
+      - '.github/**'
+  workflow_dispatch:
+concurrency:
+  group: deploy-master
+  cancel-in-progress: true
 
 jobs:
   build:
-    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true)
     runs-on: ubuntu-latest
     outputs:
       image_tag: ${{ steps.read_tag.outputs.IMAGE_TAG }}
