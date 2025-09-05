@@ -1,7 +1,7 @@
 name: "트러블 슈팅 레포트"
 description: "문제 발생 시 간단히 기록하고 상세 문서는 docs/troubleshooting 경로에 정리"
-title: "[트러블 슈팅] "
-labels: [ "트러블 슈팅" ]
+title: "[TROUBLESHOOTING] "
+labels: [ "troubleshooting" ]
 
 body:
   - type: textarea
