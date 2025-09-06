@@ -67,6 +67,7 @@ jobs:
           mkdir -p ./deploy/scripts
           cp ./infra/scripts/blue-green-deploy.sh ./deploy/scripts/
           cp ./infra/scripts/clean-old-images.sh ./deploy/scripts/
+          cp ./infra/scripts/start-threadly.sh ./deploy/scripts
 
       - name: Artifact 업로드
         uses: actions/upload-artifact@v4
