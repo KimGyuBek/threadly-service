@@ -2,13 +2,12 @@ name: CD
 
 on:
   push:
-    branches: [ chore/TLY-112-systemd-service]
-#    branches: [ master ]
-#    paths-ignore:
-#      - 'README.md'
-#      - 'docs/**'
-#      - '.github/**'
-#      - '.gitignore'
+    branches: [ master ]
+    paths-ignore:
+      - 'README.md'
+      - 'docs/**'
+      - '.github/**'
+      - '.gitignore'
   workflow_dispatch:
 concurrency:
   group: deploy-master
