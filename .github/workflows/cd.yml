@@ -2,12 +2,13 @@ name: CD
 
 on:
   push:
-    branches: [ master ]
-    paths-ignore:
-      - 'README.md'
-      - 'docs/**'
-      - '.github/**'
-      - '.gitignore'
+    branches: [ chore/TLY-112-systemd-service]
+#    branches: [ master ]
+#    paths-ignore:
+#      - 'README.md'
+#      - 'docs/**'
+#      - '.github/**'
+#      - '.gitignore'
   workflow_dispatch:
 concurrency:
   group: deploy-master
@@ -67,6 +68,7 @@ jobs:
           mkdir -p ./deploy/scripts
           cp ./infra/scripts/blue-green-deploy.sh ./deploy/scripts/
           cp ./infra/scripts/clean-old-images.sh ./deploy/scripts/
+          cp ./infra/scripts/start-threadly.sh ./deploy/scripts
 
       - name: Artifact 업로드
         uses: actions/upload-artifact@v4
