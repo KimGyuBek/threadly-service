@@ -2,11 +2,11 @@ package com.threadly.auth.controller;
 
 import com.threadly.auth.AuthManager;
 import com.threadly.auth.JwtAuthenticationUser;
-import com.threadly.core.usecase.auth.token.response.LoginTokenApiResponse;
-import com.threadly.core.usecase.auth.token.response.TokenReissueApiResponse;
-import com.threadly.core.usecase.auth.verification.EmailVerificationUseCase;
-import com.threadly.core.usecase.auth.verification.PasswordVerificationUseCase;
-import com.threadly.core.usecase.auth.verification.response.PasswordVerificationToken;
+import com.threadly.core.port.auth.in.token.response.LoginTokenApiResponse;
+import com.threadly.core.port.auth.in.token.response.TokenReissueApiResponse;
+import com.threadly.core.port.auth.in.verification.EmailVerificationUseCase;
+import com.threadly.core.port.auth.in.verification.PasswordVerificationUseCase;
+import com.threadly.core.port.auth.in.verification.response.PasswordVerificationToken;
 import com.threadly.auth.request.PasswordVerificationRequest;
 import com.threadly.auth.request.UserLoginRequest;
 import lombok.RequiredArgsConstructor;

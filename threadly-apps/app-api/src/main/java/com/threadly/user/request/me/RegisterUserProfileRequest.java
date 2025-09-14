@@ -1,7 +1,7 @@
 package com.threadly.user.request.me;
 
 import com.threadly.core.domain.user.UserGenderType;
-import com.threadly.core.usecase.user.profile.command.dto.RegisterMyProfileCommand;
+import com.threadly.core.port.user.in.profile.command.dto.RegisterMyProfileCommand;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

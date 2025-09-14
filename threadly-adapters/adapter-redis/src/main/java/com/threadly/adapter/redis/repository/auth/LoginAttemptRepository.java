@@ -1,9 +1,9 @@
 package com.threadly.adapter.redis.repository.auth;
 
-import com.threadly.core.port.auth.DeleteLoginAttemptPort;
-import com.threadly.core.port.auth.FetchLoginAttemptPort;
-import com.threadly.core.port.auth.InsertLoginAttempt;
-import com.threadly.core.port.auth.UpsertLoginAttemptPort;
+import com.threadly.core.port.auth.out.DeleteLoginAttemptPort;
+import com.threadly.core.port.auth.out.FetchLoginAttemptPort;
+import com.threadly.core.port.auth.out.InsertLoginAttempt;
+import com.threadly.core.port.auth.out.UpsertLoginAttemptPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;

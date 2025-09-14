@@ -1,7 +1,7 @@
 package com.threadly.adapter.persistence.post.repository;
 
 import com.threadly.adapter.persistence.post.entity.CommentLikeEntity;
-import com.threadly.core.port.post.like.comment.PostCommentLikerProjection;
+import com.threadly.core.port.post.out.like.comment.PostCommentLikerProjection;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;

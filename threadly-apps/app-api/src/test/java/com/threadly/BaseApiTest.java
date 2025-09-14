@@ -11,7 +11,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.threadly.auth.request.UserLoginRequest;
-import com.threadly.core.usecase.auth.token.response.LoginTokenApiResponse;
+import com.threadly.core.port.auth.in.token.response.LoginTokenApiResponse;
 import com.threadly.commons.exception.ErrorCode;
 import com.threadly.testsupport.fixture.users.UserFixtureLoader;
 import com.threadly.core.domain.user.UserStatusType;

@@ -4,23 +4,22 @@ import static com.threadly.core.domain.post.PostStatus.ARCHIVE;
 import static com.threadly.core.domain.post.PostStatus.BLOCKED;
 import static com.threadly.core.domain.post.PostStatus.DELETED;
 
-import com.threadly.core.domain.post.PostStatus;
-import com.threadly.core.usecase.commons.dto.UserPreview;
 import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.exception.post.PostException;
-import com.threadly.core.domain.image.ImageStatus;
-import com.threadly.core.usecase.post.engagement.GetPostEngagementApiResponse;
-import com.threadly.core.usecase.post.engagement.GetPostEngagementQuery;
-import com.threadly.core.usecase.post.engagement.GetPostEngagementUseCase;
-import com.threadly.core.port.post.fetch.FetchPostPort;
-import com.threadly.core.port.post.fetch.PostDetailProjection;
-import com.threadly.core.usecase.post.get.GetPostListQuery;
-import com.threadly.core.usecase.post.get.GetPostQuery;
-import com.threadly.core.usecase.post.get.GetPostUseCase;
-import com.threadly.core.usecase.post.get.PostDetails;
-import com.threadly.core.port.post.image.fetch.FetchPostImagePort;
-import com.threadly.core.port.post.image.fetch.PostImageProjection;
 import com.threadly.commons.response.CursorPageApiResponse;
+import com.threadly.core.domain.image.ImageStatus;
+import com.threadly.core.domain.post.PostStatus;
+import com.threadly.core.port.commons.dto.UserPreview;
+import com.threadly.core.port.post.in.query.dto.GetPostEngagementApiResponse;
+import com.threadly.core.port.post.in.query.dto.GetPostEngagementQuery;
+import com.threadly.core.port.post.in.query.dto.GetPostListQuery;
+import com.threadly.core.port.post.in.query.dto.GetPostQuery;
+import com.threadly.core.port.post.in.query.dto.PostDetails;
+import com.threadly.core.port.post.in.query.PostQueryUseCase;
+import com.threadly.core.port.post.out.fetch.FetchPostPort;
+import com.threadly.core.port.post.out.fetch.PostDetailProjection;
+import com.threadly.core.port.post.out.image.fetch.FetchPostImagePort;
+import com.threadly.core.port.post.out.image.fetch.PostImageProjection;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,7 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @RequiredArgsConstructor
-public class PostQueryService implements GetPostUseCase, GetPostEngagementUseCase {
+public class PostQueryService implements PostQueryUseCase {
 
   private final FetchPostPort fetchPostPort;
 

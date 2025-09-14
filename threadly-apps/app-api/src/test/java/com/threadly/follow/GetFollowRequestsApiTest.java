@@ -5,9 +5,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.threadly.CommonResponse;
 import com.threadly.core.domain.follow.FollowStatusType;
-import com.threadly.core.usecase.follow.command.dto.FollowUserApiResponse;
+import com.threadly.core.port.follow.in.command.dto.FollowUserApiResponse;
 import com.threadly.commons.response.CursorPageApiResponse;
-import com.threadly.core.usecase.follow.query.dto.FollowRequestResponse;
+import com.threadly.core.port.follow.in.query.dto.FollowRequestResponse;
 import com.threadly.core.domain.user.UserStatusType;
 import com.threadly.utils.TestConstants;
 import java.time.LocalDateTime;

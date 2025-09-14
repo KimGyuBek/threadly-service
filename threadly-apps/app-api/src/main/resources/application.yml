@@ -21,7 +21,6 @@ management:
     health:
       show-details: always
 spring:
-
   jackson:
     property-naming-strategy: SNAKE_CASE
 

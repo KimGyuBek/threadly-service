@@ -3,8 +3,8 @@ package com.threadly.core.service.validator.follow;
 import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.exception.user.UserException;
 import com.threadly.core.domain.follow.FollowStatusType;
-import com.threadly.core.port.user.FetchUserPort;
-import com.threadly.core.port.user.follow.FollowQueryPort;
+import com.threadly.core.port.user.out.UserQueryPort;
+import com.threadly.core.port.follow.out.FollowQueryPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 public class FollowAccessValidator {
 
   private final FollowQueryPort followQueryPort;
-  private final FetchUserPort fetchUserPort;
+  private final UserQueryPort userQueryPort;
 
 
   /**
@@ -64,7 +64,7 @@ public class FollowAccessValidator {
    * @return
    */
   private boolean isPrivateUser(String targetUserId) {
-    return fetchUserPort.isUserPrivate(targetUserId);
+    return userQueryPort.isUserPrivate(targetUserId);
   }
 
 }

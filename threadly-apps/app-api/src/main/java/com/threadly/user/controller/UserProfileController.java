@@ -1,8 +1,8 @@
 package com.threadly.user.controller;
 
 import com.threadly.auth.JwtAuthenticationUser;
-import com.threadly.core.usecase.user.profile.query.dto.GetUserProfileApiResponse;
-import com.threadly.core.usecase.user.profile.query.GetUserProfileUseCase;
+import com.threadly.core.port.user.in.profile.query.UserProfileQueryUseCase;
+import com.threadly.core.port.user.in.profile.query.dto.GetUserProfileApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/users/profile")
 public class UserProfileController {
 
-  private final GetUserProfileUseCase getUserProfileUseCase;
+  private final UserProfileQueryUseCase userProfileQueryUseCase;
 
 
   /**
@@ -28,10 +28,12 @@ public class UserProfileController {
    * @return
    */
   @GetMapping("/{userId}")
-  public ResponseEntity<GetUserProfileApiResponse> getOtherUserProfile(@AuthenticationPrincipal JwtAuthenticationUser user,
+  public ResponseEntity<GetUserProfileApiResponse> getOtherUserProfile(
+      @AuthenticationPrincipal JwtAuthenticationUser user,
       @PathVariable("userId") String targetUserId) {
 
-    return ResponseEntity.status(200).body(getUserProfileUseCase.getUserProfile(user.getUserId(), targetUserId));
+    return ResponseEntity.status(200)
+        .body(userProfileQueryUseCase.getUserProfile(user.getUserId(), targetUserId));
   }
 
 

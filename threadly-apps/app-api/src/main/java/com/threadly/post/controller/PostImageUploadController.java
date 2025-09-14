@@ -1,9 +1,9 @@
 package com.threadly.post.controller;
 
 import com.threadly.auth.JwtAuthenticationUser;
-import com.threadly.core.usecase.post.image.UploadPostImageCommand;
-import com.threadly.core.usecase.post.image.UploadPostImageUseCase;
-import com.threadly.core.usecase.post.image.UploadPostImagesApiResponse;
+import com.threadly.core.port.post.in.image.UploadPostImageCommand;
+import com.threadly.core.port.post.in.image.UploadPostImageUseCase;
+import com.threadly.core.port.post.in.image.UploadPostImagesApiResponse;
 import com.threadly.post.mapper.ImageMapper;
 import java.util.Collections;
 import java.util.List;

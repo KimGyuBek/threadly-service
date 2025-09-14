@@ -1,6 +1,6 @@
 package com.threadly.core.service.mail;
 
-import com.threadly.core.usecase.mail.SendMailCommand;
+import com.threadly.core.port.mail.in.SendMailCommand;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;

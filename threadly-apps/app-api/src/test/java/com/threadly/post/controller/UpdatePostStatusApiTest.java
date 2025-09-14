@@ -5,7 +5,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.threadly.CommonResponse;
 import com.threadly.commons.exception.ErrorCode;
-import com.threadly.core.usecase.post.get.PostDetails;
+import com.threadly.core.port.post.in.query.dto.PostDetails;
 import com.threadly.commons.response.CursorPageApiResponse;
 import com.threadly.testsupport.fixture.posts.PostFixtureLoader;
 import org.junit.jupiter.api.BeforeEach;

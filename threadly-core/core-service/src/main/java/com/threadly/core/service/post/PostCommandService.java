@@ -5,31 +5,27 @@ import static com.threadly.core.domain.post.PostStatus.DELETED;
 
 import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.exception.post.PostException;
+import com.threadly.commons.properties.TtlProperties;
 import com.threadly.core.domain.image.ImageStatus;
 import com.threadly.core.domain.post.Post;
-import com.threadly.core.usecase.post.comment.delete.DeletePostCommentUseCase;
-import com.threadly.core.usecase.post.create.CreatePostApiResponse;
-import com.threadly.core.usecase.post.create.CreatePostApiResponse.PostImageApiResponse;
-import com.threadly.core.usecase.post.create.CreatePostCommand;
-import com.threadly.core.usecase.post.create.CreatePostUseCase;
-import com.threadly.core.usecase.post.delete.DeletePostCommand;
-import com.threadly.core.usecase.post.delete.DeletePostUseCase;
-import com.threadly.core.port.post.fetch.FetchPostPort;
-import com.threadly.core.port.post.fetch.PostDetailProjection;
-import com.threadly.core.port.post.image.fetch.FetchPostImagePort;
-import com.threadly.core.port.post.image.update.UpdatePostImagePort;
-import com.threadly.core.port.post.like.post.DeletePostLikePort;
-import com.threadly.core.port.post.save.SavePostPort;
-import com.threadly.core.usecase.post.update.UpdatePostApiResponse;
-import com.threadly.core.usecase.post.update.UpdatePostCommand;
-import com.threadly.core.port.post.update.UpdatePostPort;
-import com.threadly.core.usecase.post.update.UpdatePostUseCase;
-import com.threadly.core.usecase.post.update.view.IncreaseViewCountUseCase;
-import com.threadly.core.port.post.view.RecordPostViewPort;
-import com.threadly.commons.properties.TtlProperties;
-import com.threadly.core.port.user.FetchUserPort;
-import com.threadly.core.port.user.profile.fetch.FetchUserProfilePort;
-import com.threadly.core.port.user.profile.fetch.UserPreviewProjection;
+import com.threadly.core.port.post.in.command.PostCommandUseCase;
+import com.threadly.core.port.post.in.command.dto.CreatePostApiResponse;
+import com.threadly.core.port.post.in.command.dto.CreatePostApiResponse.PostImageApiResponse;
+import com.threadly.core.port.post.in.command.dto.CreatePostCommand;
+import com.threadly.core.port.post.in.command.dto.DeletePostCommand;
+import com.threadly.core.port.post.in.command.dto.UpdatePostApiResponse;
+import com.threadly.core.port.post.in.command.dto.UpdatePostCommand;
+import com.threadly.core.port.post.in.view.IncreaseViewCountUseCase;
+import com.threadly.core.port.post.out.fetch.FetchPostPort;
+import com.threadly.core.port.post.out.fetch.PostDetailProjection;
+import com.threadly.core.port.post.out.image.fetch.FetchPostImagePort;
+import com.threadly.core.port.post.out.image.update.UpdatePostImagePort;
+import com.threadly.core.port.post.out.like.post.DeletePostLikePort;
+import com.threadly.core.port.post.out.save.SavePostPort;
+import com.threadly.core.port.post.out.update.UpdatePostPort;
+import com.threadly.core.port.post.out.view.RecordPostViewPort;
+import com.threadly.core.port.user.out.profile.query.UserProfileQueryPort;
+import com.threadly.core.port.user.out.profile.query.UserPreviewProjection;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -42,7 +38,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @RequiredArgsConstructor
-public class PostCommandService implements CreatePostUseCase, UpdatePostUseCase, DeletePostUseCase,
+public class PostCommandService implements PostCommandUseCase,
     IncreaseViewCountUseCase {
 
   private final SavePostPort savePostPort;
@@ -56,11 +52,9 @@ public class PostCommandService implements CreatePostUseCase, UpdatePostUseCase,
   private final UpdatePostImagePort updatePostImagePort;
   private final FetchPostImagePort fetchPostImagePort;
 
-  private final DeletePostCommentUseCase deletePostCommentUseCase;
-
   private final TtlProperties ttlProperties;
 
-  private final FetchUserProfilePort fetchUserProfilePort;
+  private final UserProfileQueryPort userProfileQueryPort;
 
   @Transactional
   @Override
@@ -95,7 +89,7 @@ public class PostCommandService implements CreatePostUseCase, UpdatePostUseCase,
     }
 
     /*사용자 프로필 조회*/
-    UserPreviewProjection userPreview = fetchUserProfilePort.findUserPreviewByUserId(
+    UserPreviewProjection userPreview = userProfileQueryPort.findUserPreviewByUserId(
         command.getUserId());
 
     return new CreatePostApiResponse(
@@ -165,6 +159,7 @@ public class PostCommandService implements CreatePostUseCase, UpdatePostUseCase,
     post.markAsDeleted();
     updatePostPort.changeStatus(post);
 
+    /*TODO 비동기 처리*/
     /*게시글 이미지 삭제 처리*/
     updatePostImagePort.updateStatus(post.getPostId(), ImageStatus.DELETED);
 
@@ -172,7 +167,7 @@ public class PostCommandService implements CreatePostUseCase, UpdatePostUseCase,
     deletePostLikePort.deleteAllByPostId(post.getPostId());
 
     /*댓글 및 댓글 좋아요 삭제 처리*/
-    deletePostCommentUseCase.deleteAllCommentsAndLikesByPostId(post.getPostId());
+//    deletePostCommentUseCase.deleteAllCommentsAndLikesByPostId(post.getPostId());
   }
 
   @Transactional

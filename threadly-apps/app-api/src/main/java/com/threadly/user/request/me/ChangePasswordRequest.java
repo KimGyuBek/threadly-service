@@ -1,7 +1,7 @@
 package com.threadly.user.request.me;
 
 import com.threadly.annotation.PasswordEncryption;
-import com.threadly.core.usecase.user.account.command.dto.ChangePasswordCommand;
+import com.threadly.core.port.user.in.account.command.dto.ChangePasswordCommand;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

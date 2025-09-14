@@ -5,7 +5,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.threadly.CommonResponse;
 import com.threadly.commons.exception.ErrorCode;
-import com.threadly.core.usecase.follow.query.dto.FollowingApiResponse;
+import com.threadly.core.port.follow.in.query.dto.FollowingApiResponse;
 import com.threadly.commons.response.CursorPageApiResponse;
 import com.threadly.utils.TestConstants;
 import org.junit.jupiter.api.ClassOrderer;

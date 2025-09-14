@@ -3,7 +3,7 @@ package com.threadly.adapter.kafka.mail;
 import com.threadly.adapter.kafka.config.KafkaErrorHandler;
 import com.threadly.core.domain.mail.MailType;
 import com.threadly.core.domain.mail.model.MailModel;
-import com.threadly.core.port.mail.MailEventPublisherPort;
+import com.threadly.core.port.mail.out.MailEventPublisherPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
