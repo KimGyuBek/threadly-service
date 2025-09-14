@@ -1,6 +1,6 @@
 package com.threadly.user.controller;
 
-import com.threadly.core.port.user.in.account.command.RegisterUserUseCase;
+import com.threadly.core.port.user.in.account.command.UserAccountCommandUseCase;
 import com.threadly.core.port.user.in.account.command.dto.RegisterUserApiResponse;
 import com.threadly.user.request.UserRegisterRequest;
 import jakarta.validation.Valid;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/users")
 public class UserController {
 
-  private final RegisterUserUseCase registerUserUseCase;
+  private final UserAccountCommandUseCase userAccountCommandUseCase;
 
   /**
    * 회원 가입
@@ -33,7 +33,7 @@ public class UserController {
   ) {
     /*회원 가입*/
     return ResponseEntity.ok().body(
-        registerUserUseCase.register(request.toCommand())
+        userAccountCommandUseCase.register(request.toCommand())
     );
   }
 }

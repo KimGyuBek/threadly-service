@@ -7,16 +7,16 @@ import com.threadly.commons.exception.post.PostCommentException;
 import com.threadly.core.domain.post.PostCommentStatus;
 import com.threadly.core.port.post.out.comment.fetch.FetchPostCommentPort;
 import com.threadly.commons.response.CursorPageApiResponse;
-import com.threadly.core.port.post.in.like.comment.GetPostCommentLikersQuery;
-import com.threadly.core.port.post.in.like.comment.GetPostCommentLikersUseCase;
-import com.threadly.core.port.post.in.like.comment.PostCommentLiker;
+import com.threadly.core.port.post.in.like.comment.query.dto.GetPostCommentLikersQuery;
+import com.threadly.core.port.post.in.like.comment.query.PostCommentLikeQueryUseCase;
+import com.threadly.core.port.post.in.like.comment.query.dto.PostCommentLiker;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class PostCommentLikeQueryService implements GetPostCommentLikersUseCase {
+public class PostCommentLikeQueryService implements PostCommentLikeQueryUseCase {
 
   private final FetchPostCommentLikePort fetchPostCommentLikePort;
 

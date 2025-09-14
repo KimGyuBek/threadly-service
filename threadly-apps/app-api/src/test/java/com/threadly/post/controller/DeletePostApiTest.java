@@ -8,7 +8,7 @@ import com.threadly.commons.exception.ErrorCode;
 import com.threadly.core.domain.post.PostCommentStatus;
 import com.threadly.core.domain.image.ImageStatus;
 import com.threadly.core.domain.post.PostStatus;
-import com.threadly.core.port.post.in.create.CreatePostApiResponse;
+import com.threadly.core.port.post.in.command.dto.CreatePostApiResponse;
 import com.threadly.post.image.BasePostImageApiTest;
 import com.threadly.core.port.post.in.image.UploadPostImagesApiResponse;
 import com.threadly.testsupport.fixture.posts.PostCommentLikeFixtureLoader;

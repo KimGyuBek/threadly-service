@@ -6,9 +6,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.threadly.CommonResponse;
 import com.threadly.commons.exception.ErrorCode;
-import com.threadly.core.port.post.in.comment.get.GetPostCommentApiResponse;
+import com.threadly.core.port.post.in.comment.query.dto.GetPostCommentApiResponse;
 import com.threadly.post.controller.BasePostApiTest;
-import com.threadly.core.port.post.in.like.comment.PostCommentLiker;
+import com.threadly.core.port.post.in.like.comment.query.dto.PostCommentLiker;
 import com.threadly.commons.response.CursorPageApiResponse;
 import com.threadly.testsupport.fixture.posts.PostCommentLikeFixtureLoader;
 import java.time.LocalDateTime;

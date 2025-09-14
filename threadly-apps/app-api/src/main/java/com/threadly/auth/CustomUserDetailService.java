@@ -1,6 +1,6 @@
 package com.threadly.auth;
 
-import com.threadly.core.port.user.in.query.GetUserUseCase;
+import com.threadly.core.port.user.in.query.UserQueryUseCase;
 import com.threadly.core.port.user.in.shared.UserResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -14,11 +14,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class CustomUserDetailService implements UserDetailsService {
 
-  private final GetUserUseCase getUserUseCase;
+  private final UserQueryUseCase userQueryUseCase;
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    UserResponse user = getUserUseCase.findUserByUserId(username);
+    UserResponse user = userQueryUseCase.findUserByUserId(username);
 
     List<SimpleGrantedAuthority> authorities = List.of(
         new SimpleGrantedAuthority(user.getUserType().name())

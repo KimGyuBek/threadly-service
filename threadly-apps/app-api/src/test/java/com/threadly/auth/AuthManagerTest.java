@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import com.threadly.commons.properties.TtlProperties;
 import com.threadly.adapter.redis.repository.auth.TestRedisHelper;
 import com.threadly.commons.security.JwtTokenProvider;
-import com.threadly.core.port.token.FetchTokenPort;
+import com.threadly.core.port.token.out.query.TokenQueryPort;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,7 +29,7 @@ class AuthManagerTest {
   private AuthManager authManager;
 
   @Autowired
-  private FetchTokenPort fetchTokenPort;
+  private TokenQueryPort tokenQueryPort;
 
   @Autowired
   private JwtTokenProvider jwtTokenProvider;

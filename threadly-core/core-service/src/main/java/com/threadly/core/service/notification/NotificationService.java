@@ -5,9 +5,9 @@ import com.threadly.commons.exception.user.UserException;
 import com.threadly.core.domain.notification.Notification;
 import com.threadly.core.domain.notification.Notification.ActorProfile;
 import com.threadly.core.domain.notification.metadata.NotificationMetaData;
-import com.threadly.core.port.notification.NotificationEventPublisherPort;
-import com.threadly.core.port.user.out.profile.fetch.FetchUserProfilePort;
-import com.threadly.core.port.user.out.profile.fetch.UserProfileProjection;
+import com.threadly.core.port.notification.out.NotificationEventPublisherPort;
+import com.threadly.core.port.user.out.profile.query.UserProfileQueryPort;
+import com.threadly.core.port.user.out.profile.query.UserProfileProjection;
 import com.threadly.core.service.notification.dto.NotificationPublishCommand;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ public class NotificationService {
 
   private final NotificationEventPublisherPort notificationEventPublisherPort;
 
-  private final FetchUserProfilePort fetchUserProfilePort;
+  private final UserProfileQueryPort userProfileQueryPort;
 
   /**
    * 알림 발행
@@ -72,7 +72,7 @@ public class NotificationService {
    * @return
    */
   private UserProfileProjection getActorProfile(String actorUserId) {
-    UserProfileProjection actorUserProfile = fetchUserProfilePort.findUserProfileByUserId(
+    UserProfileProjection actorUserProfile = userProfileQueryPort.findUserProfileByUserId(
         actorUserId).orElseThrow(() -> new UserException(
         ErrorCode.USER_NOT_FOUND));
     return actorUserProfile;

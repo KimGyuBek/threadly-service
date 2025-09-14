@@ -6,9 +6,9 @@ import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.exception.post.PostException;
 import com.threadly.core.port.post.out.fetch.FetchPostPort;
 import com.threadly.commons.response.CursorPageApiResponse;
-import com.threadly.core.port.post.in.like.post.GetPostLikersQuery;
-import com.threadly.core.port.post.in.like.post.GetPostLikersUseCase;
-import com.threadly.core.port.post.in.like.post.PostLiker;
+import com.threadly.core.port.post.in.like.post.query.dto.GetPostLikersQuery;
+import com.threadly.core.port.post.in.like.post.query.GetPostLikeQueryUseCase;
+import com.threadly.core.port.post.in.like.post.query.dto.PostLiker;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @RequiredArgsConstructor
-public class PostLikeQueryService implements GetPostLikersUseCase {
+public class PostLikeQueryService implements GetPostLikeQueryUseCase {
 
   private final FetchPostLikePort fetchPostLikePort;
 

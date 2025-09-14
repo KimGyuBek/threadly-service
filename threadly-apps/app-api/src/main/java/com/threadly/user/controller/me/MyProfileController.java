@@ -2,18 +2,15 @@ package com.threadly.user.controller.me;
 
 import com.threadly.auth.JwtAuthenticationUser;
 import com.threadly.core.port.auth.in.verification.ReissueTokenUseCase;
-import com.threadly.post.mapper.ImageMapper;
-import com.threadly.core.port.user.in.profile.query.dto.GetMyProfileDetailsApiResponse;
-import com.threadly.core.port.user.in.profile.query.GetMyProfileUseCase;
-import com.threadly.core.port.user.in.profile.query.GetUserProfileUseCase;
-import com.threadly.core.port.user.in.profile.image.dto.SetMyProfileImageCommand;
-import com.threadly.core.port.user.in.profile.image.SetMyProfileImageUseCase;
-import com.threadly.core.port.user.in.profile.image.UpdateMyProfileImageUseCase;
-import com.threadly.core.port.user.in.profile.image.dto.UploadMyProfileImageApiResponse;
+import com.threadly.core.port.user.in.account.command.UserAccountCommandUseCase;
+import com.threadly.core.port.user.in.profile.command.UserProfileCommandUseCase;
 import com.threadly.core.port.user.in.profile.command.dto.RegisterMyProfileApiResponse;
-import com.threadly.core.port.user.in.profile.command.RegisterMyProfileUseCase;
-import com.threadly.core.port.user.in.profile.command.UpdateMyPrivacySettingUseCase;
-import com.threadly.core.port.user.in.profile.command.UpdateMyProfileUseCase;
+import com.threadly.core.port.user.in.profile.image.MyProfileImageCommandUseCase;
+import com.threadly.core.port.user.in.profile.image.dto.SetMyProfileImageCommand;
+import com.threadly.core.port.user.in.profile.image.dto.UploadMyProfileImageApiResponse;
+import com.threadly.core.port.user.in.profile.query.UserProfileQueryUseCase;
+import com.threadly.core.port.user.in.profile.query.dto.GetMyProfileDetailsApiResponse;
+import com.threadly.post.mapper.ImageMapper;
 import com.threadly.user.request.me.RegisterUserProfileRequest;
 import com.threadly.user.request.me.UpdateMyPrivacySettingRequest;
 import com.threadly.user.request.me.UpdateMyProfileRequest;
@@ -37,18 +34,17 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/api/me/profile")
 public class MyProfileController {
 
-  private final GetUserProfileUseCase getUserProfileUseCase;
 
-  private final RegisterMyProfileUseCase registerMyProfileUseCase;
-  private final UpdateMyProfileUseCase updateMyProfileUseCase;
-  private final GetMyProfileUseCase getMyProfileUseCase;
+  private final UserProfileQueryUseCase userProfileQueryUseCase;
+
+  private final UserProfileCommandUseCase userProfileCommandUseCase;
 
   private final ReissueTokenUseCase reissueTokenUseCase;
 
-  private final SetMyProfileImageUseCase setMyProfileImageUseCase;
-  private final UpdateMyProfileImageUseCase updateMyProfileImageUseCase;
+  private final MyProfileImageCommandUseCase myProfileImageCommandUseCase;
 
-  private final UpdateMyPrivacySettingUseCase updateMyPrivacyUseCase;
+  private final UserAccountCommandUseCase userAccountCommandUseCase;
+
 
   /**
    * 내 프로필 수정용 정보 조회
@@ -61,7 +57,7 @@ public class MyProfileController {
   ) {
 
     return ResponseEntity.status(200)
-        .body(getMyProfileUseCase.getMyProfileDetails(user.getUserId()));
+        .body(userProfileQueryUseCase.getMyProfileDetails(user.getUserId()));
   }
 
   /**
@@ -77,8 +73,7 @@ public class MyProfileController {
       @RequestBody RegisterUserProfileRequest request) {
 
     /*프로필 설정*/
-    registerMyProfileUseCase.registerMyProfile(request.toCommand(user.getUserId()));
-//    updateUserUseCase.
+    userProfileCommandUseCase.registerMyProfile(request.toCommand(user.getUserId()));
 
     return ResponseEntity.status(201).body(
         reissueTokenUseCase.reissueToken(user.getUserId())
@@ -98,10 +93,10 @@ public class MyProfileController {
       @RequestBody UpdateMyProfileRequest request) {
 
     /*UserProfile 데이터 업데이트*/
-    updateMyProfileUseCase.updateMyProfile(request.toCommand(user.getUserId()));
+    userProfileCommandUseCase.updateMyProfile(request.toCommand(user.getUserId()));
 
     /*ProfileImage 업데이트*/
-    updateMyProfileImageUseCase.updateProfileImage(user.getUserId(), request.profileImageId());
+    myProfileImageCommandUseCase.updateProfileImage(user.getUserId(), request.profileImageId());
 
     return ResponseEntity.status(200).build();
   }
@@ -117,7 +112,7 @@ public class MyProfileController {
       @AuthenticationPrincipal JwtAuthenticationUser user,
       @RequestBody UpdateMyPrivacySettingRequest request
   ) {
-    updateMyPrivacyUseCase.updatePrivacy(request.toCommand(user.getUserId()));
+    userAccountCommandUseCase.updatePrivacy(request.toCommand(user.getUserId()));
     return ResponseEntity.status(200).build();
 
   }
@@ -136,7 +131,7 @@ public class MyProfileController {
   ) {
 
     return ResponseEntity.status(201).body(
-        setMyProfileImageUseCase.setMyProfileImage(
+        myProfileImageCommandUseCase.setMyProfileImage(
             new SetMyProfileImageCommand(
                 user.getUserId(),
                 ImageMapper.toUploadImage(image)))
@@ -151,7 +146,7 @@ public class MyProfileController {
    */
   @GetMapping("/check")
   public ResponseEntity<Void> checkNickname(@RequestParam("nickname") String nickName) {
-    getUserProfileUseCase.validateNicknameUnique(nickName);
+    userProfileQueryUseCase.validateNicknameUnique(nickName);
     return ResponseEntity.status(200).build();
   }
 }

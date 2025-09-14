@@ -11,7 +11,7 @@ import com.threadly.core.domain.notification.metadata.FollowAcceptMeta;
 import com.threadly.core.domain.notification.metadata.FollowMeta;
 import com.threadly.core.domain.notification.metadata.FollowRequestMeta;
 import com.threadly.core.domain.user.User;
-import com.threadly.core.port.user.out.FetchUserPort;
+import com.threadly.core.port.user.out.UserQueryPort;
 import com.threadly.core.port.follow.out.FollowCommandPort;
 import com.threadly.core.port.follow.out.FollowQueryPort;
 import com.threadly.core.service.notification.dto.NotificationPublishCommand;
@@ -38,7 +38,7 @@ public class FollowCommandService implements FollowCommandUseCase {
   private final FollowCommandPort followCommandPort;
   private final FollowQueryPort followQueryPort;
 
-  private final FetchUserPort fetchUserPort;
+  private final UserQueryPort userQueryPort;
 
   private final UserStatusValidator userStatusValidator;
 
@@ -54,7 +54,7 @@ public class FollowCommandService implements FollowCommandUseCase {
     }
 
     /*targetId가 존재하지 않는 경우*/
-    User targetUser = fetchUserPort.findByUserId(command.targetUserId())
+    User targetUser = userQueryPort.findByUserId(command.targetUserId())
         .orElseThrow(() -> new UserException(
             ErrorCode.USER_NOT_FOUND));
 

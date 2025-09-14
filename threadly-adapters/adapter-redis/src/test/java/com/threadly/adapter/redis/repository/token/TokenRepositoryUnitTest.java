@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.threadly.core.port.token.UpsertRefreshToken;
+import com.threadly.core.port.token.out.command.dto.UpsertRefreshTokenCommand;
 import java.time.Duration;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,7 +27,7 @@ class TokenRepositoryUnitTest {
   private RedisTemplate<String, String> redisTemplate;
 
   @InjectMocks
-  private TokenPortRepository tokenRepository;
+  private TokenCommandPortRepository tokenRepository;
 
   @Mock
   private ValueOperations<String, String> valueOperations;
@@ -88,7 +88,7 @@ class TokenRepositoryUnitTest {
 
     String key = "token:refresh:" + userId;
 
-    UpsertRefreshToken request = UpsertRefreshToken.builder()
+    UpsertRefreshTokenCommand request = UpsertRefreshTokenCommand.builder()
         .userId(userId)
         .refreshToken(newRefreshToken)
         .duration(duration)
@@ -117,7 +117,7 @@ class TokenRepositoryUnitTest {
 
     //when
     tokenRepository.upsertRefreshToken(
-        UpsertRefreshToken.builder()
+        UpsertRefreshTokenCommand.builder()
             .userId(userId)
             .refreshToken(newRefreshToken)
             .duration(duration)

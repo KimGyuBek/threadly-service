@@ -4,23 +4,22 @@ import static com.threadly.core.domain.post.PostStatus.ARCHIVE;
 import static com.threadly.core.domain.post.PostStatus.BLOCKED;
 import static com.threadly.core.domain.post.PostStatus.DELETED;
 
-import com.threadly.core.domain.post.PostStatus;
-import com.threadly.core.port.commons.dto.UserPreview;
 import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.exception.post.PostException;
+import com.threadly.commons.response.CursorPageApiResponse;
 import com.threadly.core.domain.image.ImageStatus;
-import com.threadly.core.port.post.in.engagement.GetPostEngagementApiResponse;
-import com.threadly.core.port.post.in.engagement.GetPostEngagementQuery;
-import com.threadly.core.port.post.in.engagement.GetPostEngagementUseCase;
+import com.threadly.core.domain.post.PostStatus;
+import com.threadly.core.port.commons.dto.UserPreview;
+import com.threadly.core.port.post.in.query.dto.GetPostEngagementApiResponse;
+import com.threadly.core.port.post.in.query.dto.GetPostEngagementQuery;
+import com.threadly.core.port.post.in.query.dto.GetPostListQuery;
+import com.threadly.core.port.post.in.query.dto.GetPostQuery;
+import com.threadly.core.port.post.in.query.dto.PostDetails;
+import com.threadly.core.port.post.in.query.PostQueryUseCase;
 import com.threadly.core.port.post.out.fetch.FetchPostPort;
 import com.threadly.core.port.post.out.fetch.PostDetailProjection;
-import com.threadly.core.port.post.in.get.GetPostListQuery;
-import com.threadly.core.port.post.in.get.GetPostQuery;
-import com.threadly.core.port.post.in.get.GetPostUseCase;
-import com.threadly.core.port.post.in.get.PostDetails;
 import com.threadly.core.port.post.out.image.fetch.FetchPostImagePort;
 import com.threadly.core.port.post.out.image.fetch.PostImageProjection;
-import com.threadly.commons.response.CursorPageApiResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,7 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @RequiredArgsConstructor
-public class PostQueryService implements GetPostUseCase, GetPostEngagementUseCase {
+public class PostQueryService implements PostQueryUseCase {
 
   private final FetchPostPort fetchPostPort;
 

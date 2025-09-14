@@ -1,28 +1,26 @@
 package com.threadly.auth;
 
+import com.threadly.commons.exception.ErrorCode;
+import com.threadly.commons.exception.token.TokenException;
+import com.threadly.commons.properties.TtlProperties;
+import com.threadly.commons.security.JwtTokenProvider;
+import com.threadly.commons.utils.JwtTokenUtils;
+import com.threadly.core.domain.token.TokenPurpose;
+import com.threadly.core.domain.user.UserStatusType;
 import com.threadly.core.port.auth.in.token.response.LoginTokenApiResponse;
 import com.threadly.core.port.auth.in.token.response.TokenReissueApiResponse;
 import com.threadly.core.port.auth.in.verification.LoginUserUseCase;
 import com.threadly.core.port.auth.in.verification.PasswordVerificationUseCase;
 import com.threadly.core.port.auth.in.verification.ReissueTokenUseCase;
 import com.threadly.core.port.auth.in.verification.response.PasswordVerificationToken;
-import com.threadly.commons.exception.ErrorCode;
-import com.threadly.commons.exception.token.TokenException;
-import com.threadly.global.exception.UserAuthenticationException;
-import com.threadly.commons.properties.TtlProperties;
-import com.threadly.commons.security.JwtTokenProvider;
-import com.threadly.core.port.token.DeleteTokenPort;
-import com.threadly.core.port.token.FetchTokenPort;
-import com.threadly.core.port.token.InsertBlackListToken;
-import com.threadly.core.port.token.InsertTokenPort;
-import com.threadly.core.domain.token.TokenPurpose;
-import com.threadly.core.port.token.UpsertRefreshToken;
-import com.threadly.core.port.token.UpsertTokenPort;
-import com.threadly.core.domain.user.UserStatusType;
-import com.threadly.core.port.user.in.query.GetUserUseCase;
-import com.threadly.core.port.user.in.shared.UserResponse;
+import com.threadly.core.port.token.out.command.TokenCommandPort;
+import com.threadly.core.port.token.out.command.dto.InsertBlackListTokenCommand;
+import com.threadly.core.port.token.out.command.dto.UpsertRefreshTokenCommand;
+import com.threadly.core.port.token.out.query.TokenQueryPort;
 import com.threadly.core.port.user.in.profile.command.dto.RegisterMyProfileApiResponse;
-import com.threadly.commons.utils.JwtTokenUtils;
+import com.threadly.core.port.user.in.query.UserQueryUseCase;
+import com.threadly.core.port.user.in.shared.UserResponse;
+import com.threadly.global.exception.UserAuthenticationException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -40,12 +38,10 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
 
   private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-  private final GetUserUseCase getUserUseCase;
+  private final UserQueryUseCase userQueryUseCase;
 
-  private final FetchTokenPort fetchTokenPort;
-  private final InsertTokenPort insertTokenPort;
-  private final UpsertTokenPort upsertTokenPort;
-  private final DeleteTokenPort deleteTokenPort;
+  private final TokenQueryPort tokenQueryPort;
+  private final TokenCommandPort tokenCommandPort;
 
   private final LoginAttemptLimiter loginAttemptLimiter;
 
@@ -57,7 +53,7 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
     String userId = jwtTokenProvider.getUserId(accessToken);
 
     /*userId로 사용자 조회*/
-    UserResponse user = getUserUseCase.findUserByUserId(userId);
+    UserResponse user = userQueryUseCase.findUserByUserId(userId);
 
     /*권한 설정*/
     List<SimpleGrantedAuthority> authorities = List.of(
@@ -108,7 +104,7 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
   public LoginTokenApiResponse login(String email, String password) {
 
     /*사용자 조회*/
-    UserResponse user = getUserUseCase.findUserByEmail(email);
+    UserResponse user = userQueryUseCase.findUserByEmail(email);
 
     /*탈퇴한 사용자인경우*/
     if (user.getUserStatusType().equals(UserStatusType.DELETED)) {
@@ -142,12 +138,13 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
 
       /*로그인 토큰 응답 생성*/
       LoginTokenApiResponse tokenResponse = new LoginTokenApiResponse(
-          jwtTokenProvider.createAccessToken(userId, user.getUserType().name(), user.getUserStatusType().name()),
+          jwtTokenProvider.createAccessToken(userId, user.getUserType().name(),
+              user.getUserStatusType().name()),
           jwtTokenProvider.createRefreshToken(userId)
       );
 
       /*토큰 저장*/
-      upsertTokenPort.upsertRefreshToken(UpsertRefreshToken.builder()
+      tokenCommandPort.upsertRefreshToken(UpsertRefreshTokenCommand.builder()
           .userId(userId)
           .refreshToken(tokenResponse.refreshToken())
           .duration(ttlProperties.getRefreshToken())
@@ -184,22 +181,23 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
     String userId = jwtTokenProvider.getUserId(refreshToken);
 
     /*db에서 user 조회*/
-    UserResponse user = getUserUseCase.findUserByUserId(userId);
+    UserResponse user = userQueryUseCase.findUserByUserId(userId);
 
     /*refreshToken이 저장되어 있는지 검증*/
-    if (!fetchTokenPort.existsRefreshTokenByUserId(userId)) {
+    if (!tokenQueryPort.existsRefreshTokenByUserId(userId)) {
       throw new TokenException(ErrorCode.TOKEN_MISSING);
     }
 
     /*login Token 재생성*/
     LoginTokenApiResponse loginTokenApiResponse = new LoginTokenApiResponse(
-        jwtTokenProvider.createAccessToken(userId, user.getUserType().name(), user.getUserStatusType().name()),
+        jwtTokenProvider.createAccessToken(userId, user.getUserType().name(),
+            user.getUserStatusType().name()),
         jwtTokenProvider.createRefreshToken(userId)
     );
 
     /*기존 토큰 덮어쓰기*/
-    upsertTokenPort.upsertRefreshToken(
-        UpsertRefreshToken.builder()
+    tokenCommandPort.upsertRefreshToken(
+        UpsertRefreshTokenCommand.builder()
             .userId(userId)
             .refreshToken(loginTokenApiResponse.refreshToken())
             .duration(ttlProperties.getRefreshToken())
@@ -230,8 +228,8 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
     String userId = jwtTokenProvider.getUserId(accessToken);
 
     /*redis에 저장*/
-    insertTokenPort.saveBlackListToken(
-        InsertBlackListToken.builder()
+    tokenCommandPort.saveBlackListToken(
+        InsertBlackListTokenCommand.builder()
             .userId(userId)
             .accessToken(accessToken)
             .duration(jwtTokenProvider.getAccessTokenTtl(accessToken))
@@ -239,7 +237,7 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
     );
 
     /*refreshToken 삭제*/
-    deleteTokenPort.deleteRefreshToken(userId);
+    tokenCommandPort.deleteRefreshToken(userId);
   }
 
   /**
@@ -250,16 +248,17 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
    */
   public boolean isBlacklisted(String token) {
     return
-        fetchTokenPort.existsBlackListTokenByAccessToken(token);
+        tokenQueryPort.existsBlackListTokenByAccessToken(token);
   }
 
   @Override
   public RegisterMyProfileApiResponse reissueToken(String userId) {
     /*사용자 조회*/
-    UserResponse user = getUserUseCase.findUserByUserId(userId);
+    UserResponse user = userQueryUseCase.findUserByUserId(userId);
 
     return new RegisterMyProfileApiResponse(
-        jwtTokenProvider.createAccessToken(userId, user.getUserType().name(), user.getUserStatusType().name()),
+        jwtTokenProvider.createAccessToken(userId, user.getUserType().name(),
+            user.getUserStatusType().name()),
         jwtTokenProvider.createRefreshToken(userId)
     );
   }

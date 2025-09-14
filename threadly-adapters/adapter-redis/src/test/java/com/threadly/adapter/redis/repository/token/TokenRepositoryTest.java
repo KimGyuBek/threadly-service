@@ -6,8 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.threadly.RedisTestApplication;
-import com.threadly.core.port.token.InsertBlackListToken;
-import com.threadly.core.port.token.UpsertRefreshToken;
+import com.threadly.core.port.token.out.command.dto.InsertBlackListTokenCommand;
+import com.threadly.core.port.token.out.command.dto.UpsertRefreshTokenCommand;
 import java.time.Duration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -25,7 +25,7 @@ import org.springframework.test.context.ActiveProfiles;
 class TokenRepositoryTest {
 
   @Autowired
-  private TokenPortRepository tokenRepository;
+  private TokenCommandPortRepository tokenRepository;
 
   @Autowired
   private RedisTemplate<String, String> redisTemplate;
@@ -54,7 +54,7 @@ class TokenRepositoryTest {
 
     //when
     tokenRepository.upsertRefreshToken(
-        UpsertRefreshToken.builder()
+        UpsertRefreshTokenCommand.builder()
             .userId(userId)
             .refreshToken(newRefreshToken)
             .duration(duration)
@@ -78,7 +78,7 @@ class TokenRepositoryTest {
 
     //when
     tokenRepository.upsertRefreshToken(
-        UpsertRefreshToken.builder()
+        UpsertRefreshTokenCommand.builder()
             .userId(userId)
             .refreshToken(refreshToken)
             .duration(duration)
@@ -190,7 +190,7 @@ class TokenRepositoryTest {
     Duration duration = Duration.ofSeconds(5);
 
     tokenRepository.saveBlackListToken(
-        InsertBlackListToken.builder()
+        InsertBlackListTokenCommand.builder()
             .userId(userId)
             .accessToken(accessToken)
             .duration(duration)
