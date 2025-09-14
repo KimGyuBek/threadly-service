@@ -2,10 +2,10 @@ package com.threadly.core.service.user;
 
 import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.exception.user.UserException;
-import com.threadly.core.usecase.user.query.GetUserUseCase;
-import com.threadly.core.usecase.user.shared.UserResponse;
+import com.threadly.core.port.user.in.query.GetUserUseCase;
+import com.threadly.core.port.user.in.shared.UserResponse;
 import com.threadly.core.domain.user.User;
-import com.threadly.core.port.user.FetchUserPort;
+import com.threadly.core.port.user.out.FetchUserPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

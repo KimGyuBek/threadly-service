@@ -6,10 +6,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.threadly.CommonResponse;
 import com.threadly.commons.exception.ErrorCode;
-import com.threadly.core.usecase.post.create.CreatePostApiResponse;
-import com.threadly.core.usecase.post.engagement.GetPostEngagementApiResponse;
-import com.threadly.core.usecase.post.get.PostDetails;
-import com.threadly.core.usecase.post.update.UpdatePostApiResponse;
+import com.threadly.core.port.post.in.create.CreatePostApiResponse;
+import com.threadly.core.port.post.in.engagement.GetPostEngagementApiResponse;
+import com.threadly.core.port.post.in.get.PostDetails;
+import com.threadly.core.port.post.in.update.UpdatePostApiResponse;
 import com.threadly.commons.response.CursorPageApiResponse;
 import com.threadly.testsupport.fixture.posts.PostFixtureLoader;
 import java.time.LocalDateTime;

@@ -7,7 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.threadly.CommonResponse;
 import com.threadly.commons.exception.ErrorCode;
 import com.threadly.post.controller.BasePostApiTest;
-import com.threadly.core.usecase.post.comment.get.GetPostCommentApiResponse;
+import com.threadly.core.port.post.in.comment.get.GetPostCommentApiResponse;
 import com.threadly.commons.response.CursorPageApiResponse;
 import com.threadly.testsupport.fixture.posts.PostCommentFixtureLoader;
 import java.time.LocalDateTime;

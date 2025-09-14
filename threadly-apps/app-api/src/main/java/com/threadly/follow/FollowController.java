@@ -1,15 +1,15 @@
 package com.threadly.follow;
 
 import com.threadly.auth.JwtAuthenticationUser;
-import com.threadly.core.usecase.follow.command.FollowCommandUseCase;
-import com.threadly.core.usecase.follow.command.dto.FollowRelationCommand;
-import com.threadly.core.usecase.follow.command.dto.FollowUserApiResponse;
-import com.threadly.core.usecase.follow.command.dto.HandleFollowRequestCommand;
-import com.threadly.core.usecase.follow.query.FollowQueryUseCase;
-import com.threadly.core.usecase.follow.query.dto.GetFollowRequestsQuery;
-import com.threadly.core.usecase.follow.query.dto.GetFollowersQuery;
-import com.threadly.core.usecase.follow.query.dto.GetFollowingsQuery;
-import com.threadly.core.usecase.follow.query.dto.GetUserFollowStatsApiResponse;
+import com.threadly.core.port.follow.in.command.FollowCommandUseCase;
+import com.threadly.core.port.follow.in.command.dto.FollowRelationCommand;
+import com.threadly.core.port.follow.in.command.dto.FollowUserApiResponse;
+import com.threadly.core.port.follow.in.command.dto.HandleFollowRequestCommand;
+import com.threadly.core.port.follow.in.query.FollowQueryUseCase;
+import com.threadly.core.port.follow.in.query.dto.GetFollowRequestsQuery;
+import com.threadly.core.port.follow.in.query.dto.GetFollowersQuery;
+import com.threadly.core.port.follow.in.query.dto.GetFollowingsQuery;
+import com.threadly.core.port.follow.in.query.dto.GetUserFollowStatsApiResponse;
 import com.threadly.follow.request.FollowRequest;
 import com.threadly.commons.response.CursorPageApiResponse;
 import java.time.LocalDateTime;

@@ -1,7 +1,6 @@
 dependencies {
 
 
-    implementation(project(":threadly-core:core-usecase"))
     implementation(project(":threadly-core:core-port"))
     implementation(project(":threadly-commons"))
     implementation(project(":threadly-core:core-domain"))

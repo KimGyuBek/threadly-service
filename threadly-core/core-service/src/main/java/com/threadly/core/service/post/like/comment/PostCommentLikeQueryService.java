@@ -1,15 +1,15 @@
 package com.threadly.core.service.post.like.comment;
 
-import com.threadly.core.port.post.like.comment.FetchPostCommentLikePort;
-import com.threadly.core.usecase.commons.dto.UserPreview;
+import com.threadly.core.port.post.out.like.comment.FetchPostCommentLikePort;
+import com.threadly.core.port.commons.dto.UserPreview;
 import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.exception.post.PostCommentException;
 import com.threadly.core.domain.post.PostCommentStatus;
-import com.threadly.core.port.post.comment.fetch.FetchPostCommentPort;
+import com.threadly.core.port.post.out.comment.fetch.FetchPostCommentPort;
 import com.threadly.commons.response.CursorPageApiResponse;
-import com.threadly.core.usecase.post.like.comment.GetPostCommentLikersQuery;
-import com.threadly.core.usecase.post.like.comment.GetPostCommentLikersUseCase;
-import com.threadly.core.usecase.post.like.comment.PostCommentLiker;
+import com.threadly.core.port.post.in.like.comment.GetPostCommentLikersQuery;
+import com.threadly.core.port.post.in.like.comment.GetPostCommentLikersUseCase;
+import com.threadly.core.port.post.in.like.comment.PostCommentLiker;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

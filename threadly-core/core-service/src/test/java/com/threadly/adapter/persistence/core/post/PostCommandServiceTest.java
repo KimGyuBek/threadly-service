@@ -4,8 +4,8 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.threadly.core.port.post.update.UpdatePostPort;
-import com.threadly.core.port.post.view.RecordPostViewPort;
+import com.threadly.core.port.post.out.update.UpdatePostPort;
+import com.threadly.core.port.post.out.view.RecordPostViewPort;
 import com.threadly.commons.properties.TtlProperties;
 import com.threadly.core.service.post.PostCommandService;
 import org.junit.jupiter.api.ClassOrderer;

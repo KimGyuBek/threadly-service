@@ -1,10 +1,10 @@
 package com.threadly.adapter.persistence.post.adapter;
 
 import com.threadly.adapter.persistence.post.mapper.PostLikeMapper;
-import com.threadly.core.port.post.like.post.CreatePostLikePort;
-import com.threadly.core.port.post.like.post.DeletePostLikePort;
-import com.threadly.core.port.post.like.post.FetchPostLikePort;
-import com.threadly.core.port.post.like.post.PostLikerProjection;
+import com.threadly.core.port.post.out.like.post.CreatePostLikePort;
+import com.threadly.core.port.post.out.like.post.DeletePostLikePort;
+import com.threadly.core.port.post.out.like.post.FetchPostLikePort;
+import com.threadly.core.port.post.out.like.post.PostLikerProjection;
 import com.threadly.core.domain.post.PostLike;
 import com.threadly.adapter.persistence.post.repository.PostLikeJpaRepository;
 import java.time.LocalDateTime;

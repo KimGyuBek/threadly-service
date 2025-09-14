@@ -1,17 +1,17 @@
 package com.threadly.core.service.user.profile;
 
-import com.threadly.core.usecase.commons.dto.UserPreview;
+import com.threadly.core.port.commons.dto.UserPreview;
 import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.exception.user.UserException;
 import com.threadly.core.domain.follow.FollowStatusType;
 import com.threadly.core.domain.user.UserStatusType;
-import com.threadly.core.port.user.profile.fetch.FetchUserProfilePort;
-import com.threadly.core.port.user.profile.fetch.MyProfileDetailsProjection;
-import com.threadly.core.port.user.profile.fetch.UserProfileProjection;
-import com.threadly.core.usecase.user.profile.query.dto.GetMyProfileDetailsApiResponse;
-import com.threadly.core.usecase.user.profile.query.GetMyProfileUseCase;
-import com.threadly.core.usecase.user.profile.query.dto.GetUserProfileApiResponse;
-import com.threadly.core.usecase.user.profile.query.GetUserProfileUseCase;
+import com.threadly.core.port.user.out.profile.fetch.FetchUserProfilePort;
+import com.threadly.core.port.user.out.profile.fetch.MyProfileDetailsProjection;
+import com.threadly.core.port.user.out.profile.fetch.UserProfileProjection;
+import com.threadly.core.port.user.in.profile.query.dto.GetMyProfileDetailsApiResponse;
+import com.threadly.core.port.user.in.profile.query.GetMyProfileUseCase;
+import com.threadly.core.port.user.in.profile.query.dto.GetUserProfileApiResponse;
+import com.threadly.core.port.user.in.profile.query.GetUserProfileUseCase;
 import com.threadly.core.service.validator.follow.FollowAccessValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,0 +1,15 @@
+package com.threadly.core.port.auth.in.token.response;
+
+
+/**
+ * login token 응답 DTO
+ * @param accessToken
+ * @param refreshToken
+ */
+public record LoginTokenApiResponse(
+    String accessToken,
+    String refreshToken
+) {
+
+
+}

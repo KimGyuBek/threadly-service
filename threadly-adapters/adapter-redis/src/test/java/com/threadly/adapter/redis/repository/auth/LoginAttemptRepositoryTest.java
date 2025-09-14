@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import com.threadly.RedisTestApplication;
-import com.threadly.core.port.auth.InsertLoginAttempt;
+import com.threadly.core.port.auth.out.InsertLoginAttempt;
 import java.time.Duration;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

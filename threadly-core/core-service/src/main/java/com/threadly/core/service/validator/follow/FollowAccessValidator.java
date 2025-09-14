@@ -3,8 +3,8 @@ package com.threadly.core.service.validator.follow;
 import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.exception.user.UserException;
 import com.threadly.core.domain.follow.FollowStatusType;
-import com.threadly.core.port.user.FetchUserPort;
-import com.threadly.core.port.user.follow.FollowQueryPort;
+import com.threadly.core.port.user.out.FetchUserPort;
+import com.threadly.core.port.follow.out.FollowQueryPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

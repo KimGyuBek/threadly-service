@@ -1,6 +1,6 @@
 package com.threadly.adapter.redis.repository.post;
 
-import com.threadly.core.port.post.view.RecordPostViewPort;
+import com.threadly.core.port.post.out.view.RecordPostViewPort;
 import java.time.Duration;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;

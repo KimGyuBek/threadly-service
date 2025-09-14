@@ -1,9 +1,9 @@
 package com.threadly.adapter.persistence.user.repository;
 
 import com.threadly.adapter.persistence.user.entity.UserProfileEntity;
-import com.threadly.core.port.user.profile.fetch.MyProfileDetailsProjection;
-import com.threadly.core.port.user.profile.fetch.UserPreviewProjection;
-import com.threadly.core.port.user.profile.fetch.UserProfileProjection;
+import com.threadly.core.port.user.out.profile.fetch.MyProfileDetailsProjection;
+import com.threadly.core.port.user.out.profile.fetch.UserPreviewProjection;
+import com.threadly.core.port.user.out.profile.fetch.UserProfileProjection;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

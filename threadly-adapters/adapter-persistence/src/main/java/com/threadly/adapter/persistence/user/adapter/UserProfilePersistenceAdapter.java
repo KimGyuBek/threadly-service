@@ -4,12 +4,12 @@ package com.threadly.adapter.persistence.user.adapter;
 import com.threadly.adapter.persistence.user.mapper.UserProfileMapper;
 import com.threadly.adapter.persistence.user.repository.UserProfileJpaRepository;
 import com.threadly.core.domain.user.profile.UserProfile;
-import com.threadly.core.port.user.profile.fetch.FetchUserProfilePort;
-import com.threadly.core.port.user.profile.fetch.MyProfileDetailsProjection;
-import com.threadly.core.port.user.profile.fetch.UserPreviewProjection;
-import com.threadly.core.port.user.profile.fetch.UserProfileProjection;
-import com.threadly.core.port.user.profile.save.SaveUserProfilePort;
-import com.threadly.core.port.user.profile.update.UpdateMyProfilePort;
+import com.threadly.core.port.user.out.profile.fetch.FetchUserProfilePort;
+import com.threadly.core.port.user.out.profile.fetch.MyProfileDetailsProjection;
+import com.threadly.core.port.user.out.profile.fetch.UserPreviewProjection;
+import com.threadly.core.port.user.out.profile.fetch.UserProfileProjection;
+import com.threadly.core.port.user.out.profile.save.SaveUserProfilePort;
+import com.threadly.core.port.user.out.profile.update.UpdateMyProfilePort;
 import java.util.Optional;
 import org.springframework.stereotype.Repository;
 

@@ -7,8 +7,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.threadly.CommonResponse;
 import com.threadly.commons.exception.ErrorCode;
-import com.threadly.core.usecase.post.create.CreatePostApiResponse;
-import com.threadly.core.usecase.post.update.UpdatePostApiResponse;
+import com.threadly.core.port.post.in.create.CreatePostApiResponse;
+import com.threadly.core.port.post.in.update.UpdatePostApiResponse;
 import java.util.List;
 import org.junit.jupiter.api.ClassOrderer;
 import org.junit.jupiter.api.DisplayName;

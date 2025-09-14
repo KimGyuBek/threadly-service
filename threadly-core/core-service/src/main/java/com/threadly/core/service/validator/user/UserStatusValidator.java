@@ -2,7 +2,7 @@ package com.threadly.core.service.validator.user;
 
 import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.exception.user.UserException;
-import com.threadly.core.port.user.FetchUserPort;
+import com.threadly.core.port.user.out.FetchUserPort;
 import com.threadly.core.domain.user.UserStatusType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

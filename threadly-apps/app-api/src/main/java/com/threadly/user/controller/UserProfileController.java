@@ -1,8 +1,8 @@
 package com.threadly.user.controller;
 
 import com.threadly.auth.JwtAuthenticationUser;
-import com.threadly.core.usecase.user.profile.query.dto.GetUserProfileApiResponse;
-import com.threadly.core.usecase.user.profile.query.GetUserProfileUseCase;
+import com.threadly.core.port.user.in.profile.query.dto.GetUserProfileApiResponse;
+import com.threadly.core.port.user.in.profile.query.GetUserProfileUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

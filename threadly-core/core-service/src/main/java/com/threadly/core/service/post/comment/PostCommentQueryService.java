@@ -1,15 +1,15 @@
 package com.threadly.core.service.post.comment;
 
-import com.threadly.core.usecase.commons.dto.UserPreview;
+import com.threadly.core.port.commons.dto.UserPreview;
 import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.exception.post.PostException;
 import com.threadly.core.domain.post.PostStatus;
-import com.threadly.core.port.post.comment.fetch.FetchPostCommentPort;
-import com.threadly.core.usecase.post.comment.get.GetPostCommentApiResponse;
-import com.threadly.core.usecase.post.comment.get.GetPostCommentDetailQuery;
-import com.threadly.core.usecase.post.comment.get.GetPostCommentListQuery;
-import com.threadly.core.usecase.post.comment.get.GetPostCommentUseCase;
-import com.threadly.core.port.post.fetch.FetchPostPort;
+import com.threadly.core.port.post.out.comment.fetch.FetchPostCommentPort;
+import com.threadly.core.port.post.in.comment.get.GetPostCommentApiResponse;
+import com.threadly.core.port.post.in.comment.get.GetPostCommentDetailQuery;
+import com.threadly.core.port.post.in.comment.get.GetPostCommentListQuery;
+import com.threadly.core.port.post.in.comment.get.GetPostCommentUseCase;
+import com.threadly.core.port.post.out.fetch.FetchPostPort;
 import com.threadly.commons.response.CursorPageApiResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

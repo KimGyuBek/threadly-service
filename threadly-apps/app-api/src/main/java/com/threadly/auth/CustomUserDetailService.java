@@ -1,7 +1,7 @@
 package com.threadly.auth;
 
-import com.threadly.core.usecase.user.query.GetUserUseCase;
-import com.threadly.core.usecase.user.shared.UserResponse;
+import com.threadly.core.port.user.in.query.GetUserUseCase;
+import com.threadly.core.port.user.in.shared.UserResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

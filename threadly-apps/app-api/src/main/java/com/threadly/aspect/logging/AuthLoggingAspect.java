@@ -6,9 +6,9 @@ import static com.threadly.commons.utils.LogFormatUtils.logSuccess;
 
 import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.exception.user.UserException;
-import com.threadly.core.usecase.auth.token.response.LoginTokenApiResponse;
-import com.threadly.core.usecase.auth.token.response.TokenReissueApiResponse;
-import com.threadly.core.usecase.auth.verification.response.PasswordVerificationToken;
+import com.threadly.core.port.auth.in.token.response.LoginTokenApiResponse;
+import com.threadly.core.port.auth.in.token.response.TokenReissueApiResponse;
+import com.threadly.core.port.auth.in.verification.response.PasswordVerificationToken;
 import com.threadly.global.exception.UserAuthenticationException;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;

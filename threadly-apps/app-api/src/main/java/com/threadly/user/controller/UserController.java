@@ -1,7 +1,7 @@
 package com.threadly.user.controller;
 
-import com.threadly.core.usecase.user.account.command.RegisterUserUseCase;
-import com.threadly.core.usecase.user.account.command.dto.RegisterUserApiResponse;
+import com.threadly.core.port.user.in.account.command.RegisterUserUseCase;
+import com.threadly.core.port.user.in.account.command.dto.RegisterUserApiResponse;
 import com.threadly.user.request.UserRegisterRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
