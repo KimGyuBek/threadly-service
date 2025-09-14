@@ -56,18 +56,18 @@ jobs:
           mkdir -p deploy
           cp -r ./infra/compose/prod/* ./deploy
 
-      - name: config 업로드 준비
-        run: |
-          mkdir -p ./deploy/config
-          cp -r ./infra/loki-stack ./deploy/
-          cp -r ./infra/config/prometheus.prod.yml ./deploy/config/
+#      - name: config 업로드 준비
+#        run: |
+#          mkdir -p ./deploy/config
+#          cp -r ./infra/loki-stack ./deploy/
+#          cp -r ./infra/config/prometheus.prod.yml ./deploy/config/
 
-      - name: Scripts 업로드 준비
-        run: |
-          mkdir -p ./deploy/scripts
-          cp ./infra/scripts/blue-green-deploy.sh ./deploy/scripts/
-          cp ./infra/scripts/clean-old-images.sh ./deploy/scripts/
-          cp ./infra/scripts/start-threadly.sh ./deploy/scripts
+#      - name: Scripts 업로드 준비
+#        run: |
+#          mkdir -p ./deploy/scripts
+#          cp ./infra/scripts/blue-green-deploy.sh ./deploy/scripts/
+#          cp ./infra/scripts/clean-old-images.sh ./deploy/scripts/
+#          cp ./infra/scripts/start-threadly.sh ./deploy/scripts
 
       - name: Artifact 업로드
         uses: actions/upload-artifact@v4
