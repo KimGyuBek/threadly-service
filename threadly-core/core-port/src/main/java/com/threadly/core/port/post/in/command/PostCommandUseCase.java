@@ -33,4 +33,6 @@ public interface PostCommandUseCase {
    * @return
    */
   UpdatePostApiResponse updatePost(UpdatePostCommand command);
+
+
 }
