@@ -13,7 +13,7 @@ import com.threadly.commons.response.CursorPageApiResponse;
 import com.threadly.core.service.validator.follow.FollowAccessValidator;
 import com.threadly.core.service.validator.user.UserStatusValidator;
 import com.threadly.core.port.follow.out.FollowQueryPort;
-import com.threadly.core.port.follow.out.dto.UserFollowStatsProjection;
+import com.threadly.core.port.follow.out.projection.UserFollowStatsProjection;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

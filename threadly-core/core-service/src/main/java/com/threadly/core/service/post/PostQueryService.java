@@ -16,10 +16,10 @@ import com.threadly.core.port.post.in.query.dto.GetPostListQuery;
 import com.threadly.core.port.post.in.query.dto.GetPostQuery;
 import com.threadly.core.port.post.in.query.dto.PostDetails;
 import com.threadly.core.port.post.in.query.PostQueryUseCase;
-import com.threadly.core.port.post.out.fetch.FetchPostPort;
-import com.threadly.core.port.post.out.fetch.PostDetailProjection;
-import com.threadly.core.port.post.out.image.fetch.FetchPostImagePort;
-import com.threadly.core.port.post.out.image.fetch.PostImageProjection;
+import com.threadly.core.port.post.out.PostQueryPort;
+import com.threadly.core.port.post.out.projection.PostDetailProjection;
+import com.threadly.core.port.post.out.image.PostImageQueryPort;
+import com.threadly.core.port.post.out.image.projection.PostImageProjection;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,16 +32,16 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class PostQueryService implements PostQueryUseCase {
 
-  private final FetchPostPort fetchPostPort;
+  private final PostQueryPort postQueryPort;
 
-  private final FetchPostImagePort fetchPostImagePort;
+  private final PostImageQueryPort postImageQueryPort;
 
   @Transactional(readOnly = true)
   @Override
   public CursorPageApiResponse<PostDetails> getUserVisiblePostListByCursor(GetPostListQuery query) {
 
     /*게시글 상세 정보 조회*/
-    List<PostDetails> allPostList = fetchPostPort.fetchUserVisiblePostListByCursor(
+    List<PostDetails> allPostList = postQueryPort.fetchUserVisiblePostListByCursor(
             query.getUserId(), query.getCursorPostedAt(), query.getCursorPostId(), query.getLimit() + 1)
         .stream().map(
             projection -> new PostDetails(
@@ -52,7 +52,7 @@ public class PostQueryService implements PostQueryUseCase {
                     projection.getUserProfileImageUrl()
                 ),
                 projection.getContent(),
-                fetchPostImagePort.findAllByPostIdAndStatus(
+                postImageQueryPort.findAllByPostIdAndStatus(
                     projection.getPostId(),
                     ImageStatus.CONFIRMED
                 ).stream().map(
@@ -74,12 +74,12 @@ public class PostQueryService implements PostQueryUseCase {
   @Override
   public PostDetails getPost(GetPostQuery query) {
     /*게시글 상세 정보 조회*/
-    PostDetailProjection postDetailProjection = fetchPostPort.fetchPostDetailsByPostIdAndUserId(
+    PostDetailProjection postDetailProjection = postQueryPort.fetchPostDetailsByPostIdAndUserId(
             query.getPostId(), query.getUserId())
         .orElseThrow(() -> new PostException(ErrorCode.POST_NOT_FOUND));
 
     /*게시글 이미지 조회*/
-    List<PostImageProjection> postImageProjections = fetchPostImagePort.findAllByPostIdAndStatus(
+    List<PostImageProjection> postImageProjections = postImageQueryPort.findAllByPostIdAndStatus(
         query.getPostId(), ImageStatus.CONFIRMED);
 
     /*TODO 도메인 로직으로 변경*/
@@ -118,7 +118,7 @@ public class PostQueryService implements PostQueryUseCase {
   @Override
   public GetPostEngagementApiResponse getPostEngagement(GetPostEngagementQuery query) {
     return
-        fetchPostPort.fetchPostEngagementByPostIdAndUserId(
+        postQueryPort.fetchPostEngagementByPostIdAndUserId(
             query.getPostId(), query.getUserId()
         ).map(projection -> new GetPostEngagementApiResponse(
             projection.getPostId(),

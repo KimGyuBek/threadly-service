@@ -1,11 +1,11 @@
 package com.threadly.core.service.post.like.comment;
 
-import com.threadly.core.port.post.out.like.comment.FetchPostCommentLikePort;
+import com.threadly.core.port.post.out.like.comment.PostCommentLikeQueryPort;
 import com.threadly.core.port.commons.dto.UserPreview;
 import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.exception.post.PostCommentException;
 import com.threadly.core.domain.post.PostCommentStatus;
-import com.threadly.core.port.post.out.comment.fetch.FetchPostCommentPort;
+import com.threadly.core.port.post.out.comment.PostCommentQueryPort;
 import com.threadly.commons.response.CursorPageApiResponse;
 import com.threadly.core.port.post.in.like.comment.query.dto.GetPostCommentLikersQuery;
 import com.threadly.core.port.post.in.like.comment.query.PostCommentLikeQueryUseCase;
@@ -18,16 +18,16 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class PostCommentLikeQueryService implements PostCommentLikeQueryUseCase {
 
-  private final FetchPostCommentLikePort fetchPostCommentLikePort;
+  private final PostCommentLikeQueryPort postCommentLikeQueryPort;
 
-  private final FetchPostCommentPort fetchPostCommentPort;
+  private final PostCommentQueryPort postCommentQueryPort;
 
   @Override
   public CursorPageApiResponse<PostCommentLiker> getPostCommentLikers(
       GetPostCommentLikersQuery query) {
 
     /*댓글 상태 검증*/
-    PostCommentStatus commentStatus = fetchPostCommentPort.fetchCommentStatus(
+    PostCommentStatus commentStatus = postCommentQueryPort.fetchCommentStatus(
         query.commentId()).orElseThrow(() -> new PostCommentException(
         ErrorCode.POST_COMMENT_NOT_FOUND));
 
@@ -36,7 +36,7 @@ public class PostCommentLikeQueryService implements PostCommentLikeQueryUseCase 
     }
 
     /*리스트 조회*/
-    List<PostCommentLiker> allLikerList = fetchPostCommentLikePort.fetchCommentLikerListByCommentIdWithCursor(
+    List<PostCommentLiker> allLikerList = postCommentLikeQueryPort.fetchCommentLikerListByCommentIdWithCursor(
         query.commentId(), query.cursorLikedAt(), query.cursorLikerId(),
         query.limit() + 1
     ).stream().map(

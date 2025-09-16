@@ -25,4 +25,19 @@ public class AsyncConfig {
     return executor;
   }
 
+  @Bean("houseKeepingExecutor")
+  public ThreadPoolTaskExecutor houseKeepingExecutor() {
+    ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+    executor.setCorePoolSize(3);
+    executor.setMaxPoolSize(10);
+    executor.setQueueCapacity(50);
+    executor.setThreadNamePrefix("houseKeeping-");
+    executor.setRejectedExecutionHandler(
+        new ThreadPoolExecutor.CallerRunsPolicy()
+    );
+    executor.initialize();
+
+    return executor;
+  }
+
 }

@@ -4,12 +4,12 @@ import com.threadly.core.port.commons.dto.UserPreview;
 import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.exception.post.PostException;
 import com.threadly.core.domain.post.PostStatus;
-import com.threadly.core.port.post.out.comment.fetch.FetchPostCommentPort;
+import com.threadly.core.port.post.out.comment.PostCommentQueryPort;
 import com.threadly.core.port.post.in.comment.query.dto.GetPostCommentApiResponse;
 import com.threadly.core.port.post.in.comment.query.dto.GetPostCommentDetailQuery;
 import com.threadly.core.port.post.in.comment.query.dto.GetPostCommentListQuery;
 import com.threadly.core.port.post.in.comment.query.PostCommendQueryUseCase;
-import com.threadly.core.port.post.out.fetch.FetchPostPort;
+import com.threadly.core.port.post.out.PostQueryPort;
 import com.threadly.commons.response.CursorPageApiResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -23,9 +23,9 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class PostCommendQueryQueryService implements PostCommendQueryUseCase {
 
-  private final FetchPostCommentPort fetchPostCommentPort;
+  private final PostCommentQueryPort postCommentQueryPort;
 
-  private final FetchPostPort fetchPostPort;
+  private final PostQueryPort postQueryPort;
 
   @Transactional(readOnly = true)
   @Override
@@ -33,7 +33,7 @@ public class PostCommendQueryQueryService implements PostCommendQueryUseCase {
       GetPostCommentListQuery query
   ) {
     /*게시글 유효성 검증*/
-    PostStatus posStatus = fetchPostPort.fetchPostStatusByPostId(query.postId())
+    PostStatus posStatus = postQueryPort.fetchPostStatusByPostId(query.postId())
         .orElseThrow(() -> new PostException(
             ErrorCode.POST_NOT_FOUND));
     if (!posStatus.equals(PostStatus.ACTIVE)) {
@@ -41,7 +41,7 @@ public class PostCommendQueryQueryService implements PostCommendQueryUseCase {
     }
 
     /*게시글 댓글 목록 조회*/
-    List<GetPostCommentApiResponse> allCommentList = fetchPostCommentPort.fetchCommentListByPostIdWithCursor(
+    List<GetPostCommentApiResponse> allCommentList = postCommentQueryPort.fetchCommentListByPostIdWithCursor(
         query.postId(),
         query.userId(),
         query.cursorCommentedAt(),

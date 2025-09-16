@@ -10,10 +10,9 @@ import com.threadly.core.domain.post.PostLike;
 import com.threadly.core.port.post.in.like.post.command.PostLikeCommandUseCase;
 import com.threadly.core.port.post.in.like.post.command.dto.LikePostApiResponse;
 import com.threadly.core.port.post.in.like.post.command.dto.LikePostCommand;
-import com.threadly.core.port.post.out.fetch.FetchPostPort;
-import com.threadly.core.port.post.out.like.post.CreatePostLikePort;
-import com.threadly.core.port.post.out.like.post.DeletePostLikePort;
-import com.threadly.core.port.post.out.like.post.FetchPostLikePort;
+import com.threadly.core.port.post.out.PostQueryPort;
+import com.threadly.core.port.post.out.like.post.PostLikeCommandPort;
+import com.threadly.core.port.post.out.like.post.PostLikeQueryPort;
 import com.threadly.core.service.notification.dto.NotificationPublishCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
@@ -27,11 +26,10 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class PostLikeCommandLikeCommandService implements PostLikeCommandUseCase {
 
-  private final FetchPostPort fetchPostPort;
+  private final PostQueryPort postQueryPort;
 
-  private final FetchPostLikePort fetchPostLikePort;
-  private final CreatePostLikePort createPostLikePort;
-  private final DeletePostLikePort deletePostLikePort;
+  private final PostLikeQueryPort postLikeQueryPort;
+  private final PostLikeCommandPort postLikeCommandPort;
 
   private final ApplicationEventPublisher applicationEventPublisher;
 
@@ -50,7 +48,7 @@ public class PostLikeCommandLikeCommandService implements PostLikeCommandUseCase
       PostLike newLike = post.like(command.getUserId());
 
       /*좋아요 저장*/
-      createPostLikePort.createPostLike(newLike);
+      postLikeCommandPort.createPostLike(newLike);
 
       /*알림 발행*/
       applicationEventPublisher.publishEvent(
@@ -84,7 +82,7 @@ public class PostLikeCommandLikeCommandService implements PostLikeCommandUseCase
     if (isUserLiked(command)) {
 
       /*좋아요 삭제 */
-      deletePostLikePort.deleteByPostIdAndUserId(command.getPostId(), command.getUserId());
+      postLikeCommandPort.deleteByPostIdAndUserId(command.getPostId(), command.getUserId());
     }
 
     return new LikePostApiResponse(
@@ -100,7 +98,7 @@ public class PostLikeCommandLikeCommandService implements PostLikeCommandUseCase
    * @return
    */
   private Post getPost(LikePostCommand command) {
-    Post post = fetchPostPort.fetchById(command.getPostId()).orElseThrow(() -> new PostException(
+    Post post = postQueryPort.fetchById(command.getPostId()).orElseThrow(() -> new PostException(
         ErrorCode.POST_NOT_FOUND));
     return post;
   }
@@ -112,7 +110,7 @@ public class PostLikeCommandLikeCommandService implements PostLikeCommandUseCase
    * @return
    */
   private long getLikeCount(LikePostCommand command) {
-    return fetchPostLikePort.fetchLikeCountByPostId(command.getPostId());
+    return postLikeQueryPort.fetchLikeCountByPostId(command.getPostId());
   }
 
   /**
@@ -122,7 +120,7 @@ public class PostLikeCommandLikeCommandService implements PostLikeCommandUseCase
    * @return
    */
   private boolean isUserLiked(LikePostCommand command) {
-    return fetchPostLikePort.existsByPostIdAndUserId(command.getPostId(), command.getUserId());
+    return postLikeQueryPort.existsByPostIdAndUserId(command.getPostId(), command.getUserId());
   }
 
   /**

@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import com.threadly.RedisTestApplication;
-import com.threadly.core.port.auth.out.InsertLoginAttempt;
+import com.threadly.core.port.auth.out.InsertLoginAttemptCommand;
 import java.time.Duration;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,7 +24,7 @@ class LoginAttemptRepositoryTest {
   private RedisTemplate<String, Object> redisTemplate;
 
   @Autowired
-  private LoginAttemptRepository loginAttemptRepository;
+  private LoginAttemptCommandQueryRepository loginAttemptRepository;
 
   @DisplayName("이미 존재하는 값이 있는 경우")
   @Test
@@ -66,8 +66,12 @@ class LoginAttemptRepositoryTest {
 
     Integer count = (Integer) redisTemplate.opsForValue().get(key);
     //when
-    loginAttemptRepository.increaseLoginAttempt(InsertLoginAttempt.builder()
-        .userId("1").loginAttemptCount(count).duration(Duration.ofSeconds(3)).build());
+    loginAttemptRepository.increaseLoginAttempt(
+        new InsertLoginAttemptCommand(
+            "1",
+            count,
+            Duration.ofSeconds(3)
+        ));
 
     int result = loginAttemptRepository.getLoginAttemptCount("1");
 

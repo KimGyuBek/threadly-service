@@ -9,10 +9,9 @@ import com.threadly.core.domain.post.comment.PostComment;
 import com.threadly.core.port.post.in.like.comment.command.PostCommentLikeCommandUseCase;
 import com.threadly.core.port.post.in.like.comment.command.dto.LikePostCommentApiResponse;
 import com.threadly.core.port.post.in.like.comment.command.dto.LikePostCommentCommand;
-import com.threadly.core.port.post.out.comment.fetch.FetchPostCommentPort;
-import com.threadly.core.port.post.out.like.comment.CreatePostCommentLikePort;
-import com.threadly.core.port.post.out.like.comment.DeletePostCommentLikePort;
-import com.threadly.core.port.post.out.like.comment.FetchPostCommentLikePort;
+import com.threadly.core.port.post.out.comment.PostCommentQueryPort;
+import com.threadly.core.port.post.out.like.comment.PostCommentLikerCommandPort;
+import com.threadly.core.port.post.out.like.comment.PostCommentLikeQueryPort;
 import com.threadly.core.service.notification.dto.NotificationPublishCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
@@ -26,11 +25,10 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class PostCommentLikeCommandLikeCommandService implements PostCommentLikeCommandUseCase {
 
-  private final FetchPostCommentPort fetchPostCommentPort;
+  private final PostCommentQueryPort postCommentQueryPort;
 
-  private final FetchPostCommentLikePort fetchPostCommentLikePort;
-  private final CreatePostCommentLikePort createPostCommentLikePort;
-  private final DeletePostCommentLikePort deletePostCommentLikePort;
+  private final PostCommentLikeQueryPort postCommentLikeQueryPort;
+  private final PostCommentLikerCommandPort postCommentLikerCommandPort;
 
   private final ApplicationEventPublisher applicationEventPublisher;
 
@@ -47,7 +45,7 @@ public class PostCommentLikeCommandLikeCommandService implements PostCommentLike
     /*좋아요 누르지 않았다면*/
     if (!isUserLiked(command)) {
       /*좋아요 처리*/
-      createPostCommentLikePort.createPostCommentLike(
+      postCommentLikerCommandPort.createPostCommentLike(
           postComment.like(command.getUserId()));
     }
 
@@ -84,7 +82,7 @@ public class PostCommentLikeCommandLikeCommandService implements PostCommentLike
     /*좋아요를 누른 상태인 경우*/
     if (isUserLiked(command)) {
       /*좋아요 삭제*/
-      deletePostCommentLikePort.deletePostCommentLike(command.getCommentId(), command.getUserId());
+      postCommentLikerCommandPort.deletePostCommentLike(command.getCommentId(), command.getUserId());
     }
 
     return new LikePostCommentApiResponse(
@@ -100,7 +98,7 @@ public class PostCommentLikeCommandLikeCommandService implements PostCommentLike
    * @return
    */
   private long getLikeCount(LikePostCommentCommand command) {
-    long likeCount = fetchPostCommentLikePort.fetchLikeCountByCommentId(
+    long likeCount = postCommentLikeQueryPort.fetchLikeCountByCommentId(
         command.getCommentId());
     return likeCount;
   }
@@ -113,7 +111,7 @@ public class PostCommentLikeCommandLikeCommandService implements PostCommentLike
    */
   private PostComment getPostComment(LikePostCommentCommand command) {
     return
-        fetchPostCommentPort.fetchById(command.getCommentId())
+        postCommentQueryPort.fetchById(command.getCommentId())
             .orElseThrow(() -> new PostCommentException(
                 ErrorCode.POST_COMMENT_NOT_FOUND));
   }
@@ -138,7 +136,7 @@ public class PostCommentLikeCommandLikeCommandService implements PostCommentLike
    * @return
    */
   private boolean isUserLiked(LikePostCommentCommand command) {
-    return fetchPostCommentLikePort.existsByCommentIdAndUserId(command.getCommentId(),
+    return postCommentLikeQueryPort.existsByCommentIdAndUserId(command.getCommentId(),
         command.getUserId());
   }
 }

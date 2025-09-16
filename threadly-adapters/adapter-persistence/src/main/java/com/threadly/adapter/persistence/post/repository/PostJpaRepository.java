@@ -2,8 +2,8 @@ package com.threadly.adapter.persistence.post.repository;
 
 import com.threadly.adapter.persistence.post.entity.PostEntity;
 import com.threadly.core.domain.post.PostStatus;
-import com.threadly.core.port.post.out.fetch.PostDetailProjection;
-import com.threadly.core.port.post.out.fetch.PostEngagementProjection;
+import com.threadly.core.port.post.out.projection.PostDetailProjection;
+import com.threadly.core.port.post.out.projection.PostEngagementProjection;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;

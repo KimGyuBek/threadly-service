@@ -6,8 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.threadly.RedisTestApplication;
-import com.threadly.core.port.token.out.command.dto.InsertBlackListTokenCommand;
-import com.threadly.core.port.token.out.command.dto.UpsertRefreshTokenCommand;
+import com.threadly.core.port.token.out.command.InsertBlackListTokenCommand;
+import com.threadly.core.port.token.out.command.UpsertRefreshTokenCommand;
 import java.time.Duration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

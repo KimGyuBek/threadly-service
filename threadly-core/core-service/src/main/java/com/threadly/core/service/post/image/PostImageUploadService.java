@@ -2,17 +2,17 @@ package com.threadly.core.service.post.image;
 
 import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.exception.post.PostImageException;
+import com.threadly.commons.properties.UploadProperties;
 import com.threadly.core.domain.post.PostImage;
+import com.threadly.core.port.image.UploadImagePort;
+import com.threadly.core.port.image.UploadImageResponse;
 import com.threadly.core.port.post.in.image.UploadPostImageCommand;
 import com.threadly.core.port.post.in.image.UploadPostImageUseCase;
 import com.threadly.core.port.post.in.image.UploadPostImagesApiResponse;
 import com.threadly.core.port.post.in.image.UploadPostImagesApiResponse.PostImageResponse;
-import com.threadly.core.port.post.out.image.save.SavePostImagePort;
-import com.threadly.core.port.image.UploadImageResponse;
-import com.threadly.core.port.image.UploadImagePort;
+import com.threadly.core.port.post.out.image.PostImageCommandPort;
 import com.threadly.core.service.validator.image.ImageAspectRatioValidator;
 import com.threadly.core.service.validator.image.ImageUploadValidator;
-import com.threadly.commons.properties.UploadProperties;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -27,12 +27,13 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class PostImageUploadService implements UploadPostImageUseCase {
 
-  private final SavePostImagePort savePostImagePort;
   private final UploadImagePort uploadImagePort;
 
   private final UploadProperties uploadProperties;
 
   private final ImageUploadValidator imageUploadValidator;
+
+  private final PostImageCommandPort postImageCommandPort;
 
   private final ImageAspectRatioValidator imageAspectRatioValidator;
 
@@ -64,7 +65,7 @@ public class PostImageUploadService implements UploadPostImageUseCase {
       );
       postImages.add(postImage);
 
-      savePostImagePort.savePostImage(postImage);
+      postImageCommandPort.savePostImage(postImage);
       log.debug("이미지 메타 데이터 저장 완료: {}", postImage.toString());
     });
 

@@ -2,7 +2,6 @@ package com.threadly.core.port.user.out;
 
 import com.threadly.core.domain.user.User;
 import com.threadly.core.domain.user.UserStatusType;
-import com.threadly.core.port.user.out.response.UserPortResponse;
 
 /**
  * user 상태 변경 port
@@ -48,5 +47,5 @@ public interface UserCommandPort {
    */
   void updatePrivacy(User user);
 
-  UserPortResponse save(User user);
+  UserResult save(User user);
 }

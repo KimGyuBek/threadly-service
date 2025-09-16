@@ -3,7 +3,7 @@ package com.threadly.adapter.persistence.post.repository;
 import com.threadly.adapter.persistence.post.entity.PostEntity;
 import com.threadly.adapter.persistence.post.entity.PostImageEntity;
 import com.threadly.core.domain.image.ImageStatus;
-import com.threadly.core.port.post.out.image.fetch.PostImageProjection;
+import com.threadly.core.port.post.out.image.projection.PostImageProjection;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;

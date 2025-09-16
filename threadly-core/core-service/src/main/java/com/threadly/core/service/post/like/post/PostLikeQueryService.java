@@ -1,10 +1,10 @@
 package com.threadly.core.service.post.like.post;
 
-import com.threadly.core.port.post.out.like.post.FetchPostLikePort;
+import com.threadly.core.port.post.out.like.post.PostLikeQueryPort;
 import com.threadly.core.port.commons.dto.UserPreview;
 import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.exception.post.PostException;
-import com.threadly.core.port.post.out.fetch.FetchPostPort;
+import com.threadly.core.port.post.out.PostQueryPort;
 import com.threadly.commons.response.CursorPageApiResponse;
 import com.threadly.core.port.post.in.like.post.query.dto.GetPostLikersQuery;
 import com.threadly.core.port.post.in.like.post.query.GetPostLikeQueryUseCase;
@@ -21,20 +21,20 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class PostLikeQueryService implements GetPostLikeQueryUseCase {
 
-  private final FetchPostLikePort fetchPostLikePort;
+  private final PostLikeQueryPort postLikeQueryPort;
 
-  private final FetchPostPort fetchPostPort;
+  private final PostQueryPort postQueryPort;
 
   @Transactional(readOnly = true)
   @Override
   public CursorPageApiResponse<PostLiker> getPostLikers(GetPostLikersQuery query) {
     /*게시글 유효성 검증*/
-    if (!fetchPostPort.existsById(query.getPostId())) {
+    if (!postQueryPort.existsById(query.getPostId())) {
       throw new PostException(ErrorCode.POST_NOT_FOUND);
     }
 
     /*게시글 좋아요 목록 조회*/
-    List<PostLiker> allLikerList = fetchPostLikePort.fetchPostLikersBeforeCreatedAt(
+    List<PostLiker> allLikerList = postLikeQueryPort.fetchPostLikersBeforeCreatedAt(
         query.getPostId(),
         query.getCursorLikedAt(),
         query.getCursorLikerId(),
