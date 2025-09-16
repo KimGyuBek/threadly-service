@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.threadly.core.port.token.out.command.dto.UpsertRefreshTokenCommand;
+import com.threadly.core.port.token.out.command.UpsertRefreshTokenCommand;
 import java.time.Duration;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

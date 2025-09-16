@@ -1,4 +1,4 @@
-package com.threadly.core.port.follow.out.dto;
+package com.threadly.core.port.follow.out.projection;
 
 /**
  * 사용자의 팔로워, 팔로잉 수 조회 프로젝션

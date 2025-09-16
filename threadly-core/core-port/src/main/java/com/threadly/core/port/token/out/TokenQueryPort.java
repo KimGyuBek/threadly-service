@@ -1,4 +1,4 @@
-package com.threadly.core.port.token.out.query;
+package com.threadly.core.port.token.out;
 
 /**
  * token 조회 port

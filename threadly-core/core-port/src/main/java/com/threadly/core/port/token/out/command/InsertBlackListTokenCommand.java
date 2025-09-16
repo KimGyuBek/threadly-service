@@ -1,4 +1,4 @@
-package com.threadly.core.port.token.out.command.dto;
+package com.threadly.core.port.token.out.command;
 
 import java.time.Duration;
 import lombok.Builder;

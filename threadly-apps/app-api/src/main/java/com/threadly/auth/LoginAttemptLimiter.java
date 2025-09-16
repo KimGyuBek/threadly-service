@@ -1,10 +1,9 @@
 package com.threadly.auth;
 
-import com.threadly.core.port.auth.out.DeleteLoginAttemptPort;
-import com.threadly.core.port.auth.out.FetchLoginAttemptPort;
-import com.threadly.core.port.auth.out.InsertLoginAttempt;
-import com.threadly.core.port.auth.out.UpsertLoginAttemptPort;
 import com.threadly.commons.properties.TtlProperties;
+import com.threadly.core.port.auth.out.InsertLoginAttemptCommand;
+import com.threadly.core.port.auth.out.LoginAttemptCommandPort;
+import com.threadly.core.port.auth.out.LoginAttemptQueryPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,14 +14,13 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class LoginAttemptLimiter {
 
-  private final FetchLoginAttemptPort fetchLoginAttemptPort;
-  private final UpsertLoginAttemptPort upsertLoginAttemptPort;
-  private final DeleteLoginAttemptPort deleteLoginAttemptPort;
+  private final LoginAttemptQueryPort loginAttemptQueryPort;
+  private final LoginAttemptCommandPort loginAttemptCommandPort;
 
   private final TtlProperties ttlProperties;
 
   public boolean checkLoginAttempt(String userId) {
-    Integer count = fetchLoginAttemptPort.getLoginAttemptCount(userId);
+    Integer count = loginAttemptQueryPort.getLoginAttemptCount(userId);
     int loginAttemptCount = (count == null) ? 0 : count;
 
     if (loginAttemptCount >= 5) {
@@ -38,7 +36,7 @@ public class LoginAttemptLimiter {
    * @return
    */
   public void upsertLoginAttempt(String userId) {
-    Integer count = fetchLoginAttemptPort.getLoginAttemptCount(userId);
+    Integer count = loginAttemptQueryPort.getLoginAttemptCount(userId);
     int loginAttemptCount = (count == null) ? 0 : count;
 
     if (loginAttemptCount >= 5) {
@@ -46,11 +44,12 @@ public class LoginAttemptLimiter {
     }
 
     /*값 업데이트*/
-    upsertLoginAttemptPort.increaseLoginAttempt(InsertLoginAttempt.builder()
-        .userId(userId)
-        .loginAttemptCount(loginAttemptCount)
-        .duration(ttlProperties.getLoginAttempt())
-        .build());
+    loginAttemptCommandPort.increaseLoginAttempt(
+        new InsertLoginAttemptCommand(
+            userId,
+            loginAttemptCount,
+            ttlProperties.getLoginAttempt()
+        ));
   }
 
   /**
@@ -65,19 +64,20 @@ public class LoginAttemptLimiter {
     }
 
     /*값 업데이트*/
-    upsertLoginAttemptPort.increaseLoginAttempt(InsertLoginAttempt.builder()
-        .userId(userId)
-        .loginAttemptCount(loginAttemptCount)
-        .duration(ttlProperties.getLoginAttempt())
-        .build());
+    loginAttemptCommandPort.increaseLoginAttempt(new InsertLoginAttemptCommand(
+        userId,
+        loginAttemptCount,
+        ttlProperties.getLoginAttempt()
+    ));
   }
 
   /**
    * login attempt 삭제
+   *
    * @param userId
    */
   public void removeLoginAttempt(String userId) {
-    deleteLoginAttemptPort.deleteLoginAttempt(userId);
+    loginAttemptCommandPort.deleteLoginAttempt(userId);
   }
 
 

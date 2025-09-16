@@ -1,19 +1,15 @@
-package com.threadly.core.port.auth.out;
+package com.threadly.core.port.token.out.command;
 
 import java.time.Duration;
 import lombok.Builder;
 import lombok.Getter;
 
-/**
- * LoginAttempt 삽입용 DTO
- */
 @Getter
 @Builder
-public class InsertLoginAttempt {
+public class UpsertRefreshTokenCommand {
 
   private String userId;
-  private int loginAttemptCount;
-
+  private String refreshToken;
   private Duration duration;
 
 }

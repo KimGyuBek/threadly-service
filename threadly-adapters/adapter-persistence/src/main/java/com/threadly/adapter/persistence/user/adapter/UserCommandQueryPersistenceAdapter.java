@@ -7,7 +7,7 @@ import com.threadly.core.domain.user.User;
 import com.threadly.core.domain.user.UserStatusType;
 import com.threadly.core.port.user.out.UserCommandPort;
 import com.threadly.core.port.user.out.UserQueryPort;
-import com.threadly.core.port.user.out.response.UserPortResponse;
+import com.threadly.core.port.user.out.UserResult;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -35,12 +35,12 @@ public class UserCommandQueryPersistenceAdapter implements UserQueryPort,
   }
 
   @Override
-  public UserPortResponse save(User user) {
+  public UserResult save(User user) {
     UserEntity userEntity = UserMapper.toEntity(user);
     userJpaRepository.save(userEntity);
 
     return
-        UserPortResponse.builder()
+        UserResult.builder()
             .userId(userEntity.getUserId())
             .userName(userEntity.getUserName())
             .password(userEntity.getPassword())

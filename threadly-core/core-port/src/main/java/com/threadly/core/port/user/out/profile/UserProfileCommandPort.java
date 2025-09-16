@@ -1,4 +1,4 @@
-package com.threadly.core.port.user.out.profile.command;
+package com.threadly.core.port.user.out.profile;
 
 import com.threadly.core.domain.user.profile.UserProfile;
 

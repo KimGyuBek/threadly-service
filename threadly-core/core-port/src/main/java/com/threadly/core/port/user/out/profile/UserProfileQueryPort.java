@@ -1,5 +1,8 @@
-package com.threadly.core.port.user.out.profile.query;
+package com.threadly.core.port.user.out.profile;
 
+import com.threadly.core.port.user.out.profile.projection.MyProfileDetailsProjection;
+import com.threadly.core.port.user.out.profile.projection.UserPreviewProjection;
+import com.threadly.core.port.user.out.profile.projection.UserProfileProjection;
 import java.util.Optional;
 
 public interface UserProfileQueryPort {

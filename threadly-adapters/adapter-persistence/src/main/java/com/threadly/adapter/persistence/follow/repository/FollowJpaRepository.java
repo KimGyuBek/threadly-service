@@ -2,10 +2,10 @@ package com.threadly.adapter.persistence.follow.repository;
 
 import com.threadly.core.domain.follow.FollowStatusType;
 import com.threadly.adapter.persistence.follow.entity.FollowEntity;
-import com.threadly.core.port.follow.out.dto.FollowRequestsProjection;
-import com.threadly.core.port.follow.out.dto.FollowerProjection;
-import com.threadly.core.port.follow.out.dto.FollowingProjection;
-import com.threadly.core.port.follow.out.dto.UserFollowStatsProjection;
+import com.threadly.core.port.follow.out.projection.FollowRequestsProjection;
+import com.threadly.core.port.follow.out.projection.FollowerProjection;
+import com.threadly.core.port.follow.out.projection.FollowingProjection;
+import com.threadly.core.port.follow.out.projection.UserFollowStatsProjection;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;

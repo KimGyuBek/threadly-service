@@ -1,10 +1,10 @@
 package com.threadly.adapter.redis.repository.token;
 
-import com.threadly.core.port.token.out.command.TokenCommandPort;
-import com.threadly.core.port.token.out.command.dto.InsertBlackListTokenCommand;
-import com.threadly.core.port.token.out.command.dto.InsertRefreshTokenCommand;
-import com.threadly.core.port.token.out.command.dto.UpsertRefreshTokenCommand;
-import com.threadly.core.port.token.out.query.TokenQueryPort;
+import com.threadly.core.port.token.out.TokenCommandPort;
+import com.threadly.core.port.token.out.command.InsertBlackListTokenCommand;
+import com.threadly.core.port.token.out.command.InsertRefreshTokenCommand;
+import com.threadly.core.port.token.out.command.UpsertRefreshTokenCommand;
+import com.threadly.core.port.token.out.TokenQueryPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;

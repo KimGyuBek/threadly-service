@@ -7,8 +7,8 @@ import com.threadly.commons.utils.JwtTokenUtils;
 import com.threadly.core.domain.mail.MailType;
 import com.threadly.core.domain.user.User;
 import com.threadly.core.port.mail.in.SendMailCommand;
-import com.threadly.core.port.token.out.command.TokenCommandPort;
-import com.threadly.core.port.token.out.command.dto.InsertBlackListTokenCommand;
+import com.threadly.core.port.token.out.TokenCommandPort;
+import com.threadly.core.port.token.out.command.InsertBlackListTokenCommand;
 import com.threadly.core.port.user.in.account.command.UserAccountCommandUseCase;
 import com.threadly.core.port.user.in.account.command.dto.ChangePasswordCommand;
 import com.threadly.core.port.user.in.account.command.dto.RegisterUserApiResponse;
@@ -16,7 +16,7 @@ import com.threadly.core.port.user.in.account.command.dto.RegisterUserCommand;
 import com.threadly.core.port.user.in.account.command.dto.UpdateMyPrivacySettingCommand;
 import com.threadly.core.port.user.out.UserQueryPort;
 import com.threadly.core.port.user.out.UserCommandPort;
-import com.threadly.core.port.user.out.response.UserPortResponse;
+import com.threadly.core.port.user.out.UserResult;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -59,7 +59,7 @@ public class UserCommandService implements
         command.getPhone()
     );
 
-    UserPortResponse userPortResponse = userCommandPort.save(user);
+    UserResult userResult = userCommandPort.save(user);
 
     log.info("회원 가입 성공");
 
@@ -74,12 +74,12 @@ public class UserCommandService implements
     );
 
     return RegisterUserApiResponse.builder()
-        .userId(userPortResponse.getUserId())
-        .userName(userPortResponse.getUserName())
-        .userType(userPortResponse.getUserType())
-        .email(userPortResponse.getEmail())
-        .userStatusType(userPortResponse.getUserStatusType())
-        .isEmailVerified(userPortResponse.isEmailVerified())
+        .userId(userResult.getUserId())
+        .userName(userResult.getUserName())
+        .userType(userResult.getUserType())
+        .email(userResult.getEmail())
+        .userStatusType(userResult.getUserStatusType())
+        .isEmailVerified(userResult.isEmailVerified())
         .build();
   }
 

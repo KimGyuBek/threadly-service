@@ -4,11 +4,11 @@ package com.threadly.adapter.persistence.user.adapter;
 import com.threadly.adapter.persistence.user.mapper.UserProfileMapper;
 import com.threadly.adapter.persistence.user.repository.UserProfileJpaRepository;
 import com.threadly.core.domain.user.profile.UserProfile;
-import com.threadly.core.port.user.out.profile.command.UserProfileCommandPort;
-import com.threadly.core.port.user.out.profile.query.MyProfileDetailsProjection;
-import com.threadly.core.port.user.out.profile.query.UserPreviewProjection;
-import com.threadly.core.port.user.out.profile.query.UserProfileProjection;
-import com.threadly.core.port.user.out.profile.query.UserProfileQueryPort;
+import com.threadly.core.port.user.out.profile.UserProfileCommandPort;
+import com.threadly.core.port.user.out.profile.projection.MyProfileDetailsProjection;
+import com.threadly.core.port.user.out.profile.projection.UserPreviewProjection;
+import com.threadly.core.port.user.out.profile.projection.UserProfileProjection;
+import com.threadly.core.port.user.out.profile.UserProfileQueryPort;
 import java.util.Optional;
 import org.springframework.stereotype.Repository;
 

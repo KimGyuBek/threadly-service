@@ -1,4 +1,4 @@
-package com.threadly.core.port.follow.out.dto;
+package com.threadly.core.port.follow.out.projection;
 
 import java.time.LocalDateTime;
 

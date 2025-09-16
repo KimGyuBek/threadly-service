@@ -1,4 +1,4 @@
-package com.threadly.core.port.user.out.profile.query;
+package com.threadly.core.port.user.out.profile.projection;
 
 /**
  * 사용자 댓글 프리뷰 조회 프로젝션 객체

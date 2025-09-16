@@ -1,4 +1,4 @@
-package com.threadly.core.port.user.out.profile.query;
+package com.threadly.core.port.user.out.profile.projection;
 
 import com.threadly.core.domain.user.UserStatusType;
 

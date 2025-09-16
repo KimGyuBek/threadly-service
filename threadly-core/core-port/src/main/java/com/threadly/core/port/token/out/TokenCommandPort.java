@@ -1,8 +1,8 @@
-package com.threadly.core.port.token.out.command;
+package com.threadly.core.port.token.out;
 
-import com.threadly.core.port.token.out.command.dto.InsertBlackListTokenCommand;
-import com.threadly.core.port.token.out.command.dto.InsertRefreshTokenCommand;
-import com.threadly.core.port.token.out.command.dto.UpsertRefreshTokenCommand;
+import com.threadly.core.port.token.out.command.InsertBlackListTokenCommand;
+import com.threadly.core.port.token.out.command.InsertRefreshTokenCommand;
+import com.threadly.core.port.token.out.command.UpsertRefreshTokenCommand;
 
 /**
  * token command port
