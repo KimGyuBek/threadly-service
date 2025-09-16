@@ -1,4 +1,4 @@
-package com.threadly.core.port.post.out.fetch;
+package com.threadly.core.port.post.out.projection;
 
 /**
  * 게시글 좋아요 관련 정보 조회 응답 객체

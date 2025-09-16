@@ -4,10 +4,9 @@ import com.threadly.adapter.persistence.post.entity.PostEntity;
 import com.threadly.adapter.persistence.post.mapper.PostImageMapper;
 import com.threadly.core.domain.post.PostImage;
 import com.threadly.core.domain.image.ImageStatus;
-import com.threadly.core.port.post.out.image.fetch.FetchPostImagePort;
-import com.threadly.core.port.post.out.image.fetch.PostImageProjection;
-import com.threadly.core.port.post.out.image.save.SavePostImagePort;
-import com.threadly.core.port.post.out.image.update.UpdatePostImagePort;
+import com.threadly.core.port.post.out.image.PostImageQueryPort;
+import com.threadly.core.port.post.out.image.projection.PostImageProjection;
+import com.threadly.core.port.post.out.image.PostImageCommandPort;
 import com.threadly.adapter.persistence.post.repository.PostImageJpaRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +17,8 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @RequiredArgsConstructor
-public class PostImagePersistenceAdapter implements SavePostImagePort, FetchPostImagePort,
-    UpdatePostImagePort {
+public class PostImageQueryCommandPersistenceAdapter implements PostImageQueryPort,
+    PostImageCommandPort {
 
   private final PostImageJpaRepository postImageJpaRepository;
 

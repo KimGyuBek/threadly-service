@@ -1,7 +1,9 @@
-package com.threadly.core.port.post.out.fetch;
+package com.threadly.core.port.post.out;
 
 import com.threadly.core.domain.post.Post;
 import com.threadly.core.domain.post.PostStatus;
+import com.threadly.core.port.post.out.projection.PostDetailProjection;
+import com.threadly.core.port.post.out.projection.PostEngagementProjection;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -9,7 +11,7 @@ import java.util.Optional;
 /**
  * 게시글 조회 관련 port
  */
-public interface FetchPostPort {
+public interface PostQueryPort {
 
   /**
    * postId로 post 조회

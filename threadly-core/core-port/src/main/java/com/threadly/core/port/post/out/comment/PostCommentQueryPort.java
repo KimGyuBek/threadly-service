@@ -1,4 +1,4 @@
-package com.threadly.core.port.post.out.comment.fetch;
+package com.threadly.core.port.post.out.comment;
 
 import com.threadly.core.domain.post.PostCommentStatus;
 import com.threadly.core.domain.post.comment.PostComment;
@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * 게시글 댓글 조회 관련 Port
+ * 게시글 댓글 query 관련 Port
  */
-public interface FetchPostCommentPort {
+public interface PostCommentQueryPort {
 
   /**
    * 댓글 id를 기준으로 댓글을 조회한다.

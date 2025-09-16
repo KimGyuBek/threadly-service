@@ -4,9 +4,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * 게시글 좋아요 조회 관련  Port
+ * 게시글 좋아요 query 관련  Port
  */
-public interface FetchPostLikePort {
+public interface PostLikeQueryPort {
 
   /**
    * postId, userId에 행당하는 게시글 좋아요가 있는지 검증

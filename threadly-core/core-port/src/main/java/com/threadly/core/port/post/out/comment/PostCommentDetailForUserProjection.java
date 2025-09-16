@@ -1,4 +1,4 @@
-package com.threadly.core.port.post.out.comment.fetch;
+package com.threadly.core.port.post.out.comment;
 
 import java.time.LocalDateTime;
 

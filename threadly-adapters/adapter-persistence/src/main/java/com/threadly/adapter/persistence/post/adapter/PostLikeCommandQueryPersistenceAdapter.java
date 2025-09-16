@@ -1,12 +1,11 @@
 package com.threadly.adapter.persistence.post.adapter;
 
 import com.threadly.adapter.persistence.post.mapper.PostLikeMapper;
-import com.threadly.core.port.post.out.like.post.CreatePostLikePort;
-import com.threadly.core.port.post.out.like.post.DeletePostLikePort;
-import com.threadly.core.port.post.out.like.post.FetchPostLikePort;
-import com.threadly.core.port.post.out.like.post.PostLikerProjection;
-import com.threadly.core.domain.post.PostLike;
 import com.threadly.adapter.persistence.post.repository.PostLikeJpaRepository;
+import com.threadly.core.domain.post.PostLike;
+import com.threadly.core.port.post.out.like.post.PostLikeCommandPort;
+import com.threadly.core.port.post.out.like.post.PostLikeQueryPort;
+import com.threadly.core.port.post.out.like.post.PostLikerProjection;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +13,8 @@ import org.springframework.stereotype.Repository;
 
 @RequiredArgsConstructor
 @Repository
-public class PostLikePersistenceAdapter implements FetchPostLikePort, CreatePostLikePort, DeletePostLikePort {
+public class PostLikeCommandQueryPersistenceAdapter implements PostLikeQueryPort,
+    PostLikeCommandPort {
 
   private final PostLikeJpaRepository postLikeJpaRepository;
 

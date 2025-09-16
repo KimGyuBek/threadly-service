@@ -1,4 +1,4 @@
-package com.threadly.core.port.post.out.fetch;
+package com.threadly.core.port.post.out.projection;
 
 import com.threadly.core.domain.post.PostStatus;
 import java.time.LocalDateTime;

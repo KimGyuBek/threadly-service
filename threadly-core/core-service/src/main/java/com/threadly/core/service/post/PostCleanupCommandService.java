@@ -4,10 +4,10 @@ import com.threadly.core.domain.image.ImageStatus;
 import com.threadly.core.domain.post.PostCommentStatus;
 import com.threadly.core.port.post.in.command.PostCleanupCommandUseCase;
 import com.threadly.core.port.post.in.command.dto.PostCascadeCleanupPublishCommand;
-import com.threadly.core.port.post.out.comment.update.UpdatePostCommentPort;
-import com.threadly.core.port.post.out.image.update.UpdatePostImagePort;
-import com.threadly.core.port.post.out.like.comment.DeletePostCommentLikePort;
-import com.threadly.core.port.post.out.like.post.DeletePostLikePort;
+import com.threadly.core.port.post.out.comment.PostCommentCommandPort;
+import com.threadly.core.port.post.out.image.PostImageCommandPort;
+import com.threadly.core.port.post.out.like.comment.PostCommentLikerCommandPort;
+import com.threadly.core.port.post.out.like.post.PostLikeCommandPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,13 +21,13 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class PostCleanupCommandService implements PostCleanupCommandUseCase {
 
-  private final UpdatePostImagePort updatePostImagePort;
+  private final PostImageCommandPort postImageCommandPort;
 
-  private final DeletePostLikePort deletePostLikePort;
+  private final PostLikeCommandPort postLikeCommandPort;
 
-  private final UpdatePostCommentPort updatePostCommentPort;
+  private final PostCommentCommandPort postCommentCommandPort;
 
-  private final DeletePostCommentLikePort deletePostCommentLikePort;
+  private final PostCommentLikerCommandPort postCommentLikerCommandPort;
 
 
   @Transactional
@@ -35,17 +35,17 @@ public class PostCleanupCommandService implements PostCleanupCommandUseCase {
   public void cleanupAssociation(PostCascadeCleanupPublishCommand command) {
 
     /*게시글 이미지 삭제 처리*/
-    updatePostImagePort.updateStatus(command.postId(), ImageStatus.DELETED);
+    postImageCommandPort.updateStatus(command.postId(), ImageStatus.DELETED);
 
     /*게시글 좋아요 삭제 처리*/
-    deletePostLikePort.deleteAllByPostId(command.postId());
+    postLikeCommandPort.deleteAllByPostId(command.postId());
 
     /*게시글 댓글 삭제 처리*/
-    updatePostCommentPort.updateAllCommentStatusByPostId(command.postId(),
+    postCommentCommandPort.updateAllCommentStatusByPostId(command.postId(),
         PostCommentStatus.DELETED);
 
     /*게시글 댓글 좋아요 삭제 처리*/
-    deletePostCommentLikePort.deleteAllByPostId(command.postId());
+    postCommentLikerCommandPort.deleteAllByPostId(command.postId());
 
     log.info("Cleanup association complete: postId={}", command.postId());
   }
