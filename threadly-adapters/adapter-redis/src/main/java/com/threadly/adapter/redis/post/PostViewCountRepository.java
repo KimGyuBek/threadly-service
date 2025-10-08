@@ -1,18 +1,13 @@
-package com.threadly.adapter.redis.repository.post;
+package com.threadly.adapter.redis.post;
 
-import com.threadly.core.port.post.out.view.RecordPostViewPort;
 import java.time.Duration;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
-/**
- * 게시글 조회수 증가 관련 repository
- */
 @Repository
 @RequiredArgsConstructor
-public class PostViewCountRepository implements RecordPostViewPort {
-
+public class PostViewCountRepository {
 
   private final RedisTemplate<String, String> redisTemplate;
 
@@ -22,7 +17,6 @@ public class PostViewCountRepository implements RecordPostViewPort {
    * @param postId
    * @param userId
    */
-  @Override
   public void recordPostView(String postId, String userId, Duration ttl) {
     String key = generateKey(postId, userId);
 
@@ -36,7 +30,6 @@ public class PostViewCountRepository implements RecordPostViewPort {
    * @param postId
    * @return
    */
-  @Override
   public boolean existsPostView(String postId, String userId) {
     String key = generateKey(postId, userId);
 
@@ -53,5 +46,4 @@ public class PostViewCountRepository implements RecordPostViewPort {
   private String generateKey(String postId, String userId) {
     return "view:" + postId + ":" + userId;
   }
-
 }

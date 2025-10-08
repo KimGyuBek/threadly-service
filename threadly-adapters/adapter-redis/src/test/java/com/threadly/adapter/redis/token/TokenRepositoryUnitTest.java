@@ -1,4 +1,4 @@
-package com.threadly.adapter.redis.repository.token;
+package com.threadly.adapter.redis.token;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -27,7 +27,8 @@ class TokenRepositoryUnitTest {
   private RedisTemplate<String, String> redisTemplate;
 
   @InjectMocks
-  private TokenCommandPortRepository tokenRepository;
+  private TokenRepository tokenRepository;
+
 
   @Mock
   private ValueOperations<String, String> valueOperations;

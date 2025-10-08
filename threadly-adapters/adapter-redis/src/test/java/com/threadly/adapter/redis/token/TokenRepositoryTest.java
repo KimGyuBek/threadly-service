@@ -1,4 +1,4 @@
-package com.threadly.adapter.redis.repository.token;
+package com.threadly.adapter.redis.token;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.threadly.RedisTestApplication;
+import com.threadly.adapter.redis.token.TokenRedisAdapter;
 import com.threadly.core.port.token.out.command.InsertBlackListTokenCommand;
 import com.threadly.core.port.token.out.command.UpsertRefreshTokenCommand;
 import java.time.Duration;
@@ -25,7 +26,7 @@ import org.springframework.test.context.ActiveProfiles;
 class TokenRepositoryTest {
 
   @Autowired
-  private TokenCommandPortRepository tokenRepository;
+  private TokenRedisAdapter tokenRepository;
 
   @Autowired
   private RedisTemplate<String, String> redisTemplate;

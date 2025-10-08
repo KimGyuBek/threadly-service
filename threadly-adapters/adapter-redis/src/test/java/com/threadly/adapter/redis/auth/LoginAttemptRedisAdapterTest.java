@@ -1,9 +1,10 @@
-package com.threadly.adapter.redis.repository.auth;
+package com.threadly.adapter.redis.auth;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import com.threadly.RedisTestApplication;
+import com.threadly.adapter.redis.auth.LoginAttemptRedisAdapter;
 import com.threadly.core.port.auth.out.InsertLoginAttemptCommand;
 import java.time.Duration;
 import org.junit.jupiter.api.DisplayName;
@@ -18,13 +19,13 @@ import org.springframework.test.context.ActiveProfiles;
  */
 @ActiveProfiles("test")
 @SpringBootTest(classes = {RedisTestApplication.class})
-class LoginAttemptRepositoryTest {
+class LoginAttemptRedisAdapterTest {
 
   @Autowired
   private RedisTemplate<String, Object> redisTemplate;
 
   @Autowired
-  private LoginAttemptCommandQueryRepository loginAttemptRepository;
+  private LoginAttemptRedisAdapter loginAttemptRedisAdapter;
 
   @DisplayName("이미 존재하는 값이 있는 경우")
   @Test
@@ -35,7 +36,7 @@ class LoginAttemptRepositoryTest {
     redisTemplate.opsForValue().set(key, 2);
 
     //when
-    int result = loginAttemptRepository.getLoginAttemptCount("1");
+    int result = loginAttemptRedisAdapter.getLoginAttemptCount("1");
 
     //then
     assertThat(result).isEqualTo(2);
@@ -51,7 +52,7 @@ class LoginAttemptRepositoryTest {
     redisTemplate.opsForValue().set(key, 2);
 
     //when
-    Integer result = loginAttemptRepository.getLoginAttemptCount("2");
+    Integer result = loginAttemptRedisAdapter.getLoginAttemptCount("2");
 
     //then
     assertNull(result);
@@ -66,14 +67,14 @@ class LoginAttemptRepositoryTest {
 
     Integer count = (Integer) redisTemplate.opsForValue().get(key);
     //when
-    loginAttemptRepository.increaseLoginAttempt(
+    loginAttemptRedisAdapter.increaseLoginAttempt(
         new InsertLoginAttemptCommand(
             "1",
             count,
             Duration.ofSeconds(3)
         ));
 
-    int result = loginAttemptRepository.getLoginAttemptCount("1");
+    int result = loginAttemptRedisAdapter.getLoginAttemptCount("1");
 
     //then
     assertThat(result).isEqualTo(2);

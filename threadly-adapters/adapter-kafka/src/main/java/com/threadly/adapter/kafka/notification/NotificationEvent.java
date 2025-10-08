@@ -1,4 +1,4 @@
-package com.threadly.adapter.kafka.notification.dto;
+package com.threadly.adapter.kafka.notification;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

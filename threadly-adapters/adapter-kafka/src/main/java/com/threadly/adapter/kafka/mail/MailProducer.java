@@ -15,13 +15,12 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class MailProducer implements MailEventPublisherPort {
+public class MailProducer  {
 
   private final KafkaTemplate<String, Object> kafkaTemplate;
 
   private final KafkaErrorHandler kafkaErrorHandler;
 
-  @Override
   public void publish(String eventId, MailType mailType, String to, MailModel model) {
 
     MailEvent event = new MailEvent(

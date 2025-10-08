@@ -1,21 +1,17 @@
-package com.threadly.adapter.redis.repository.email;
+package com.threadly.adapter.redis.email;
 
 import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.exception.mail.EmailVerificationException;
-import com.threadly.core.port.verification.EmailVerificationPort;
 import java.time.Duration;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
-/**
- * email 인증 repository
- */
 @Repository
 @RequiredArgsConstructor
 @Slf4j
-public class EmailVerificationRepository implements EmailVerificationPort {
+public class EmailVerificationRepository {
 
   private final RedisTemplate<String, Object> redisTemplate;
 
@@ -78,6 +74,5 @@ public class EmailVerificationRepository implements EmailVerificationPort {
   private static String generateKey(String code) {
     return "email:verify:" + code;
   }
-
 
 }

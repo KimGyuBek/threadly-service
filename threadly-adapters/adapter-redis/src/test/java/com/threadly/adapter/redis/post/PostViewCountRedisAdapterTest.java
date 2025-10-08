@@ -1,8 +1,9 @@
-package com.threadly.adapter.redis.repository.post;
+package com.threadly.adapter.redis.post;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.threadly.RedisTestApplication;
+import com.threadly.adapter.redis.post.PostViewCountRedisAdapter;
 import java.time.Duration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.ClassOrderer;
@@ -24,10 +25,10 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles("test")
 @SpringBootTest(classes = {RedisTestApplication.class})
 @TestClassOrder(ClassOrderer.OrderAnnotation.class)
-class PostViewCountRepositoryTest {
+class PostViewCountRedisAdapterTest {
 
   @Autowired
-  private PostViewCountRepository postViewCountRepository;
+  private PostViewCountRedisAdapter postViewCountRedisAdapter;
 
   @Autowired
   private RedisTemplate<String, String> redisTemplate;
@@ -56,7 +57,7 @@ class PostViewCountRepositoryTest {
 
       //when
       /*저장*/
-      postViewCountRepository.recordPostView(postId, userId, ttl);
+      postViewCountRedisAdapter.recordPostView(postId, userId, ttl);
 
       //then
       Boolean result = redisTemplate.hasKey(key);
@@ -78,7 +79,7 @@ class PostViewCountRepositoryTest {
 
       //when
       /*저장*/
-      postViewCountRepository.recordPostView(postId, userId, ttl);
+      postViewCountRedisAdapter.recordPostView(postId, userId, ttl);
 
       //then
       Boolean result = redisTemplate.hasKey(key);
@@ -104,7 +105,7 @@ class PostViewCountRepositoryTest {
 
       //when
       //then
-      boolean result = postViewCountRepository.existsPostView(postId, userId);
+      boolean result = postViewCountRedisAdapter.existsPostView(postId, userId);
 
       assertThat(result).isFalse();
 
@@ -125,7 +126,7 @@ class PostViewCountRepositoryTest {
       redisTemplate.opsForValue().set(key, "1", Duration.ofSeconds(3));
 
       //then
-      boolean result = postViewCountRepository.existsPostView(postId, userId);
+      boolean result = postViewCountRedisAdapter.existsPostView(postId, userId);
 
       assertThat(result).isTrue();
     }
