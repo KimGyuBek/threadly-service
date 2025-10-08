@@ -1,7 +1,7 @@
 package com.threadly.core.port.user.out;
 
 import com.threadly.core.domain.user.User;
-import com.threadly.core.domain.user.UserStatusType;
+import com.threadly.core.domain.user.UserStatus;
 
 /**
  * user 상태 변경 port
@@ -22,7 +22,7 @@ public interface UserCommandPort {
    * @param userId
    * @param status
    */
-  void updateUserStatus(String userId, UserStatusType status);
+  void updateUserStatus(String userId, UserStatus status);
 
   /**
    * 주어진 userId에 해당하는 phone을 업데이트

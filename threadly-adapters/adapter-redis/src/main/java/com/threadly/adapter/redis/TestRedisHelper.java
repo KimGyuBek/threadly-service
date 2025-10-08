@@ -1,4 +1,4 @@
-package com.threadly.adapter.redis.repository.auth;
+package com.threadly.adapter.redis;
 
 import java.time.Duration;
 import lombok.RequiredArgsConstructor;

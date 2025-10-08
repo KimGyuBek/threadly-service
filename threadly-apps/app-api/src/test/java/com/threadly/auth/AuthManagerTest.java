@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.threadly.commons.properties.TtlProperties;
-import com.threadly.adapter.redis.repository.auth.TestRedisHelper;
+import com.threadly.adapter.redis.TestRedisHelper;
 import com.threadly.commons.security.JwtTokenProvider;
 import com.threadly.core.port.token.out.TokenQueryPort;
 import org.junit.jupiter.api.BeforeEach;

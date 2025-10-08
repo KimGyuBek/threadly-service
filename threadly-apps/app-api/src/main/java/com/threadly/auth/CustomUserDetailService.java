@@ -21,7 +21,7 @@ public class CustomUserDetailService implements UserDetailsService {
     UserResponse user = userQueryUseCase.findUserByUserId(username);
 
     List<SimpleGrantedAuthority> authorities = List.of(
-        new SimpleGrantedAuthority(user.getUserType().name())
+        new SimpleGrantedAuthority(user.getUserRoleType().name())
     );
 
     return new LoginAuthenticationUser(

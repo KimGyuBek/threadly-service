@@ -5,8 +5,8 @@ import com.threadly.commons.exception.token.TokenException;
 import com.threadly.commons.properties.TtlProperties;
 import com.threadly.commons.security.JwtTokenProvider;
 import com.threadly.commons.utils.JwtTokenUtils;
-import com.threadly.core.domain.token.TokenPurpose;
-import com.threadly.core.domain.user.UserStatusType;
+import com.threadly.core.domain.token.TokenPurposeType;
+import com.threadly.core.domain.user.UserStatus;
 import com.threadly.core.port.auth.in.token.response.LoginTokenApiResponse;
 import com.threadly.core.port.auth.in.token.response.TokenReissueApiResponse;
 import com.threadly.core.port.auth.in.verification.LoginUserUseCase;
@@ -57,12 +57,12 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
 
     /*권한 설정*/
     List<SimpleGrantedAuthority> authorities = List.of(
-        new SimpleGrantedAuthority("ROLE_" + user.getUserType().name())
+        new SimpleGrantedAuthority("ROLE_" + user.getUserRoleType().name())
     );
 
     JwtAuthenticationUser authenticationUser = new JwtAuthenticationUser(
         user.getUserId(),
-        user.getUserStatusType(),
+        user.getUserStatus(),
         authorities
     );
 
@@ -86,7 +86,7 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
 
     /*토큰 생성*/
     String tokenResponse = jwtTokenProvider.createTokenWithPurpose(userId,
-        TokenPurpose.PASSWORD_REVERIFY.name(),
+        TokenPurposeType.PASSWORD_REVERIFY.name(),
         ttlProperties.getPasswordVerification());
 
     /*SecurityContextHolder에 인증 정보 저장*/
@@ -107,7 +107,7 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
     UserResponse user = userQueryUseCase.findUserByEmail(email);
 
     /*탈퇴한 사용자인경우*/
-    if (user.getUserStatusType().equals(UserStatusType.DELETED)) {
+    if (user.getUserStatus().equals(UserStatus.DELETED)) {
       throw new UserAuthenticationException(ErrorCode.USER_ALREADY_DELETED);
     }
 
@@ -136,10 +136,13 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
       Authentication authenticate = authenticationManagerBuilder.getObject()
           .authenticate(authenticationToken);
 
+      /*인증*/
+      SecurityContextHolder.getContext().setAuthentication(authenticate);
+
       /*로그인 토큰 응답 생성*/
       LoginTokenApiResponse tokenResponse = new LoginTokenApiResponse(
-          jwtTokenProvider.createAccessToken(userId, user.getUserType().name(),
-              user.getUserStatusType().name()),
+          jwtTokenProvider.createAccessToken(userId, user.getUserRoleType().name(),
+              user.getUserStatus().name()),
           jwtTokenProvider.createRefreshToken(userId)
       );
 
@@ -150,8 +153,6 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
           .duration(ttlProperties.getRefreshToken())
           .build());
 
-      /*인증*/
-      SecurityContextHolder.getContext().setAuthentication(authenticate);
 
       /*login attempt 삭제*/
       loginAttemptLimiter.removeLoginAttempt(userId);
@@ -190,8 +191,8 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
 
     /*login Token 재생성*/
     LoginTokenApiResponse loginTokenApiResponse = new LoginTokenApiResponse(
-        jwtTokenProvider.createAccessToken(userId, user.getUserType().name(),
-            user.getUserStatusType().name()),
+        jwtTokenProvider.createAccessToken(userId, user.getUserRoleType().name(),
+            user.getUserStatus().name()),
         jwtTokenProvider.createRefreshToken(userId)
     );
 
@@ -257,8 +258,8 @@ public class AuthManager implements LoginUserUseCase, PasswordVerificationUseCas
     UserResponse user = userQueryUseCase.findUserByUserId(userId);
 
     return new RegisterMyProfileApiResponse(
-        jwtTokenProvider.createAccessToken(userId, user.getUserType().name(),
-            user.getUserStatusType().name()),
+        jwtTokenProvider.createAccessToken(userId, user.getUserRoleType().name(),
+            user.getUserStatus().name()),
         jwtTokenProvider.createRefreshToken(userId)
     );
   }

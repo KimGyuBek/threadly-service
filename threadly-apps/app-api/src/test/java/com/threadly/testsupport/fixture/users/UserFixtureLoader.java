@@ -1,13 +1,13 @@
 package com.threadly.testsupport.fixture.users;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.threadly.adapter.persistence.user.adapter.UserCommandQueryPersistenceAdapter;
-import com.threadly.adapter.persistence.user.adapter.UserProfileCommandQueryPersistenceAdapter;
+import com.threadly.adapter.persistence.user.adapter.UserPersistenceAdapter;
+import com.threadly.adapter.persistence.user.adapter.UserProfilePersistenceAdapter;
+import com.threadly.core.domain.user.UserStatus;
 import com.threadly.testsupport.dto.users.UserFixtureDto;
 import com.threadly.testsupport.fixture.FixtureLoader;
 import com.threadly.testsupport.mapper.users.UserFixtureMapper;
 import com.threadly.core.domain.user.User;
-import com.threadly.core.domain.user.UserStatusType;
 import com.threadly.core.domain.user.profile.UserProfile;
 import com.threadly.utils.TestLogUtils;
 import jakarta.persistence.EntityManager;
@@ -24,8 +24,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 public class UserFixtureLoader {
 
-  private final UserCommandQueryPersistenceAdapter userPersistenceAdapter;
-  private final UserProfileCommandQueryPersistenceAdapter userProfilePersistenceAdapter;
+  private final UserPersistenceAdapter userPersistenceAdapter;
+  private final UserProfilePersistenceAdapter userProfilePersistenceAdapter;
 
   @PersistenceContext
   private final EntityManager entityManager;
@@ -38,19 +38,19 @@ public class UserFixtureLoader {
   @Transactional
   public void load(String path) {
     List<UserFixtureDto> userData = getUserData(path);
-    generateUser(userData, userData.size(), UserStatusType.ACTIVE, false);
+    generateUser(userData, userData.size(), UserStatus.ACTIVE, false);
   }
 
   @Transactional
-  public void load(String path, UserStatusType userStatusType) {
+  public void load(String path, UserStatus userStatus) {
     List<UserFixtureDto> userData = getUserData(path);
-    generateUser(userData, userData.size(), userStatusType, false);
+    generateUser(userData, userData.size(), userStatus, false);
   }
 
   @Transactional
-  public void load(String path, UserStatusType userStatusType, boolean isPrivate) {
+  public void load(String path, UserStatus userStatus, boolean isPrivate) {
     List<UserFixtureDto> userData = getUserData(path);
-    generateUser(userData, userData.size(), userStatusType, isPrivate);
+    generateUser(userData, userData.size(), userStatus, isPrivate);
   }
 
   /**
@@ -62,7 +62,7 @@ public class UserFixtureLoader {
   @Transactional
   public void load(String path, int count) {
     List<UserFixtureDto> userData = getUserData(path);
-    generateUser(userData, count, UserStatusType.ACTIVE, false);
+    generateUser(userData, count, UserStatus.ACTIVE, false);
   }
 
   /**
@@ -72,7 +72,7 @@ public class UserFixtureLoader {
    * @param count
    */
   private void generateUser(List<UserFixtureDto> userFixtureDtoList, int count,
-      UserStatusType userStatusType, boolean isPrivate) {
+      UserStatus userStatus, boolean isPrivate) {
     List<UserFixtureDto> fixtures = userFixtureDtoList;
 
     if (count > fixtures.size() || count < 1 || count == 0) {
@@ -87,7 +87,7 @@ public class UserFixtureLoader {
         user.verifyEmail();
       }
 
-      switch (userStatusType) {
+      switch (userStatus) {
         case ACTIVE:
           user.markAsActive();
           break;

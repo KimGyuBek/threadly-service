@@ -3,7 +3,7 @@ package com.threadly.core.domain.token;
 /**
  * 토큰 목적
  */
-public enum TokenPurpose {
+public enum TokenPurposeType {
 
 
   PASSWORD_REVERIFY, // 민감한 작업 전 비밀번호 재확인용

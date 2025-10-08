@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 
 @RequiredArgsConstructor
 @Repository
-public class PostLikeCommandQueryPersistenceAdapter implements PostLikeQueryPort,
+public class PostLikePersistenceAdapter implements PostLikeQueryPort,
     PostLikeCommandPort {
 
   private final PostLikeJpaRepository postLikeJpaRepository;

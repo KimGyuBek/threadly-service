@@ -22,7 +22,7 @@ public class UserFollowFixtureMapper {
         fixture.getFollowId(),
         fixture.getFollowerId(),
         fixture.getFollowingId(),
-        fixture.getFollowStatusType()
+        fixture.getFollowStatus()
     );
   }
 

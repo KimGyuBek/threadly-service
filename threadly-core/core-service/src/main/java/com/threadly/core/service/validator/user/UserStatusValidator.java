@@ -2,8 +2,8 @@ package com.threadly.core.service.validator.user;
 
 import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.exception.user.UserException;
+import com.threadly.core.domain.user.UserStatus;
 import com.threadly.core.port.user.out.UserQueryPort;
-import com.threadly.core.domain.user.UserStatusType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -21,10 +21,10 @@ public class UserStatusValidator {
    * @param userId
    */
   public void validateUserStatusWithException(String userId) {
-    UserStatusType userStatusType = userQueryPort.getUserStatus(userId)
+    UserStatus userStatus = userQueryPort.getUserStatus(userId)
         .orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
 
-    switch (userStatusType) {
+    switch (userStatus) {
       case ACTIVE:
         break;
       case DELETED:

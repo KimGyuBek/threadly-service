@@ -14,13 +14,13 @@ import org.springframework.stereotype.Repository;
  * 사용자 프로필 이미지 관련 adapter
  */
 @Repository
-public class MyProfileCommandQueryPersistenceAdapter implements UserProfileCommandPort,
+public class MyProfilePersistenceAdapter implements UserProfileCommandPort,
     UserProfileImageQueryPort {
 
   @Autowired
   private final UserProfileImageJpaRepository userProfileImageJpaRepository;
 
-  public MyProfileCommandQueryPersistenceAdapter(
+  public MyProfilePersistenceAdapter(
       UserProfileImageJpaRepository userProfileImageJpaRepository) {
     this.userProfileImageJpaRepository = userProfileImageJpaRepository;
   }

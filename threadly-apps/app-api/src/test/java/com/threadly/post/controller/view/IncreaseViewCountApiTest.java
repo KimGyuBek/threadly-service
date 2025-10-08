@@ -8,7 +8,7 @@ import com.threadly.CommonResponse;
 import com.threadly.post.controller.BasePostApiTest;
 import com.threadly.core.port.post.in.query.dto.PostDetails;
 import com.threadly.commons.properties.TtlProperties;
-import com.threadly.adapter.redis.repository.auth.TestRedisHelper;
+import com.threadly.adapter.redis.TestRedisHelper;
 import com.threadly.testsupport.fixture.posts.PostFixtureLoader;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;

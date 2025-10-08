@@ -5,7 +5,7 @@ import com.threadly.commons.response.CursorPageApiResponse;
 import com.threadly.core.port.post.in.like.post.command.PostLikeCommandUseCase;
 import com.threadly.core.port.post.in.like.post.command.dto.LikePostApiResponse;
 import com.threadly.core.port.post.in.like.post.command.dto.LikePostCommand;
-import com.threadly.core.port.post.in.like.post.query.GetPostLikeQueryUseCase;
+import com.threadly.core.port.post.in.like.post.query.PostLikeQueryUseCase;
 import com.threadly.core.port.post.in.like.post.query.dto.GetPostLikersQuery;
 import com.threadly.core.port.post.in.query.PostQueryUseCase;
 import com.threadly.core.port.post.in.query.dto.GetPostEngagementApiResponse;
@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PostLikeController {
 
   private final PostLikeCommandUseCase postLikeCommandUseCase;
-  private final GetPostLikeQueryUseCase getPostLikeQueryUseCase;
+  private final PostLikeQueryUseCase postLikeQueryUseCase;
   private final PostQueryUseCase postQueryUseCase;
 
   /*
@@ -74,7 +74,7 @@ public class PostLikeController {
       @PathVariable("postId") String postId
   ) {
 
-    return ResponseEntity.status(200).body(getPostLikeQueryUseCase.getPostLikers(
+    return ResponseEntity.status(200).body(postLikeQueryUseCase.getPostLikers(
         new GetPostLikersQuery(
             postId, cursorTimestamp, cursorId, limit
         )

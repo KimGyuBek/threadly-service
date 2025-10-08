@@ -19,7 +19,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @RequiredArgsConstructor
-public class PostCommentQueryCommandPersistenceAdapter implements PostCommentQueryPort,
+public class PostCommentPersistenceAdapter implements PostCommentQueryPort,
     PostCommentCommandPort {
 
   private final PostCommentJpaRepository postCommentJpaRepository;

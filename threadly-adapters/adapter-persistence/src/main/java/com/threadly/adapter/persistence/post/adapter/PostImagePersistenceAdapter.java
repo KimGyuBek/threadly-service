@@ -17,7 +17,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @RequiredArgsConstructor
-public class PostImageQueryCommandPersistenceAdapter implements PostImageQueryPort,
+public class PostImagePersistenceAdapter implements PostImageQueryPort,
     PostImageCommandPort {
 
   private final PostImageJpaRepository postImageJpaRepository;

@@ -1,12 +1,12 @@
 package com.threadly.core.domain.user;
 
-public enum UserType {
+public enum UserRoleType {
   USER("사용자"),
   ADMIN("관리자");
 
   private String desc;
 
-  UserType(final String value) {
+  UserRoleType(final String value) {
     this.desc = value;
   }
 

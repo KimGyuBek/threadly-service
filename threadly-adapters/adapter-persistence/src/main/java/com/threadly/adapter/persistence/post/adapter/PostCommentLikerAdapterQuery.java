@@ -16,7 +16,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @RequiredArgsConstructor
-public class PostCommentLikerCommandAdapterQuery implements PostCommentLikeQueryPort,
+public class PostCommentLikerAdapterQuery implements PostCommentLikeQueryPort,
     PostCommentLikerCommandPort {
 
   private final CommentLikeJpaRepository commentLikeJpaRepository;

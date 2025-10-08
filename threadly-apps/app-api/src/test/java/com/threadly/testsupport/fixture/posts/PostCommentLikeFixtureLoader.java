@@ -1,7 +1,7 @@
 package com.threadly.testsupport.fixture.posts;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.threadly.adapter.persistence.post.adapter.PostCommentLikerCommandAdapterQuery;
+import com.threadly.adapter.persistence.post.adapter.PostCommentLikerAdapterQuery;
 import com.threadly.core.domain.post.comment.CommentLike;
 import com.threadly.testsupport.dto.posts.PostCommentLikeFixtureDto;
 import com.threadly.testsupport.fixture.FixtureLoader;
@@ -26,7 +26,7 @@ public class PostCommentLikeFixtureLoader {
   @PersistenceContext
   private final EntityManager entityManager;
 
-  private final PostCommentLikerCommandAdapterQuery postCommentLikeAdapter;
+  private final PostCommentLikerAdapterQuery postCommentLikeAdapter;
 
 
   /**

@@ -5,6 +5,7 @@ import com.threadly.commons.exception.user.UserException;
 import com.threadly.commons.properties.TtlProperties;
 import com.threadly.commons.utils.JwtTokenUtils;
 import com.threadly.core.domain.mail.MailType;
+import com.threadly.core.domain.user.CannotInactiveException;
 import com.threadly.core.domain.user.User;
 import com.threadly.core.port.mail.in.SendMailCommand;
 import com.threadly.core.port.token.out.TokenCommandPort;
@@ -76,9 +77,9 @@ public class UserCommandService implements
     return RegisterUserApiResponse.builder()
         .userId(userResult.getUserId())
         .userName(userResult.getUserName())
-        .userType(userResult.getUserType())
+        .userRoleType(userResult.getUserRoleType())
         .email(userResult.getEmail())
-        .userStatusType(userResult.getUserStatusType())
+        .userStatus(userResult.getUserStatus())
         .isEmailVerified(userResult.isEmailVerified())
         .build();
   }
@@ -93,7 +94,7 @@ public class UserCommandService implements
     /* userStatusType 변경*/
     user.markAsDeleted();
 
-    userCommandPort.updateUserStatus(userId, user.getUserStatusType());
+    userCommandPort.updateUserStatus(userId, user.getUserStatus());
 
     /*토큰 무효화 처리*/
     addBlackListTokenAndDeleteRefreshToken(userId, bearerToken);
@@ -109,8 +110,13 @@ public class UserCommandService implements
         .orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
 
     /*비활성화 처리*/
-    user.markAsInactive();
-    userCommandPort.updateUserStatus(userId, user.getUserStatusType());
+    try {
+      user.markAsInactive();
+    } catch (CannotInactiveException e) {
+      throw new UserException(ErrorCode.USER_ALREADY_DELETED);
+    }
+
+    userCommandPort.updateUserStatus(userId, user.getUserStatus());
 
     /*토큰 무효화 처리*/
     addBlackListTokenAndDeleteRefreshToken(userId, bearerToken);

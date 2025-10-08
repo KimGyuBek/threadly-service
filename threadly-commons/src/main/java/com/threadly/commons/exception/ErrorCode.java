@@ -18,6 +18,7 @@ public enum ErrorCode {
   TOKEN_INVALID("TLY1001", "유효하지 않은 토큰입니다.", HttpStatus.BAD_REQUEST),
   TOKEN_MISSING("TLY1002", "토큰이 존재하지 않습니다.", HttpStatus.BAD_REQUEST),
 
+
   /*Email*/
   EMAIL_SENDING_FAILED("TLY1100", "메일 전송중 오류 발생", HttpStatus.BAD_GATEWAY),
   EMAIL_CODE_NOT_PROVIDED("TLY1101", "인증 코드가 제공되지 않았습니다.", HttpStatus.BAD_REQUEST),

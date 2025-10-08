@@ -1,7 +1,7 @@
 package com.threadly.core.port.follow.out;
 
 import com.threadly.core.domain.follow.Follow;
-import com.threadly.core.domain.follow.FollowStatusType;
+import com.threadly.core.domain.follow.FollowStatus;
 import com.threadly.core.port.follow.out.projection.FollowRequestsProjection;
 import com.threadly.core.port.follow.out.projection.FollowerProjection;
 import com.threadly.core.port.follow.out.projection.FollowingProjection;
@@ -31,7 +31,7 @@ public interface FollowQueryPort {
    * @param followingId
    * @return
    */
-  Optional<FollowStatusType> findFollowStatusType(String followerId, String followingId);
+  Optional<FollowStatus> findFollowStatusType(String followerId, String followingId);
 
   /**
    * 주어진 userId에 해당하는 팔로우 요청 목록 커서 기반 조회
@@ -75,17 +75,17 @@ public interface FollowQueryPort {
    * @param followId
    * @return
    */
-  Optional<Follow> findByIdAndStatusType(String followId, FollowStatusType followStatusType);
+  Optional<Follow> findByIdAndStatusType(String followId, FollowStatus followStatus);
 
   /**
    * 주어진 followerId와 followingId, followStatusType에 해당하는 팔로우 존재 유무 조회
    * @param followerId
    * @param followingId
-   * @param followStatusType
+   * @param followStatus
    * @return
    */
   boolean existsByFollowerIdAndFollowingIdAndStatusType(String followerId, String followingId,
-      FollowStatusType followStatusType);
+      FollowStatus followStatus);
 
   /**
    * 주어진 userId에 해당하는 사용자의 팔로워, 팔로잉 수 조회

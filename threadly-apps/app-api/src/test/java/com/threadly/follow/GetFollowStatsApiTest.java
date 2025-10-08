@@ -6,7 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.threadly.CommonResponse;
 import com.threadly.commons.exception.ErrorCode;
 import com.threadly.core.port.follow.in.query.dto.GetUserFollowStatsApiResponse;
-import com.threadly.core.domain.user.UserStatusType;
+import com.threadly.core.domain.user.UserStatus;
 import com.threadly.utils.TestConstants;
 import org.junit.jupiter.api.ClassOrderer;
 import org.junit.jupiter.api.DisplayName;
@@ -205,7 +205,7 @@ public class GetFollowStatsApiTest extends BaseFollowApiTest {
     public void getUserFollowStats_shouldSuccess_05() throws Exception {
       //given
       /*데이터 삽입*/
-      userFixtureLoader.load("/users/follow/follow-stats/main-user.json", UserStatusType.ACTIVE,
+      userFixtureLoader.load("/users/follow/follow-stats/main-user.json", UserStatus.ACTIVE,
           true);
       userFollowFixtureLoader.load(
           "/users/follow/follow-stats/users.json",
@@ -270,7 +270,7 @@ public class GetFollowStatsApiTest extends BaseFollowApiTest {
       //given
       /*데이터 삽입*/
       userFixtureLoader.load(
-          "/users/profile/user2.json", UserStatusType.DELETED
+          "/users/profile/user2.json", UserStatus.DELETED
       );
 
       /*로그인*/
@@ -294,7 +294,7 @@ public class GetFollowStatsApiTest extends BaseFollowApiTest {
       //given
       /*데이터 삽입*/
       userFixtureLoader.load(
-          "/users/profile/user2.json", UserStatusType.INACTIVE
+          "/users/profile/user2.json", UserStatus.INACTIVE
       );
 
       /*로그인*/

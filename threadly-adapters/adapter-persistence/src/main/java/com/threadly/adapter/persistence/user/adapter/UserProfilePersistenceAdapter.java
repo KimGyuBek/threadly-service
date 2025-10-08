@@ -13,12 +13,12 @@ import java.util.Optional;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class UserProfileCommandQueryPersistenceAdapter implements UserProfileQueryPort,
+public class UserProfilePersistenceAdapter implements UserProfileQueryPort,
     UserProfileCommandPort {
 
   private final UserProfileJpaRepository userProfileJpaRepository;
 
-  public UserProfileCommandQueryPersistenceAdapter(
+  public UserProfilePersistenceAdapter(
       UserProfileJpaRepository userProfileJpaRepository) {
     this.userProfileJpaRepository = userProfileJpaRepository;
   }

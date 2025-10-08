@@ -4,8 +4,8 @@ import com.google.common.base.Objects;
 import com.threadly.auth.JwtAuthenticationUser;
 import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.exception.user.UserException;
+import com.threadly.core.domain.user.UserStatus;
 import com.threadly.global.exception.UserAuthenticationException;
-import com.threadly.core.domain.user.UserStatusType;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -39,18 +39,18 @@ public class UserStatusTypeValidationFilter extends OncePerRequestFilter {
 
     JwtAuthenticationUser principal = (JwtAuthenticationUser) SecurityContextHolder.getContext()
         .getAuthentication().getPrincipal();
-    UserStatusType userStatusType = principal.getUserStatusType();
+    UserStatus userStatus = principal.getUserStatus();
 
     /*UserStatusType 검증*/
     try {
       /*INCOMPLETE_PROFILE*/
-      if (Objects.equal(userStatusType,
-          UserStatusType.INCOMPLETE_PROFILE) && !isWhiteListedForProfileIncomplete(request)) {
+      if (Objects.equal(userStatus,
+          UserStatus.INCOMPLETE_PROFILE) && !isWhiteListedForProfileIncomplete(request)) {
         log.warn("UserStatusValidationFilter: userStatusType is INCOMPLETE_PROFILE");
         throw new UserException(ErrorCode.USER_PROFILE_NOT_SET);
 
         /*INACTIVE*/
-      } else if (Objects.equal(userStatusType, UserStatusType.INACTIVE)) {
+      } else if (Objects.equal(userStatus, UserStatus.INACTIVE)) {
         log.warn("UserStatusValidationFilter: userStatusType is USER INACTIVE");
         throw new UserException(ErrorCode.USER_INACTIVE);
       }

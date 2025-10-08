@@ -7,7 +7,7 @@ import com.threadly.CommonResponse;
 import com.threadly.commons.exception.ErrorCode;
 import com.threadly.core.port.follow.in.query.dto.FollowingApiResponse;
 import com.threadly.commons.response.CursorPageApiResponse;
-import com.threadly.core.domain.user.UserStatusType;
+import com.threadly.core.domain.user.UserStatus;
 import com.threadly.utils.TestConstants;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.ClassOrderer;
@@ -112,7 +112,7 @@ public class GetFollowingsApiTest extends BaseFollowApiTest {
     public void getFollowings_shouldSuccess_03() throws Exception {
       //given
       userFixtureLoader.load("/users/profile/user.json");
-      userFixtureLoader.load("/users/profile/user2.json", UserStatusType.ACTIVE, true);
+      userFixtureLoader.load("/users/profile/user2.json", UserStatus.ACTIVE, true);
 
       /*로그인*/
       String accessToken = getAccessToken(USER_EMAIL);
@@ -245,7 +245,7 @@ public class GetFollowingsApiTest extends BaseFollowApiTest {
     public void getFollowings_shouldSuccess_07() throws Exception {
       //given
       /*데이터 로드*/
-      userFixtureLoader.load("/users/follow/followings/target-user.json", UserStatusType.INACTIVE);
+      userFixtureLoader.load("/users/follow/followings/target-user.json", UserStatus.INACTIVE);
       userFollowFixtureLoader.load(
           "/users/follow/followings/user.json",
           "/users/follow/followings/follow.json"
@@ -268,7 +268,7 @@ public class GetFollowingsApiTest extends BaseFollowApiTest {
     @DisplayName("8. 팔로잉 목록에서 탈퇴처리 된 사용자가 포함되는지 검증")
     @Test
     public void getFollowings_shouldSuccess_08() throws Exception {
-      userFixtureLoader.load("/users/follow/followings/target-user.json", UserStatusType.DELETED);
+      userFixtureLoader.load("/users/follow/followings/target-user.json", UserStatus.DELETED);
       userFollowFixtureLoader.load(
           "/users/follow/followings/user.json",
           "/users/follow/followings/follow.json"
@@ -332,7 +332,7 @@ public class GetFollowingsApiTest extends BaseFollowApiTest {
     public void getFollowings_shouldSuccess_10() throws Exception {
       //given
       /*데이터 로드*/
-      userFixtureLoader.load("/users/follow/followings/target-user.json", UserStatusType.ACTIVE,
+      userFixtureLoader.load("/users/follow/followings/target-user.json", UserStatus.ACTIVE,
           true);
       userFollowFixtureLoader.load("/users/follow/followings/user.json",
           "/users/follow/followings/follow.json"
@@ -381,7 +381,7 @@ public class GetFollowingsApiTest extends BaseFollowApiTest {
     public void getFollowings_shouldFail_01() throws Exception {
       //given
       /*데이터 로드*/
-      userFixtureLoader.load("/users/follow/followings/user.json", UserStatusType.ACTIVE, true);
+      userFixtureLoader.load("/users/follow/followings/user.json", UserStatus.ACTIVE, true);
       userFollowFixtureLoader.load("/users/follow/followings/users.json",
           "/users/follow/followings/followings.json");
 

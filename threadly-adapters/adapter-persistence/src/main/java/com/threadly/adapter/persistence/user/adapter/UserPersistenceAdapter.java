@@ -4,7 +4,7 @@ import com.threadly.adapter.persistence.user.entity.UserEntity;
 import com.threadly.adapter.persistence.user.mapper.UserMapper;
 import com.threadly.adapter.persistence.user.repository.UserJpaRepository;
 import com.threadly.core.domain.user.User;
-import com.threadly.core.domain.user.UserStatusType;
+import com.threadly.core.domain.user.UserStatus;
 import com.threadly.core.port.user.out.UserCommandPort;
 import com.threadly.core.port.user.out.UserQueryPort;
 import com.threadly.core.port.user.out.UserResult;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-public class UserCommandQueryPersistenceAdapter implements UserQueryPort,
+public class UserPersistenceAdapter implements UserQueryPort,
     UserCommandPort {
 
   private final UserJpaRepository userJpaRepository;
@@ -46,8 +46,8 @@ public class UserCommandQueryPersistenceAdapter implements UserQueryPort,
             .password(userEntity.getPassword())
             .email(userEntity.getEmail())
             .phone(userEntity.getPhone())
-            .userType(userEntity.getUserType())
-            .userStatusType(userEntity.getUserStatusType())
+            .userRoleType(userEntity.getUserRoleType())
+            .userStatus(userEntity.getUserStatus())
             .isEmailVerified(userEntity.isEmailVerified())
             .build();
   }
@@ -65,7 +65,7 @@ public class UserCommandQueryPersistenceAdapter implements UserQueryPort,
   }
 
   @Override
-  public void updateUserStatus(String userId, UserStatusType status) {
+  public void updateUserStatus(String userId, UserStatus status) {
     userJpaRepository.updateStatus(userId, status);
   }
 
@@ -90,7 +90,7 @@ public class UserCommandQueryPersistenceAdapter implements UserQueryPort,
   }
 
   @Override
-  public Optional<UserStatusType> getUserStatus(String userId) {
+  public Optional<UserStatus> getUserStatus(String userId) {
     return userJpaRepository.getUserStatusType(userId);
   }
 }

@@ -3,7 +3,7 @@ package com.threadly.batch.job.user;
 import com.threadly.batch.service.partitioner.HashPartitioner;
 import com.threadly.batch.utils.RetentionThresholdProvider;
 import com.threadly.batch.utils.RetentionThresholdProvider.ThresholdTargetType;
-import com.threadly.core.domain.user.UserStatusType;
+import com.threadly.core.domain.user.UserStatus;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.Map;
@@ -111,7 +111,7 @@ public class UserHardDeleteDeletedJobConfig {
         .queryProvider(qp)
         .pageSize(1000)
         .parameterValues(Map.of(
-            "status", UserStatusType.DELETED.name(),
+            "status", UserStatus.DELETED.name(),
             "threshold", retentionThresholdProvider.thresholdFor(ThresholdTargetType.USER_DELETED),
             "N", N,
             "shard", shard
@@ -140,7 +140,7 @@ public class UserHardDeleteDeletedJobConfig {
           java.sql.Array idArray = con.createArrayOf("text", ids.getItems().toArray(new String[0]));
           try {
             ps.setArray(1, idArray);
-            ps.setString(2, UserStatusType.DELETED.name());
+            ps.setString(2, UserStatus.DELETED.name());
             ps.setTimestamp(
                 3,
                 java.sql.Timestamp.valueOf(

@@ -20,7 +20,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 /*TODO interceptor로 변경*/
 
 /**
- * 사용자 이중 인증을 위한 filter
+ * 2FA filter
  */
 @Component
 @RequiredArgsConstructor

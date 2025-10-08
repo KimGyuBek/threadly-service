@@ -1,7 +1,7 @@
 package com.threadly.core.port.user.out;
 
 import com.threadly.core.domain.user.User;
-import com.threadly.core.domain.user.UserStatusType;
+import com.threadly.core.domain.user.UserStatus;
 import java.util.Optional;
 
 public interface UserQueryPort {
@@ -34,6 +34,6 @@ public interface UserQueryPort {
    * @param userId
    * @return
    */
-  Optional<UserStatusType> getUserStatus(String userId);
+  Optional<UserStatus> getUserStatus(String userId);
 
 }

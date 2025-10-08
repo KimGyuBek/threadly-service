@@ -1,6 +1,6 @@
 package com.threadly.core.port.user.in.profile.query.dto;
 
-import com.threadly.core.domain.follow.FollowStatusType;
+import com.threadly.core.domain.follow.FollowStatus;
 import com.threadly.core.port.commons.dto.UserPreview;
 
 /**
@@ -10,7 +10,7 @@ public record GetUserProfileApiResponse(
     UserPreview user,
     String statusMessage,
     String bio,
-    FollowStatusType followStatusType
+    FollowStatus followStatus
 ) {
 
 }

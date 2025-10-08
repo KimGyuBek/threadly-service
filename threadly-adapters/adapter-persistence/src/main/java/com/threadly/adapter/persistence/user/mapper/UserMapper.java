@@ -19,9 +19,9 @@ public class UserMapper {
             .password(entity.getPassword())
             .email(entity.getEmail())
             .phone(entity.getPhone())
-            .userType(entity.getUserType())
+            .userRoleType(entity.getUserRoleType())
             .isEmailVerified(entity.isEmailVerified())
-            .userStatusType(entity.getUserStatusType())
+            .userStatus(entity.getUserStatus())
             .isPrivate(entity.isPrivate())
             .build();
   }

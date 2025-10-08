@@ -39,20 +39,25 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
       objectMapper.writeValue(response.getWriter(),
           ApiResponse.fail(errorCode));
 
-      /*UserAuthenticationException일 경우*/
-    } else if (authException instanceof UserAuthenticationException) {
+      return;
+    }
+
+    /*UserAuthenticationException일 경우*/
+    if (authException instanceof UserAuthenticationException) {
       ErrorCode errorCode = ((UserAuthenticationException) authException).getErrorCode();
       response.setStatus(errorCode.getHttpStatus().value());
       objectMapper.writeValue(response.getWriter(),
           ApiResponse.fail(errorCode));
 
+      return;
       /*나머지 예외*/
-    } else {
-      ErrorCode errorCode = ErrorCode.INTERNAL_SERVER_ERROR;
+    }
+
+      ErrorCode errorCode = ErrorCode.AUTHENTICATION_ERROR;
       response.setStatus(errorCode.getHttpStatus().value());
       objectMapper.writeValue(response.getWriter(),
           ApiResponse.fail(errorCode));
-    }
 
+    return;
   }
 }

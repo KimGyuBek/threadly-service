@@ -10,7 +10,7 @@ import com.threadly.core.port.auth.in.token.response.LoginTokenApiResponse;
 import com.threadly.core.port.auth.in.token.response.TokenReissueApiResponse;
 import com.threadly.commons.exception.ErrorCode;
 import com.threadly.user.BaseUserApiTest;
-import com.threadly.core.domain.user.UserStatusType;
+import com.threadly.core.domain.user.UserStatus;
 import com.threadly.utils.TestConstants;
 import org.junit.jupiter.api.ClassOrderer;
 import org.junit.jupiter.api.DisplayName;
@@ -59,7 +59,7 @@ public class DeactivateMyAccountApiTest extends BaseUserApiTest {
       assertThat(deactivateMyAccountResponse.isSuccess()).isTrue();
 
       /*user statusType 검증*/
-      validateUserStatusType(EMAIL_VERIFIED_USER_1, UserStatusType.INACTIVE);
+      validateUserStatusType(EMAIL_VERIFIED_USER_1, UserStatus.INACTIVE);
     }
   }
 
