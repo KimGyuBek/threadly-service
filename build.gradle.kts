@@ -9,7 +9,10 @@ plugins {
     id("com.epages.restdocs-api-spec") version Versions.restdocsApiSpec apply false
     id("org.asciidoctor.jvm.convert") version Versions.asciidoctorPlugin apply false
     id("com.linecorp.build-recipe-plugin") version Versions.lineRecipePlugin
+    jacoco
 }
+
+
 
 allprojects {
     group = "com.threadly"
@@ -29,6 +32,29 @@ subprojects {
     tasks.withType<Test> {
         useJUnitPlatform()
     }
+
+    plugins.withId("java") {
+        apply(plugin = "jacoco")
+
+        configure<JacocoPluginExtension> {
+            toolVersion = "0.8.11"
+        }
+
+        tasks.test {
+            finalizedBy(tasks.jacocoTestReport)
+        }
+
+        tasks.jacocoTestReport {
+            dependsOn(tasks.test)
+            reports {
+                xml.required.set(true)
+                html.required.set(true)
+                csv.required.set(false)
+                html.outputLocation.set(layout.buildDirectory.dir("reports/jacoco/test/html"))
+            }
+        }
+    }
+
 }
 
 
