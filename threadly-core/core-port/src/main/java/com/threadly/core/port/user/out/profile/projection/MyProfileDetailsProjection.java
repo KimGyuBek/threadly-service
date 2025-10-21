@@ -1,6 +1,6 @@
 package com.threadly.core.port.user.out.profile.projection;
 
-import com.threadly.core.domain.user.UserStatusType;
+import com.threadly.core.domain.user.UserStatus;
 
 public interface MyProfileDetailsProjection {
 
@@ -8,7 +8,7 @@ public interface MyProfileDetailsProjection {
   String getStatusMessage();
   String getBio();
   String getPhone();
-  UserStatusType getStatus();
+  UserStatus getStatus();
 
   String getProfileImageId();
   String getProfileImageUrl();

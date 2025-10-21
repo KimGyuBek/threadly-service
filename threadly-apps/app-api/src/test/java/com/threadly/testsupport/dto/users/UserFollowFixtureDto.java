@@ -1,7 +1,7 @@
 package com.threadly.testsupport.dto.users;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.threadly.core.domain.follow.FollowStatusType;
+import com.threadly.core.domain.follow.FollowStatus;
 import lombok.Data;
 
 /**
@@ -15,6 +15,6 @@ public class UserFollowFixtureDto {
   private String followingId;
 
   @JsonProperty("status")
-  private FollowStatusType followStatusType;
+  private FollowStatus followStatus;
 
 }

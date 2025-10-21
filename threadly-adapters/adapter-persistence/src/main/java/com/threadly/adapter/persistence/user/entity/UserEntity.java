@@ -2,8 +2,8 @@ package com.threadly.adapter.persistence.user.entity;
 
 import com.threadly.adapter.persistence.base.BaseEntity;
 import com.threadly.core.domain.user.User;
-import com.threadly.core.domain.user.UserStatusType;
-import com.threadly.core.domain.user.UserType;
+import com.threadly.core.domain.user.UserStatus;
+import com.threadly.core.domain.user.UserRoleType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -44,12 +44,12 @@ public class UserEntity extends BaseEntity {
   /*User type*/
   @Enumerated(EnumType.STRING)
   @Column(name = "user_type")
-  private UserType userType;
+  private UserRoleType userRoleType;
 
   /*UserStatusType*/
   @Column(name = "status")
   @Enumerated(EnumType.STRING)
-  private UserStatusType userStatusType;
+  private UserStatus userStatus;
 
   /*이메일 인증 유무*/
   @Column(name = "is_email_verified")
@@ -69,8 +69,8 @@ public class UserEntity extends BaseEntity {
         user.getPassword(),
         user.getEmail(),
         user.getPhone(),
-        user.getUserType(),
-        user.getUserStatusType(),
+        user.getUserRoleType(),
+        user.getUserStatus(),
         user.isEmailVerified(),
         user.isPrivate()
     );

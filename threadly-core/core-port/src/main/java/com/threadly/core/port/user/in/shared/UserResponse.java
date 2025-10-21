@@ -1,7 +1,7 @@
 package com.threadly.core.port.user.in.shared;
 
-import com.threadly.core.domain.user.UserStatusType;
-import com.threadly.core.domain.user.UserType;
+import com.threadly.core.domain.user.UserStatus;
+import com.threadly.core.domain.user.UserRoleType;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -14,9 +14,9 @@ public class UserResponse {
   private String password;
   private String email;
   private String phone;
-  private UserType userType;
-  private UserStatusType userStatusType;
+  private UserRoleType userRoleType;
+  private UserStatus userStatus;
   private boolean isEmailVerified;
-  private UserType type;
+  private UserRoleType type;
 
 }

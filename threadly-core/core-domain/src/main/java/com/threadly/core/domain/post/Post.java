@@ -87,7 +87,7 @@ public class Post {
    * @param userId
    * @return
    */
-  public PostLike like(String userId) {
+  public PostLike addLike(String userId) {
     return
         PostLike.newLike(this.postId, userId);
   }

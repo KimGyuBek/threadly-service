@@ -5,9 +5,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.threadly.CommonResponse;
 import com.threadly.commons.exception.ErrorCode;
+import com.threadly.core.domain.follow.FollowStatus;
+import com.threadly.core.domain.user.UserStatus;
 import com.threadly.follow.BaseFollowApiTest;
-import com.threadly.core.domain.follow.FollowStatusType;
-import com.threadly.core.domain.user.UserStatusType;
 import com.threadly.core.port.user.in.profile.query.dto.GetUserProfileApiResponse;
 import com.threadly.utils.TestConstants;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,7 +37,7 @@ class GetUserProfileApiTest extends BaseFollowApiTest {
   @BeforeEach
   void setUp() {
     userFixtureLoader.load(
-        "/users/profile/user.json", UserStatusType.ACTIVE
+        "/users/profile/user.json", UserStatus.ACTIVE
     );
   }
 
@@ -113,8 +113,8 @@ class GetUserProfileApiTest extends BaseFollowApiTest {
       assertThat(getUserProfileResponse.getData().user().userId()).isEqualTo(PUBLIC_USER_1_ID);
       assertThat(getUserProfileResponse.getData().user().nickname()).isEqualTo("public_user_1");
       /*팔로우 상태 검증 - 공개 계정이지만 팔로우 승인 상태*/
-      assertThat(getUserProfileResponse.getData().followStatusType()).isEqualTo(
-          FollowStatusType.APPROVED);
+      assertThat(getUserProfileResponse.getData().followStatus()).isEqualTo(
+          FollowStatus.APPROVED);
     }
 
     /*[Case #3] 비공개 계정 - 팔로우 승인된 상태*/
@@ -143,8 +143,8 @@ class GetUserProfileApiTest extends BaseFollowApiTest {
       assertThat(getUserProfileResponse.getData().user().userId()).isEqualTo(PRIVATE_USER_1_ID);
       assertThat(getUserProfileResponse.getData().user().nickname()).isEqualTo("private_user_1");
       /*팔로우 상태 검증 - 비공개 계정이지만 팔로우 승인 상태*/
-      assertThat(getUserProfileResponse.getData().followStatusType()).isEqualTo(
-          FollowStatusType.APPROVED);
+      assertThat(getUserProfileResponse.getData().followStatus()).isEqualTo(
+          FollowStatus.APPROVED);
     }
 
     /*[Case #4] 본인 프로필 조회*/
@@ -165,8 +165,8 @@ class GetUserProfileApiTest extends BaseFollowApiTest {
       /*프로필 데이터 검증*/
       assertUserProfileResponse(getUserProfileResponse.getData(), USER_PROFILE);
       /*팔로우 상태 검증 - 본인 프로필은 SELF 상태*/
-      assertThat(getUserProfileResponse.getData().followStatusType()).isEqualTo(
-          FollowStatusType.SELF);
+      assertThat(getUserProfileResponse.getData().followStatus()).isEqualTo(
+          FollowStatus.SELF);
     }
 
     /*[Case #5] 비공개 계정 - 팔로우 관계 없음*/
@@ -177,7 +177,7 @@ class GetUserProfileApiTest extends BaseFollowApiTest {
       //given
       /*비공개 계정 사용자 데이터 로딩*/
       userFixtureLoader.load(
-          "/users/profile/get-user-profile/private-users.json", UserStatusType.ACTIVE, true
+          "/users/profile/get-user-profile/private-users.json", UserStatus.ACTIVE, true
       );
 
       /*로그인 - 팔로우 관계 없는 다른 사용자로 로그인*/
@@ -190,8 +190,8 @@ class GetUserProfileApiTest extends BaseFollowApiTest {
 
       //then
       /*팔로우 상태 검증 - 비공개 계정이지만 기본 프로필은 조회 가능, NONE 상태 반환*/
-      assertThat(getUserProfileResponse.getData().followStatusType()).isEqualTo(
-          FollowStatusType.NONE);
+      assertThat(getUserProfileResponse.getData().followStatus()).isEqualTo(
+          FollowStatus.NONE);
     }
 
     /*[Case #6] 비공개 계정 - 팔로우 요청 대기중*/
@@ -217,8 +217,8 @@ class GetUserProfileApiTest extends BaseFollowApiTest {
 
       //then
       /*팔로우 상태 검증 - 비공개 계정이지만 기본 프로필은 조회 가능, PENDING 상태 반환*/
-      assertThat(getUserProfileResponse.getData().followStatusType()).isEqualTo(
-          FollowStatusType.PENDING);
+      assertThat(getUserProfileResponse.getData().followStatus()).isEqualTo(
+          FollowStatus.PENDING);
     }
 
   }
@@ -278,7 +278,7 @@ class GetUserProfileApiTest extends BaseFollowApiTest {
       //given
       userFixtureLoader.load(
           "/users/profile/user2.json",
-          UserStatusType.DELETED
+          UserStatus.DELETED
       );
 
       /*로그인*/
@@ -305,7 +305,7 @@ class GetUserProfileApiTest extends BaseFollowApiTest {
       /*비활성화 된 사용자 데이터 삽입*/
       userFixtureLoader.load(
           "/users/profile/user2.json",
-          UserStatusType.INACTIVE
+          UserStatus.INACTIVE
       );
 
       /*로그인*/

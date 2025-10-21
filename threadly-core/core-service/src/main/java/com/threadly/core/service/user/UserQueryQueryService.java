@@ -30,10 +30,10 @@ public class UserQueryQueryService implements UserQueryUseCase {
             .password(user.getPassword())
             .email(user.getEmail())
             .phone(user.getPhone())
-            .userType(user.getUserType())
-            .userStatusType(user.getUserStatusType())
+            .userRoleType(user.getUserRoleType())
+            .userStatus(user.getUserStatus())
             .isEmailVerified(user.isEmailVerified())
-            .type(user.getUserType())
+            .type(user.getUserRoleType())
             .build();
 
   }
@@ -52,8 +52,8 @@ public class UserQueryQueryService implements UserQueryUseCase {
             .password(user.getPassword())
             .email(user.getEmail())
             .phone(user.getPhone())
-            .userType(user.getUserType())
-            .userStatusType(user.getUserStatusType())
+            .userRoleType(user.getUserRoleType())
+            .userStatus(user.getUserStatus())
             .build();
   }
 }

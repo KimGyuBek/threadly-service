@@ -20,8 +20,8 @@ public class User {
   private String password;
   private String email;
   private String phone;
-  private UserType userType;
-  private UserStatusType userStatusType;
+  private UserRoleType userRoleType;
+  private UserStatus userStatus;
   private boolean isEmailVerified;
   private boolean isPrivate;
 
@@ -58,8 +58,8 @@ public class User {
             .password(password)
             .email(email)
             .phone(phone)
-            .userType(UserType.USER)
-            .userStatusType(UserStatusType.INCOMPLETE_PROFILE)
+            .userRoleType(UserRoleType.USER)
+            .userStatus(UserStatus.INCOMPLETE_PROFILE)
             .build();
   }
 
@@ -80,31 +80,31 @@ public class User {
    * INCOMPLETE_PROFILE 상태로 변경
    */
   public void markAsIncompleteProfile() {
-    this.userStatusType = UserStatusType.INCOMPLETE_PROFILE;
+    this.userStatus = UserStatus.INCOMPLETE_PROFILE;
   }
 
   /**
    * ACTIVE 상태로 변경
    */
   public void markAsActive() {
-    this.userStatusType = UserStatusType.ACTIVE;
+    this.userStatus = UserStatus.ACTIVE;
   }
 
   /**
    * DELETED 상태로 변경
    */
   public void markAsDeleted() {
-    this.userStatusType = UserStatusType.DELETED;
+    this.userStatus = UserStatus.DELETED;
   }
 
   /**
    * INACTIVE 상태로 변경
    */
   public void markAsInactive() {
-    if (userStatusType.equals(UserStatusType.DELETED)) {
+    if (userStatus.equals(UserStatus.DELETED)) {
       throw new CannotInactiveException();
     }
-    this.userStatusType = UserStatusType.INACTIVE;
+    this.userStatus = UserStatus.INACTIVE;
   }
 
 
@@ -112,10 +112,10 @@ public class User {
    * BANNED 상태로 변경
    */
   public void markAsBanned() {
-    if (userStatusType.equals(UserStatusType.DELETED)) {
+    if (userStatus.equals(UserStatus.DELETED)) {
       throw new CannotBannedException();
     }
-    this.userStatusType = UserStatusType.BANNED;
+    this.userStatus = UserStatus.BANNED;
   }
 
   /*UserProfile*/
@@ -231,8 +231,8 @@ public class User {
             .password(password)
             .email(email)
             .phone(phone)
-            .userType(UserType.USER)
-            .userStatusType(UserStatusType.ACTIVE)
+            .userRoleType(UserRoleType.USER)
+            .userStatus(UserStatus.ACTIVE)
             .build();
   }
 
@@ -248,7 +248,7 @@ public class User {
    * 테스트용 userStatusType 변경
    */
   @VisibleForTesting
-  public void setUserStatusType(UserStatusType userStatusType) {
-    this.userStatusType = userStatusType;
+  public void setUserStatus(UserStatus userStatus) {
+    this.userStatus = userStatus;
   }
 }

@@ -45,7 +45,7 @@ public class PostLikeCommandLikeCommandService implements PostLikeCommandUseCase
 
     /*사용자가 좋아요 누르지 않았다면*/
     if (!isUserLiked(command)) {
-      PostLike newLike = post.like(command.getUserId());
+      PostLike newLike = post.addLike(command.getUserId());
 
       /*좋아요 저장*/
       postLikeCommandPort.createPostLike(newLike);

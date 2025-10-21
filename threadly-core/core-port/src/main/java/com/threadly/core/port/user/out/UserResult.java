@@ -1,7 +1,7 @@
 package com.threadly.core.port.user.out;
 
-import com.threadly.core.domain.user.UserStatusType;
-import com.threadly.core.domain.user.UserType;
+import com.threadly.core.domain.user.UserStatus;
+import com.threadly.core.domain.user.UserRoleType;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -19,9 +19,9 @@ public class UserResult {
 
   private String phone;
 
-  private UserType userType;
+  private UserRoleType userRoleType;
 
-  private UserStatusType userStatusType;
+  private UserStatus userStatus;
 
   private boolean isEmailVerified;
 

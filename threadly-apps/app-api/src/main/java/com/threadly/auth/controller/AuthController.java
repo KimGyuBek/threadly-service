@@ -65,8 +65,7 @@ public class AuthController {
   }
 
   /**
-   * email 인증 'https://threadly.com/api/auth/verify?code={code}'
-   *
+   * 이메일 인증
    * @param code
    */
   @GetMapping("/verify-email")
@@ -75,7 +74,7 @@ public class AuthController {
   }
 
   /**
-   * 사용자 정보 수정을 위한 비밀번호 재인증
+   * 2FA 인증
    *
    * @param request
    * @return

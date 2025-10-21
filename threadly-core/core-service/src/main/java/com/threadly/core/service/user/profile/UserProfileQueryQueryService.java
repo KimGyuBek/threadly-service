@@ -2,8 +2,8 @@ package com.threadly.core.service.user.profile;
 
 import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.exception.user.UserException;
-import com.threadly.core.domain.follow.FollowStatusType;
-import com.threadly.core.domain.user.UserStatusType;
+import com.threadly.core.domain.follow.FollowStatus;
+import com.threadly.core.domain.user.UserStatus;
 import com.threadly.core.port.commons.dto.UserPreview;
 import com.threadly.core.port.user.in.profile.query.UserProfileQueryUseCase;
 import com.threadly.core.port.user.in.profile.query.dto.GetMyProfileDetailsApiResponse;
@@ -50,14 +50,14 @@ public class UserProfileQueryQueryService implements UserProfileQueryUseCase {
     );
 
     /*사용자 상태 검증*/
-    if (userProfileProjection.getUserStatus().equals(UserStatusType.DELETED)) {
+    if (userProfileProjection.getUserStatus().equals(UserStatus.DELETED)) {
       throw new UserException(ErrorCode.USER_ALREADY_DELETED);
-    } else if (userProfileProjection.getUserStatus().equals(UserStatusType.INACTIVE)) {
+    } else if (userProfileProjection.getUserStatus().equals(UserStatus.INACTIVE)) {
       throw new UserException(ErrorCode.USER_INACTIVE);
     }
 
     /*팔로우 유무 검증*/
-    FollowStatusType followStatusType = followAccessValidator.validateProfileAccessible(userId,
+    FollowStatus followStatus = followAccessValidator.validateProfileAccessible(userId,
         targetUserId);
 
     return new GetUserProfileApiResponse(
@@ -68,7 +68,7 @@ public class UserProfileQueryQueryService implements UserProfileQueryUseCase {
         ),
         userProfileProjection.getStatusMessage(),
         userProfileProjection.getBio(),
-        followStatusType
+        followStatus
     );
   }
 
@@ -80,7 +80,7 @@ public class UserProfileQueryQueryService implements UserProfileQueryUseCase {
         userId).orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
 
     /*사용자 상태 검증*/
-    if (myProfileDetailsProjection.getStatus().equals(UserStatusType.DELETED)) {
+    if (myProfileDetailsProjection.getStatus().equals(UserStatus.DELETED)) {
       throw new UserException(ErrorCode.USER_ALREADY_DELETED);
     }
 

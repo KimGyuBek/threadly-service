@@ -1,7 +1,7 @@
 package com.threadly.batch.util;
 
 import com.threadly.core.domain.post.PostStatus;
-import com.threadly.core.domain.user.UserStatusType;
+import com.threadly.core.domain.user.UserStatus;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -186,7 +186,7 @@ public class BatchTestDataInsert implements CommandLineRunner {
                       "-" + String.format("%04d", random.nextInt(10000));
         
         // 모든 사용자를 DELETED 상태로 생성 (배치 Job 실행 조건에 맞게)
-        UserStatusType status = UserStatusType.DELETED;
+        UserStatus status = UserStatus.DELETED;
         LocalDateTime now = LocalDateTime.now();
         
         return new UserData(userId, userName, "password123", email, phone, 

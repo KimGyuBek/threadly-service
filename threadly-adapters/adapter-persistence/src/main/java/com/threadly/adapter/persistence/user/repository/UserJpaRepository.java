@@ -1,8 +1,7 @@
 package com.threadly.adapter.persistence.user.repository;
 
 import com.threadly.adapter.persistence.user.entity.UserEntity;
-import com.threadly.core.domain.user.UserStatusType;
-import java.util.List;
+import com.threadly.core.domain.user.UserStatus;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -36,10 +35,10 @@ public interface UserJpaRepository extends JpaRepository<UserEntity, String> {
   @Modifying
   @Query(
       value = "update UserEntity u "
-          + "set u.userStatusType = :statusType "
+          + "set u.userStatus = :statusType "
           + "where u.userId = :userId")
   void updateStatus(@Param("userId") String userId,
-      @Param("statusType") UserStatusType statusType);
+      @Param("statusType") UserStatus statusType);
 
 
   /**
@@ -97,13 +96,13 @@ public interface UserJpaRepository extends JpaRepository<UserEntity, String> {
   boolean isUserPrivate(@Param("userId") String userId);
 
   /**
-   * 주어진 userId에 해당하는 사용자의 userStatusType 조회
+   * 주어진 userId에 해당하는 사용자의 userStatus 조회
    *
    * @param userId
    * @return
    */
   @Query("""
-      select u.userStatusType from UserEntity u where u.userId = :userId
+      select u.userStatus from UserEntity u where u.userId = :userId
       """)
-  Optional<UserStatusType> getUserStatusType(@Param("userId") String userId);
+  Optional<UserStatus> getUserStatusType(@Param("userId") String userId);
 }

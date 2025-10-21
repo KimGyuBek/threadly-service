@@ -1,10 +1,10 @@
 package com.threadly.testsupport.fixture.users;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.threadly.core.domain.user.UserStatus;
 import com.threadly.testsupport.dto.users.UserFollowFixtureDto;
 import com.threadly.testsupport.fixture.FixtureLoader;
 import com.threadly.testsupport.mapper.users.UserFollowFixtureMapper;
-import com.threadly.core.domain.user.UserStatusType;
 import com.threadly.core.port.follow.out.FollowCommandPort;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -40,7 +40,7 @@ public class UserFollowFixtureLoader {
 
   @Transactional
   public void load(String userDataPath, boolean isPrivate, String followDataPath) {
-    userFixtureLoader.load(userDataPath, UserStatusType.ACTIVE, isPrivate);
+    userFixtureLoader.load(userDataPath, UserStatus.ACTIVE, isPrivate);
     List<UserFollowFixtureDto> data = getData(followDataPath);
     generateData(data);
   }

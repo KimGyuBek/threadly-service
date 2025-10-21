@@ -1,6 +1,6 @@
 package com.threadly.core.port.user.out.profile.projection;
 
-import com.threadly.core.domain.user.UserStatusType;
+import com.threadly.core.domain.user.UserStatus;
 
 /**
  * 사용자 프로필 정보 조회 projection 객체
@@ -19,7 +19,7 @@ public interface UserProfileProjection {
 
   String getProfileImageUrl();
 
-  UserStatusType getUserStatus();
+  UserStatus getUserStatus();
 
   boolean getIsPrivate();
 

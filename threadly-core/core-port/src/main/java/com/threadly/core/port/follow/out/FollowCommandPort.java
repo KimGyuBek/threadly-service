@@ -1,7 +1,7 @@
 package com.threadly.core.port.follow.out;
 
 import com.threadly.core.domain.follow.Follow;
-import com.threadly.core.domain.follow.FollowStatusType;
+import com.threadly.core.domain.follow.FollowStatus;
 
 /**
  * 팔로우 command port
@@ -33,10 +33,10 @@ public interface FollowCommandPort {
    * 주어진 파라미터에 해당하는 팔로우 삭제
    * @param followerId
    * @param followingId
-   * @param followStatusType
+   * @param followStatus
    */
   void deleteByFollowerIdAndFollowingIdAndStatusType(String followerId, String followingId,
-      FollowStatusType followStatusType);
+      FollowStatus followStatus);
 
 
 }

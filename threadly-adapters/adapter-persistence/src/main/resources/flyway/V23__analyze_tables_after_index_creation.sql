@@ -1,5 +1,4 @@
--- Update query planner statistics after index creation in V23
--- Separated from V23 to avoid mixing DDL and maintenance commands
+-- asdfadfadf
 
 ANALYZE posts;
 ANALYZE post_likes;  

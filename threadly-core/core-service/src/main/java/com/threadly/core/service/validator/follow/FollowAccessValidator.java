@@ -2,7 +2,7 @@ package com.threadly.core.service.validator.follow;
 
 import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.exception.user.UserException;
-import com.threadly.core.domain.follow.FollowStatusType;
+import com.threadly.core.domain.follow.FollowStatus;
 import com.threadly.core.port.user.out.UserQueryPort;
 import com.threadly.core.port.follow.out.FollowQueryPort;
 import lombok.RequiredArgsConstructor;
@@ -31,30 +31,30 @@ public class FollowAccessValidator {
    * @return followStatusType
    * @throws UserException
    */
-  public FollowStatusType validateProfileAccessibleWithException(String userId,
+  public FollowStatus validateProfileAccessibleWithException(String userId,
       String targetUserId) {
     if (userId.equals(targetUserId)) {
-      return FollowStatusType.SELF;
+      return FollowStatus.SELF;
     }
 
-    FollowStatusType followStatusType = followQueryPort.findFollowStatusType(userId, targetUserId)
-        .orElse(FollowStatusType.NONE);
+    FollowStatus followStatus = followQueryPort.findFollowStatusType(userId, targetUserId)
+        .orElse(FollowStatus.NONE);
 
-    if (isPrivateUser(targetUserId) && !followStatusType.equals(
-        FollowStatusType.APPROVED)) {
+    if (isPrivateUser(targetUserId) && !followStatus.equals(
+        FollowStatus.APPROVED)) {
       throw new UserException(ErrorCode.USER_PROFILE_PRIVATE);
     }
 
-    return followStatusType;
+    return followStatus;
   }
 
-  public FollowStatusType validateProfileAccessible(String userId, String targetUserId) {
+  public FollowStatus validateProfileAccessible(String userId, String targetUserId) {
     if (userId.equals(targetUserId)) {
-      return FollowStatusType.SELF;
+      return FollowStatus.SELF;
     }
 
     return followQueryPort.findFollowStatusType(userId, targetUserId)
-        .orElse(FollowStatusType.NONE);
+        .orElse(FollowStatus.NONE);
   }
 
   /**

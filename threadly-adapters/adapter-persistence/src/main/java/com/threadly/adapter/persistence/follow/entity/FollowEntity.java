@@ -2,7 +2,7 @@ package com.threadly.adapter.persistence.follow.entity;
 
 import com.threadly.adapter.persistence.base.BaseEntity;
 import com.threadly.adapter.persistence.user.entity.UserEntity;
-import com.threadly.core.domain.follow.FollowStatusType;
+import com.threadly.core.domain.follow.FollowStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -37,6 +37,6 @@ public class FollowEntity extends BaseEntity {
 
   @Column(name = "status")
   @Enumerated(EnumType.STRING)
-  private FollowStatusType statusType;
+  private FollowStatus statusType;
 
 }

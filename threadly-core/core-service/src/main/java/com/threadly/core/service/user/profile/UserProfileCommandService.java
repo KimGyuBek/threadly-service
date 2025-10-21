@@ -3,7 +3,7 @@ package com.threadly.core.service.user.profile;
 import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.exception.user.UserException;
 import com.threadly.core.domain.user.User;
-import com.threadly.core.domain.user.UserStatusType;
+import com.threadly.core.domain.user.UserStatus;
 import com.threadly.core.domain.user.profile.UserProfile;
 import com.threadly.core.port.user.in.profile.command.dto.RegisterMyProfileCommand;
 import com.threadly.core.port.user.in.profile.command.dto.UpdateMyProfileCommand;
@@ -52,7 +52,7 @@ public class UserProfileCommandService implements
     userProfileCommandPort.saveUserProfile(userProfile);
 
     /*user statusType   변경*/
-    userCommandPort.updateUserStatus(command.getUserId(), UserStatusType.ACTIVE);
+    userCommandPort.updateUserStatus(command.getUserId(), UserStatus.ACTIVE);
     log.debug("userProfile 생성 완료");
   }
 

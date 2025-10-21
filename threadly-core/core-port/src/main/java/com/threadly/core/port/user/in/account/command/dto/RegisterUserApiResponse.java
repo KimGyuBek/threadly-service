@@ -1,7 +1,7 @@
 package com.threadly.core.port.user.in.account.command.dto;
 
-import com.threadly.core.domain.user.UserStatusType;
-import com.threadly.core.domain.user.UserType;
+import com.threadly.core.domain.user.UserStatus;
+import com.threadly.core.domain.user.UserRoleType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,8 +18,8 @@ public class RegisterUserApiResponse {
   private String userId;
   private String userName;
   private String email;
-  private UserType userType;
-  private UserStatusType userStatusType;
+  private UserRoleType userRoleType;
+  private UserStatus userStatus;
   private boolean isEmailVerified;
 
 
