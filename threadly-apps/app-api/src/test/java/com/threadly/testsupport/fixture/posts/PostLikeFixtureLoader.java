@@ -1,7 +1,7 @@
 package com.threadly.testsupport.fixture.posts;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.threadly.adapter.persistence.post.adapter.PostCommandPersistenceAdapter;
+import com.threadly.adapter.persistence.post.adapter.PostPersistenceAdapter;
 import com.threadly.adapter.persistence.post.adapter.PostLikePersistenceAdapter;
 import com.threadly.core.domain.post.PostLike;
 import com.threadly.testsupport.dto.posts.PostLikeFixtureDto;
@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 public class PostLikeFixtureLoader {
 
-  private final PostCommandPersistenceAdapter postPersistenceAdapter;
+  private final PostPersistenceAdapter postPersistenceAdapter;
 
   private final UserFixtureLoader userFixtureLoader;
   private final PostFixtureLoader postFixtureLoader;
