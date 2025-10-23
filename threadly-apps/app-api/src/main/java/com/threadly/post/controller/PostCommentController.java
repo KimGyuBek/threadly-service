@@ -33,11 +33,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class PostCommentController {
 
-
   private final PostCommendQueryUseCase postCommendQueryUseCase;
 
   private final PostCommentCommandUseCase postCommentCommandUseCase;
-
 
   /*
    * 게시글 댓글 생성 - POST /api/posts/{postId}/comments

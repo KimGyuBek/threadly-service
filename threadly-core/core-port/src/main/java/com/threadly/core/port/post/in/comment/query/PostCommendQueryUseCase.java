@@ -7,7 +7,7 @@ import com.threadly.core.port.post.in.comment.query.dto.GetPostCommentDetailQuer
 import com.threadly.core.port.post.in.comment.query.dto.GetPostCommentListQuery;
 
 /**
- * 게시글 댓글 query 관련 UseCase
+ * 게시글 댓글 keyword 관련 UseCase
  */
 public interface PostCommendQueryUseCase {
 

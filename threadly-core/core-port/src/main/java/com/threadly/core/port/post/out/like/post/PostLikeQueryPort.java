@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * 게시글 좋아요 query 관련  Port
+ * 게시글 좋아요 keyword 관련  Port
  */
 public interface PostLikeQueryPort {
 
