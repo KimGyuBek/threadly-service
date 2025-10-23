@@ -1,0 +1,18 @@
+[
+  {
+    "userId": "usr69",
+    "userName": "city_runner_69",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "city_runner69@threadly.com",
+    "phone": "010-7504-1428",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "city_runner",
+      "statusMessage": "나만의 시간",
+      "bio": "여행이 답이다",
+      "gender": "MALE",
+      "profileType": "USER"
+    }
+  }
+]

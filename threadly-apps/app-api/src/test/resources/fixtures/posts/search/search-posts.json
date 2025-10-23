@@ -1,0 +1,107 @@
+[
+  {
+    "postId": "search_post_1",
+    "userId": "usr_search_1",
+    "content": "좋은 하루 보내세요 감사합니다",
+    "status": "ACTIVE",
+    "viewCount": 500
+  },
+  {
+    "postId": "search_post_2",
+    "userId": "usr_search_2",
+    "content": "날씨가 좋아서 기분도 좋네요",
+    "status": "ACTIVE",
+    "viewCount": 450
+  },
+  {
+    "postId": "search_post_3",
+    "userId": "usr_search_3",
+    "content": "커피 한잔의 여유, 좋습니다",
+    "status": "ACTIVE",
+    "viewCount": 400
+  },
+  {
+    "postId": "search_post_4",
+    "userId": "usr_search_1",
+    "content": "오늘 하루도 좋았어요",
+    "status": "ACTIVE",
+    "viewCount": 350
+  },
+  {
+    "postId": "search_post_5",
+    "userId": "usr_search_2",
+    "content": "좋아하는 음악 들으면서 산책",
+    "status": "ACTIVE",
+    "viewCount": 300
+  },
+  {
+    "postId": "search_post_6",
+    "userId": "usr_search_3",
+    "content": "좋은 책 한 권 읽고 있어요",
+    "status": "ACTIVE",
+    "viewCount": 250
+  },
+  {
+    "postId": "search_post_7",
+    "userId": "usr_search_1",
+    "content": "좋은 친구들과 함께하는 시간",
+    "status": "ACTIVE",
+    "viewCount": 200
+  },
+  {
+    "postId": "search_post_8",
+    "userId": "usr_search_2",
+    "content": "좋은 날씨에 산책 추천!",
+    "status": "ACTIVE",
+    "viewCount": 180
+  },
+  {
+    "postId": "search_post_9",
+    "userId": "usr_search_3",
+    "content": "좋은 추억 만들기",
+    "status": "ACTIVE",
+    "viewCount": 160
+  },
+  {
+    "postId": "search_post_10",
+    "userId": "usr_search_1",
+    "content": "좋은 영화 추천해주세요",
+    "status": "ACTIVE",
+    "viewCount": 140
+  },
+  {
+    "postId": "search_post_11",
+    "userId": "usr_search_2",
+    "content": "좋은 하루 보내세요",
+    "status": "ACTIVE",
+    "viewCount": 120
+  },
+  {
+    "postId": "search_post_12",
+    "userId": "usr_search_3",
+    "content": "좋은 소식 있어요",
+    "status": "ACTIVE",
+    "viewCount": 100
+  },
+  {
+    "postId": "search_post_13",
+    "userId": "usr_search_1",
+    "content": "좋은 생각만 하기",
+    "status": "ACTIVE",
+    "viewCount": 80
+  },
+  {
+    "postId": "search_post_14",
+    "userId": "usr_search_2",
+    "content": "좋은 컨디션 유지하기",
+    "status": "ACTIVE",
+    "viewCount": 60
+  },
+  {
+    "postId": "search_post_15",
+    "userId": "usr_search_3",
+    "content": "좋은 습관 만들기",
+    "status": "ACTIVE",
+    "viewCount": 40
+  }
+]
