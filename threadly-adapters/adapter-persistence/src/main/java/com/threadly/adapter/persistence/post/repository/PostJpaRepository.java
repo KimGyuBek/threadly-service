@@ -4,6 +4,7 @@ import com.threadly.adapter.persistence.post.entity.PostEntity;
 import com.threadly.core.domain.post.PostStatus;
 import com.threadly.core.port.post.out.projection.PostDetailProjection;
 import com.threadly.core.port.post.out.projection.PostEngagementProjection;
+import com.threadly.core.port.post.out.sesarch.PostSearchProjection;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -116,7 +117,7 @@ public interface PostJpaRepository extends JpaRepository<PostEntity, String> {
                          where user_id = :userId) pl_liked on p.post_id = pl_liked.post_id
       where p.status = 'ACTIVE'
         and (
-          :cursorPostedAt is null
+              cast(:cursorPostedAt as timestamp) is null
               or
           p.modified_at < :cursorPostedAt
               or (
@@ -207,4 +208,62 @@ public interface PostJpaRepository extends JpaRepository<PostEntity, String> {
       """, nativeQuery = true)
   Optional<String> findUserIdByPostId(@Param("postId") String postId);
 
+  /**
+   * 주어진 userId에 해당하는 사용자가 게시글 검색 시 보여지는 데이터 조회
+   *
+   * @return
+   */
+  @Query(value = """
+      select p.post_id                           as postId,
+             p.content                           as content,
+             coalesce(pl_count.like_count, 0)    as likeCount,
+             coalesce(pc_count.comment_count, 0) as commentCount,
+             coalesce(pl_liked.liked, false)     as liked,
+             p.view_count                        as viewCount,
+             p.user_id                           as userId,
+             p.created_at                        as postedAt,
+             up.nickname                         as userNickname,
+             upi.image_url                       as userProfileImageUrl
+      from posts p
+               join users u on p.user_id = u.user_id
+               join user_profile up on u.user_id = up.user_id
+               left join user_profile_images upi on u.user_id = upi.user_id and upi.status = 'CONFIRMED'
+               left join (select post_id, count(*) as like_count
+                          from post_likes
+                          group by post_id) pl_count on p.post_id = pl_count.post_id
+               left join(select post_id, count(*) as comment_count
+                         from post_comments
+                         where status = 'ACTIVE'
+                         group by post_id) pc_count on p.post_id = pc_count.post_id
+               left join(select post_id, true as liked
+                         from post_likes
+                         where user_id = :userId) pl_liked on p.post_id = pl_liked.post_id
+      where p.status = 'ACTIVE'
+        and (
+          u.is_private = false
+              or p.user_id = :userId
+              or exists(select 1
+                        from user_follows uf
+                        where uf.follower_id = :userId
+                          and uf.following_id = p.user_id
+                          and uf.status = 'APPROVED')
+          )
+            and p.content like concat('%', :keyword, '%')
+        and (
+          cast(:cursorPostedAt as timestamp) is null
+              or p.created_at < :cursorPostedAt
+              or (p.created_at = :cursorPostedAt and p.post_id < :cursorPostId)
+          )
+      order by case when :sortType = 'RECENT' then p.created_at end desc,
+               case when :sortType = 'POPULAR' then coalesce(pl_count.like_count, 0) end desc,
+               p.post_id desc
+      limit :limit;
+      """, nativeQuery = true)
+  List<PostSearchProjection> searchVisiblePostsByKeywordWithCursor(
+      @Param("userId") String userId,
+      @Param("keyword") String keyword,
+      @Param("cursorPostedAt") LocalDateTime cursorPostedAt,
+      @Param("cursorPostId") String cursorPostId,
+      @Param("limit") int limit,
+      @Param("sortType") String sortType);
 }

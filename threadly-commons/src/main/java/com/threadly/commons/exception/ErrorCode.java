@@ -115,7 +115,11 @@ public enum ErrorCode {
   POST_IMAGE_UPLOAD_FORBIDDEN("TLY4105", "게시글 이미지 업로드 권한이 없습니다.", HttpStatus.FORBIDDEN),
 
   /*UserProfileImage*/
-  USER_PROFILE_IMAGE_NOT_EXISTS("TLY4200", "존재하지 않는 이미지입니다.", HttpStatus.NOT_FOUND);
+  USER_PROFILE_IMAGE_NOT_EXISTS("TLY4200", "존재하지 않는 이미지입니다.", HttpStatus.NOT_FOUND),
+
+  /*Search*/
+  POST_SEARCH_SORT_TYPE_INVALID("TLY5001", "게시글 정렬 타입이 올바르지 않습니다.", HttpStatus.BAD_REQUEST);
+
 
 
   private final String code;
