@@ -12,6 +12,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 사용자 검색 관련 query service
@@ -23,6 +24,7 @@ public class SearchUserQueryService implements SearchUserQueryUseCase {
 
   private final SearchUserQueryPort searchUserQueryPort;
 
+  @Transactional(readOnly = true)
   @Override
   public CursorPageApiResponse<UserSearchItem> searchByKeyword(UserSearchQuery query) {
     /*1. 조회*/
@@ -41,7 +43,8 @@ public class SearchUserQueryService implements SearchUserQueryUseCase {
                     new UserPreview(
                         projection.getUserId(),
                         projection.getUserNickname(),
-                        projection.getUserProfileImageUrl()
+                        projection.getUserProfileImageUrl() == null ? "/"
+                            : projection.getUserProfileImageUrl()
                     ),
                     (query.userId().equals(projection.getUserId()))
                         ? FollowStatus.SELF

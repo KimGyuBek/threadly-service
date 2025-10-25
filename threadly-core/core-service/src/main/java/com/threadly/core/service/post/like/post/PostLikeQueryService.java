@@ -44,7 +44,8 @@ public class PostLikeQueryService implements PostLikeQueryUseCase {
             new UserPreview(
                 projection.getLikerId(),
                 projection.getLikerNickname(),
-                projection.getLikerProfileImageUrl()
+                projection.getLikerProfileImageUrl() == null ? "/"
+                    : projection.getLikerProfileImageUrl()
             ),
             projection.getLikedAt()
         )

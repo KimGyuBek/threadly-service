@@ -98,7 +98,8 @@ public class PostCommandService implements PostCommandUseCase,
 
     return new CreatePostApiResponse(
         savedPost.getPostId(),
-        userPreview.getProfileImageUrl(),
+        userPreview.getProfileImageUrl() == null ? "/"
+            : userPreview.getProfileImageUrl(),
         userPreview.getNickname(),
         savedPost.getUserId(),
         savedPost.getContent(),
@@ -131,7 +132,8 @@ public class PostCommandService implements PostCommandUseCase,
     return new UpdatePostApiResponse(
         updatePost.getPostId(),
         updatePost.getUserId(),
-        updatePost.getUserProfileImageUrl(),
+        updatePost.getUserProfileImageUrl() == null ? "/"
+            : updatePost.getUserProfileImageUrl(),
         updatePost.getUserNickname(),
         updatePost.getContent(),
         updatePost.getViewCount(),

@@ -48,7 +48,8 @@ public class FollowQueryService implements FollowQueryUseCase {
             new UserPreview(
                 projection.getRequesterId(),
                 projection.getRequesterNickname(),
-                projection.getRequesterProfileImageUrl()
+                projection.getRequesterProfileImageUrl() == null ? "/"
+                    : projection.getRequesterProfileImageUrl()
             ),
             projection.getFollowRequestedAt()
         )
@@ -75,7 +76,8 @@ public class FollowQueryService implements FollowQueryUseCase {
             new UserPreview(
                 projection.getFollowerId(),
                 projection.getFollowerNickname(),
-                projection.getFollowerProfileImageUrl()
+                projection.getFollowerProfileImageUrl() == null ? "/"
+                    : projection.getFollowerProfileImageUrl()
             ),
             projection.getFollowedAt()
         )
@@ -105,7 +107,8 @@ public class FollowQueryService implements FollowQueryUseCase {
             new UserPreview(
                 projection.getFollowingId(),
                 projection.getFollowingNickname(),
-                projection.getFollowingProfileImageUrl()
+                projection.getFollowingProfileImageUrl() == null ? "/"
+                    : projection.getFollowingProfileImageUrl()
             ),
             projection.getFollowedAt()
         )

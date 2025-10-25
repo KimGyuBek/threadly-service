@@ -36,7 +36,7 @@ public class SearchPostQueryService implements SearchPostQueryUseCase {
       throw new SearchException(ErrorCode.POST_SEARCH_SORT_TYPE_INVALID);
     }
 
-    /*1. 조회*/
+    /*2. 조회*/
     List<PostSearchProjection> postSearchProjections = searchPostQueryPort.searchPostByKeyword(
         query.userId(),
         query.keyword(),
@@ -46,17 +46,16 @@ public class SearchPostQueryService implements SearchPostQueryUseCase {
         query.limit() + 1
     );
 
-    /*2. postIds 추출*/
+    /*3. postIds 추출*/
     List<String> postIds = postSearchProjections.stream().map(PostSearchProjection::getPostId)
         .toList();
 
-
-    /*3. postId별 postImage 추출*/
+    /*4. postId별 postImage 추출*/
     var imagesByPostId = postImageQueryPort.findVisibleByPostIds(
         postIds).stream().collect(
         Collectors.groupingBy(PostImageProjection::getPostId));
 
-    /*2. 응답 리턴*/
+    /*5. 응답 생성 및 리턴*/
     return CursorPageApiResponse.from(
         postSearchProjections.stream().map(
             projection -> {
