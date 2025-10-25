@@ -5,6 +5,7 @@ package com.threadly.core.port.post.out.image.projection;
  */
 public interface PostImageProjection {
 
+  String getPostId();
   String getImageId();
   String getImageUrl();
   int getImageOrder();

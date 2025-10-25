@@ -12,7 +12,7 @@ public record PostSearchItem(
     String postId,
     UserPreview author,
     String content,
-    List<PostImagePreview> images,
+    List<PostImageItem> images,
     long likeCount,
     long commentCount,
     boolean liked,
@@ -32,7 +32,7 @@ public record PostSearchItem(
   /**
    * 게시글 검색 이미지 데이터
    */
-  public record PostImagePreview(
+  public record PostImageItem(
       String imageUrl,
       int imageOrder
   ) {

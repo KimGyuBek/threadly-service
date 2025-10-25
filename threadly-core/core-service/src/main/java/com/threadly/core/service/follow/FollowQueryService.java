@@ -1,5 +1,6 @@
 package com.threadly.core.service.follow;
 
+import com.threadly.commons.response.CursorPageApiResponse;
 import com.threadly.core.port.commons.dto.UserPreview;
 import com.threadly.core.port.follow.in.query.FollowQueryUseCase;
 import com.threadly.core.port.follow.in.query.dto.FollowRequestResponse;
@@ -9,11 +10,10 @@ import com.threadly.core.port.follow.in.query.dto.GetFollowRequestsQuery;
 import com.threadly.core.port.follow.in.query.dto.GetFollowersQuery;
 import com.threadly.core.port.follow.in.query.dto.GetFollowingsQuery;
 import com.threadly.core.port.follow.in.query.dto.GetUserFollowStatsApiResponse;
-import com.threadly.commons.response.CursorPageApiResponse;
-import com.threadly.core.service.validator.follow.FollowAccessValidator;
-import com.threadly.core.service.validator.user.UserStatusValidator;
 import com.threadly.core.port.follow.out.FollowQueryPort;
 import com.threadly.core.port.follow.out.projection.UserFollowStatsProjection;
+import com.threadly.core.service.validator.follow.FollowAccessValidator;
+import com.threadly.core.service.validator.user.UserStatusValidator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

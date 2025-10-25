@@ -5,12 +5,16 @@ import com.threadly.commons.exception.search.SearchException;
 import com.threadly.commons.response.CursorPageApiResponse;
 import com.threadly.core.port.commons.dto.UserPreview;
 import com.threadly.core.port.post.in.search.SearchPostQueryUseCase;
-import com.threadly.core.port.post.in.search.dto.PostSearchSortType;
 import com.threadly.core.port.post.in.search.dto.PostSearchItem;
+import com.threadly.core.port.post.in.search.dto.PostSearchItem.PostImageItem;
 import com.threadly.core.port.post.in.search.dto.PostSearchQuery;
+import com.threadly.core.port.post.in.search.dto.PostSearchSortType;
+import com.threadly.core.port.post.out.image.PostImageQueryPort;
+import com.threadly.core.port.post.out.image.projection.PostImageProjection;
 import com.threadly.core.port.post.out.sesarch.PostSearchProjection;
 import com.threadly.core.port.post.out.sesarch.SearchPostQueryPort;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class SearchPostQueryService implements SearchPostQueryUseCase {
 
   private final SearchPostQueryPort searchPostQueryPort;
+
+  private final PostImageQueryPort postImageQueryPort;
 
   @Transactional(readOnly = true)
   @Override
@@ -40,24 +46,44 @@ public class SearchPostQueryService implements SearchPostQueryUseCase {
         query.limit() + 1
     );
 
+    /*2. postIds 추출*/
+    List<String> postIds = postSearchProjections.stream().map(PostSearchProjection::getPostId)
+        .toList();
+
+
+    /*3. postId별 postImage 추출*/
+    var imagesByPostId = postImageQueryPort.findVisibleByPostIds(
+        postIds).stream().collect(
+        Collectors.groupingBy(PostImageProjection::getPostId));
+
     /*2. 응답 리턴*/
     return CursorPageApiResponse.from(
         postSearchProjections.stream().map(
-            projection ->
-                new PostSearchItem(
-                    projection.getPostId(),
-                    new UserPreview(
-                        projection.getUserId(),
-                        projection.getUserNickname(),
-                        projection.getUserProfileImageUrl()
-                    ),
-                    projection.getContent(),
-                    List.of(),
-                    projection.getLikeCount(),
-                    projection.getCommentCount(),
-                    projection.isLiked(),
-                    projection.getPostedAt()
-                )
+            projection -> {
+              UserPreview author = new UserPreview(
+                  projection.getUserId(),
+                  projection.getUserNickname(),
+                  projection.getUserProfileImageUrl() == null ? "/"
+                      : projection.getUserProfileImageUrl()
+              );
+
+              var images = imagesByPostId.getOrDefault(projection.getPostId(), List.of()).stream()
+                  .map(img -> new PostImageItem(
+                      img.getImageUrl(), img.getImageOrder()))
+                  .toList();
+
+              return
+                  new PostSearchItem(
+                      projection.getPostId(),
+                      author,
+                      projection.getContent(),
+                      images,
+                      projection.getLikeCount(),
+                      projection.getCommentCount(),
+                      projection.isLiked(),
+                      projection.getPostedAt()
+                  );
+            }
         ).toList(),
         query.limit()
     );

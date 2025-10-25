@@ -10,16 +10,17 @@ import com.threadly.commons.response.CursorPageApiResponse;
 import com.threadly.core.domain.image.ImageStatus;
 import com.threadly.core.domain.post.PostStatus;
 import com.threadly.core.port.commons.dto.UserPreview;
+import com.threadly.core.port.post.in.query.PostQueryUseCase;
 import com.threadly.core.port.post.in.query.dto.GetPostEngagementApiResponse;
 import com.threadly.core.port.post.in.query.dto.GetPostEngagementQuery;
 import com.threadly.core.port.post.in.query.dto.GetPostListQuery;
 import com.threadly.core.port.post.in.query.dto.GetPostQuery;
 import com.threadly.core.port.post.in.query.dto.PostDetails;
-import com.threadly.core.port.post.in.query.PostQueryUseCase;
+import com.threadly.core.port.post.in.query.dto.PostDetails.PostImage;
 import com.threadly.core.port.post.out.PostQueryPort;
-import com.threadly.core.port.post.out.projection.PostDetailProjection;
 import com.threadly.core.port.post.out.image.PostImageQueryPort;
 import com.threadly.core.port.post.out.image.projection.PostImageProjection;
+import com.threadly.core.port.post.out.projection.PostDetailProjection;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -44,28 +45,34 @@ public class PostQueryService implements PostQueryUseCase {
     List<PostDetails> allPostList = postQueryPort.fetchUserVisiblePostListByCursor(
             query.getUserId(), query.getCursorPostedAt(), query.getCursorPostId(), query.getLimit() + 1)
         .stream().map(
-            projection -> new PostDetails(
-                projection.getPostId(),
-                new UserPreview(
-                    projection.getUserId(),
-                    projection.getUserNickname(),
-                    projection.getUserProfileImageUrl()
-                ),
-                projection.getContent(),
-                postImageQueryPort.findAllByPostIdAndStatus(
-                    projection.getPostId(),
-                    ImageStatus.CONFIRMED
-                ).stream().map(
-                    image -> new PostDetails.PostImage(
-                        image.getImageId(),
-                        image.getImageUrl(),
-                        image.getImageOrder()
-                    )).toList(),
-                projection.getViewCount(),
-                projection.getPostedAt(),
-                projection.getLikeCount(),
-                projection.getCommentCount(),
-                projection.isLiked())).toList();
+            projection -> {
+              UserPreview author = new UserPreview(
+                  projection.getUserId(),
+                  projection.getUserNickname(),
+                  projection.getUserProfileImageUrl()
+              );
+
+              List<PostImage> postImageList = postImageQueryPort.findAllByPostIdAndStatus(
+                  projection.getPostId(),
+                  ImageStatus.CONFIRMED
+              ).stream().map(
+                  image -> new PostImage(
+                      image.getImageId(),
+                      image.getImageUrl(),
+                      image.getImageOrder()
+                  )).toList();
+
+              return new PostDetails(
+                  projection.getPostId(),
+                  author,
+                  projection.getContent(),
+                  postImageList,
+                  projection.getViewCount(),
+                  projection.getPostedAt(),
+                  projection.getLikeCount(),
+                  projection.getCommentCount(),
+                  projection.isLiked());
+            }).toList();
 
     return CursorPageApiResponse.from(allPostList, query.getLimit());
   }
