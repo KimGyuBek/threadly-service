@@ -73,7 +73,8 @@ public interface FollowJpaRepository extends JpaRepository<FollowEntity, String>
                          on upi.user_id = uf.follower_id and upi.status = 'CONFIRMED'
       where uf.following_id = :userId
         and uf.status = 'PENDING'
-        and (:cursorTimestamp is null
+        and (
+        cast(:cursorTimestamp as timestamp) is null
           or uf.created_at < :cursorTimestamp
           or (uf.created_at = :cursorTimestamp and uf.follow_id < :cursorId)
           )
@@ -105,7 +106,8 @@ public interface FollowJpaRepository extends JpaRepository<FollowEntity, String>
                join user_profile up on up.user_id = uf.follower_id
                left join user_profile_images upi on upi.user_id = uf.follower_id
       where uf.following_id = :targetUserId and uf.status = 'APPROVED'
-        and (:cursorTimestamp is null
+        and (
+        cast(:cursorTimestamp as timestamp) is null
           or uf.modified_at < :cursorTimestamp or
              (uf.modified_at = :cursorTimestamp and uf.follower_id < :cursorId))
       order by uf.modified_at desc, uf.follower_id desc
@@ -136,7 +138,8 @@ public interface FollowJpaRepository extends JpaRepository<FollowEntity, String>
                join user_profile up on up.user_id = uf.following_id
                left join user_profile_images upi on upi.user_id = uf.following_id
       where uf.follower_id = :targetUserId and uf.status = 'APPROVED'
-        and (:cursorTimestamp is null
+        and (
+        cast(:cursorTimestamp as timestamp) is null
           or uf.modified_at < :cursorTimestamp or
              (uf.modified_at = :cursorTimestamp and uf.following_id < :cursorId))
       order by uf.modified_at desc, uf.following_id desc

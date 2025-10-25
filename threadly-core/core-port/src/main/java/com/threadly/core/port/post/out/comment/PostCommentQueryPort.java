@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * 게시글 댓글 query 관련 Port
+ * 게시글 댓글 keyword 관련 Port
  */
 public interface PostCommentQueryPort {
 

@@ -90,7 +90,8 @@ public interface PostCommentJpaRepository extends JpaRepository<PostCommentEntit
                          where user_id = :userId
                          ) user_liked on pc.comment_id = user_liked.comment_id
       where pc.status = 'ACTIVE' and pc.post_id = :postId
-        and (:cursorCommentedAt is null
+        and (
+        cast(:cursorCommentedAt as timestamp) is null
           or pc.created_at < :cursorCommentedAt
           or (pc.created_at = :cursorCommentedAt and pc.comment_id < :cursorCommentId))
       order by pc.created_at desc, pc.comment_id desc

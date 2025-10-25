@@ -3,7 +3,7 @@ package com.threadly.core.port.user.in.query;
 import com.threadly.core.port.user.in.shared.UserResponse;
 
 /**
- * User query Usecase
+ * User keyword Usecase
  */
 public interface UserQueryUseCase {
 

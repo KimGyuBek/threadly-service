@@ -79,7 +79,8 @@ public interface PostLikeJpaRepository extends JpaRepository<PostLikeEntity, Str
                join user_profile up on u.user_id = up.user_id
                left join user_profile_images upi on up.user_id = upi.user_id
       where pl.post_id = :postId
-       and (:cursorLikedAt is null 
+       and (
+       cast(:cursorLikedAt as timestamp) is null 
        or pl.created_at < :cursorLikedAt 
        or (pl.created_at = :cursorLikedAt and pl.user_id < :cursorLikerId))
       order by pl.created_at desc, pl.user_id desc

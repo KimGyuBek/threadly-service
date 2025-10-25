@@ -2,6 +2,8 @@ package com.threadly.adapter.persistence.user.repository;
 
 import com.threadly.adapter.persistence.user.entity.UserEntity;
 import com.threadly.core.domain.user.UserStatus;
+import com.threadly.core.port.user.out.search.UserSearchProjection;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -105,4 +107,32 @@ public interface UserJpaRepository extends JpaRepository<UserEntity, String> {
       select u.userStatus from UserEntity u where u.userId = :userId
       """)
   Optional<UserStatus> getUserStatusType(@Param("userId") String userId);
+
+  /**
+   * 주어진 파라미터에 해당하는 nickname 검색
+   *
+   * @return
+   */
+  @Query(value = """
+      select u.user_id                   as userId,
+             up.nickname                 as userNickname,
+             upi.image_url               as userProfileImageUrl,
+             coalesce(uf.status, 'NONE') as followStatus
+      from users u
+               join user_profile up on u.user_id = up.user_id
+               left join user_profile_images upi on u.user_id = upi.user_id and upi.status = 'CONFIRMED'
+               left join user_follows uf on u.user_id = uf.following_id and uf.follower_id = :userId
+      where u.status = 'ACTIVE'
+        and (:keyword is null or up.nickname ilike concat(:keyword, '%'))
+        and (:cursorNickname is null
+          or up.nickname < :cursorNickname)
+      order by up.nickname desc
+      limit :limit
+      """, nativeQuery = true)
+  List<UserSearchProjection> searchUserByKeywordWithCursor(
+      @Param("userId") String userId,
+      @Param("keyword") String keyword,
+      @Param("cursorNickname") String cursorNickname,
+      @Param("limit") int limit
+  );
 }

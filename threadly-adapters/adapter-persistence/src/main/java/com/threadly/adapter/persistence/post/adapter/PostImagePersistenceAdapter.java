@@ -29,13 +29,8 @@ public class PostImagePersistenceAdapter implements PostImageQueryPort,
     );
   }
 
-  @Override
-  public List<PostImageProjection> fetchPostImageByPostId(String postId) {
-    return postImageJpaRepository.getPostImageListByPostId(postId);
-  }
-
   public List<PostImageProjection> findAllByPostIdAndStatus(String postId, ImageStatus status) {
-    return postImageJpaRepository.getPostImageListByPostIdAndStatus(postId, status);
+    return postImageJpaRepository.findPostImageListByPostIdAndStatus(postId, status);
   }
 
 
@@ -58,5 +53,10 @@ public class PostImagePersistenceAdapter implements PostImageQueryPort,
   public void finalizeImage(String imageId, String postId, int order) {
     postImageJpaRepository.finalizePostImage(imageId, PostEntity.fromId(postId), order,
         ImageStatus.CONFIRMED);
+  }
+
+  @Override
+  public List<PostImageProjection> findVisibleByPostIds(List<String> postIds) {
+    return postImageJpaRepository.findAllVisibleByPostIds(postIds);
   }
 }

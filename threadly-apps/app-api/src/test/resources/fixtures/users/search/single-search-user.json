@@ -1,0 +1,18 @@
+[
+  {
+    "userId": "unique_usr",
+    "userName": "unique_user",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "unique@threadly.com",
+    "phone": "010-9999-9999",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "고유한닉네임12345",
+      "statusMessage": "단건 검색용",
+      "bio": "고유한 사용자",
+      "gender": "FEMALE",
+      "profileType": "USER"
+    }
+  }
+]

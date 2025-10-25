@@ -6,6 +6,7 @@ import com.threadly.testsupport.dto.users.UserFollowFixtureDto;
 import com.threadly.testsupport.fixture.FixtureLoader;
 import com.threadly.testsupport.mapper.users.UserFollowFixtureMapper;
 import com.threadly.core.port.follow.out.FollowCommandPort;
+import com.threadly.utils.TestLogUtils;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import java.util.List;
@@ -56,6 +57,11 @@ public class UserFollowFixtureLoader {
     dtoList.forEach(dto -> {
       followCommandPort.createFollow(UserFollowFixtureMapper.toDomain(dto));
     });
+
+    entityManager.flush();
+    entityManager.clear();
+
+    TestLogUtils.log("팔로우 데이터 생성 완료 : 총 " + dtoList.size() + "개");
 
   }
 

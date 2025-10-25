@@ -1,0 +1,82 @@
+[
+  {
+    "userId": "search_usr1",
+    "userName": "search_user_1",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "search1@threadly.com",
+    "phone": "010-1000-0001",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "검색유저1",
+      "statusMessage": "검색 테스트",
+      "bio": "기본 검색 사용자1",
+      "gender": "MALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "search_usr2",
+    "userName": "search_user_2",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "search2@threadly.com",
+    "phone": "010-1000-0002",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "검색유저2",
+      "statusMessage": "검색 테스트",
+      "bio": "기본 검색 사용자2",
+      "gender": "FEMALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "search_usr3",
+    "userName": "search_user_3",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "search3@threadly.com",
+    "phone": "010-1000-0003",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "검색유저3",
+      "statusMessage": "검색 테스트",
+      "bio": "기본 검색 사용자3",
+      "gender": "MALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "search_usr4",
+    "userName": "search_user_4",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "search4@threadly.com",
+    "phone": "010-1000-0004",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "검색유저4",
+      "statusMessage": "검색 테스트",
+      "bio": "기본 검색 사용자4",
+      "gender": "FEMALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "search_usr5",
+    "userName": "search_user_5",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "search5@threadly.com",
+    "phone": "010-1000-0005",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "검색유저5",
+      "statusMessage": "검색 테스트",
+      "bio": "기본 검색 사용자5",
+      "gender": "MALE",
+      "profileType": "USER"
+    }
+  }
+]

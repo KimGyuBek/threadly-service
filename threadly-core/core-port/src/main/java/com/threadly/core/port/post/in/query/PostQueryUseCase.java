@@ -8,7 +8,7 @@ import com.threadly.core.port.post.in.query.dto.GetPostQuery;
 import com.threadly.core.port.post.in.query.dto.PostDetails;
 
 /**
- * 게시글 query 관련 usecase
+ * 게시글 keyword 관련 usecase
  */
 public interface PostQueryUseCase {
 

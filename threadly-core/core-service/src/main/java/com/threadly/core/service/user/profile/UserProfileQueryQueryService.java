@@ -64,7 +64,8 @@ public class UserProfileQueryQueryService implements UserProfileQueryUseCase {
         new UserPreview(
             userProfileProjection.getUserId(),
             userProfileProjection.getNickname(),
-            userProfileProjection.getProfileImageUrl()
+            userProfileProjection.getProfileImageUrl() == null ? "/"
+                : userProfileProjection.getProfileImageUrl()
         ),
         userProfileProjection.getStatusMessage(),
         userProfileProjection.getBio(),

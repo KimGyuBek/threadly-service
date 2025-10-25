@@ -1,0 +1,18 @@
+[
+  {
+    "userId": "usr_public",
+    "userName": "public_user",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "public_user@threadly.com",
+    "phone": "010-9999-9999",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "public_account",
+      "statusMessage": "공개 계정입니다",
+      "bio": "누구나 볼 수 있어요",
+      "gender": "FEMALE",
+      "profileType": "USER"
+    }
+  }
+]

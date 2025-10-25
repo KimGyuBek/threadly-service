@@ -1,7 +1,7 @@
 package com.threadly.core.port.auth.out;
 
 /**
- * 로그인 시도 제한 query port
+ * 로그인 시도 제한 keyword port
  */
 public interface LoginAttemptQueryPort {
 

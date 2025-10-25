@@ -2,7 +2,7 @@ name: CI
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [ opened, synchronize, reopened ]
     branches:
       - develop
       - master
@@ -38,14 +38,18 @@ jobs:
 
       - name: 테스트 실행
         run: |
-          ./gradlew test --no-daemon
+          ./gradlew test --no-daemon jacocoTestReport
 
       - name: 테스트 리포트 업로드
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: test-report
-          path: ./threadly-apps/app-api/build/reports/tests/test
+          path: |
+            **/build/reports/tests/**
+            **/build/reports/jacoco/**
+            
+            
 
       - name: Docker compose 종료
         if: always()

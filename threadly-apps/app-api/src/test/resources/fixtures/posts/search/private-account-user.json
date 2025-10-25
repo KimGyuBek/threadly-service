@@ -1,0 +1,18 @@
+[
+  {
+    "userId": "private_usr",
+    "userName": "private_user",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "private@threadly.com",
+    "phone": "010-3000-0001",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "비공개계정",
+      "statusMessage": "비공개 계정입니다",
+      "bio": "팔로워만 볼 수 있어요",
+      "gender": "MALE",
+      "profileType": "USER"
+    }
+  }
+]

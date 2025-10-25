@@ -71,8 +71,8 @@ public abstract class BaseBatchTest {
     jobRepositoryTestUtils.removeJobExecutions();
     // 테스트 데이터 정리
     postImageRepository.deleteAll();
-    userRepository.deleteAll();
     postRepository.deleteAll();
+    userRepository.deleteAll();
   }
 
   /**

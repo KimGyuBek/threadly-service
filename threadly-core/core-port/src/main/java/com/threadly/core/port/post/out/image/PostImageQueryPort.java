@@ -10,19 +10,20 @@ import java.util.List;
 public interface PostImageQueryPort {
 
   /**
-   * postId에 해당하는 이미지 목록 조회
-   * @param postId
-   * @return
-   */
-  List<PostImageProjection> fetchPostImageByPostId(String postId);
-
-  /**
    * postId, status로 이미지 목록 조회
+   *
    * @param postId
    * @return
    */
   List<PostImageProjection> findAllByPostIdAndStatus(String postId, ImageStatus status);
 
+  /**
+   * 주어진 postId 리스트에 해당하는 게시글 이미지 목록 조회
+   *
+   * @param postId
+   * @return
+   */
+  List<PostImageProjection> findVisibleByPostIds(List<String> postIds);
 
 
 }

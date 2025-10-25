@@ -1,0 +1,107 @@
+[
+  {
+    "postId": "sp1",
+    "userId": "search_usr1",
+    "content": "안녕하세요 감사합니다",
+    "status": "ACTIVE",
+    "viewCount": 100
+  },
+  {
+    "postId": "sp2",
+    "userId": "search_usr1",
+    "content": "날씨가 좋네요",
+    "status": "ACTIVE",
+    "viewCount": 500
+  },
+  {
+    "postId": "sp3",
+    "userId": "search_usr2",
+    "content": "좋은 하루 보내세요",
+    "status": "ACTIVE",
+    "viewCount": 450
+  },
+  {
+    "postId": "sp4",
+    "userId": "search_usr3",
+    "content": "좋아요 누르세요",
+    "status": "ACTIVE",
+    "viewCount": 400
+  },
+  {
+    "postId": "sp5",
+    "userId": "search_usr1",
+    "content": "좋습니다",
+    "status": "ACTIVE",
+    "viewCount": 350
+  },
+  {
+    "postId": "sp6",
+    "userId": "search_usr2",
+    "content": "좋은 음악",
+    "status": "ACTIVE",
+    "viewCount": 300
+  },
+  {
+    "postId": "sp7",
+    "userId": "search_usr3",
+    "content": "좋은 영화",
+    "status": "ACTIVE",
+    "viewCount": 250
+  },
+  {
+    "postId": "sp8",
+    "userId": "search_usr1",
+    "content": "좋은 책",
+    "status": "ACTIVE",
+    "viewCount": 200
+  },
+  {
+    "postId": "sp9",
+    "userId": "search_usr2",
+    "content": "좋은 친구",
+    "status": "ACTIVE",
+    "viewCount": 180
+  },
+  {
+    "postId": "sp10",
+    "userId": "search_usr3",
+    "content": "좋은 날씨",
+    "status": "ACTIVE",
+    "viewCount": 160
+  },
+  {
+    "postId": "sp11",
+    "userId": "search_usr1",
+    "content": "좋은 추억",
+    "status": "ACTIVE",
+    "viewCount": 140
+  },
+  {
+    "postId": "sp12",
+    "userId": "search_usr2",
+    "content": "좋은 시간",
+    "status": "ACTIVE",
+    "viewCount": 120
+  },
+  {
+    "postId": "sp13",
+    "userId": "search_usr3",
+    "content": "좋은 소식",
+    "status": "ACTIVE",
+    "viewCount": 100
+  },
+  {
+    "postId": "sp14",
+    "userId": "search_usr1",
+    "content": "좋은 생각",
+    "status": "ACTIVE",
+    "viewCount": 80
+  },
+  {
+    "postId": "sp15",
+    "userId": "search_usr2",
+    "content": "좋은 습관",
+    "status": "ACTIVE",
+    "viewCount": 60
+  }
+]
