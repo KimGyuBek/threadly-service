@@ -10,7 +10,7 @@ import com.threadly.commons.response.CursorPageApiResponse;
 import com.threadly.core.domain.user.UserStatus;
 import com.threadly.core.port.post.in.command.dto.CreatePostApiResponse;
 import com.threadly.core.port.post.in.search.dto.PostSearchSortType;
-import com.threadly.core.port.post.in.search.dto.PostSearchView;
+import com.threadly.core.port.post.in.search.dto.PostSearchItem;
 import com.threadly.testsupport.fixture.posts.PostFixtureLoader;
 import com.threadly.testsupport.fixture.users.UserFollowFixtureLoader;
 import java.time.LocalDateTime;
@@ -69,7 +69,7 @@ public class PostSearchApiTest extends BasePostSearchApiTest {
 
       //when
       //then
-      CommonResponse<CursorPageApiResponse<PostSearchView>> searchResponse =
+      CommonResponse<CursorPageApiResponse<PostSearchItem>> searchResponse =
           sendPostSearchRequest(accessToken, KEYWORD_SINGLE, 10, status().isOk());
 
       assertThat(searchResponse.getData().content()).hasSize(1);
@@ -88,7 +88,7 @@ public class PostSearchApiTest extends BasePostSearchApiTest {
 
       //when
       //then
-      CommonResponse<CursorPageApiResponse<PostSearchView>> searchResponse =
+      CommonResponse<CursorPageApiResponse<PostSearchItem>> searchResponse =
           sendPostSearchRequest(accessToken, KEYWORD_MULTI, 20, status().isOk());
 
       assertThat(searchResponse.getData().content().size()).isEqualTo(14);
@@ -109,7 +109,7 @@ public class PostSearchApiTest extends BasePostSearchApiTest {
 
       //when
       //then
-      CommonResponse<CursorPageApiResponse<PostSearchView>> searchResponse =
+      CommonResponse<CursorPageApiResponse<PostSearchItem>> searchResponse =
           sendPostSearchRequest(accessToken, KEYWORD_NOT_EXIST, 10, status().isOk());
 
       assertThat(searchResponse.getData().content()).isEmpty();
@@ -129,7 +129,7 @@ public class PostSearchApiTest extends BasePostSearchApiTest {
 
       //when
       //then
-      CommonResponse<CursorPageApiResponse<PostSearchView>> searchResponse =
+      CommonResponse<CursorPageApiResponse<PostSearchItem>> searchResponse =
           sendPostSearchRequest(accessToken, KEYWORD_PUBLIC, 10, status().isOk());
 
       assertThat(searchResponse.getData().content()).hasSize(1);
@@ -159,7 +159,7 @@ public class PostSearchApiTest extends BasePostSearchApiTest {
 
       //when
       //then
-      CommonResponse<CursorPageApiResponse<PostSearchView>> searchResponse =
+      CommonResponse<CursorPageApiResponse<PostSearchItem>> searchResponse =
           sendPostSearchRequest(accessToken, KEYWORD_PRIVATE, 10, status().isOk());
 
       assertThat(searchResponse.getData().content()).hasSize(1);
@@ -189,7 +189,7 @@ public class PostSearchApiTest extends BasePostSearchApiTest {
           );
 
       //when
-      CommonResponse<CursorPageApiResponse<PostSearchView>> searchResponse =
+      CommonResponse<CursorPageApiResponse<PostSearchItem>> searchResponse =
           sendPostSearchRequest(accessToken, "나만의고유한", 10, status().isOk());
 
       //then
@@ -207,14 +207,14 @@ public class PostSearchApiTest extends BasePostSearchApiTest {
 
       //when
       //then
-      CommonResponse<CursorPageApiResponse<PostSearchView>> searchResponse =
+      CommonResponse<CursorPageApiResponse<PostSearchItem>> searchResponse =
           sendPostSearchRequest(accessToken, KEYWORD_MULTI, PostSearchSortType.RECENT, 10,
               status().isOk());
 
       assertThat(searchResponse.getData().content()).isNotEmpty();
 
       // 최신순으로 정렬되어 있는지 확인
-      List<PostSearchView> posts = searchResponse.getData().content();
+      List<PostSearchItem> posts = searchResponse.getData().content();
       for (int i = 0; i < posts.size() - 1; i++) {
         assertThat(posts.get(i).postedAt()).isAfterOrEqualTo(posts.get(i + 1).postedAt());
       }
@@ -230,7 +230,7 @@ public class PostSearchApiTest extends BasePostSearchApiTest {
 
       //when
       //then
-      CommonResponse<CursorPageApiResponse<PostSearchView>> searchResponse =
+      CommonResponse<CursorPageApiResponse<PostSearchItem>> searchResponse =
           sendPostSearchRequest(accessToken, KEYWORD_MULTI, PostSearchSortType.POPULAR, 10,
               status().isOk());
 
@@ -254,7 +254,7 @@ public class PostSearchApiTest extends BasePostSearchApiTest {
       int size = 0;
 
       while (true) {
-        CommonResponse<CursorPageApiResponse<PostSearchView>> searchResponse =
+        CommonResponse<CursorPageApiResponse<PostSearchItem>> searchResponse =
             sendPostSearchRequest(
                 accessToken,
                 KEYWORD_MULTI,
@@ -296,7 +296,7 @@ public class PostSearchApiTest extends BasePostSearchApiTest {
 
       //when
       //then
-      CommonResponse<CursorPageApiResponse<PostSearchView>> searchResponse =
+      CommonResponse<CursorPageApiResponse<PostSearchItem>> searchResponse =
           sendPostSearchRequest(accessToken, null, 10, status().isOk());
 
       // keyword가 없으면 전체 게시글 반환
@@ -317,7 +317,7 @@ public class PostSearchApiTest extends BasePostSearchApiTest {
 
       //when
       //then
-      CommonResponse<CursorPageApiResponse<PostSearchView>> searchResponse =
+      CommonResponse<CursorPageApiResponse<PostSearchItem>> searchResponse =
           sendPostSearchRequest(accessToken, KEYWORD_PRIVATE, 10, status().isOk());
 
       // 비공개 계정이고 팔로우하지 않았으므로 검색 결과 없음
@@ -334,7 +334,7 @@ public class PostSearchApiTest extends BasePostSearchApiTest {
 
       //when
       //then
-      CommonResponse<CursorPageApiResponse<PostSearchView>> searchResponse =
+      CommonResponse<CursorPageApiResponse<PostSearchItem>> searchResponse =
           sendPostSearchRequest(accessToken, KEYWORD_MULTI, PostSearchSortType.RELEVANCE, 10,
               status().isBadRequest());
 

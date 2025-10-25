@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * 게시글 검색 keyword port
  */
-public interface PostSearchQueryPort {
+public interface SearchPostQueryPort {
 
   /**
    * 주어진 파라미터에 해당하는 게시글 검색

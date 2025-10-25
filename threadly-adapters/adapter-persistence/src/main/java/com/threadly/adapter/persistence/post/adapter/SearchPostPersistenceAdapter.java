@@ -3,7 +3,7 @@ package com.threadly.adapter.persistence.post.adapter;
 import com.threadly.adapter.persistence.post.repository.PostJpaRepository;
 import com.threadly.core.port.post.in.search.dto.PostSearchSortType;
 import com.threadly.core.port.post.out.sesarch.PostSearchProjection;
-import com.threadly.core.port.post.out.sesarch.PostSearchQueryPort;
+import com.threadly.core.port.post.out.sesarch.SearchPostQueryPort;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @RequiredArgsConstructor
-public class PostSearchPersistenceAdapter implements PostSearchQueryPort {
+public class SearchPostPersistenceAdapter implements SearchPostQueryPort {
 
   private final PostJpaRepository postJpaRepository;
 

@@ -5,7 +5,7 @@ import com.threadly.BaseApiTest;
 import com.threadly.CommonResponse;
 import com.threadly.commons.response.CursorPageApiResponse;
 import com.threadly.core.port.post.in.search.dto.PostSearchSortType;
-import com.threadly.core.port.post.in.search.dto.PostSearchView;
+import com.threadly.core.port.post.in.search.dto.PostSearchItem;
 import java.time.LocalDateTime;
 import org.springframework.test.web.servlet.ResultMatcher;
 
@@ -27,7 +27,7 @@ public class BasePostSearchApiTest extends BaseApiTest {
    * @return
    * @throws Exception
    */
-  public CommonResponse<CursorPageApiResponse<PostSearchView>> sendPostSearchRequest(
+  public CommonResponse<CursorPageApiResponse<PostSearchItem>> sendPostSearchRequest(
       String accessToken,
       String keyword,
       PostSearchSortType sortType,
@@ -71,7 +71,7 @@ public class BasePostSearchApiTest extends BaseApiTest {
    * @return
    * @throws Exception
    */
-  public CommonResponse<CursorPageApiResponse<PostSearchView>> sendPostSearchRequest(
+  public CommonResponse<CursorPageApiResponse<PostSearchItem>> sendPostSearchRequest(
       String accessToken,
       String keyword,
       int limit,
@@ -90,7 +90,7 @@ public class BasePostSearchApiTest extends BaseApiTest {
    * @return
    * @throws Exception
    */
-  public CommonResponse<CursorPageApiResponse<PostSearchView>> sendPostSearchRequest(
+  public CommonResponse<CursorPageApiResponse<PostSearchItem>> sendPostSearchRequest(
       String accessToken,
       String keyword,
       PostSearchSortType sortType,
@@ -112,7 +112,7 @@ public class BasePostSearchApiTest extends BaseApiTest {
    * @return
    * @throws Exception
    */
-  public CommonResponse<CursorPageApiResponse<PostSearchView>> sendPostSearchRequest(
+  public CommonResponse<CursorPageApiResponse<PostSearchItem>> sendPostSearchRequest(
       String accessToken,
       String keyword,
       LocalDateTime cursorTimestamp,

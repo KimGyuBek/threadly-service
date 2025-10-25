@@ -6,9 +6,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * 게시글 검색 결과 view Dto
+ * 게시글 검색 결과  Dto
  */
-public record PostSearchView(
+public record PostSearchItem(
     String postId,
     UserPreview author,
     String content,
