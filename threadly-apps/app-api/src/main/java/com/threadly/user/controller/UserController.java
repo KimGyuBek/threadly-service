@@ -2,6 +2,7 @@ package com.threadly.user.controller;
 
 import com.threadly.core.port.user.in.account.command.UserAccountCommandUseCase;
 import com.threadly.core.port.user.in.account.command.dto.RegisterUserApiResponse;
+import com.threadly.user.controller.api.UserApi;
 import com.threadly.user.request.UserRegisterRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/users")
-public class UserController {
+public class UserController implements UserApi {
 
   private final UserAccountCommandUseCase userAccountCommandUseCase;
 

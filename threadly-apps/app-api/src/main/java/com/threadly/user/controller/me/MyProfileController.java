@@ -11,6 +11,7 @@ import com.threadly.core.port.user.in.profile.image.dto.UploadMyProfileImageApiR
 import com.threadly.core.port.user.in.profile.query.UserProfileQueryUseCase;
 import com.threadly.core.port.user.in.profile.query.dto.GetMyProfileDetailsApiResponse;
 import com.threadly.post.mapper.ImageMapper;
+import com.threadly.user.controller.api.MyProfileApi;
 import com.threadly.user.request.me.RegisterUserProfileRequest;
 import com.threadly.user.request.me.UpdateMyPrivacySettingRequest;
 import com.threadly.user.request.me.UpdateMyProfileRequest;
@@ -32,7 +33,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/me/profile")
-public class MyProfileController {
+public class MyProfileController implements MyProfileApi {
 
 
   private final UserProfileQueryUseCase userProfileQueryUseCase;

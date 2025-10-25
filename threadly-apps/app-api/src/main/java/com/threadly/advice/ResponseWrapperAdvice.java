@@ -27,7 +27,12 @@ public class ResponseWrapperAdvice implements ResponseBodyAdvice<Object> {
       MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType,
       ServerHttpRequest request, ServerHttpResponse response) {
     String path = request.getURI().getPath();
-    if (path.startsWith("/actuator")) {
+
+    /*경로 제외*/
+    if (path.startsWith("/actuator") ||
+        path.startsWith("/swagger-ui") ||
+        path.startsWith("/v3/api-docs") ||
+        path.equals("/swagger-ui.html")) {
       return body;
     }
 

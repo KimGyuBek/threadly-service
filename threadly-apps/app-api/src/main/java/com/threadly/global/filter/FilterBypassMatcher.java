@@ -15,7 +15,10 @@ public class FilterBypassMatcher {
       "/api/auth/verify-email",
       "/api/auth/login",
       "/api/auth/reissue",
-      "/images/**"
+      "/images/**",
+      "/swagger-ui.html",
+      "/swagger-ui/**",
+      "/v3/api-docs/**"
   );
 
   private static final AntPathMatcher PATH_MATCHER = new AntPathMatcher();
