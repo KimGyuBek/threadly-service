@@ -13,6 +13,10 @@ spring:
       keepalive-time: 120000
       auto-commit: true
 
+  sql:
+    init:
+      mode: never
+
   jpa:
     properties:
       hibernate:
