@@ -24,6 +24,7 @@ logging:
     org.springframework.batch: DEBUG
     com.threadly.batch: DEBUG
     org.hibernate.SQL: DEBUG
+    org.flywaydb: DEBUG
 
 properties:
   retention:

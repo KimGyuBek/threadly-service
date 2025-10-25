@@ -7,11 +7,11 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.threadly.BaseApiTest;
 import com.threadly.CommonResponse;
 import com.threadly.auth.request.PasswordVerificationRequest;
-import com.threadly.core.usecase.auth.token.response.TokenReissueApiResponse;
-import com.threadly.core.usecase.auth.verification.response.PasswordVerificationToken;
+import com.threadly.core.domain.user.UserStatus;
+import com.threadly.core.port.auth.in.token.response.TokenReissueApiResponse;
+import com.threadly.core.port.auth.in.verification.response.PasswordVerificationToken;
 import com.threadly.repository.TestUserRepository;
 import com.threadly.user.request.me.ChangePasswordRequest;
-import com.threadly.core.domain.user.UserStatusType;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -134,8 +134,8 @@ public abstract class BaseUserApiTest extends BaseApiTest {
    * @param email
    * @param expectedStatus
    */
-  public void validateUserStatusType(String email, UserStatusType expectedStatus) {
-    UserStatusType statusByEmail = testUserRepository.findStatusByEmail(
+  public void validateUserStatusType(String email, UserStatus expectedStatus) {
+    UserStatus statusByEmail = testUserRepository.findStatusByEmail(
         email);
     assertThat(statusByEmail).isEqualTo(expectedStatus);
   }

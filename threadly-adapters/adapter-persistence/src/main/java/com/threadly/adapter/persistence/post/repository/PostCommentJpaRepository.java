@@ -2,7 +2,7 @@ package com.threadly.adapter.persistence.post.repository;
 
 import com.threadly.adapter.persistence.post.entity.PostCommentEntity;
 import com.threadly.core.domain.post.PostCommentStatus;
-import com.threadly.core.port.post.comment.fetch.PostCommentDetailForUserProjection;
+import com.threadly.core.port.post.out.comment.PostCommentDetailForUserProjection;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -90,7 +90,8 @@ public interface PostCommentJpaRepository extends JpaRepository<PostCommentEntit
                          where user_id = :userId
                          ) user_liked on pc.comment_id = user_liked.comment_id
       where pc.status = 'ACTIVE' and pc.post_id = :postId
-        and (:cursorCommentedAt is null
+        and (
+        cast(:cursorCommentedAt as timestamp) is null
           or pc.created_at < :cursorCommentedAt
           or (pc.created_at = :cursorCommentedAt and pc.comment_id < :cursorCommentId))
       order by pc.created_at desc, pc.comment_id desc

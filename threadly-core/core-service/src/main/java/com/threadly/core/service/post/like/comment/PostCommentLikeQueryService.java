@@ -1,33 +1,33 @@
 package com.threadly.core.service.post.like.comment;
 
-import com.threadly.core.port.post.like.comment.FetchPostCommentLikePort;
-import com.threadly.core.usecase.commons.dto.UserPreview;
+import com.threadly.core.port.post.out.like.comment.PostCommentLikeQueryPort;
+import com.threadly.core.port.commons.dto.UserPreview;
 import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.exception.post.PostCommentException;
 import com.threadly.core.domain.post.PostCommentStatus;
-import com.threadly.core.port.post.comment.fetch.FetchPostCommentPort;
+import com.threadly.core.port.post.out.comment.PostCommentQueryPort;
 import com.threadly.commons.response.CursorPageApiResponse;
-import com.threadly.core.usecase.post.like.comment.GetPostCommentLikersQuery;
-import com.threadly.core.usecase.post.like.comment.GetPostCommentLikersUseCase;
-import com.threadly.core.usecase.post.like.comment.PostCommentLiker;
+import com.threadly.core.port.post.in.like.comment.query.dto.GetPostCommentLikersQuery;
+import com.threadly.core.port.post.in.like.comment.query.PostCommentLikeQueryUseCase;
+import com.threadly.core.port.post.in.like.comment.query.dto.PostCommentLiker;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class PostCommentLikeQueryService implements GetPostCommentLikersUseCase {
+public class PostCommentLikeQueryService implements PostCommentLikeQueryUseCase {
 
-  private final FetchPostCommentLikePort fetchPostCommentLikePort;
+  private final PostCommentLikeQueryPort postCommentLikeQueryPort;
 
-  private final FetchPostCommentPort fetchPostCommentPort;
+  private final PostCommentQueryPort postCommentQueryPort;
 
   @Override
   public CursorPageApiResponse<PostCommentLiker> getPostCommentLikers(
       GetPostCommentLikersQuery query) {
 
     /*댓글 상태 검증*/
-    PostCommentStatus commentStatus = fetchPostCommentPort.fetchCommentStatus(
+    PostCommentStatus commentStatus = postCommentQueryPort.fetchCommentStatus(
         query.commentId()).orElseThrow(() -> new PostCommentException(
         ErrorCode.POST_COMMENT_NOT_FOUND));
 
@@ -36,7 +36,7 @@ public class PostCommentLikeQueryService implements GetPostCommentLikersUseCase 
     }
 
     /*리스트 조회*/
-    List<PostCommentLiker> allLikerList = fetchPostCommentLikePort.fetchCommentLikerListByCommentIdWithCursor(
+    List<PostCommentLiker> allLikerList = postCommentLikeQueryPort.fetchCommentLikerListByCommentIdWithCursor(
         query.commentId(), query.cursorLikedAt(), query.cursorLikerId(),
         query.limit() + 1
     ).stream().map(
@@ -44,7 +44,8 @@ public class PostCommentLikeQueryService implements GetPostCommentLikersUseCase 
             new UserPreview(
                 projection.getLikerId(),
                 projection.getLikerNickname(),
-                projection.getLikerProfileImageUrl()
+                projection.getLikerProfileImageUrl() == null ? "/"
+                    : projection.getLikerProfileImageUrl()
             ),
             projection.getLikedAt()
         )

@@ -5,22 +5,22 @@ import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.exception.follow.FollowException;
 import com.threadly.commons.exception.user.UserException;
 import com.threadly.core.domain.follow.Follow;
-import com.threadly.core.domain.follow.FollowStatusType;
+import com.threadly.core.domain.follow.FollowStatus;
 import com.threadly.core.domain.notification.NotificationType;
 import com.threadly.core.domain.notification.metadata.FollowAcceptMeta;
 import com.threadly.core.domain.notification.metadata.FollowMeta;
 import com.threadly.core.domain.notification.metadata.FollowRequestMeta;
 import com.threadly.core.domain.user.User;
-import com.threadly.core.port.user.FetchUserPort;
-import com.threadly.core.port.user.follow.FollowCommandPort;
-import com.threadly.core.port.user.follow.FollowQueryPort;
+import com.threadly.core.port.user.out.UserQueryPort;
+import com.threadly.core.port.follow.out.FollowCommandPort;
+import com.threadly.core.port.follow.out.FollowQueryPort;
 import com.threadly.core.service.notification.dto.NotificationPublishCommand;
 import com.threadly.core.service.validator.user.UserStatusValidator;
-import com.threadly.core.usecase.follow.command.FollowCommandUseCase;
-import com.threadly.core.usecase.follow.command.dto.FollowRelationCommand;
-import com.threadly.core.usecase.follow.command.dto.FollowUserApiResponse;
-import com.threadly.core.usecase.follow.command.dto.FollowUserCommand;
-import com.threadly.core.usecase.follow.command.dto.HandleFollowRequestCommand;
+import com.threadly.core.port.follow.in.command.FollowCommandUseCase;
+import com.threadly.core.port.follow.in.command.dto.FollowRelationCommand;
+import com.threadly.core.port.follow.in.command.dto.FollowUserApiResponse;
+import com.threadly.core.port.follow.in.command.dto.FollowUserCommand;
+import com.threadly.core.port.follow.in.command.dto.HandleFollowRequestCommand;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
@@ -38,7 +38,7 @@ public class FollowCommandService implements FollowCommandUseCase {
   private final FollowCommandPort followCommandPort;
   private final FollowQueryPort followQueryPort;
 
-  private final FetchUserPort fetchUserPort;
+  private final UserQueryPort userQueryPort;
 
   private final UserStatusValidator userStatusValidator;
 
@@ -54,7 +54,7 @@ public class FollowCommandService implements FollowCommandUseCase {
     }
 
     /*targetId가 존재하지 않는 경우*/
-    User targetUser = fetchUserPort.findByUserId(command.targetUserId())
+    User targetUser = userQueryPort.findByUserId(command.targetUserId())
         .orElseThrow(() -> new UserException(
             ErrorCode.USER_NOT_FOUND));
 
@@ -97,7 +97,7 @@ public class FollowCommandService implements FollowCommandUseCase {
   public void approveFollowRequest(HandleFollowRequestCommand command) {
     /*팔로우 요청 조회*/
     Follow follow = followQueryPort.findByIdAndStatusType(command.followId(),
-            FollowStatusType.PENDING)
+            FollowStatus.PENDING)
         .orElseThrow(() -> new FollowException(ErrorCode.FOLLOW_RELATION_NOT_FOUND));
 
     /*내가 받은 팔로우 요청이 아닌 경우*/
@@ -129,7 +129,7 @@ public class FollowCommandService implements FollowCommandUseCase {
   public void rejectFollowRequest(HandleFollowRequestCommand command) {
     /*팔로우 요청 조회*/
     Follow follow = followQueryPort.findByIdAndStatusType(command.followId(),
-            FollowStatusType.PENDING)
+            FollowStatus.PENDING)
         .orElseThrow(() -> new FollowException(ErrorCode.FOLLOW_RELATION_NOT_FOUND));
 
     /*내가 받은 팔로우 요청이 아닌 경우*/
@@ -146,11 +146,11 @@ public class FollowCommandService implements FollowCommandUseCase {
   @Override
   public void cancelFollowRequest(FollowRelationCommand command) {
     /*command 검증*/
-    validateFollow(command.userId(), command.targetUserId(), FollowStatusType.PENDING);
+    validateFollow(command.userId(), command.targetUserId(), FollowStatus.PENDING);
 
     /*팔로우 요청 삭제*/
     followCommandPort.deleteByFollowerIdAndFollowingIdAndStatusType(
-        command.userId(), command.targetUserId(), FollowStatusType.PENDING
+        command.userId(), command.targetUserId(), FollowStatus.PENDING
     );
     log.info("팔로우 요청 삭제 : {} -> {}", command.userId(), command.targetUserId());
   }
@@ -160,11 +160,11 @@ public class FollowCommandService implements FollowCommandUseCase {
   @Override
   public void unfollowUser(FollowRelationCommand command) {
     /*command 검증*/
-    validateFollow(command.userId(), command.targetUserId(), FollowStatusType.APPROVED);
+    validateFollow(command.userId(), command.targetUserId(), FollowStatus.APPROVED);
 
     /*팔로잉 삭제*/
     followCommandPort.deleteByFollowerIdAndFollowingIdAndStatusType(
-        command.userId(), command.targetUserId(), FollowStatusType.APPROVED
+        command.userId(), command.targetUserId(), FollowStatus.APPROVED
     );
     log.info("팔로잉 삭제 : {} -> {}", command.userId(), command.targetUserId());
   }
@@ -173,11 +173,11 @@ public class FollowCommandService implements FollowCommandUseCase {
   @Override
   public void removeFollower(FollowRelationCommand command) {
     /*command 검증*/
-    validateFollow(command.targetUserId(), command.userId(), FollowStatusType.APPROVED);
+    validateFollow(command.targetUserId(), command.userId(), FollowStatus.APPROVED);
 
     /*팔로워 삭제*/
     followCommandPort.deleteByFollowerIdAndFollowingIdAndStatusType(
-        command.targetUserId(), command.userId(), FollowStatusType.APPROVED
+        command.targetUserId(), command.userId(), FollowStatus.APPROVED
     );
     log.info("팔로워 삭제 : {} -> {}", command.targetUserId(), command.userId());
   }
@@ -187,14 +187,14 @@ public class FollowCommandService implements FollowCommandUseCase {
    *
    * @param followerId
    * @param followingId
-   * @param followStatusType
+   * @param followStatus
    * @throws FollowException
    */
   private void validateFollow(String followerId, String followingId,
-      FollowStatusType followStatusType) {
+      FollowStatus followStatus) {
     /*팔로우 요청 조회*/
     boolean exists = followQueryPort.existsByFollowerIdAndFollowingIdAndStatusType(followerId,
-        followingId, followStatusType);
+        followingId, followStatus);
 
     /*팔로우 요청이 존재하지 않는 경우*/
     if (!exists) {

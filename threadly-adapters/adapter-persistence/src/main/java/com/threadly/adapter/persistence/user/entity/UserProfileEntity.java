@@ -28,7 +28,7 @@ public class UserProfileEntity extends BaseEntity {
   private String userId;
 
   /*닉네임*/
-  @Column(name = "nickname")
+  @Column(name = "nickname", unique = true)
   private String nickname;
 
   /*상태 메세지 */

@@ -5,25 +5,19 @@ import com.threadly.commons.exception.user.UserException;
 import com.threadly.commons.properties.TtlProperties;
 import com.threadly.commons.utils.JwtTokenUtils;
 import com.threadly.core.domain.mail.MailType;
+import com.threadly.core.domain.user.CannotInactiveException;
 import com.threadly.core.domain.user.User;
-import com.threadly.core.port.token.DeleteTokenPort;
-import com.threadly.core.port.token.InsertBlackListToken;
-import com.threadly.core.port.token.InsertTokenPort;
-import com.threadly.core.port.user.FetchUserPort;
-import com.threadly.core.port.user.SaveUserPort;
-import com.threadly.core.port.user.UpdateUserPort;
-import com.threadly.core.port.user.response.UserPortResponse;
-import com.threadly.core.usecase.mail.SendMailCommand;
-import com.threadly.core.usecase.user.account.command.ChangePasswordUseCase;
-import com.threadly.core.usecase.user.account.command.DeactivateMyAccountUseCase;
-import com.threadly.core.usecase.user.account.command.RegisterUserUseCase;
-import com.threadly.core.usecase.user.account.command.UpdateUserUseCase;
-import com.threadly.core.usecase.user.account.command.WithdrawMyAccountUseCase;
-import com.threadly.core.usecase.user.account.command.dto.ChangePasswordCommand;
-import com.threadly.core.usecase.user.account.command.dto.RegisterUserApiResponse;
-import com.threadly.core.usecase.user.account.command.dto.RegisterUserCommand;
-import com.threadly.core.usecase.user.profile.command.UpdateMyPrivacySettingUseCase;
-import com.threadly.core.usecase.user.profile.command.dto.UpdateMyPrivacySettingCommand;
+import com.threadly.core.port.mail.in.SendMailCommand;
+import com.threadly.core.port.token.out.TokenCommandPort;
+import com.threadly.core.port.token.out.command.InsertBlackListTokenCommand;
+import com.threadly.core.port.user.in.account.command.UserAccountCommandUseCase;
+import com.threadly.core.port.user.in.account.command.dto.ChangePasswordCommand;
+import com.threadly.core.port.user.in.account.command.dto.RegisterUserApiResponse;
+import com.threadly.core.port.user.in.account.command.dto.RegisterUserCommand;
+import com.threadly.core.port.user.in.account.command.dto.UpdateMyPrivacySettingCommand;
+import com.threadly.core.port.user.out.UserQueryPort;
+import com.threadly.core.port.user.out.UserCommandPort;
+import com.threadly.core.port.user.out.UserResult;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,16 +28,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class UserCommandService implements RegisterUserUseCase, UpdateUserUseCase,
-    WithdrawMyAccountUseCase, DeactivateMyAccountUseCase, ChangePasswordUseCase,
-    UpdateMyPrivacySettingUseCase {
+public class UserCommandService implements
+    UserAccountCommandUseCase {
 
-  private final SaveUserPort saveUserPort;
-  private final FetchUserPort fetchUserPort;
-  private final UpdateUserPort updateUserPort;
+  private final UserQueryPort userQueryPort;
+  private final UserCommandPort userCommandPort;
 
-  private final InsertTokenPort insertTokenPort;
-  private final DeleteTokenPort deleteTokenPort;
+  private final TokenCommandPort tokenCommandPort;
 
   private final ApplicationEventPublisher applicationEventPublisher;
 
@@ -54,7 +45,7 @@ public class UserCommandService implements RegisterUserUseCase, UpdateUserUseCas
   public RegisterUserApiResponse register(RegisterUserCommand command) {
 
     /*email로 사용자 조회*/
-    Optional<User> byEmail = fetchUserPort.findByEmail(command.getEmail());
+    Optional<User> byEmail = userQueryPort.findByEmail(command.getEmail());
 
     /*이미 존재하는 사용자면*/
     if (byEmail.isPresent()) {
@@ -69,7 +60,7 @@ public class UserCommandService implements RegisterUserUseCase, UpdateUserUseCas
         command.getPhone()
     );
 
-    UserPortResponse userPortResponse = saveUserPort.save(user);
+    UserResult userResult = userCommandPort.save(user);
 
     log.info("회원 가입 성공");
 
@@ -84,12 +75,12 @@ public class UserCommandService implements RegisterUserUseCase, UpdateUserUseCas
     );
 
     return RegisterUserApiResponse.builder()
-        .userId(userPortResponse.getUserId())
-        .userName(userPortResponse.getUserName())
-        .userType(userPortResponse.getUserType())
-        .email(userPortResponse.getEmail())
-        .userStatusType(userPortResponse.getUserStatusType())
-        .isEmailVerified(userPortResponse.isEmailVerified())
+        .userId(userResult.getUserId())
+        .userName(userResult.getUserName())
+        .userRoleType(userResult.getUserRoleType())
+        .email(userResult.getEmail())
+        .userStatus(userResult.getUserStatus())
+        .isEmailVerified(userResult.isEmailVerified())
         .build();
   }
 
@@ -97,13 +88,13 @@ public class UserCommandService implements RegisterUserUseCase, UpdateUserUseCas
   @Override
   public void withdrawMyAccount(String userId, String bearerToken) {
     /*user 조회*/
-    User user = fetchUserPort.findByUserId(userId)
+    User user = userQueryPort.findByUserId(userId)
         .orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
 
     /* userStatusType 변경*/
     user.markAsDeleted();
 
-    updateUserPort.updateUserStatus(userId, user.getUserStatusType());
+    userCommandPort.updateUserStatus(userId, user.getUserStatus());
 
     /*토큰 무효화 처리*/
     addBlackListTokenAndDeleteRefreshToken(userId, bearerToken);
@@ -115,12 +106,17 @@ public class UserCommandService implements RegisterUserUseCase, UpdateUserUseCas
   @Override
   public void deactivateMyAccount(String userId, String bearerToken) {
     /*user 조회*/
-    User user = fetchUserPort.findByUserId(userId)
+    User user = userQueryPort.findByUserId(userId)
         .orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
 
     /*비활성화 처리*/
-    user.markAsInactive();
-    updateUserPort.updateUserStatus(userId, user.getUserStatusType());
+    try {
+      user.markAsInactive();
+    } catch (CannotInactiveException e) {
+      throw new UserException(ErrorCode.USER_ALREADY_DELETED);
+    }
+
+    userCommandPort.updateUserStatus(userId, user.getUserStatus());
 
     /*토큰 무효화 처리*/
     addBlackListTokenAndDeleteRefreshToken(userId, bearerToken);
@@ -132,7 +128,7 @@ public class UserCommandService implements RegisterUserUseCase, UpdateUserUseCas
   @Transactional
   @Override
   public void changePassword(ChangePasswordCommand command) {
-    updateUserPort.changePassword(command.getUserId(), command.getNewPassword());
+    userCommandPort.changePassword(command.getUserId(), command.getNewPassword());
   }
 
   @Transactional
@@ -147,7 +143,7 @@ public class UserCommandService implements RegisterUserUseCase, UpdateUserUseCas
       user.markAsPublic();
     }
 
-    updateUserPort.updatePrivacy(user);
+    userCommandPort.updatePrivacy(user);
   }
 
   /**
@@ -160,13 +156,13 @@ public class UserCommandService implements RegisterUserUseCase, UpdateUserUseCas
     /*토큰 추출*/
     String accessToken = JwtTokenUtils.extractAccessToken(bearerToken);
     /*블랙리스트 토큰 등록*/
-    insertTokenPort.saveBlackListToken(InsertBlackListToken.builder()
+    tokenCommandPort.saveBlackListToken(InsertBlackListTokenCommand.builder()
         .accessToken(accessToken)
         .userId(userId)
         .duration(ttlProperties.getBlacklistToken())
         .build());
 
     /*refreshToken 삭제*/
-    deleteTokenPort.deleteRefreshToken(userId);
+    tokenCommandPort.deleteRefreshToken(userId);
   }
 }

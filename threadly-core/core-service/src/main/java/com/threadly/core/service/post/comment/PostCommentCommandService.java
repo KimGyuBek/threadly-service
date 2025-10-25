@@ -13,19 +13,17 @@ import com.threadly.core.domain.post.comment.CannotDeleteCommentException.Blocke
 import com.threadly.core.domain.post.comment.CannotDeleteCommentException.ParentPostInactiveException;
 import com.threadly.core.domain.post.comment.CannotDeleteCommentException.WriteMismatchException;
 import com.threadly.core.domain.post.comment.PostComment;
-import com.threadly.core.port.post.comment.create.CreatePostCommentPort;
-import com.threadly.core.port.post.comment.fetch.FetchPostCommentPort;
-import com.threadly.core.port.post.comment.update.UpdatePostCommentPort;
-import com.threadly.core.port.post.fetch.FetchPostPort;
-import com.threadly.core.port.post.like.comment.DeletePostCommentLikePort;
-import com.threadly.core.port.user.profile.fetch.FetchUserProfilePort;
-import com.threadly.core.port.user.profile.fetch.UserPreviewProjection;
+import com.threadly.core.port.post.in.comment.command.PostCommentCommandUseCase;
+import com.threadly.core.port.post.in.comment.command.dto.CreatePostCommentApiResponse;
+import com.threadly.core.port.post.in.comment.command.dto.CreatePostCommentCommand;
+import com.threadly.core.port.post.in.comment.command.dto.DeletePostCommentCommand;
+import com.threadly.core.port.post.out.PostQueryPort;
+import com.threadly.core.port.post.out.comment.PostCommentQueryPort;
+import com.threadly.core.port.post.out.comment.PostCommentCommandPort;
+import com.threadly.core.port.post.out.like.comment.PostCommentLikerCommandPort;
+import com.threadly.core.port.user.out.profile.projection.UserPreviewProjection;
+import com.threadly.core.port.user.out.profile.UserProfileQueryPort;
 import com.threadly.core.service.notification.dto.NotificationPublishCommand;
-import com.threadly.core.usecase.post.comment.create.CreatePostCommentApiResponse;
-import com.threadly.core.usecase.post.comment.create.CreatePostCommentCommand;
-import com.threadly.core.usecase.post.comment.create.CreatePostCommentUseCase;
-import com.threadly.core.usecase.post.comment.delete.DeletePostCommentCommand;
-import com.threadly.core.usecase.post.comment.delete.DeletePostCommentUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -36,18 +34,16 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @RequiredArgsConstructor
-public class PostCommentCommandService implements CreatePostCommentUseCase,
-    DeletePostCommentUseCase {
+public class PostCommentCommandService implements PostCommentCommandUseCase {
 
-  private final FetchPostPort fetchPostPort;
+  private final PostQueryPort postQueryPort;
 
-  private final CreatePostCommentPort createPostCommentPort;
-  private final FetchPostCommentPort fetchPostCommentPort;
-  private final UpdatePostCommentPort updatePostCommentPort;
+  private final PostCommentQueryPort postCommentQueryPort;
+  private final PostCommentCommandPort postCommentCommandPort;
 
-  private final DeletePostCommentLikePort deletePostCommentLikePort;
+  private final PostCommentLikerCommandPort postCommentLikerCommandPort;
 
-  private final FetchUserProfilePort fetchUserProfilePort;
+  private final UserProfileQueryPort userProfileQueryPort;
 
   private final ApplicationEventPublisher applicationEventPublisher;
 
@@ -56,7 +52,7 @@ public class PostCommentCommandService implements CreatePostCommentUseCase,
   @Override
   public CreatePostCommentApiResponse createPostComment(CreatePostCommentCommand command) {
     /* 게시글 조회*/
-    Post post = fetchPostPort.fetchById(command.getPostId()).orElseThrow(() -> new PostException(
+    Post post = postQueryPort.fetchById(command.getPostId()).orElseThrow(() -> new PostException(
         ErrorCode.POST_NOT_FOUND));
 
     /*게시글 상태 검증*/
@@ -72,10 +68,10 @@ public class PostCommentCommandService implements CreatePostCommentUseCase,
     PostComment newComment = post.addComment(command.getCommenterId(), command.getContent());
 
     /*댓글 저장*/
-    createPostCommentPort.savePostComment(newComment);
+    postCommentCommandPort.savePostComment(newComment);
 
     /*comment preview 조회*/
-    UserPreviewProjection userCommentPreview = fetchUserProfilePort.findUserPreviewByUserId(
+    UserPreviewProjection userCommentPreview = userProfileQueryPort.findUserPreviewByUserId(
         newComment.getUserId());
 
     /*Notification 발행*/
@@ -106,12 +102,12 @@ public class PostCommentCommandService implements CreatePostCommentUseCase,
   @Override
   public void softDeletePostComment(DeletePostCommentCommand command) {
     /*댓글 조회*/
-    PostComment postComment = fetchPostCommentPort.fetchById(command.getCommentId())
+    PostComment postComment = postCommentQueryPort.fetchById(command.getCommentId())
         .orElseThrow((() -> new PostCommentException(
             ErrorCode.POST_COMMENT_NOT_FOUND)));
 
     /*게시글 상태 조회*/
-    PostStatus postStatus = fetchPostPort.fetchPostStatusByPostId(
+    PostStatus postStatus = postQueryPort.fetchPostStatusByPostId(
         command.getPostId()).orElseThrow(() -> new PostException(ErrorCode.POST_NOT_FOUND));
 
     /*게시글 댓글 삭제 가능한지 검증*/
@@ -130,7 +126,7 @@ public class PostCommentCommandService implements CreatePostCommentUseCase,
 
     /*댓글 삭제 상태로 변경*/
     postComment.markAsDeleted();
-    updatePostCommentPort.updatePostCommentStatus(postComment.getCommentId(),
+    postCommentCommandPort.updatePostCommentStatus(postComment.getCommentId(),
         postComment.getStatus());
 
   }
@@ -139,9 +135,9 @@ public class PostCommentCommandService implements CreatePostCommentUseCase,
   @Override
   public void deleteAllCommentsAndLikesByPostId(String postId) {
     /*댓글 삭제 상태로 변경*/
-    updatePostCommentPort.updateAllCommentStatusByPostId(postId, PostCommentStatus.DELETED);
+    postCommentCommandPort.updateAllCommentStatusByPostId(postId, PostCommentStatus.DELETED);
 
     /*좋아요 목록 전체 삭제*/
-    deletePostCommentLikePort.deleteAllByPostId(postId);
+    postCommentLikerCommandPort.deleteAllByPostId(postId);
   }
 }

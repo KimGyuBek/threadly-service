@@ -3,20 +3,19 @@ package com.threadly.adapter.persistence.user.adapter;
 import com.threadly.adapter.persistence.user.entity.UserEntity;
 import com.threadly.adapter.persistence.user.mapper.UserMapper;
 import com.threadly.adapter.persistence.user.repository.UserJpaRepository;
-import com.threadly.core.port.user.FetchUserPort;
-import com.threadly.core.port.user.SaveUserPort;
-import com.threadly.core.port.user.UpdateUserPort;
 import com.threadly.core.domain.user.User;
-import com.threadly.core.domain.user.UserStatusType;
-import com.threadly.core.port.user.response.UserPortResponse;
+import com.threadly.core.domain.user.UserStatus;
+import com.threadly.core.port.user.out.UserCommandPort;
+import com.threadly.core.port.user.out.UserQueryPort;
+import com.threadly.core.port.user.out.UserResult;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-public class UserPersistenceAdapter implements FetchUserPort, SaveUserPort,
-    UpdateUserPort {
+public class UserPersistenceAdapter implements UserQueryPort,
+    UserCommandPort {
 
   private final UserJpaRepository userJpaRepository;
 
@@ -36,19 +35,19 @@ public class UserPersistenceAdapter implements FetchUserPort, SaveUserPort,
   }
 
   @Override
-  public UserPortResponse save(User user) {
+  public UserResult save(User user) {
     UserEntity userEntity = UserMapper.toEntity(user);
     userJpaRepository.save(userEntity);
 
     return
-        UserPortResponse.builder()
+        UserResult.builder()
             .userId(userEntity.getUserId())
             .userName(userEntity.getUserName())
             .password(userEntity.getPassword())
             .email(userEntity.getEmail())
             .phone(userEntity.getPhone())
-            .userType(userEntity.getUserType())
-            .userStatusType(userEntity.getUserStatusType())
+            .userRoleType(userEntity.getUserRoleType())
+            .userStatus(userEntity.getUserStatus())
             .isEmailVerified(userEntity.isEmailVerified())
             .build();
   }
@@ -66,7 +65,7 @@ public class UserPersistenceAdapter implements FetchUserPort, SaveUserPort,
   }
 
   @Override
-  public void updateUserStatus(String userId, UserStatusType status) {
+  public void updateUserStatus(String userId, UserStatus status) {
     userJpaRepository.updateStatus(userId, status);
   }
 
@@ -91,7 +90,7 @@ public class UserPersistenceAdapter implements FetchUserPort, SaveUserPort,
   }
 
   @Override
-  public Optional<UserStatusType> getUserStatus(String userId) {
+  public Optional<UserStatus> getUserStatus(String userId) {
     return userJpaRepository.getUserStatusType(userId);
   }
 }

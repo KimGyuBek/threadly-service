@@ -6,7 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.threadly.CommonResponse;
 import com.threadly.commons.exception.ErrorCode;
-import com.threadly.core.usecase.post.image.UploadPostImagesApiResponse;
+import com.threadly.core.port.post.in.image.UploadPostImagesApiResponse;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;

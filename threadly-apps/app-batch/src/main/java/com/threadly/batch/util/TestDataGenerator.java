@@ -1,7 +1,7 @@
 package com.threadly.batch.util;
 
 import com.threadly.core.domain.post.PostStatus;
-import com.threadly.core.domain.user.UserStatusType;
+import com.threadly.core.domain.user.UserStatus;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.PreparedStatement;
@@ -54,10 +54,10 @@ public class TestDataGenerator {
                 String phone = "010-" + String.format("%04d", random.nextInt(10000)) + "-" + String.format("%04d", random.nextInt(10000));
                 
                 // DELETED 상태 비율 적용
-                UserStatusType status = (random.nextDouble() < deletedRatio) ? UserStatusType.DELETED : UserStatusType.ACTIVE;
+                UserStatus status = (random.nextDouble() < deletedRatio) ? UserStatus.DELETED : UserStatus.ACTIVE;
                 
                 // 삭제 대상은 과거 시간, 비대상은 최근 시간
-                LocalDateTime modifiedAt = generateModifiedAt(status == UserStatusType.DELETED);
+                LocalDateTime modifiedAt = generateModifiedAt(status == UserStatus.DELETED);
                 
                 writer.write(String.format("%s,%s,password123,%s,%s,USER,%s,true,false,%s,%s\n",
                     userId, userName, email, phone, status.name(),
@@ -348,8 +348,8 @@ public class TestDataGenerator {
         String email = "perfuser" + index + "@test.com";
         String phone = "010-" + String.format("%04d", random.nextInt(10000)) + "-" + String.format("%04d", random.nextInt(10000));
         
-        UserStatusType status = (random.nextDouble() < deletedRatio) ? UserStatusType.DELETED : UserStatusType.ACTIVE;
-        LocalDateTime modifiedAt = generateModifiedAt(status == UserStatusType.DELETED);
+        UserStatus status = (random.nextDouble() < deletedRatio) ? UserStatus.DELETED : UserStatus.ACTIVE;
+        LocalDateTime modifiedAt = generateModifiedAt(status == UserStatus.DELETED);
         
         return new UserTestData(userId, userName, "password123", email, phone, 
                                "USER", status.name(), true, false, LocalDateTime.now(), modifiedAt);

@@ -6,8 +6,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.threadly.CommonResponse;
 import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.response.CursorPageApiResponse;
-import com.threadly.core.usecase.follow.query.dto.FollowerResponse;
-import com.threadly.core.domain.user.UserStatusType;
+import com.threadly.core.domain.user.UserStatus;
+import com.threadly.core.port.follow.in.query.dto.FollowerResponse;
 import com.threadly.utils.TestConstants;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.ClassOrderer;
@@ -114,7 +114,7 @@ public class GetFollowersApiTest extends BaseFollowApiTest {
     public void getFollowers_shouldSuccess_03() throws Exception {
       //given
       userFixtureLoader.load("/users/profile/user.json");
-      userFixtureLoader.load("/users/profile/user2.json", UserStatusType.ACTIVE, true);
+      userFixtureLoader.load("/users/profile/user2.json", UserStatus.ACTIVE, true);
 
       /*로그인*/
       String accessToken = getAccessToken(USER_EMAIL);
@@ -244,7 +244,7 @@ public class GetFollowersApiTest extends BaseFollowApiTest {
     public void getFollowers_shouldSuccess_07() throws Exception {
       //given
       /*데이터 로드*/
-      userFixtureLoader.load("/users/follow/followers/user.json", UserStatusType.INACTIVE);
+      userFixtureLoader.load("/users/follow/followers/user.json", UserStatus.INACTIVE);
       userFollowFixtureLoader.load(
           "/users/follow/followers/target-user.json",
           "/users/follow/followers/follow.json"
@@ -269,7 +269,7 @@ public class GetFollowersApiTest extends BaseFollowApiTest {
     public void getFollowers_shouldSuccess_08() throws Exception {
       //given
       /*데이터 로드*/
-      userFixtureLoader.load("/users/follow/followers/user.json", UserStatusType.DELETED);
+      userFixtureLoader.load("/users/follow/followers/user.json", UserStatus.DELETED);
       userFollowFixtureLoader.load(
           "/users/follow/followers/target-user.json",
           "/users/follow/followers/follow.json"
@@ -334,7 +334,7 @@ public class GetFollowersApiTest extends BaseFollowApiTest {
     public void getFollowers_shouldSuccess_10() throws Exception {
       //given
       /*데이터 로드*/
-      userFixtureLoader.load("/users/follow/followers/target-user.json", UserStatusType.ACTIVE,
+      userFixtureLoader.load("/users/follow/followers/target-user.json", UserStatus.ACTIVE,
           true);
       userFollowFixtureLoader.load("/users/follow/followers/user.json",
           "/users/follow/followers/follow.json");
@@ -384,7 +384,7 @@ public class GetFollowersApiTest extends BaseFollowApiTest {
       //given
       /*데이터 로드*/
       userFixtureLoader.load("/users/follow/followers/user.json");
-      userFixtureLoader.load("/users/follow/followers/target-user.json", UserStatusType.ACTIVE,
+      userFixtureLoader.load("/users/follow/followers/target-user.json", UserStatus.ACTIVE,
           true);
       userFollowFixtureLoader.load("/users/follow/followers/users.json",
           "/users/follow/followers/user-follows.json");

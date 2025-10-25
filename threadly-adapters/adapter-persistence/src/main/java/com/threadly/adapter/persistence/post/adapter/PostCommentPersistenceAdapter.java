@@ -2,13 +2,12 @@ package com.threadly.adapter.persistence.post.adapter;
 
 import com.threadly.adapter.persistence.post.entity.PostCommentEntity;
 import com.threadly.adapter.persistence.post.mapper.PostCommentMapper;
+import com.threadly.adapter.persistence.post.repository.PostCommentJpaRepository;
 import com.threadly.core.domain.post.PostCommentStatus;
 import com.threadly.core.domain.post.comment.PostComment;
-import com.threadly.core.port.post.comment.create.CreatePostCommentPort;
-import com.threadly.core.port.post.comment.fetch.FetchPostCommentPort;
-import com.threadly.core.port.post.comment.fetch.PostCommentDetailForUserProjection;
-import com.threadly.core.port.post.comment.update.UpdatePostCommentPort;
-import com.threadly.adapter.persistence.post.repository.PostCommentJpaRepository;
+import com.threadly.core.port.post.out.comment.PostCommentQueryPort;
+import com.threadly.core.port.post.out.comment.PostCommentDetailForUserProjection;
+import com.threadly.core.port.post.out.comment.PostCommentCommandPort;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -20,8 +19,8 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @RequiredArgsConstructor
-public class PostCommentPersistenceAdapter implements CreatePostCommentPort, FetchPostCommentPort,
-    UpdatePostCommentPort {
+public class PostCommentPersistenceAdapter implements PostCommentQueryPort,
+    PostCommentCommandPort {
 
   private final PostCommentJpaRepository postCommentJpaRepository;
 

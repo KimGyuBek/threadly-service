@@ -4,9 +4,9 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.threadly.core.port.post.update.UpdatePostPort;
-import com.threadly.core.port.post.view.RecordPostViewPort;
 import com.threadly.commons.properties.TtlProperties;
+import com.threadly.core.port.post.out.PostCommandPort;
+import com.threadly.core.port.post.out.view.RecordPostViewPort;
 import com.threadly.core.service.post.PostCommandService;
 import org.junit.jupiter.api.ClassOrderer;
 import org.junit.jupiter.api.DisplayName;
@@ -35,7 +35,7 @@ class PostCommandServiceTest {
   private RecordPostViewPort recordPostViewPort;
 
   @Mock
-  private UpdatePostPort updatePostPort;
+  private PostCommandPort postCommandPort;
 
   @Mock
   private TtlProperties ttlProperties;
@@ -67,8 +67,9 @@ class PostCommandServiceTest {
         postCommandService.increaseViewCount(postId, userId);
 
         //then
-        verify(updatePostPort).increaseViewCount(postId);
-        verify(recordPostViewPort).recordPostView(postId, userId, ttlProperties.getPostViewSeconds());
+        verify(postCommandPort).increaseViewCount(postId);
+        verify(recordPostViewPort).recordPostView(postId, userId,
+            ttlProperties.getPostViewSeconds());
       }
 
       @Order(2)
@@ -86,8 +87,9 @@ class PostCommandServiceTest {
         postCommandService.increaseViewCount(postId, userId);
 
         //then
-        verify(updatePostPort, never()).increaseViewCount(postId);
-        verify(recordPostViewPort).recordPostView(postId, userId, ttlProperties.getPostViewSeconds());
+        verify(postCommandPort, never()).increaseViewCount(postId);
+        verify(recordPostViewPort).recordPostView(postId, userId,
+            ttlProperties.getPostViewSeconds());
       }
     }
   }

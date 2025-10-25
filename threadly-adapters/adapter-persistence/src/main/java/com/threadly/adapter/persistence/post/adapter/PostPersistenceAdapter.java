@@ -3,11 +3,10 @@ package com.threadly.adapter.persistence.post.adapter;
 import com.threadly.adapter.persistence.post.entity.PostEntity;
 import com.threadly.adapter.persistence.post.mapper.PostMapper;
 import com.threadly.core.domain.post.PostStatus;
-import com.threadly.core.port.post.fetch.FetchPostPort;
-import com.threadly.core.port.post.fetch.PostDetailProjection;
-import com.threadly.core.port.post.fetch.PostEngagementProjection;
-import com.threadly.core.port.post.save.SavePostPort;
-import com.threadly.core.port.post.update.UpdatePostPort;
+import com.threadly.core.port.post.out.PostQueryPort;
+import com.threadly.core.port.post.out.projection.PostDetailProjection;
+import com.threadly.core.port.post.out.projection.PostEngagementProjection;
+import com.threadly.core.port.post.out.PostCommandPort;
 import com.threadly.core.domain.post.Post;
 import com.threadly.adapter.persistence.post.repository.PostJpaRepository;
 import java.time.LocalDateTime;
@@ -21,10 +20,9 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @RequiredArgsConstructor
-public class PostPersistenceAdapter implements SavePostPort, FetchPostPort, UpdatePostPort {
+public class PostPersistenceAdapter implements PostCommandPort, PostQueryPort  {
 
   private final PostJpaRepository postJpaRepository;
-
 
   @Override
   public Post savePost(Post post) {

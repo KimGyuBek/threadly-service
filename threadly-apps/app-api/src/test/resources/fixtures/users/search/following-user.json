@@ -1,0 +1,18 @@
+[
+  {
+    "userId": "following_usr",
+    "userName": "following_user",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "following@threadly.com",
+    "phone": "010-2000-0001",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "팔로잉유저",
+      "statusMessage": "팔로잉 중",
+      "bio": "팔로우 관계 테스트",
+      "gender": "MALE",
+      "profileType": "USER"
+    }
+  }
+]

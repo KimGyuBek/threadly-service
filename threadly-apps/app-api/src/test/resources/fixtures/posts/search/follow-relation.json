@@ -1,0 +1,8 @@
+[
+  {
+    "followId": "follow_test_01",
+    "followerId": "usr1",
+    "followingId": "private_usr",
+    "status": "APPROVED"
+  }
+]

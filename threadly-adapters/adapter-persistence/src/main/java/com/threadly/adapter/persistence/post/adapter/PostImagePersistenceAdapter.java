@@ -4,10 +4,9 @@ import com.threadly.adapter.persistence.post.entity.PostEntity;
 import com.threadly.adapter.persistence.post.mapper.PostImageMapper;
 import com.threadly.core.domain.post.PostImage;
 import com.threadly.core.domain.image.ImageStatus;
-import com.threadly.core.port.post.image.fetch.FetchPostImagePort;
-import com.threadly.core.port.post.image.fetch.PostImageProjection;
-import com.threadly.core.port.post.image.save.SavePostImagePort;
-import com.threadly.core.port.post.image.update.UpdatePostImagePort;
+import com.threadly.core.port.post.out.image.PostImageQueryPort;
+import com.threadly.core.port.post.out.image.projection.PostImageProjection;
+import com.threadly.core.port.post.out.image.PostImageCommandPort;
 import com.threadly.adapter.persistence.post.repository.PostImageJpaRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +17,8 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @RequiredArgsConstructor
-public class PostImagePersistenceAdapter implements SavePostImagePort, FetchPostImagePort,
-    UpdatePostImagePort {
+public class PostImagePersistenceAdapter implements PostImageQueryPort,
+    PostImageCommandPort {
 
   private final PostImageJpaRepository postImageJpaRepository;
 
@@ -30,13 +29,8 @@ public class PostImagePersistenceAdapter implements SavePostImagePort, FetchPost
     );
   }
 
-  @Override
-  public List<PostImageProjection> fetchPostImageByPostId(String postId) {
-    return postImageJpaRepository.getPostImageListByPostId(postId);
-  }
-
   public List<PostImageProjection> findAllByPostIdAndStatus(String postId, ImageStatus status) {
-    return postImageJpaRepository.getPostImageListByPostIdAndStatus(postId, status);
+    return postImageJpaRepository.findPostImageListByPostIdAndStatus(postId, status);
   }
 
 
@@ -59,5 +53,10 @@ public class PostImagePersistenceAdapter implements SavePostImagePort, FetchPost
   public void finalizeImage(String imageId, String postId, int order) {
     postImageJpaRepository.finalizePostImage(imageId, PostEntity.fromId(postId), order,
         ImageStatus.CONFIRMED);
+  }
+
+  @Override
+  public List<PostImageProjection> findVisibleByPostIds(List<String> postIds) {
+    return postImageJpaRepository.findAllVisibleByPostIds(postIds);
   }
 }

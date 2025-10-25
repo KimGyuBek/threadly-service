@@ -1,16 +1,15 @@
 package com.threadly.post.controller;
 
 import com.threadly.auth.JwtAuthenticationUser;
-import com.threadly.core.usecase.post.engagement.GetPostEngagementApiResponse;
-import com.threadly.core.usecase.post.engagement.GetPostEngagementQuery;
-import com.threadly.core.usecase.post.engagement.GetPostEngagementUseCase;
-import com.threadly.core.usecase.post.like.post.GetPostLikersQuery;
-import com.threadly.core.usecase.post.like.post.GetPostLikersUseCase;
-import com.threadly.core.usecase.post.like.post.LikePostApiResponse;
-import com.threadly.core.usecase.post.like.post.LikePostCommand;
-import com.threadly.core.usecase.post.like.post.LikePostUseCase;
-import com.threadly.core.usecase.post.like.post.UnlikePostUseCase;
 import com.threadly.commons.response.CursorPageApiResponse;
+import com.threadly.core.port.post.in.like.post.command.PostLikeCommandUseCase;
+import com.threadly.core.port.post.in.like.post.command.dto.LikePostApiResponse;
+import com.threadly.core.port.post.in.like.post.command.dto.LikePostCommand;
+import com.threadly.core.port.post.in.like.post.query.PostLikeQueryUseCase;
+import com.threadly.core.port.post.in.like.post.query.dto.GetPostLikersQuery;
+import com.threadly.core.port.post.in.query.PostQueryUseCase;
+import com.threadly.core.port.post.in.query.dto.GetPostEngagementApiResponse;
+import com.threadly.core.port.post.in.query.dto.GetPostEngagementQuery;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -32,10 +31,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class PostLikeController {
 
-  private final LikePostUseCase likePostUseCase;
-  private final UnlikePostUseCase unlikePostUseCase;
-  private final GetPostEngagementUseCase getPostEngagementUsecase;
-  private final GetPostLikersUseCase getPostLikersUseCase;
+  private final PostLikeCommandUseCase postLikeCommandUseCase;
+  private final PostLikeQueryUseCase postLikeQueryUseCase;
+  private final PostQueryUseCase postQueryUseCase;
 
   /*
    * 게시글 좋아요 - POST /api/posts/{postId}/likes
@@ -55,7 +53,7 @@ public class PostLikeController {
       @AuthenticationPrincipal JwtAuthenticationUser user,
       @PathVariable("postId") String postId) {
 
-    return ResponseEntity.status(200).body(getPostEngagementUsecase.getPostEngagement(
+    return ResponseEntity.status(200).body(postQueryUseCase.getPostEngagement(
         new GetPostEngagementQuery(
             postId, user.getUserId()
         )
@@ -76,7 +74,7 @@ public class PostLikeController {
       @PathVariable("postId") String postId
   ) {
 
-    return ResponseEntity.status(200).body(getPostLikersUseCase.getPostLikers(
+    return ResponseEntity.status(200).body(postLikeQueryUseCase.getPostLikers(
         new GetPostLikersQuery(
             postId, cursorTimestamp, cursorId, limit
         )
@@ -96,7 +94,7 @@ public class PostLikeController {
       @PathVariable("postId") String postId) {
 
     return ResponseEntity.status(200).body(
-        likePostUseCase.likePost(
+        postLikeCommandUseCase.likePost(
             new LikePostCommand(
                 postId,
                 user.getUserId()
@@ -116,7 +114,7 @@ public class PostLikeController {
       @AuthenticationPrincipal JwtAuthenticationUser user,
       @PathVariable("postId") String postId) {
 
-    return ResponseEntity.status(204).body(unlikePostUseCase.cancelLikePost(
+    return ResponseEntity.status(204).body(postLikeCommandUseCase.cancelLikePost(
         new LikePostCommand(
             postId,
             user.getUserId()

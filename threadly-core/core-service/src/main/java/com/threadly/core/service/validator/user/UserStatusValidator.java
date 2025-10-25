@@ -2,8 +2,8 @@ package com.threadly.core.service.validator.user;
 
 import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.exception.user.UserException;
-import com.threadly.core.port.user.FetchUserPort;
-import com.threadly.core.domain.user.UserStatusType;
+import com.threadly.core.domain.user.UserStatus;
+import com.threadly.core.port.user.out.UserQueryPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -14,17 +14,17 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class UserStatusValidator {
 
-  private final FetchUserPort fetchUserPort;
+  private final UserQueryPort userQueryPort;
 
   /**
    * 주어진 userId에 해당하는 사용자의 상태 검증
    * @param userId
    */
   public void validateUserStatusWithException(String userId) {
-    UserStatusType userStatusType = fetchUserPort.getUserStatus(userId)
+    UserStatus userStatus = userQueryPort.getUserStatus(userId)
         .orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
 
-    switch (userStatusType) {
+    switch (userStatus) {
       case ACTIVE:
         break;
       case DELETED:

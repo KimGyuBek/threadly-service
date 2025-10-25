@@ -1,23 +1,21 @@
 package com.threadly.post.controller;
 
 import com.threadly.auth.JwtAuthenticationUser;
-import com.threadly.core.usecase.post.create.CreatePostApiResponse;
-import com.threadly.core.usecase.post.create.CreatePostCommand;
-import com.threadly.core.usecase.post.create.CreatePostCommand.ImageCommand;
-import com.threadly.core.usecase.post.create.CreatePostUseCase;
-import com.threadly.core.usecase.post.delete.DeletePostCommand;
-import com.threadly.core.usecase.post.delete.DeletePostUseCase;
-import com.threadly.core.usecase.post.get.GetPostListQuery;
-import com.threadly.core.usecase.post.get.GetPostQuery;
-import com.threadly.core.usecase.post.get.GetPostUseCase;
-import com.threadly.core.usecase.post.get.PostDetails;
+import com.threadly.commons.response.CursorPageApiResponse;
+import com.threadly.core.port.post.in.command.PostCommandUseCase;
+import com.threadly.core.port.post.in.command.dto.CreatePostCommand;
+import com.threadly.core.port.post.in.command.dto.CreatePostCommand.ImageCommand;
+import com.threadly.core.port.post.in.command.dto.DeletePostCommand;
+import com.threadly.core.port.post.in.command.dto.UpdatePostCommand;
+import com.threadly.core.port.post.in.command.dto.CreatePostApiResponse;
+import com.threadly.core.port.post.in.query.dto.GetPostListQuery;
+import com.threadly.core.port.post.in.query.dto.GetPostQuery;
+import com.threadly.core.port.post.in.query.dto.PostDetails;
+import com.threadly.core.port.post.in.query.PostQueryUseCase;
+import com.threadly.core.port.post.in.command.dto.UpdatePostApiResponse;
+import com.threadly.core.port.post.in.view.IncreaseViewCountUseCase;
 import com.threadly.post.request.CreatePostRequest;
 import com.threadly.post.request.UpdatePostRequest;
-import com.threadly.core.usecase.post.update.UpdatePostApiResponse;
-import com.threadly.core.usecase.post.update.UpdatePostCommand;
-import com.threadly.core.usecase.post.update.UpdatePostUseCase;
-import com.threadly.core.usecase.post.update.view.IncreaseViewCountUseCase;
-import com.threadly.commons.response.CursorPageApiResponse;
 import jakarta.validation.Valid;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
@@ -42,10 +40,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class PostController {
 
-  private final CreatePostUseCase createPostUseCase;
-  private final UpdatePostUseCase updatePostUseCase;
-  private final GetPostUseCase getPostUseCase;
-  private final DeletePostUseCase deletePostUseCase;
+  private final PostCommandUseCase postCommandUseCase;
+  private final PostQueryUseCase postQueryUseCase;
 
   private final IncreaseViewCountUseCase increaseViewCountUseCase;
 
@@ -69,7 +65,7 @@ public class PostController {
       @PathVariable String postId) {
 
     /*게시글 조회*/
-    PostDetails body = getPostUseCase.getPost(
+    PostDetails body = postQueryUseCase.getPost(
         new GetPostQuery(
             postId, user.getUserId()
         )
@@ -97,7 +93,7 @@ public class PostController {
       @RequestParam(value = "limit", defaultValue = "10") int limit
   ) {
     return ResponseEntity.status(200).body(
-        getPostUseCase.getUserVisiblePostListByCursor(
+        postQueryUseCase.getUserVisiblePostListByCursor(
             new GetPostListQuery(
                 user.getUserId(), cursorTimestamp, cursorId, limit
             )
@@ -117,7 +113,7 @@ public class PostController {
       @Valid @RequestBody CreatePostRequest request) {
 
     return ResponseEntity.status(201).body(
-        createPostUseCase.createPost(
+        postCommandUseCase.createPost(
             new CreatePostCommand(
                 user.getUserId(),
                 request.content(),
@@ -144,7 +140,7 @@ public class PostController {
       @PathVariable("postId") String postId) {
 
     return ResponseEntity.status(200).body(
-        updatePostUseCase.updatePost(
+        postCommandUseCase.updatePost(
             new UpdatePostCommand(postId, user.getUserId(), request.content())
         )
     );
@@ -161,7 +157,7 @@ public class PostController {
       @AuthenticationPrincipal JwtAuthenticationUser user,
       @PathVariable("postId") String postId) {
 
-    deletePostUseCase.softDeletePost(
+    postCommandUseCase.softDeletePost(
         new DeletePostCommand(postId, user.getUserId())
     );
 

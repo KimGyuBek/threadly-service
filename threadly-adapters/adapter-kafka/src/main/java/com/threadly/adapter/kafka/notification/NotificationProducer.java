@@ -1,9 +1,8 @@
 package com.threadly.adapter.kafka.notification;
 
 import com.threadly.adapter.kafka.config.KafkaErrorHandler;
-import com.threadly.adapter.kafka.notification.dto.NotificationEvent;
 import com.threadly.core.domain.notification.Notification;
-import com.threadly.core.port.notification.NotificationEventPublisherPort;
+import com.threadly.core.port.notification.out.NotificationEventPublisherPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -15,12 +14,11 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class NotificationProducer implements NotificationEventPublisherPort {
+public class NotificationProducer {
 
   private final KafkaTemplate<String, Object> kafkaTemplate;
   private final KafkaErrorHandler kafkaErrorHandler;
 
-  @Override
   public void publish(Notification notification) {
     NotificationEvent event = new NotificationEvent(
         notification.getEventId(),

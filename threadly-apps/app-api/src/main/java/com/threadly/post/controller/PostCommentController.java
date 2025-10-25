@@ -1,16 +1,15 @@
 package com.threadly.post.controller;
 
 import com.threadly.auth.JwtAuthenticationUser;
-import com.threadly.core.usecase.post.comment.create.CreatePostCommentApiResponse;
-import com.threadly.core.usecase.post.comment.create.CreatePostCommentCommand;
-import com.threadly.core.usecase.post.comment.create.CreatePostCommentUseCase;
-import com.threadly.core.usecase.post.comment.delete.DeletePostCommentCommand;
-import com.threadly.core.usecase.post.comment.delete.DeletePostCommentUseCase;
-import com.threadly.core.usecase.post.comment.get.GetPostCommentApiResponse;
-import com.threadly.core.usecase.post.comment.get.GetPostCommentListQuery;
-import com.threadly.core.usecase.post.comment.get.GetPostCommentUseCase;
-import com.threadly.post.request.CreatePostCommentRequest;
 import com.threadly.commons.response.CursorPageApiResponse;
+import com.threadly.core.port.post.in.comment.command.PostCommentCommandUseCase;
+import com.threadly.core.port.post.in.comment.command.dto.CreatePostCommentApiResponse;
+import com.threadly.core.port.post.in.comment.command.dto.CreatePostCommentCommand;
+import com.threadly.core.port.post.in.comment.command.dto.DeletePostCommentCommand;
+import com.threadly.core.port.post.in.comment.query.dto.GetPostCommentApiResponse;
+import com.threadly.core.port.post.in.comment.query.dto.GetPostCommentListQuery;
+import com.threadly.core.port.post.in.comment.query.PostCommendQueryUseCase;
+import com.threadly.post.request.CreatePostCommentRequest;
 import jakarta.validation.Valid;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
@@ -34,10 +33,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class PostCommentController {
 
+  private final PostCommendQueryUseCase postCommendQueryUseCase;
 
-  private final CreatePostCommentUseCase createPostCommentUseCase;
-  private final DeletePostCommentUseCase deletePostCommentUseCase;
-  private final GetPostCommentUseCase getPostCommentUseCase;
+  private final PostCommentCommandUseCase postCommentCommandUseCase;
 
   /*
    * 게시글 댓글 생성 - POST /api/posts/{postId}/comments
@@ -59,13 +57,13 @@ public class PostCommentController {
   public ResponseEntity<CursorPageApiResponse<GetPostCommentApiResponse>> getPostComments(
       @AuthenticationPrincipal JwtAuthenticationUser user,
       @PathVariable String postId,
-      @RequestParam(value = "cursor_timestamp", required = false) LocalDateTime cursorTimestamp ,
+      @RequestParam(value = "cursor_timestamp", required = false) LocalDateTime cursorTimestamp,
       @RequestParam(value = "cursor_id", required = false) String cursorId,
       @RequestParam(value = "limit", defaultValue = "10") int limit
   ) {
 
     return ResponseEntity.status(200).body(
-        getPostCommentUseCase.getPostCommentDetailListForUser(
+        postCommendQueryUseCase.getPostCommentDetailListForUser(
             new GetPostCommentListQuery(
                 postId,
                 user.getUserId(),
@@ -91,7 +89,7 @@ public class PostCommentController {
       @PathVariable("postId") String postId, @RequestBody @Valid CreatePostCommentRequest request) {
 
     return ResponseEntity.status(201).body(
-        createPostCommentUseCase.createPostComment(
+        postCommentCommandUseCase.createPostComment(
             new CreatePostCommentCommand(
                 postId,
                 user.getUserId(),
@@ -113,7 +111,7 @@ public class PostCommentController {
       @PathVariable("postId") String postId,
       @PathVariable("commentId") String commentId) {
 
-    deletePostCommentUseCase.softDeletePostComment(
+    postCommentCommandUseCase.softDeletePostComment(
         new DeletePostCommentCommand(
             user.getUserId(),
             postId,

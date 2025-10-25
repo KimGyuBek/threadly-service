@@ -1,0 +1,9 @@
+[
+  {
+    "postId": "private_post_1",
+    "userId": "usr69",
+    "content": "비공개계정사용자게시글테스트",
+    "status": "ACTIVE",
+    "viewCount": 50
+  }
+]

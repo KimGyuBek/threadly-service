@@ -5,12 +5,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.threadly.CommonResponse;
 import com.threadly.commons.exception.ErrorCode;
-import com.threadly.core.domain.post.PostCommentStatus;
 import com.threadly.core.domain.image.ImageStatus;
+import com.threadly.core.domain.post.PostCommentStatus;
 import com.threadly.core.domain.post.PostStatus;
-import com.threadly.core.usecase.post.create.CreatePostApiResponse;
+import com.threadly.core.port.post.in.command.dto.CreatePostApiResponse;
+import com.threadly.core.port.post.in.image.UploadPostImagesApiResponse;
 import com.threadly.post.image.BasePostImageApiTest;
-import com.threadly.core.usecase.post.image.UploadPostImagesApiResponse;
 import com.threadly.testsupport.fixture.posts.PostCommentLikeFixtureLoader;
 import com.threadly.testsupport.fixture.posts.PostFixtureLoader;
 import com.threadly.testsupport.fixture.posts.PostLikeFixtureLoader;
@@ -18,6 +18,8 @@ import com.threadly.utils.TestConstants;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
+import org.awaitility.Awaitility;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.ClassOrderer;
 import org.junit.jupiter.api.DisplayName;
@@ -110,8 +112,12 @@ public class DeletePostApiTest extends BasePostImageApiTest {
 
       //then
       /*검증*/
-      validateImageResponse(createPostResponse, postId, ImageStatus.DELETED);
-      validatePostStatus(postId, PostStatus.DELETED);
+      Awaitility.await()
+          .atMost(2, TimeUnit.SECONDS)
+          .untilAsserted(() -> {
+            validateImageResponse(createPostResponse, postId, ImageStatus.DELETED);
+            validatePostStatus(postId, PostStatus.DELETED);
+          });
     }
 
     /*[Case #2] 게시글 삭제 검증 - 이미지가 없는 게시글 삭제 요청 시 DELETED 상태 검증*/
@@ -149,15 +155,19 @@ public class DeletePostApiTest extends BasePostImageApiTest {
       /*게시글 상태 검증*/
       validatePostStatus(POST_ACTIVE_ID, PostStatus.DELETED);
 
-      /*게시글 좋아요 삭제 검증*/
-      validatePostLike(POST_ACTIVE_ID, 0);
+      Awaitility.await()
+          .atMost(2, TimeUnit.SECONDS)
+          .untilAsserted(() -> {
+            /*게시글 좋아요 삭제 검증*/
+            validatePostLike(POST_ACTIVE_ID, 0);
 
-      /*게시글 댓글 삭제 검증*/
-      validateCommentCountByStatusAndPostId(POST_ACTIVE_ID, PostCommentStatus.DELETED,
-          POST_COMMENT_COUNT);
+            /*게시글 댓글 삭제 검증*/
+            validateCommentCountByStatusAndPostId(POST_ACTIVE_ID, PostCommentStatus.DELETED,
+                POST_COMMENT_COUNT);
 
-      /*댓글 좋아요 삭제 검증*/
-      validateCommentLikeCountByPostId(POST_ACTIVE_ID, 0);
+            /*댓글 좋아요 삭제 검증*/
+            validateCommentLikeCountByPostId(POST_ACTIVE_ID, 0);
+          });
     }
   }
 

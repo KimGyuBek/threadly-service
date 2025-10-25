@@ -6,7 +6,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.threadly.CommonResponse;
 import com.threadly.testsupport.fixture.users.UserFixtureLoader;
 import com.threadly.user.BaseUserApiTest;
-import com.threadly.core.usecase.user.profile.query.dto.GetUserProfileApiResponse;
+import com.threadly.core.port.user.in.profile.query.dto.GetUserProfileApiResponse;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.ResultMatcher;

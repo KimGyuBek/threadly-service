@@ -3,7 +3,7 @@ package com.threadly.adapter.persistence.post.repository;
 import com.threadly.adapter.persistence.post.entity.PostEntity;
 import com.threadly.adapter.persistence.post.entity.PostImageEntity;
 import com.threadly.core.domain.image.ImageStatus;
-import com.threadly.core.port.post.image.fetch.PostImageProjection;
+import com.threadly.core.port.post.out.image.projection.PostImageProjection;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -29,7 +29,7 @@ public interface PostImageJpaRepository extends JpaRepository<PostImageEntity, S
           order by image_order;
           """, nativeQuery = true
   )
-  List<PostImageProjection> getPostImageListByPostId(@Param("postId") String postId);
+  List<PostImageProjection> findPostImageListByPostId(@Param("postId") String postId);
 
   /**
    * postId, status로 이미지 목록 조회
@@ -48,7 +48,7 @@ public interface PostImageJpaRepository extends JpaRepository<PostImageEntity, S
           order by imageOrder
           """
   )
-  List<PostImageProjection> getPostImageListByPostIdAndStatus(@Param("postId") String postId,
+  List<PostImageProjection> findPostImageListByPostIdAndStatus(@Param("postId") String postId,
       @Param("status") ImageStatus status);
 
   /**
@@ -131,9 +131,27 @@ public interface PostImageJpaRepository extends JpaRepository<PostImageEntity, S
 
   /**
    * 주어진 status에 해당하는 데이터 조회
+   *
    * @param status
    * @return
    */
   List<PostImageEntity> findAllByStatus(ImageStatus status);
+
+  /**
+   * 주어진 postId 리스트에 해당하는 이미지 조회
+   *
+   * @param postIds
+   * @return
+   */
+  @Query(value = """
+      select pi.post_id     as postId,
+             pi.image_order as imageOrder,
+             pi.image_url   as imageUrl
+      from post_images pi
+      where pi.status = 'CONFIRMED'
+        and pi.post_id in (:postIds)
+      order by pi.image_order;
+      """, nativeQuery = true)
+  List<PostImageProjection> findAllVisibleByPostIds(@Param("postIds") List<String> postIds);
 
 }

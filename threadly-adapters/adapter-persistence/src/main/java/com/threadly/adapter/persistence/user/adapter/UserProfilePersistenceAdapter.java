@@ -4,22 +4,22 @@ package com.threadly.adapter.persistence.user.adapter;
 import com.threadly.adapter.persistence.user.mapper.UserProfileMapper;
 import com.threadly.adapter.persistence.user.repository.UserProfileJpaRepository;
 import com.threadly.core.domain.user.profile.UserProfile;
-import com.threadly.core.port.user.profile.fetch.FetchUserProfilePort;
-import com.threadly.core.port.user.profile.fetch.MyProfileDetailsProjection;
-import com.threadly.core.port.user.profile.fetch.UserPreviewProjection;
-import com.threadly.core.port.user.profile.fetch.UserProfileProjection;
-import com.threadly.core.port.user.profile.save.SaveUserProfilePort;
-import com.threadly.core.port.user.profile.update.UpdateMyProfilePort;
+import com.threadly.core.port.user.out.profile.UserProfileCommandPort;
+import com.threadly.core.port.user.out.profile.projection.MyProfileDetailsProjection;
+import com.threadly.core.port.user.out.profile.projection.UserPreviewProjection;
+import com.threadly.core.port.user.out.profile.projection.UserProfileProjection;
+import com.threadly.core.port.user.out.profile.UserProfileQueryPort;
 import java.util.Optional;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class UserProfilePersistenceAdapter implements FetchUserProfilePort, SaveUserProfilePort,
-    UpdateMyProfilePort {
+public class UserProfilePersistenceAdapter implements UserProfileQueryPort,
+    UserProfileCommandPort {
 
   private final UserProfileJpaRepository userProfileJpaRepository;
 
-  public UserProfilePersistenceAdapter(UserProfileJpaRepository userProfileJpaRepository) {
+  public UserProfilePersistenceAdapter(
+      UserProfileJpaRepository userProfileJpaRepository) {
     this.userProfileJpaRepository = userProfileJpaRepository;
   }
 

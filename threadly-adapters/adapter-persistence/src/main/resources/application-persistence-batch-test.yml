@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5433/postgres?profileSQL=true
+    url: jdbc:postgresql://localhost:5434/postgres?profileSQL=true
     username: test
     password: test
     hikari:
@@ -12,6 +12,10 @@ spring:
       max-lifetime: 1700000
       keepalive-time: 120000
       auto-commit: true
+
+  sql:
+    init:
+      mode: never
 
   jpa:
     properties:

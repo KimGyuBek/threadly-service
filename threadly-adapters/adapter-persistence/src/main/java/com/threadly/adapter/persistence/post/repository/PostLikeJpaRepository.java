@@ -1,7 +1,7 @@
 package com.threadly.adapter.persistence.post.repository;
 
 import com.threadly.adapter.persistence.post.entity.PostLikeEntity;
-import com.threadly.core.port.post.like.post.PostLikerProjection;
+import com.threadly.core.port.post.out.like.post.PostLikerProjection;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -79,7 +79,8 @@ public interface PostLikeJpaRepository extends JpaRepository<PostLikeEntity, Str
                join user_profile up on u.user_id = up.user_id
                left join user_profile_images upi on up.user_id = upi.user_id
       where pl.post_id = :postId
-       and (:cursorLikedAt is null 
+       and (
+       cast(:cursorLikedAt as timestamp) is null 
        or pl.created_at < :cursorLikedAt 
        or (pl.created_at = :cursorLikedAt and pl.user_id < :cursorLikerId))
       order by pl.created_at desc, pl.user_id desc

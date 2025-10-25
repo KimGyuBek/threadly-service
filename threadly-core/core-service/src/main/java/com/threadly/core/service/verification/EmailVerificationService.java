@@ -5,11 +5,11 @@ import com.threadly.commons.exception.mail.EmailVerificationException;
 import com.threadly.commons.exception.user.UserException;
 import com.threadly.core.domain.mail.MailType;
 import com.threadly.core.domain.user.User;
-import com.threadly.core.port.user.FetchUserPort;
-import com.threadly.core.port.user.UpdateUserPort;
+import com.threadly.core.port.user.out.UserQueryPort;
+import com.threadly.core.port.user.out.UserCommandPort;
 import com.threadly.core.port.verification.EmailVerificationPort;
-import com.threadly.core.usecase.auth.verification.EmailVerificationUseCase;
-import com.threadly.core.usecase.mail.SendMailCommand;
+import com.threadly.core.port.auth.in.verification.EmailVerificationUseCase;
+import com.threadly.core.port.mail.in.SendMailCommand;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,8 +26,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class EmailVerificationService implements EmailVerificationUseCase {
 
   private final EmailVerificationPort emailVerificationPort;
-  private final UpdateUserPort updateUserPort;
-  private final FetchUserPort fetchUserPort;
+  private final UserCommandPort userCommandPort;
+  private final UserQueryPort userQueryPort;
 
   private final ApplicationEventPublisher eventPublisher;
 
@@ -38,7 +38,7 @@ public class EmailVerificationService implements EmailVerificationUseCase {
     String userId = emailVerificationPort.getUserId(code);
 
     /*인증되지 않은 사용자인지 찾아서 검증 */
-    Optional<User> findByUserId = fetchUserPort.findByUserId(userId);
+    Optional<User> findByUserId = userQueryPort.findByUserId(userId);
 
     User user = findByUserId.orElseThrow(
         () -> new UserException(ErrorCode.USER_NOT_FOUND)
@@ -52,7 +52,7 @@ public class EmailVerificationService implements EmailVerificationUseCase {
     user.verifyEmail();
 
     /*db 업데이트*/
-    updateUserPort.updateEmailVerification(user.getUserId(), user.isEmailVerified());
+    userCommandPort.updateEmailVerification(user.getUserId(), user.isEmailVerified());
 
     /*redis에서 코드 삭제*/
     emailVerificationPort.deleteCode(code);

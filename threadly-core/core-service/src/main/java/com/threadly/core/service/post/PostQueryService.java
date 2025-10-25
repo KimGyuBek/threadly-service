@@ -4,23 +4,23 @@ import static com.threadly.core.domain.post.PostStatus.ARCHIVE;
 import static com.threadly.core.domain.post.PostStatus.BLOCKED;
 import static com.threadly.core.domain.post.PostStatus.DELETED;
 
-import com.threadly.core.domain.post.PostStatus;
-import com.threadly.core.usecase.commons.dto.UserPreview;
 import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.exception.post.PostException;
-import com.threadly.core.domain.image.ImageStatus;
-import com.threadly.core.usecase.post.engagement.GetPostEngagementApiResponse;
-import com.threadly.core.usecase.post.engagement.GetPostEngagementQuery;
-import com.threadly.core.usecase.post.engagement.GetPostEngagementUseCase;
-import com.threadly.core.port.post.fetch.FetchPostPort;
-import com.threadly.core.port.post.fetch.PostDetailProjection;
-import com.threadly.core.usecase.post.get.GetPostListQuery;
-import com.threadly.core.usecase.post.get.GetPostQuery;
-import com.threadly.core.usecase.post.get.GetPostUseCase;
-import com.threadly.core.usecase.post.get.PostDetails;
-import com.threadly.core.port.post.image.fetch.FetchPostImagePort;
-import com.threadly.core.port.post.image.fetch.PostImageProjection;
 import com.threadly.commons.response.CursorPageApiResponse;
+import com.threadly.core.domain.image.ImageStatus;
+import com.threadly.core.domain.post.PostStatus;
+import com.threadly.core.port.commons.dto.UserPreview;
+import com.threadly.core.port.post.in.query.PostQueryUseCase;
+import com.threadly.core.port.post.in.query.dto.GetPostEngagementApiResponse;
+import com.threadly.core.port.post.in.query.dto.GetPostEngagementQuery;
+import com.threadly.core.port.post.in.query.dto.GetPostListQuery;
+import com.threadly.core.port.post.in.query.dto.GetPostQuery;
+import com.threadly.core.port.post.in.query.dto.PostDetails;
+import com.threadly.core.port.post.in.query.dto.PostDetails.PostImage;
+import com.threadly.core.port.post.out.PostQueryPort;
+import com.threadly.core.port.post.out.image.PostImageQueryPort;
+import com.threadly.core.port.post.out.image.projection.PostImageProjection;
+import com.threadly.core.port.post.out.projection.PostDetailProjection;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,42 +31,49 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @RequiredArgsConstructor
-public class PostQueryService implements GetPostUseCase, GetPostEngagementUseCase {
+public class PostQueryService implements PostQueryUseCase {
 
-  private final FetchPostPort fetchPostPort;
+  private final PostQueryPort postQueryPort;
 
-  private final FetchPostImagePort fetchPostImagePort;
+  private final PostImageQueryPort postImageQueryPort;
 
   @Transactional(readOnly = true)
   @Override
   public CursorPageApiResponse<PostDetails> getUserVisiblePostListByCursor(GetPostListQuery query) {
 
     /*게시글 상세 정보 조회*/
-    List<PostDetails> allPostList = fetchPostPort.fetchUserVisiblePostListByCursor(
+    List<PostDetails> allPostList = postQueryPort.fetchUserVisiblePostListByCursor(
             query.getUserId(), query.getCursorPostedAt(), query.getCursorPostId(), query.getLimit() + 1)
         .stream().map(
-            projection -> new PostDetails(
-                projection.getPostId(),
-                new UserPreview(
-                    projection.getUserId(),
-                    projection.getUserNickname(),
-                    projection.getUserProfileImageUrl()
-                ),
-                projection.getContent(),
-                fetchPostImagePort.findAllByPostIdAndStatus(
-                    projection.getPostId(),
-                    ImageStatus.CONFIRMED
-                ).stream().map(
-                    image -> new PostDetails.PostImage(
-                        image.getImageId(),
-                        image.getImageUrl(),
-                        image.getImageOrder()
-                    )).toList(),
-                projection.getViewCount(),
-                projection.getPostedAt(),
-                projection.getLikeCount(),
-                projection.getCommentCount(),
-                projection.isLiked())).toList();
+            projection -> {
+              UserPreview author = new UserPreview(
+                  projection.getUserId(),
+                  projection.getUserNickname(),
+                  projection.getUserProfileImageUrl() == null ? "/"
+                      : projection.getUserProfileImageUrl()
+              );
+
+              List<PostImage> postImageList = postImageQueryPort.findAllByPostIdAndStatus(
+                  projection.getPostId(),
+                  ImageStatus.CONFIRMED
+              ).stream().map(
+                  image -> new PostImage(
+                      image.getImageId(),
+                      image.getImageUrl(),
+                      image.getImageOrder()
+                  )).toList();
+
+              return new PostDetails(
+                  projection.getPostId(),
+                  author,
+                  projection.getContent(),
+                  postImageList,
+                  projection.getViewCount(),
+                  projection.getPostedAt(),
+                  projection.getLikeCount(),
+                  projection.getCommentCount(),
+                  projection.isLiked());
+            }).toList();
 
     return CursorPageApiResponse.from(allPostList, query.getLimit());
   }
@@ -75,12 +82,12 @@ public class PostQueryService implements GetPostUseCase, GetPostEngagementUseCas
   @Override
   public PostDetails getPost(GetPostQuery query) {
     /*게시글 상세 정보 조회*/
-    PostDetailProjection postDetailProjection = fetchPostPort.fetchPostDetailsByPostIdAndUserId(
+    PostDetailProjection postDetailProjection = postQueryPort.fetchPostDetailsByPostIdAndUserId(
             query.getPostId(), query.getUserId())
         .orElseThrow(() -> new PostException(ErrorCode.POST_NOT_FOUND));
 
     /*게시글 이미지 조회*/
-    List<PostImageProjection> postImageProjections = fetchPostImagePort.findAllByPostIdAndStatus(
+    List<PostImageProjection> postImageProjections = postImageQueryPort.findAllByPostIdAndStatus(
         query.getPostId(), ImageStatus.CONFIRMED);
 
     /*TODO 도메인 로직으로 변경*/
@@ -97,7 +104,8 @@ public class PostQueryService implements GetPostUseCase, GetPostEngagementUseCas
         new UserPreview(
             postDetailProjection.getUserId(),
             postDetailProjection.getUserNickname(),
-            postDetailProjection.getUserProfileImageUrl()
+            postDetailProjection.getUserProfileImageUrl() == null ? "/"
+                : postDetailProjection.getUserProfileImageUrl()
         ),
         postDetailProjection.getContent(),
         postImageProjections.stream().map(
@@ -119,7 +127,7 @@ public class PostQueryService implements GetPostUseCase, GetPostEngagementUseCas
   @Override
   public GetPostEngagementApiResponse getPostEngagement(GetPostEngagementQuery query) {
     return
-        fetchPostPort.fetchPostEngagementByPostIdAndUserId(
+        postQueryPort.fetchPostEngagementByPostIdAndUserId(
             query.getPostId(), query.getUserId()
         ).map(projection -> new GetPostEngagementApiResponse(
             projection.getPostId(),

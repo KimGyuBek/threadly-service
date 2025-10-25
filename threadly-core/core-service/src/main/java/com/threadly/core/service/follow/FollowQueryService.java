@@ -1,19 +1,19 @@
 package com.threadly.core.service.follow;
 
-import com.threadly.core.usecase.commons.dto.UserPreview;
-import com.threadly.core.usecase.follow.query.FollowQueryUseCase;
-import com.threadly.core.usecase.follow.query.dto.FollowRequestResponse;
-import com.threadly.core.usecase.follow.query.dto.FollowerResponse;
-import com.threadly.core.usecase.follow.query.dto.FollowingApiResponse;
-import com.threadly.core.usecase.follow.query.dto.GetFollowRequestsQuery;
-import com.threadly.core.usecase.follow.query.dto.GetFollowersQuery;
-import com.threadly.core.usecase.follow.query.dto.GetFollowingsQuery;
-import com.threadly.core.usecase.follow.query.dto.GetUserFollowStatsApiResponse;
 import com.threadly.commons.response.CursorPageApiResponse;
+import com.threadly.core.port.commons.dto.UserPreview;
+import com.threadly.core.port.follow.in.query.FollowQueryUseCase;
+import com.threadly.core.port.follow.in.query.dto.FollowRequestResponse;
+import com.threadly.core.port.follow.in.query.dto.FollowerResponse;
+import com.threadly.core.port.follow.in.query.dto.FollowingApiResponse;
+import com.threadly.core.port.follow.in.query.dto.GetFollowRequestsQuery;
+import com.threadly.core.port.follow.in.query.dto.GetFollowersQuery;
+import com.threadly.core.port.follow.in.query.dto.GetFollowingsQuery;
+import com.threadly.core.port.follow.in.query.dto.GetUserFollowStatsApiResponse;
+import com.threadly.core.port.follow.out.FollowQueryPort;
+import com.threadly.core.port.follow.out.projection.UserFollowStatsProjection;
 import com.threadly.core.service.validator.follow.FollowAccessValidator;
 import com.threadly.core.service.validator.user.UserStatusValidator;
-import com.threadly.core.port.user.follow.FollowQueryPort;
-import com.threadly.core.port.user.follow.UserFollowStatsProjection;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -48,7 +48,8 @@ public class FollowQueryService implements FollowQueryUseCase {
             new UserPreview(
                 projection.getRequesterId(),
                 projection.getRequesterNickname(),
-                projection.getRequesterProfileImageUrl()
+                projection.getRequesterProfileImageUrl() == null ? "/"
+                    : projection.getRequesterProfileImageUrl()
             ),
             projection.getFollowRequestedAt()
         )
@@ -75,7 +76,8 @@ public class FollowQueryService implements FollowQueryUseCase {
             new UserPreview(
                 projection.getFollowerId(),
                 projection.getFollowerNickname(),
-                projection.getFollowerProfileImageUrl()
+                projection.getFollowerProfileImageUrl() == null ? "/"
+                    : projection.getFollowerProfileImageUrl()
             ),
             projection.getFollowedAt()
         )
@@ -105,7 +107,8 @@ public class FollowQueryService implements FollowQueryUseCase {
             new UserPreview(
                 projection.getFollowingId(),
                 projection.getFollowingNickname(),
-                projection.getFollowingProfileImageUrl()
+                projection.getFollowingProfileImageUrl() == null ? "/"
+                    : projection.getFollowingProfileImageUrl()
             ),
             projection.getFollowedAt()
         )

@@ -7,7 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.threadly.CommonResponse;
 import com.threadly.commons.exception.ErrorCode;
 import com.threadly.post.controller.BasePostApiTest;
-import com.threadly.core.usecase.post.like.post.LikePostApiResponse;
+import com.threadly.core.port.post.in.like.post.command.dto.LikePostApiResponse;
 import com.threadly.testsupport.fixture.posts.PostFixtureLoader;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;

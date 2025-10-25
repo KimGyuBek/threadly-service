@@ -1,0 +1,18 @@
+[
+  {
+    "userId": "not_following_usr",
+    "userName": "not_following_user",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "notfollowing@threadly.com",
+    "phone": "010-3000-0001",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "팔로잉안하는유저",
+      "statusMessage": "팔로우 안함",
+      "bio": "팔로우 관계 없음",
+      "gender": "FEMALE",
+      "profileType": "USER"
+    }
+  }
+]

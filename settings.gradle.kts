@@ -25,5 +25,4 @@ include("threadly-commons")
 
 include("threadly-core:core-service")
 include("threadly-core:core-domain")
-include("threadly-core:core-usecase")
 include("threadly-core:core-port")

@@ -11,8 +11,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.threadly.CommonResponse;
 import com.threadly.auth.request.PasswordVerificationRequest;
-import com.threadly.core.usecase.auth.token.response.LoginTokenApiResponse;
-import com.threadly.core.usecase.auth.verification.response.PasswordVerificationToken;
+import com.threadly.core.port.auth.in.token.response.LoginTokenApiResponse;
+import com.threadly.core.port.auth.in.verification.response.PasswordVerificationToken;
 import com.threadly.commons.exception.ErrorCode;
 import com.threadly.user.BaseUserApiTest;
 import java.util.HashMap;

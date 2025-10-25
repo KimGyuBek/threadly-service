@@ -1,13 +1,12 @@
 package com.threadly.post.controller;
 
 import com.threadly.auth.JwtAuthenticationUser;
-import com.threadly.core.usecase.post.like.comment.PostCommentLiker;
-import com.threadly.core.usecase.post.like.comment.GetPostCommentLikersQuery;
-import com.threadly.core.usecase.post.like.comment.GetPostCommentLikersUseCase;
-import com.threadly.core.usecase.post.like.comment.LikePostCommentApiResponse;
-import com.threadly.core.usecase.post.like.comment.LikePostCommentCommand;
-import com.threadly.core.usecase.post.like.comment.LikePostCommentUseCase;
-import com.threadly.core.usecase.post.like.comment.UnlikePostCommentUseCase;
+import com.threadly.core.port.post.in.like.comment.query.dto.PostCommentLiker;
+import com.threadly.core.port.post.in.like.comment.query.dto.GetPostCommentLikersQuery;
+import com.threadly.core.port.post.in.like.comment.query.PostCommentLikeQueryUseCase;
+import com.threadly.core.port.post.in.like.comment.command.dto.LikePostCommentApiResponse;
+import com.threadly.core.port.post.in.like.comment.command.dto.LikePostCommentCommand;
+import com.threadly.core.port.post.in.like.comment.command.PostCommentLikeCommandUseCase;
 import com.threadly.commons.response.CursorPageApiResponse;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
@@ -30,9 +29,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class PostCommentLikeController {
 
-  private final GetPostCommentLikersUseCase getPostCommentLikersUseCase;
-  private final LikePostCommentUseCase likePostCommentUseCase;
-  private final UnlikePostCommentUseCase unlikePostCommentUseCase;
+  private final PostCommentLikeQueryUseCase postCommentLikeQueryUseCase;
+  private final PostCommentLikeCommandUseCase postCommentLikeCommandUseCase;
 
   /*
    * 게시글 댓글 좋아요 - POST /api/posts/{postId}/comments/{commentId}/likes
@@ -57,7 +55,7 @@ public class PostCommentLikeController {
       @RequestParam(value = "limit", defaultValue = "10") int limit
   ) {
 
-    return ResponseEntity.status(200).body(getPostCommentLikersUseCase.getPostCommentLikers(
+    return ResponseEntity.status(200).body(postCommentLikeQueryUseCase.getPostCommentLikers(
             new GetPostCommentLikersQuery(
                 postId, commentId, cursorTimestamp, cursorId, limit)
         )
@@ -78,7 +76,7 @@ public class PostCommentLikeController {
       @PathVariable("postId") String postId, @PathVariable("commentId") String commentId
   ) {
 
-    LikePostCommentApiResponse likePostCommentApiResponse = likePostCommentUseCase.likePostComment(
+    LikePostCommentApiResponse likePostCommentApiResponse = postCommentLikeCommandUseCase.likePostComment(
         new LikePostCommentCommand(
             commentId,
             user.getUserId()
@@ -99,7 +97,7 @@ public class PostCommentLikeController {
       @PathVariable("postId") String postId, @PathVariable("commentId") String commentId) {
 
     return ResponseEntity.status(204).body(
-        unlikePostCommentUseCase.cancelPostCommentLike(
+        postCommentLikeCommandUseCase.cancelPostCommentLike(
             new LikePostCommentCommand(
                 commentId,
                 user.getUserId())));

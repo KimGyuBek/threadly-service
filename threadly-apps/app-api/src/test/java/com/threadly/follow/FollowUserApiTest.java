@@ -5,9 +5,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.threadly.CommonResponse;
 import com.threadly.commons.exception.ErrorCode;
-import com.threadly.core.domain.follow.FollowStatusType;
-import com.threadly.core.usecase.follow.command.dto.FollowUserApiResponse;
-import com.threadly.core.domain.user.UserStatusType;
+import com.threadly.core.domain.follow.FollowStatus;
+import com.threadly.core.domain.user.UserStatus;
+import com.threadly.core.port.follow.in.command.dto.FollowUserApiResponse;
 import com.threadly.utils.TestConstants;
 import org.junit.jupiter.api.ClassOrderer;
 import org.junit.jupiter.api.ClassOrderer.OrderAnnotation;
@@ -53,7 +53,7 @@ public class FollowUserApiTest extends BaseFollowApiTest {
       public void followUser_shouldSuccess_01() throws Exception {
         //given
         /*사용자 데이터 삽입*/
-        userFixtureLoader.load("/users/profile/user.json", UserStatusType.ACTIVE, false);
+        userFixtureLoader.load("/users/profile/user.json", UserStatus.ACTIVE, false);
 
         /*로그인*/
         String accessToken = getAccessToken(TestConstants.EMAIL_VERIFIED_USER_1);
@@ -64,8 +64,8 @@ public class FollowUserApiTest extends BaseFollowApiTest {
             accessToken, USER_ID, status().isOk());
 
         //then
-        assertThat(followUserResponse.getData().followStatusType()).isEqualTo(
-            FollowStatusType.APPROVED);
+        assertThat(followUserResponse.getData().followStatus()).isEqualTo(
+            FollowStatus.APPROVED);
       }
 
       /*[Case #2] 비공개 계정을 팔로우 요청하는 경우 검증*/
@@ -75,7 +75,7 @@ public class FollowUserApiTest extends BaseFollowApiTest {
       public void followUser_shouldSuccess_02() throws Exception {
         //given
         /*사용자 데이터 삽입*/
-        userFixtureLoader.load("/users/profile/user.json", UserStatusType.ACTIVE, true);
+        userFixtureLoader.load("/users/profile/user.json", UserStatus.ACTIVE, true);
 
         /*로그인*/
         String accessToken = getAccessToken(TestConstants.EMAIL_VERIFIED_USER_1);
@@ -86,8 +86,8 @@ public class FollowUserApiTest extends BaseFollowApiTest {
             accessToken, USER_ID, status().isOk());
 
         //then
-        assertThat(followUserResponse.getData().followStatusType()).isEqualTo(
-            FollowStatusType.PENDING);
+        assertThat(followUserResponse.getData().followStatus()).isEqualTo(
+            FollowStatus.PENDING);
       }
     }
 
@@ -122,7 +122,7 @@ public class FollowUserApiTest extends BaseFollowApiTest {
       public void followUser_shouldFail_02() throws Exception {
         //given
         /*사용자 데이터 삽입*/
-        userFixtureLoader.load("/users/profile/user.json", UserStatusType.DELETED, false);
+        userFixtureLoader.load("/users/profile/user.json", UserStatus.DELETED, false);
 
         /*로그인*/
         String accessToken = getAccessToken(TestConstants.EMAIL_VERIFIED_USER_1);
@@ -143,7 +143,7 @@ public class FollowUserApiTest extends BaseFollowApiTest {
       public void followUser_shouldFail_03() throws Exception {
         //given
         /*사용자 데이터 삽입*/
-        userFixtureLoader.load("/users/profile/user.json", UserStatusType.INACTIVE, false);
+        userFixtureLoader.load("/users/profile/user.json", UserStatus.INACTIVE, false);
 
         /*로그인*/
         String accessToken = getAccessToken(TestConstants.EMAIL_VERIFIED_USER_1);
@@ -164,7 +164,7 @@ public class FollowUserApiTest extends BaseFollowApiTest {
       public void followUser_shouldFail_04() throws Exception {
         //given
         /*사용자 데이터 삽입*/
-        userFixtureLoader.load("/users/profile/user.json", UserStatusType.ACTIVE, false);
+        userFixtureLoader.load("/users/profile/user.json", UserStatus.ACTIVE, false);
 
         /*로그인*/
         String accessToken = getAccessToken(USER_EMAIL);

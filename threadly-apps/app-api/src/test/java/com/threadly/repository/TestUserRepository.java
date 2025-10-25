@@ -1,6 +1,6 @@
 package com.threadly.repository;
 
-import com.threadly.core.domain.user.UserStatusType;
+import com.threadly.core.domain.user.UserStatus;
 import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Repository;
 
@@ -21,11 +21,11 @@ public class TestUserRepository {
    * @param email
    * @return
    */
-  public UserStatusType findStatusByEmail(String email) {
+  public UserStatus findStatusByEmail(String email) {
     return
         em.createQuery("""
-                select u.userStatusType from UserEntity u where u.email = :email
-                """, UserStatusType.class)
+                select u.userStatus from UserEntity u where u.email = :email
+                """, UserStatus.class)
             .setParameter("email", email)
             .getSingleResult();
   }

@@ -11,10 +11,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.threadly.auth.request.UserLoginRequest;
-import com.threadly.core.usecase.auth.token.response.LoginTokenApiResponse;
+import com.threadly.core.port.auth.in.token.response.LoginTokenApiResponse;
 import com.threadly.commons.exception.ErrorCode;
 import com.threadly.testsupport.fixture.users.UserFixtureLoader;
-import com.threadly.core.domain.user.UserStatusType;
+import com.threadly.core.domain.user.UserStatus;
 import com.threadly.utils.TestLogUtils;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
@@ -45,7 +45,7 @@ public abstract class BaseApiTest {
   public void setUpDefaultUser() {
     userFixtureLoader.load("/users/user-email-verified.json");
     userFixtureLoader.load("/users/user-email-not-verified.json");
-    userFixtureLoader.load("/users/no-profile-user.json", UserStatusType.INCOMPLETE_PROFILE);
+    userFixtureLoader.load("/users/no-profile-user.json", UserStatus.INCOMPLETE_PROFILE);
   }
 
   @Autowired

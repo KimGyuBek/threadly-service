@@ -9,8 +9,8 @@ import com.threadly.batch.properties.RetentionProperties;
 import com.threadly.core.domain.image.ImageStatus;
 import com.threadly.core.domain.post.PostImage;
 import com.threadly.core.domain.post.PostStatus;
-import com.threadly.core.domain.user.UserStatusType;
-import com.threadly.core.domain.user.UserType;
+import com.threadly.core.domain.user.UserStatus;
+import com.threadly.core.domain.user.UserRoleType;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
@@ -71,8 +71,8 @@ public abstract class BaseBatchTest {
     jobRepositoryTestUtils.removeJobExecutions();
     // 테스트 데이터 정리
     postImageRepository.deleteAll();
-    userRepository.deleteAll();
     postRepository.deleteAll();
+    userRepository.deleteAll();
   }
 
   /**
@@ -151,10 +151,10 @@ public abstract class BaseBatchTest {
    * 주어진 파라미터에 해당하는 User 데이터 생성
    *
    * @param userId
-   * @param userStatusType
+   * @param userStatus
    * @param isDeletion     true면 threshold 이전(삭제 대상)으로, false면 현재시각(비 삭제 대상)
    */
-  public void createUserTestData(String userId, UserStatusType userStatusType, boolean isDeletion) {
+  public void createUserTestData(String userId, UserStatus userStatus, boolean isDeletion) {
     Duration retention = retentionProperties.getUser().getDeleted();
     LocalDateTime now = LocalDateTime.now();
     LocalDateTime threshold = now.minus(retention);
@@ -162,17 +162,17 @@ public abstract class BaseBatchTest {
     LocalDateTime modifiedAt = isDeletion ? threshold.minusMinutes(1)
         : threshold.plusMinutes(1);
 
-    saveUserData(createUser(userId, userStatusType), modifiedAt);
+    saveUserData(createUser(userId, userStatus), modifiedAt);
   }
 
-  public UserEntity createUser(String userId, UserStatusType statusType) {
+  public UserEntity createUser(String userId, UserStatus statusType) {
     return new UserEntity(
         userId, // userId
         "Test User " + userId, // userName
         "password123", // password
         userId + "@test.com", // email
         "010-1234-5678", // phone
-        UserType.USER, // userType
+        UserRoleType.USER, // userType
         statusType, // userStatusType
         false, // isEmailVerified
         false // isPrivate
@@ -195,8 +195,8 @@ public abstract class BaseBatchTest {
         user.getPassword(),
         user.getEmail(),
         user.getPhone(),
-        user.getUserType() != null ? user.getUserType().name() : null,
-        user.getUserStatusType().name(),
+        user.getUserRoleType() != null ? user.getUserRoleType().name() : null,
+        user.getUserStatus().name(),
         user.isEmailVerified(),
         user.isPrivate(),
         LocalDateTime.now(),
@@ -222,7 +222,7 @@ public abstract class BaseBatchTest {
     // Create a test user for the post if it doesn't exist
     String testUserId = "test-user-" + postId;
     if (userRepository.findById(testUserId).isEmpty()) {
-      createUserTestData(testUserId, UserStatusType.ACTIVE, false);
+      createUserTestData(testUserId, UserStatus.ACTIVE, false);
     }
 
     savePostData(createPost(postId, postStatus, testUserId), modifiedAt);

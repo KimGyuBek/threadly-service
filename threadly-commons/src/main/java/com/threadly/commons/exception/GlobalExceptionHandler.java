@@ -5,6 +5,7 @@ import com.threadly.commons.exception.mail.EmailVerificationException;
 import com.threadly.commons.exception.post.PostCommentException;
 import com.threadly.commons.exception.post.PostException;
 import com.threadly.commons.exception.post.PostImageException;
+import com.threadly.commons.exception.search.SearchException;
 import com.threadly.commons.exception.token.TokenException;
 import com.threadly.commons.exception.user.UserException;
 import com.threadly.commons.exception.user.UserProfileImageException;
@@ -94,6 +95,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
   /*Follow Exception*/
   @ExceptionHandler(FollowException.class)
   public ResponseEntity<ErrorResponse> handleFollowException(FollowException ex,
+      WebRequest request) {
+    return ResponseEntity.status(ex.getErrorCode().getHttpStatus())
+        .body(new ErrorResponse(ex.getErrorCode()));
+  }
+
+  /*Search Exception*/
+  @ExceptionHandler(SearchException.class)
+  public ResponseEntity<ErrorResponse> handleSearchException(SearchException ex,
       WebRequest request) {
     return ResponseEntity.status(ex.getErrorCode().getHttpStatus())
         .body(new ErrorResponse(ex.getErrorCode()));

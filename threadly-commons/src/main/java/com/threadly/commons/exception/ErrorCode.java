@@ -12,7 +12,6 @@ public enum ErrorCode {
   INVALID_REQUEST("TLY0001", "잘못된 요청입니다.", HttpStatus.BAD_REQUEST),
   ACCESS_DENIED("TLY0002", "접근이 거부되었습니다.", HttpStatus.FORBIDDEN),
 
-  /*인증/보안*/
   /*Token*/
   TOKEN_EXPIRED("TLY1000", "토큰이 만료되었습니다.", HttpStatus.UNAUTHORIZED),
   TOKEN_INVALID("TLY1001", "유효하지 않은 토큰입니다.", HttpStatus.BAD_REQUEST),
@@ -28,7 +27,6 @@ public enum ErrorCode {
   EMAIL_FORMAT_INVALID("TLY1106", "이메일 형식이 올바르지 않습니다.", HttpStatus.BAD_REQUEST),
   EMAIL_REQUEST_INVALID("TLY1107", "잘못된 인증 요청입니다.", HttpStatus.BAD_REQUEST),
 
-  /*사용자 도메인*/
   /*User*/
   USER_NOT_FOUND("TLY2000", "사용자가 존재하지 않습니다.", HttpStatus.NOT_FOUND),
   USER_ALREADY_EXISTS("TLY2001", "이미 존재하는 사용자입니다.", HttpStatus.CONFLICT),
@@ -61,7 +59,6 @@ public enum ErrorCode {
   FOLLOW_RELATION_NOT_FOUND("TLY2201", "팔로우 관계가 존재하지 않습니다.", HttpStatus.NOT_FOUND),
   FOLLOW_REQUEST_FORBIDDEN("TLY2202", "팔로우 요청에 대한 권한이 없습니다.", HttpStatus.FORBIDDEN),
 
-  /*게시글 도메인*/
   /*Post*/
   POST_NOT_FOUND("TLY3000", "게시글을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
   POST_ALREADY_DELETED("TLY3001", "이미 삭제된 게시글입니다.", HttpStatus.BAD_REQUEST),
@@ -98,7 +95,6 @@ public enum ErrorCode {
   POST_COMMENT_NOT_ACCESSIBLE("TLY3112", "이 댓글은 볼 수 없습니다.",
       HttpStatus.BAD_REQUEST),
 
-  /*이미지 도메인*/
   /*Image*/
   IMAGE_NOT_FOUND("TLY4000", "이미지를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
   IMAGE_INVALID_EXTENSION("TLY4001", "허용되지 않는 파일 확장자입니다.", HttpStatus.BAD_REQUEST),
@@ -119,7 +115,11 @@ public enum ErrorCode {
   POST_IMAGE_UPLOAD_FORBIDDEN("TLY4105", "게시글 이미지 업로드 권한이 없습니다.", HttpStatus.FORBIDDEN),
 
   /*UserProfileImage*/
-  USER_PROFILE_IMAGE_NOT_EXISTS("TLY4200", "존재하지 않는 이미지입니다.", HttpStatus.NOT_FOUND);
+  USER_PROFILE_IMAGE_NOT_EXISTS("TLY4200", "존재하지 않는 이미지입니다.", HttpStatus.NOT_FOUND),
+
+  /*Search*/
+  POST_SEARCH_SORT_TYPE_INVALID("TLY5001", "게시글 정렬 타입이 올바르지 않습니다.", HttpStatus.BAD_REQUEST);
+
 
 
   private final String code;

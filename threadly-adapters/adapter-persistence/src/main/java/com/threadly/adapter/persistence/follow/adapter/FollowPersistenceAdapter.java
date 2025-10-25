@@ -1,15 +1,15 @@
 package com.threadly.adapter.persistence.follow.adapter;
 
 import com.threadly.core.domain.follow.Follow;
-import com.threadly.core.domain.follow.FollowStatusType;
+import com.threadly.core.domain.follow.FollowStatus;
 import com.threadly.adapter.persistence.follow.mapper.FollowMapper;
 import com.threadly.adapter.persistence.follow.repository.FollowJpaRepository;
-import com.threadly.core.port.user.follow.FollowCommandPort;
-import com.threadly.core.port.user.follow.FollowQueryPort;
-import com.threadly.core.port.user.follow.FollowRequestsProjection;
-import com.threadly.core.port.user.follow.FollowerProjection;
-import com.threadly.core.port.user.follow.FollowingProjection;
-import com.threadly.core.port.user.follow.UserFollowStatsProjection;
+import com.threadly.core.port.follow.out.FollowCommandPort;
+import com.threadly.core.port.follow.out.FollowQueryPort;
+import com.threadly.core.port.follow.out.projection.FollowRequestsProjection;
+import com.threadly.core.port.follow.out.projection.FollowerProjection;
+import com.threadly.core.port.follow.out.projection.FollowingProjection;
+import com.threadly.core.port.follow.out.projection.UserFollowStatsProjection;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -46,7 +46,7 @@ public class FollowPersistenceAdapter implements FollowCommandPort, FollowQueryP
   }
 
   @Override
-  public Optional<FollowStatusType> findFollowStatusType(String followerId, String followingId) {
+  public Optional<FollowStatus> findFollowStatusType(String followerId, String followingId) {
     return followJpaRepository.findFollowStatusType(followerId, followingId);
   }
 
@@ -77,14 +77,14 @@ public class FollowPersistenceAdapter implements FollowCommandPort, FollowQueryP
 
   @Override
   public Optional<Follow> findByIdAndStatusType(String followId,
-      FollowStatusType followStatusType) {
-    return followJpaRepository.findByFollowIdAndStatusType(followId, followStatusType)
+      FollowStatus followStatus) {
+    return followJpaRepository.findByFollowIdAndStatusType(followId, followStatus)
         .map(FollowMapper::toDomain);
   }
 
   @Override
   public void deleteByFollowerIdAndFollowingIdAndStatusType(String followerId,
-      String followingId, FollowStatusType statusType) {
+      String followingId, FollowStatus statusType) {
 
     followJpaRepository.deleteByFollowerIdAndFollowingIdAndStatusType(
         followerId, followingId, statusType
@@ -93,7 +93,7 @@ public class FollowPersistenceAdapter implements FollowCommandPort, FollowQueryP
 
   @Override
   public boolean existsByFollowerIdAndFollowingIdAndStatusType(String followerId,
-      String followingId, FollowStatusType statusType) {
+      String followingId, FollowStatus statusType) {
     return followJpaRepository.existsByFollowerIdAndFollowingIdAndStatusType(
         followerId, followingId, statusType
     );

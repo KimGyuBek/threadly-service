@@ -11,8 +11,18 @@ services:
       POSTGRES_DB: threadly_test
       POSTGRES_USER: test
       POSTGRES_PASSWORD: test
-    volumes:
-      - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly-service/infra/volumes/postgres_test/data:/var/lib/postgresql/data
+
+  postgresql-batch:
+    container_name: threadly-postgresql-batch-test
+    image:
+      postgres:16
+    restart: always
+    ports:
+      - "5434:5432"
+    environment:
+      POSTGRES_DB: threadly_test
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: test
 
   redis-test:
     container_name: threadly-redis-test

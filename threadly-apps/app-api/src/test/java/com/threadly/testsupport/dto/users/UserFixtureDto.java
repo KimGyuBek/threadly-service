@@ -2,8 +2,8 @@ package com.threadly.testsupport.dto.users;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.threadly.core.domain.user.UserGenderType;
-import com.threadly.core.domain.user.UserStatusType;
-import com.threadly.core.domain.user.UserType;
+import com.threadly.core.domain.user.UserStatus;
+import com.threadly.core.domain.user.UserRoleType;
 import com.threadly.core.domain.user.profile.UserProfileType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,8 +22,10 @@ public class UserFixtureDto {
   private String password;
   private String email;
   private String phone;
-  private UserType userType;
-  private UserStatusType userStatusType;
+
+  @JsonProperty("userType")
+  private UserRoleType userRoleType;
+  private UserStatus userStatus;
 
   @JsonProperty("isEmailVerified")
   private boolean isEmailVerified;

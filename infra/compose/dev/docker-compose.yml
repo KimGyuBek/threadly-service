@@ -14,6 +14,19 @@ services:
     volumes:
       - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly-service/infra/volumes/postgres_dev/data:/var/lib/postgresql/data
       - /Users/gimgyubaeg/workspace/java/project/ecommerce/threadly-service/logs/postgres:/var/log
+    networks:
+      - monitoring-network
+
+  postgres-exporter:
+    container_name: postgres-exporter
+    image: prometheuscommunity/postgres-exporter:v0.15.0
+    environment:
+      DATA_SOURCE_NAME: "postgresql://threadly:localpwd@postgresql:5432/threadly?sslmode=disable"
+    depends_on: [postgresql-dev]
+    ports:
+      - "9187:9187"
+    networks:
+      - monitoring-network
 
   redis-dev:
     container_name: redis-dev

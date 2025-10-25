@@ -16,7 +16,7 @@ public class Follow {
   private String followId;
   private String followerId;
   private String followingId;
-  private FollowStatusType statusType;
+  private FollowStatus statusType;
 
 
   /**
@@ -31,7 +31,7 @@ public class Follow {
         RandomUtils.generateNanoId(),
         userId,
         targetUserId,
-        FollowStatusType.PENDING
+        FollowStatus.PENDING
     );
   }
 
@@ -39,8 +39,8 @@ public class Follow {
    * userStatusType을 APPROVED로 변경
    */
   public void markAsApproved() {
-    if (this.statusType.equals(FollowStatusType.PENDING)) {
-      this.statusType = FollowStatusType.APPROVED;
+    if (this.statusType.equals(FollowStatus.PENDING)) {
+      this.statusType = FollowStatus.APPROVED;
     }
   }
 
@@ -48,6 +48,6 @@ public class Follow {
    * userStatusType을 SELF 변경
    */
   public void markAsSelf() {
-    this.statusType = FollowStatusType.SELF;
+    this.statusType = FollowStatus.SELF;
   }
 }

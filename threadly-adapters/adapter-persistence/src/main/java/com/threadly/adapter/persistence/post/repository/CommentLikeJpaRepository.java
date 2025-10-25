@@ -1,7 +1,7 @@
 package com.threadly.adapter.persistence.post.repository;
 
 import com.threadly.adapter.persistence.post.entity.CommentLikeEntity;
-import com.threadly.core.port.post.like.comment.PostCommentLikerProjection;
+import com.threadly.core.port.post.out.like.comment.PostCommentLikerProjection;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -82,7 +82,8 @@ public interface CommentLikeJpaRepository extends JpaRepository<CommentLikeEntit
                left join user_profile_images upi on up.user_id = upi.user_id
       where pc.status = 'ACTIVE'
         and pc.comment_id = :commentId
-        and (:cursorLikedAt is null
+        and (
+        cast(:cursorLikedAt as time) is null
           or cl.created_at < :cursorLikedAt
           or (cl.created_at = :cursorLikedAt and cl.user_id < :cursorLikerId))
       order by cl.created_at desc, cl.user_id desc

@@ -5,34 +5,31 @@ import static com.threadly.core.domain.post.PostStatus.DELETED;
 
 import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.exception.post.PostException;
+import com.threadly.commons.properties.TtlProperties;
 import com.threadly.core.domain.image.ImageStatus;
 import com.threadly.core.domain.post.Post;
-import com.threadly.core.usecase.post.comment.delete.DeletePostCommentUseCase;
-import com.threadly.core.usecase.post.create.CreatePostApiResponse;
-import com.threadly.core.usecase.post.create.CreatePostApiResponse.PostImageApiResponse;
-import com.threadly.core.usecase.post.create.CreatePostCommand;
-import com.threadly.core.usecase.post.create.CreatePostUseCase;
-import com.threadly.core.usecase.post.delete.DeletePostCommand;
-import com.threadly.core.usecase.post.delete.DeletePostUseCase;
-import com.threadly.core.port.post.fetch.FetchPostPort;
-import com.threadly.core.port.post.fetch.PostDetailProjection;
-import com.threadly.core.port.post.image.fetch.FetchPostImagePort;
-import com.threadly.core.port.post.image.update.UpdatePostImagePort;
-import com.threadly.core.port.post.like.post.DeletePostLikePort;
-import com.threadly.core.port.post.save.SavePostPort;
-import com.threadly.core.usecase.post.update.UpdatePostApiResponse;
-import com.threadly.core.usecase.post.update.UpdatePostCommand;
-import com.threadly.core.port.post.update.UpdatePostPort;
-import com.threadly.core.usecase.post.update.UpdatePostUseCase;
-import com.threadly.core.usecase.post.update.view.IncreaseViewCountUseCase;
-import com.threadly.core.port.post.view.RecordPostViewPort;
-import com.threadly.commons.properties.TtlProperties;
-import com.threadly.core.port.user.FetchUserPort;
-import com.threadly.core.port.user.profile.fetch.FetchUserProfilePort;
-import com.threadly.core.port.user.profile.fetch.UserPreviewProjection;
+import com.threadly.core.port.post.in.command.PostCommandUseCase;
+import com.threadly.core.port.post.in.command.dto.CreatePostApiResponse;
+import com.threadly.core.port.post.in.command.dto.CreatePostApiResponse.PostImageApiResponse;
+import com.threadly.core.port.post.in.command.dto.CreatePostCommand;
+import com.threadly.core.port.post.in.command.dto.DeletePostCommand;
+import com.threadly.core.port.post.in.command.dto.PostCascadeCleanupPublishCommand;
+import com.threadly.core.port.post.in.command.dto.UpdatePostApiResponse;
+import com.threadly.core.port.post.in.command.dto.UpdatePostCommand;
+import com.threadly.core.port.post.in.view.IncreaseViewCountUseCase;
+import com.threadly.core.port.post.out.PostCommandPort;
+import com.threadly.core.port.post.out.image.PostImageQueryPort;
+import com.threadly.core.port.post.out.image.PostImageCommandPort;
+import com.threadly.core.port.post.out.PostQueryPort;
+import com.threadly.core.port.post.out.projection.PostDetailProjection;
+import com.threadly.core.port.post.out.view.RecordPostViewPort;
+import com.threadly.core.port.user.out.profile.projection.UserPreviewProjection;
+import com.threadly.core.port.user.out.profile.UserProfileQueryPort;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,25 +39,24 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @RequiredArgsConstructor
-public class PostCommandService implements CreatePostUseCase, UpdatePostUseCase, DeletePostUseCase,
+@Slf4j
+public class PostCommandService implements PostCommandUseCase,
     IncreaseViewCountUseCase {
 
-  private final SavePostPort savePostPort;
-  private final FetchPostPort fetchPostPort;
-  private final UpdatePostPort updatePostPort;
+  private final PostCommandPort postCommandPort;
+  private final PostQueryPort postQueryPort;
 
-  private final DeletePostLikePort deletePostLikePort;
 
   private final RecordPostViewPort recordPostViewPort;
 
-  private final UpdatePostImagePort updatePostImagePort;
-  private final FetchPostImagePort fetchPostImagePort;
-
-  private final DeletePostCommentUseCase deletePostCommentUseCase;
+  private final PostImageCommandPort postImageCommandPort;
+  private final PostImageQueryPort postImageQueryPort;
 
   private final TtlProperties ttlProperties;
 
-  private final FetchUserProfilePort fetchUserProfilePort;
+  private final UserProfileQueryPort userProfileQueryPort;
+
+  private final ApplicationEventPublisher eventPublisher;
 
   @Transactional
   @Override
@@ -69,7 +65,7 @@ public class PostCommandService implements CreatePostUseCase, UpdatePostUseCase,
     Post newPost = Post.newPost(command.getUserId(), command.getContent());
 
     /*post 저장*/
-    Post savedPost = savePostPort.savePost(newPost);
+    Post savedPost = postCommandPort.savePost(newPost);
 
     /*TODO 굳이 재 조회 해야할까?*/
     List<PostImageApiResponse> postImageApiResponse = new ArrayList<>();
@@ -78,12 +74,12 @@ public class PostCommandService implements CreatePostUseCase, UpdatePostUseCase,
     if (!command.getImages().isEmpty()) {
       /*게시글 이미지 상태 변경*/
       command.getImages().forEach(it -> {
-        updatePostImagePort.finalizeImage(it.getImageId(), savedPost.getPostId(),
+        postImageCommandPort.finalizeImage(it.getImageId(), savedPost.getPostId(),
             it.getImageOrder());
       });
 
       /*게시글 이미지 조회*/
-      postImageApiResponse = fetchPostImagePort.findAllByPostIdAndStatus(
+      postImageApiResponse = postImageQueryPort.findAllByPostIdAndStatus(
           savedPost.getPostId(),
           ImageStatus.CONFIRMED).stream().map(
           projection -> new PostImageApiResponse(
@@ -94,13 +90,16 @@ public class PostCommandService implements CreatePostUseCase, UpdatePostUseCase,
       ).toList();
     }
 
+    log.info("새 게시글 생성 완료: postId={}", savedPost.getPostId());
+
     /*사용자 프로필 조회*/
-    UserPreviewProjection userPreview = fetchUserProfilePort.findUserPreviewByUserId(
+    UserPreviewProjection userPreview = userProfileQueryPort.findUserPreviewByUserId(
         command.getUserId());
 
     return new CreatePostApiResponse(
         savedPost.getPostId(),
-        userPreview.getProfileImageUrl(),
+        userPreview.getProfileImageUrl() == null ? "/"
+            : userPreview.getProfileImageUrl(),
         userPreview.getNickname(),
         savedPost.getUserId(),
         savedPost.getContent(),
@@ -122,16 +121,19 @@ public class PostCommandService implements CreatePostUseCase, UpdatePostUseCase,
 
     /*게시글 수정*/
     post.updateContent(command.getContent());
-    updatePostPort.updatePost(post);
+    postCommandPort.updatePost(post);
 
-    PostDetailProjection updatePost = fetchPostPort.fetchPostDetailsByPostIdAndUserId(
+    PostDetailProjection updatePost = postQueryPort.fetchPostDetailsByPostIdAndUserId(
             command.getPostId(), command.getUserId())
         .orElseThrow(() -> new PostException(ErrorCode.POST_NOT_FOUND));
+
+    log.info("게시글 업데이트 완료: postId={}", updatePost.getPostId());
 
     return new UpdatePostApiResponse(
         updatePost.getPostId(),
         updatePost.getUserId(),
-        updatePost.getUserProfileImageUrl(),
+        updatePost.getUserProfileImageUrl() == null ? "/"
+            : updatePost.getUserProfileImageUrl(),
         updatePost.getUserNickname(),
         updatePost.getContent(),
         updatePost.getViewCount(),
@@ -155,24 +157,21 @@ public class PostCommandService implements CreatePostUseCase, UpdatePostUseCase,
 
     /*게시글 상태 검증*/
     if (post.getStatus() == DELETED) {
+      log.warn("이미 삭제처리된 게시글임: postId={}", post.getPostId());
       throw new PostException(ErrorCode.POST_ALREADY_DELETED_ACTION);
     }
     if (post.getStatus() == BLOCKED) {
+      log.warn("이미 BLOCKED된 게시글임: postId={}", post.getPostId());
       throw new PostException(ErrorCode.POST_DELETE_BLOCKED);
     }
 
     /*게시글 삭제 처리*/
     post.markAsDeleted();
-    updatePostPort.changeStatus(post);
+    postCommandPort.changeStatus(post);
+    log.info("게시글 삭제 처리 완료: postId={}", post.getPostId());
 
-    /*게시글 이미지 삭제 처리*/
-    updatePostImagePort.updateStatus(post.getPostId(), ImageStatus.DELETED);
-
-    /*게시글 좋아요 삭제 처리*/
-    deletePostLikePort.deleteAllByPostId(post.getPostId());
-
-    /*댓글 및 댓글 좋아요 삭제 처리*/
-    deletePostCommentUseCase.deleteAllCommentsAndLikesByPostId(post.getPostId());
+    /*연관 데이터 삭제 처리*/
+    eventPublisher.publishEvent(new PostCascadeCleanupPublishCommand(post.getPostId()));
   }
 
   @Transactional
@@ -182,12 +181,14 @@ public class PostCommandService implements CreatePostUseCase, UpdatePostUseCase,
     /*기록이 없을 경우*/
     if (!recordPostViewPort.existsPostView(postId, userId)) {
       /*조회수 업데이트 */
-      updatePostPort.increaseViewCount(postId);
+      postCommandPort.increaseViewCount(postId);
     }
 
     /*기록 저장*/
     recordPostViewPort.recordPostView(postId, userId, ttlProperties.getPostViewSeconds());
+    log.debug("조회 수 증가 완료: postId={}", postId);
   }
+
 
   /**
    * 게시글 조회
@@ -197,8 +198,9 @@ public class PostCommandService implements CreatePostUseCase, UpdatePostUseCase,
    */
   private Post getPost(String command) {
     return
-        fetchPostPort.fetchById(command).orElseThrow(
+        postQueryPort.fetchById(command).orElseThrow(
             () -> new PostException(ErrorCode.POST_NOT_FOUND)
         );
   }
+
 }
