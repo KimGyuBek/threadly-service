@@ -2,6 +2,7 @@ package com.threadly.user.controller.me;
 
 import com.threadly.auth.JwtAuthenticationUser;
 import com.threadly.core.port.user.in.account.command.UserAccountCommandUseCase;
+import com.threadly.user.controller.api.MyAccountApi;
 import com.threadly.user.request.me.ChangePasswordRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/me/account")
-public class MyAccountController {
+public class MyAccountController implements MyAccountApi {
 
   private final UserAccountCommandUseCase userAccountCommandUseCase;
 

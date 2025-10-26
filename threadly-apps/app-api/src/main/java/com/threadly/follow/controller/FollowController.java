@@ -1,4 +1,4 @@
-package com.threadly.follow;
+package com.threadly.follow.controller;
 
 import com.threadly.auth.JwtAuthenticationUser;
 import com.threadly.core.port.follow.in.command.FollowCommandUseCase;
@@ -10,6 +10,7 @@ import com.threadly.core.port.follow.in.query.dto.GetFollowRequestsQuery;
 import com.threadly.core.port.follow.in.query.dto.GetFollowersQuery;
 import com.threadly.core.port.follow.in.query.dto.GetFollowingsQuery;
 import com.threadly.core.port.follow.in.query.dto.GetUserFollowStatsApiResponse;
+import com.threadly.follow.controller.api.FollowApi;
 import com.threadly.follow.request.FollowRequest;
 import com.threadly.commons.response.CursorPageApiResponse;
 import java.time.LocalDateTime;
@@ -29,8 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/follows")
-
-public class FollowController {
+public class FollowController implements FollowApi {
 
   private final FollowCommandUseCase followCommandUseCase;
   private final FollowQueryUseCase followQueryUseCase;

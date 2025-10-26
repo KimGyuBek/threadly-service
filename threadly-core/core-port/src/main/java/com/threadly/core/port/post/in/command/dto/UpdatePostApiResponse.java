@@ -1,10 +1,12 @@
 package com.threadly.core.port.post.in.command.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;
 
 /**
  * 게시글 수정 API 응답 DTO
  */
+@Schema(description = "게시글 수정 응답")
 public record UpdatePostApiResponse(
     String postId,
     String userId,
