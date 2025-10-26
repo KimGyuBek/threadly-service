@@ -2,6 +2,7 @@ package com.threadly.auth.controller;
 
 import com.threadly.auth.AuthManager;
 import com.threadly.auth.JwtAuthenticationUser;
+import com.threadly.auth.controller.api.AuthApi;
 import com.threadly.core.port.auth.in.token.response.LoginTokenApiResponse;
 import com.threadly.core.port.auth.in.token.response.TokenReissueApiResponse;
 import com.threadly.core.port.auth.in.verification.EmailVerificationUseCase;
@@ -22,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
-public class AuthController {
+public class AuthController implements AuthApi {
 
 
   private final EmailVerificationUseCase emailVerificationUseCase;

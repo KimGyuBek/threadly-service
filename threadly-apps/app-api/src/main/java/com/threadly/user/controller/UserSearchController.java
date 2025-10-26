@@ -5,6 +5,7 @@ import com.threadly.commons.response.CursorPageApiResponse;
 import com.threadly.core.port.user.in.search.SearchUserQueryUseCase;
 import com.threadly.core.port.user.in.search.dto.UserSearchQuery;
 import com.threadly.core.port.user.in.search.dto.UserSearchItem;
+import com.threadly.user.controller.api.UserSearchApi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/users/search")
-public class UserSearchController {
+public class UserSearchController implements UserSearchApi {
 
   private final SearchUserQueryUseCase searchUserQueryUseCase;
 

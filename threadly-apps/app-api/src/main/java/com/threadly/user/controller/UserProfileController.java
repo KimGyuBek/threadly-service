@@ -3,6 +3,7 @@ package com.threadly.user.controller;
 import com.threadly.auth.JwtAuthenticationUser;
 import com.threadly.core.port.user.in.profile.query.UserProfileQueryUseCase;
 import com.threadly.core.port.user.in.profile.query.dto.GetUserProfileApiResponse;
+import com.threadly.user.controller.api.UserProfileApi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/users/profile")
-public class UserProfileController {
+public class UserProfileController implements UserProfileApi {
 
   private final UserProfileQueryUseCase userProfileQueryUseCase;
 

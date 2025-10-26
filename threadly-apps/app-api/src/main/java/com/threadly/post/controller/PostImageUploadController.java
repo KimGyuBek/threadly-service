@@ -4,6 +4,7 @@ import com.threadly.auth.JwtAuthenticationUser;
 import com.threadly.core.port.post.in.image.UploadPostImageCommand;
 import com.threadly.core.port.post.in.image.UploadPostImageUseCase;
 import com.threadly.core.port.post.in.image.UploadPostImagesApiResponse;
+import com.threadly.post.controller.api.PostImageUploadApi;
 import com.threadly.post.mapper.ImageMapper;
 import java.util.Collections;
 import java.util.List;
@@ -23,7 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/api/post-images")
-public class PostImageUploadController {
+public class PostImageUploadController implements PostImageUploadApi {
 
   private final UploadPostImageUseCase uploadPostImageUseCase;
 

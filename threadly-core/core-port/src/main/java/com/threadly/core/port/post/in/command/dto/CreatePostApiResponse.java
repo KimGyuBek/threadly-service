@@ -1,5 +1,6 @@
 package com.threadly.core.port.post.in.command.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import java.util.List;
  * @param content
  * @param postedAt
  */
+@Schema(description = "게시글 생성 응답")
 public record CreatePostApiResponse(
     String postId,
     String userProfileImageUrl,
