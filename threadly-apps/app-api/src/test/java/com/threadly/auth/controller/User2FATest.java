@@ -33,7 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * 사용자 재검증 테스트
  */
 @TestClassOrder(ClassOrderer.OrderAnnotation.class)
-class UserReAuthenticationTest extends BaseApiTest {
+class User2FATest extends BaseApiTest {
 
   @Autowired
   private UserFixtureLoader userFixtureLoader;

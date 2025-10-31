@@ -252,7 +252,7 @@ public class JwtTokenProvider {
     long ttlMillis = expiration.getTime() - now.getTime();
 
     return
-        Duration.ofSeconds(ttlMillis);
+        Duration.ofMillis(ttlMillis);
   }
 
 }
