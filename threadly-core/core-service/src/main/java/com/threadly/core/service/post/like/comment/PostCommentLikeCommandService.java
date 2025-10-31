@@ -19,11 +19,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * 게시글 좋아요 관련 Service
+ * 게시글 댓글 좋아요 관련 Service
  */
 @Service
 @RequiredArgsConstructor
-public class PostCommentLikeCommandLikeCommandService implements PostCommentLikeCommandUseCase {
+public class PostCommentLikeCommandService implements PostCommentLikeCommandUseCase {
 
   private final PostCommentQueryPort postCommentQueryPort;
 

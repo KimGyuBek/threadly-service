@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @RequiredArgsConstructor
-public class PostLikeCommandLikeCommandService implements PostLikeCommandUseCase {
+public class PostLikeCommandService implements PostLikeCommandUseCase {
 
   private final PostQueryPort postQueryPort;
 

@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @RequiredArgsConstructor
-public class PostCommendQueryQueryService implements PostCommendQueryUseCase {
+public class PostCommentQueryService implements PostCommendQueryUseCase {
 
   private final PostCommentQueryPort postCommentQueryPort;
 
