@@ -35,6 +35,7 @@ public class VerificationFilter extends OncePerRequestFilter {
     return !request.getRequestURI().startsWith("/api/me/account");
   }
 
+
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
       FilterChain filterChain) throws ServletException, IOException {

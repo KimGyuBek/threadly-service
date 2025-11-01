@@ -46,6 +46,64 @@ subprojects {
 
         tasks.jacocoTestReport {
             dependsOn(tasks.test)
+
+            classDirectories.setFrom(
+                files(classDirectories.files.map {
+                    fileTree(it) {
+                        exclude(
+                            /*DTO, Record*/
+                            "**/dto/**/*ApiResponse.class",
+                            "**/dto/**/*Command.class",
+                            "**/dto/**/*Query.class",
+                            "**/dto/**/*Response.class",
+                            "**/dto/**/*Request.class",
+                            "**/metadata/**/*Meta.class",
+                            "**/response/**/*.class",
+                            "**/request/**/*Request.class",
+                            "**/*Event.class",
+
+                            /*Entity*/
+                            "**/entity/**/*Entity.class",
+                            "**/base/BaseEntity.class",
+
+                            /*Enum*/
+                            "**/*Type.class",
+                            "**/*Status.class",
+                            "**/ErrorCode.class",
+
+                            /*port, interface*/
+                            "**/port/**/*Port.class",
+                            "**/port/**/*UseCase.class",
+                            "**/port/**/*Projection.class",
+
+                            // Configuration
+                            "**/config/**/*Config.class",
+                            "**/properties/**/*Properties.class",
+
+                            // Application Classes
+                            "**/*Application.class",
+
+                            // Exceptions
+                            "**/exception/**/*.class",
+                            "**/*Exception.class",
+
+                            // Mappers
+                            "**/mapper/**/*Mapper.class",
+
+                            // Repositories
+                            "**/repository/**/*Repository.class",
+
+                            // Module Markers
+                            "**/*Module.class",
+
+                            // Filters and Interceptors
+                            "**/filter/**/*.class",
+                            "**/interceptor/**/*.class"
+                        )
+                    }
+                })
+            )
+
             reports {
                 xml.required.set(true)
                 html.required.set(true)
