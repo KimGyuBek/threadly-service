@@ -9,6 +9,7 @@ plugins {
     id("com.epages.restdocs-api-spec") version Versions.restdocsApiSpec apply false
     id("org.asciidoctor.jvm.convert") version Versions.asciidoctorPlugin apply false
     id("com.linecorp.build-recipe-plugin") version Versions.lineRecipePlugin
+    jacoco
 }
 
 
@@ -24,7 +25,6 @@ allprojects {
     }
 }
 
-apply(from = "gradle/coverage-summary.gradle.kts")
 
 subprojects {
     apply(plugin = "io.freefair.lombok")
@@ -34,10 +34,82 @@ subprojects {
     }
 
     plugins.withId("java") {
-        apply(from = "${rootProject.projectDir}/gradle/jacoco.gradle.kts")
+        apply(plugin = "jacoco")
 
-        tasks.named("test") {
-            finalizedBy(rootProject.tasks.named("printCoverageSummary"))
+        configure<JacocoPluginExtension> {
+            toolVersion = "0.8.11"
+        }
+
+        tasks.test {
+            finalizedBy(tasks.jacocoTestReport)
+        }
+
+        tasks.jacocoTestReport {
+            dependsOn(tasks.test)
+
+            classDirectories.setFrom(
+                files(classDirectories.files.map {
+                    fileTree(it) {
+                        exclude(
+                            /*DTO, Record*/
+                            "**/dto/**/*ApiResponse.class",
+                            "**/dto/**/*Command.class",
+                            "**/dto/**/*Query.class",
+                            "**/dto/**/*Response.class",
+                            "**/dto/**/*Request.class",
+                            "**/metadata/**/*Meta.class",
+                            "**/response/**/*.class",
+                            "**/request/**/*Request.class",
+                            "**/*Event.class",
+
+                            /*Entity*/
+                            "**/entity/**/*Entity.class",
+                            "**/base/BaseEntity.class",
+
+                            /*Enum*/
+                            "**/*Type.class",
+                            "**/*Status.class",
+                            "**/ErrorCode.class",
+
+                            /*port, interface*/
+                            "**/port/**/*Port.class",
+                            "**/port/**/*UseCase.class",
+                            "**/port/**/*Projection.class",
+
+                            // Configuration
+                            "**/config/**/*Config.class",
+                            "**/properties/**/*Properties.class",
+
+                            // Application Classes
+                            "**/*Application.class",
+
+                            // Exceptions
+                            "**/exception/**/*.class",
+                            "**/*Exception.class",
+
+                            // Mappers
+                            "**/mapper/**/*Mapper.class",
+
+                            // Repositories
+                            "**/repository/**/*Repository.class",
+
+                            // Module Markers
+                            "**/*Module.class",
+
+                            // Filters and Interceptors
+                            "**/filter/**/*.class",
+                            "**/interceptor/**/*.class"
+                        )
+                    }
+                })
+            )
+
+            reports {
+                xml.required.set(true)
+                html.required.set(true)
+                csv.required.set(false)
+                html.outputLocation.set(layout.buildDirectory.dir("reports/jacoco/test/html"))
+            }
         }
     }
 
