@@ -1,15 +1,14 @@
-package com.threadly.adapter.persistence.core.post.image.validator;
+package com.threadly.core.service.validator.image;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.springframework.http.MediaType.IMAGE_JPEG_VALUE;
 
+import com.threadly.core.service.helper.image.UploadImageFactory;
 import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.exception.post.PostImageException;
 import com.threadly.commons.file.UploadImage;
-import com.threadly.adapter.persistence.core.post.image.helper.image.UploadImageFactory;
 import com.threadly.commons.properties.UploadProperties;
-import com.threadly.core.service.validator.image.ImageUploadValidator;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -153,7 +152,6 @@ class ImageUploadValidatorTest {
     }
 
   }
-
 
 
 }

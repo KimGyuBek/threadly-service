@@ -1,4 +1,4 @@
-package com.threadly.adapter.persistence.core.post;
+package com.threadly.core.service.post;
 
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -7,7 +7,6 @@ import static org.mockito.Mockito.when;
 import com.threadly.commons.properties.TtlProperties;
 import com.threadly.core.port.post.out.PostCommandPort;
 import com.threadly.core.port.post.out.view.RecordPostViewPort;
-import com.threadly.core.service.post.PostCommandService;
 import org.junit.jupiter.api.ClassOrderer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;

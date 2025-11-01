@@ -1,4 +1,4 @@
-package com.threadly.adapter.persistence.core.post.image.helper.image;
+package com.threadly.core.service.helper.image;
 
 import com.threadly.commons.file.UploadImage;
 import java.awt.image.BufferedImage;

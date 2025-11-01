@@ -1,6 +1,6 @@
-package com.threadly.adapter.persistence.core.post.image.validator;
+package com.threadly.core.service.validator.image;
 
-import static com.threadly.adapter.persistence.core.post.image.helper.image.UploadImageFactory.generateImageWithRatio;
+import static com.threadly.core.service.helper.image.UploadImageFactory.generateImageWithRatio;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -8,7 +8,6 @@ import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.exception.post.PostImageException;
 import com.threadly.commons.file.UploadImage;
 import com.threadly.commons.properties.UploadProperties;
-import com.threadly.core.service.validator.image.ImageAspectRatioValidator;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.ClassOrderer;
@@ -31,13 +30,13 @@ import org.springframework.test.context.TestPropertySource;
  */
 @SpringBootTest(classes = {
     ImageAspectRatioValidator.class,
-    ImageAspectRatioPropertiesValidatorTest.TestConfig.class
+    ImageAspectRatioValidatorTest.TestConfig.class
 })
 @TestPropertySource("classpath:application-test.yml")
 @ActiveProfiles("test")
 @TestClassOrder(ClassOrderer.OrderAnnotation.class)
 @DisplayName("이미지 비율 검증 유틸 테스트")
-class ImageAspectRatioPropertiesValidatorTest {
+class ImageAspectRatioValidatorTest {
 
   @Autowired
   private ImageAspectRatioValidator imageAspectRatioValidator;
@@ -121,11 +120,7 @@ class ImageAspectRatioPropertiesValidatorTest {
             .hasMessageContaining(ErrorCode.IMAGE_ASPECT_RATIO_INVALID.getDesc());
 
       }
-
     }
 
-
   }
-
-
 }
