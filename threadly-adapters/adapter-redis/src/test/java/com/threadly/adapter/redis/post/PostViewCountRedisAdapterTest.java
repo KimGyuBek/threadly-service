@@ -133,5 +133,25 @@ class PostViewCountRedisAdapterTest {
 
   }
 
+  @DisplayName("게시글 조회 기록 TTL 만료 테스트")
+  @Test
+  public void existsPostView_shouldReturnFalse_whenTtlExpired() throws Exception {
+    //given
+    String postId = "post1";
+    String userId = "user1";
+    Duration shortTtl = Duration.ofSeconds(2);
+
+    postViewCountRedisAdapter.recordPostView(postId, userId, shortTtl);
+
+    //when
+    /*TTL 만료 대기*/
+    Thread.sleep(2500);
+
+    boolean result = postViewCountRedisAdapter.existsPostView(postId, userId);
+
+    //then
+    assertThat(result).isFalse();
+  }
+
 
 }

@@ -206,6 +206,61 @@ class TokenRepositoryTest {
 
   }
 
+  /*TTL 만료 테스트*/
+  /*[Case #1] RefreshToken TTL 만료 후 조회 시 false가 나와야한다*/
+  @DisplayName("RefreshToken TTL 만료 후 조회 - false 리턴")
+  @Test
+  public void existsRefreshToken_shouldReturnFalse_whenTtlExpired() throws Exception {
+    //given
+    String userId = "user1";
+    String refreshToken = "refreshToken";
+    Duration shortTtl = Duration.ofSeconds(2);
+
+    tokenRepository.upsertRefreshToken(
+        UpsertRefreshTokenCommand.builder()
+            .userId(userId)
+            .refreshToken(refreshToken)
+            .duration(shortTtl)
+            .build()
+    );
+
+    //when
+    /*TTL 만료 대기*/
+    Thread.sleep(2500);
+
+    boolean result = tokenRepository.existsRefreshTokenByUserId(userId);
+
+    //then
+    assertFalse(result);
+  }
+
+  /*[Case #2] BlacklistToken TTL 만료 후 조회 시 false가 나와야한다*/
+  @DisplayName("BlacklistToken TTL 만료 후 조회 - false 리턴")
+  @Test
+  public void existsBlackListToken_shouldReturnFalse_whenTtlExpired() throws Exception {
+    //given
+    String userId = "user1";
+    String accessToken = "accessToken";
+    Duration shortTtl = Duration.ofSeconds(2);
+
+    tokenRepository.saveBlackListToken(
+        InsertBlackListTokenCommand.builder()
+            .userId(userId)
+            .accessToken(accessToken)
+            .duration(shortTtl)
+            .build()
+    );
+
+    //when
+    /*TTL 만료 대기*/
+    Thread.sleep(2500);
+
+    boolean result = tokenRepository.existsBlackListTokenByAccessToken(accessToken);
+
+    //then
+    assertFalse(result);
+  }
+
 }
 
 

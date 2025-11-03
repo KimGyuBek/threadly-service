@@ -80,4 +80,24 @@ class LoginAttemptRedisAdapterTest {
     assertThat(result).isEqualTo(2);
 
   }
+
+  @DisplayName("로그인 시도 횟수 TTL 만료 후 조회 - null 리턴")
+  @Test
+  public void getLoginAttemptCount_shouldReturnNull_whenTtlExpired() throws Exception {
+    //given
+    String userId = "user1";
+    String key = "login:attempt:" + userId;
+    Duration shortTtl = Duration.ofSeconds(2);
+
+    redisTemplate.opsForValue().set(key, 3, shortTtl);
+
+    //when
+    /*TTL 만료 대기*/
+    Thread.sleep(2500);
+
+    Integer result = loginAttemptRedisAdapter.getLoginAttemptCount(userId);
+
+    //then
+    assertNull(result);
+  }
 }
