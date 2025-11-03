@@ -24,78 +24,7 @@ allprojects {
     }
 }
 
-// Coverage Summary Task
-tasks.register("printCoverageSummary") {
-    group = "verification"
-    description = "Print module-by-module coverage summary to console"
-
-    val modules = listOf(
-        "threadly-core:core-domain",
-        "threadly-core:core-service",
-        "threadly-core:core-port",
-        "threadly-commons",
-        "threadly-adapters:adapter-persistence",
-        "threadly-adapters:adapter-redis",
-        "threadly-adapters:adapter-storage",
-        "threadly-adapters:adapter-kafka",
-        "threadly-apps:app-api",
-        "threadly-apps:app-batch"
-    )
-
-    doLast {
-        println("\n" + "=".repeat(100))
-        println("CODE COVERAGE SUMMARY (BY MODULE)")
-        println("=".repeat(100))
-        println(String.format("%-25s %12s %12s %12s %12s %12s",
-            "MODULE", "INSTRUCTION", "BRANCH", "LINE", "METHOD", "CLASS"))
-        println("-".repeat(100))
-
-        modules.forEach { modulePath ->
-            val module = project.findProject(":$modulePath") ?: return@forEach
-            val xmlFile = module.layout.buildDirectory.file("reports/jacoco/test/jacocoTestReport.xml").get().asFile
-
-            if (!xmlFile.exists()) {
-                return@forEach
-            }
-
-            val moduleName = module.name
-            val parser = groovy.xml.XmlParser()
-            parser.setFeature("http://apache.org/xml/features/disallow-doctype-decl", false)
-            parser.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false)
-
-            val xml = parser.parse(xmlFile)
-            val counters = (xml as groovy.util.Node).get("counter") as List<*>
-
-            var instruction = ""
-            var branch = ""
-            var line = ""
-            var method = ""
-            var classPercent = ""
-
-            counters.forEach { counter ->
-                val node = counter as groovy.util.Node
-                val type = node.attribute("type")
-                val missed = (node.attribute("missed") as String).toInt()
-                val covered = (node.attribute("covered") as String).toInt()
-                val total = missed + covered
-                val percentage = if (total > 0) String.format("%.1f%%", covered * 100.0 / total) else "0.0%"
-
-                when (type) {
-                    "INSTRUCTION" -> instruction = percentage
-                    "BRANCH" -> branch = percentage
-                    "LINE" -> line = percentage
-                    "METHOD" -> method = percentage
-                    "CLASS" -> classPercent = percentage
-                }
-            }
-
-            println(String.format("%-25s %12s %12s %12s %12s %12s",
-                moduleName, instruction, branch, line, method, classPercent))
-        }
-
-        println("=".repeat(100) + "\n")
-    }
-}
+apply(from = "gradle/coverage-summary.gradle.kts")
 
 subprojects {
     apply(plugin = "io.freefair.lombok")

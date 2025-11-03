@@ -43,7 +43,7 @@ jobs:
       - name: 모듈별 커버리지 Summary 생성
         if: always()
         run: |
-          bash infra/scripts/generate-coverage-summary.sh >> $GITHUB_STEP_SUMMARY
+          ./gradlew printCoverageSummaryMarkdown --no-daemon >> $GITHUB_STEP_SUMMARY
 
       - name: 모듈별 커버리지 리포트 업로드
         if: always()
