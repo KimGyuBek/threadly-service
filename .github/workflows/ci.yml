@@ -12,6 +12,11 @@ on:
       - '.github/**'
       - '.gitignore'
   workflow_dispatch:
+    inputs:
+      runMode:
+        description: "test of full"
+        default: "test"
+        required: false
 concurrency:
   group: ci-pr-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
@@ -63,8 +68,8 @@ jobs:
           path: |
             **/build/reports/tests/**
           retention-days: 3
-            
-            
+
+
 
       - name: Docker compose 종료
         if: always()
