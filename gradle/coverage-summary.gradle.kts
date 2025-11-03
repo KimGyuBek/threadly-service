@@ -39,7 +39,7 @@ fun parseCoverage(xmlFile: File): Map<String, String> {
     return coverage
 }
 
-// Console output (plain text table)
+/*콘솔 출력*/
 tasks.register("printCoverageSummary") {
     group = "verification"
     description = "Print module-by-module coverage summary to console"
@@ -74,30 +74,43 @@ tasks.register("printCoverageSummary") {
     }
 }
 
-// Markdown output (for GitHub Job Summary)
+/*md 문서 생성*/
 tasks.register("printCoverageSummaryMarkdown") {
     group = "verification"
-    description = "Print module-by-module coverage summary in Markdown format"
+    description = "Generate module-by-module coverage summary in Markdown format to file"
+
+    val outputFile = layout.buildDirectory.file("reports/coverage-summary.md")
+
+    outputs.file(outputFile)
 
     doLast {
-        println("## Code Coverage Report (By Module)")
-        println("")
-        println("| Module | Instruction | Branch | Line | Method | Class |")
-        println("|--------|-------------|--------|------|--------|-------|")
+        val content = buildString {
+            appendLine("## Code Coverage Report (모듈 별)")
+            appendLine()
+            appendLine("| Module | Instruction | Branch | Line | Method | Class |")
+            appendLine("|--------|-------------|--------|------|--------|-------|")
 
-        modules.forEach { modulePath ->
-            val module = project.findProject(":$modulePath") ?: return@forEach
-            val xmlFile = module.layout.buildDirectory.file("reports/jacoco/test/jacocoTestReport.xml").get().asFile
-            val coverage = parseCoverage(xmlFile)
+            modules.forEach { modulePath ->
+                val module = project.findProject(":$modulePath") ?: return@forEach
+                val xmlFile = module.layout.buildDirectory.file("reports/jacoco/test/jacocoTestReport.xml").get().asFile
+                val coverage = parseCoverage(xmlFile)
 
-            if (coverage.isEmpty()) {
-                return@forEach
+                if (coverage.isEmpty()) {
+                    return@forEach
+                }
+
+                appendLine("| ${module.name} | ${coverage["INSTRUCTION"] ?: "N/A"} | ${coverage["BRANCH"] ?: "N/A"} | ${coverage["LINE"] ?: "N/A"} | ${coverage["METHOD"] ?: "N/A"} | ${coverage["CLASS"] ?: "N/A"} |")
             }
 
-            println("| ${module.name} | ${coverage["INSTRUCTION"] ?: "N/A"} | ${coverage["BRANCH"] ?: "N/A"} | ${coverage["LINE"] ?: "N/A"} | ${coverage["METHOD"] ?: "N/A"} | ${coverage["CLASS"] ?: "N/A"} |")
+            appendLine()
+            appendLine("Generated: ${java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))}")
         }
 
-        println("")
-        println("Generated: ${java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))}")
+        outputFile.get().asFile.apply {
+            parentFile.mkdirs()
+            writeText(content)
+        }
+
+        println(content)
     }
 }
