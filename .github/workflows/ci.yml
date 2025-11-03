@@ -36,9 +36,23 @@ jobs:
         run: |
           docker compose -f ./infra/compose/test/docker-compose.yml up -d
 
-      - name: 테스트 실행
+      - name: 테스트 실행 및 모듈별 커버리지 생성
         run: |
-          ./gradlew test --no-daemon jacocoTestReport
+          ./gradlew test --no-daemon
+
+      - name: 모듈별 커버리지 Summary 생성
+        if: always()
+        run: |
+          bash infra/scripts/generate-coverage-summary.sh >> $GITHUB_STEP_SUMMARY
+
+      - name: 모듈별 커버리지 리포트 업로드
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-reports
+          path: |
+            **/build/reports/jacoco/test/**
+          retention-days: 3
 
       - name: 테스트 리포트 업로드
         if: always()
@@ -47,7 +61,7 @@ jobs:
           name: test-report
           path: |
             **/build/reports/tests/**
-            **/build/reports/jacoco/**
+          retention-days: 3
             
             
 

@@ -9,7 +9,6 @@ plugins {
     id("com.epages.restdocs-api-spec") version Versions.restdocsApiSpec apply false
     id("org.asciidoctor.jvm.convert") version Versions.asciidoctorPlugin apply false
     id("com.linecorp.build-recipe-plugin") version Versions.lineRecipePlugin
-    jacoco
 }
 
 
@@ -25,6 +24,78 @@ allprojects {
     }
 }
 
+// Coverage Summary Task
+tasks.register("printCoverageSummary") {
+    group = "verification"
+    description = "Print module-by-module coverage summary to console"
+
+    val modules = listOf(
+        "threadly-core:core-domain",
+        "threadly-core:core-service",
+        "threadly-core:core-port",
+        "threadly-commons",
+        "threadly-adapters:adapter-persistence",
+        "threadly-adapters:adapter-redis",
+        "threadly-adapters:adapter-storage",
+        "threadly-adapters:adapter-kafka",
+        "threadly-apps:app-api",
+        "threadly-apps:app-batch"
+    )
+
+    doLast {
+        println("\n" + "=".repeat(100))
+        println("CODE COVERAGE SUMMARY (BY MODULE)")
+        println("=".repeat(100))
+        println(String.format("%-25s %12s %12s %12s %12s %12s",
+            "MODULE", "INSTRUCTION", "BRANCH", "LINE", "METHOD", "CLASS"))
+        println("-".repeat(100))
+
+        modules.forEach { modulePath ->
+            val module = project.findProject(":$modulePath") ?: return@forEach
+            val xmlFile = module.layout.buildDirectory.file("reports/jacoco/test/jacocoTestReport.xml").get().asFile
+
+            if (!xmlFile.exists()) {
+                return@forEach
+            }
+
+            val moduleName = module.name
+            val parser = groovy.xml.XmlParser()
+            parser.setFeature("http://apache.org/xml/features/disallow-doctype-decl", false)
+            parser.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false)
+
+            val xml = parser.parse(xmlFile)
+            val counters = (xml as groovy.util.Node).get("counter") as List<*>
+
+            var instruction = ""
+            var branch = ""
+            var line = ""
+            var method = ""
+            var classPercent = ""
+
+            counters.forEach { counter ->
+                val node = counter as groovy.util.Node
+                val type = node.attribute("type")
+                val missed = (node.attribute("missed") as String).toInt()
+                val covered = (node.attribute("covered") as String).toInt()
+                val total = missed + covered
+                val percentage = if (total > 0) String.format("%.1f%%", covered * 100.0 / total) else "0.0%"
+
+                when (type) {
+                    "INSTRUCTION" -> instruction = percentage
+                    "BRANCH" -> branch = percentage
+                    "LINE" -> line = percentage
+                    "METHOD" -> method = percentage
+                    "CLASS" -> classPercent = percentage
+                }
+            }
+
+            println(String.format("%-25s %12s %12s %12s %12s %12s",
+                moduleName, instruction, branch, line, method, classPercent))
+        }
+
+        println("=".repeat(100) + "\n")
+    }
+}
 
 subprojects {
     apply(plugin = "io.freefair.lombok")
@@ -34,82 +105,10 @@ subprojects {
     }
 
     plugins.withId("java") {
-        apply(plugin = "jacoco")
+        apply(from = "${rootProject.projectDir}/gradle/jacoco.gradle.kts")
 
-        configure<JacocoPluginExtension> {
-            toolVersion = "0.8.11"
-        }
-
-        tasks.test {
-            finalizedBy(tasks.jacocoTestReport)
-        }
-
-        tasks.jacocoTestReport {
-            dependsOn(tasks.test)
-
-            classDirectories.setFrom(
-                files(classDirectories.files.map {
-                    fileTree(it) {
-                        exclude(
-                            /*DTO, Record*/
-                            "**/dto/**/*ApiResponse.class",
-                            "**/dto/**/*Command.class",
-                            "**/dto/**/*Query.class",
-                            "**/dto/**/*Response.class",
-                            "**/dto/**/*Request.class",
-                            "**/metadata/**/*Meta.class",
-                            "**/response/**/*.class",
-                            "**/request/**/*Request.class",
-                            "**/*Event.class",
-
-                            /*Entity*/
-                            "**/entity/**/*Entity.class",
-                            "**/base/BaseEntity.class",
-
-                            /*Enum*/
-                            "**/*Type.class",
-                            "**/*Status.class",
-                            "**/ErrorCode.class",
-
-                            /*port, interface*/
-                            "**/port/**/*Port.class",
-                            "**/port/**/*UseCase.class",
-                            "**/port/**/*Projection.class",
-
-                            // Configuration
-                            "**/config/**/*Config.class",
-                            "**/properties/**/*Properties.class",
-
-                            // Application Classes
-                            "**/*Application.class",
-
-                            // Exceptions
-                            "**/exception/**/*.class",
-                            "**/*Exception.class",
-
-                            // Mappers
-                            "**/mapper/**/*Mapper.class",
-
-                            // Repositories
-                            "**/repository/**/*Repository.class",
-
-                            // Module Markers
-                            "**/*Module.class",
-
-                            // Filters and Interceptors
-                            "**/filter/**/*.class",
-                            "**/interceptor/**/*.class"
-                        )
-                    }
-                })
-            )
-
-            reports {
-                xml.required.set(true)
-                html.required.set(true)
-                csv.required.set(false)
-                html.outputLocation.set(layout.buildDirectory.dir("reports/jacoco/test/html"))
-            }
+        tasks.named("test") {
+            finalizedBy(rootProject.tasks.named("printCoverageSummary"))
         }
     }
 
