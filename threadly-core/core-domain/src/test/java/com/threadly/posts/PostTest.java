@@ -3,8 +3,12 @@ package com.threadly.posts;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.threadly.core.domain.post.CannotLikePostException;
 import com.threadly.core.domain.post.Post;
+import com.threadly.core.domain.post.PostLike;
+import com.threadly.core.domain.post.PostStatus;
 import com.threadly.core.domain.post.comment.PostComment;
 import java.util.ArrayList;
 import java.util.List;
@@ -79,9 +83,92 @@ class PostTest {
   }
 
   /**
-   * like()
+   * validateLikable()
    */
+  /*[Case #1] ACTIVE 상태가 아니면 예외가 발생해야 한다*/
+  @DisplayName("validateLikable - DELETED 상태에서 예외 발생")
+  @Test
+  public void validateLikable_shouldThrowException_whenNotActive() throws Exception {
+    //given
+    generatePost();
+    post.markAsDeleted();
 
+    //when & then
+    assertThrows(CannotLikePostException.class, () -> post.validateLikable());
+  }
+
+  /**
+   * addLike()
+   */
+  /*[Case #1] 좋아요가 정상적으로 생성되어야 한다*/
+  @DisplayName("addLike - 게시글 좋아요가 정상적으로 생성되어야 한다")
+  @Test
+  public void addLike_shouldCreateLikeSuccessfully() throws Exception {
+    //given
+    generatePost();
+
+    String userId = "user2";
+
+    //when
+    PostLike like = post.addLike(userId);
+
+    //then
+    assertAll(
+        () -> assertThat(like.getPostId()).isEqualTo(post.getPostId()),
+        () -> assertThat(like.getUserId()).isEqualTo(userId)
+    );
+  }
+
+  /**
+   * markAsDeleted()
+   */
+  /*[Case #1] DELETED 상태로 변경되어야 한다*/
+  @DisplayName("markAsDeleted - DELETED 상태로 변경되어야 한다")
+  @Test
+  public void markAsDeleted_shouldChangeStatusToDeleted() throws Exception {
+    //given
+    generatePost();
+
+    //when
+    post.markAsDeleted();
+
+    //then
+    assertThat(post.getStatus()).isEqualTo(PostStatus.DELETED);
+  }
+
+  /**
+   * markAsBlocked()
+   */
+  /*[Case #1] BLOCKED 상태로 변경되어야 한다*/
+  @DisplayName("markAsBlocked - BLOCKED 상태로 변경되어야 한다")
+  @Test
+  public void markAsBlocked_shouldChangeStatusToBlocked() throws Exception {
+    //given
+    generatePost();
+
+    //when
+    post.markAsBlocked();
+
+    //then
+    assertThat(post.getStatus()).isEqualTo(PostStatus.BLOCKED);
+  }
+
+  /**
+   * markAsArchived()
+   */
+  /*[Case #1] ARCHIVE 상태로 변경되어야 한다*/
+  @DisplayName("markAsArchived - ARCHIVE 상태로 변경되어야 한다")
+  @Test
+  public void markAsArchived_shouldChangeStatusToArchived() throws Exception {
+    //given
+    generatePost();
+
+    //when
+    post.markAsArchived();
+
+    //then
+    assertThat(post.getStatus()).isEqualTo(PostStatus.ARCHIVE);
+  }
 
   /**
    * newComment()
