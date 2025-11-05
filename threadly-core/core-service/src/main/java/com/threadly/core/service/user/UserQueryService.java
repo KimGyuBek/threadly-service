@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class UserQueryQueryService implements UserQueryUseCase {
+public class UserQueryService implements UserQueryUseCase {
 
   private final UserQueryPort userQueryPort;
 
