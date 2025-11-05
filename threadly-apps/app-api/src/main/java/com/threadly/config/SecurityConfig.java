@@ -133,7 +133,6 @@ public class SecurityConfig {
     http.httpBasic(AbstractHttpConfigurer::disable);
     http.csrf(AbstractHttpConfigurer::disable);
     http.cors(Customizer.withDefaults());
-//    http.cors(AbstractHttpConfigurer::disable);
     http.formLogin(AbstractHttpConfigurer::disable);
   }
 
