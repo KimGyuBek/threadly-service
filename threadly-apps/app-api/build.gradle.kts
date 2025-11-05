@@ -6,7 +6,7 @@ dependencies {
     implementation(project(":threadly-adapters:adapter-redis"))
     implementation(project(":threadly-adapters:adapter-storage"))
     implementation(project(":threadly-adapters:adapter-kafka"))
-    implementation(project(":threadly-core:core-domain:"))
+    implementation(project(":threadly-core:core-domain"))
 
 
     implementation("org.springframework.boot:spring-boot-starter-aop")
