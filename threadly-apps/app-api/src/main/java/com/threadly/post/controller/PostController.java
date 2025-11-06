@@ -37,7 +37,7 @@ import com.threadly.post.controller.api.PostApi;
  * 게시글 등록, 조회, 삭제 컨트롤러
  */
 @RestController
-@RequestMapping("/api/posts")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class PostController implements PostApi {
 
@@ -60,7 +60,7 @@ public class PostController implements PostApi {
    * @param postId
    * @return
    */
-  @GetMapping("/{postId}")
+  @GetMapping("/posts/{postId}")
   public ResponseEntity<PostDetails> getPost(
       @AuthenticationPrincipal JwtAuthenticationUser user,
       @PathVariable String postId) {
@@ -86,7 +86,7 @@ public class PostController implements PostApi {
    *
    * @return
    */
-  @GetMapping("")
+  @GetMapping("/posts")
   public ResponseEntity<CursorPageApiResponse> getPostList(
       @AuthenticationPrincipal JwtAuthenticationUser user,
       @RequestParam(value = "cursor_timestamp", required = false) LocalDateTime cursorTimestamp,
@@ -108,7 +108,7 @@ public class PostController implements PostApi {
    *
    * @return
    */
-  @PostMapping("")
+  @PostMapping("/posts")
   public ResponseEntity<CreatePostApiResponse> createPost(
       @AuthenticationPrincipal JwtAuthenticationUser user,
       @Valid @RequestBody CreatePostRequest request) {
@@ -134,7 +134,7 @@ public class PostController implements PostApi {
    * @param postId
    * @return
    */
-  @PatchMapping("/{postId}")
+  @PatchMapping("/posts/{postId}")
   public ResponseEntity<UpdatePostApiResponse> updatePost(
       @AuthenticationPrincipal JwtAuthenticationUser user,
       @Valid @RequestBody UpdatePostRequest request,
@@ -153,7 +153,7 @@ public class PostController implements PostApi {
    * @param postId
    * @return
    */
-  @DeleteMapping("/{postId}")
+  @DeleteMapping("/posts/{postId}")
   public ResponseEntity<Void> deletePost(
       @AuthenticationPrincipal JwtAuthenticationUser user,
       @PathVariable("postId") String postId) {
