@@ -1,0 +1,50 @@
+[
+  {
+    "userId": "target_public_user",
+    "userName": "public_account",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "public@threadly.com",
+    "phone": "010-1000-0001",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "공개계정",
+      "statusMessage": "누구나 볼 수 있어요",
+      "bio": "공개 계정 사용자",
+      "gender": "MALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "target_private_user",
+    "userName": "private_account",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "private@threadly.com",
+    "phone": "010-1000-0002",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "비공개계정",
+      "statusMessage": "팔로워만 볼 수 있어요",
+      "bio": "비공개 계정 사용자",
+      "gender": "FEMALE",
+      "profileType": "USER"
+    }
+  },
+  {
+    "userId": "test_viewer",
+    "userName": "viewer_account",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "viewer@threadly.com",
+    "phone": "010-1000-0003",
+    "userType": "USER",
+    "isEmailVerified": true,
+    "userProfile": {
+      "nickname": "조회자",
+      "statusMessage": "테스트 조회자",
+      "bio": "게시글을 조회하는 사용자",
+      "gender": "MALE",
+      "profileType": "USER"
+    }
+  }
+]

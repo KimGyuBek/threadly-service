@@ -13,14 +13,17 @@ import com.threadly.core.port.commons.dto.UserPreview;
 import com.threadly.core.port.post.in.query.PostQueryUseCase;
 import com.threadly.core.port.post.in.query.dto.GetPostEngagementApiResponse;
 import com.threadly.core.port.post.in.query.dto.GetPostEngagementQuery;
-import com.threadly.core.port.post.in.query.dto.GetPostListQuery;
 import com.threadly.core.port.post.in.query.dto.GetPostQuery;
+import com.threadly.core.port.post.in.query.dto.GetPostsQuery;
+import com.threadly.core.port.post.in.query.dto.GetUserPostsQuery;
 import com.threadly.core.port.post.in.query.dto.PostDetails;
 import com.threadly.core.port.post.in.query.dto.PostDetails.PostImage;
 import com.threadly.core.port.post.out.PostQueryPort;
 import com.threadly.core.port.post.out.image.PostImageQueryPort;
 import com.threadly.core.port.post.out.image.projection.PostImageProjection;
 import com.threadly.core.port.post.out.projection.PostDetailProjection;
+import com.threadly.core.service.validator.follow.FollowAccessValidator;
+import com.threadly.core.service.validator.user.UserStatusValidator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -37,12 +40,16 @@ public class PostQueryService implements PostQueryUseCase {
 
   private final PostImageQueryPort postImageQueryPort;
 
+  private final FollowAccessValidator followAccessValidator;
+
+  private final UserStatusValidator userStatusValidator;
+
   @Transactional(readOnly = true)
   @Override
-  public CursorPageApiResponse<PostDetails> getUserVisiblePostListByCursor(GetPostListQuery query) {
+  public CursorPageApiResponse<PostDetails> getUserVisiblePosts(GetPostsQuery query) {
 
     /*게시글 상세 정보 조회*/
-    List<PostDetails> allPostList = postQueryPort.fetchUserVisiblePostListByCursor(
+    List<PostDetails> postDetailsList = postQueryPort.fetchUserVisiblePostsByCursor(
             query.getUserId(), query.getCursorPostedAt(), query.getCursorPostId(), query.getLimit() + 1)
         .stream().map(
             projection -> {
@@ -75,7 +82,7 @@ public class PostQueryService implements PostQueryUseCase {
                   projection.isLiked());
             }).toList();
 
-    return CursorPageApiResponse.from(allPostList, query.getLimit());
+    return CursorPageApiResponse.from(postDetailsList, query.getLimit());
   }
 
   @Transactional(readOnly = true)
@@ -121,6 +128,47 @@ public class PostQueryService implements PostQueryUseCase {
         postDetailProjection.getLikeCount(),
         postDetailProjection.getCommentCount(),
         postDetailProjection.isLiked());
+  }
+
+  @Transactional(readOnly = true)
+  @Override
+  public CursorPageApiResponse<PostDetails> getUserPosts(GetUserPostsQuery query) {
+    /*1. targetUserId 상태 검증*/
+    userStatusValidator.validateUserStatusWithException(query.userId());
+
+    /*2. 팔로우 관계 검증*/
+    followAccessValidator.validateProfileAccessibleWithException(query.userId(), query.targetId());
+
+    /*3. 사용자 게시글 조회 후 응답 생성*/
+    List<PostDetails> userPostDetailsList = postQueryPort.fetchUserPostsByCursor(
+        query.userId(),
+        query.targetId(),
+        query.cursorPostedAt(),
+        query.cursorPostId(),
+        query.limit() + 1
+    ).stream().map(
+        projection -> {
+          UserPreview author = new UserPreview(
+              projection.getUserId(),
+              projection.getUserNickname(),
+              projection.getUserProfileImageUrl()
+          );
+
+          return new PostDetails(
+              projection.getPostId(),
+              author,
+              projection.getContent(),
+              List.of(),
+              projection.getViewCount(),
+              projection.getPostedAt(),
+              projection.getLikeCount(),
+              projection.getCommentCount(),
+              projection.isLiked()
+          );
+        }
+    ).toList();
+
+    return CursorPageApiResponse.from(userPostDetailsList, query.limit());
   }
 
   @Transactional(readOnly = true)

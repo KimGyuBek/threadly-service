@@ -39,7 +39,20 @@ public interface PostQueryPort {
    * @param limit
    * @return
    */
-  List<PostDetailProjection> fetchUserVisiblePostListByCursor(String userId,
+  List<PostDetailProjection> fetchUserVisiblePostsByCursor(String userId,
+      LocalDateTime cursorPostedAt, String cursorPostId, int limit);
+
+  /**
+   * 주어진 targetUserId에 해당하는 사용자의 게시글 목록 커서 기반 조회
+   *
+   * @param requestUserId 요청자 ID (좋아요 여부 확인용)
+   * @param targetUserId 대상 사용자 ID (게시글 필터링용)
+   * @param cursorPostedAt
+   * @param cursorPostId
+   * @param limit
+   * @return
+   */
+  List<PostDetailProjection> fetchUserPostsByCursor(String requestUserId, String targetUserId,
       LocalDateTime cursorPostedAt, String cursorPostId, int limit);
 
 

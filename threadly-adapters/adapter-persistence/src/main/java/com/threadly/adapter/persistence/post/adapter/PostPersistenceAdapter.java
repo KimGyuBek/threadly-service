@@ -2,13 +2,13 @@ package com.threadly.adapter.persistence.post.adapter;
 
 import com.threadly.adapter.persistence.post.entity.PostEntity;
 import com.threadly.adapter.persistence.post.mapper.PostMapper;
+import com.threadly.adapter.persistence.post.repository.PostJpaRepository;
+import com.threadly.core.domain.post.Post;
 import com.threadly.core.domain.post.PostStatus;
+import com.threadly.core.port.post.out.PostCommandPort;
 import com.threadly.core.port.post.out.PostQueryPort;
 import com.threadly.core.port.post.out.projection.PostDetailProjection;
 import com.threadly.core.port.post.out.projection.PostEngagementProjection;
-import com.threadly.core.port.post.out.PostCommandPort;
-import com.threadly.core.domain.post.Post;
-import com.threadly.adapter.persistence.post.repository.PostJpaRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @RequiredArgsConstructor
-public class PostPersistenceAdapter implements PostCommandPort, PostQueryPort  {
+public class PostPersistenceAdapter implements PostCommandPort, PostQueryPort {
 
   private final PostJpaRepository postJpaRepository;
 
@@ -56,11 +56,22 @@ public class PostPersistenceAdapter implements PostCommandPort, PostQueryPort  {
 
 
   @Override
-  public List<PostDetailProjection> fetchUserVisiblePostListByCursor(String userId,
+  public List<PostDetailProjection> fetchUserVisiblePostsByCursor(String userId,
       LocalDateTime cursorPostedAt, String cursorPostId,
       int limit) {
     return postJpaRepository.findUserVisiblePostsBeforeModifiedAt(userId, cursorPostedAt,
         cursorPostId, limit);
+  }
+
+  @Override
+  public List<PostDetailProjection> fetchUserPostsByCursor(String requestUserId,
+      String targetUserId, LocalDateTime cursorPostedAt, String cursorPostId, int limit) {
+
+    return postJpaRepository.getUserPostsByUserIdWithCursor(
+        requestUserId,
+        targetUserId,
+        cursorPostedAt, cursorPostId, limit
+    );
   }
 
   @Override

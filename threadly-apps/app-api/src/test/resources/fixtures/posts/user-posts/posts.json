@@ -1,0 +1,65 @@
+[
+  {
+    "postId": "public_post_1",
+    "userId": "target_public_user",
+    "content": "공개 계정의 첫 번째 게시글입니다",
+    "status": "ACTIVE",
+    "viewCount": 100
+  },
+  {
+    "postId": "public_post_2",
+    "userId": "target_public_user",
+    "content": "공개 계정의 두 번째 게시글입니다",
+    "status": "ACTIVE",
+    "viewCount": 200
+  },
+  {
+    "postId": "public_post_3",
+    "userId": "target_public_user",
+    "content": "공개 계정의 세 번째 게시글입니다",
+    "status": "ACTIVE",
+    "viewCount": 150
+  },
+  {
+    "postId": "public_post_4",
+    "userId": "target_public_user",
+    "content": "공개 계정의 네 번째 게시글입니다",
+    "status": "ACTIVE",
+    "viewCount": 180
+  },
+  {
+    "postId": "public_post_5",
+    "userId": "target_public_user",
+    "content": "공개 계정의 다섯 번째 게시글입니다",
+    "status": "ACTIVE",
+    "viewCount": 120
+  },
+  {
+    "postId": "private_post_1",
+    "userId": "target_private_user",
+    "content": "비공개 계정의 첫 번째 게시글입니다",
+    "status": "ACTIVE",
+    "viewCount": 50
+  },
+  {
+    "postId": "private_post_2",
+    "userId": "target_private_user",
+    "content": "비공개 계정의 두 번째 게시글입니다",
+    "status": "ACTIVE",
+    "viewCount": 75
+  },
+  {
+    "postId": "private_post_3",
+    "userId": "target_private_user",
+    "content": "비공개 계정의 세 번째 게시글입니다",
+    "status": "ACTIVE",
+    "viewCount": 60
+  },
+  {
+    "postId": "viewer_post_1",
+    "userId": "test_viewer",
+    "content": "조회자의 게시글입니다",
+    "status": "ACTIVE",
+    "viewCount": 30
+  }
+]

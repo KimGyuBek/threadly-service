@@ -266,4 +266,62 @@ public interface PostJpaRepository extends JpaRepository<PostEntity, String> {
       @Param("cursorPostId") String cursorPostId,
       @Param("limit") int limit,
       @Param("sortType") String sortType);
+
+  /**
+   * 주어진 targetUserId에 해당하는 사용자의 게시글 목록 커서 기반 조회
+   *
+   * @param requestUserId 요청자 ID (좋아요 여부 확인용)
+   * @param targetUserId 대상 사용자 ID (게시글 필터링용)
+   * @param cursorPostedAt
+   * @param cursorPostId
+   * @param limit
+   * @return
+   */
+  @Query(value = """
+      select p.post_id                         as postId,
+             p.user_id                         as userId,
+             up.nickname                       as userNickname,
+             upi.image_url                     as userProfileImageUrl,
+             p.content                         as content,
+             p.view_count                      as viewCount,
+             p.created_at                      as postedAt,
+             p.status                          as postStatus,
+             coalesce(pl_count.cnt, 0)         as likeCount,
+             coalesce(pc_count.cnt, 0)         as commentCount,
+             coalesce(user_liked.liked, false) as liked
+      from posts p
+               join users u on p.user_id = u.user_id
+               join user_profile up on u.user_id = up.user_id
+               left join (select upi.user_id, upi.image_url
+                          from user_profile_images upi
+                          where upi.status = 'APPROVED') upi
+                         on u.user_id = upi.user_id
+               left join(select pc.post_id, count(*) as cnt
+                         from post_comments pc
+                         where pc.status = 'ACTIVE'
+                         group by pc.post_id) pc_count on p.post_id = pc_count.post_id
+               left join (select pl.post_id, count(*) as cnt
+                          from post_likes pl
+                          group by pl.post_id) pl_count
+                         on p.post_id = pl_count.post_id
+               left join (select pl.post_id, true as liked
+                          from post_likes pl
+                          where pl.user_id = :requestUserId
+                          group by pl.post_id) user_liked on p.post_id = user_liked.post_id
+      where p.user_id = :targetUserId
+        and p.status = 'ACTIVE'
+        and (
+          cast(:cursorPostedAt as timestamp) is null
+              or p.created_at < :cursorPostedAt
+              or (
+              p.created_at = :cursorPostedAt and p.post_id < :cursorPostId)
+          )
+      order by p.created_at desc, p.post_id desc
+      limit :limit
+      """, nativeQuery = true)
+  List<PostDetailProjection> getUserPostsByUserIdWithCursor(
+      @Param("requestUserId") String requestUserId,
+      @Param("targetUserId") String targetUserId,
+      @Param("cursorPostedAt") LocalDateTime cursorPostedAt,
+      @Param("cursorPostId") String cursorPostId, @Param("limit") int limit);
 }

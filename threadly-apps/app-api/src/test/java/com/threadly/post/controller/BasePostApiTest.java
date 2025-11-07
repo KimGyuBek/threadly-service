@@ -170,6 +170,37 @@ public abstract class BasePostApiTest extends BaseApiTest {
   }
 
   /**
+   * 특정 사용자의 게시글 목록 조회 요청 전송
+   *
+   * @param accessToken
+   * @param userId
+   * @param cursorTimestamp
+   * @param cursorId
+   * @param limit
+   * @param expectedStatus
+   * @return
+   */
+  public CommonResponse<CursorPageApiResponse<PostDetails>> sendGetUserPostsRequest(
+      String accessToken,
+      String userId,
+      LocalDateTime cursorTimestamp,
+      String cursorId,
+      int limit,
+      ResultMatcher expectedStatus) throws Exception {
+    String path = "/api/users/" + userId + "/posts?limit=" + limit;
+
+    if (cursorTimestamp != null || cursorId != null) {
+      path += "&cursor_timestamp=" + cursorTimestamp + "&cursor_id=" + cursorId;
+    }
+
+    return
+        sendGetRequest(
+            accessToken, path, expectedStatus,
+            new TypeReference<>() {
+            });
+  }
+
+  /**
    * 게시글 삭제 요청 전송
    *
    * @param accessToken

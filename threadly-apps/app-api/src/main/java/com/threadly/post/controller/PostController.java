@@ -3,17 +3,19 @@ package com.threadly.post.controller;
 import com.threadly.auth.JwtAuthenticationUser;
 import com.threadly.commons.response.CursorPageApiResponse;
 import com.threadly.core.port.post.in.command.PostCommandUseCase;
+import com.threadly.core.port.post.in.command.dto.CreatePostApiResponse;
 import com.threadly.core.port.post.in.command.dto.CreatePostCommand;
 import com.threadly.core.port.post.in.command.dto.CreatePostCommand.ImageCommand;
 import com.threadly.core.port.post.in.command.dto.DeletePostCommand;
-import com.threadly.core.port.post.in.command.dto.UpdatePostCommand;
-import com.threadly.core.port.post.in.command.dto.CreatePostApiResponse;
-import com.threadly.core.port.post.in.query.dto.GetPostListQuery;
-import com.threadly.core.port.post.in.query.dto.GetPostQuery;
-import com.threadly.core.port.post.in.query.dto.PostDetails;
-import com.threadly.core.port.post.in.query.PostQueryUseCase;
 import com.threadly.core.port.post.in.command.dto.UpdatePostApiResponse;
+import com.threadly.core.port.post.in.command.dto.UpdatePostCommand;
+import com.threadly.core.port.post.in.query.PostQueryUseCase;
+import com.threadly.core.port.post.in.query.dto.GetPostsQuery;
+import com.threadly.core.port.post.in.query.dto.GetPostQuery;
+import com.threadly.core.port.post.in.query.dto.GetUserPostsQuery;
+import com.threadly.core.port.post.in.query.dto.PostDetails;
 import com.threadly.core.port.post.in.view.IncreaseViewCountUseCase;
+import com.threadly.post.controller.api.PostApi;
 import com.threadly.post.request.CreatePostRequest;
 import com.threadly.post.request.UpdatePostRequest;
 import jakarta.validation.Valid;
@@ -30,7 +32,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.threadly.post.controller.api.PostApi;
 
 
 /**
@@ -87,19 +88,42 @@ public class PostController implements PostApi {
    * @return
    */
   @GetMapping("/posts")
-  public ResponseEntity<CursorPageApiResponse> getPostList(
+  public ResponseEntity<CursorPageApiResponse> getPosts(
       @AuthenticationPrincipal JwtAuthenticationUser user,
       @RequestParam(value = "cursor_timestamp", required = false) LocalDateTime cursorTimestamp,
       @RequestParam(value = "cursor_id", required = false) String cursorId,
       @RequestParam(value = "limit", defaultValue = "10") int limit
   ) {
     return ResponseEntity.status(200).body(
-        postQueryUseCase.getUserVisiblePostListByCursor(
-            new GetPostListQuery(
+        postQueryUseCase.getUserVisiblePosts(
+            new GetPostsQuery(
                 user.getUserId(), cursorTimestamp, cursorId, limit
             )
         )
     );
+  }
+
+  /**
+   * 특정 사용자가 작성한 게시글 목록을 커서 기반으로 조회
+   */
+  @GetMapping("/users/{userId}/posts")
+  public ResponseEntity<CursorPageApiResponse> getUserPosts(
+      @AuthenticationPrincipal JwtAuthenticationUser user,
+      @PathVariable String userId,
+      @RequestParam(value = "cursor_timestamp", required = false) LocalDateTime cursorTimestamp,
+      @RequestParam(value = "cursor_id", required = false) String cursorId,
+      @RequestParam(value = "limit", defaultValue = "10") int limit
+  ) {
+    return ResponseEntity.status(200).body(
+        postQueryUseCase.getUserPosts(new GetUserPostsQuery(
+            user.getUserId(),
+            userId,
+            cursorTimestamp,
+            cursorId,
+            limit)
+        )
+    );
+
   }
 
 

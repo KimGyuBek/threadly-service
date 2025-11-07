@@ -1,0 +1,8 @@
+[
+  {
+    "followId": "follow_viewer_to_private",
+    "followerId": "test_viewer",
+    "followingId": "target_private_user",
+    "status": "APPROVED"
+  }
+]

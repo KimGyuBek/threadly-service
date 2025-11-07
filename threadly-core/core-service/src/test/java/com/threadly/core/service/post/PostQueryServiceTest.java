@@ -12,8 +12,8 @@ import com.threadly.core.domain.image.ImageStatus;
 import com.threadly.core.domain.post.PostStatus;
 import com.threadly.core.port.post.in.query.dto.GetPostEngagementApiResponse;
 import com.threadly.core.port.post.in.query.dto.GetPostEngagementQuery;
-import com.threadly.core.port.post.in.query.dto.GetPostListQuery;
 import com.threadly.core.port.post.in.query.dto.GetPostQuery;
+import com.threadly.core.port.post.in.query.dto.GetPostsQuery;
 import com.threadly.core.port.post.in.query.dto.PostDetails;
 import com.threadly.core.port.post.out.PostQueryPort;
 import com.threadly.core.port.post.out.image.PostImageQueryPort;
@@ -71,7 +71,7 @@ class PostQueryServiceTest {
       void getUserVisiblePostListByCursor_shouldReturnPagedResponse() throws Exception {
         //given
         LocalDateTime now = LocalDateTime.now();
-        GetPostListQuery query = new GetPostListQuery(
+        GetPostsQuery query = new GetPostsQuery(
             "user-1", now, "post-cursor", 1
         );
 
@@ -233,7 +233,7 @@ class PostQueryServiceTest {
           }
         };
 
-        when(postQueryPort.fetchUserVisiblePostListByCursor(
+        when(postQueryPort.fetchUserVisiblePostsByCursor(
             query.getUserId(),
             query.getCursorPostedAt(),
             query.getCursorPostId(),
@@ -246,10 +246,10 @@ class PostQueryServiceTest {
 
         //when
         CursorPageApiResponse<PostDetails> response =
-            postQueryService.getUserVisiblePostListByCursor(query);
+            postQueryService.getUserVisiblePosts(query);
 
         //then
-        verify(postQueryPort).fetchUserVisiblePostListByCursor(
+        verify(postQueryPort).fetchUserVisiblePostsByCursor(
             query.getUserId(),
             query.getCursorPostedAt(),
             query.getCursorPostId(),
@@ -380,8 +380,10 @@ class PostQueryServiceTest {
         PostDetails details = postQueryService.getPost(query);
 
         //then
-        verify(postQueryPort).fetchPostDetailsByPostIdAndUserId(query.getPostId(), query.getUserId());
-        verify(postImageQueryPort).findAllByPostIdAndStatus(query.getPostId(), ImageStatus.CONFIRMED);
+        verify(postQueryPort).fetchPostDetailsByPostIdAndUserId(query.getPostId(),
+            query.getUserId());
+        verify(postImageQueryPort).findAllByPostIdAndStatus(query.getPostId(),
+            ImageStatus.CONFIRMED);
 
         assertThat(details.postId()).isEqualTo("post-1");
         assertThat(details.author().userId()).isEqualTo("author-1");
@@ -586,7 +588,8 @@ class PostQueryServiceTest {
           }
         };
 
-        when(postQueryPort.fetchPostEngagementByPostIdAndUserId(query.getPostId(), query.getUserId()))
+        when(postQueryPort.fetchPostEngagementByPostIdAndUserId(query.getPostId(),
+            query.getUserId()))
             .thenReturn(Optional.of(projection));
 
         //when
@@ -615,7 +618,8 @@ class PostQueryServiceTest {
       void getPostEngagement_shouldThrow_whenPostNotFound() throws Exception {
         //given
         GetPostEngagementQuery query = new GetPostEngagementQuery("post-unknown", "viewer-1");
-        when(postQueryPort.fetchPostEngagementByPostIdAndUserId(query.getPostId(), query.getUserId()))
+        when(postQueryPort.fetchPostEngagementByPostIdAndUserId(query.getPostId(),
+            query.getUserId()))
             .thenReturn(Optional.empty());
 
         //when & then
