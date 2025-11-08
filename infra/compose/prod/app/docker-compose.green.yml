@@ -26,6 +26,7 @@ services:
         max-file: "3"
     volumes:
       - /home/ubuntu/threadly/logs/services/app/green:/app/logs
+      - /home/ubuntu/threadly/storage/uploads:/app/local-storage/uploads
     networks:
       - service-network
       - kafka-network
