@@ -1,0 +1,18 @@
+[
+  {
+    "userId": "duplicate_test_user",
+    "userName": "duplicate_test",
+    "password": "$2a$10$ETO27eRm0V3M93i00eCNoeHupoHzlKqhbGEhfP.Ej8mXgQSDPHS4e",
+    "email": "duplicate@threadly.com",
+    "phone": "010-1234-5678",
+    "userType": "USER",
+    "isEmailVerified": false,
+    "userProfile": {
+      "nickname": "duplicate_test",
+      "statusMessage": "테스트 사용자",
+      "bio": "이메일 중복 테스트용 사용자",
+      "gender": "MALE",
+      "profileType": "USER"
+    }
+  }
+]

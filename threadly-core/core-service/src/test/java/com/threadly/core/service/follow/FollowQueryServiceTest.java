@@ -19,7 +19,7 @@ import com.threadly.core.port.follow.out.projection.FollowerProjection;
 import com.threadly.core.port.follow.out.projection.FollowingProjection;
 import com.threadly.core.port.follow.out.projection.UserFollowStatsProjection;
 import com.threadly.core.service.validator.follow.FollowAccessValidator;
-import com.threadly.core.service.validator.user.UserStatusValidator;
+import com.threadly.core.service.validator.user.UserValidator;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.ClassOrderer;
@@ -52,7 +52,7 @@ class FollowQueryServiceTest {
   private FollowAccessValidator followAccessValidator;
 
   @Mock
-  private UserStatusValidator userStatusValidator;
+  private UserValidator userValidator;
 
   @Order(1)
   @Nested
@@ -360,7 +360,7 @@ class FollowQueryServiceTest {
       GetUserFollowStatsApiResponse response = followQueryService.getUserFollowStats(userId);
 
       //then
-      verify(userStatusValidator).validateUserStatusWithException(userId);
+      verify(userValidator).validateUserStatusWithException(userId);
       verify(followQueryPort).getUserFollowStatusByUserId(userId);
       assertThat(response.followerCount()).isEqualTo(3);
       assertThat(response.followingCount()).isEqualTo(5);

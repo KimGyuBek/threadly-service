@@ -15,7 +15,7 @@ import com.threadly.core.port.user.out.UserQueryPort;
 import com.threadly.core.port.follow.out.FollowCommandPort;
 import com.threadly.core.port.follow.out.FollowQueryPort;
 import com.threadly.core.service.notification.dto.NotificationPublishCommand;
-import com.threadly.core.service.validator.user.UserStatusValidator;
+import com.threadly.core.service.validator.user.UserValidator;
 import com.threadly.core.port.follow.in.command.FollowCommandUseCase;
 import com.threadly.core.port.follow.in.command.dto.FollowRelationCommand;
 import com.threadly.core.port.follow.in.command.dto.FollowUserApiResponse;
@@ -40,7 +40,7 @@ public class FollowCommandService implements FollowCommandUseCase {
 
   private final UserQueryPort userQueryPort;
 
-  private final UserStatusValidator userStatusValidator;
+  private final UserValidator userValidator;
 
   private final ApplicationEventPublisher applicationEventPublisher;
 
@@ -59,7 +59,7 @@ public class FollowCommandService implements FollowCommandUseCase {
             ErrorCode.USER_NOT_FOUND));
 
     /*targetUser 상태 검증*/
-    userStatusValidator.validateUserStatusWithException(targetUser.getUserId());
+    userValidator.validateUserStatusWithException(targetUser.getUserId());
 
     /*follow 도메인 생성*/
     Follow follow = Follow.createFollow(command.userId(), targetUser.getUserId());

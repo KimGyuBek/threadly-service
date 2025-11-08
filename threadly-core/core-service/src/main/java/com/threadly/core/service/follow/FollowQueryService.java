@@ -13,7 +13,7 @@ import com.threadly.core.port.follow.in.query.dto.GetUserFollowStatsApiResponse;
 import com.threadly.core.port.follow.out.FollowQueryPort;
 import com.threadly.core.port.follow.out.projection.UserFollowStatsProjection;
 import com.threadly.core.service.validator.follow.FollowAccessValidator;
-import com.threadly.core.service.validator.user.UserStatusValidator;
+import com.threadly.core.service.validator.user.UserValidator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,7 +29,7 @@ public class FollowQueryService implements FollowQueryUseCase {
   private final FollowQueryPort followQueryPort;
 
   private final FollowAccessValidator followAccessValidator;
-  private final UserStatusValidator userStatusValidator;
+  private final UserValidator userValidator;
 
 
   @Transactional(readOnly = true)
@@ -121,7 +121,7 @@ public class FollowQueryService implements FollowQueryUseCase {
   @Override
   public GetUserFollowStatsApiResponse getUserFollowStats(String userId) {
     /*사용자 statusType 검증*/
-    userStatusValidator.validateUserStatusWithException(userId);
+    userValidator.validateUserStatusWithException(userId);
 
     UserFollowStatsProjection userFollowStatsProjection = followQueryPort.getUserFollowStatusByUserId(
         userId);

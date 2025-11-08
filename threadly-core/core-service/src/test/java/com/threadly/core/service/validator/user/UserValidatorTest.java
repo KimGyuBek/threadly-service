@@ -1,5 +1,6 @@
 package com.threadly.core.service.validator.user;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.verify;
@@ -28,10 +29,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
  */
 @TestClassOrder(ClassOrderer.OrderAnnotation.class)
 @ExtendWith(MockitoExtension.class)
-class UserStatusValidatorTest {
+class UserValidatorTest {
 
   @InjectMocks
-  private UserStatusValidator userStatusValidator;
+  private UserValidator userValidator;
 
   @Mock
   private UserQueryPort userQueryPort;
@@ -52,9 +53,48 @@ class UserStatusValidatorTest {
       when(userQueryPort.getUserStatus(userId)).thenReturn(Optional.of(UserStatus.ACTIVE));
 
       //when & then
-      assertThatCode(() -> userStatusValidator.validateUserStatusWithException(userId))
+      assertThatCode(() -> userValidator.validateUserStatusWithException(userId))
           .doesNotThrowAnyException();
       verify(userQueryPort).getUserStatus(userId);
+    }
+
+    /*[Case #2] 이메일로 사용자 조회 성공*/
+    @Order(2)
+    @DisplayName("2. 이메일로 사용자 조회 시 사용자를 반환하는지 검증")
+    @Test
+    void getUserByEmailOrThrow_shouldReturnUser_whenEmailExists() throws Exception {
+      //given
+      String email = "test@test.com";
+      com.threadly.core.domain.user.User expectedUser = com.threadly.core.domain.user.User.newUser(
+          "username", "password", email, "010-1234-5678");
+      when(userQueryPort.findByEmail(email)).thenReturn(Optional.of(expectedUser));
+
+      //when
+      com.threadly.core.domain.user.User result = userValidator.getUserByEmailOrThrow(email);
+
+      //then
+      assertThat(result).isNotNull();
+      assertThat(result.getEmail()).isEqualTo(email);
+      verify(userQueryPort).findByEmail(email);
+    }
+
+    /*[Case #3] ID로 사용자 조회 성공*/
+    @Order(3)
+    @DisplayName("3. ID로 사용자 조회 시 사용자를 반환하는지 검증")
+    @Test
+    void getUserByIdOrElseThrow_shouldReturnUser_whenUserIdExists() throws Exception {
+      //given
+      String userId = "user-1";
+      com.threadly.core.domain.user.User expectedUser = com.threadly.core.domain.user.User.newUser(
+          "username", "password", "test@test.com", "010-1234-5678");
+      when(userQueryPort.findByUserId(userId)).thenReturn(Optional.of(expectedUser));
+
+      //when
+      com.threadly.core.domain.user.User result = userValidator.getUserByIdOrElseThrow(userId);
+
+      //then
+      assertThat(result).isNotNull();
+      verify(userQueryPort).findByUserId(userId);
     }
   }
 
@@ -74,7 +114,7 @@ class UserStatusValidatorTest {
       when(userQueryPort.getUserStatus(userId)).thenReturn(Optional.empty());
 
       //when & then
-      assertThatThrownBy(() -> userStatusValidator.validateUserStatusWithException(userId))
+      assertThatThrownBy(() -> userValidator.validateUserStatusWithException(userId))
           .isInstanceOf(UserException.class)
           .extracting("errorCode")
           .isEqualTo(ErrorCode.USER_NOT_FOUND);
@@ -90,7 +130,7 @@ class UserStatusValidatorTest {
       when(userQueryPort.getUserStatus(userId)).thenReturn(Optional.of(UserStatus.DELETED));
 
       //when & then
-      assertThatThrownBy(() -> userStatusValidator.validateUserStatusWithException(userId))
+      assertThatThrownBy(() -> userValidator.validateUserStatusWithException(userId))
           .isInstanceOf(UserException.class)
           .extracting("errorCode")
           .isEqualTo(ErrorCode.USER_ALREADY_DELETED);
@@ -106,7 +146,7 @@ class UserStatusValidatorTest {
       when(userQueryPort.getUserStatus(userId)).thenReturn(Optional.of(UserStatus.INCOMPLETE_PROFILE));
 
       //when & then
-      assertThatThrownBy(() -> userStatusValidator.validateUserStatusWithException(userId))
+      assertThatThrownBy(() -> userValidator.validateUserStatusWithException(userId))
           .isInstanceOf(UserException.class)
           .extracting("errorCode")
           .isEqualTo(ErrorCode.USER_PROFILE_NOT_SET);
@@ -122,10 +162,42 @@ class UserStatusValidatorTest {
       when(userQueryPort.getUserStatus(userId)).thenReturn(Optional.of(UserStatus.INACTIVE));
 
       //when & then
-      assertThatThrownBy(() -> userStatusValidator.validateUserStatusWithException(userId))
+      assertThatThrownBy(() -> userValidator.validateUserStatusWithException(userId))
           .isInstanceOf(UserException.class)
           .extracting("errorCode")
           .isEqualTo(ErrorCode.USER_INACTIVE);
+    }
+
+    /*[Case #5] 이메일로 사용자 조회 실패 - 사용자 미존재*/
+    @Order(5)
+    @DisplayName("5. 이메일로 사용자 조회 시 사용자가 존재하지 않으면 예외가 발생하는지 검증")
+    @Test
+    void getUserByEmailOrThrow_shouldThrow_whenEmailNotExists() throws Exception {
+      //given
+      String email = "nonexistent@test.com";
+      when(userQueryPort.findByEmail(email)).thenReturn(Optional.empty());
+
+      //when & then
+      assertThatThrownBy(() -> userValidator.getUserByEmailOrThrow(email))
+          .isInstanceOf(UserException.class)
+          .extracting("errorCode")
+          .isEqualTo(ErrorCode.USER_NOT_FOUND);
+    }
+
+    /*[Case #6] ID로 사용자 조회 실패 - 사용자 미존재*/
+    @Order(6)
+    @DisplayName("6. ID로 사용자 조회 시 사용자가 존재하지 않으면 예외가 발생하는지 검증")
+    @Test
+    void getUserByIdOrElseThrow_shouldThrow_whenUserIdNotExists() throws Exception {
+      //given
+      String userId = "nonexistent-user";
+      when(userQueryPort.findByUserId(userId)).thenReturn(Optional.empty());
+
+      //when & then
+      assertThatThrownBy(() -> userValidator.getUserByIdOrElseThrow(userId))
+          .isInstanceOf(UserException.class)
+          .extracting("errorCode")
+          .isEqualTo(ErrorCode.USER_NOT_FOUND);
     }
   }
 }

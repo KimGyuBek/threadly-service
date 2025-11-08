@@ -19,7 +19,7 @@ import com.threadly.core.port.follow.out.FollowCommandPort;
 import com.threadly.core.port.follow.out.FollowQueryPort;
 import com.threadly.core.port.user.out.UserQueryPort;
 import com.threadly.core.service.notification.dto.NotificationPublishCommand;
-import com.threadly.core.service.validator.user.UserStatusValidator;
+import com.threadly.core.service.validator.user.UserValidator;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -49,7 +49,7 @@ class FollowCommandServiceTest {
   private UserQueryPort userQueryPort;
 
   @Mock
-  private UserStatusValidator userStatusValidator;
+  private UserValidator userValidator;
 
   @Mock
   private ApplicationEventPublisher applicationEventPublisher;

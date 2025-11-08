@@ -29,6 +29,14 @@ public interface UserJpaRepository extends JpaRepository<UserEntity, String> {
       @Param("isEmailVerified") boolean isEmailVerified);
 
   /**
+   * 주어진 email에 해당하는 사용자 존재 유무
+   *
+   * @param email
+   * @return
+   */
+  boolean existsByEmail(String email);
+
+  /**
    * status 변경
    *
    * @param userId

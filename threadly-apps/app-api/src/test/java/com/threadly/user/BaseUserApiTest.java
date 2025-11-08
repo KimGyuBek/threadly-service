@@ -139,4 +139,30 @@ public abstract class BaseUserApiTest extends BaseApiTest {
         email);
     assertThat(statusByEmail).isEqualTo(expectedStatus);
   }
+
+  /**
+   * 회원가입 요청
+   *
+   * @param email
+   * @param userName
+   * @param password
+   * @param phone
+   * @param expectedStatus
+   * @return
+   * @throws Exception
+   */
+  public <T> CommonResponse<T> sendRegisterUserRequest(String email, String userName,
+      String password, String phone,
+      TypeReference<CommonResponse<T>> typeRef, ResultMatcher expectedStatus)
+      throws Exception {
+
+    String requestBody = generateRequestBody(
+        new com.threadly.user.request.UserRegisterRequest(email, userName, password, phone)
+    );
+
+    return sendPostRequest(requestBody, "/api/users",
+        expectedStatus,
+        typeRef,
+        Map.of());
+  }
 }

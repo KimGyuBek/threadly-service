@@ -60,6 +60,11 @@ public class UserPersistenceAdapter implements UserQueryPort,
   }
 
   @Override
+  public boolean existsByEmail(String email) {
+    return userJpaRepository.existsByEmail(email);
+  }
+
+  @Override
   public void updateEmailVerification(String userId, boolean isEmailVerified) {
     userJpaRepository.updateEmailVerification(userId, isEmailVerified);
   }

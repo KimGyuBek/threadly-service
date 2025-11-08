@@ -23,7 +23,7 @@ import com.threadly.core.port.post.out.image.PostImageQueryPort;
 import com.threadly.core.port.post.out.image.projection.PostImageProjection;
 import com.threadly.core.port.post.out.projection.PostDetailProjection;
 import com.threadly.core.service.validator.follow.FollowAccessValidator;
-import com.threadly.core.service.validator.user.UserStatusValidator;
+import com.threadly.core.service.validator.user.UserValidator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -42,7 +42,7 @@ public class PostQueryService implements PostQueryUseCase {
 
   private final FollowAccessValidator followAccessValidator;
 
-  private final UserStatusValidator userStatusValidator;
+  private final UserValidator userValidator;
 
   @Transactional(readOnly = true)
   @Override
@@ -134,7 +134,7 @@ public class PostQueryService implements PostQueryUseCase {
   @Override
   public CursorPageApiResponse<PostDetails> getUserPosts(GetUserPostsQuery query) {
     /*1. targetUserId 상태 검증*/
-    userStatusValidator.validateUserStatusWithException(query.userId());
+    userValidator.validateUserStatusWithException(query.userId());
 
     /*2. 팔로우 관계 검증*/
     followAccessValidator.validateProfileAccessibleWithException(query.userId(), query.targetId());

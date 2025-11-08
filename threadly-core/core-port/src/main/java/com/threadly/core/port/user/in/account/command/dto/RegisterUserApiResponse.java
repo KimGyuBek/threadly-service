@@ -6,12 +6,14 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * 사용자 회원가입 api 응답 객체
  */
 @Schema(description = "회원가입 응답")
 @Getter
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class RegisterUserApiResponse {
