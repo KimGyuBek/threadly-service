@@ -270,8 +270,8 @@ public interface PostJpaRepository extends JpaRepository<PostEntity, String> {
   /**
    * 주어진 targetUserId에 해당하는 사용자의 게시글 목록 커서 기반 조회
    *
-   * @param requestUserId 요청자 ID (좋아요 여부 확인용)
-   * @param targetUserId 대상 사용자 ID (게시글 필터링용)
+   * @param requestUserId  요청자 ID (좋아요 여부 확인용)
+   * @param targetUserId   대상 사용자 ID (게시글 필터링용)
    * @param cursorPostedAt
    * @param cursorPostId
    * @param limit
@@ -294,7 +294,7 @@ public interface PostJpaRepository extends JpaRepository<PostEntity, String> {
                join user_profile up on u.user_id = up.user_id
                left join (select upi.user_id, upi.image_url
                           from user_profile_images upi
-                          where upi.status = 'APPROVED') upi
+                          where upi.status = 'CONFIRMED') upi
                          on u.user_id = upi.user_id
                left join(select pc.post_id, count(*) as cnt
                          from post_comments pc
