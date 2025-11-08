@@ -4,23 +4,24 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.exception.user.UserException;
 import com.threadly.commons.properties.TtlProperties;
 import com.threadly.core.domain.user.User;
 import com.threadly.core.domain.user.UserRoleType;
 import com.threadly.core.domain.user.UserStatus;
 import com.threadly.core.port.mail.in.SendMailCommand;
-import com.threadly.core.port.token.out.TokenCommandPort;
 import com.threadly.core.port.user.in.account.command.dto.RegisterUserApiResponse;
 import com.threadly.core.port.user.in.account.command.dto.RegisterUserCommand;
 import com.threadly.core.port.user.out.UserCommandPort;
-import com.threadly.core.port.user.out.UserQueryPort;
 import com.threadly.core.port.user.out.UserResult;
-import com.threadly.core.service.notification.dto.NotificationPublishCommand;
-import java.util.Optional;
+import com.threadly.core.service.token.processor.TokenProcessor;
+import com.threadly.core.service.user.validator.UserValidator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -40,16 +41,17 @@ class UserCommandServiceTest {
   private UserCommandService userCommandService;
 
   @Mock
-  private UserQueryPort userQueryPort;
-
-  @Mock
   private UserCommandPort userCommandPort;
 
-  @Mock
-  private TokenCommandPort tokenCommandPort;
 
   @Mock
   private ApplicationEventPublisher applicationEventPublisher;
+
+  @Mock
+  private UserValidator userValidator;
+
+  @Mock
+  private TokenProcessor tokenProcessor;
 
   @Mock
   private TtlProperties ttlProperties;
@@ -70,7 +72,7 @@ class UserCommandServiceTest {
           "010-1234-5678"
       );
 
-      when(userQueryPort.findByEmail(command.getEmail())).thenReturn(Optional.empty());
+      doNothing().when(userValidator).validateEmailDuplicate(command.getEmail());
       when(userCommandPort.save(any(User.class))).thenReturn(
           UserResult.builder()
               .userId("user1")
@@ -113,7 +115,8 @@ class UserCommandServiceTest {
 
       User existingUser = User.newUser("username", "password", "test@test.com",
           "010-1234-5678");
-      when(userQueryPort.findByEmail(command.getEmail())).thenReturn(Optional.of(existingUser));
+      doThrow(new UserException(ErrorCode.DUPLICATE_EMAIL))
+          .when(userValidator).validateEmailDuplicate(command.getEmail());
 
       //when & then
       assertThrows(UserException.class, () -> userCommandService.register(command));
@@ -133,15 +136,14 @@ class UserCommandServiceTest {
       String bearerToken = "Bearer token123";
 
       User user = User.newUser("username", "password", "test@test.com", "010-1234-5678");
-      when(userQueryPort.findByUserId(userId)).thenReturn(Optional.of(user));
+      when(userValidator.getUserByIdOrElseThrow(userId)).thenReturn(user);
 
       //when
       userCommandService.withdrawMyAccount(userId, bearerToken);
 
       //then
       verify(userCommandPort).updateUserStatus(userId, UserStatus.DELETED);
-      verify(tokenCommandPort).saveBlackListToken(any());
-      verify(tokenCommandPort).deleteRefreshToken(userId);
+      verify(tokenProcessor).addBlackListTokenAndDeleteRefreshToken(userId, bearerToken);
     }
 
     /*[Case #2] 계정 탈퇴 실패 - 존재하지 않는 사용자*/
@@ -152,7 +154,8 @@ class UserCommandServiceTest {
       String userId = "user1";
       String bearerToken = "Bearer token123";
 
-      when(userQueryPort.findByUserId(userId)).thenReturn(Optional.empty());
+      when(userValidator.getUserByIdOrElseThrow(userId))
+          .thenThrow(new UserException(com.threadly.commons.exception.ErrorCode.USER_NOT_FOUND));
 
       //when & then
       assertThrows(UserException.class,
@@ -174,15 +177,14 @@ class UserCommandServiceTest {
 
       User user = User.newUser("username", "password", "test@test.com", "010-1234-5678");
       user.markAsActive();
-      when(userQueryPort.findByUserId(userId)).thenReturn(Optional.of(user));
+      when(userValidator.getUserByIdOrElseThrow(userId)).thenReturn(user);
 
       //when
       userCommandService.deactivateMyAccount(userId, bearerToken);
 
       //then
       verify(userCommandPort).updateUserStatus(userId, UserStatus.INACTIVE);
-      verify(tokenCommandPort).saveBlackListToken(any());
-      verify(tokenCommandPort).deleteRefreshToken(userId);
+      verify(tokenProcessor).addBlackListTokenAndDeleteRefreshToken(userId, bearerToken);
     }
   }
 

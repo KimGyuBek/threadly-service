@@ -45,7 +45,7 @@ public interface PostApi {
           content = @Content(schema = @Schema(implementation = CursorPageApiResponse.class)))
   })
   @GetMapping("")
-  ResponseEntity<CursorPageApiResponse> getPostList(
+  ResponseEntity<CursorPageApiResponse> getPosts(
       @Parameter(hidden = true) @AuthenticationPrincipal JwtAuthenticationUser user,
       @Parameter(description = "커서 타임스탬프") @RequestParam(value = "cursor_timestamp", required = false) LocalDateTime cursorTimestamp,
       @Parameter(description = "커서 ID") @RequestParam(value = "cursor_id", required = false) String cursorId,

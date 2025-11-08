@@ -1,16 +1,15 @@
 package com.threadly.core.service.post.comment;
 
-import com.threadly.core.port.commons.dto.UserPreview;
 import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.exception.post.PostException;
-import com.threadly.core.domain.post.PostStatus;
-import com.threadly.core.port.post.out.comment.PostCommentQueryPort;
+import com.threadly.commons.response.CursorPageApiResponse;
+import com.threadly.core.port.commons.dto.UserPreview;
+import com.threadly.core.port.post.in.comment.query.PostCommendQueryUseCase;
 import com.threadly.core.port.post.in.comment.query.dto.GetPostCommentApiResponse;
 import com.threadly.core.port.post.in.comment.query.dto.GetPostCommentDetailQuery;
 import com.threadly.core.port.post.in.comment.query.dto.GetPostCommentListQuery;
-import com.threadly.core.port.post.in.comment.query.PostCommendQueryUseCase;
-import com.threadly.core.port.post.out.PostQueryPort;
-import com.threadly.commons.response.CursorPageApiResponse;
+import com.threadly.core.port.post.out.comment.PostCommentQueryPort;
+import com.threadly.core.service.post.validator.PostValidator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,9 +22,9 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class PostCommentQueryService implements PostCommendQueryUseCase {
 
-  private final PostCommentQueryPort postCommentQueryPort;
+  private final PostValidator postValidator;
 
-  private final PostQueryPort postQueryPort;
+  private final PostCommentQueryPort postCommentQueryPort;
 
   @Transactional(readOnly = true)
   @Override
@@ -33,10 +32,14 @@ public class PostCommentQueryService implements PostCommendQueryUseCase {
       GetPostCommentListQuery query
   ) {
     /*게시글 유효성 검증*/
-    PostStatus posStatus = postQueryPort.fetchPostStatusByPostId(query.postId())
-        .orElseThrow(() -> new PostException(
-            ErrorCode.POST_NOT_FOUND));
-    if (!posStatus.equals(PostStatus.ACTIVE)) {
+    try {
+      postValidator.validateAccessibleStatusById(query.postId());
+    } catch (PostException ex) {
+      /*게시글이 존재하지 않는 경우*/
+      if (ex.getErrorCode() == ErrorCode.POST_NOT_FOUND) {
+        throw ex;
+      }
+
       throw new PostException(ErrorCode.POST_NOT_ACCESSIBLE);
     }
 

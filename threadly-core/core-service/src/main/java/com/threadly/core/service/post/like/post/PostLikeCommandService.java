@@ -10,10 +10,11 @@ import com.threadly.core.domain.post.PostLike;
 import com.threadly.core.port.post.in.like.post.command.PostLikeCommandUseCase;
 import com.threadly.core.port.post.in.like.post.command.dto.LikePostApiResponse;
 import com.threadly.core.port.post.in.like.post.command.dto.LikePostCommand;
-import com.threadly.core.port.post.out.PostQueryPort;
 import com.threadly.core.port.post.out.like.post.PostLikeCommandPort;
 import com.threadly.core.port.post.out.like.post.PostLikeQueryPort;
 import com.threadly.core.service.notification.dto.NotificationPublishCommand;
+import com.threadly.core.service.post.validator.PostLikeValidator;
+import com.threadly.core.service.post.validator.PostValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -26,25 +27,25 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class PostLikeCommandService implements PostLikeCommandUseCase {
 
-  private final PostQueryPort postQueryPort;
+  private final PostValidator postValidator;
+  private final PostLikeValidator postLikeValidator;
 
   private final PostLikeQueryPort postLikeQueryPort;
   private final PostLikeCommandPort postLikeCommandPort;
 
   private final ApplicationEventPublisher applicationEventPublisher;
 
-
   @Transactional
   @Override
   public LikePostApiResponse likePost(LikePostCommand command) {
     /*게시글 조회*/
-    Post post = getPost(command);
+    Post post = postValidator.getPostOrThrow(command.getPostId());
 
     /*게시글이 좋아요 가능 상태인지 조회*/
     validateLikable(post);
 
     /*사용자가 좋아요 누르지 않았다면*/
-    if (!isUserLiked(command)) {
+    if (!postLikeValidator.isUserLiked(command.getPostId(), command.getUserId())) {
       PostLike newLike = post.addLike(command.getUserId());
 
       /*좋아요 저장*/
@@ -73,13 +74,13 @@ public class PostLikeCommandService implements PostLikeCommandUseCase {
   @Override
   public LikePostApiResponse cancelLikePost(LikePostCommand command) {
     /*게시글 조회*/
-    Post post = getPost(command);
+    Post post = postValidator.getPostOrThrow(command.getPostId());
 
     /*좋아요 취소 가능한 상태인지 검증*/
     validateLikable(post);
 
     /*사용자가 좋아요를 눌렀으면*/
-    if (isUserLiked(command)) {
+    if (postLikeValidator.isUserLiked(command.getPostId(), command.getUserId())) {
 
       /*좋아요 삭제 */
       postLikeCommandPort.deleteByPostIdAndUserId(command.getPostId(), command.getUserId());
@@ -92,18 +93,6 @@ public class PostLikeCommandService implements PostLikeCommandUseCase {
   }
 
   /**
-   * 게시글 조회
-   *
-   * @param command
-   * @return
-   */
-  private Post getPost(LikePostCommand command) {
-    Post post = postQueryPort.fetchById(command.getPostId()).orElseThrow(() -> new PostException(
-        ErrorCode.POST_NOT_FOUND));
-    return post;
-  }
-
-  /**
    * postId로 좋아요 수 조회
    *
    * @param command
@@ -111,16 +100,6 @@ public class PostLikeCommandService implements PostLikeCommandUseCase {
    */
   private long getLikeCount(LikePostCommand command) {
     return postLikeQueryPort.fetchLikeCountByPostId(command.getPostId());
-  }
-
-  /**
-   * 사용자가 해당 게시글에 좋아요를 눌렀는지 조회
-   *
-   * @param command
-   * @return
-   */
-  private boolean isUserLiked(LikePostCommand command) {
-    return postLikeQueryPort.existsByPostIdAndUserId(command.getPostId(), command.getUserId());
   }
 
   /**

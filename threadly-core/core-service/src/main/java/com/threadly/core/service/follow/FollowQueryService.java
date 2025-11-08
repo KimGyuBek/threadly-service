@@ -12,8 +12,8 @@ import com.threadly.core.port.follow.in.query.dto.GetFollowingsQuery;
 import com.threadly.core.port.follow.in.query.dto.GetUserFollowStatsApiResponse;
 import com.threadly.core.port.follow.out.FollowQueryPort;
 import com.threadly.core.port.follow.out.projection.UserFollowStatsProjection;
-import com.threadly.core.service.validator.follow.FollowAccessValidator;
-import com.threadly.core.service.validator.user.UserStatusValidator;
+import com.threadly.core.service.follow.validator.FollowValidator;
+import com.threadly.core.service.user.validator.UserValidator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,8 +28,8 @@ public class FollowQueryService implements FollowQueryUseCase {
 
   private final FollowQueryPort followQueryPort;
 
-  private final FollowAccessValidator followAccessValidator;
-  private final UserStatusValidator userStatusValidator;
+  private final FollowValidator followValidator;
+  private final UserValidator userValidator;
 
 
   @Transactional(readOnly = true)
@@ -62,7 +62,7 @@ public class FollowQueryService implements FollowQueryUseCase {
   @Override
   public CursorPageApiResponse<FollowerResponse> getFollowers(GetFollowersQuery query) {
     /*접근 가능 여부 검증*/
-    followAccessValidator.validateProfileAccessibleWithException(query.userId(),
+    followValidator.validateProfileAccessibleWithException(query.userId(),
         query.targetUserId());
 
     /*팔로워 목록 조회*/
@@ -93,7 +93,7 @@ public class FollowQueryService implements FollowQueryUseCase {
   @Override
   public CursorPageApiResponse<FollowingApiResponse> getFollowings(GetFollowingsQuery query) {
     /*접근 가능 여부 검증*/
-    followAccessValidator.validateProfileAccessibleWithException(query.userId(),
+    followValidator.validateProfileAccessibleWithException(query.userId(),
         query.targetUserId());
 
     /*팔로워 목록 조회*/
@@ -121,7 +121,7 @@ public class FollowQueryService implements FollowQueryUseCase {
   @Override
   public GetUserFollowStatsApiResponse getUserFollowStats(String userId) {
     /*사용자 statusType 검증*/
-    userStatusValidator.validateUserStatusWithException(userId);
+    userValidator.validateUserStatusWithException(userId);
 
     UserFollowStatsProjection userFollowStatsProjection = followQueryPort.getUserFollowStatusByUserId(
         userId);

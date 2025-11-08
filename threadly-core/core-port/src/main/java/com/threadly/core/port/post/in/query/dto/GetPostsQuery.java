@@ -9,7 +9,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public class GetPostListQuery {
+public class GetPostsQuery {
   private String userId;
   private LocalDateTime cursorPostedAt;
   private String cursorPostId;

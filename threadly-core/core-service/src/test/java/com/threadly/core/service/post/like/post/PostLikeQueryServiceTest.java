@@ -2,17 +2,19 @@ package com.threadly.core.service.post.like.post;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.exception.post.PostException;
 import com.threadly.commons.response.CursorPageApiResponse;
+import com.threadly.core.domain.post.PostStatus;
 import com.threadly.core.port.post.in.like.post.query.dto.GetPostLikersQuery;
 import com.threadly.core.port.post.in.like.post.query.dto.PostLiker;
-import com.threadly.core.port.post.out.PostQueryPort;
 import com.threadly.core.port.post.out.like.post.PostLikeQueryPort;
 import com.threadly.core.port.post.out.like.post.PostLikerProjection;
+import com.threadly.core.service.post.validator.PostValidator;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.ClassOrderer;
@@ -39,10 +41,10 @@ class PostLikeQueryServiceTest {
   private PostLikeQueryService postLikeQueryService;
 
   @Mock
-  private PostLikeQueryPort postLikeQueryPort;
+  private PostValidator postValidator;
 
   @Mock
-  private PostQueryPort postQueryPort;
+  private PostLikeQueryPort postLikeQueryPort;
 
   @Order(1)
   @Nested
@@ -113,7 +115,8 @@ class PostLikeQueryServiceTest {
         }
       };
 
-      when(postQueryPort.existsById(query.getPostId())).thenReturn(true);
+      when(postValidator.validateAccessibleStatusById(query.getPostId()))
+          .thenReturn(PostStatus.ACTIVE);
       when(postLikeQueryPort.fetchPostLikersBeforeCreatedAt(
           query.getPostId(),
           query.getCursorLikedAt(),
@@ -126,7 +129,7 @@ class PostLikeQueryServiceTest {
           postLikeQueryService.getPostLikers(query);
 
       //then
-      verify(postQueryPort).existsById(query.getPostId());
+      verify(postValidator).validateAccessibleStatusById(query.getPostId());
       verify(postLikeQueryPort).fetchPostLikersBeforeCreatedAt(
           query.getPostId(),
           query.getCursorLikedAt(),
@@ -158,7 +161,8 @@ class PostLikeQueryServiceTest {
     void getPostLikers_shouldThrow_whenPostNotFound() throws Exception {
       //given
       GetPostLikersQuery query = new GetPostLikersQuery("post-unknown", null, null, 10);
-      when(postQueryPort.existsById(query.getPostId())).thenReturn(false);
+      doThrow(new PostException(ErrorCode.POST_NOT_FOUND))
+          .when(postValidator).validateAccessibleStatusById(query.getPostId());
 
       //when & then
       assertThatThrownBy(() -> postLikeQueryService.getPostLikers(query))

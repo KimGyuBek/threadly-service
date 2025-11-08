@@ -16,11 +16,11 @@ import com.threadly.core.domain.post.PostLike;
 import com.threadly.core.domain.post.PostStatus;
 import com.threadly.core.port.post.in.like.post.command.dto.LikePostApiResponse;
 import com.threadly.core.port.post.in.like.post.command.dto.LikePostCommand;
-import com.threadly.core.port.post.out.PostQueryPort;
 import com.threadly.core.port.post.out.like.post.PostLikeCommandPort;
 import com.threadly.core.port.post.out.like.post.PostLikeQueryPort;
 import com.threadly.core.service.notification.dto.NotificationPublishCommand;
-import java.util.Optional;
+import com.threadly.core.service.post.validator.PostLikeValidator;
+import com.threadly.core.service.post.validator.PostValidator;
 import org.junit.jupiter.api.ClassOrderer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
@@ -47,7 +47,10 @@ class PostLikeCommandServiceTest {
   private PostLikeCommandService postLikeCommandService;
 
   @Mock
-  private PostQueryPort postQueryPort;
+  private PostValidator postValidator;
+
+  @Mock
+  private PostLikeValidator postLikeValidator;
 
   @Mock
   private PostLikeQueryPort postLikeQueryPort;
@@ -79,8 +82,8 @@ class PostLikeCommandServiceTest {
         LikePostCommand command = new LikePostCommand("post-1", "user-1");
         Post post = Post.newTestPost("post-1", "owner-1", "content", 0, PostStatus.ACTIVE);
 
-        when(postQueryPort.fetchById(command.getPostId())).thenReturn(Optional.of(post));
-        when(postLikeQueryPort.existsByPostIdAndUserId(command.getPostId(), command.getUserId()))
+        when(postValidator.getPostOrThrow(command.getPostId())).thenReturn(post);
+        when(postLikeValidator.isUserLiked(command.getPostId(), command.getUserId()))
             .thenReturn(false);
         when(postLikeQueryPort.fetchLikeCountByPostId(command.getPostId())).thenReturn(5L);
 
@@ -118,8 +121,8 @@ class PostLikeCommandServiceTest {
         LikePostCommand command = new LikePostCommand("post-1", "user-1");
         Post post = Post.newTestPost("post-1", "owner-1", "content", 0, PostStatus.ACTIVE);
 
-        when(postQueryPort.fetchById(command.getPostId())).thenReturn(Optional.of(post));
-        when(postLikeQueryPort.existsByPostIdAndUserId(command.getPostId(), command.getUserId()))
+        when(postValidator.getPostOrThrow(command.getPostId())).thenReturn(post);
+        when(postLikeValidator.isUserLiked(command.getPostId(), command.getUserId()))
             .thenReturn(true);
         when(postLikeQueryPort.fetchLikeCountByPostId(command.getPostId())).thenReturn(3L);
 
@@ -147,7 +150,8 @@ class PostLikeCommandServiceTest {
       void likePost_shouldThrow_whenPostNotFound() throws Exception {
         //given
         LikePostCommand command = new LikePostCommand("post-unknown", "user-1");
-        when(postQueryPort.fetchById(command.getPostId())).thenReturn(Optional.empty());
+        when(postValidator.getPostOrThrow(command.getPostId()))
+            .thenThrow(new PostException(ErrorCode.POST_NOT_FOUND));
 
         //when & then
         assertThatThrownBy(() -> postLikeCommandService.likePost(command))
@@ -164,7 +168,7 @@ class PostLikeCommandServiceTest {
         //given
         LikePostCommand command = new LikePostCommand("post-1", "user-1");
         Post post = Post.newTestPost("post-1", "owner-1", "content", 0, PostStatus.DELETED);
-        when(postQueryPort.fetchById(command.getPostId())).thenReturn(Optional.of(post));
+        when(postValidator.getPostOrThrow(command.getPostId())).thenReturn(post);
 
         //when & then
         assertThatThrownBy(() -> postLikeCommandService.likePost(command))
@@ -196,8 +200,8 @@ class PostLikeCommandServiceTest {
         LikePostCommand command = new LikePostCommand("post-1", "user-1");
         Post post = Post.newTestPost("post-1", "owner-1", "content", 0, PostStatus.ACTIVE);
 
-        when(postQueryPort.fetchById(command.getPostId())).thenReturn(Optional.of(post));
-        when(postLikeQueryPort.existsByPostIdAndUserId(command.getPostId(), command.getUserId()))
+        when(postValidator.getPostOrThrow(command.getPostId())).thenReturn(post);
+        when(postLikeValidator.isUserLiked(command.getPostId(), command.getUserId()))
             .thenReturn(true);
         when(postLikeQueryPort.fetchLikeCountByPostId(command.getPostId())).thenReturn(1L);
 
@@ -219,8 +223,8 @@ class PostLikeCommandServiceTest {
         LikePostCommand command = new LikePostCommand("post-1", "user-1");
         Post post = Post.newTestPost("post-1", "owner-1", "content", 0, PostStatus.ACTIVE);
 
-        when(postQueryPort.fetchById(command.getPostId())).thenReturn(Optional.of(post));
-        when(postLikeQueryPort.existsByPostIdAndUserId(command.getPostId(), command.getUserId()))
+        when(postValidator.getPostOrThrow(command.getPostId())).thenReturn(post);
+        when(postLikeValidator.isUserLiked(command.getPostId(), command.getUserId()))
             .thenReturn(false);
         when(postLikeQueryPort.fetchLikeCountByPostId(command.getPostId())).thenReturn(0L);
 
@@ -248,7 +252,8 @@ class PostLikeCommandServiceTest {
       void cancelLikePost_shouldThrow_whenPostNotFound() throws Exception {
         //given
         LikePostCommand command = new LikePostCommand("post-unknown", "user-1");
-        when(postQueryPort.fetchById(command.getPostId())).thenReturn(Optional.empty());
+        when(postValidator.getPostOrThrow(command.getPostId()))
+            .thenThrow(new PostException(ErrorCode.POST_NOT_FOUND));
 
         //when & then
         assertThatThrownBy(() -> postLikeCommandService.cancelLikePost(command))
@@ -265,7 +270,7 @@ class PostLikeCommandServiceTest {
         //given
         LikePostCommand command = new LikePostCommand("post-1", "user-1");
         Post post = Post.newTestPost("post-1", "owner-1", "content", 0, PostStatus.DELETED);
-        when(postQueryPort.fetchById(command.getPostId())).thenReturn(Optional.of(post));
+        when(postValidator.getPostOrThrow(command.getPostId())).thenReturn(post);
 
         //when & then
         assertThatThrownBy(() -> postLikeCommandService.cancelLikePost(command))

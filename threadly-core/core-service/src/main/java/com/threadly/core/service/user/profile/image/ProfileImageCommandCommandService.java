@@ -13,8 +13,8 @@ import com.threadly.core.port.user.in.profile.image.dto.SetMyProfileImageCommand
 import com.threadly.core.port.user.in.profile.image.dto.UploadMyProfileImageApiResponse;
 import com.threadly.core.port.user.out.profile.image.UserProfileCommandPort;
 import com.threadly.core.port.user.out.profile.image.UserProfileImageQueryPort;
-import com.threadly.core.service.validator.image.ImageAspectRatioValidator;
-import com.threadly.core.service.validator.image.ImageUploadValidator;
+import com.threadly.core.service.image.ImageAspectRatioValidator;
+import com.threadly.core.service.image.ImageUploadValidator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

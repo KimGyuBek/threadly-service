@@ -1,26 +1,25 @@
 package com.threadly.core.service.post;
 
-import static com.threadly.core.domain.post.PostStatus.ARCHIVE;
-import static com.threadly.core.domain.post.PostStatus.BLOCKED;
-import static com.threadly.core.domain.post.PostStatus.DELETED;
-
 import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.exception.post.PostException;
 import com.threadly.commons.response.CursorPageApiResponse;
 import com.threadly.core.domain.image.ImageStatus;
-import com.threadly.core.domain.post.PostStatus;
 import com.threadly.core.port.commons.dto.UserPreview;
 import com.threadly.core.port.post.in.query.PostQueryUseCase;
 import com.threadly.core.port.post.in.query.dto.GetPostEngagementApiResponse;
 import com.threadly.core.port.post.in.query.dto.GetPostEngagementQuery;
-import com.threadly.core.port.post.in.query.dto.GetPostListQuery;
 import com.threadly.core.port.post.in.query.dto.GetPostQuery;
+import com.threadly.core.port.post.in.query.dto.GetPostsQuery;
+import com.threadly.core.port.post.in.query.dto.GetUserPostsQuery;
 import com.threadly.core.port.post.in.query.dto.PostDetails;
 import com.threadly.core.port.post.in.query.dto.PostDetails.PostImage;
 import com.threadly.core.port.post.out.PostQueryPort;
 import com.threadly.core.port.post.out.image.PostImageQueryPort;
 import com.threadly.core.port.post.out.image.projection.PostImageProjection;
 import com.threadly.core.port.post.out.projection.PostDetailProjection;
+import com.threadly.core.service.follow.validator.FollowValidator;
+import com.threadly.core.service.post.validator.PostValidator;
+import com.threadly.core.service.user.validator.UserValidator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -33,16 +32,21 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class PostQueryService implements PostQueryUseCase {
 
+  private final PostValidator postValidator;
+  private final UserValidator userValidator;
+
   private final PostQueryPort postQueryPort;
 
   private final PostImageQueryPort postImageQueryPort;
 
+  private final FollowValidator followValidator;
+
   @Transactional(readOnly = true)
   @Override
-  public CursorPageApiResponse<PostDetails> getUserVisiblePostListByCursor(GetPostListQuery query) {
+  public CursorPageApiResponse<PostDetails> getUserVisiblePosts(GetPostsQuery query) {
 
     /*게시글 상세 정보 조회*/
-    List<PostDetails> allPostList = postQueryPort.fetchUserVisiblePostListByCursor(
+    List<PostDetails> postDetailsList = postQueryPort.fetchUserVisiblePostsByCursor(
             query.getUserId(), query.getCursorPostedAt(), query.getCursorPostId(), query.getLimit() + 1)
         .stream().map(
             projection -> {
@@ -75,39 +79,31 @@ public class PostQueryService implements PostQueryUseCase {
                   projection.isLiked());
             }).toList();
 
-    return CursorPageApiResponse.from(allPostList, query.getLimit());
+    return CursorPageApiResponse.from(postDetailsList, query.getLimit());
   }
 
   @Transactional(readOnly = true)
   @Override
   public PostDetails getPost(GetPostQuery query) {
     /*게시글 상세 정보 조회*/
-    PostDetailProjection postDetailProjection = postQueryPort.fetchPostDetailsByPostIdAndUserId(
-            query.getPostId(), query.getUserId())
-        .orElseThrow(() -> new PostException(ErrorCode.POST_NOT_FOUND));
+    PostDetailProjection postDetailsProjection = postValidator.getPostDetailsProjectionOrElseThrow(
+        query.getPostId(), query.getUserId());
 
     /*게시글 이미지 조회*/
     List<PostImageProjection> postImageProjections = postImageQueryPort.findAllByPostIdAndStatus(
         query.getPostId(), ImageStatus.CONFIRMED);
 
-    /*TODO 도메인 로직으로 변경*/
-    PostStatus status = postDetailProjection.getPostStatus();
-    if (status == DELETED) {
-      throw new PostException(ErrorCode.POST_ALREADY_DELETED);
-    } else if (status == ARCHIVE) {
-      throw new PostException(ErrorCode.POST_NOT_FOUND);
-    } else if (status == BLOCKED) {
-      throw new PostException(ErrorCode.POST_BLOCKED);
-    }
+    /*게시글이 조회 가능한 상태인지 검증*/
+    postValidator.validateAccessibleStatus(postDetailsProjection.getPostStatus());
 
-    return new PostDetails(postDetailProjection.getPostId(),
+    return new PostDetails(postDetailsProjection.getPostId(),
         new UserPreview(
-            postDetailProjection.getUserId(),
-            postDetailProjection.getUserNickname(),
-            postDetailProjection.getUserProfileImageUrl() == null ? "/"
-                : postDetailProjection.getUserProfileImageUrl()
+            postDetailsProjection.getUserId(),
+            postDetailsProjection.getUserNickname(),
+            postDetailsProjection.getUserProfileImageUrl() == null ? "/"
+                : postDetailsProjection.getUserProfileImageUrl()
         ),
-        postDetailProjection.getContent(),
+        postDetailsProjection.getContent(),
         postImageProjections.stream().map(
             projection ->
                 new PostDetails.PostImage(
@@ -116,11 +112,52 @@ public class PostQueryService implements PostQueryUseCase {
                     projection.getImageOrder()
                 )
         ).toList(),
-        postDetailProjection.getViewCount(),
-        postDetailProjection.getPostedAt(),
-        postDetailProjection.getLikeCount(),
-        postDetailProjection.getCommentCount(),
-        postDetailProjection.isLiked());
+        postDetailsProjection.getViewCount(),
+        postDetailsProjection.getPostedAt(),
+        postDetailsProjection.getLikeCount(),
+        postDetailsProjection.getCommentCount(),
+        postDetailsProjection.isLiked());
+  }
+
+  @Transactional(readOnly = true)
+  @Override
+  public CursorPageApiResponse<PostDetails> getUserPosts(GetUserPostsQuery query) {
+    /*1. targetUserId 상태 검증*/
+    userValidator.validateUserStatusWithException(query.userId());
+
+    /*2. 팔로우 관계 검증*/
+    followValidator.validateProfileAccessibleWithException(query.userId(), query.targetId());
+
+    /*3. 사용자 게시글 조회 후 응답 생성*/
+    List<PostDetails> userPostDetailsList = postQueryPort.fetchUserPostsByCursor(
+        query.userId(),
+        query.targetId(),
+        query.cursorPostedAt(),
+        query.cursorPostId(),
+        query.limit() + 1
+    ).stream().map(
+        projection -> {
+          UserPreview author = new UserPreview(
+              projection.getUserId(),
+              projection.getUserNickname(),
+              projection.getUserProfileImageUrl()
+          );
+
+          return new PostDetails(
+              projection.getPostId(),
+              author,
+              projection.getContent(),
+              List.of(),
+              projection.getViewCount(),
+              projection.getPostedAt(),
+              projection.getLikeCount(),
+              projection.getCommentCount(),
+              projection.isLiked()
+          );
+        }
+    ).toList();
+
+    return CursorPageApiResponse.from(userPostDetailsList, query.limit());
   }
 
   @Transactional(readOnly = true)

@@ -18,8 +18,8 @@ import com.threadly.core.port.follow.out.projection.FollowRequestsProjection;
 import com.threadly.core.port.follow.out.projection.FollowerProjection;
 import com.threadly.core.port.follow.out.projection.FollowingProjection;
 import com.threadly.core.port.follow.out.projection.UserFollowStatsProjection;
-import com.threadly.core.service.validator.follow.FollowAccessValidator;
-import com.threadly.core.service.validator.user.UserStatusValidator;
+import com.threadly.core.service.follow.validator.FollowValidator;
+import com.threadly.core.service.user.validator.UserValidator;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.ClassOrderer;
@@ -49,10 +49,10 @@ class FollowQueryServiceTest {
   private FollowQueryPort followQueryPort;
 
   @Mock
-  private FollowAccessValidator followAccessValidator;
+  private FollowValidator followValidator;
 
   @Mock
-  private UserStatusValidator userStatusValidator;
+  private UserValidator userValidator;
 
   @Order(1)
   @Nested
@@ -210,7 +210,7 @@ class FollowQueryServiceTest {
         }
       };
 
-      when(followAccessValidator.validateProfileAccessibleWithException(
+      when(followValidator.validateProfileAccessibleWithException(
           query.userId(), query.targetUserId())).thenReturn(FollowStatus.APPROVED);
       when(followQueryPort.findFollowersByCursor(
           query.targetUserId(),
@@ -223,7 +223,7 @@ class FollowQueryServiceTest {
       CursorPageApiResponse<FollowerResponse> response = followQueryService.getFollowers(query);
 
       //then
-      verify(followAccessValidator)
+      verify(followValidator)
           .validateProfileAccessibleWithException(query.userId(), query.targetUserId());
       verify(followQueryPort).findFollowersByCursor(
           query.targetUserId(),
@@ -299,7 +299,7 @@ class FollowQueryServiceTest {
         }
       };
 
-      when(followAccessValidator.validateProfileAccessibleWithException(
+      when(followValidator.validateProfileAccessibleWithException(
           query.userId(), query.targetUserId())).thenReturn(FollowStatus.APPROVED);
       when(followQueryPort.findFollowingsByCursor(
           query.targetUserId(),
@@ -312,7 +312,7 @@ class FollowQueryServiceTest {
       CursorPageApiResponse<FollowingApiResponse> response = followQueryService.getFollowings(query);
 
       //then
-      verify(followAccessValidator)
+      verify(followValidator)
           .validateProfileAccessibleWithException(query.userId(), query.targetUserId());
       verify(followQueryPort).findFollowingsByCursor(
           query.targetUserId(),
@@ -360,7 +360,7 @@ class FollowQueryServiceTest {
       GetUserFollowStatsApiResponse response = followQueryService.getUserFollowStats(userId);
 
       //then
-      verify(userStatusValidator).validateUserStatusWithException(userId);
+      verify(userValidator).validateUserStatusWithException(userId);
       verify(followQueryPort).getUserFollowStatusByUserId(userId);
       assertThat(response.followerCount()).isEqualTo(3);
       assertThat(response.followingCount()).isEqualTo(5);

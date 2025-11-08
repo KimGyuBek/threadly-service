@@ -6,9 +6,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.threadly.CommonResponse;
 import com.threadly.commons.exception.ErrorCode;
-import com.threadly.post.controller.BasePostApiTest;
-import com.threadly.core.port.post.in.comment.query.dto.GetPostCommentApiResponse;
 import com.threadly.commons.response.CursorPageApiResponse;
+import com.threadly.core.port.post.in.comment.query.dto.GetPostCommentApiResponse;
+import com.threadly.post.controller.BasePostApiTest;
 import com.threadly.testsupport.fixture.posts.PostCommentFixtureLoader;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,8 +39,6 @@ public class GetPostCommentApiTest extends BasePostApiTest {
         "/posts/comments/get-comment/post.json",
         "/posts/comments/get-comment/post-comment.json"
     );
-
-
   }
 
   public static final String ACTIVE_POST_ID = "active_post_id";
@@ -226,12 +224,12 @@ public class GetPostCommentApiTest extends BasePostApiTest {
 
         CommonResponse<CursorPageApiResponse<GetPostCommentApiResponse>> getPostCommentListResponse = sendGetPostCommentListRequest(
             accessToken, ARCHIVED_POST_ID, cursorTimestamp, cursorId, limit,
-            status().isBadRequest()
+            status().isNotFound()
         );
 
         assertThat(getPostCommentListResponse.isSuccess()).isFalse();
         assertThat(getPostCommentListResponse.getCode()).isEqualTo(
-            ErrorCode.POST_NOT_ACCESSIBLE.getCode());
+            ErrorCode.POST_NOT_FOUND.getCode());
       }
 
       /*[Case #3] getPostCommentList - BLOCKED 상태의 게시글 댓글 목록 요청 시 400 Bad Request, 실패해야 한다*/

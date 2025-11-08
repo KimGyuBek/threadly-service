@@ -9,10 +9,11 @@ import com.threadly.core.domain.post.comment.PostComment;
 import com.threadly.core.port.post.in.like.comment.command.PostCommentLikeCommandUseCase;
 import com.threadly.core.port.post.in.like.comment.command.dto.LikePostCommentApiResponse;
 import com.threadly.core.port.post.in.like.comment.command.dto.LikePostCommentCommand;
-import com.threadly.core.port.post.out.comment.PostCommentQueryPort;
-import com.threadly.core.port.post.out.like.comment.PostCommentLikerCommandPort;
 import com.threadly.core.port.post.out.like.comment.PostCommentLikeQueryPort;
+import com.threadly.core.port.post.out.like.comment.PostCommentLikerCommandPort;
 import com.threadly.core.service.notification.dto.NotificationPublishCommand;
+import com.threadly.core.service.post.validator.PostCommentLikeValidator;
+import com.threadly.core.service.post.validator.PostCommentValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class PostCommentLikeCommandService implements PostCommentLikeCommandUseCase {
 
-  private final PostCommentQueryPort postCommentQueryPort;
+  private final PostCommentValidator postCommentValidator;
+  private final PostCommentLikeValidator postCommentLikeValidator;
 
   private final PostCommentLikeQueryPort postCommentLikeQueryPort;
   private final PostCommentLikerCommandPort postCommentLikerCommandPort;
@@ -37,13 +39,13 @@ public class PostCommentLikeCommandService implements PostCommentLikeCommandUseC
   public LikePostCommentApiResponse likePostComment(LikePostCommentCommand command) {
 
     /*게시글 댓글 조회*/
-    PostComment postComment = getPostComment(command);
+    PostComment postComment = postCommentValidator.getPostCommentOrThrow(command.getCommentId());
 
     /*좋아요 가능한지 검증*/
     validateLikeable(postComment);
 
     /*좋아요 누르지 않았다면*/
-    if (!isUserLiked(command)) {
+    if (!postCommentLikeValidator.isUserLiked(command.getCommentId(), command.getUserId())) {
       /*좋아요 처리*/
       postCommentLikerCommandPort.createPostCommentLike(
           postComment.like(command.getUserId()));
@@ -74,15 +76,16 @@ public class PostCommentLikeCommandService implements PostCommentLikeCommandUseC
   @Override
   public LikePostCommentApiResponse cancelPostCommentLike(LikePostCommentCommand command) {
     /*게시글 댓글 조회*/
-    PostComment postComment = getPostComment(command);
+    PostComment postComment = postCommentValidator.getPostCommentOrThrow(command.getCommentId());
 
     /*좋아요 취소 가능한 상태인지 검증*/
     validateLikeable(postComment);
 
     /*좋아요를 누른 상태인 경우*/
-    if (isUserLiked(command)) {
+    if (postCommentLikeValidator.isUserLiked(command.getCommentId(), command.getUserId())) {
       /*좋아요 삭제*/
-      postCommentLikerCommandPort.deletePostCommentLike(command.getCommentId(), command.getUserId());
+      postCommentLikerCommandPort.deletePostCommentLike(command.getCommentId(),
+          command.getUserId());
     }
 
     return new LikePostCommentApiResponse(
@@ -104,19 +107,6 @@ public class PostCommentLikeCommandService implements PostCommentLikeCommandUseC
   }
 
   /**
-   * 게시글 댓글 조회
-   *
-   * @param command
-   * @return
-   */
-  private PostComment getPostComment(LikePostCommentCommand command) {
-    return
-        postCommentQueryPort.fetchById(command.getCommentId())
-            .orElseThrow(() -> new PostCommentException(
-                ErrorCode.POST_COMMENT_NOT_FOUND));
-  }
-
-  /**
    * 좋아요 가능한지 검증
    *
    * @param postComment
@@ -127,16 +117,5 @@ public class PostCommentLikeCommandService implements PostCommentLikeCommandUseC
     } catch (CannotLikePostCommentException e) {
       throw new PostCommentException(ErrorCode.POST_COMMENT_LIKE_NOT_ALLOWED);
     }
-  }
-
-  /**
-   * 사용자가 이미 좋아요 눌렀는지 검증
-   *
-   * @param command
-   * @return
-   */
-  private boolean isUserLiked(LikePostCommentCommand command) {
-    return postCommentLikeQueryPort.existsByCommentIdAndUserId(command.getCommentId(),
-        command.getUserId());
   }
 }

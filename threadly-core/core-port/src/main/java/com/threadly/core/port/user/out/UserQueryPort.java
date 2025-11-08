@@ -15,6 +15,13 @@ public interface UserQueryPort {
   Optional<User> findByEmail(String email);
 
   /**
+   * 주어진 email에 해당하는 사용자의 존재유무 조회
+   * @param email
+   * @return
+   */
+  boolean existsByEmail(String email);
+
+  /**
    * userId로 User 조회
    *
    * @param userId

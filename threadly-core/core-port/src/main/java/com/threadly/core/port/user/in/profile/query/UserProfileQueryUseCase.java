@@ -17,14 +17,6 @@ public interface UserProfileQueryUseCase {
   GetMyProfileDetailsApiResponse getMyProfileDetails(String userId);
 
   /**
-   * userId에 해당하는 profile 존재 여부 조회
-   *
-   * @param userId
-   * @return
-   */
-  boolean existsUserProfile(String userId);
-
-  /**
    * nickname 중복 검증
    *
    * @param nickname

@@ -1,11 +1,9 @@
 package com.threadly.core.service.user;
 
-import com.threadly.commons.exception.ErrorCode;
-import com.threadly.commons.exception.user.UserException;
+import com.threadly.core.domain.user.User;
 import com.threadly.core.port.user.in.query.UserQueryUseCase;
 import com.threadly.core.port.user.in.shared.UserResponse;
-import com.threadly.core.domain.user.User;
-import com.threadly.core.port.user.out.UserQueryPort;
+import com.threadly.core.service.user.validator.UserValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -15,14 +13,11 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class UserQueryService implements UserQueryUseCase {
 
-  private final UserQueryPort userQueryPort;
+  private final UserValidator userValidator;
 
   @Override
   public UserResponse findUserByEmail(String email) {
-    User user = userQueryPort.findByEmail(email).orElseThrow(
-        () -> new UserException(ErrorCode.USER_NOT_FOUND)
-    );
-
+    User user = userValidator.getUserByEmailOrThrow(email);
     return
         UserResponse.builder()
             .userId(user.getUserId())
@@ -35,16 +30,11 @@ public class UserQueryService implements UserQueryUseCase {
             .isEmailVerified(user.isEmailVerified())
             .type(user.getUserRoleType())
             .build();
-
   }
 
   @Override
   public UserResponse findUserByUserId(String userId) {
-
-    /*userId로 user 조회*/
-    User user = userQueryPort.findByUserId(userId)
-        .orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
-
+    User user = userValidator.getUserByIdOrElseThrow(userId);
     return
         UserResponse.builder()
             .userId(user.getUserId())

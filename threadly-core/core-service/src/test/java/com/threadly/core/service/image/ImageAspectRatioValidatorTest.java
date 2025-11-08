@@ -8,6 +8,7 @@ import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.exception.post.PostImageException;
 import com.threadly.commons.file.UploadImage;
 import com.threadly.commons.properties.UploadProperties;
+import com.threadly.core.service.image.ImageAspectRatioValidator;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.ClassOrderer;

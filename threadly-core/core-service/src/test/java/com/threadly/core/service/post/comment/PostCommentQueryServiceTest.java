@@ -11,12 +11,11 @@ import com.threadly.commons.response.CursorPageApiResponse;
 import com.threadly.core.domain.post.PostStatus;
 import com.threadly.core.port.post.in.comment.query.dto.GetPostCommentApiResponse;
 import com.threadly.core.port.post.in.comment.query.dto.GetPostCommentListQuery;
-import com.threadly.core.port.post.out.PostQueryPort;
 import com.threadly.core.port.post.out.comment.PostCommentDetailForUserProjection;
 import com.threadly.core.port.post.out.comment.PostCommentQueryPort;
+import com.threadly.core.service.post.validator.PostValidator;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import org.junit.jupiter.api.ClassOrderer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
@@ -30,6 +29,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import static org.mockito.Mockito.doThrow;
+
 /**
  * PostCommentQueryService 테스트
  */
@@ -41,10 +42,10 @@ class PostCommentQueryServiceTest {
   private PostCommentQueryService postCommentQueryService;
 
   @Mock
-  private PostCommentQueryPort postCommentQueryPort;
+  private PostValidator postValidator;
 
   @Mock
-  private PostQueryPort postQueryPort;
+  private PostCommentQueryPort postCommentQueryPort;
 
   @Order(1)
   @Nested
@@ -157,8 +158,8 @@ class PostCommentQueryServiceTest {
         }
       };
 
-      when(postQueryPort.fetchPostStatusByPostId(query.postId()))
-          .thenReturn(Optional.of(PostStatus.ACTIVE));
+      when(postValidator.validateAccessibleStatusById(query.postId()))
+          .thenReturn(PostStatus.ACTIVE);
       when(postCommentQueryPort.fetchCommentListByPostIdWithCursor(
           query.postId(),
           query.userId(),
@@ -172,7 +173,7 @@ class PostCommentQueryServiceTest {
           postCommentQueryService.getPostCommentDetailListForUser(query);
 
       //then
-      verify(postQueryPort).fetchPostStatusByPostId(query.postId());
+      verify(postValidator).validateAccessibleStatusById(query.postId());
       verify(postCommentQueryPort).fetchCommentListByPostIdWithCursor(
           query.postId(),
           query.userId(),
@@ -211,8 +212,8 @@ class PostCommentQueryServiceTest {
           "post-unknown", "viewer-1", null, null, 10
       );
 
-      when(postQueryPort.fetchPostStatusByPostId(query.postId()))
-          .thenReturn(Optional.empty());
+      when(postValidator.validateAccessibleStatusById(query.postId()))
+          .thenThrow(new PostException(ErrorCode.POST_NOT_FOUND));
 
       //when & then
       assertThatThrownBy(() -> postCommentQueryService.getPostCommentDetailListForUser(query))
@@ -231,8 +232,8 @@ class PostCommentQueryServiceTest {
           "post-1", "viewer-1", null, null, 10
       );
 
-      when(postQueryPort.fetchPostStatusByPostId(query.postId()))
-          .thenReturn(Optional.of(PostStatus.DELETED));
+      doThrow(new PostException(ErrorCode.POST_NOT_ACCESSIBLE))
+          .when(postValidator).validateAccessibleStatusById(query.postId());
 
       //when & then
       assertThatThrownBy(() -> postCommentQueryService.getPostCommentDetailListForUser(query))

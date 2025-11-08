@@ -1,8 +1,5 @@
 package com.threadly.core.service.post;
 
-import static com.threadly.core.domain.post.PostStatus.BLOCKED;
-import static com.threadly.core.domain.post.PostStatus.DELETED;
-
 import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.exception.post.PostException;
 import com.threadly.commons.properties.TtlProperties;
@@ -18,13 +15,13 @@ import com.threadly.core.port.post.in.command.dto.UpdatePostApiResponse;
 import com.threadly.core.port.post.in.command.dto.UpdatePostCommand;
 import com.threadly.core.port.post.in.view.IncreaseViewCountUseCase;
 import com.threadly.core.port.post.out.PostCommandPort;
-import com.threadly.core.port.post.out.image.PostImageQueryPort;
 import com.threadly.core.port.post.out.image.PostImageCommandPort;
-import com.threadly.core.port.post.out.PostQueryPort;
+import com.threadly.core.port.post.out.image.PostImageQueryPort;
 import com.threadly.core.port.post.out.projection.PostDetailProjection;
 import com.threadly.core.port.post.out.view.RecordPostViewPort;
-import com.threadly.core.port.user.out.profile.projection.UserPreviewProjection;
 import com.threadly.core.port.user.out.profile.UserProfileQueryPort;
+import com.threadly.core.port.user.out.profile.projection.UserPreviewProjection;
+import com.threadly.core.service.post.validator.PostValidator;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -43,9 +40,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostCommandService implements PostCommandUseCase,
     IncreaseViewCountUseCase {
 
-  private final PostCommandPort postCommandPort;
-  private final PostQueryPort postQueryPort;
+  private final PostValidator postValidator;
 
+  private final PostCommandPort postCommandPort;
 
   private final RecordPostViewPort recordPostViewPort;
 
@@ -67,7 +64,6 @@ public class PostCommandService implements PostCommandUseCase,
     /*post 저장*/
     Post savedPost = postCommandPort.savePost(newPost);
 
-    /*TODO 굳이 재 조회 해야할까?*/
     List<PostImageApiResponse> postImageApiResponse = new ArrayList<>();
 
     /*이미지가 존재할 경우*/
@@ -112,35 +108,33 @@ public class PostCommandService implements PostCommandUseCase,
   @Override
   public UpdatePostApiResponse updatePost(UpdatePostCommand command) {
     /*게시글 조회*/
-    Post post = getPost(command.getPostId());
+    Post post = postValidator.getPostOrThrow(command.getPostId());
 
-    /*작성자와 수정 요청자의 userId가 일치하지 않는 경우*/
-    if (!post.getUserId().equals(command.getUserId())) {
-      throw new PostException(ErrorCode.POST_UPDATE_FORBIDDEN);
-    }
+    /*게시글 작성자와 요청자가 동일한지 검증*/
+    postValidator.validateUpdatableBy(post.getUserId(), command.getUserId());
 
     /*게시글 수정*/
     post.updateContent(command.getContent());
     postCommandPort.updatePost(post);
 
-    PostDetailProjection updatePost = postQueryPort.fetchPostDetailsByPostIdAndUserId(
-            command.getPostId(), command.getUserId())
-        .orElseThrow(() -> new PostException(ErrorCode.POST_NOT_FOUND));
+    /*게시글 재조회*/
+    PostDetailProjection updatedPost = postValidator.getPostDetailsProjectionOrElseThrow(
+        post.getPostId(), command.getUserId());
 
-    log.info("게시글 업데이트 완료: postId={}", updatePost.getPostId());
+    log.info("게시글 업데이트 완료: postId={}", updatedPost.getPostId());
 
     return new UpdatePostApiResponse(
-        updatePost.getPostId(),
-        updatePost.getUserId(),
-        updatePost.getUserProfileImageUrl() == null ? "/"
-            : updatePost.getUserProfileImageUrl(),
-        updatePost.getUserNickname(),
-        updatePost.getContent(),
-        updatePost.getViewCount(),
-        updatePost.getPostedAt(),
-        updatePost.getLikeCount(),
-        updatePost.getCommentCount(),
-        updatePost.isLiked()
+        updatedPost.getPostId(),
+        updatedPost.getUserId(),
+        updatedPost.getUserProfileImageUrl() == null ? "/"
+            : updatedPost.getUserProfileImageUrl(),
+        updatedPost.getUserNickname(),
+        updatedPost.getContent(),
+        updatedPost.getViewCount(),
+        updatedPost.getPostedAt(),
+        updatedPost.getLikeCount(),
+        updatedPost.getCommentCount(),
+        updatedPost.isLiked()
     );
   }
 
@@ -148,7 +142,7 @@ public class PostCommandService implements PostCommandUseCase,
   @Override
   public void softDeletePost(DeletePostCommand command) {
     /*게시글 조회*/
-    Post post = getPost(command.getPostId());
+    Post post = postValidator.getPostOrThrow(command.getPostId());
 
     /*게시글 작성자와 사용자 검증*/
     if (!post.getUserId().equals(command.getUserId())) {
@@ -156,14 +150,7 @@ public class PostCommandService implements PostCommandUseCase,
     }
 
     /*게시글 상태 검증*/
-    if (post.getStatus() == DELETED) {
-      log.warn("이미 삭제처리된 게시글임: postId={}", post.getPostId());
-      throw new PostException(ErrorCode.POST_ALREADY_DELETED_ACTION);
-    }
-    if (post.getStatus() == BLOCKED) {
-      log.warn("이미 BLOCKED된 게시글임: postId={}", post.getPostId());
-      throw new PostException(ErrorCode.POST_DELETE_BLOCKED);
-    }
+    postValidator.validatePostStatus(post.getPostId(), post.getStatus());
 
     /*게시글 삭제 처리*/
     post.markAsDeleted();
@@ -188,19 +175,4 @@ public class PostCommandService implements PostCommandUseCase,
     recordPostViewPort.recordPostView(postId, userId, ttlProperties.getPostViewSeconds());
     log.debug("조회 수 증가 완료: postId={}", postId);
   }
-
-
-  /**
-   * 게시글 조회
-   *
-   * @param command
-   * @return
-   */
-  private Post getPost(String command) {
-    return
-        postQueryPort.fetchById(command).orElseThrow(
-            () -> new PostException(ErrorCode.POST_NOT_FOUND)
-        );
-  }
-
 }

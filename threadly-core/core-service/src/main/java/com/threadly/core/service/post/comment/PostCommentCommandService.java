@@ -2,7 +2,6 @@ package com.threadly.core.service.post.comment;
 
 import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.exception.post.PostCommentException;
-import com.threadly.commons.exception.post.PostException;
 import com.threadly.core.domain.notification.NotificationType;
 import com.threadly.core.domain.notification.metadata.PostCommentMeta;
 import com.threadly.core.domain.post.Post;
@@ -17,14 +16,15 @@ import com.threadly.core.port.post.in.comment.command.PostCommentCommandUseCase;
 import com.threadly.core.port.post.in.comment.command.dto.CreatePostCommentApiResponse;
 import com.threadly.core.port.post.in.comment.command.dto.CreatePostCommentCommand;
 import com.threadly.core.port.post.in.comment.command.dto.DeletePostCommentCommand;
-import com.threadly.core.port.post.out.PostQueryPort;
-import com.threadly.core.port.post.out.comment.PostCommentQueryPort;
 import com.threadly.core.port.post.out.comment.PostCommentCommandPort;
 import com.threadly.core.port.post.out.like.comment.PostCommentLikerCommandPort;
-import com.threadly.core.port.user.out.profile.projection.UserPreviewProjection;
 import com.threadly.core.port.user.out.profile.UserProfileQueryPort;
+import com.threadly.core.port.user.out.profile.projection.UserPreviewProjection;
 import com.threadly.core.service.notification.dto.NotificationPublishCommand;
+import com.threadly.core.service.post.validator.PostCommentValidator;
+import com.threadly.core.service.post.validator.PostValidator;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,35 +34,26 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class PostCommentCommandService implements PostCommentCommandUseCase {
 
-  private final PostQueryPort postQueryPort;
+  private final PostValidator postValidator;
+  private final PostCommentValidator postCommentValidator;
 
-  private final PostCommentQueryPort postCommentQueryPort;
   private final PostCommentCommandPort postCommentCommandPort;
-
   private final PostCommentLikerCommandPort postCommentLikerCommandPort;
-
   private final UserProfileQueryPort userProfileQueryPort;
 
   private final ApplicationEventPublisher applicationEventPublisher;
-
 
   @Transactional
   @Override
   public CreatePostCommentApiResponse createPostComment(CreatePostCommentCommand command) {
     /* 게시글 조회*/
-    Post post = postQueryPort.fetchById(command.getPostId()).orElseThrow(() -> new PostException(
-        ErrorCode.POST_NOT_FOUND));
+    Post post = postValidator.getPostOrThrow(command.getPostId());
 
     /*게시글 상태 검증*/
-    if (post.getStatus() == PostStatus.DELETED) {
-      throw new PostException(ErrorCode.POST_ALREADY_DELETED);
-    } else if (post.getStatus() == PostStatus.BLOCKED) {
-      throw new PostException(ErrorCode.POST_BLOCKED);
-    } else if (post.getStatus() == PostStatus.ARCHIVE) {
-      throw new PostException(ErrorCode.POST_ARCHIVED);
-    }
+    postValidator.validateAccessibleStatus(post.getStatus());
 
     /*게시글 생성*/
     PostComment newComment = post.addComment(command.getCommenterId(), command.getContent());
@@ -102,16 +93,32 @@ public class PostCommentCommandService implements PostCommentCommandUseCase {
   @Override
   public void softDeletePostComment(DeletePostCommentCommand command) {
     /*댓글 조회*/
-    PostComment postComment = postCommentQueryPort.fetchById(command.getCommentId())
-        .orElseThrow((() -> new PostCommentException(
-            ErrorCode.POST_COMMENT_NOT_FOUND)));
+    PostComment postComment = postCommentValidator.getPostCommentOrThrow(
+        command.getCommentId());
 
     /*게시글 상태 조회*/
-    PostStatus postStatus = postQueryPort.fetchPostStatusByPostId(
-        command.getPostId()).orElseThrow(() -> new PostException(ErrorCode.POST_NOT_FOUND));
+    PostStatus postStatus = postValidator.validateAccessibleStatusById(command.getPostId());
 
     /*게시글 댓글 삭제 가능한지 검증*/
-    /*TODO Exception Mapper 구현해서 코드 간소화 고려 */
+    validateDeletable(command, postComment, postStatus);
+
+    /*댓글 삭제 상태로 변경*/
+    postComment.markAsDeleted();
+    postCommentCommandPort.updatePostCommentStatus(postComment.getCommentId(),
+        postComment.getStatus());
+
+    log.info("게시글 댓글 삭제 완료, commentId: {}", command.getCommentId());
+  }
+
+  /**
+   * 게시글 댓글이 삭제 가능한 상태인지 검증
+   *
+   * @param command
+   * @param postComment
+   * @param postStatus
+   */
+  private static void validateDeletable(DeletePostCommentCommand command, PostComment postComment,
+      PostStatus postStatus) {
     try {
       postComment.validateDeletableBy(command.getUserId(), postStatus);
     } catch (WriteMismatchException e) {
@@ -123,12 +130,6 @@ public class PostCommentCommandService implements PostCommentCommandUseCase {
     } catch (ParentPostInactiveException e) {
       throw new PostCommentException(ErrorCode.POST_COMMENT_PARENT_POST_INACTIVE);
     }
-
-    /*댓글 삭제 상태로 변경*/
-    postComment.markAsDeleted();
-    postCommentCommandPort.updatePostCommentStatus(postComment.getCommentId(),
-        postComment.getStatus());
-
   }
 
   @Transactional
