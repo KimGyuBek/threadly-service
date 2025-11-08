@@ -21,7 +21,7 @@ import com.threadly.core.port.post.out.projection.PostDetailProjection;
 import com.threadly.core.port.post.out.view.RecordPostViewPort;
 import com.threadly.core.port.user.out.profile.UserProfileQueryPort;
 import com.threadly.core.port.user.out.profile.projection.UserPreviewProjection;
-import com.threadly.core.service.validator.post.PostValidator;
+import com.threadly.core.service.post.validator.PostValidator;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

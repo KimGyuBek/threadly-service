@@ -14,7 +14,7 @@ import com.threadly.core.port.post.in.like.post.query.dto.GetPostLikersQuery;
 import com.threadly.core.port.post.in.like.post.query.dto.PostLiker;
 import com.threadly.core.port.post.out.like.post.PostLikeQueryPort;
 import com.threadly.core.port.post.out.like.post.PostLikerProjection;
-import com.threadly.core.service.validator.post.PostValidator;
+import com.threadly.core.service.post.validator.PostValidator;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.ClassOrderer;

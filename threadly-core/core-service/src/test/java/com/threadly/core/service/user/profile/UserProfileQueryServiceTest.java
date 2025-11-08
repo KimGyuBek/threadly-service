@@ -15,9 +15,9 @@ import com.threadly.core.port.user.in.profile.query.dto.GetMyProfileDetailsApiRe
 import com.threadly.core.port.user.in.profile.query.dto.GetUserProfileApiResponse;
 import com.threadly.core.port.user.out.profile.projection.MyProfileDetailsProjection;
 import com.threadly.core.port.user.out.profile.projection.UserProfileProjection;
-import com.threadly.core.service.validator.follow.FollowValidator;
-import com.threadly.core.service.validator.user.UserProfileValidator;
-import com.threadly.core.service.validator.user.UserValidator;
+import com.threadly.core.service.follow.validator.FollowValidator;
+import com.threadly.core.service.user.validator.UserProfileValidator;
+import com.threadly.core.service.user.validator.UserValidator;
 import org.junit.jupiter.api.ClassOrderer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;

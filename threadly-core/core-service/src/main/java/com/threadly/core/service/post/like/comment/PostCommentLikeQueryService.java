@@ -6,7 +6,7 @@ import com.threadly.core.port.post.in.like.comment.query.PostCommentLikeQueryUse
 import com.threadly.core.port.post.in.like.comment.query.dto.GetPostCommentLikersQuery;
 import com.threadly.core.port.post.in.like.comment.query.dto.PostCommentLiker;
 import com.threadly.core.port.post.out.like.comment.PostCommentLikeQueryPort;
-import com.threadly.core.service.validator.post.PostCommentValidator;
+import com.threadly.core.service.post.validator.PostCommentValidator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

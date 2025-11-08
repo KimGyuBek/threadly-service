@@ -3,7 +3,7 @@ package com.threadly.core.service.user;
 import com.threadly.core.domain.user.User;
 import com.threadly.core.port.user.in.query.UserQueryUseCase;
 import com.threadly.core.port.user.in.shared.UserResponse;
-import com.threadly.core.service.validator.user.UserValidator;
+import com.threadly.core.service.user.validator.UserValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

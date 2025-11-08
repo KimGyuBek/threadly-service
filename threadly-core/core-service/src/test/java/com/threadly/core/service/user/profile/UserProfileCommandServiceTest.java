@@ -15,7 +15,7 @@ import com.threadly.core.port.user.in.profile.command.dto.RegisterMyProfileComma
 import com.threadly.core.port.user.in.profile.command.dto.UpdateMyProfileCommand;
 import com.threadly.core.port.user.out.UserCommandPort;
 import com.threadly.core.port.user.out.profile.UserProfileCommandPort;
-import com.threadly.core.service.validator.user.UserProfileValidator;
+import com.threadly.core.service.user.validator.UserProfileValidator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

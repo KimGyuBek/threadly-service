@@ -19,8 +19,8 @@ import com.threadly.core.port.post.in.like.comment.command.dto.LikePostCommentCo
 import com.threadly.core.port.post.out.like.comment.PostCommentLikeQueryPort;
 import com.threadly.core.port.post.out.like.comment.PostCommentLikerCommandPort;
 import com.threadly.core.service.notification.dto.NotificationPublishCommand;
-import com.threadly.core.service.validator.post.PostCommentLikeValidator;
-import com.threadly.core.service.validator.post.PostCommentValidator;
+import com.threadly.core.service.post.validator.PostCommentLikeValidator;
+import com.threadly.core.service.post.validator.PostCommentValidator;
 import org.junit.jupiter.api.ClassOrderer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;

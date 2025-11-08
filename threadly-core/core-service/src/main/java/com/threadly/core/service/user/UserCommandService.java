@@ -14,8 +14,8 @@ import com.threadly.core.port.user.in.account.command.dto.UpdateMyPrivacySetting
 import com.threadly.core.port.user.out.UserCommandPort;
 import com.threadly.core.port.user.out.UserQueryPort;
 import com.threadly.core.port.user.out.UserResult;
-import com.threadly.core.service.processor.TokenProcessor;
-import com.threadly.core.service.validator.user.UserValidator;
+import com.threadly.core.service.token.processor.TokenProcessor;
+import com.threadly.core.service.user.validator.UserValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;

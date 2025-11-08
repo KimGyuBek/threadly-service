@@ -13,7 +13,7 @@ import com.threadly.core.port.post.in.comment.query.dto.GetPostCommentApiRespons
 import com.threadly.core.port.post.in.comment.query.dto.GetPostCommentListQuery;
 import com.threadly.core.port.post.out.comment.PostCommentDetailForUserProjection;
 import com.threadly.core.port.post.out.comment.PostCommentQueryPort;
-import com.threadly.core.service.validator.post.PostValidator;
+import com.threadly.core.service.post.validator.PostValidator;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.ClassOrderer;

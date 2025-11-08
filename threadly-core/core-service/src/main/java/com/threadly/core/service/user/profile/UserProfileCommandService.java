@@ -8,7 +8,7 @@ import com.threadly.core.port.user.in.profile.command.dto.RegisterMyProfileComma
 import com.threadly.core.port.user.in.profile.command.dto.UpdateMyProfileCommand;
 import com.threadly.core.port.user.out.UserCommandPort;
 import com.threadly.core.port.user.out.profile.UserProfileCommandPort;
-import com.threadly.core.service.validator.user.UserProfileValidator;
+import com.threadly.core.service.user.validator.UserProfileValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
