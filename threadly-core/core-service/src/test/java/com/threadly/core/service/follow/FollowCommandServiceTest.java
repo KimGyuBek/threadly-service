@@ -3,6 +3,7 @@ package com.threadly.core.service.follow;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -19,6 +20,7 @@ import com.threadly.core.port.follow.out.FollowCommandPort;
 import com.threadly.core.port.follow.out.FollowQueryPort;
 import com.threadly.core.port.user.out.UserQueryPort;
 import com.threadly.core.service.notification.dto.NotificationPublishCommand;
+import com.threadly.core.service.validator.follow.FollowValidator;
 import com.threadly.core.service.validator.user.UserValidator;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
@@ -52,6 +54,9 @@ class FollowCommandServiceTest {
   private UserValidator userValidator;
 
   @Mock
+  private FollowValidator followValidator;
+
+  @Mock
   private ApplicationEventPublisher applicationEventPublisher;
 
   @Nested
@@ -68,13 +73,15 @@ class FollowCommandServiceTest {
       User targetUser = User.newUser("user2", "password", "test@test.com", "010-1234-5678");
       targetUser.markAsPublic();
 
-      when(userQueryPort.findByUserId(command.targetUserId())).thenReturn(
-          Optional.of(targetUser));
+      when(userValidator.getUserByIdOrElseThrow(command.targetUserId())).thenReturn(targetUser);
 
       //when
       FollowUserApiResponse result = followCommandService.followUser(command);
 
       //then
+      verify(followValidator).validateNotSelfFollow(command.userId(), command.targetUserId());
+      verify(userValidator).getUserByIdOrElseThrow(command.targetUserId());
+      verify(userValidator).validateUserStatusWithException(targetUser.getUserId());
       assertThat(result.followStatus()).isEqualTo(FollowStatus.APPROVED);
       verify(followCommandPort).createFollow(any(Follow.class));
       verify(applicationEventPublisher).publishEvent(any(NotificationPublishCommand.class));
@@ -90,13 +97,15 @@ class FollowCommandServiceTest {
       User targetUser = User.newUser("user2", "password", "test@test.com", "010-1234-5678");
       targetUser.markAsPrivate();
 
-      when(userQueryPort.findByUserId(command.targetUserId())).thenReturn(
-          Optional.of(targetUser));
+      when(userValidator.getUserByIdOrElseThrow(command.targetUserId())).thenReturn(targetUser);
 
       //when
       FollowUserApiResponse result = followCommandService.followUser(command);
 
       //then
+      verify(followValidator).validateNotSelfFollow(command.userId(), command.targetUserId());
+      verify(userValidator).getUserByIdOrElseThrow(command.targetUserId());
+      verify(userValidator).validateUserStatusWithException(targetUser.getUserId());
       assertThat(result.followStatus()).isEqualTo(FollowStatus.PENDING);
       verify(followCommandPort).createFollow(any(Follow.class));
       verify(applicationEventPublisher).publishEvent(any(NotificationPublishCommand.class));
@@ -109,8 +118,11 @@ class FollowCommandServiceTest {
       //given
       FollowUserCommand command = new FollowUserCommand("user1", "user1");
 
+      doThrow(new FollowException(com.threadly.commons.exception.ErrorCode.SELF_FOLLOW_REQUEST_NOT_ALLOWED))
+          .when(followValidator).validateNotSelfFollow(command.userId(), command.targetUserId());
+
       //when & then
-      assertThrows(UserException.class, () -> followCommandService.followUser(command));
+      assertThrows(FollowException.class, () -> followCommandService.followUser(command));
     }
 
     /*[Case #4] 팔로우 실패 - 존재하지 않는 사용자*/
@@ -120,7 +132,8 @@ class FollowCommandServiceTest {
       //given
       FollowUserCommand command = new FollowUserCommand("user1", "user2");
 
-      when(userQueryPort.findByUserId(command.targetUserId())).thenReturn(Optional.empty());
+      when(userValidator.getUserByIdOrElseThrow(command.targetUserId())).thenThrow(
+          new UserException(com.threadly.commons.exception.ErrorCode.USER_NOT_FOUND));
 
       //when & then
       assertThrows(UserException.class, () -> followCommandService.followUser(command));
@@ -139,13 +152,14 @@ class FollowCommandServiceTest {
       HandleFollowRequestCommand command = new HandleFollowRequestCommand("user2", "follow1");
 
       Follow follow = Follow.createFollow("user1", "user2");
-      when(followQueryPort.findByIdAndStatusType(command.followId(),
-          FollowStatus.PENDING)).thenReturn(Optional.of(follow));
+      when(followValidator.getPendingFollowOrThrow(command.followId())).thenReturn(follow);
 
       //when
       followCommandService.approveFollowRequest(command);
 
       //then
+      verify(followValidator).getPendingFollowOrThrow(command.followId());
+      verify(followValidator).validateFollowRequestReceiver(follow.getFollowingId(), command.userId());
       verify(followCommandPort).updateFollowStatus(any(Follow.class));
       verify(applicationEventPublisher).publishEvent(any(NotificationPublishCommand.class));
     }
@@ -157,8 +171,8 @@ class FollowCommandServiceTest {
       //given
       HandleFollowRequestCommand command = new HandleFollowRequestCommand("user2", "follow1");
 
-      when(followQueryPort.findByIdAndStatusType(command.followId(),
-          FollowStatus.PENDING)).thenReturn(Optional.empty());
+      when(followValidator.getPendingFollowOrThrow(command.followId())).thenThrow(
+          new FollowException(com.threadly.commons.exception.ErrorCode.FOLLOW_RELATION_NOT_FOUND));
 
       //when & then
       assertThrows(FollowException.class,
@@ -173,8 +187,9 @@ class FollowCommandServiceTest {
       HandleFollowRequestCommand command = new HandleFollowRequestCommand("user3", "follow1");
 
       Follow follow = Follow.createFollow("user1", "user2");
-      when(followQueryPort.findByIdAndStatusType(command.followId(),
-          FollowStatus.PENDING)).thenReturn(Optional.of(follow));
+      when(followValidator.getPendingFollowOrThrow(command.followId())).thenReturn(follow);
+      doThrow(new FollowException(com.threadly.commons.exception.ErrorCode.FOLLOW_REQUEST_FORBIDDEN))
+          .when(followValidator).validateFollowRequestReceiver(follow.getFollowingId(), command.userId());
 
       //when & then
       assertThrows(FollowException.class,
@@ -193,14 +208,13 @@ class FollowCommandServiceTest {
       //given
       FollowRelationCommand command = new FollowRelationCommand("user1", "user2");
 
-      when(followQueryPort.existsByFollowerIdAndFollowingIdAndStatusType(
-          command.userId(), command.targetUserId(), FollowStatus.APPROVED
-      )).thenReturn(true);
-
       //when
       followCommandService.unfollowUser(command);
 
       //then
+      verify(followValidator).validateFollowExists(
+          command.userId(), command.targetUserId(), FollowStatus.APPROVED
+      );
       verify(followCommandPort).deleteByFollowerIdAndFollowingIdAndStatusType(
           command.userId(), command.targetUserId(), FollowStatus.APPROVED
       );
@@ -213,9 +227,10 @@ class FollowCommandServiceTest {
       //given
       FollowRelationCommand command = new FollowRelationCommand("user1", "user2");
 
-      when(followQueryPort.existsByFollowerIdAndFollowingIdAndStatusType(
-          command.userId(), command.targetUserId(), FollowStatus.APPROVED
-      )).thenReturn(false);
+      doThrow(new FollowException(com.threadly.commons.exception.ErrorCode.FOLLOW_RELATION_NOT_FOUND))
+          .when(followValidator).validateFollowExists(
+              command.userId(), command.targetUserId(), FollowStatus.APPROVED
+          );
 
       //when & then
       assertThrows(FollowException.class, () -> followCommandService.unfollowUser(command));
@@ -233,17 +248,109 @@ class FollowCommandServiceTest {
       //given
       FollowRelationCommand command = new FollowRelationCommand("user1", "user2");
 
-      when(followQueryPort.existsByFollowerIdAndFollowingIdAndStatusType(
-          command.userId(), command.targetUserId(), FollowStatus.PENDING
-      )).thenReturn(true);
-
       //when
       followCommandService.cancelFollowRequest(command);
 
       //then
+      verify(followValidator).validateFollowExists(
+          command.userId(), command.targetUserId(), FollowStatus.PENDING
+      );
       verify(followCommandPort).deleteByFollowerIdAndFollowingIdAndStatusType(
           command.userId(), command.targetUserId(), FollowStatus.PENDING
       );
+    }
+  }
+
+  @Nested
+  @DisplayName("팔로우 요청 거절 테스트")
+  class RejectFollowRequestTest {
+
+    /*[Case #1] 팔로우 요청 거절 성공*/
+    @DisplayName("팔로우 요청 거절 성공 - 팔로우 요청이 삭제되어야 한다")
+    @Test
+    public void rejectFollowRequest_shouldDeleteRequest() throws Exception {
+      //given
+      HandleFollowRequestCommand command = new HandleFollowRequestCommand("user2", "follow1");
+
+      Follow follow = Follow.createFollow("user1", "user2");
+      when(followValidator.getPendingFollowOrThrow(command.followId())).thenReturn(follow);
+
+      //when
+      followCommandService.rejectFollowRequest(command);
+
+      //then
+      verify(followValidator).getPendingFollowOrThrow(command.followId());
+      verify(followCommandPort).deleteFollow(command.followId());
+    }
+
+    /*[Case #2] 팔로우 요청 거절 실패 - 존재하지 않는 요청*/
+    @DisplayName("팔로우 요청 거절 실패 - 존재하지 않는 요청인 경우 예외가 발생해야 한다")
+    @Test
+    public void rejectFollowRequest_shouldThrowException_whenRequestNotFound() throws Exception {
+      //given
+      HandleFollowRequestCommand command = new HandleFollowRequestCommand("user2", "follow1");
+
+      when(followValidator.getPendingFollowOrThrow(command.followId())).thenThrow(
+          new FollowException(com.threadly.commons.exception.ErrorCode.FOLLOW_RELATION_NOT_FOUND));
+
+      //when & then
+      assertThrows(FollowException.class,
+          () -> followCommandService.rejectFollowRequest(command));
+    }
+
+    /*[Case #3] 팔로우 요청 거절 실패 - 다른 사용자의 요청*/
+    @DisplayName("팔로우 요청 거절 실패 - 다른 사용자의 요청인 경우 예외가 발생해야 한다")
+    @Test
+    public void rejectFollowRequest_shouldThrowException_whenNotMyRequest() throws Exception {
+      //given
+      HandleFollowRequestCommand command = new HandleFollowRequestCommand("user3", "follow1");
+
+      Follow follow = Follow.createFollow("user1", "user2");
+      when(followValidator.getPendingFollowOrThrow(command.followId())).thenReturn(follow);
+
+      //when & then
+      assertThrows(FollowException.class,
+          () -> followCommandService.rejectFollowRequest(command));
+    }
+  }
+
+  @Nested
+  @DisplayName("팔로워 삭제 테스트")
+  class RemoveFollowerTest {
+
+    /*[Case #1] 팔로워 삭제 성공*/
+    @DisplayName("팔로워 삭제 성공 - 팔로워 관계가 삭제되어야 한다")
+    @Test
+    public void removeFollower_shouldDeleteFollower() throws Exception {
+      //given
+      FollowRelationCommand command = new FollowRelationCommand("user1", "user2");
+
+      //when
+      followCommandService.removeFollower(command);
+
+      //then
+      verify(followValidator).validateFollowExists(
+          command.targetUserId(), command.userId(), FollowStatus.APPROVED
+      );
+      verify(followCommandPort).deleteByFollowerIdAndFollowingIdAndStatusType(
+          command.targetUserId(), command.userId(), FollowStatus.APPROVED
+      );
+    }
+
+    /*[Case #2] 팔로워 삭제 실패 - 팔로워 관계가 존재하지 않음*/
+    @DisplayName("팔로워 삭제 실패 - 팔로워 관계가 존재하지 않는 경우 예외가 발생해야 한다")
+    @Test
+    public void removeFollower_shouldThrowException_whenFollowerNotExists() throws Exception {
+      //given
+      FollowRelationCommand command = new FollowRelationCommand("user1", "user2");
+
+      doThrow(new FollowException(com.threadly.commons.exception.ErrorCode.FOLLOW_RELATION_NOT_FOUND))
+          .when(followValidator).validateFollowExists(
+              command.targetUserId(), command.userId(), FollowStatus.APPROVED
+          );
+
+      //when & then
+      assertThrows(FollowException.class, () -> followCommandService.removeFollower(command));
     }
   }
 }

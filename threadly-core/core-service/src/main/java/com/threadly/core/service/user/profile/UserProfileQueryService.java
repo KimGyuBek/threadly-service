@@ -5,10 +5,9 @@ import com.threadly.core.port.commons.dto.UserPreview;
 import com.threadly.core.port.user.in.profile.query.UserProfileQueryUseCase;
 import com.threadly.core.port.user.in.profile.query.dto.GetMyProfileDetailsApiResponse;
 import com.threadly.core.port.user.in.profile.query.dto.GetUserProfileApiResponse;
-import com.threadly.core.port.user.out.profile.UserProfileQueryPort;
 import com.threadly.core.port.user.out.profile.projection.MyProfileDetailsProjection;
 import com.threadly.core.port.user.out.profile.projection.UserProfileProjection;
-import com.threadly.core.service.validator.follow.FollowAccessValidator;
+import com.threadly.core.service.validator.follow.FollowValidator;
 import com.threadly.core.service.validator.user.UserProfileValidator;
 import com.threadly.core.service.validator.user.UserValidator;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UserProfileQueryService implements UserProfileQueryUseCase {
 
-  private final FollowAccessValidator followAccessValidator;
+  private final FollowValidator followValidator;
   private final UserValidator userValidator;
   private final UserProfileValidator userProfileValidator;
 
@@ -44,7 +43,7 @@ public class UserProfileQueryService implements UserProfileQueryUseCase {
     userValidator.validateUserStatusWithException(userProfileProjection.getUserStatus());
 
     /*팔로우 유무 검증*/
-    FollowStatus followStatus = followAccessValidator.validateProfileAccessible(userId,
+    FollowStatus followStatus = followValidator.validateProfileAccessible(userId,
         targetUserId);
 
     return new GetUserProfileApiResponse(

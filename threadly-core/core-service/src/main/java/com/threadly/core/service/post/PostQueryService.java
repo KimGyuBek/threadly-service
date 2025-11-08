@@ -1,14 +1,9 @@
 package com.threadly.core.service.post;
 
-import static com.threadly.core.domain.post.PostStatus.ARCHIVE;
-import static com.threadly.core.domain.post.PostStatus.BLOCKED;
-import static com.threadly.core.domain.post.PostStatus.DELETED;
-
 import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.exception.post.PostException;
 import com.threadly.commons.response.CursorPageApiResponse;
 import com.threadly.core.domain.image.ImageStatus;
-import com.threadly.core.domain.post.PostStatus;
 import com.threadly.core.port.commons.dto.UserPreview;
 import com.threadly.core.port.post.in.query.PostQueryUseCase;
 import com.threadly.core.port.post.in.query.dto.GetPostEngagementApiResponse;
@@ -22,7 +17,8 @@ import com.threadly.core.port.post.out.PostQueryPort;
 import com.threadly.core.port.post.out.image.PostImageQueryPort;
 import com.threadly.core.port.post.out.image.projection.PostImageProjection;
 import com.threadly.core.port.post.out.projection.PostDetailProjection;
-import com.threadly.core.service.validator.follow.FollowAccessValidator;
+import com.threadly.core.service.validator.follow.FollowValidator;
+import com.threadly.core.service.validator.post.PostValidator;
 import com.threadly.core.service.validator.user.UserValidator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -36,13 +32,14 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class PostQueryService implements PostQueryUseCase {
 
+  private final PostValidator postValidator;
+  private final UserValidator userValidator;
+
   private final PostQueryPort postQueryPort;
 
   private final PostImageQueryPort postImageQueryPort;
 
-  private final FollowAccessValidator followAccessValidator;
-
-  private final UserValidator userValidator;
+  private final FollowValidator followValidator;
 
   @Transactional(readOnly = true)
   @Override
@@ -89,32 +86,24 @@ public class PostQueryService implements PostQueryUseCase {
   @Override
   public PostDetails getPost(GetPostQuery query) {
     /*게시글 상세 정보 조회*/
-    PostDetailProjection postDetailProjection = postQueryPort.fetchPostDetailsByPostIdAndUserId(
-            query.getPostId(), query.getUserId())
-        .orElseThrow(() -> new PostException(ErrorCode.POST_NOT_FOUND));
+    PostDetailProjection postDetailsProjection = postValidator.getPostDetailsProjectionOrElseThrow(
+        query.getPostId(), query.getUserId());
 
     /*게시글 이미지 조회*/
     List<PostImageProjection> postImageProjections = postImageQueryPort.findAllByPostIdAndStatus(
         query.getPostId(), ImageStatus.CONFIRMED);
 
-    /*TODO 도메인 로직으로 변경*/
-    PostStatus status = postDetailProjection.getPostStatus();
-    if (status == DELETED) {
-      throw new PostException(ErrorCode.POST_ALREADY_DELETED);
-    } else if (status == ARCHIVE) {
-      throw new PostException(ErrorCode.POST_NOT_FOUND);
-    } else if (status == BLOCKED) {
-      throw new PostException(ErrorCode.POST_BLOCKED);
-    }
+    /*게시글이 조회 가능한 상태인지 검증*/
+    postValidator.validateAccessibleStatus(postDetailsProjection.getPostStatus());
 
-    return new PostDetails(postDetailProjection.getPostId(),
+    return new PostDetails(postDetailsProjection.getPostId(),
         new UserPreview(
-            postDetailProjection.getUserId(),
-            postDetailProjection.getUserNickname(),
-            postDetailProjection.getUserProfileImageUrl() == null ? "/"
-                : postDetailProjection.getUserProfileImageUrl()
+            postDetailsProjection.getUserId(),
+            postDetailsProjection.getUserNickname(),
+            postDetailsProjection.getUserProfileImageUrl() == null ? "/"
+                : postDetailsProjection.getUserProfileImageUrl()
         ),
-        postDetailProjection.getContent(),
+        postDetailsProjection.getContent(),
         postImageProjections.stream().map(
             projection ->
                 new PostDetails.PostImage(
@@ -123,11 +112,11 @@ public class PostQueryService implements PostQueryUseCase {
                     projection.getImageOrder()
                 )
         ).toList(),
-        postDetailProjection.getViewCount(),
-        postDetailProjection.getPostedAt(),
-        postDetailProjection.getLikeCount(),
-        postDetailProjection.getCommentCount(),
-        postDetailProjection.isLiked());
+        postDetailsProjection.getViewCount(),
+        postDetailsProjection.getPostedAt(),
+        postDetailsProjection.getLikeCount(),
+        postDetailsProjection.getCommentCount(),
+        postDetailsProjection.isLiked());
   }
 
   @Transactional(readOnly = true)
@@ -137,7 +126,7 @@ public class PostQueryService implements PostQueryUseCase {
     userValidator.validateUserStatusWithException(query.userId());
 
     /*2. 팔로우 관계 검증*/
-    followAccessValidator.validateProfileAccessibleWithException(query.userId(), query.targetId());
+    followValidator.validateProfileAccessibleWithException(query.userId(), query.targetId());
 
     /*3. 사용자 게시글 조회 후 응답 생성*/
     List<PostDetails> userPostDetailsList = postQueryPort.fetchUserPostsByCursor(

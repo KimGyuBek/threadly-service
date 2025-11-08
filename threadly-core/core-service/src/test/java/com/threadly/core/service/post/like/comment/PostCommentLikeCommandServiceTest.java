@@ -16,11 +16,11 @@ import com.threadly.core.domain.post.comment.CommentLike;
 import com.threadly.core.domain.post.comment.PostComment;
 import com.threadly.core.port.post.in.like.comment.command.dto.LikePostCommentApiResponse;
 import com.threadly.core.port.post.in.like.comment.command.dto.LikePostCommentCommand;
-import com.threadly.core.port.post.out.comment.PostCommentQueryPort;
 import com.threadly.core.port.post.out.like.comment.PostCommentLikeQueryPort;
 import com.threadly.core.port.post.out.like.comment.PostCommentLikerCommandPort;
 import com.threadly.core.service.notification.dto.NotificationPublishCommand;
-import java.util.Optional;
+import com.threadly.core.service.validator.post.PostCommentLikeValidator;
+import com.threadly.core.service.validator.post.PostCommentValidator;
 import org.junit.jupiter.api.ClassOrderer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
@@ -47,7 +47,10 @@ class PostCommentLikeCommandServiceTest {
   private PostCommentLikeCommandService postCommentLikeCommandService;
 
   @Mock
-  private PostCommentQueryPort postCommentQueryPort;
+  private PostCommentValidator postCommentValidator;
+
+  @Mock
+  private PostCommentLikeValidator postCommentLikeValidator;
 
   @Mock
   private PostCommentLikeQueryPort postCommentLikeQueryPort;
@@ -80,8 +83,8 @@ class PostCommentLikeCommandServiceTest {
         PostComment comment = PostComment.newTestComment("comment-1", "post-1", "writer-1",
             "content", PostCommentStatus.ACTIVE);
 
-        when(postCommentQueryPort.fetchById(command.getCommentId())).thenReturn(Optional.of(comment));
-        when(postCommentLikeQueryPort.existsByCommentIdAndUserId(command.getCommentId(),
+        when(postCommentValidator.getPostCommentOrThrow(command.getCommentId())).thenReturn(comment);
+        when(postCommentLikeValidator.isUserLiked(command.getCommentId(),
             command.getUserId())).thenReturn(false);
         when(postCommentLikeQueryPort.fetchLikeCountByCommentId(command.getCommentId()))
             .thenReturn(7L);
@@ -123,8 +126,8 @@ class PostCommentLikeCommandServiceTest {
         PostComment comment = PostComment.newTestComment("comment-1", "post-1", "writer-1",
             "content", PostCommentStatus.ACTIVE);
 
-        when(postCommentQueryPort.fetchById(command.getCommentId())).thenReturn(Optional.of(comment));
-        when(postCommentLikeQueryPort.existsByCommentIdAndUserId(command.getCommentId(),
+        when(postCommentValidator.getPostCommentOrThrow(command.getCommentId())).thenReturn(comment);
+        when(postCommentLikeValidator.isUserLiked(command.getCommentId(),
             command.getUserId())).thenReturn(true);
         when(postCommentLikeQueryPort.fetchLikeCountByCommentId(command.getCommentId()))
             .thenReturn(9L);
@@ -153,7 +156,8 @@ class PostCommentLikeCommandServiceTest {
       void likePostComment_shouldThrow_whenCommentNotFound() throws Exception {
         //given
         LikePostCommentCommand command = new LikePostCommentCommand("comment-unknown", "user-1");
-        when(postCommentQueryPort.fetchById(command.getCommentId())).thenReturn(Optional.empty());
+        when(postCommentValidator.getPostCommentOrThrow(command.getCommentId()))
+            .thenThrow(new PostCommentException(ErrorCode.POST_COMMENT_NOT_FOUND));
 
         //when & then
         assertThatThrownBy(() -> postCommentLikeCommandService.likePostComment(command))
@@ -171,7 +175,7 @@ class PostCommentLikeCommandServiceTest {
         LikePostCommentCommand command = new LikePostCommentCommand("comment-1", "user-1");
         PostComment comment = PostComment.newTestComment("comment-1", "post-1", "writer-1",
             "content", PostCommentStatus.DELETED);
-        when(postCommentQueryPort.fetchById(command.getCommentId())).thenReturn(Optional.of(comment));
+        when(postCommentValidator.getPostCommentOrThrow(command.getCommentId())).thenReturn(comment);
 
         //when & then
         assertThatThrownBy(() -> postCommentLikeCommandService.likePostComment(command))
@@ -204,8 +208,8 @@ class PostCommentLikeCommandServiceTest {
         PostComment comment = PostComment.newTestComment("comment-1", "post-1", "writer-1",
             "content", PostCommentStatus.ACTIVE);
 
-        when(postCommentQueryPort.fetchById(command.getCommentId())).thenReturn(Optional.of(comment));
-        when(postCommentLikeQueryPort.existsByCommentIdAndUserId(command.getCommentId(),
+        when(postCommentValidator.getPostCommentOrThrow(command.getCommentId())).thenReturn(comment);
+        when(postCommentLikeValidator.isUserLiked(command.getCommentId(),
             command.getUserId())).thenReturn(true);
         when(postCommentLikeQueryPort.fetchLikeCountByCommentId(command.getCommentId()))
             .thenReturn(4L);
@@ -231,8 +235,8 @@ class PostCommentLikeCommandServiceTest {
         PostComment comment = PostComment.newTestComment("comment-1", "post-1", "writer-1",
             "content", PostCommentStatus.ACTIVE);
 
-        when(postCommentQueryPort.fetchById(command.getCommentId())).thenReturn(Optional.of(comment));
-        when(postCommentLikeQueryPort.existsByCommentIdAndUserId(command.getCommentId(),
+        when(postCommentValidator.getPostCommentOrThrow(command.getCommentId())).thenReturn(comment);
+        when(postCommentLikeValidator.isUserLiked(command.getCommentId(),
             command.getUserId())).thenReturn(false);
         when(postCommentLikeQueryPort.fetchLikeCountByCommentId(command.getCommentId()))
             .thenReturn(0L);
@@ -262,7 +266,8 @@ class PostCommentLikeCommandServiceTest {
       void cancelPostCommentLike_shouldThrow_whenCommentNotFound() throws Exception {
         //given
         LikePostCommentCommand command = new LikePostCommentCommand("comment-unknown", "user-1");
-        when(postCommentQueryPort.fetchById(command.getCommentId())).thenReturn(Optional.empty());
+        when(postCommentValidator.getPostCommentOrThrow(command.getCommentId()))
+            .thenThrow(new PostCommentException(ErrorCode.POST_COMMENT_NOT_FOUND));
 
         //when & then
         assertThatThrownBy(() -> postCommentLikeCommandService.cancelPostCommentLike(command))
@@ -280,7 +285,7 @@ class PostCommentLikeCommandServiceTest {
         LikePostCommentCommand command = new LikePostCommentCommand("comment-1", "user-1");
         PostComment comment = PostComment.newTestComment("comment-1", "post-1", "writer-1",
             "content", PostCommentStatus.DELETED);
-        when(postCommentQueryPort.fetchById(command.getCommentId())).thenReturn(Optional.of(comment));
+        when(postCommentValidator.getPostCommentOrThrow(command.getCommentId())).thenReturn(comment);
 
         //when & then
         assertThatThrownBy(() -> postCommentLikeCommandService.cancelPostCommentLike(command))

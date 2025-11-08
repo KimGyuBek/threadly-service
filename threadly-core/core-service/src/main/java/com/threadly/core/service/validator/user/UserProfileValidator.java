@@ -35,7 +35,7 @@ public class UserProfileValidator {
   /**
    * 주어진 userId에 해당하는 UserProjection 인터페이스 조회
    * <p>
-   * 존재하지 않는 경우 예외 발생
+   *   존재하지 않는 경우 예외 발생
    * </p>
    *
    * @param userId
@@ -51,9 +51,8 @@ public class UserProfileValidator {
   /**
    * 주어진 userId에 해당하는 사용자의 MyProfileDetialsProjection 인터페이스 조회
    * <p>
-   * 존재하지 않는 경우 예외 발생
+   *   존재하지 않는 경우 예외 발생
    * </p>
-   *
    * @param userId
    * @return
    */

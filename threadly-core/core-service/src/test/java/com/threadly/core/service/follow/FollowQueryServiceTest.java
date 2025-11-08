@@ -18,7 +18,7 @@ import com.threadly.core.port.follow.out.projection.FollowRequestsProjection;
 import com.threadly.core.port.follow.out.projection.FollowerProjection;
 import com.threadly.core.port.follow.out.projection.FollowingProjection;
 import com.threadly.core.port.follow.out.projection.UserFollowStatsProjection;
-import com.threadly.core.service.validator.follow.FollowAccessValidator;
+import com.threadly.core.service.validator.follow.FollowValidator;
 import com.threadly.core.service.validator.user.UserValidator;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -49,7 +49,7 @@ class FollowQueryServiceTest {
   private FollowQueryPort followQueryPort;
 
   @Mock
-  private FollowAccessValidator followAccessValidator;
+  private FollowValidator followValidator;
 
   @Mock
   private UserValidator userValidator;
@@ -210,7 +210,7 @@ class FollowQueryServiceTest {
         }
       };
 
-      when(followAccessValidator.validateProfileAccessibleWithException(
+      when(followValidator.validateProfileAccessibleWithException(
           query.userId(), query.targetUserId())).thenReturn(FollowStatus.APPROVED);
       when(followQueryPort.findFollowersByCursor(
           query.targetUserId(),
@@ -223,7 +223,7 @@ class FollowQueryServiceTest {
       CursorPageApiResponse<FollowerResponse> response = followQueryService.getFollowers(query);
 
       //then
-      verify(followAccessValidator)
+      verify(followValidator)
           .validateProfileAccessibleWithException(query.userId(), query.targetUserId());
       verify(followQueryPort).findFollowersByCursor(
           query.targetUserId(),
@@ -299,7 +299,7 @@ class FollowQueryServiceTest {
         }
       };
 
-      when(followAccessValidator.validateProfileAccessibleWithException(
+      when(followValidator.validateProfileAccessibleWithException(
           query.userId(), query.targetUserId())).thenReturn(FollowStatus.APPROVED);
       when(followQueryPort.findFollowingsByCursor(
           query.targetUserId(),
@@ -312,7 +312,7 @@ class FollowQueryServiceTest {
       CursorPageApiResponse<FollowingApiResponse> response = followQueryService.getFollowings(query);
 
       //then
-      verify(followAccessValidator)
+      verify(followValidator)
           .validateProfileAccessibleWithException(query.userId(), query.targetUserId());
       verify(followQueryPort).findFollowingsByCursor(
           query.targetUserId(),

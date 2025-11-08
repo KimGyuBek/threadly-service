@@ -13,10 +13,9 @@ import com.threadly.core.domain.follow.FollowStatus;
 import com.threadly.core.domain.user.UserStatus;
 import com.threadly.core.port.user.in.profile.query.dto.GetMyProfileDetailsApiResponse;
 import com.threadly.core.port.user.in.profile.query.dto.GetUserProfileApiResponse;
-import com.threadly.core.port.user.out.profile.UserProfileQueryPort;
 import com.threadly.core.port.user.out.profile.projection.MyProfileDetailsProjection;
 import com.threadly.core.port.user.out.profile.projection.UserProfileProjection;
-import com.threadly.core.service.validator.follow.FollowAccessValidator;
+import com.threadly.core.service.validator.follow.FollowValidator;
 import com.threadly.core.service.validator.user.UserProfileValidator;
 import com.threadly.core.service.validator.user.UserValidator;
 import org.junit.jupiter.api.ClassOrderer;
@@ -43,7 +42,7 @@ class UserProfileQueryServiceTest {
   private UserProfileQueryService userProfileQueryService;
 
   @Mock
-  private FollowAccessValidator followAccessValidator;
+  private FollowValidator followValidator;
 
   @Mock
   private UserValidator userValidator;
@@ -151,7 +150,7 @@ class UserProfileQueryServiceTest {
       when(userProfileValidator.getUserProfileProjectionOrElseThrow(targetUserId))
           .thenReturn(projection);
       doNothing().when(userValidator).validateUserStatusWithException(UserStatus.ACTIVE);
-      when(followAccessValidator.validateProfileAccessible(userId, targetUserId))
+      when(followValidator.validateProfileAccessible(userId, targetUserId))
           .thenReturn(FollowStatus.APPROVED);
 
       //when
@@ -161,7 +160,7 @@ class UserProfileQueryServiceTest {
       //then
       verify(userProfileValidator).getUserProfileProjectionOrElseThrow(targetUserId);
       verify(userValidator).validateUserStatusWithException(UserStatus.ACTIVE);
-      verify(followAccessValidator).validateProfileAccessible(userId, targetUserId);
+      verify(followValidator).validateProfileAccessible(userId, targetUserId);
 
       assertThat(response.user().userId()).isEqualTo(targetUserId);
       assertThat(response.user().nickname()).isEqualTo("targetNickname");
@@ -225,7 +224,7 @@ class UserProfileQueryServiceTest {
       when(userProfileValidator.getUserProfileProjectionOrElseThrow(targetUserId))
           .thenReturn(projection);
       doNothing().when(userValidator).validateUserStatusWithException(UserStatus.ACTIVE);
-      when(followAccessValidator.validateProfileAccessible(userId, targetUserId))
+      when(followValidator.validateProfileAccessible(userId, targetUserId))
           .thenReturn(FollowStatus.NONE);
 
       //when

@@ -2,21 +2,21 @@ package com.threadly.core.service.post.like.comment;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.exception.post.PostCommentException;
 import com.threadly.commons.response.CursorPageApiResponse;
-import com.threadly.core.domain.post.PostCommentStatus;
 import com.threadly.core.port.post.in.like.comment.query.dto.GetPostCommentLikersQuery;
 import com.threadly.core.port.post.in.like.comment.query.dto.PostCommentLiker;
-import com.threadly.core.port.post.out.comment.PostCommentQueryPort;
 import com.threadly.core.port.post.out.like.comment.PostCommentLikeQueryPort;
 import com.threadly.core.port.post.out.like.comment.PostCommentLikerProjection;
+import com.threadly.core.service.validator.post.PostCommentValidator;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import org.junit.jupiter.api.ClassOrderer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
@@ -41,10 +41,10 @@ class PostCommentLikeQueryServiceTest {
   private PostCommentLikeQueryService postCommentLikeQueryService;
 
   @Mock
-  private PostCommentLikeQueryPort postCommentLikeQueryPort;
+  private PostCommentValidator postCommentValidator;
 
   @Mock
-  private PostCommentQueryPort postCommentQueryPort;
+  private PostCommentLikeQueryPort postCommentLikeQueryPort;
 
   @Order(1)
   @Nested
@@ -117,8 +117,7 @@ class PostCommentLikeQueryServiceTest {
         }
       };
 
-      when(postCommentQueryPort.fetchCommentStatus(query.commentId()))
-          .thenReturn(Optional.of(PostCommentStatus.ACTIVE));
+      doNothing().when(postCommentValidator).validateAccessibleStatus(query.commentId());
       when(postCommentLikeQueryPort.fetchCommentLikerListByCommentIdWithCursor(
           query.commentId(),
           query.cursorLikedAt(),
@@ -131,7 +130,7 @@ class PostCommentLikeQueryServiceTest {
           postCommentLikeQueryService.getPostCommentLikers(query);
 
       //then
-      verify(postCommentQueryPort).fetchCommentStatus(query.commentId());
+      verify(postCommentValidator).validateAccessibleStatus(query.commentId());
       verify(postCommentLikeQueryPort).fetchCommentLikerListByCommentIdWithCursor(
           query.commentId(),
           query.cursorLikedAt(),
@@ -165,8 +164,8 @@ class PostCommentLikeQueryServiceTest {
       GetPostCommentLikersQuery query = new GetPostCommentLikersQuery(
           "post-1", "comment-unknown", null, null, 10
       );
-      when(postCommentQueryPort.fetchCommentStatus(query.commentId()))
-          .thenReturn(Optional.empty());
+      doThrow(new PostCommentException(ErrorCode.POST_COMMENT_NOT_FOUND))
+          .when(postCommentValidator).validateAccessibleStatus(query.commentId());
 
       //when & then
       assertThatThrownBy(() -> postCommentLikeQueryService.getPostCommentLikers(query))
@@ -184,8 +183,8 @@ class PostCommentLikeQueryServiceTest {
       GetPostCommentLikersQuery query = new GetPostCommentLikersQuery(
           "post-1", "comment-1", null, null, 10
       );
-      when(postCommentQueryPort.fetchCommentStatus(query.commentId()))
-          .thenReturn(Optional.of(PostCommentStatus.DELETED));
+      doThrow(new PostCommentException(ErrorCode.POST_COMMENT_NOT_ACCESSIBLE))
+          .when(postCommentValidator).validateAccessibleStatus(query.commentId());
 
       //when & then
       assertThatThrownBy(() -> postCommentLikeQueryService.getPostCommentLikers(query))

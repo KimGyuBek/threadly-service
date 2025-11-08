@@ -5,9 +5,12 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.exception.post.PostCommentException;
 import com.threadly.commons.exception.post.PostException;
 import com.threadly.core.domain.post.Post;
@@ -17,14 +20,13 @@ import com.threadly.core.domain.post.comment.PostComment;
 import com.threadly.core.port.post.in.comment.command.dto.CreatePostCommentApiResponse;
 import com.threadly.core.port.post.in.comment.command.dto.CreatePostCommentCommand;
 import com.threadly.core.port.post.in.comment.command.dto.DeletePostCommentCommand;
-import com.threadly.core.port.post.out.PostQueryPort;
 import com.threadly.core.port.post.out.comment.PostCommentCommandPort;
-import com.threadly.core.port.post.out.comment.PostCommentQueryPort;
 import com.threadly.core.port.post.out.like.comment.PostCommentLikerCommandPort;
 import com.threadly.core.port.user.out.profile.UserProfileQueryPort;
 import com.threadly.core.port.user.out.profile.projection.UserPreviewProjection;
 import com.threadly.core.service.notification.dto.NotificationPublishCommand;
-import java.util.Optional;
+import com.threadly.core.service.validator.post.PostCommentValidator;
+import com.threadly.core.service.validator.post.PostValidator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -44,10 +46,10 @@ class PostCommentCommandServiceTest {
   private PostCommentCommandService postCommentCommandService;
 
   @Mock
-  private PostQueryPort postQueryPort;
+  private PostValidator postValidator;
 
   @Mock
-  private PostCommentQueryPort postCommentQueryPort;
+  private PostCommentValidator postCommentValidator;
 
   @Mock
   private PostCommentCommandPort postCommentCommandPort;
@@ -77,7 +79,8 @@ class PostCommentCommandServiceTest {
       );
 
       Post post = Post.newPost("user2", "content");
-      when(postQueryPort.fetchById(command.getPostId())).thenReturn(Optional.of(post));
+      when(postValidator.getPostOrThrow(command.getPostId())).thenReturn(post);
+      doNothing().when(postValidator).validateAccessibleStatus(PostStatus.ACTIVE);
 
       UserPreviewProjection userPreview = new UserPreviewProjection() {
 
@@ -103,6 +106,8 @@ class PostCommentCommandServiceTest {
           () -> assertThat(result.content()).isEqualTo("comment content")
       );
 
+      verify(postValidator).getPostOrThrow(command.getPostId());
+      verify(postValidator).validateAccessibleStatus(PostStatus.ACTIVE);
       verify(postCommentCommandPort).savePostComment(any(PostComment.class));
       verify(applicationEventPublisher).publishEvent(any(NotificationPublishCommand.class));
     }
@@ -120,7 +125,9 @@ class PostCommentCommandServiceTest {
 
       Post post = Post.newPost("user2", "content");
       post.markAsDeleted();
-      when(postQueryPort.fetchById(command.getPostId())).thenReturn(Optional.of(post));
+      when(postValidator.getPostOrThrow(command.getPostId())).thenReturn(post);
+      doThrow(new PostException(ErrorCode.POST_ALREADY_DELETED))
+          .when(postValidator).validateAccessibleStatus(PostStatus.DELETED);
 
       //when & then
       assertThrows(PostException.class,
@@ -138,7 +145,8 @@ class PostCommentCommandServiceTest {
           "comment content"
       );
 
-      when(postQueryPort.fetchById(command.getPostId())).thenReturn(Optional.empty());
+      when(postValidator.getPostOrThrow(command.getPostId()))
+          .thenThrow(new PostException(ErrorCode.POST_NOT_FOUND));
 
       //when & then
       assertThrows(PostException.class,
@@ -162,16 +170,17 @@ class PostCommentCommandServiceTest {
       );
 
       PostComment comment = PostComment.newComment("post1", "user1", "content");
-      when(postCommentQueryPort.fetchById(command.getCommentId())).thenReturn(
-          Optional.of(comment));
-
-      when(postQueryPort.fetchPostStatusByPostId(command.getPostId())).thenReturn(
-          Optional.of(PostStatus.ACTIVE));
+      when(postCommentValidator.getPostCommentOrThrow(command.getCommentId()))
+          .thenReturn(comment);
+      when(postValidator.validateAccessibleStatusById(command.getPostId()))
+          .thenReturn(PostStatus.ACTIVE);
 
       //when
       postCommentCommandService.softDeletePostComment(command);
 
       //then
+      verify(postCommentValidator).getPostCommentOrThrow(command.getCommentId());
+      verify(postValidator).validateAccessibleStatusById(command.getPostId());
       verify(postCommentCommandPort).updatePostCommentStatus(anyString(),
           any(PostCommentStatus.class));
     }
@@ -187,7 +196,8 @@ class PostCommentCommandServiceTest {
           "user1"
       );
 
-      when(postCommentQueryPort.fetchById(command.getCommentId())).thenReturn(Optional.empty());
+      when(postCommentValidator.getPostCommentOrThrow(command.getCommentId()))
+          .thenThrow(new PostCommentException(ErrorCode.POST_COMMENT_NOT_FOUND));
 
       //when & then
       assertThrows(PostCommentException.class,
@@ -206,11 +216,10 @@ class PostCommentCommandServiceTest {
       );
 
       PostComment comment = PostComment.newComment("post1", "user1", "content");
-      when(postCommentQueryPort.fetchById(command.getCommentId())).thenReturn(
-          Optional.of(comment));
-
-      when(postQueryPort.fetchPostStatusByPostId(command.getPostId())).thenReturn(
-          Optional.of(PostStatus.ACTIVE));
+      when(postCommentValidator.getPostCommentOrThrow(command.getCommentId()))
+          .thenReturn(comment);
+      when(postValidator.validateAccessibleStatusById(command.getPostId()))
+          .thenReturn(PostStatus.ACTIVE);
 
       //when & then
       assertThrows(PostCommentException.class,

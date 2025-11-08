@@ -1,15 +1,12 @@
 package com.threadly.core.service.post.like.comment;
 
-import com.threadly.core.port.post.out.like.comment.PostCommentLikeQueryPort;
-import com.threadly.core.port.commons.dto.UserPreview;
-import com.threadly.commons.exception.ErrorCode;
-import com.threadly.commons.exception.post.PostCommentException;
-import com.threadly.core.domain.post.PostCommentStatus;
-import com.threadly.core.port.post.out.comment.PostCommentQueryPort;
 import com.threadly.commons.response.CursorPageApiResponse;
-import com.threadly.core.port.post.in.like.comment.query.dto.GetPostCommentLikersQuery;
+import com.threadly.core.port.commons.dto.UserPreview;
 import com.threadly.core.port.post.in.like.comment.query.PostCommentLikeQueryUseCase;
+import com.threadly.core.port.post.in.like.comment.query.dto.GetPostCommentLikersQuery;
 import com.threadly.core.port.post.in.like.comment.query.dto.PostCommentLiker;
+import com.threadly.core.port.post.out.like.comment.PostCommentLikeQueryPort;
+import com.threadly.core.service.validator.post.PostCommentValidator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,22 +15,16 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class PostCommentLikeQueryService implements PostCommentLikeQueryUseCase {
 
-  private final PostCommentLikeQueryPort postCommentLikeQueryPort;
+  private final PostCommentValidator postCommentValidator;
 
-  private final PostCommentQueryPort postCommentQueryPort;
+  private final PostCommentLikeQueryPort postCommentLikeQueryPort;
 
   @Override
   public CursorPageApiResponse<PostCommentLiker> getPostCommentLikers(
       GetPostCommentLikersQuery query) {
 
     /*댓글 상태 검증*/
-    PostCommentStatus commentStatus = postCommentQueryPort.fetchCommentStatus(
-        query.commentId()).orElseThrow(() -> new PostCommentException(
-        ErrorCode.POST_COMMENT_NOT_FOUND));
-
-    if (!commentStatus.equals(PostCommentStatus.ACTIVE)) {
-      throw new PostCommentException(ErrorCode.POST_COMMENT_NOT_ACCESSIBLE);
-    }
+    postCommentValidator.validateAccessibleStatus(query.commentId());
 
     /*리스트 조회*/
     List<PostCommentLiker> allLikerList = postCommentLikeQueryPort.fetchCommentLikerListByCommentIdWithCursor(
@@ -51,6 +42,5 @@ public class PostCommentLikeQueryService implements PostCommentLikeQueryUseCase 
         )
     ).toList();
     return CursorPageApiResponse.from(allLikerList, query.limit());
-
   }
 }

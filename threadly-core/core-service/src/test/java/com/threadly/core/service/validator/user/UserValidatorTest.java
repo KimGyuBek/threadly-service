@@ -96,6 +96,61 @@ class UserValidatorTest {
       assertThat(result).isNotNull();
       verify(userQueryPort).findByUserId(userId);
     }
+
+    /*[Case #4] UserStatus 검증 성공 - ACTIVE*/
+    @Order(4)
+    @DisplayName("4. UserStatus가 ACTIVE인 경우 예외가 발생하지 않는지 검증")
+    @Test
+    void validateUserStatusWithException_shouldPass_whenStatusIsActive() throws Exception {
+      //given
+      UserStatus status = UserStatus.ACTIVE;
+
+      //when & then
+      assertThatCode(() -> userValidator.validateUserStatusWithException(status))
+          .doesNotThrowAnyException();
+    }
+
+    /*[Case #5] UserStatus 검증 성공 - INCOMPLETE_PROFILE*/
+    @Order(5)
+    @DisplayName("5. UserStatus가 INCOMPLETE_PROFILE인 경우 예외가 발생하지 않는지 검증")
+    @Test
+    void validateUserStatusWithException_shouldPass_whenStatusIsIncompleteProfile()
+        throws Exception {
+      //given
+      UserStatus status = UserStatus.INCOMPLETE_PROFILE;
+
+      //when & then
+      assertThatCode(() -> userValidator.validateUserStatusWithException(status))
+          .doesNotThrowAnyException();
+    }
+
+    /*[Case #6] 내 상태 검증 성공 - ACTIVE*/
+    @Order(6)
+    @DisplayName("6. 내 상태가 ACTIVE인 경우 예외가 발생하지 않는지 검증")
+    @Test
+    void validateMyStatusWithException_shouldPass_whenStatusIsActive() throws Exception {
+      //given
+      UserStatus status = UserStatus.ACTIVE;
+
+      //when & then
+      assertThatCode(() -> userValidator.validateMyStatusWithException(status))
+          .doesNotThrowAnyException();
+    }
+
+    /*[Case #7] 이메일 중복 검증 성공 - 중복 없음*/
+    @Order(7)
+    @DisplayName("7. 이메일이 중복되지 않은 경우 예외가 발생하지 않는지 검증")
+    @Test
+    void validateEmailDuplicate_shouldPass_whenEmailNotDuplicated() throws Exception {
+      //given
+      String email = "new@test.com";
+      when(userQueryPort.existsByEmail(email)).thenReturn(false);
+
+      //when & then
+      assertThatCode(() -> userValidator.validateEmailDuplicate(email))
+          .doesNotThrowAnyException();
+      verify(userQueryPort).existsByEmail(email);
+    }
   }
 
   @Order(2)
@@ -198,6 +253,68 @@ class UserValidatorTest {
           .isInstanceOf(UserException.class)
           .extracting("errorCode")
           .isEqualTo(ErrorCode.USER_NOT_FOUND);
+    }
+
+    /*[Case #7] UserStatus 검증 실패 - DELETED*/
+    @Order(7)
+    @DisplayName("7. UserStatus가 DELETED인 경우 예외가 발생하는지 검증")
+    @Test
+    void validateUserStatusWithException_shouldThrow_whenStatusIsDeleted() throws Exception {
+      //given
+      UserStatus status = UserStatus.DELETED;
+
+      //when & then
+      assertThatThrownBy(() -> userValidator.validateUserStatusWithException(status))
+          .isInstanceOf(UserException.class)
+          .extracting("errorCode")
+          .isEqualTo(ErrorCode.USER_ALREADY_DELETED);
+    }
+
+    /*[Case #8] UserStatus 검증 실패 - INACTIVE*/
+    @Order(8)
+    @DisplayName("8. UserStatus가 INACTIVE인 경우 예외가 발생하는지 검증")
+    @Test
+    void validateUserStatusWithException_shouldThrow_whenStatusIsInactive() throws Exception {
+      //given
+      UserStatus status = UserStatus.INACTIVE;
+
+      //when & then
+      assertThatThrownBy(() -> userValidator.validateUserStatusWithException(status))
+          .isInstanceOf(UserException.class)
+          .extracting("errorCode")
+          .isEqualTo(ErrorCode.USER_INACTIVE);
+    }
+
+    /*[Case #9] 내 상태 검증 실패 - DELETED*/
+    @Order(9)
+    @DisplayName("9. 내 상태가 DELETED인 경우 예외가 발생하는지 검증")
+    @Test
+    void validateMyStatusWithException_shouldThrow_whenStatusIsDeleted() throws Exception {
+      //given
+      UserStatus status = UserStatus.DELETED;
+
+      //when & then
+      assertThatThrownBy(() -> userValidator.validateMyStatusWithException(status))
+          .isInstanceOf(UserException.class)
+          .extracting("errorCode")
+          .isEqualTo(ErrorCode.USER_ALREADY_DELETED);
+    }
+
+    /*[Case #10] 이메일 중복 검증 실패 - 중복 있음*/
+    @Order(10)
+    @DisplayName("10. 이메일이 중복된 경우 예외가 발생하는지 검증")
+    @Test
+    void validateEmailDuplicate_shouldThrow_whenEmailIsDuplicated() throws Exception {
+      //given
+      String email = "duplicate@test.com";
+      when(userQueryPort.existsByEmail(email)).thenReturn(true);
+
+      //when & then
+      assertThatThrownBy(() -> userValidator.validateEmailDuplicate(email))
+          .isInstanceOf(UserException.class)
+          .extracting("errorCode")
+          .isEqualTo(ErrorCode.USER_ALREADY_EXISTS);
+      verify(userQueryPort).existsByEmail(email);
     }
   }
 }

@@ -20,6 +20,9 @@ import com.threadly.core.port.post.out.image.PostImageQueryPort;
 import com.threadly.core.port.post.out.image.projection.PostImageProjection;
 import com.threadly.core.port.post.out.projection.PostDetailProjection;
 import com.threadly.core.port.post.out.projection.PostEngagementProjection;
+import com.threadly.core.service.validator.follow.FollowValidator;
+import com.threadly.core.service.validator.post.PostValidator;
+import com.threadly.core.service.validator.user.UserValidator;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -36,6 +39,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
+
 /**
  * PostQueryService 테스트
  */
@@ -47,10 +53,19 @@ class PostQueryServiceTest {
   private PostQueryService postQueryService;
 
   @Mock
+  private PostValidator postValidator;
+
+  @Mock
+  private UserValidator userValidator;
+
+  @Mock
   private PostQueryPort postQueryPort;
 
   @Mock
   private PostImageQueryPort postImageQueryPort;
+
+  @Mock
+  private FollowValidator followValidator;
 
   @Order(1)
   @Nested
@@ -371,8 +386,9 @@ class PostQueryServiceTest {
           }
         };
 
-        when(postQueryPort.fetchPostDetailsByPostIdAndUserId(query.getPostId(), query.getUserId()))
-            .thenReturn(Optional.of(projection));
+        when(postValidator.getPostDetailsProjectionOrElseThrow(query.getPostId(), query.getUserId()))
+            .thenReturn(projection);
+        doNothing().when(postValidator).validateAccessibleStatus(PostStatus.ACTIVE);
         when(postImageQueryPort.findAllByPostIdAndStatus(query.getPostId(), ImageStatus.CONFIRMED))
             .thenReturn(List.of(imageProjection));
 
@@ -380,8 +396,9 @@ class PostQueryServiceTest {
         PostDetails details = postQueryService.getPost(query);
 
         //then
-        verify(postQueryPort).fetchPostDetailsByPostIdAndUserId(query.getPostId(),
+        verify(postValidator).getPostDetailsProjectionOrElseThrow(query.getPostId(),
             query.getUserId());
+        verify(postValidator).validateAccessibleStatus(PostStatus.ACTIVE);
         verify(postImageQueryPort).findAllByPostIdAndStatus(query.getPostId(),
             ImageStatus.CONFIRMED);
 
@@ -410,8 +427,8 @@ class PostQueryServiceTest {
       void getPost_shouldThrow_whenPostNotFound() throws Exception {
         //given
         GetPostQuery query = new GetPostQuery("post-unknown", "viewer-1");
-        when(postQueryPort.fetchPostDetailsByPostIdAndUserId(query.getPostId(), query.getUserId()))
-            .thenReturn(Optional.empty());
+        when(postValidator.getPostDetailsProjectionOrElseThrow(query.getPostId(), query.getUserId()))
+            .thenThrow(new PostException(ErrorCode.POST_NOT_FOUND));
 
         //when & then
         assertThatThrownBy(() -> postQueryService.getPost(query))
@@ -427,8 +444,11 @@ class PostQueryServiceTest {
       void getPost_shouldThrow_whenPostDeleted() throws Exception {
         //given
         GetPostQuery query = new GetPostQuery("post-1", "viewer-1");
-        when(postQueryPort.fetchPostDetailsByPostIdAndUserId(query.getPostId(), query.getUserId()))
-            .thenReturn(Optional.of(newStatusProjection(PostStatus.DELETED)));
+        PostDetailProjection projection = newStatusProjection(PostStatus.DELETED);
+        when(postValidator.getPostDetailsProjectionOrElseThrow(query.getPostId(), query.getUserId()))
+            .thenReturn(projection);
+        doThrow(new PostException(ErrorCode.POST_ALREADY_DELETED))
+            .when(postValidator).validateAccessibleStatus(PostStatus.DELETED);
 
         //when & then
         assertThatThrownBy(() -> postQueryService.getPost(query))
@@ -444,8 +464,11 @@ class PostQueryServiceTest {
       void getPost_shouldThrow_whenPostArchived() throws Exception {
         //given
         GetPostQuery query = new GetPostQuery("post-1", "viewer-1");
-        when(postQueryPort.fetchPostDetailsByPostIdAndUserId(query.getPostId(), query.getUserId()))
-            .thenReturn(Optional.of(newStatusProjection(PostStatus.ARCHIVE)));
+        PostDetailProjection projection = newStatusProjection(PostStatus.ARCHIVE);
+        when(postValidator.getPostDetailsProjectionOrElseThrow(query.getPostId(), query.getUserId()))
+            .thenReturn(projection);
+        doThrow(new PostException(ErrorCode.POST_NOT_FOUND))
+            .when(postValidator).validateAccessibleStatus(PostStatus.ARCHIVE);
 
         //when & then
         assertThatThrownBy(() -> postQueryService.getPost(query))
@@ -461,8 +484,11 @@ class PostQueryServiceTest {
       void getPost_shouldThrow_whenPostBlocked() throws Exception {
         //given
         GetPostQuery query = new GetPostQuery("post-1", "viewer-1");
-        when(postQueryPort.fetchPostDetailsByPostIdAndUserId(query.getPostId(), query.getUserId()))
-            .thenReturn(Optional.of(newStatusProjection(PostStatus.BLOCKED)));
+        PostDetailProjection projection = newStatusProjection(PostStatus.BLOCKED);
+        when(postValidator.getPostDetailsProjectionOrElseThrow(query.getPostId(), query.getUserId()))
+            .thenReturn(projection);
+        doThrow(new PostException(ErrorCode.POST_BLOCKED))
+            .when(postValidator).validateAccessibleStatus(PostStatus.BLOCKED);
 
         //when & then
         assertThatThrownBy(() -> postQueryService.getPost(query))
