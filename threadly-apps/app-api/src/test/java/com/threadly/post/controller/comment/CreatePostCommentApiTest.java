@@ -153,12 +153,12 @@ public class CreatePostCommentApiTest extends BasePostApiTest {
 
         /*댓글 추가 요청 전송*/
         CommonResponse<CreatePostCommentApiResponse> createPostCommentResponse = sendCreatePostCommentRequest(
-            accessToken, ARCHIVED_POST_ID, content, status().isBadRequest()
+            accessToken, ARCHIVED_POST_ID, content, status().isNotFound()
         );
 
         assertThat(createPostCommentResponse.isSuccess()).isFalse();
         assertThat(createPostCommentResponse.getCode()).isEqualTo(
-            ErrorCode.POST_ARCHIVED.getCode());
+            ErrorCode.POST_NOT_FOUND.getCode());
       }
 
       /*[Case #4]  createPostComment() - content가 비어있는 경우 400 Bad Request*/
