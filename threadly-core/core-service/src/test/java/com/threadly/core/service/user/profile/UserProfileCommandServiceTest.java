@@ -3,9 +3,11 @@ package com.threadly.core.service.user.profile;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
+import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.exception.user.UserException;
 import com.threadly.core.domain.user.UserGenderType;
 import com.threadly.core.domain.user.UserStatus;
@@ -13,7 +15,7 @@ import com.threadly.core.port.user.in.profile.command.dto.RegisterMyProfileComma
 import com.threadly.core.port.user.in.profile.command.dto.UpdateMyProfileCommand;
 import com.threadly.core.port.user.out.UserCommandPort;
 import com.threadly.core.port.user.out.profile.UserProfileCommandPort;
-import com.threadly.core.port.user.out.profile.UserProfileQueryPort;
+import com.threadly.core.service.validator.user.UserProfileValidator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -35,7 +37,7 @@ class UserProfileCommandServiceTest {
   private UserProfileCommandPort userProfileCommandPort;
 
   @Mock
-  private UserProfileQueryPort userProfileQueryPort;
+  private UserProfileValidator userProfileValidator;
 
   @Mock
   private UserCommandPort userCommandPort;
@@ -60,12 +62,13 @@ class UserProfileCommandServiceTest {
           null
       );
 
-      when(userProfileQueryPort.existsByNickname(command.getNickname())).thenReturn(false);
+      doNothing().when(userProfileValidator).validateNicknameDuplicate(command.getNickname());
 
       //when
       userProfileCommandService.registerMyProfile(command);
 
       //then
+      verify(userProfileValidator).validateNicknameDuplicate(command.getNickname());
       verify(userProfileCommandPort).saveUserProfile(any());
       verify(userCommandPort).updateUserStatus(command.getUserId(), UserStatus.ACTIVE);
     }
@@ -85,7 +88,8 @@ class UserProfileCommandServiceTest {
           null
       );
 
-      when(userProfileQueryPort.existsByNickname(command.getNickname())).thenReturn(true);
+      doThrow(new UserException(ErrorCode.USER_NICKNAME_DUPLICATED))
+          .when(userProfileValidator).validateNicknameDuplicate(command.getNickname());
 
       //when & then
       assertThrows(UserException.class,
@@ -111,12 +115,13 @@ class UserProfileCommandServiceTest {
           null
       );
 
-      when(userProfileQueryPort.existsByNickname(command.getNickname())).thenReturn(false);
+      doNothing().when(userProfileValidator).validateNicknameDuplicate(command.getNickname());
 
       //when
       userProfileCommandService.updateMyProfile(command);
 
       //then
+      verify(userProfileValidator).validateNicknameDuplicate(command.getNickname());
       verify(userProfileCommandPort).updateMyProfile(any());
       verify(userCommandPort).updateUserPhone(anyString(), anyString());
     }
@@ -135,7 +140,8 @@ class UserProfileCommandServiceTest {
           null
       );
 
-      when(userProfileQueryPort.existsByNickname(command.getNickname())).thenReturn(true);
+      doThrow(new UserException(ErrorCode.USER_NICKNAME_DUPLICATED))
+          .when(userProfileValidator).validateNicknameDuplicate(command.getNickname());
 
       //when & then
       assertThrows(UserException.class, () -> userProfileCommandService.updateMyProfile(command));

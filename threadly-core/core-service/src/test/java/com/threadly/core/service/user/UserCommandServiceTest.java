@@ -4,9 +4,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.exception.user.UserException;
 import com.threadly.commons.properties.TtlProperties;
 import com.threadly.core.domain.user.User;
@@ -19,10 +22,8 @@ import com.threadly.core.port.user.in.account.command.dto.RegisterUserCommand;
 import com.threadly.core.port.user.out.UserCommandPort;
 import com.threadly.core.port.user.out.UserQueryPort;
 import com.threadly.core.port.user.out.UserResult;
-import com.threadly.core.service.notification.dto.NotificationPublishCommand;
 import com.threadly.core.service.processor.TokenProcessor;
 import com.threadly.core.service.validator.user.UserValidator;
-import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -42,13 +43,8 @@ class UserCommandServiceTest {
   private UserCommandService userCommandService;
 
   @Mock
-  private UserQueryPort userQueryPort;
-
-  @Mock
   private UserCommandPort userCommandPort;
 
-  @Mock
-  private TokenCommandPort tokenCommandPort;
 
   @Mock
   private ApplicationEventPublisher applicationEventPublisher;
@@ -78,8 +74,7 @@ class UserCommandServiceTest {
           "010-1234-5678"
       );
 
-//      when(userQueryPort.findByEmail(command.getEmail())).thenReturn(Optional.empty());
-      when(userQueryPort.existsByEmail(command.getEmail())).thenReturn(false);
+      doNothing().when(userValidator).validateEmailDuplicate(command.getEmail());
       when(userCommandPort.save(any(User.class))).thenReturn(
           UserResult.builder()
               .userId("user1")
@@ -122,7 +117,8 @@ class UserCommandServiceTest {
 
       User existingUser = User.newUser("username", "password", "test@test.com",
           "010-1234-5678");
-      when(userQueryPort.existsByEmail(command.getEmail())).thenReturn(true);
+      doThrow(new UserException(ErrorCode.DUPLICATE_EMAIL))
+          .when(userValidator).validateEmailDuplicate(command.getEmail());
 
       //when & then
       assertThrows(UserException.class, () -> userCommandService.register(command));

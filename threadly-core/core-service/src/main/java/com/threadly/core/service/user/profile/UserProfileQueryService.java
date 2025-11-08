@@ -1,9 +1,6 @@
 package com.threadly.core.service.user.profile;
 
-import com.threadly.commons.exception.ErrorCode;
-import com.threadly.commons.exception.user.UserException;
 import com.threadly.core.domain.follow.FollowStatus;
-import com.threadly.core.domain.user.UserStatus;
 import com.threadly.core.port.commons.dto.UserPreview;
 import com.threadly.core.port.user.in.profile.query.UserProfileQueryUseCase;
 import com.threadly.core.port.user.in.profile.query.dto.GetMyProfileDetailsApiResponse;
@@ -12,6 +9,8 @@ import com.threadly.core.port.user.out.profile.UserProfileQueryPort;
 import com.threadly.core.port.user.out.profile.projection.MyProfileDetailsProjection;
 import com.threadly.core.port.user.out.profile.projection.UserProfileProjection;
 import com.threadly.core.service.validator.follow.FollowAccessValidator;
+import com.threadly.core.service.validator.user.UserProfileValidator;
+import com.threadly.core.service.validator.user.UserValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -23,38 +22,26 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class UserProfileQueryQueryService implements UserProfileQueryUseCase {
-
-  private final UserProfileQueryPort userProfileQueryPort;
+public class UserProfileQueryService implements UserProfileQueryUseCase {
 
   private final FollowAccessValidator followAccessValidator;
+  private final UserValidator userValidator;
+  private final UserProfileValidator userProfileValidator;
 
-  @Override
-  public boolean existsUserProfile(String userId) {
-    return userProfileQueryPort.existsUserProfileByUserId(userId);
-  }
-
+  @Transactional(readOnly = true)
   @Override
   public void validateNicknameUnique(String nickname) {
-    if (userProfileQueryPort.existsByNickname(nickname)) {
-      throw new UserException(ErrorCode.USER_NICKNAME_DUPLICATED);
-    }
+    userProfileValidator.validateNicknameDuplicate(nickname);
   }
 
   @Transactional(readOnly = true)
   @Override
   public GetUserProfileApiResponse getUserProfile(String userId, String targetUserId) {
-    UserProfileProjection userProfileProjection = userProfileQueryPort.findUserProfileByUserId(
-        targetUserId).orElseThrow(
-        () -> new UserException(ErrorCode.USER_NOT_FOUND)
-    );
+    UserProfileProjection userProfileProjection = userProfileValidator.getUserProfileProjectionOrElseThrow(
+        targetUserId);
 
     /*사용자 상태 검증*/
-    if (userProfileProjection.getUserStatus().equals(UserStatus.DELETED)) {
-      throw new UserException(ErrorCode.USER_ALREADY_DELETED);
-    } else if (userProfileProjection.getUserStatus().equals(UserStatus.INACTIVE)) {
-      throw new UserException(ErrorCode.USER_INACTIVE);
-    }
+    userValidator.validateUserStatusWithException(userProfileProjection.getUserStatus());
 
     /*팔로우 유무 검증*/
     FollowStatus followStatus = followAccessValidator.validateProfileAccessible(userId,
@@ -73,17 +60,15 @@ public class UserProfileQueryQueryService implements UserProfileQueryUseCase {
     );
   }
 
-
+  @Transactional(readOnly = true)
   @Override
   public GetMyProfileDetailsApiResponse getMyProfileDetails(String userId) {
     /*사용자 상태 검증*/
-    MyProfileDetailsProjection myProfileDetailsProjection = userProfileQueryPort.findMyProfileDetailsByUserId(
-        userId).orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
+    MyProfileDetailsProjection myProfileDetailsProjection = userProfileValidator.getMyProfileDetailsProjectionOrElseThrow(
+        userId);
 
     /*사용자 상태 검증*/
-    if (myProfileDetailsProjection.getStatus().equals(UserStatus.DELETED)) {
-      throw new UserException(ErrorCode.USER_ALREADY_DELETED);
-    }
+    userValidator.validateMyStatusWithException(myProfileDetailsProjection.getStatus());
 
     /*응답 생성 후 리턴*/
     return new GetMyProfileDetailsApiResponse(

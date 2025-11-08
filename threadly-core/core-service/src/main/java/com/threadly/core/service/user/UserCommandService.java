@@ -2,12 +2,10 @@ package com.threadly.core.service.user;
 
 import com.threadly.commons.exception.ErrorCode;
 import com.threadly.commons.exception.user.UserException;
-import com.threadly.commons.properties.TtlProperties;
 import com.threadly.core.domain.mail.MailType;
 import com.threadly.core.domain.user.CannotInactiveException;
 import com.threadly.core.domain.user.User;
 import com.threadly.core.port.mail.in.SendMailCommand;
-import com.threadly.core.port.token.out.TokenCommandPort;
 import com.threadly.core.port.user.in.account.command.UserAccountCommandUseCase;
 import com.threadly.core.port.user.in.account.command.dto.ChangePasswordCommand;
 import com.threadly.core.port.user.in.account.command.dto.RegisterUserApiResponse;
@@ -43,9 +41,7 @@ public class UserCommandService implements
   @Override
   public RegisterUserApiResponse register(RegisterUserCommand command) {
     /*email 중복 검증*/
-    if (userQueryPort.existsByEmail(command.getEmail())) {
-      throw new UserException(ErrorCode.USER_ALREADY_EXISTS);
-    }
+    userValidator.validateEmailDuplicate(command.getEmail());
 
     /*사용자 생성*/
     User user = User.newUser(
