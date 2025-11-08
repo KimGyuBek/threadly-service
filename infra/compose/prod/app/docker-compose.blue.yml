@@ -28,6 +28,7 @@ services:
     restart: unless-stopped
     volumes:
       - /home/ubuntu/threadly/logs/services/app/blue:/app/logs
+      - /home/ubuntu/threadly/storage/uploads:/app/local-storage/uploads
     networks:
       - service-network
       - kafka-network
