@@ -104,7 +104,7 @@ public interface PostJpaRepository extends JpaRepository<PostEntity, String> {
       from posts p
                join users u on p.user_id = u.user_id
                join user_profile up on u.user_id = up.user_id
-               left join user_profile_images upi on up.user_id = upi.user_id
+               left join user_profile_images upi on up.user_id = upi.user_id and upi.status = 'CONFIRMED'
                left join(select post_id, count(*) as like_count
                          from post_likes
                          group by post_id) pl_count on p.post_id = pl_count.post_id
@@ -171,7 +171,7 @@ public interface PostJpaRepository extends JpaRepository<PostEntity, String> {
       from posts p
                join users u on p.user_id = u.user_id
                join user_profile up on u.user_id = up.user_id
-               left join user_profile_images upi on up.user_id = upi.user_id
+               left join user_profile_images upi on up.user_id = upi.user_id and upi.status = 'CONFIRMED'
                left join(select post_id,
                                 count(*) as like_count,
                                 max(case
