@@ -79,7 +79,7 @@ public interface CommentLikeJpaRepository extends JpaRepository<CommentLikeEntit
                join users u on cl.user_id = u.user_id
                join user_profile up on u.user_id = up.user_id
                join post_comments pc on cl.comment_id = pc.comment_id
-               left join user_profile_images upi on up.user_id = upi.user_id
+               left join user_profile_images upi on up.user_id = upi.user_id and upi.status = 'CONFIRMED'
       where pc.status = 'ACTIVE'
         and pc.comment_id = :commentId
         and (

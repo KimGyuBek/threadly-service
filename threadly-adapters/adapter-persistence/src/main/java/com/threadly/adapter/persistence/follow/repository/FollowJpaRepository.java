@@ -104,7 +104,7 @@ public interface FollowJpaRepository extends JpaRepository<FollowEntity, String>
                     on target_user.user_id = uf.following_id and target_user.status = 'ACTIVE'
                join users u on u.user_id = uf.follower_id and u.status = 'ACTIVE'
                join user_profile up on up.user_id = uf.follower_id
-               left join user_profile_images upi on upi.user_id = uf.follower_id
+               left join user_profile_images upi on upi.user_id = uf.follower_id and upi.status = 'CONFIRMED'
       where uf.following_id = :targetUserId and uf.status = 'APPROVED'
         and (
         cast(:cursorTimestamp as timestamp) is null
@@ -136,7 +136,7 @@ public interface FollowJpaRepository extends JpaRepository<FollowEntity, String>
                     on target_user.user_id = uf.follower_id and target_user.status = 'ACTIVE'
                join users u on u.user_id = uf.following_id and u.status = 'ACTIVE'
                join user_profile up on up.user_id = uf.following_id
-               left join user_profile_images upi on upi.user_id = uf.following_id
+               left join user_profile_images upi on upi.user_id = uf.following_id and upi.status = 'CONFIRMED'
       where uf.follower_id = :targetUserId and uf.status = 'APPROVED'
         and (
         cast(:cursorTimestamp as timestamp) is null

@@ -77,7 +77,7 @@ public interface PostLikeJpaRepository extends JpaRepository<PostLikeEntity, Str
       from post_likes pl
                join users u on pl.user_id = u.user_id
                join user_profile up on u.user_id = up.user_id
-               left join user_profile_images upi on up.user_id = upi.user_id
+               left join user_profile_images upi on up.user_id = upi.user_id and upi.status = 'CONFIRMED'
       where pl.post_id = :postId
        and (
        cast(:cursorLikedAt as timestamp) is null 
