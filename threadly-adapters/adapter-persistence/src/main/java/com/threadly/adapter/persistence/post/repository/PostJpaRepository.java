@@ -110,6 +110,7 @@ public interface PostJpaRepository extends JpaRepository<PostEntity, String> {
                          group by post_id) pl_count on p.post_id = pl_count.post_id
                left join(select post_id, count(*) as comment_count
                          from post_comments
+                         where status = 'ACTIVE'
                          group by post_id) pc_count on p.post_id = pc_count.post_id
                left join(select post_id,
                                 true as liked
