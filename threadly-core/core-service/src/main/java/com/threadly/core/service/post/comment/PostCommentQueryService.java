@@ -57,8 +57,7 @@ public class PostCommentQueryService implements PostCommendQueryUseCase {
             new UserPreview(
                 projection.getCommenterId(),
                 projection.getCommenterNickname(),
-                projection.getCommenterProfileImageUrl() == null ? "/"
-                    : projection.getCommenterProfileImageUrl()
+                projection.getCommenterProfileImageUrl()
             ),
             projection.getCommentedAt(),
             projection.getLikeCount(),

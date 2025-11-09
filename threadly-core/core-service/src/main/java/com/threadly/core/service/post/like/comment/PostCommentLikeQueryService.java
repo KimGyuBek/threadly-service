@@ -35,8 +35,7 @@ public class PostCommentLikeQueryService implements PostCommentLikeQueryUseCase 
             new UserPreview(
                 projection.getLikerId(),
                 projection.getLikerNickname(),
-                projection.getLikerProfileImageUrl() == null ? "/"
-                    : projection.getLikerProfileImageUrl()
+                projection.getLikerProfileImageUrl()
             ),
             projection.getLikedAt()
         )
