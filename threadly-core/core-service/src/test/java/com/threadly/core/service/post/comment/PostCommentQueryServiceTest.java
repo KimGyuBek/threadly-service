@@ -186,7 +186,7 @@ class PostCommentQueryServiceTest {
       GetPostCommentApiResponse firstComment = response.content().getFirst();
       assertThat(firstComment.postId()).isEqualTo("post-1");
       assertThat(firstComment.commenter().userId()).isEqualTo("writer-1");
-      assertThat(firstComment.commenter().profileImageUrl()).isEqualTo("/");
+      assertThat(firstComment.commenter().profileImageUrl()).isEqualTo("default");
       assertThat(firstComment.likeCount()).isEqualTo(5L);
       assertThat(firstComment.liked()).isTrue();
 
