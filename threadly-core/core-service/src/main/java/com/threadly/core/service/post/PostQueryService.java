@@ -53,8 +53,7 @@ public class PostQueryService implements PostQueryUseCase {
               UserPreview author = new UserPreview(
                   projection.getUserId(),
                   projection.getUserNickname(),
-                  projection.getUserProfileImageUrl() == null ? "/"
-                      : projection.getUserProfileImageUrl()
+                  projection.getUserProfileImageUrl()
               );
 
               List<PostImage> postImageList = postImageQueryPort.findAllByPostIdAndStatus(
@@ -100,8 +99,7 @@ public class PostQueryService implements PostQueryUseCase {
         new UserPreview(
             postDetailsProjection.getUserId(),
             postDetailsProjection.getUserNickname(),
-            postDetailsProjection.getUserProfileImageUrl() == null ? "/"
-                : postDetailsProjection.getUserProfileImageUrl()
+            postDetailsProjection.getUserProfileImageUrl()
         ),
         postDetailsProjection.getContent(),
         postImageProjections.stream().map(

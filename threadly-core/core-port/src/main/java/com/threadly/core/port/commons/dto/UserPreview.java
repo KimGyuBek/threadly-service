@@ -9,4 +9,9 @@ public record UserPreview(
     String profileImageUrl
 ) {
 
+  public UserPreview(String userId, String nickname, String profileImageUrl) {
+    this.userId = userId;
+    this.nickname = nickname;
+    this.profileImageUrl = profileImageUrl == null ? "default" : profileImageUrl;
+  }
 }

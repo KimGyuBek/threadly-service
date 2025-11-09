@@ -117,7 +117,7 @@ class SearchUserQueryServiceTest {
       assertThat(response.content()).hasSize(1);
       UserSearchItem first = response.content().getFirst();
       assertThat(first.user().userId()).isEqualTo("target-1");
-      assertThat(first.user().profileImageUrl()).isEqualTo("/");
+      assertThat(first.user().profileImageUrl()).isEqualTo("default");
       assertThat(first.followStatus()).isEqualTo(FollowStatus.APPROVED);
     }
 

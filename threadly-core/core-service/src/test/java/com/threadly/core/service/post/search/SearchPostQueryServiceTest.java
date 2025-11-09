@@ -222,7 +222,7 @@ class SearchPostQueryServiceTest {
       assertThat(response.content()).hasSize(1);
       PostSearchItem first = response.content().getFirst();
       assertThat(first.postId()).isEqualTo("post-1");
-      assertThat(first.author().profileImageUrl()).isEqualTo("/");
+      assertThat(first.author().profileImageUrl()).isEqualTo("default");
       assertThat(first.images()).hasSize(1);
       assertThat(first.images().getFirst().imageUrl()).isEqualTo("/post-1.png");
     }
