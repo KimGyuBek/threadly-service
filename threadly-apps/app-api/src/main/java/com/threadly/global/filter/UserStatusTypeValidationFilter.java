@@ -74,7 +74,7 @@ public class UserStatusTypeValidationFilter extends OncePerRequestFilter {
 
     boolean isPost = request.getMethod().equalsIgnoreCase("POST");
     boolean isProfileSetup = uri.equals("/api/me/profile");
-    boolean isLogout = uri.equals("/api/me/profile/setup");
+    boolean isLogout = uri.equals("/api/auth/logout");
 
     return isPost && (isProfileSetup || isLogout);
   }
