@@ -67,3 +67,4 @@ out/
 ### Documentation ###
 /docs/*
 !/docs/troubleshooting
+!/docs/images
