@@ -23,6 +23,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-devtools")
     implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
     implementation("io.micrometer:micrometer-core")
+    implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 
 
     testImplementation("org.springframework.boot:spring-boot-starter-data-jpa")

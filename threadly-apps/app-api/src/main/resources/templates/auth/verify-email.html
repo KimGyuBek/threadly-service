@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>이메일 인증 완료</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #F7F8FC;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: #111827;
+    }
+
+    .wrapper {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card {
+      width: 360px;
+      background-color: #FFFFFF;
+      border-radius: 24px;
+      padding: 32px 28px 40px;
+      box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
+      text-align: center;
+    }
+
+    .title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .message {
+      font-size: 14px;
+      color: #6B7280;
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+
+    .button-outline {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 48px;
+      border-radius: 999px;
+      border: 1px solid #FF4B4B;
+      color: #FF4B4B;
+      font-size: 15px;
+      font-weight: 600;
+      background-color: #FFFFFF;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .button-outline:hover {
+      background-color: #FFF5F5;
+    }
+
+    .sub-text {
+      margin-top: 20px;
+      font-size: 13px;
+      color: #9CA3AF;
+    }
+
+    .sub-text span {
+      color: #FF4B4B;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+  <div class="card">
+    <div class="title">이메일 인증이 완료되었습니다</div>
+    <div class="message">
+      이제 Threadly 계정을 정상적으로 사용하실 수 있습니다.
+    </div>
+
+    <!-- 여기 수정됨 -->
+    <a href="https://threadly.kr" class="button-outline">
+      로그인
+    </a>
+
+    <div class="sub-text">
+      문제가 계속된다면 <span>다시 시도</span>해 주세요.
+    </div>
+  </div>
+</div>
+</body>
+</html>

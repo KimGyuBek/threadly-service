@@ -17,8 +17,6 @@ public class ResponseWrapperAdvice implements ResponseBodyAdvice<Object> {
   public boolean supports(MethodParameter returnType,
       Class<? extends HttpMessageConverter<?>> converterType) {
     return true;
-//    String packageName = returnType.getDeclaringClass().getPackageName();
-//    return !packageName.startsWith("org.springframework.boot.actuate");
   }
 
 
