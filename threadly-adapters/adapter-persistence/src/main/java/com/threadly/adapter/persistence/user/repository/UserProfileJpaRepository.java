@@ -53,7 +53,7 @@ public interface UserProfileJpaRepository extends JpaRepository<UserProfileEntit
              up.status_message as statusMessage,
              up.bio            as bio,
              u.phone           as phone,
-             coalesce(upi.image_url, '/')     as profileImageurl,
+             upi.image_url     as profileImageurl,
              u.status          as userStatus,
              u.is_private      as isPrivate
       from user_profile up
@@ -79,7 +79,7 @@ public interface UserProfileJpaRepository extends JpaRepository<UserProfileEntit
              upi.image_url             as profileImageUrl
       from user_profile up
                join users u on up.user_id = u.user_id
-               left join user_profile_images upi on up.user_id = upi.user_id
+               left join user_profile_images upi on up.user_id = upi.user_id and upi.status = 'CONFIRMED'
                where up.user_id = :userId;
       """, nativeQuery = true)
   Optional<MyProfileDetailsProjection> findMyProfileDetailsByUserId(@Param("userId") String userId);

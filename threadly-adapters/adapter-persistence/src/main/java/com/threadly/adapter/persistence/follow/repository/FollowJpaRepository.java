@@ -1,7 +1,7 @@
 package com.threadly.adapter.persistence.follow.repository;
 
-import com.threadly.core.domain.follow.FollowStatus;
 import com.threadly.adapter.persistence.follow.entity.FollowEntity;
+import com.threadly.core.domain.follow.FollowStatus;
 import com.threadly.core.port.follow.out.projection.FollowRequestsProjection;
 import com.threadly.core.port.follow.out.projection.FollowerProjection;
 import com.threadly.core.port.follow.out.projection.FollowingProjection;
@@ -104,7 +104,7 @@ public interface FollowJpaRepository extends JpaRepository<FollowEntity, String>
                     on target_user.user_id = uf.following_id and target_user.status = 'ACTIVE'
                join users u on u.user_id = uf.follower_id and u.status = 'ACTIVE'
                join user_profile up on up.user_id = uf.follower_id
-               left join user_profile_images upi on upi.user_id = uf.follower_id
+               left join user_profile_images upi on upi.user_id = uf.follower_id and upi.status = 'CONFIRMED'
       where uf.following_id = :targetUserId and uf.status = 'APPROVED'
         and (
         cast(:cursorTimestamp as timestamp) is null
@@ -136,7 +136,7 @@ public interface FollowJpaRepository extends JpaRepository<FollowEntity, String>
                     on target_user.user_id = uf.follower_id and target_user.status = 'ACTIVE'
                join users u on u.user_id = uf.following_id and u.status = 'ACTIVE'
                join user_profile up on up.user_id = uf.following_id
-               left join user_profile_images upi on upi.user_id = uf.following_id
+               left join user_profile_images upi on upi.user_id = uf.following_id and upi.status = 'CONFIRMED'
       where uf.follower_id = :targetUserId and uf.status = 'APPROVED'
         and (
         cast(:cursorTimestamp as timestamp) is null
@@ -219,16 +219,20 @@ public interface FollowJpaRepository extends JpaRepository<FollowEntity, String>
    * @return
    */
   @Query(value = """
-      select sum(case
-                     when uf.following_id = :userId and uf.status = 'APPROVED' then 1
-                     else 0 end)                                                                  as followerCount,
-             sum(case
-                     when uf.follower_id = :userId and uf.status = 'APPROVED' then 1
-                     else 0 end)                                                                  as followingCount
-      from user_follows uf
-            join users u1 on uf.follower_id = u1.user_id and u1.status = 'ACTIVE'
-            join users u2 on uf.following_id = u2.user_id and u2.status = 'ACTIVE'
-      where (uf.following_id = :userId or uf.follower_id = :userId)
+      select coalesce(sum(case
+                              when uf.following_id = :userId and uf.status = 'APPROVED' and
+                                   follower.status = 'ACTIVE' then 1
+                              else 0 end), 0) as followerCount,
+             coalesce(sum(case
+                              when uf.follower_id = :userId and uf.status = 'APPROVED' and
+                                   following.status = 'ACTIVE' then 1
+                              else 0 end), 0) as followingCount
+      from users u
+               left join user_follows uf on (u.user_id = uf.following_id or u.user_id = uf.follower_id)
+               left join users follower on (uf.follower_id = follower.user_id)
+               left join users following on (uf.following_id = following.user_id)
+      where u.user_id = :userId
+        and u.status = 'ACTIVE';
       """, nativeQuery = true)
   UserFollowStatsProjection getUserFollowStatsByUserId(@Param("userId") String userId);
 }

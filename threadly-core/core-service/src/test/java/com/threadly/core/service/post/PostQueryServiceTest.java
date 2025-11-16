@@ -275,7 +275,7 @@ class PostQueryServiceTest {
         PostDetails firstPost = response.content().getFirst();
         assertThat(firstPost.postId()).isEqualTo("post-1");
         assertThat(firstPost.author().userId()).isEqualTo("author-1");
-        assertThat(firstPost.author().profileImageUrl()).isEqualTo("/");
+        assertThat(firstPost.author().profileImageUrl()).isEqualTo("default");
         assertThat(firstPost.images()).hasSize(2);
         assertThat(firstPost.images().getFirst().imageUrl()).isEqualTo("/post-1-1.png");
 
@@ -404,7 +404,7 @@ class PostQueryServiceTest {
 
         assertThat(details.postId()).isEqualTo("post-1");
         assertThat(details.author().userId()).isEqualTo("author-1");
-        assertThat(details.author().profileImageUrl()).isEqualTo("/");
+        assertThat(details.author().profileImageUrl()).isEqualTo("default");
         assertThat(details.images()).hasSize(1);
         assertThat(details.images().getFirst().imageUrl()).isEqualTo("/post.png");
         assertThat(details.viewCount()).isEqualTo(101L);

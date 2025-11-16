@@ -140,7 +140,7 @@ class PostLikeQueryServiceTest {
       assertThat(response.content()).hasSize(1);
       PostLiker liker = response.content().getFirst();
       assertThat(liker.liker().userId()).isEqualTo("liker-1");
-      assertThat(liker.liker().profileImageUrl()).isEqualTo("/");
+      assertThat(liker.liker().profileImageUrl()).isEqualTo("default");
 
       CursorPageApiResponse.NextCursor nextCursor = response.nextCursor();
       assertThat(nextCursor.cursorId()).isEqualTo("liker-1");

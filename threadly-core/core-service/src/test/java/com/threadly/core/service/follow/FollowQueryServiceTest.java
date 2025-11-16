@@ -146,7 +146,7 @@ class FollowQueryServiceTest {
       FollowRequestResponse first = response.content().getFirst();
       assertThat(first.followId()).isEqualTo("follow-1");
       assertThat(first.requester().userId()).isEqualTo("requester-1");
-      assertThat(first.requester().profileImageUrl()).isEqualTo("/");
+      assertThat(first.requester().profileImageUrl()).isEqualTo("default");
       assertThat(first.followRequestedAt()).isEqualTo(projection1.getFollowRequestedAt());
     }
   }
@@ -235,7 +235,7 @@ class FollowQueryServiceTest {
       assertThat(response.content()).hasSize(1);
       FollowerResponse first = response.content().getFirst();
       assertThat(first.follower().userId()).isEqualTo("follower-1");
-      assertThat(first.follower().profileImageUrl()).isEqualTo("/");
+      assertThat(first.follower().profileImageUrl()).isEqualTo("default");
       assertThat(first.followedAt()).isEqualTo(projection1.getFollowedAt());
     }
   }
@@ -324,7 +324,7 @@ class FollowQueryServiceTest {
       assertThat(response.content()).hasSize(1);
       FollowingApiResponse first = response.content().getFirst();
       assertThat(first.following().userId()).isEqualTo("following-1");
-      assertThat(first.following().profileImageUrl()).isEqualTo("/");
+      assertThat(first.following().profileImageUrl()).isEqualTo("default");
       assertThat(first.followingAt()).isEqualTo(projection1.getFollowedAt());
     }
   }

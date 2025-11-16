@@ -232,7 +232,7 @@ class UserProfileQueryServiceTest {
           targetUserId);
 
       //then
-      assertThat(response.user().profileImageUrl()).isEqualTo("/");
+      assertThat(response.user().profileImageUrl()).isEqualTo("default");
     }
 
     /*[Case #3] 사용자 프로필 조회 실패 - 사용자가 존재하지 않는 경우*/

@@ -62,8 +62,7 @@ public class SearchPostQueryService implements SearchPostQueryUseCase {
               UserPreview author = new UserPreview(
                   projection.getUserId(),
                   projection.getUserNickname(),
-                  projection.getUserProfileImageUrl() == null ? "/"
-                      : projection.getUserProfileImageUrl()
+                  projection.getUserProfileImageUrl()
               );
 
               var images = imagesByPostId.getOrDefault(projection.getPostId(), List.of()).stream()

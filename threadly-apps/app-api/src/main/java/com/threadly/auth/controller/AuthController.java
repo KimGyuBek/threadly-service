@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController implements AuthApi {
 
 
-  private final EmailVerificationUseCase emailVerificationUseCase;
   private final PasswordVerificationUseCase passwordVerificationUseCase;
   private final AuthManager authManager;
 
@@ -65,14 +64,6 @@ public class AuthController implements AuthApi {
         authManager.reissueLoginToken(refreshToken);
   }
 
-  /**
-   * 이메일 인증
-   * @param code
-   */
-  @GetMapping("/verify-email")
-  public void verifyMail(@RequestParam String code) {
-    emailVerificationUseCase.verifyEmail(code);
-  }
 
   /**
    * 2FA 인증

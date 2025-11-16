@@ -64,13 +64,18 @@ public class UserStatusTypeValidationFilter extends OncePerRequestFilter {
   }
 
   /**
-   * 프로필 설정용 white list
+   * 프로필 설정을 하지 않은 사용자가 접근한 경로인지 검증
    *
    * @param request
    * @return
    */
   private boolean isWhiteListedForProfileIncomplete(HttpServletRequest request) {
-    return request.getRequestURI().equals("/api/me/profile") && request.getMethod()
-        .equalsIgnoreCase("POST");
+    String uri = request.getRequestURI();
+
+    boolean isPost = request.getMethod().equalsIgnoreCase("POST");
+    boolean isProfileSetup = uri.equals("/api/me/profile");
+    boolean isLogout = uri.equals("/api/auth/logout");
+
+    return isPost && (isProfileSetup || isLogout);
   }
 }

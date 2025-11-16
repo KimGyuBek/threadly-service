@@ -65,19 +65,6 @@ public interface AuthApi {
       @Parameter(description = "리프레시 토큰", required = true)
       @RequestHeader(value = "X-refresh-token", required = false) String refreshToken);
 
-  /**
-   * 이메일 인증
-   */
-  @Operation(summary = "이메일 인증", description = "회원가입 시 전송된 이메일의 인증 코드로 이메일을 인증합니다.")
-  @ApiResponses(value = {
-      @ApiResponse(responseCode = "200", description = "이메일 인증 성공", content = @Content),
-      @ApiResponse(responseCode = "400", description = "유효하지 않은 인증 코드", content = @Content),
-      @ApiResponse(responseCode = "404", description = "인증 코드를 찾을 수 없음", content = @Content)
-  })
-  @GetMapping("/verify-email")
-  void verifyMail(
-      @Parameter(description = "이메일 인증 코드", required = true, example = "abc123xyz")
-      @RequestParam String code);
 
   /**
    * 2FA 인증 (비밀번호 재확인)

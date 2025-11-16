@@ -43,8 +43,7 @@ public class SearchUserQueryService implements SearchUserQueryUseCase {
                     new UserPreview(
                         projection.getUserId(),
                         projection.getUserNickname(),
-                        projection.getUserProfileImageUrl() == null ? "/"
-                            : projection.getUserProfileImageUrl()
+                        projection.getUserProfileImageUrl()
                     ),
                     (query.userId().equals(projection.getUserId()))
                         ? FollowStatus.SELF
