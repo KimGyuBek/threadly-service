@@ -21,7 +21,8 @@ public record CursorPageApiResponse<T>(
     /*커서 지정*/
     NextCursor nextCursor;
     if (hasNext) {
-      T last = pagedList.getLast();
+//      T last = pagedList.getLast();
+      T last = pagedList.get(pagedList.size() - 1);
       nextCursor =
           new NextCursor(
               last.cursorTimeStamp(),
