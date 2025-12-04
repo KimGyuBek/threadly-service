@@ -90,43 +90,49 @@ public interface PostJpaRepository extends JpaRepository<PostEntity, String> {
    * @return
    */
   @Query(value = """
-      select p.post_id                           as postId,
-             u.user_id                           as userId,
-             upi.image_url                       as userProfileImageUrl,
-             up.nickname                         as userNickname,
-             p.content                           as content,
-             p.view_count                        as viewCount,
-             p.modified_at                       as postedAt,
-                   upi.image_url as userProfileImageUrl,
-             coalesce(pl_count.like_count, 0)    as likeCount,
-             coalesce(pc_count.comment_count, 0) as commentCount,
-             coalesce(pl_liked.liked, false)     as liked
-      from posts p
+      with page as (select p.post_id,
+                           p.user_id,
+                           p.content,
+                           p.view_count,
+                           p.modified_at
+                    from posts p
+                    where p.status = 'ACTIVE'
+                      and (
+                        cast(:cursorPostedAt as timestamp) is null
+                            or p.modified_at < :cursorPostedAt
+                            or (p.modified_at = :cursorPostedAt
+                            and p.post_id < :cursorPostId))
+                    order by p.modified_at desc, p.post_id desc
+                    limit :limit)
+      select p.post_id                     as postId,
+             u.user_id                     as userId,
+             upi.image_url                 as userProfileImageUrl,
+             up.nickname                   as userNickname,
+             p.content                     as content,
+             p.view_count                  as viewCount,
+             p.modified_at                 as postedAt,
+             upi.image_url                 as userProfileImageUrl,
+             coalesce(pl.like_count, 0)    as likeCount,
+             coalesce(pc.comment_count, 0) as commentCount,
+             coalesce(pl.liked, false)     as liked
+      from page p
                join users u on p.user_id = u.user_id
                join user_profile up on u.user_id = up.user_id
-               left join user_profile_images upi on up.user_id = upi.user_id and upi.status = 'CONFIRMED'
-               left join(select post_id, count(*) as like_count
-                         from post_likes
-                         group by post_id) pl_count on p.post_id = pl_count.post_id
-               left join(select post_id, count(*) as comment_count
-                         from post_comments
-                         where status = 'ACTIVE'
-                         group by post_id) pc_count on p.post_id = pc_count.post_id
-               left join(select post_id,
-                                true as liked
-                         from post_likes
-                         where user_id = :userId) pl_liked on p.post_id = pl_liked.post_id
-      where p.status = 'ACTIVE'
-        and (
-              cast(:cursorPostedAt as timestamp) is null
-              or
-          p.modified_at < :cursorPostedAt
-              or (
-              p.modified_at = :cursorPostedAt and p.post_id < :cursorPostId
-              )
-          )
-      order by p.modified_at DESC, p.post_id desc
-      limit :limit     """, nativeQuery = true)
+               left join user_profile_images upi on u.user_id = upi.user_id and upi.status = 'CONFIRMED'
+               left join lateral (
+          select count(*)                      as like_count,
+                 bool_or(pl.user_id = :userId) as liked
+          from post_likes pl
+          where pl.post_id = p.post_id
+          ) pl on true
+               left join lateral (
+          select count(*) as comment_count
+          from post_comments pc
+          where pc.post_id = p.post_id
+            and pc.status = 'ACTIVE'
+          ) pc on true
+      order by p.modified_at desc, p.post_id desc;
+      """, nativeQuery = true)
   List<PostDetailProjection> findUserVisiblePostsBeforeModifiedAt(@Param("userId") String userId,
       @Param("cursorPostedAt") LocalDateTime cursorPostedAt,
       @Param("cursorPostId") String cursorPostId,

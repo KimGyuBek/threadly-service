@@ -50,17 +50,26 @@ public class BatchTestDataInsert implements CommandLineRunner {
     @Value("${data-insert.comment-like-count:100000}")
     private int commentLikeCount;
 
+    @Value("${data-insert.post-status:DELETED}")
+    private String postStatusValue;
+
+    private PostStatus configuredPostStatus = PostStatus.DELETED;
+
     @Override
     public void run(String... args) throws Exception {
         log.info("=== 배치 성능 테스트 데이터 삽입 시작 ===");
-        
+
         // 기존 데이터 정리
         cleanupTestData();
-        
+
+        configuredPostStatus = resolvePostStatus(postStatusValue);
+
         log.info("설정된 데이터 생성 규모 - 사용자: {}, 게시글: {}, 이미지: {}, 좋아요: {}, 댓글: {}, 댓글 좋아요: {}",
                 userCount, postCount, imageCount, likeCount, commentCount, commentLikeCount);
+        log.info("게시글 Status 설정: {}", configuredPostStatus);
 
         insertUsers(userCount);
+        insertUserProfiles(userCount);
         insertPosts(postCount);
         insertPostImages(imageCount);
         insertPostLikes(likeCount);
@@ -104,6 +113,49 @@ public class BatchTestDataInsert implements CommandLineRunner {
         
         long duration = System.currentTimeMillis() - startTime;
         log.info("사용자 삽입 완료: {}개, {}ms", count, duration);
+    }
+
+    /**
+     * 사용자 프로필 데이터 삽입
+     */
+    private void insertUserProfiles(int count) {
+        log.info("사용자 프로필 데이터 삽입 시작: {}개", count);
+
+        long startTime = System.currentTimeMillis();
+
+        List<String> userIds = jdbcTemplate.queryForList(
+            "SELECT user_id FROM users WHERE user_id LIKE 'perf-user-%' ORDER BY user_id",
+            String.class
+        );
+
+        if (userIds.isEmpty()) {
+            log.error("생성된 사용자가 없습니다. user_profile 삽입을 건너뜁니다.");
+            return;
+        }
+
+        String sql = "INSERT INTO user_profile (user_id, nickname, status_message, bio, gender, profile_type, created_at, modified_at) "
+            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?) "
+            + "ON CONFLICT (user_id) DO NOTHING";
+
+        List<UserProfileData> profiles = new ArrayList<>();
+        int target = Math.min(count, userIds.size());
+
+        for (int i = 0; i < target; i++) {
+            profiles.add(createUserProfileData(userIds.get(i), i + 1));
+
+            if (profiles.size() == 5000) {
+                insertUserProfileBatch(sql, profiles);
+                profiles.clear();
+                log.info("사용자 프로필 {}개 삽입 진행 중...", i + 1);
+            }
+        }
+
+        if (!profiles.isEmpty()) {
+            insertUserProfileBatch(sql, profiles);
+        }
+
+        long duration = System.currentTimeMillis() - startTime;
+        log.info("사용자 프로필 삽입 완료: {}개, {}ms", target, duration);
     }
 
     /**
@@ -439,17 +491,41 @@ public class BatchTestDataInsert implements CommandLineRunner {
                            "USER", status.name(), true, false, now, now);
     }
     
+    private UserProfileData createUserProfileData(String userId, int index) {
+        String nickname = "PerfUserNick" + index;
+        String statusMessage = "상태 메시지 " + index;
+        String bio = "소개글 " + UUID.randomUUID().toString().substring(0, 18);
+        String gender = random.nextBoolean() ? "MALE" : "FEMALE";
+        String profileType = "USER";
+        LocalDateTime now = LocalDateTime.now();
+
+        return new UserProfileData(userId, nickname, statusMessage, bio, gender, profileType, now, now);
+    }
+
     private PostData createPostData(int index, String userId) {
         String postId = "perf-post-" + index;
         String content = "Performance test content for post " + index + " with realistic text.";
         int viewCount = random.nextInt(1000);
-        
-        // 모든 게시글을 DELETED 상태로 생성 (배치 Job 실행 조건에 맞게)
-        PostStatus status = PostStatus.DELETED;
+
+        PostStatus status = configuredPostStatus;
         LocalDateTime now = LocalDateTime.now();
-        
-        return new PostData(postId, userId, content, viewCount, status.name(), 
+
+        return new PostData(postId, userId, content, viewCount, status.name(),
                            now, now);
+    }
+
+    private PostStatus resolvePostStatus(String statusValue) {
+        if (statusValue == null || statusValue.isBlank()) {
+            log.warn("data-insert.post-status가 비어있습니다. 기본값(DELETED)을 사용합니다.");
+            return PostStatus.DELETED;
+        }
+
+        try {
+            return PostStatus.valueOf(statusValue.trim().toUpperCase());
+        } catch (IllegalArgumentException ex) {
+            log.warn("지원하지 않는 게시글 Status '{}'가 입력되었습니다. 기본값(DELETED)으로 대체합니다.", statusValue);
+            return PostStatus.DELETED;
+        }
     }
     
     private ImageData createImageData(int index, String postId) {
@@ -497,6 +573,26 @@ public class BatchTestDataInsert implements CommandLineRunner {
 
             @Override
             public int getBatchSize() { return users.size(); }
+        });
+    }
+
+    private void insertUserProfileBatch(String sql, List<UserProfileData> profiles) {
+        jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
+            @Override
+            public void setValues(PreparedStatement ps, int i) throws SQLException {
+                UserProfileData profile = profiles.get(i);
+                ps.setString(1, profile.userId);
+                ps.setString(2, profile.nickname);
+                ps.setString(3, profile.statusMessage);
+                ps.setString(4, profile.bio);
+                ps.setString(5, profile.gender);
+                ps.setString(6, profile.profileType);
+                ps.setTimestamp(7, Timestamp.valueOf(profile.createdAt));
+                ps.setTimestamp(8, Timestamp.valueOf(profile.modifiedAt));
+            }
+
+            @Override
+            public int getBatchSize() { return profiles.size(); }
         });
     }
 
@@ -597,6 +693,7 @@ public class BatchTestDataInsert implements CommandLineRunner {
         jdbcTemplate.update("DELETE FROM post_likes WHERE post_id IN (SELECT post_id FROM posts WHERE post_id LIKE 'perf-post-%')");
         jdbcTemplate.update("DELETE FROM post_images WHERE post_image_id LIKE 'perf-image-%'");
         jdbcTemplate.update("DELETE FROM posts WHERE post_id LIKE 'perf-post-%'");
+        jdbcTemplate.update("DELETE FROM user_profile WHERE user_id LIKE 'perf-user-%'");
         jdbcTemplate.update("DELETE FROM users WHERE user_id LIKE 'perf-user-%'");
         log.info("기존 데이터 정리 완료");
     }
@@ -604,6 +701,8 @@ public class BatchTestDataInsert implements CommandLineRunner {
     private void logDataStatus() {
         int userCount = jdbcTemplate.queryForObject(
             "SELECT COUNT(*) FROM users WHERE user_id LIKE 'perf-user-%'", Integer.class);
+        int userProfileCount = jdbcTemplate.queryForObject(
+            "SELECT COUNT(*) FROM user_profile WHERE user_id LIKE 'perf-user-%'", Integer.class);
         int postCount = jdbcTemplate.queryForObject(
             "SELECT COUNT(*) FROM posts WHERE post_id LIKE 'perf-post-%'", Integer.class);
         int imageCount = jdbcTemplate.queryForObject(
@@ -624,6 +723,7 @@ public class BatchTestDataInsert implements CommandLineRunner {
 
         log.info("=== 데이터 현황 ===");
         log.info("사용자: {}개 (삭제 대상: {}개)", userCount, deletedUsers);
+        log.info("사용자 프로필: {}개", userProfileCount);
         log.info("게시글: {}개 (삭제 대상: {}개)", postCount, deletedPosts);
         log.info("이미지: {}개 (삭제 대상: {}개)", imageCount, deletedImages);
         log.info("게시글 좋아요: {}개", postLikeCount);
@@ -696,6 +796,23 @@ public class BatchTestDataInsert implements CommandLineRunner {
             this.userId = userId;
             this.content = content;
             this.status = status;
+            this.createdAt = createdAt;
+            this.modifiedAt = modifiedAt;
+        }
+    }
+
+    private static class UserProfileData {
+        final String userId, nickname, statusMessage, bio, gender, profileType;
+        final LocalDateTime createdAt, modifiedAt;
+
+        UserProfileData(String userId, String nickname, String statusMessage, String bio,
+                        String gender, String profileType, LocalDateTime createdAt, LocalDateTime modifiedAt) {
+            this.userId = userId;
+            this.nickname = nickname;
+            this.statusMessage = statusMessage;
+            this.bio = bio;
+            this.gender = gender;
+            this.profileType = profileType;
             this.createdAt = createdAt;
             this.modifiedAt = modifiedAt;
         }

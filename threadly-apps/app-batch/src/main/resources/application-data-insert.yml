@@ -9,12 +9,13 @@ spring:
 
 # 데이터 삽입 설정
 data-insert:
-  user-count: ${USER_COUNT:1000}
-  post-count: ${POST_COUNT:100000}
+  user-count: ${USER_COUNT:20000}
+  post-count: ${POST_COUNT:500000}
+  post-status: ${POST_STATUS:ACTIVE}
   image-count: ${IMAGE_COUNT:0}
-  like-count: ${LIKE_COUNT:500000}
-  comment-count: ${COMMENT_COUNT:300000}
-  comment-like-count: ${COMMENT_LIKE_COUNT:100000}
+  like-count: ${LIKE_COUNT:3000000}
+  comment-count: ${COMMENT_COUNT:2000000}
+  comment-like-count: ${COMMENT_LIKE_COUNT:0}
 
 logging:
   level:
