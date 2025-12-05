@@ -221,50 +221,62 @@ public interface PostJpaRepository extends JpaRepository<PostEntity, String> {
    * @return
    */
   @Query(value = """
-      select p.post_id                           as postId,
-             p.content                           as content,
-             coalesce(pl_count.like_count, 0)    as likeCount,
-             coalesce(pc_count.comment_count, 0) as commentCount,
-             coalesce(pl_liked.liked, false)     as liked,
-             p.view_count                        as viewCount,
-             p.user_id                           as userId,
-             p.created_at                        as postedAt,
-             up.nickname                         as userNickname,
-             upi.image_url                       as userProfileImageUrl
-      from posts p
+      with page as (select p.post_id,
+                           p.user_id,
+                           p.content,
+                           p.view_count,
+                           p.created_at
+                    from posts p
+                             join users u on p.user_id = u.user_id
+                    where p.status = 'ACTIVE'
+                      and (
+                        u.is_private = false
+                            or p.user_id = :userId
+                            or exists(select 1
+                                      from user_follows uf
+                                      where uf.follower_id = :userId
+                                        and uf.following_id = p.user_id
+                                        and uf.status = 'APPROVED')
+                        )
+                      and p.content like concat('%', :keyword, '%')
+                      and (
+                        cast(:cursorPostedAt as timestamp) is null
+                            or p.created_at < :cursorPostedAt
+                            or (p.created_at = :cursorPostedAt and p.post_id < :cursorPostId)
+                        )
+                    order by case when :sortType = 'RECENT' then p.created_at end desc,
+                             case when :sortType = 'POPULAR' then (select count(*) from post_likes pl where pl.post_id = p.post_id) end desc,
+                             p.post_id desc
+                    limit :limit)
+      select p.post_id                     as postId,
+             p.content                     as content,
+             coalesce(pl.like_count, 0)    as likeCount,
+             coalesce(pc.comment_count, 0) as commentCount,
+             coalesce(pl.liked, false)     as liked,
+             p.view_count                  as viewCount,
+             p.user_id                     as userId,
+             p.created_at                  as postedAt,
+             up.nickname                   as userNickname,
+             upi.image_url                 as userProfileImageUrl
+      from page p
                join users u on p.user_id = u.user_id
                join user_profile up on u.user_id = up.user_id
                left join user_profile_images upi on u.user_id = upi.user_id and upi.status = 'CONFIRMED'
-               left join (select post_id, count(*) as like_count
-                          from post_likes
-                          group by post_id) pl_count on p.post_id = pl_count.post_id
-               left join(select post_id, count(*) as comment_count
-                         from post_comments
-                         where status = 'ACTIVE'
-                         group by post_id) pc_count on p.post_id = pc_count.post_id
-               left join(select post_id, true as liked
-                         from post_likes
-                         where user_id = :userId) pl_liked on p.post_id = pl_liked.post_id
-      where p.status = 'ACTIVE'
-        and (
-          u.is_private = false
-              or p.user_id = :userId
-              or exists(select 1
-                        from user_follows uf
-                        where uf.follower_id = :userId
-                          and uf.following_id = p.user_id
-                          and uf.status = 'APPROVED')
-          )
-            and p.content like concat('%', :keyword, '%')
-        and (
-          cast(:cursorPostedAt as timestamp) is null
-              or p.created_at < :cursorPostedAt
-              or (p.created_at = :cursorPostedAt and p.post_id < :cursorPostId)
-          )
+               left join lateral (
+          select count(*)                      as like_count,
+                 bool_or(pl.user_id = :userId) as liked
+          from post_likes pl
+          where pl.post_id = p.post_id
+          ) pl on true
+               left join lateral (
+          select count(*) as comment_count
+          from post_comments pc
+          where pc.post_id = p.post_id
+            and pc.status = 'ACTIVE'
+          ) pc on true
       order by case when :sortType = 'RECENT' then p.created_at end desc,
-               case when :sortType = 'POPULAR' then coalesce(pl_count.like_count, 0) end desc,
-               p.post_id desc
-      limit :limit;
+               case when :sortType = 'POPULAR' then coalesce(pl.like_count, 0) end desc,
+               p.post_id desc;
       """, nativeQuery = true)
   List<PostSearchProjection> searchVisiblePostsByKeywordWithCursor(
       @Param("userId") String userId,
@@ -285,46 +297,50 @@ public interface PostJpaRepository extends JpaRepository<PostEntity, String> {
    * @return
    */
   @Query(value = """
-      select p.post_id                         as postId,
-             p.user_id                         as userId,
-             up.nickname                       as userNickname,
-             upi.image_url                     as userProfileImageUrl,
-             p.content                         as content,
-             p.view_count                      as viewCount,
-             p.created_at                      as postedAt,
-             p.status                          as postStatus,
-             coalesce(pl_count.cnt, 0)         as likeCount,
-             coalesce(pc_count.cnt, 0)         as commentCount,
-             coalesce(user_liked.liked, false) as liked
-      from posts p
+      with page as (select p.post_id,
+                           p.user_id,
+                           p.content,
+                           p.view_count,
+                           p.created_at,
+                           p.status
+                    from posts p
+                    where p.user_id = :targetUserId
+                      and p.status = 'ACTIVE'
+                      and (
+                        cast(:cursorPostedAt as timestamp) is null
+                            or p.created_at < :cursorPostedAt
+                            or (p.created_at = :cursorPostedAt and p.post_id < :cursorPostId)
+                        )
+                    order by p.created_at desc, p.post_id desc
+                    limit :limit)
+      select p.post_id                     as postId,
+             p.user_id                     as userId,
+             up.nickname                   as userNickname,
+             upi.image_url                 as userProfileImageUrl,
+             p.content                     as content,
+             p.view_count                  as viewCount,
+             p.created_at                  as postedAt,
+             p.status                      as postStatus,
+             coalesce(pl.like_count, 0)    as likeCount,
+             coalesce(pc.comment_count, 0) as commentCount,
+             coalesce(pl.liked, false)     as liked
+      from page p
                join users u on p.user_id = u.user_id
                join user_profile up on u.user_id = up.user_id
-               left join (select upi.user_id, upi.image_url
-                          from user_profile_images upi
-                          where upi.status = 'CONFIRMED') upi
-                         on u.user_id = upi.user_id
-               left join(select pc.post_id, count(*) as cnt
-                         from post_comments pc
-                         where pc.status = 'ACTIVE'
-                         group by pc.post_id) pc_count on p.post_id = pc_count.post_id
-               left join (select pl.post_id, count(*) as cnt
-                          from post_likes pl
-                          group by pl.post_id) pl_count
-                         on p.post_id = pl_count.post_id
-               left join (select pl.post_id, true as liked
-                          from post_likes pl
-                          where pl.user_id = :requestUserId
-                          group by pl.post_id) user_liked on p.post_id = user_liked.post_id
-      where p.user_id = :targetUserId
-        and p.status = 'ACTIVE'
-        and (
-          cast(:cursorPostedAt as timestamp) is null
-              or p.created_at < :cursorPostedAt
-              or (
-              p.created_at = :cursorPostedAt and p.post_id < :cursorPostId)
-          )
-      order by p.created_at desc, p.post_id desc
-      limit :limit
+               left join user_profile_images upi on u.user_id = upi.user_id and upi.status = 'CONFIRMED'
+               left join lateral (
+          select count(*)                              as like_count,
+                 bool_or(pl.user_id = :requestUserId) as liked
+          from post_likes pl
+          where pl.post_id = p.post_id
+          ) pl on true
+               left join lateral (
+          select count(*) as comment_count
+          from post_comments pc
+          where pc.post_id = p.post_id
+            and pc.status = 'ACTIVE'
+          ) pc on true
+      order by p.created_at desc, p.post_id desc;
       """, nativeQuery = true)
   List<PostDetailProjection> getUserPostsByUserIdWithCursor(
       @Param("requestUserId") String requestUserId,

@@ -62,24 +62,28 @@ public interface FollowJpaRepository extends JpaRepository<FollowEntity, String>
    * @return
    */
   @Query(value = """
-      select uf.follow_id   as followId,
-             uf.follower_id as requesterId,
-             up.nickname    as requesterNickname,
-             upi.image_url  as requesterProfileImageUrl,
-             uf.created_at  as followRequestedAt
-      from user_follows uf
-               join user_profile up on up.user_id = uf.follower_id
-               left join user_profile_images upi
-                         on upi.user_id = uf.follower_id and upi.status = 'CONFIRMED'
-      where uf.following_id = :userId
-        and uf.status = 'PENDING'
-        and (
-        cast(:cursorTimestamp as timestamp) is null
-          or uf.created_at < :cursorTimestamp
-          or (uf.created_at = :cursorTimestamp and uf.follow_id < :cursorId)
-          )
-      order by uf.created_at desc, uf.follow_id desc
-      limit :limit;
+      with page as (select uf.follow_id,
+                           uf.follower_id,
+                           uf.created_at
+                    from user_follows uf
+                    where uf.following_id = :userId
+                      and uf.status = 'PENDING'
+                      and (
+                        cast(:cursorTimestamp as timestamp) is null
+                            or uf.created_at < :cursorTimestamp
+                            or (uf.created_at = :cursorTimestamp and uf.follow_id < :cursorId)
+                        )
+                    order by uf.created_at desc, uf.follow_id desc
+                    limit :limit)
+      select p.follow_id   as followId,
+             p.follower_id as requesterId,
+             up.nickname   as requesterNickname,
+             upi.image_url as requesterProfileImageUrl,
+             p.created_at  as followRequestedAt
+      from page p
+               join user_profile up on up.user_id = p.follower_id
+               left join user_profile_images upi on upi.user_id = p.follower_id and upi.status = 'CONFIRMED'
+      order by p.created_at desc, p.follow_id desc;
       """, nativeQuery = true)
   List<FollowRequestsProjection> findFollowRequestsByCursor(@Param("userId") String userId,
       @Param("cursorTimestamp") LocalDateTime cursorTimestamp,
@@ -95,23 +99,30 @@ public interface FollowJpaRepository extends JpaRepository<FollowEntity, String>
    * @return
    */
   @Query(value = """
-      select uf.follower_id as followerId,
-             up.nickname    as followerNickname,
-             upi.image_url  as followerProfileImageUrl,
-             uf.modified_at as followedAt
-      from user_follows uf
-               join users target_user
-                    on target_user.user_id = uf.following_id and target_user.status = 'ACTIVE'
-               join users u on u.user_id = uf.follower_id and u.status = 'ACTIVE'
-               join user_profile up on up.user_id = uf.follower_id
-               left join user_profile_images upi on upi.user_id = uf.follower_id and upi.status = 'CONFIRMED'
-      where uf.following_id = :targetUserId and uf.status = 'APPROVED'
-        and (
-        cast(:cursorTimestamp as timestamp) is null
-          or uf.modified_at < :cursorTimestamp or
-             (uf.modified_at = :cursorTimestamp and uf.follower_id < :cursorId))
-      order by uf.modified_at desc, uf.follower_id desc
-      limit :limit
+      with page as (select uf.follower_id,
+                           uf.modified_at
+                    from user_follows uf
+                             join users target_user
+                                  on target_user.user_id = uf.following_id and target_user.status = 'ACTIVE'
+                             join users follower_user
+                                  on follower_user.user_id = uf.follower_id and follower_user.status = 'ACTIVE'
+                    where uf.following_id = :targetUserId
+                      and uf.status = 'APPROVED'
+                      and (
+                        cast(:cursorTimestamp as timestamp) is null
+                            or uf.modified_at < :cursorTimestamp
+                            or (uf.modified_at = :cursorTimestamp and uf.follower_id < :cursorId)
+                        )
+                    order by uf.modified_at desc, uf.follower_id desc
+                    limit :limit)
+      select p.follower_id as followerId,
+             up.nickname   as followerNickname,
+             upi.image_url as followerProfileImageUrl,
+             p.modified_at as followedAt
+      from page p
+               join user_profile up on up.user_id = p.follower_id
+               left join user_profile_images upi on upi.user_id = p.follower_id and upi.status = 'CONFIRMED'
+      order by p.modified_at desc, p.follower_id desc;
       """, nativeQuery = true)
   List<FollowerProjection> findFollowersByCursor(@Param("targetUserId") String targetUserId,
       @Param("cursorTimestamp") LocalDateTime cursorTimestamp,
@@ -127,23 +138,30 @@ public interface FollowJpaRepository extends JpaRepository<FollowEntity, String>
    * @return
    */
   @Query(value = """
-      select uf.following_id as followingId,
+      with page as (select uf.following_id,
+                           uf.modified_at
+                    from user_follows uf
+                             join users target_user
+                                  on target_user.user_id = uf.follower_id and target_user.status = 'ACTIVE'
+                             join users following_user
+                                  on following_user.user_id = uf.following_id and following_user.status = 'ACTIVE'
+                    where uf.follower_id = :targetUserId
+                      and uf.status = 'APPROVED'
+                      and (
+                        cast(:cursorTimestamp as timestamp) is null
+                            or uf.modified_at < :cursorTimestamp
+                            or (uf.modified_at = :cursorTimestamp and uf.following_id < :cursorId)
+                        )
+                    order by uf.modified_at desc, uf.following_id desc
+                    limit :limit)
+      select p.following_id as followingId,
              up.nickname    as followingNickname,
              upi.image_url  as followingProfileImageUrl,
-             uf.modified_at as followedAt
-      from user_follows uf
-               join users target_user
-                    on target_user.user_id = uf.follower_id and target_user.status = 'ACTIVE'
-               join users u on u.user_id = uf.following_id and u.status = 'ACTIVE'
-               join user_profile up on up.user_id = uf.following_id
-               left join user_profile_images upi on upi.user_id = uf.following_id and upi.status = 'CONFIRMED'
-      where uf.follower_id = :targetUserId and uf.status = 'APPROVED'
-        and (
-        cast(:cursorTimestamp as timestamp) is null
-          or uf.modified_at < :cursorTimestamp or
-             (uf.modified_at = :cursorTimestamp and uf.following_id < :cursorId))
-      order by uf.modified_at desc, uf.following_id desc
-      limit :limit
+             p.modified_at  as followedAt
+      from page p
+               join user_profile up on up.user_id = p.following_id
+               left join user_profile_images upi on upi.user_id = p.following_id and upi.status = 'CONFIRMED'
+      order by p.modified_at desc, p.following_id desc;
       """, nativeQuery = true)
   List<FollowingProjection> findFollowingsByCursor(@Param("targetUserId") String targetUserId,
       @Param("cursorTimestamp") LocalDateTime cursorTimestamp,
