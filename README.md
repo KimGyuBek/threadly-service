@@ -1,6 +1,6 @@
 # threadly-service
 
-> Threadly 백엔드의 메인 서비스입니다.
+> Threadly 백엔드의 **메인 서비스**입니다.
 
 ### 메인 서비스는 다음 기능을 담당합니다.
 - 사용자 회원가입, 로그인, 인증, 프로필 관리 등 사용자 도메인 처리
@@ -11,7 +11,7 @@
 
 ## 관련 레포 및 서비스
 
-> 전체 아키텍처, 운영 구조, 트러블슈팅 기록은 Threadly 메인 레포 및 Wiki에서 확인할 수 있습니다.
+> 전체 아키텍처, 운영 구조, 트러블슈팅 기록은 **Threadly 메인 레포 및 Wiki**에서 확인할 수 있습니다.
 
 - **Threadly 메인 레포**: https://github.com/KimGyuBek/Threadly
 - **Wiki 문서**: https://github.com/KimGyuBek/Threadly/wiki
