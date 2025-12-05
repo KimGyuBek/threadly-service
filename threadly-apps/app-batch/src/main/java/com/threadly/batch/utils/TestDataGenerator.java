@@ -1,4 +1,4 @@
-package com.threadly.batch.util;
+package com.threadly.batch.utils;
 
 import com.threadly.core.domain.post.PostStatus;
 import com.threadly.core.domain.user.UserStatus;

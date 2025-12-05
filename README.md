@@ -1,31 +1,29 @@
 # threadly-service
 
-### Threadly 플랫폼의 메인 **백엔드 서비스**입니다.
+> Threadly 백엔드의 **메인 서비스**입니다.
 
-플랫폼은 MSA 구조로 구성되어 있으며,
+### 메인 서비스는 다음 기능을 담당합니다.
+- 사용자 회원가입, 로그인, 인증, 프로필 관리 등 사용자 도메인 처리
+- 게시글 작성·수정·삭제, 피드 조회 등 게시글 도메인 처리
+- 팔로우/팔로잉 관계 관리 등 팔로우 기능 제공
+- 알림 발생 시 도메인 이벤트를 발행해 `Kafka`로 알림 서비스에 전달
 
-`threadly-service`는 사용자, 게시글, 팔로우, 인증 등 핵심 기능을 담당하는 메인 백엔드 API 서비스입니다.
 
-<br>
+## 관련 레포 및 서비스
 
-> **전체 서비스 아키텍처 및 시스템 구성은 메인 레포에서 확인할 수 있습니다.**
+> 전체 아키텍처, 운영 구조, 트러블슈팅 기록은 **Threadly 메인 레포 및 Wiki**에서 확인할 수 있습니다.
 
-### 메인 레포: https://github.com/KimGyuBek/Threadly
-### Wiki 문서: https://github.com/KimGyuBek/Threadly/wiki
+- **Threadly 메인 레포**: https://github.com/KimGyuBek/Threadly
+- **Wiki 문서**: https://github.com/KimGyuBek/Threadly/wiki
+- **알림 서비스**: https://github.com/KimGyuBek/notification-service
+- **Threadly 서비스**: https://threadly.kr
+- **Threadly API**: https://api.threadly.kr
 
-### notification-service: https://github.com/KimGyuBek/notification-service
-
-<br>
-
-### Threadly 서비스: https://threadly.kr
-
----
 
 ## 백엔드 시스템 구성도
 
-![architecture](docs/images/msa_architecture.png)
+![architecture](docs/images/msa.png)
 
----
 
 ## 모듈 구조
 
@@ -49,51 +47,17 @@ threadly-service/
 └── threadly-commons/           # 공통 유틸리티 및 공유 컴포넌트
 ```
 
----
 
-## 기술 스택
+## 사용 기술 스택
+### 백엔드
+`Java 17` `Spring Boot 3.3.3` `Spring Security` `Spring Data JPA` `Spring Batch` `Spring Cloud Stream`
 
-**Backend Framework**
-- Java 17
-- Spring Boot 3.3.3
-- Spring Cloud 2023.0.3
+### DB / 캐시
+`PostgreSQL` `Redis` `Flyway`
 
-**Database & Cache**
-- PostgreSQL (Flyway 11.5.0)
-- Redis
-- H2 (테스트)
+### 인프라 / 메시징
+`Kafka` `Docker` `AWS EC2`  `GitHub Actions` `Prometheus` `Grafana` `Loki` `Promtail`
 
-**Message Queue**
-- Kafka (Spring Cloud Stream)
-
-**Security & Auth**
-- Spring Security
-- OAuth2 Client
-- JWT (0.11.5)
-
-**API & Documentation**
-- Spring Web
-- SpringDoc OpenAPI 2.2.0
-- Spring REST Docs
-
-**Utilities**
-- Lombok
-- MapStruct 1.5.3
-- Guava 31.1
-- Apache Commons (Lang3, Collections4)
-- Jackson 2.17.1
-
-**Testing**
-- JUnit 5
-- Mockito 5.1.1
-- AssertJ 3.25.1
-- Fixture Monkey 0.4.12
-
-**Monitoring**
-- Spring Actuator
-- Micrometer + Prometheus
-
-**Build**
-- Gradle (Kotlin DSL)
-
+### 테스트 및 품질
+`JUnit 5` `k6` `JaCoCo` `Mockito`
 
