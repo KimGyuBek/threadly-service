@@ -122,20 +122,23 @@ public interface UserJpaRepository extends JpaRepository<UserEntity, String> {
    * @return
    */
   @Query(value = """
-      select u.user_id                   as userId,
-             up.nickname                 as userNickname,
+      with page as (select u.user_id,
+                           up.nickname
+                    from users u
+                             join user_profile up on u.user_id = up.user_id
+                    where u.status = 'ACTIVE'
+                      and (:keyword is null or up.nickname ilike concat(:keyword, '%'))
+                      and (:cursorNickname is null or up.nickname < :cursorNickname)
+                    order by up.nickname desc
+                    limit :limit)
+      select p.user_id                   as userId,
+             p.nickname                  as userNickname,
              upi.image_url               as userProfileImageUrl,
              coalesce(uf.status, 'NONE') as followStatus
-      from users u
-               join user_profile up on u.user_id = up.user_id
-               left join user_profile_images upi on u.user_id = upi.user_id and upi.status = 'CONFIRMED'
-               left join user_follows uf on u.user_id = uf.following_id and uf.follower_id = :userId
-      where u.status = 'ACTIVE'
-        and (:keyword is null or up.nickname ilike concat(:keyword, '%'))
-        and (:cursorNickname is null
-          or up.nickname < :cursorNickname)
-      order by up.nickname desc
-      limit :limit
+      from page p
+               left join user_profile_images upi on p.user_id = upi.user_id and upi.status = 'CONFIRMED'
+               left join user_follows uf on p.user_id = uf.following_id and uf.follower_id = :userId
+      order by p.nickname desc;
       """, nativeQuery = true)
   List<UserSearchProjection> searchUserByKeywordWithCursor(
       @Param("userId") String userId,

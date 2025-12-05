@@ -67,35 +67,41 @@ public interface PostCommentJpaRepository extends JpaRepository<PostCommentEntit
       @Param("postId") String postId, @Param("userId") String userId);
 
   @Query(value = """
-      select pc.post_id                         as postId,
-             pc.comment_id                      as commentId,
-             pc.user_id                         as commenterId,
-             up.nickname                        as commenterNickname,
-             upi.image_url                      as commenterProfileImageUrl,
-             coalesce(like_count.like_count, 0) as likeCount,
-             pc.created_at                      as commentedAt,
-             pc.content                         as content,
-             coalesce(user_liked.liked, false)  as liked
-      from post_comments pc
+      with page as (select pc.post_id,
+                           pc.comment_id,
+                           pc.user_id,
+                           pc.content,
+                           pc.created_at
+                    from post_comments pc
+                    where pc.status = 'ACTIVE'
+                      and pc.post_id = :postId
+                      and (
+                        cast(:cursorCommentedAt as timestamp) is null
+                            or pc.created_at < :cursorCommentedAt
+                            or (pc.created_at = :cursorCommentedAt and pc.comment_id < :cursorCommentId)
+                        )
+                    order by pc.created_at desc, pc.comment_id desc
+                    limit :limit)
+      select pc.post_id                    as postId,
+             pc.comment_id                 as commentId,
+             pc.user_id                    as commenterId,
+             up.nickname                   as commenterNickname,
+             upi.image_url                 as commenterProfileImageUrl,
+             coalesce(cl.like_count, 0)    as likeCount,
+             pc.created_at                 as commentedAt,
+             pc.content                    as content,
+             coalesce(cl.liked, false)     as liked
+      from page pc
                join users u on pc.user_id = u.user_id
                join user_profile up on u.user_id = up.user_id
                left join user_profile_images upi on up.user_id = upi.user_id and upi.status = 'CONFIRMED'
-               left join(select comment_id,
-                                count(*) as like_count
-                         from comment_likes
-                         group by comment_id) like_count on pc.comment_id = like_count.comment_id
-               left join(select distinct comment_id,
-                                true as liked
-                         from comment_likes
-                         where user_id = :userId
-                         ) user_liked on pc.comment_id = user_liked.comment_id
-      where pc.status = 'ACTIVE' and pc.post_id = :postId
-        and (
-        cast(:cursorCommentedAt as timestamp) is null
-          or pc.created_at < :cursorCommentedAt
-          or (pc.created_at = :cursorCommentedAt and pc.comment_id < :cursorCommentId))
-      order by pc.created_at desc, pc.comment_id desc
-      limit :limit
+               left join lateral (
+          select count(*)                      as like_count,
+                 bool_or(cl.user_id = :userId) as liked
+          from comment_likes cl
+          where cl.comment_id = pc.comment_id
+          ) cl on true
+      order by pc.created_at desc, pc.comment_id desc;
       """, nativeQuery = true)
   List<PostCommentDetailForUserProjection> findPostCommentListForUserByPostId(
       @Param("postId") String postId, @Param("userId") String userId, @Param("cursorCommentedAt")
