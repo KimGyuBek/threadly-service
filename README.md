@@ -1,32 +1,29 @@
 # threadly-service
 
-### Threadly 백엔드의 메인 서비스입니다.
+> Threadly 백엔드의 메인 서비스입니다.
 
-사용자, 인증, 게시글, 팔로우 등 SNS의 핵심 도메인을 담당하며,
+### 메인 서비스는 다음 기능을 담당합니다.
+- 사용자 회원가입, 로그인, 인증, 프로필 관리 등 사용자 도메인 처리
+- 게시글 작성·수정·삭제, 피드 조회 등 게시글 도메인 처리
+- 팔로우/팔로잉 관계 관리 등 팔로우 기능 제공
+- 알림 발생 시 도메인 이벤트를 발행해 `Kafka`로 알림 서비스에 전달
 
 
-**알림 관련 기능은 알림 서비스(`notification-service`) 와 `Kafka` 이밴트로 연동합니다.**
-
-<br>
+## 관련 레포 및 서비스
 
 > 전체 아키텍처, 운영 구조, 트러블슈팅 기록은 Threadly 메인 레포 및 Wiki에서 확인할 수 있습니다.
 
-### Threadly 메인 레포: https://github.com/KimGyuBek/Threadly
-### Wiki 문서: https://github.com/KimGyuBek/Threadly/wiki
-### 알림 서비스: https://github.com/KimGyuBek/notification-service
+- **Threadly 메인 레포**: https://github.com/KimGyuBek/Threadly
+- **Wiki 문서**: https://github.com/KimGyuBek/Threadly/wiki
+- **알림 서비스**: https://github.com/KimGyuBek/notification-service
+- **Threadly 서비스**: https://threadly.kr
+- **Threadly API**: https://api.threadly.kr
 
-<br>
-
-### Threadly 서비스: https://threadly.kr
-### Threadly API: https://api.threadly.kr
-
----
 
 ## 백엔드 시스템 구성도
 
 ![architecture](docs/images/msa.png)
 
----
 
 ## 모듈 구조
 
@@ -50,7 +47,6 @@ threadly-service/
 └── threadly-commons/           # 공통 유틸리티 및 공유 컴포넌트
 ```
 
----
 
 ## 사용 기술 스택
 ### 백엔드
@@ -63,6 +59,5 @@ threadly-service/
 `Kafka` `Docker` `AWS EC2`  `GitHub Actions` `Prometheus` `Grafana` `Loki` `Promtail`
 
 ### 테스트 및 품질
-`JUnit5` `k6` `JaCoCo` `Mockito`
+`JUnit 5` `k6` `JaCoCo` `Mockito`
 
----
