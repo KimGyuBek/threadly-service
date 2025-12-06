@@ -28,13 +28,7 @@ public class MailProducer {
   @Retry(name = "kafka-mail", fallbackMethod = "publishFallback")
   public void publish(String eventId, MailType mailType, String to, MailModel model) {
 
-    MailEvent event = new MailEvent(
-        eventId,
-        mailType,
-        to,
-        model
-    );
-
+    MailEvent event = new MailEvent(eventId, mailType, to, model);
     String kafkaKey = event.to();
 
     try {

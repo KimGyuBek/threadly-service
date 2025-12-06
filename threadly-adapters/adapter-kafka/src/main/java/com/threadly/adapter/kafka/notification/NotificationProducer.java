@@ -25,29 +25,15 @@ public class NotificationProducer {
 
   @Retry(name = "kafka-notification", fallbackMethod = "publishFallback")
   public void publish(Notification notification) {
-    NotificationEvent event = new NotificationEvent(
-        notification.getEventId(),
-        notification.getReceiverId(),
-        notification.getNotificationType(),
-        notification.getOccurredAt(),
-        notification.getActorProfile(),
-        notification.getMetadata()
-    );
+    NotificationEvent event = NotificationEvent.fromDomain(notification);
 
     String kafkaKey = event.getReceiverUserId();
 
     try {
-      /*Kafka 이벤트 동기 발행 발행 */
-      SendResult<String, Object> result = kafkaTemplate.send(
-          TOPIC,
-          kafkaKey,
-          event
-      ).get();
+      SendResult<String, Object> result = kafkaTemplate.send(TOPIC, kafkaKey, event).get();
 
-      /*로깅*/
       kafkaProducerLogger.logPublishSuccess(TOPIC, notification.getEventId(),
           notification.getReceiverId(), result);
-
     } catch (Exception e) {
       kafkaProducerLogger.logRetryableFailure(TOPIC, event.getEventId(), event.getReceiverUserId(),
           e);
