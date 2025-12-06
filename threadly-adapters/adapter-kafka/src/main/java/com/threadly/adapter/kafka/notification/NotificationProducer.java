@@ -23,7 +23,6 @@ public class NotificationProducer {
 
   private static final String TOPIC = "notification";
 
-
   @Retry(name = "kafka-notification", fallbackMethod = "publishFallback")
   public void publish(Notification notification) {
     NotificationEvent event = new NotificationEvent(

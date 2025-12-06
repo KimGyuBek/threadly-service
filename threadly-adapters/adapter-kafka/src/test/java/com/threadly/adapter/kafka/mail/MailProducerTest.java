@@ -1,17 +1,14 @@
-package com.threadly.adapter.kafka.notification;
+package com.threadly.adapter.kafka.mail;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.threadly.adapter.kafka.config.KafkaProducerLogger;
-import com.threadly.core.domain.notification.Notification;
-import com.threadly.core.domain.notification.Notification.ActorProfile;
-import com.threadly.core.domain.notification.NotificationType;
-import com.threadly.core.domain.notification.metadata.FollowMeta;
-import java.time.LocalDateTime;
+import com.threadly.core.domain.mail.MailType;
+import com.threadly.core.domain.mail.model.WelcomeModel;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,14 +18,14 @@ import org.springframework.kafka.KafkaException;
 import org.springframework.kafka.core.KafkaTemplate;
 
 /**
- * 알림 Kafka 발행 실패 시 재시도 기능 테스트
+ * Mail Producer Retry 정책 테스트
  */
-@DisplayName("NotificationProducer 재시도 정책 테스트")
+@DisplayName("MailProducer 재시도 정책 테스트")
 @SpringBootTest
-class NotificationProducerTest {
+class MailProducerTest {
 
   @Autowired
-  private NotificationProducer notificationProducer;
+  private MailProducer mailProducer;
 
   @MockBean
   private KafkaTemplate<String, Object> kafkaTemplate;
@@ -40,27 +37,13 @@ class NotificationProducerTest {
   @Test
   public void verify_retry_3times() throws Exception {
     //given
-    Notification notification = createNotification();
-
     when(kafkaTemplate.send(anyString(), anyString(), any()))
         .thenThrow(new KafkaException("Kafka 연결 실패"));
 
     //when
-    notificationProducer.publish(notification);
+    mailProducer.publish("eventId", MailType.WELCOME, "to", new WelcomeModel("", ""));
 
     //then
     verify(kafkaTemplate, times(3)).send(anyString(), anyString(), any());
   }
-
-  private static Notification createNotification() {
-    return Notification.newNotification(
-        "receiverId",
-        NotificationType.FOLLOW_ACCEPT,
-        LocalDateTime.now(),
-        new ActorProfile("userId", "nickname", "url"),
-        new FollowMeta()
-    );
-  }
-
-
 }

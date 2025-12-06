@@ -44,6 +44,17 @@ resilience4j:
           - com.threadly.adapter.kafka.exception.KafkaPublishException
         ignore-exceptions:
           - java.lang.IllegalArgumentException
+      kafka-mail:
+        max-attempts: 3
+        wait-duration: 500ms
+        exponential-backoff-multiplier: 2
+        retry-exceptions:
+          - org.apache.kafka.common.errors.TimeoutException
+          - org.springframework.kafka.KafkaException
+          - com.threadly.adapter.kafka.exception.KafkaPublishException
+        ignore-exceptions:
+          - java.lang.IllegalArgumentException
+
 
 
 
