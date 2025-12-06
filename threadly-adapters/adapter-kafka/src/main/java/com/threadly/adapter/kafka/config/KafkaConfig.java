@@ -33,19 +33,8 @@ public class KafkaConfig {
     // 파티셔닝 전략 설정 (키 기반 파티셔닝 - 기본값)
     configProps.put(ProducerConfig.PARTITIONER_CLASS_CONFIG,
         "org.apache.kafka.clients.producer.internals.DefaultPartitioner");
-//
-//    // idempotence 활성화 시 권장 설정들
-//    configProps.put(ProducerConfig.MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION, 5); // 동시 요청 수
-//    configProps.put(ProducerConfig.DELIVERY_TIMEOUT_MS_CONFIG, 120000); // 전송 타임아웃 (2분)
-//
-    // ObjectMapper 설정을 위한 JsonSerializer 커스터마이징
-//    ObjectMapper objectMapper = new ObjectMapper();
-//    objectMapper.registerModule(new JavaTimeModule());
-//    objectMapper.findAndRegisterModules();
-//
     DefaultKafkaProducerFactory<String, Object> factory = new DefaultKafkaProducerFactory<>(
         configProps);
-//    factory.setValueSerializer(new JsonSerializer<>(objectMapper));
 
     return factory;
   }

@@ -22,6 +22,10 @@ allprojects {
         maven { url = uri("https://maven.restlet.com") }
         maven { url = uri("https://jitpack.io") }
     }
+
+    configurations.all {
+        exclude(group = "com.vaadin.external.google", module = "android-json")
+    }
 }
 
 apply(from = "gradle/coverage-summary.gradle.kts")

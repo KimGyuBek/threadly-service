@@ -2,6 +2,7 @@ package com.threadly.adapter.kafka.notification;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.threadly.core.domain.notification.Notification;
 import com.threadly.core.domain.notification.Notification.ActorProfile;
 import com.threadly.core.domain.notification.NotificationType;
 import com.threadly.core.domain.notification.metadata.NotificationMetaData;
@@ -46,5 +47,21 @@ public class NotificationEvent {
     this.occurredAt = occurredAt;
     this.actorProfile = actorProfile;
     this.metadata = metadata;
+  }
+
+  /**
+   * domain -> event
+   * @param notification
+   * @return
+   */
+  public static NotificationEvent fromDomain(Notification notification) {
+    return new NotificationEvent(
+        notification.getEventId(),
+        notification.getReceiverId(),
+        notification.getNotificationType(),
+        notification.getOccurredAt(),
+        notification.getActorProfile(),
+        notification.getMetadata()
+    );
   }
 }
