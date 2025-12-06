@@ -33,5 +33,4 @@ public class KafkaErrorHandler {
           eventId, receiverId, throwable.getMessage(), throwable);
     };
   }
-
 }
