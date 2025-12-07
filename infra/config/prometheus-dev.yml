@@ -3,14 +3,19 @@ global:
   evaluation_interval: 5s
 
 scrape_configs:
-  - job_name: 'threadly'
+  - job_name: 'threadly-service'
     metrics_path: '/actuator/prometheus'
     static_configs:
       - targets: [ 'host.docker.internal:8080' ]
 
-  - job_name: 'cadvisor'
+  - job_name: 'notification-service'
+    metrics_path: '/actuator/prometheus'
     static_configs:
       - targets: [ 'host.docker.internal:8081' ]
+
+#  - job_name: 'cadvisor'
+#    static_configs:
+#      - targets: [ 'host.docker.internal:8081' ]
 
   - job_name: 'pushgateway'
     honor_labels: true
